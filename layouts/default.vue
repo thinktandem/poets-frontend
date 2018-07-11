@@ -1,19 +1,22 @@
 <template>
   <div>
     <AppNavigation />
+    <AppPromoSpace />
     <nuxt/>
     <AppFooter />
   </div>
 </template>
 
 <script>
-import AppNavigation from '../components/AppNavigation';
-import AppFooter from '../components/AppFooter';
+import AppNavigation from '~/components/AppNavigation';
+import AppFooter from '~/components/AppFooter';
+import AppPromoSpace from '~/components/AppPromoSpace';
 
 export default {
   components: { 
     AppNavigation,
-    AppFooter 
+    AppFooter,
+    AppPromoSpace
   }
 }
 </script>

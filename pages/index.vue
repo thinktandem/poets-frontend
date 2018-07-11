@@ -7,7 +7,6 @@
 </template>
 
 <script>
-  console.log('geoff is the best.');
 export default {
 
 }
