@@ -1,11 +1,14 @@
 module.exports = {
-  //modules: [
+  modules: [
   //  '@nuxtjs/axios',
-  //  'bootstrap-vue/nuxt',
+    'bootstrap-vue/nuxt',
   //  'vue-youtube-embed'
-  //],
+  ],
   plugins: [
     //'~/plugins/vue-youtube-embed',
+  ],
+  css: [
+    './assets/scss/app.scss' // use our build, as entered via app.scss
   ],
   /*
   ** Headers of the page
