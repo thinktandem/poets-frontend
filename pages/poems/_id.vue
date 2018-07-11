@@ -2,7 +2,7 @@
   <div>
     <h1>Poems</h1>
     <div>
-      {{ $store.state.poems }}
+      {{ $store.state.poem }}
     </div>
   </div>
 </template>

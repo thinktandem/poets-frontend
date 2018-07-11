@@ -6,8 +6,8 @@ const createStore = () => {
       poems: [] 
     },
     mutations: {
-      add (state, payload) {
-        state.poems = payload;
+      addPoem (state, payload) {
+        state.poem = payload;
       }
     }
   })
