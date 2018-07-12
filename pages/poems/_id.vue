@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Poems</h1>
+    <h1>{{ $store.state.poem.data.attributes.title }}</h1>
     <div>
       {{ $store.state.poem }}
     </div>
