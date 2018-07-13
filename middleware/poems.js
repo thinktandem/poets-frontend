@@ -10,6 +10,9 @@ export default function({params, store}) {
 
   return axios.get(apiUrl + `/node/poem/${params.id}`)
     .then((response) => {
-      store.commit('addPoem', response.data);
+      return store.commit('addPoem', response.data);
+    })
+    .catch((e) => {
+      console.log(e);
     });
 }
