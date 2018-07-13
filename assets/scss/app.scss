@@ -4,3 +4,6 @@ $body-color: #111;
 
 // All of bootstrap
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Partials
+@import "components/AppFooter";
