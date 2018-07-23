@@ -1,20 +1,42 @@
 <template>
   <div class="poem-page">
-    <div class="poem" v-if="`${$store.state.poem}` != []">
-      <h1>{{ $store.state.poem.data.attributes.title }}</h1>
+    <div v-if="poem.data.attributes.title.length > 0">
+      <h1> {{ poem.data.attributes.title }}</h1>
       <div>
-        {{ $store.state.poem }}
+        {{ poem }}
       </div>
     </div>
-    <div class="no-poem" v-else>
-      No poem found with this id.
+    <div v-else>
+      No poem found.
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+const apiUrl = process.env.API_URL;
+
+// @TODO: we won't need this when the app is landoified.
+if (process.env.NODE_ENV !== "production") {
+  var dotenv = require('dotenv');
+  dotenv.load();
+}
+
 export default {
-  middleware: 'poems',
+  async asyncData({ params }) {
+    let { data } = await axios.get(apiUrl + `/node/poem/${params.id}`);
+    let gotOne = true;
+    if (data.response === 200) {
+      gotOne = true;
+    } else {
+      gotOne = false;
+    }
+    console.log(data);
+    return {
+      gotOne: gotOne,
+      poem: data
+    };
+  }
 }
 </script>
 
