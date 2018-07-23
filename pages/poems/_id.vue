@@ -25,15 +25,7 @@ if (process.env.NODE_ENV !== "production") {
 export default {
   async asyncData({ params }) {
     let { data } = await axios.get(apiUrl + `/node/poem/${params.id}`);
-    let gotOne = true;
-    if (data.response === 200) {
-      gotOne = true;
-    } else {
-      gotOne = false;
-    }
-    console.log(data);
     return {
-      gotOne: gotOne,
       poem: data
     };
   }
