@@ -1,13 +1,17 @@
 <template>
   <div class="poem-page">
-    <div v-if="poem.data.attributes.title.length > 0">
+    <div v-if="poem.data.attributes.title.length > 0">    
       <h1> {{ poem.data.attributes.title }}</h1>
-      <div>
-        {{ poem }}
+      <div class="container">
+        <div class="row">
+          <div class="col-8">
+            {{ poem }}
+          </div>
+          <div class="col-4">
+            other stuff{{ poemImage }}
+          </div>
+        </div>
       </div>
-    </div>
-    <div v-else>
-      No poem found.
     </div>
   </div>
 </template>
@@ -22,11 +26,40 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.load();
 }
 
+/*
+ * Helper function to make GET request.
+ */
+export function getJsonData(url) {
+  return axios.get(url)
+    .then(response => {
+      return response.data;
+    });
+}
+
 export default {
   async asyncData({ params }) {
-    let { data } = await axios.get(apiUrl + `/node/poem/${params.id}`);
+    //let url = apiUrl + `/node/poem/${params.id}`;
+    //console.log(url);
+    //let electricPantsDance = getJsonData(url)
+    //  .then(data => {
+    //    response.json({message: 'Request received!', data});
+    //  });
+    ////console.log(data);
+    //let aPoemImage = {};//data.relationships;
+    axios.get(apiUrl + `/node/poem/${params.id}`)
+      .then(result => {
+        console.log(result);
+        const nodeData = result.data;
+        return axios.get(apiUrl + `/file/file/${result.data.data.relationships.poem_image.data.id}`)
+          .then(res => {
+            const imgData = res.data;
+            return true;
+          });
+       // return {result, aPoemImage};
+      });
     return {
-      poem: data
+      poem: nodeData,
+      poemImage: imgData
     };
   }
 }
