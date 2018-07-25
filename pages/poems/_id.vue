@@ -32,8 +32,8 @@ export default {
           include: 'poem_image'
         }
       });
-console.log(data);
-    return { poem: data }
+
+    return { poem: data };
   }
 }
 </script>
