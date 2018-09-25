@@ -10,7 +10,9 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "test": "ava"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -24,10 +26,16 @@
     "vue-youtube-embed": "^2.2.1"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.15.0",
+    "ava": "^0.25.0",
+    "babel-eslint": "^10.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-google": "^0.10.0",
+    "eslint-config-prettier": "^3.1.0",
     "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-vue": "^4.7.1",
+    "jsdom": "^12.0.0",
+    "prettier": "^1.14.3"
   }
 }
