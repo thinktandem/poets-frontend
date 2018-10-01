@@ -29,6 +29,7 @@ jobs:
             - ./node_modules
 
   test:
+    working_directory: ~/poets-vue
     docker:
       - image: circleci/node:10-stretch-browsers
     steps:
@@ -37,6 +38,7 @@ jobs:
       - run: yarn test
 
   storybook:
+    working_directory: ~/poets-vue
     docker:
       - image: circleci/node:10-stretch
     steps:
