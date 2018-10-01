@@ -1,15 +1,12 @@
 <template>
   <div class="content">
     <h1>Homepage</h1>
-    <div class="tubez">
-    </div>
+    <div class="tubez"/>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>

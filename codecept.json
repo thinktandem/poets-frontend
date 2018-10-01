@@ -1,0 +1,16 @@
+{
+  "tests": "./test/*_test.js",
+  "timeout": 10000,
+  "output": "./test/output",
+  "helpers": {
+    "Puppeteer": {
+      "url": "http://localhost:3000"
+    }
+  },
+  "include": {
+    "I": "./test/steps_file.js"
+  },
+  "bootstrap": false,
+  "mocha": {},
+  "name": "poets-vue"
+}

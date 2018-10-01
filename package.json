@@ -5,12 +5,17 @@
   "author": "Geoff St. Pierre <serundeputy@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "buildstorybook": "build-storybook -o .out",
+    "deploystorybook": "rm -fr .out && npm run buildstorybook && echo 'poetsstyles.clients.thinktandem.io' > '.out/CNAME' && storybook-to-ghpages --ci --existing-output-dir=.out",
+    "dev": "nuxt",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "start": "nuxt start",
+    "storybook": "start-storybook -p 6006",
+    "test": "codeceptjs run"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -24,10 +29,24 @@
     "vue-youtube-embed": "^2.2.1"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.15.0",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "@storybook/storybook-deployer": "^2.3.0",
+    "@storybook/vue": "^3.4.11",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.0",
+    "babel-preset-vue": "^2.0.2",
+    "codeceptjs": "^1.4.2",
+    "eslint": "^5.6.0",
+    "eslint-config-google": "^0.10.0",
+    "eslint-config-prettier": "^3.1.0",
     "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-vue": "^4.7.1",
+    "jsdom": "^12.0.0",
+    "prettier": "^1.14.3",
+    "puppeteer": "^1.8.0"
   }
 }
