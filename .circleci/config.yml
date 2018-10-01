@@ -34,7 +34,16 @@ jobs:
       - image: circleci/node:10-stretch-browsers
     steps:
       - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+            -
+      - checkout
+
+      - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
+
       - run: yarn test
 
   storybook:
@@ -42,6 +51,14 @@ jobs:
     docker:
       - image: circleci/node:10-stretch
     steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+
+      - checkout
+
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: yarn buildstorybook
