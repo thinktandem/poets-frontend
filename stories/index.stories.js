@@ -2,6 +2,7 @@
 
 import { storiesOf } from "@storybook/vue";
 
+import "../assets/scss/app.scss";
 
 
   }))
