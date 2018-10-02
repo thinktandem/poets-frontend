@@ -1,0 +1,27 @@
+// Brand color palette;
+$blue: #00B8E9;
+$blue-dark: #007DAD;
+$red: #FD3C60;
+$red-dark: #EF144B;
+$green: #00CF88;
+$orange: #FF9E50;
+$black: #1E1E1E;
+$gray-800: #343434;
+// Add custom colors
+$colors: (
+  'blue-dark': $blue-dark,
+  'red-dark': $red-dark,
+);
+
+// Setup theme colors.
+$theme-colors: (
+  "primary": $blue,
+  "primary-dark": $blue-dark,
+  "secondary": $red,
+  "secondary-dark": $red-dark,
+  "tertiary-orange": $orange,
+  "tertiary-green": $green,
+  "success": $green,
+  "warning": $orange,
+  "danger": $red-dark
+);
