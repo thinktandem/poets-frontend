@@ -52,7 +52,7 @@ export default {
       console.log(this.username);
       console.log(this.password);
 
-      axios(options)
+      mxios(options)
         .then(req => this.loginSuccessful(req))
         .catch(() => this.loginFailed());
     }
