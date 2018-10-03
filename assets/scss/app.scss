@@ -1,5 +1,8 @@
-// All of bootstrap
+// Font-Face declarations
+@import "fonts";
+// Our custom variables
 @import "variables";
+
 // Bootstrap
 // Importing this individually so we can choose to leave out items
 @import "../../node_modules/bootstrap/scss/functions";
@@ -37,3 +40,6 @@
 //@import "../../node_modules/bootstrap/scss/carousel";
 @import "../../node_modules/bootstrap/scss/utilities";
 @import "../../node_modules/bootstrap/scss/print";
+
+@import "base/typography";
+
