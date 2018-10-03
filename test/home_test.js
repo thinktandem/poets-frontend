@@ -1,6 +1,3 @@
+Feature("Home");
 
-Feature('Home');
-
-Scenario('test something', (I) => {
-
-});
+Scenario("test something", I => {});
