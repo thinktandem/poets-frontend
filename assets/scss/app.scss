@@ -1,4 +1,6 @@
 // Font-Face declarations
+$icon-font-path: '~open-iconic/font/fonts/';
+@import "~open-iconic/font/css/open-iconic-bootstrap";
 @import "fonts";
 // Our custom variables
 @import "variables";
@@ -43,3 +45,5 @@
 
 @import "base/typography";
 
+// Component CSS (Overrides to bootstrap CSS)
+@import "components/button";
