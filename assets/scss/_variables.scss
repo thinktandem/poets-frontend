@@ -1,0 +1,74 @@
+// Brand color palette;
+$blue: #00B4F0;
+$blue-lightest: #59D6FF;
+$blue-light: #0093D6;
+$blue-dark: #007AB3;
+$red: #F53F5B;
+$red-dark: #E61845;
+$green: #32D17E;
+$orange: #FFA02F;
+$indigo: #212B36;
+$white: #FFFFFF;
+$gray-100: #FAFAFA;
+$gray-200: #F2F8FA;
+$gray-300: #EFF2F5;
+$gray-400: #E6E7E8;
+$gray-600: #C4CDD5;
+$gray-700: #637381;
+$gray-800: #343434;
+$gray-900: #282828;
+$black: #1E1E1E;
+// Add custom colors
+$colors: (
+  'blue-lightest': $blue-lightest,
+  'blue-light': $blue-light,
+  'blue-dark': $blue-dark,
+  'red-dark': $red-dark,
+  'gray': $gray-400,
+);
+
+// Setup theme colors.
+$theme-colors: (
+  "primary": $blue,
+  "primary-dark": $blue-dark,
+  "secondary": $red,
+  "secondary-dark": $red-dark,
+  "tertiary-orange": $orange,
+  "tertiary-green": $green,
+  "success": $green,
+  "warning": $orange,
+  "danger": $red-dark,
+  "black": $black,
+  "dark-muted": $gray-700,
+);
+
+// Links
+$link-color: $blue-dark;
+
+// Fonts
+$font-size-base: 1rem;
+$font-family-sans-serif:      "Founders Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-serif: "PoetsElectra";
+
+$font-weight-base: 500;
+
+// Shadows
+$box-shadow-sm:  0 .1rem .25rem rgba(black, .25);
+
+// Navbar
+$navbar-padding-x: 0;
+$navbar-padding-y: 0;
+
+$navbar-nav-link-padding-x: 1.5rem;
+
+$navbar-brand-color: $blue;
+$navbar-brand-font-size: $font-size-base;
+
+$navbar-toggler-padding-y:          .5rem;
+$navbar-toggler-padding-x:          1rem;
+$navbar-toggler-font-size:          $font-size-base;
+$navbar-toggler-border-radius:      0;
+
+$navbar-dark-color: $white;
+$navbar-dark-toggler-icon-bg:       url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#59D6FF' stroke-width='3' stroke-linecap='square' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
+

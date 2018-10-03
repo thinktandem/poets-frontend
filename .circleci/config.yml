@@ -1,0 +1,79 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10-stretch
+    working_directory: ~/poets-vue
+    steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+
+      - checkout
+
+      - save_cache:
+          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run: yarn
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
+  test:
+    working_directory: ~/poets-vue
+    docker:
+      - image: circleci/node:10-stretch-browsers
+    steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+            -
+      - checkout
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run: yarn test
+
+  storybook:
+    working_directory: ~/poets-vue
+    docker:
+      - image: circleci/node:10-stretch
+    steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+
+      - checkout
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: yarn buildstorybook
+      - run: yarn deploystorybook
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - storybook:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
