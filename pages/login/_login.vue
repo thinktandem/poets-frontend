@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Login from '~/components/Login';
+import Login from "~/components/Login";
 export default {
-  components: { 
+  components: {
     Login
   }
-}
+};
 </script>
 
 <style>

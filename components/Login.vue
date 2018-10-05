@@ -1,79 +1,100 @@
 <template>
   <div class="login-wrapper border border-light">
-    <form class="form-signin" @submit.prevent="login">
+    <form 
+      class="form-signin" 
+      @submit.prevent="login">
       <h2 class="form-signin-heading">Please sign in</h2>
-      <label for="inputUsername" class="sr-only">Username</label>
-      <input v-model="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <label 
+        for="inputUsername" 
+        class="sr-only">Username</label>
+      <input 
+        v-model="username" 
+        type="text" 
+        id="inputUsername" 
+        class="form-control" 
+        placeholder="Username" 
+        required 
+        autofocus>
+      <label 
+        for="inputPassword" 
+        class="sr-only">Password</label>
+      <input 
+        v-model="password" 
+        type="password" 
+        id="inputPassword" 
+        class="form-control" 
+        placeholder="Password" 
+        required>
+      <button 
+        class="btn btn-lg btn-primary btn-block" 
+        type="submit">Sign in</button>
     </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import qs from 'qs';
+import axios from "axios";
+import qs from "qs";
 
-const apiUrl = process.env.API_URL;
+// const apiUrl = process.env.API_URL;
 
 // @TODO: we won't need this when the app is landoified.
 if (process.env.NODE_ENV !== "production") {
-  var dotenv = require('dotenv');
+  let dotenv = require("dotenv");
   dotenv.load();
 }
 
 export default {
-  name: 'Login',
-  data () {
+  name: "Login",
+  data() {
     return {
-      username: '',
-      password: ''
-    }
+      username: "",
+      password: ""
+    };
   },
   methods: {
-    login () {
+    login() {
       const data = {
-        "username": this.username,
-        "password": this.password,
-        "grant_type": "password",
-        "client_id": "74e7d449-8eba-4ee4-835c-6bc3eb1da06a",
-        "client_secret": "abc123"
+        username: this.username,
+        password: this.password,
+        grant_type: "password",
+        client_id: "74e7d449-8eba-4ee4-835c-6bc3eb1da06a",
+        client_secret: "abc123"
       };
       const options = {
-        "method": 'POST',
-        "headers": {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': 'TOKEN'
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": "TOKEN"
         },
-        "data": qs.stringify(data),
-        "url": 'https://poetsd8.lndo.site/oauth/token/'
+        data: qs.stringify(data),
+        url: "https://poetsd8.lndo.site/oauth/token/"
       };
       console.log(this.username);
       console.log(this.password);
 
-      mxios(options)
+      axios(options)
         .then(req => this.loginSuccessful(req))
         .catch(() => this.loginFailed());
     }
   },
-  loginSuccessful (req) {
+  loginSuccessful(req) {
     console.log(req);
     if (!req.data.token) {
       this.loginFailed();
       return;
     }
-  
+
     localStorage.token = req.data.token;
     this.error = false;
-  
-    this.$router.replace(this.$route.query.redirect || '/authors');
+
+    this.$router.replace(this.$route.query.redirect || "/authors");
   },
-  loginFailed () {
-    this.error = 'Login failed!'
-    delete localStorage.token
+  loginFailed() {
+    this.error = "Login failed!";
+    delete localStorage.token;
   }
-}
+};
 </script>
 
 <style lang="css">
