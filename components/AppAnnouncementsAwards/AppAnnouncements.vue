@@ -45,9 +45,9 @@ export default {
 <style scoped>
 .announcement {
   padding: 9px;
-  border-bottom: 1px #ccc solid;
+  border-bottom: 1px var(--gray-200) solid;
 }
 .announcement-date {
-  color: red;
+  color: var(--red);
 }
 </style>
