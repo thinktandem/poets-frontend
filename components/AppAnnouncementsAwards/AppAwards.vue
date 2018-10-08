@@ -4,9 +4,9 @@
     <p
       v-for="award in awards"
       :key="award.img">
-      <img
+      <b-img
         :src="award.img"
-        alt="firstAward">
+        alt="firstAward" />
     </p>
   </div>
 </template>

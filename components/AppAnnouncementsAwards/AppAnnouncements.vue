@@ -5,13 +5,13 @@
       v-for="announcement in announcements"
       :key="announcement.link"
       class="announcement">
-      <div class="announcement-date">
+      <div class="announcement__date">
         {{ announcement.date }}
       </div>
-      <div class="announcement-title">
+      <div class="announcement__title">
         {{ announcement.title }}
       </div>
-      <div class="announcement-read-more">
+      <div class="announcement__read-more">
         <a href="announcemnt.link">read more</a>
       </div>
     </div>
@@ -47,7 +47,7 @@ export default {
   padding: 9px;
   border-bottom: 1px var(--gray-200) solid;
 }
-.announcement-date {
+.announcement__date {
   color: var(--red);
 }
 </style>
