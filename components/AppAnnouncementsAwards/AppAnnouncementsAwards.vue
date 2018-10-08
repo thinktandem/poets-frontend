@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-white p-4">
+  <div
+    class="bg-white p-4 announcements-awards">
     <b-container class="mx-auto my-1">
       <div class="row">
         <div class="col-8">
@@ -25,4 +26,8 @@ export default {
 };
 </script>
 <style scoped>
+.announcements-awards {
+  font-family: "PoetsElectra";
+  font-style: italic;
+}
 </style>
