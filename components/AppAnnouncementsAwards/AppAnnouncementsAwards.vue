@@ -25,8 +25,4 @@ export default {
 };
 </script>
 <style scoped>
-.promo__disclosure {
-  color: var(--dark-muted);
-  font-weight: 400;
-}
 </style>
