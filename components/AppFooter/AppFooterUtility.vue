@@ -1,24 +1,22 @@
 <template>
-  <div class="footer__utility">
+  <div class="footer__utility pt-5 pb-5">
     <b-container class="mx-auto my-1">
       <div class="row">
         <div class="col-10">
           <span
             v-for="link in links"
             :key="link.url"
-            class="utility__links">
+            class="utility__links pr-3">
             <a :href="link.url">{{ link.text }}</a>
           </span>
-          <div class="utility__links_copyright">
+          <div class="utility__links_copyright pt-4">
             © Academy of American Poets, 75 Maiden Lane, Suite 901, New York, NY 10038 
           </div>
         </div>
         <div class="col-2">
           <span class="utility__links_poets">
             <a href="https://poets.org">
-              <b-img
-                src="/images/poets-small.png"
-              />
+              <span class="poets-utility-link-1">poets</span><span class="poets-utility-link-2">.org</span>
             </a>
           </span>
         </div>
@@ -60,21 +58,22 @@ export default {
 
 <style scoped>
 .footer__utility {
-  padding-top: 36px;
   color: var(--white);
   background-color: var(--black);
   font-weight: 400;
-}
-.utility__links {
-  padding: 13px;
+  .poets-utility-link-1,
+  .poets-utility-link-2 {
+    font-size: 28px;
+    font-weght: 800;
+    font-style: bold;
+    color: var(--blue);
+  }
+  .poets-utility-link-2 {
+    color: var(--white);
+  }
 }
 .utility__links a {
   color: var(--white);
-}
-.utility__links_copyright {
-  padding-top: 36px;
-  padding-bottom: 18px;
-  padding-left: 12px;
 }
 .utility__links_poets.col-4 {
   text-align: right;
