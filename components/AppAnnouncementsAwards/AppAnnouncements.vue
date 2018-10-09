@@ -48,6 +48,7 @@ export default {
   border-bottom: 1px var(--gray) solid;
   .announcement__date {
     color: var(--red);
+    font-size: 14px;
   }
   .announcement__title {
     font-size: 26px;
