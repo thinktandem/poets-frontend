@@ -2,7 +2,7 @@
   <div class="footer__primary pt-5 pb-5">
     <b-container class="mx-auto">
       <div class="row">
-        <div class="col-3">
+        <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
             poets.org
           </h3>
@@ -13,7 +13,7 @@
             <a :href="link.url">{{ link.text }}</a>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
             academy of american poets
           </h3>
@@ -24,7 +24,7 @@
             <a :href="link.url">{{ link.text }}</a>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
             national poetry month
           </h3>
@@ -35,7 +35,7 @@
             <a :href="link.url">{{ link.text }}</a>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
             american poets 
           </h3>
