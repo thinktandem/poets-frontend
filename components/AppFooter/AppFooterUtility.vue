@@ -64,8 +64,7 @@ export default {
   .poets-utility-link-1,
   .poets-utility-link-2 {
     font-size: 28px;
-    font-weght: 800;
-    font-style: bold;
+    font-weight: 600;
     color: var(--blue);
   }
   .poets-utility-link-2 {
@@ -74,6 +73,7 @@ export default {
 }
 .utility__links a {
   color: var(--white);
+  font-size: 14px;
 }
 .utility__links_poets.col-4 {
   text-align: right;
