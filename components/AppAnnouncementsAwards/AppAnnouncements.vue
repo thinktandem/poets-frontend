@@ -12,7 +12,7 @@
         {{ announcement.title }}
       </div>
       <div class="announcement__read-more">
-        <a href="announcemnt.link">read more</a>
+        <a :href="announcement.link">read more</a>
       </div>
     </div>
   </div>

@@ -22,12 +22,17 @@ $black: #1E1E1E;
 $colors: (
   'blue-lightest': $blue-lightest,
   'blue-light': $blue-light,
+  'blue': $blue,
   'blue-dark': $blue-dark,
   'red': $red,
   'red-dark': $red-dark,
   'gray-100': $gray-100,
   'gray-200': $gray-200,
   'gray': $gray-400,
+  'gray-600': $gray-600,
+  'gray-800': $gray-800,
+  'gray-900': $gray-900,
+  'black': $black
 );
 
 // Setup theme colors.
