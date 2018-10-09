@@ -1,12 +1,13 @@
 <template>
-  <div class="bg-white p-4">
+  <div class="p-4 awards">
     <h2>Awards</h2>
     <p
       v-for="award in awards"
-      :key="award.img">
+      :key="award.img"
+      class="awards__image">
       <b-img
         :src="award.img"
-        alt="firstAward" />
+        :alt="award.alt" />
     </p>
   </div>
 </template>
@@ -21,10 +22,12 @@ export default {
     return {
       awards: [
         {
-          img: "assets/img/award1.png"
+          img: "/awards/award1.png",
+          alt: "The first award"
         },
         {
-          img: "assets/img/award2.png"
+          img: "/awards/award2.png",
+          alt: "much prestige"
         }
       ]
     };
@@ -32,4 +35,8 @@ export default {
 };
 </script>
 <style scoped>
+.awards {
+  text-align: center;
+  background-color: var(--gray-100);
+}
 </style>

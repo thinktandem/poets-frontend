@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-4">
+  <div class="p-4">
     <h2>Announcements</h2>
     <div
       v-for="announcement in announcements"
