@@ -1,6 +1,6 @@
 <template>
   <div class="p-4 awards">
-    <h2>Awards</h2>
+    <h2 class="poets-electra">Awards</h2>
     <p
       v-for="award in awards"
       :key="award.img"
@@ -34,9 +34,13 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .awards {
   text-align: center;
   background-color: var(--gray-100);
+  .poets-electra {
+    font-family: "Poets Electra Roman No 2";
+    font-style: italic;
+  }
 }
 </style>

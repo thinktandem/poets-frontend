@@ -27,8 +27,6 @@ export default {
 </script>
 <style scoped>
 .announcements-awards {
-  font-family: "PoetsElectra";
-  font-style: italic;
   background-color: var(--gray-100);
 }
 </style>
