@@ -2,7 +2,7 @@
   <div class="footer__utility">
     <b-container class="mx-auto my-1">
       <div class="row">
-        <div class="col-8">
+        <div class="col-10">
           <span
             v-for="link in links"
             :key="link.url"
@@ -13,7 +13,7 @@
             © Academy of American Poets, 75 Maiden Lane, Suite 901, New York, NY 10038 
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-2">
           <span class="utility__links_poets">
             <a href="https://poets.org">
               <b-img
@@ -60,18 +60,21 @@ export default {
 
 <style scoped>
 .footer__utility {
+  padding-top: 36px;
   color: var(--white);
   background-color: var(--black);
   font-weight: 400;
 }
 .utility__links {
-  padding: 12px;
+  padding: 13px;
 }
 .utility__links a {
   color: var(--white);
 }
 .utility__links_copyright {
-  padding: 12px;
+  padding-top: 36px;
+  padding-bottom: 18px;
+  padding-left: 12px;
 }
 .utility__links_poets.col-4 {
   text-align: right;
