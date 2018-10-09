@@ -1,6 +1,7 @@
 <template>
   <div class="hero-search">
     <form class="mb-1">
+      <label class="sr-only">search</label>
       <input
         type="text"
         placeholder="search"
