@@ -2,6 +2,7 @@
   <div>
     <AppNavigation />
     <AppPromoSpace />
+    <AppHeroOuter />
     <AppAnnouncementsAwards />
     <AppFooterPrimary />
     <AppFooterUtility />
@@ -11,6 +12,7 @@
 <script>
 import AppNavigation from "~/components/AppNavigation";
 import AppPromoSpace from "~/components/AppPromoSpace";
+import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
@@ -19,6 +21,7 @@ export default {
   components: {
     AppNavigation,
     AppPromoSpace,
+    AppHeroOuter,
     AppAnnouncementsAwards,
     AppFooterPrimary,
     AppFooterUtility
