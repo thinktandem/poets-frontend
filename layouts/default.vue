@@ -2,7 +2,6 @@
   <div>
     <AppNavigation />
     <AppPromoSpace />
-    <nuxt/>
     <AppAnnouncementsAwards />
     <AppFooter />
   </div>

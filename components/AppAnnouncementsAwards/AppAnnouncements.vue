@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white p-4">
-    <h2>Announcements</h2>
+  <div class="p-4">
+    <h2 class="poets-electra">Announcements</h2>
     <div
       v-for="announcement in announcements"
       :key="announcement.link"
@@ -42,12 +42,24 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .announcement {
   padding: 9px;
-  border-bottom: 1px var(--gray-200) solid;
+  border-bottom: 1px var(--gray) solid;
+  .announcement__date {
+    color: var(--red);
+    font-size: 14px;
+  }
+  .announcement__title {
+    font-size: 26px;
+    font-weight: 200;
+  }
+  .announcement__read-more {
+    padding-top: 16px;
+  }
 }
-.announcement__date {
-  color: var(--red);
+.poets-electra {
+  font-family: "Poets Electra Roman No 2";
+  font-style: italic;
 }
 </style>
