@@ -35,12 +35,27 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+// So we can access breakpoints / spacer
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
 .awards {
-  text-align: center;
+  // text-align: center;
   background-color: var(--gray-100);
   .poets-electra {
     font-family: "Poets Electra Roman No 2";
     font-style: italic;
+    text-align: center;
+  }
+}
+
+@include media-breakpoint-only(sm) {
+  .awards {
+    p {
+      img {
+        width: 87%;
+      }
+    }
   }
 }
 </style>

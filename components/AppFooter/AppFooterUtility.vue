@@ -2,7 +2,7 @@
   <div class="footer__utility pt-5 pb-5">
     <b-container class="mx-auto my-1">
       <div class="row">
-        <div class="col-10">
+        <div class="col-sm-12 col-md-10">
           <span
             v-for="link in links"
             :key="link.url"
@@ -13,7 +13,7 @@
             © Academy of American Poets, 75 Maiden Lane, Suite 901, New York, NY 10038 
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-sm-12 col-md-2">
           <span class="utility__links_poets">
             <a href="https://poets.org">
               <span class="poets-utility-link-1">poets</span><span class="poets-utility-link-2">.org</span>
