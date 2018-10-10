@@ -2,24 +2,29 @@
   <div>
     <AppNavigation />
     <AppPromoSpace />
-    <nuxt/>
+    <AppHeroOuter />
     <AppAnnouncementsAwards />
-    <AppFooter />
+    <AppFooterPrimary />
+    <AppFooterUtility />
   </div>
 </template>
 
 <script>
 import AppNavigation from "~/components/AppNavigation";
-import AppFooter from "~/components/AppFooter";
 import AppPromoSpace from "~/components/AppPromoSpace";
+import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
+import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
 
 export default {
   components: {
     AppNavigation,
     AppPromoSpace,
+    AppHeroOuter,
     AppAnnouncementsAwards,
-    AppFooter
+    AppFooterPrimary,
+    AppFooterUtility
   }
 };
 </script>

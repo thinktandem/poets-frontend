@@ -1,12 +1,13 @@
 <template>
-  <div class="bg-white p-4">
-    <h2>Awards</h2>
+  <div class="p-4 awards">
+    <h2 class="poets-electra">Awards</h2>
     <p
       v-for="award in awards"
-      :key="award.img">
+      :key="award.img"
+      class="awards__image">
       <b-img
         :src="award.img"
-        alt="firstAward" />
+        :alt="award.alt" />
     </p>
   </div>
 </template>
@@ -21,15 +22,40 @@ export default {
     return {
       awards: [
         {
-          img: "assets/img/award1.png"
+          img: "/awards/award1.png",
+          alt: "The first award"
         },
         {
-          img: "assets/img/award2.png"
+          img: "/awards/award2.png",
+          alt: "much prestige"
         }
       ]
     };
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+// So we can access breakpoints / spacer
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+.awards {
+  // text-align: center;
+  background-color: var(--gray-100);
+  .poets-electra {
+    font-family: "Poets Electra Roman No 2";
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+@include media-breakpoint-only(sm) {
+  .awards {
+    p {
+      img {
+        width: 87%;
+      }
+    }
+  }
+}
 </style>
