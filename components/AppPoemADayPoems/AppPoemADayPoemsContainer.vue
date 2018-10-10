@@ -1,5 +1,5 @@
 <template>
-  <div class="poem-a-day-container p-4">
+  <div class="poem-a-day-container pt-4">
     <div
       v-for="poem in poems"
       :key="poem.link"
@@ -44,15 +44,18 @@
         </div>
       </b-container>
     </div>
+    <AppPoems />
   </div>
 </template>
 
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 
 export default {
   components: {
-    AppPoemADaySignUpForm
+    AppPoemADaySignUpForm,
+    AppPoems
   },
   /**
    * @todo replace with real data/prop
@@ -179,6 +182,10 @@ export default {
 <style scoped lang="scss">
 .poem-a-day-container {
   background-color: var(--gray-800);
+  .poem-a-day__poems {
+    position: relative;
+    z-index: 222;
+  }
   .poem-a-day-container__poet-name {
     color: var(--white);
     text-align: center;
