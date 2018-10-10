@@ -1,13 +1,13 @@
 <template>
   <div class="hero-outer p-4">
     <b-container class="mx-auto my-1">
+      <div class="hero-outer__poets-hp-link pb-3">
+        <a href="/">
+          <span class="hero-outer__poets-hp-link-1">poets</span><span class="hero-outer__poets-hp-link-2">.org</span>
+        </a>
+      </div>
       <div class="row">
         <div class="col-sm-12 col-md-9">
-          <div class="hero-outer__poets-hp-link pb-3">
-            <a href="/">
-              <span class="hero-outer__poets-hp-link-1">poets</span><span class="hero-outer__poets-hp-link-2">.org</span>
-            </a>
-          </div>
           <div
             v-for="quote in quotes"
             :key="quote.quote"
