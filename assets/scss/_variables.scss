@@ -63,6 +63,16 @@ $font-weight-base: 500;
 // Shadows
 $box-shadow-sm:  0 .1rem .25rem rgba(black, .25);
 
+// Default border radius;
+$border-radius: 0;
+// Buttons
+$input-btn-padding-y:         .25rem !default;
+$input-btn-padding-x:         .75rem !default;
+$input-btn-font-size:         $font-size-base !default;
+$btn-padding-y: .6rem;
+
+// Inputs
+
 // Navbar
 $navbar-padding-x: 0;
 $navbar-padding-y: 0;
