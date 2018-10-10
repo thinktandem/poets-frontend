@@ -1,7 +1,8 @@
+import Vue from "vue";
 import { storiesOf } from "@storybook/vue";
-import appNavigation from "../components/AppNavigation";
+import AppNavigation from "../components/AppNavigation";
 
+Vue.component("app-navigation", AppNavigation);
 storiesOf("Navigation", module).add("Main Nav", () => ({
-  template: "<app-navigation></app-navigation>",
-  components: { appNavigation }
+  template: "<app-navigation></app-navigation>"
 }));

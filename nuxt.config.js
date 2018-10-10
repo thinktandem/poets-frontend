@@ -35,6 +35,7 @@ module.exports = {
   */
   build: {
     vendor: ["axios"],
+    css: ["~assets/css/fonts.css"],
     /*
     ** Run ESLint on save
     */

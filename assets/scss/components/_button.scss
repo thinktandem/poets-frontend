@@ -1,5 +1,26 @@
 .btn {
-  border-radius: 4px;
+  border-radius: 0;
   font-weight: 500;
-  line-height: inherit;
 }
+
+.btn-sm {
+  line-height: 1;
+  padding-top: $btn-padding-y-sm * 1.33;
+  padding-bottom: $btn-padding-y-sm * .666;
+}
+
+.btn-md {
+  line-height: 1;
+  padding-bottom: $btn-padding-y * .666;
+}
+
+.btn-lg {
+  line-height: 1;
+  padding-bottom: $btn-padding-y-lg * .666;
+}
+
+.input-group-append .btn {
+  line-height: 1;
+  padding: $btn-padding-y * .5 $btn-padding-x * 1.5;
+}
+
