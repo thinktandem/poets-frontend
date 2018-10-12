@@ -1,7 +1,7 @@
 <template>
-  <div class="poem-a-day-sign-up p-4 mt-3">
+  <div class="poem-a-day-sign-up p-3 mt-3">
     <div class="poem-a-day-sign-up__social-group">
-      <span class="pl-2 pr-2">
+      <span class="pr-2">
         <a href="#">
           <b-img
             src="/social/facebook.svg"/>
@@ -20,7 +20,7 @@
         </a>
       </span>
     </div>
-    <div class="poem-a-day-sign-up__title">
+    <div class="poem-a-day-sign-up__title pt-2">
       sign up for poem-a-day
     </div>
     <div class="poem-a-day-sign-up__description pt-2 pb-2">
@@ -60,14 +60,15 @@ export default {
   .poem-a-day-sign-up__social-group {
     span {
       img {
-        width: 30px;
-        height: 30px;
+        width: 26px;
+        height: 26px;
       }
     }
   }
   .poem-a-day-sign-up__title {
     font-family: "Founders Grotesk Text";
     font-size: 26px;
+    font-weight: 600;
   }
   .poem-a-day-sign-up__description {
     font-family: "SF Pro Display";
@@ -77,12 +78,17 @@ export default {
   form {
     input {
       width: 67%;
+      height: 43px;
       display: inline-block;
     }
     input,
     .poem-a-day-button {
       border-radius: 0;
       vertical-align: baseline;
+    }
+    .poem-a-day-button {
+      background-color: var(--blue-dark);
+      border: none;
     }
   }
 }

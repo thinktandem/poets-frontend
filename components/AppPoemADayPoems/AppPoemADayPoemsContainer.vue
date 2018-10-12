@@ -205,7 +205,7 @@ export default {
       font-size: 20px;
     }
     .poem-a-day-container__poem {
-      font-family: "Poets Electray";
+      font-family: "Poets Electra";
       .poem-a-day-container__poem-title {
         font-size: 28px;
         font-style: italic;
