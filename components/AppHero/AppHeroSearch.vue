@@ -63,7 +63,7 @@ export default {
 
 <style scoped lang="scss">
 .hero-search {
-  background-color: var(--black);
+  background-color: var(--gray-900);
   width: 361px;
   form {
     border-bottom: 3px solid var(--blue);
@@ -71,6 +71,10 @@ export default {
       background-color: var(--gray-800);
       border: none;
       height: 42px;
+      background-image: url(/images/search.jpg);
+      background-repeat: no-repeat;
+      background-size: 41px;
+      background-position: right;
     }
   }
   .hero-search__links {
@@ -79,6 +83,12 @@ export default {
     a {
       color: var(--white);
     }
+    a:hover {
+      text-decoration: none;
+    }
   }
+}
+.hero-search:hover {
+  background-color: var(--black);
 }
 </style>
