@@ -7,9 +7,7 @@ module.exports = {
   plugins: [
     // '~/plugins/vue-youtube-embed',
   ],
-  css: [
-    "./assets/scss/app.scss" // use our build, as entered via app.scss
-  ],
+  css: ["~assets/css/fonts.css", "~assets/scss/app.scss"],
   /*
   ** Headers of the page
   */
