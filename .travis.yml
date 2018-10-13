@@ -7,7 +7,6 @@ cache:
   yarn: true
   directories:
     - node_modules
-
 before_install:
   # Install Lando
   - sudo apt-get -y update
@@ -19,11 +18,8 @@ before_install:
   - node --version
   - yarn --version
   - lando version
-
+install: lando start
 script:
-  # Boot everything up
-  - lando start
-
   # Run code and styling
   - lando yarn lint
 
