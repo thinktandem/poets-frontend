@@ -29,7 +29,6 @@ web:
           allow: true
         search_plus_index\.json$:
           allow: true
-  locations:
     '/styleguide':
       passthru: false
       root: '.out'
