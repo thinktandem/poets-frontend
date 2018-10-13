@@ -1,0 +1,35 @@
+language: node_js
+node_js: 10
+services:
+  - docker
+sudo: required
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+before_install:
+  # Install Lando
+  - sudo apt-get -y update
+  - sudo apt-get -y install cgroup-bin curl
+  - curl -fsSL -o /tmp/lando.deb http://installer.kalabox.io/lando-latest-dev.deb
+  - sudo dpkg -i /tmp/lando.deb
+
+  # Sanity check to make sure we are rolling
+  - node --version
+  - yarn --version
+  - lando version
+
+script:
+  # Boot everything up
+  - lando start
+
+  # Run code and styling
+  - lando yarn lint
+
+  # Make sure we can build the docs
+  - lando yarn test
+
+  # Test build processes
+  - lando yarn generate
+  - lando yarn buildstorybook
