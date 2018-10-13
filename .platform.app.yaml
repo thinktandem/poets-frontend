@@ -8,7 +8,7 @@ hooks:
   build: |
     yarn install
     yarn generate
-    yarn build-storybook
+    yarn buildstorybook
 size: S
 disk: 256
 web:
