@@ -23,6 +23,8 @@ script:
   - lando yarn lint
   # Run end to end tests
   - lando yarn test
+  # Shut the app off
+  - lando stop
   # Test build processes
   # We do this outside of lando because that is also what platform.sh does
   - yarn generate
