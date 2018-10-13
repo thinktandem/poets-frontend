@@ -5,11 +5,12 @@ node_modules
 npm-debug.log
 yarn-error.log
 
-# Nuxt build
+# Nuxt
 .nuxt
-
-# Nuxt generate
 dist
+
+# Storybook
+.out
 
 .*.swp
 .env

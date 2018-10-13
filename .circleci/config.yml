@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10-stretch
-    working_directory: ~/poets-vue
+    working_directory: ~/poets-frontend
     steps:
       - restore_cache:
           keys:
@@ -29,7 +29,7 @@ jobs:
             - ./node_modules
 
   test:
-    working_directory: ~/poets-vue
+    working_directory: ~/poets-frontend
     docker:
       - image: circleci/node:10-stretch-browsers
     steps:
@@ -47,7 +47,7 @@ jobs:
       - run: yarn test
 
   storybook:
-    working_directory: ~/poets-vue
+    working_directory: ~/poets-frontend
     docker:
       - image: circleci/node:10-stretch
     steps:
