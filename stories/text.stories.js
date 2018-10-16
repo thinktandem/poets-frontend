@@ -4,7 +4,15 @@ storiesOf("Text", module)
   .add("Fonts", () => ({
     template: `
     <div>
-      <h1 style="font-family: Founders Grotesk">Sans Serif - Founders Grotesk</h1>
+      <div style="font-family: Founders Grotesk">
+        <h1>Sans Serif - Founders Grotesk</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Curabitur blandit tempus porttitor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+      </div>
+      <div style="font-family: Poets Electra">
+      
+        <h1>Serif - Poets Electra</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Curabitur blandit tempus porttitor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+      </div>
     </div>
   `
   }))

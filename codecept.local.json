@@ -4,10 +4,7 @@
   "output": "./test/output",
   "helpers": {
     "Puppeteer": {
-      "url": "http://poetsd8.lndo.site",
-      "chrome": {
-        "args": ["--no-sandbox"]
-      }
+      "url": "http://localhost:3000"
     }
   },
   "include": {
