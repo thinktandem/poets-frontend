@@ -6,6 +6,7 @@
     <AppAnnouncementsAwards />
     <AppFooterPrimary />
     <AppFooterUtility />
+    <Login />
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
+import Login from "~/components/Login";
 
 export default {
   components: {
@@ -24,7 +26,8 @@ export default {
     AppHeroOuter,
     AppAnnouncementsAwards,
     AppFooterPrimary,
-    AppFooterUtility
+    AppFooterUtility,
+    Login
   }
 };
 </script>
