@@ -1,27 +1,69 @@
-Nuxt front end for Poets
-========================
+Poets Frontend Magicks
+======================
 
-## Build Setup
+Getting Started
+---------------
 
-@TODO: there is no Lando yet; maybe @pirog can help with that.
-So for now just run with `yarn run dev`.
+The easiest way to get started developing the poets.org frontend magicks is by using [Lando](https://github.com/lando/lando), however if you are feeling pro and desire moar speedz you can also use [yarn](https://yarnpkg.com/en/) straight up.
 
-``` bash
-# install dependencies
-$ yarn install # Or npm install
+### 1. Using Lando
 
-# copy the .env.example file to .env
-$ cp .env.example .env
+**This requires you have Lando 3.0.0-rc.1 or higher**.
 
-# serve with hot reload at localhost:3000
-$ yarn run dev
+Please note that because `nuxt` takes a bit to get going and `lando` only waits so long, your initial start *may* produce red URLs. If this happens we recommend you inspect the status of the start with `lando logs` or `docker logs poetsd8_[appserver|styleguide]_1` and then rerun `lando start` when both the `appserver` and `styleguide` have launched. This should result in green lights across the board.
 
-# build for production and launch server
-$ yarn run build
-$ yarn start
+```bash
+# Do everything
+lando start
 
-# generate static project
-$ yarn run generate
+# Lint the codes
+lando yarn lint
+
+# Run end to end tests
+lando yarn test
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+### 2. Using Yarn
+
+``` bash
+# Install dependencies
+yarn install
+
+# Copy the .env.example file to .env
+# @todo: is this actually needed?
+cp .env.example .env
+
+# Serve the frontend with hot reload at localhost:3000
+yarn dev
+
+# Serve the styleguide at localhost:6006
+yarn storybook
+
+# Run linting
+yarn lint
+
+# Run end to end tests
+yarn test --config=./codecept.local.json
+```
+
+Building for Production
+-----------------------
+
+You can also do this via `lando yarn` but makes more sense to use `yarn` straight up. See the `.platform.app.yaml` for the actual production build and deployment steps.
+
+```bash
+# Generate the frontend as a static HTML project
+yarn generate
+
+# Generate the styleguide as a static HTML project
+yarn buildstorybook
+```
+
+Resources
+---------
+
+For detailed explanation on how all the things work checkout
+
+* [Nuxt.js docs](https://github.com/nuxt/nuxt.js)
+* [Vue.js docs](https://vuejs.org/v2/guide/)
+* [Boostrap Vue](https://bootstrap-vue.js.org/)

@@ -22,11 +22,11 @@ export default {
     return {
       awards: [
         {
-          img: "/awards/award1.png",
+          img: "awards/award1.png",
           alt: "The first award"
         },
         {
-          img: "/awards/award2.png",
+          img: "awards/award2.png",
           alt: "much prestige"
         }
       ]

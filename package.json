@@ -1,7 +1,7 @@
 {
-  "name": "vue-frontend",
+  "name": "poets-frontend",
   "version": "1.0.0",
-  "description": "Nuxt front end for Poets",
+  "description": "Front end for Poets",
   "author": "Geoff St. Pierre <serundeputy@gmail.com>",
   "private": true,
   "scripts": {
@@ -10,8 +10,8 @@
     "deploystorybook": "rm -fr .out && npm run buildstorybook && echo 'poetsstyles.clients.thinktandem.io' > '.out/CNAME' && storybook-to-ghpages --ci --existing-output-dir=.out",
     "dev": "nuxt",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "start": "nuxt start",
     "storybook": "start-storybook -p 6006",
