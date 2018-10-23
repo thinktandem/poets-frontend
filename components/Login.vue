@@ -67,9 +67,6 @@ export default {
         url: "https://apipoetsd8.lndo.site/oauth/token/"
       };
 
-      console.log(this.username);
-      console.log(this.password);
-
       axios(options)
         .then(req => {
           console.log(req);
