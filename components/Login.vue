@@ -59,7 +59,7 @@ export default {
         password: this.password,
         grant_type: "password",
         client_id: process.env.API_CLIENT_ID,
-        client_secret: "a"
+        client_secret: process.env.API_CLIENT_SECRET
       };
       const options = {
         method: "POST",
