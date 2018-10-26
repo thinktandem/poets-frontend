@@ -23,8 +23,8 @@
 
       <b-navbar-nav>
         <b-nav-item
-          v-for="link in links"
-          :key="link.href"
+          v-for="(link, index) in links"
+          :key="index"
           :href="link.href">{{ link.text }}</b-nav-item>
       </b-navbar-nav>
 
@@ -113,10 +113,22 @@ export default {
   }
 }
 
+// This is to make the hover take up the whole nav on desktop
 .navbar-nav {
-  align-items: center;
+  @include media-breakpoint-up(md) {
+    height: 100%;
+  }
 }
 
+.nav-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background-color: var(--black);
+  }
+}
 // Desktop
 @include media-breakpoint-up(md) {
   .navbar-brand {
