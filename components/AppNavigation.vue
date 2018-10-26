@@ -30,7 +30,9 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item class="navbar__login">Membership / Login</b-nav-item>
+        <b-nav-item
+          href="/login"
+          class="navbar__login">Membership / Login</b-nav-item>
 
         <b-button
           class="d-block d-md-none"
