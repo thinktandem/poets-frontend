@@ -1,6 +1,6 @@
 <template>
-  <div class="hero-outer p-4">
-    <b-container class="mx-auto my-1">
+  <div class="hero-outer pt-4">
+    <b-container>
       <div class="hero-outer__poets-hp-link pb-3">
         <a href="/">
           <span class="hero-outer__poets-hp-link-1">poets</span><span class="hero-outer__poets-hp-link-2">.org</span>
@@ -41,9 +41,9 @@ export default {
    * @return {{ quotes: {quote: string, attribution: string}[]}}`
    */
   data() {
-    let blah =
-      "Poetry offers us the capacity to carry in us and express the" +
-      " contradictory impulses that make us human.";
+    let blah = `
+      "Poetry offers us the capacity to carry in us and express the
+       contradictory impulses that make us human."`;
     let attatt = "—Kwame Dawes, Academy of American Poets Chancellor (2018- )";
 
     return {
@@ -63,7 +63,8 @@ export default {
   background-color: var(--blue);
   .hero-outer__poets-hp-link-1,
   .hero-outer__poets-hp-link-2 {
-    font-size: 50px;
+    font-size: 60px;
+    font-weight: 700;
     color: var(--white);
   }
   .hero-outer__poets-hp-link-2 {
@@ -72,7 +73,10 @@ export default {
   .hero-outer__quote {
     font-family: "Poets Electra";
     font-style: italic;
-    font-size: 28px;
+    font-size: 36px;
+  }
+  .hero-outer__attribution {
+    font-size: 14px;
   }
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <div class="hero-search">
-    <form class="mb-1">
+    <form class="hero-search__form">
       <label class="sr-only">search</label>
       <input
         type="text"
         placeholder="search"
-        class="form-control">
+        class="hero-search__form-input form-control">
     </form>
     <div
       v-for="search in searches"
       :key="search.link"
-      class="hero-search__links p-2">
+      class="hero-search__links pt-1 pb-1 pl-3">
       <a :href="search.link">
         {{ search.text }}
       </a>
@@ -63,18 +63,32 @@ export default {
 
 <style scoped lang="scss">
 .hero-search {
-  background-color: var(--black);
+  background-color: var(--gray-900);
+  width: 361px;
   form {
     border-bottom: 3px solid var(--blue);
-    input {
+    .hero-search__form-input {
       background-color: var(--gray-800);
+      border: none;
+      height: 42px;
+      background-image: url(/images/search.jpg);
+      background-repeat: no-repeat;
+      background-size: 41px;
+      background-position: right;
     }
   }
   .hero-search__links {
     font-size: 20px;
+    font-weight: 600;
     a {
       color: var(--white);
     }
+    a:hover {
+      text-decoration: none;
+    }
   }
+}
+.hero-search:hover {
+  background-color: var(--black);
 }
 </style>

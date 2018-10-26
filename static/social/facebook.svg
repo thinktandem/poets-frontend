@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>25E87868-1B85-4DA0-AC8F-A30C193B362D</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M18.7304584,15.5267724 L16.2910656,15.5267724 L16.2910656,24.2277765 L12.6735141,24.2277765 L12.6735141,15.5267724 L10.9538555,15.5267724 L10.9538555,12.4529866 L12.6735141,12.4529866 L12.6735141,10.4644661 C12.6735141,9.0431234 13.3494449,6.81519508 16.3227853,6.81519508 L19.0015859,6.82652353 L19.0015859,9.81043702 L17.057624,9.81043702 C16.738917,9.81043702 16.2910656,9.96979053 16.2910656,10.647987 L16.2910656,12.4567627 L19.0461445,12.4567627 L18.7304584,15.5267724 Z M14.9981119,0 C6.72909901,0 0,6.73060947 0,14.9988672 C0,23.270901 6.72909901,30 14.9981119,30 C23.2701458,30 30,23.270901 30,14.9988672 C30,6.73060947 23.2701458,0 14.9981119,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Templates" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Poem-a-day" transform="translate(-953.000000, -3266.000000)">
+            <g id="modules/engagment" transform="translate(0.000000, 3139.000000)">
+                <g id="Engagment">
+                    <g id="Follow" transform="translate(934.000000, 54.000000)">
+                        <g id="icons/social/facebook-2" transform="translate(19.000000, 73.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Facebook" fill="#212B36" xlink:href="#path-1"></use>
+                            <g id="Color" mask="url(#mask-2)" fill="#007AB3">
+                                <rect id="color/main" x="0" y="0" width="30" height="30" rx="4"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

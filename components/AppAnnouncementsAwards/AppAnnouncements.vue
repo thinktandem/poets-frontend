@@ -1,17 +1,17 @@
 <template>
-  <div class="p-4">
-    <h2 class="poets-electra">Announcements</h2>
+  <div class="announcemets p-4">
+    <h2 class="poets-electra pb-3">Announcements</h2>
     <div
       v-for="announcement in announcements"
       :key="announcement.link"
-      class="announcement">
-      <div class="announcement__date">
+      class="announcement pt-3">
+      <div class="announcement__date pb-2">
         {{ announcement.date }}
       </div>
       <div class="announcement__title">
         {{ announcement.title }}
       </div>
-      <div class="announcement__read-more">
+      <div class="announcement__read-more pt-1 pb-3">
         <a :href="announcement.link">read more</a>
       </div>
     </div>
@@ -34,7 +34,7 @@ export default {
         },
         {
           date: "Jul 31, 2018",
-          title: "The Academy of American Poets Is Pleased to",
+          title: `The Academy of American Poets Is Pleased to Announce the Winners of the Golden Shovel Anthology International Student Poetry Competition`,
           link: "https://appUrl/announcementId"
         }
       ]
@@ -44,18 +44,20 @@ export default {
 </script>
 <style scoped lang="scss">
 .announcement {
-  padding: 9px;
   border-bottom: 1px var(--gray) solid;
   .announcement__date {
     color: var(--red);
     font-size: 14px;
+    text-transform: uppercase;
   }
   .announcement__title {
     font-size: 26px;
-    font-weight: 200;
+    font-weight: 400;
   }
   .announcement__read-more {
-    padding-top: 16px;
+    a {
+      text-decoration: underline;
+    }
   }
 }
 .poets-electra {
