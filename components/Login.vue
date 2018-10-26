@@ -58,7 +58,7 @@ export default {
         username: this.username,
         password: this.password,
         grant_type: "password",
-        client_id: "ee03f762-aace-438e-8724-01d82134d8ce",
+        client_id: process.env.API_CLIENT_ID,
         client_secret: "a"
       };
       const options = {
