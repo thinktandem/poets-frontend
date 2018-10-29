@@ -1,82 +1,127 @@
 <template>
-  <div class="hero-outer pt-4">
-    <b-container>
-      <div class="hero-outer__poets-hp-link pb-3">
-        <a href="/">
-          <span class="hero-outer__poets-hp-link-1">poets</span><span class="hero-outer__poets-hp-link-2">.org</span>
-        </a>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 col-md-9">
-          <div
-            v-for="quote in quotes"
-            :key="quote.quote"
-            class="hero-outer__quote-data">
-            <div class="hero-outer__quote pb-3">
-              {{ quote.quote }}
-            </div>
-            <div class="hero-outer__attribution">
-              {{ quote.attribution }}
-            </div>
-          </div>
+  <b-jumbotron
+    class="hero pb-0"
+    :style="this.bgStyles"
+    bg-variant="primary"
+    :class="variantStyle"
+    fluid>
+    <b-row class="mx-auto">
+      <b-col
+        sm=12
+        class="hero__poets-hp-link"
+        v-html="this.logo"/>
+      <b-col
+        sm=12
+        md=8
+        class="mt-5"
+      >
+        <h1
+          v-if="this.heading !== ''"
+          class="hero__heading pb-3"
+        >{{ this.heading }}</h1>
+        <p
+          v-if="this.lead"
+          class="lead"
+        >{{ this.lead }}</p>
+        <div class="hero__subtext">
+          <slot/>
         </div>
-        <div class="col-sm-12 col-md-3">
-          <AppHeroSearch />
-        </div>
-      </div>
-    </b-container>
-  </div>
+      </b-col>
+      <b-col
+        sm=12
+        md=4>
+        <AppHeroSearch />
+      </b-col>
+    </b-row>
+  </b-jumbotron>
 </template>
 
 <script>
-import AppHeroSearch from "~/components/AppHero/AppHeroSearch";
+import AppHeroSearch from "./AppHeroSearch";
 
 export default {
-  components: {
-    AppHeroSearch
+  components: { AppHeroSearch },
+  props: {
+    logo: {
+      type: String,
+      default: `
+        <a href="/">
+          <span class="text-white">poets</span><span class="text-black">.org</span>
+        </a>
+      `,
+      required: false
+    },
+    heading: {
+      type: String,
+      default: "",
+      required: false
+    },
+    lead: {
+      type: String,
+      default: ""
+    },
+    background: {
+      type: String,
+      default: "/hero/bg.png"
+    },
+    variant: {
+      type: String,
+      default: "default"
+    }
   },
-
-  /**
-   * @todo: should/can this be a data/prop delivered by drupal?
-   * @return {{ quotes: {quote: string, attribution: string}[]}}`
-   */
-  data() {
-    let blah = `
-      "Poetry offers us the capacity to carry in us and express the
-       contradictory impulses that make us human."`;
-    let attatt = "—Kwame Dawes, Academy of American Poets Chancellor (2018- )";
-
-    return {
-      quotes: [
-        {
-          quote: blah,
-          attribution: attatt
-        }
-      ]
-    };
+  computed: {
+    bgStyles() {
+      return {
+        background: `url(${this.background}) no-repeat center center`,
+        backgroundSize: "cover"
+      };
+    },
+    variantStyle() {
+      const classes = {
+        default: "hero--default",
+        quote: "hero--quote"
+      };
+      return classes[this.variant];
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.hero-outer {
-  background-color: var(--blue);
-  .hero-outer__poets-hp-link-1,
-  .hero-outer__poets-hp-link-2 {
-    font-size: 60px;
-    font-weight: 700;
-    color: var(--white);
-  }
-  .hero-outer__poets-hp-link-2 {
-    color: var(--black);
-  }
-  .hero-outer__quote {
-    font-family: "Poets Electra";
+.hero__poets-hp-link {
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 0.75;
+}
+
+.hero__heading {
+  font-family: "Poets Electra Roman No 2";
+  font-style: italic;
+  font-weight: 500;
+}
+
+.lead {
+  font-family: "Poets Electra";
+  font-size: 1.9rem;
+  line-height: 2.4rem;
+}
+.hero__subtext {
+  font-size: 14px;
+}
+
+// Quote variation
+.hero--quote {
+  .lead {
+    font-weight: 200;
+    font-size: 2.3rem;
     font-style: italic;
-    font-size: 36px;
-  }
-  .hero-outer__attribution {
-    font-size: 14px;
+    quotes: "“" "”" "‘" "’";
+    &:before {
+      content: open-quote;
+    }
+    &:after {
+      content: close-quote;
+    }
   }
 }
 </style>
