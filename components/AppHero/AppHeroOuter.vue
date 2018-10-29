@@ -1,6 +1,6 @@
 <template>
   <b-jumbotron
-    class="hero pb-0"
+    class="hero pb-0 mb-0"
     :style="this.bgStyles"
     bg-variant="primary"
     :class="variantStyle"
