@@ -1,20 +1,31 @@
 <template>
   <div class="hero-search">
-    <form class="hero-search__form">
-      <label class="sr-only">search</label>
-      <input
-        type="text"
-        placeholder="search"
-        class="hero-search__form-input form-control">
-    </form>
-    <div
-      v-for="search in searches"
-      :key="search.link"
-      class="hero-search__links pt-1 pb-1 pl-3">
-      <a :href="search.link">
-        {{ search.text }}
-      </a>
-    </div>
+    <b-form class="hero-search__form">
+      <b-input-group
+        id="heroSearchInputGroup"
+        label-sr-only="search"
+        label-for="heroSearchInput">
+        <b-form-input
+          type="search"
+          v-model="searchInput"
+          placeholder="search"
+          class="hero-search__form-input px-3 pt-3 pb-2"/>
+        <b-input-group-append is-text>
+          <span class="text-primary oi oi-magnifying-glass"/>
+        </b-input-group-append>
+      </b-input-group>
+      <b-list-group
+        class="hero__search__links">
+        <b-list-group-item
+          v-for="search in searches"
+          :key="search.link"
+          class="hero__search__link">
+          <a :href="search.link">
+            {{ search.text }}
+          </a>
+        </b-list-group-item>
+      </b-list-group>
+    </b-form>
   </div>
 </template>
 
@@ -62,33 +73,56 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.hero-search {
-  background-color: var(--gray-900);
-  width: 361px;
-  form {
-    border-bottom: 3px solid var(--blue);
-    .hero-search__form-input {
-      background-color: var(--gray-800);
-      border: none;
-      height: 42px;
-      background-image: url(/images/search.jpg);
-      background-repeat: no-repeat;
-      background-size: 41px;
-      background-position: right;
-    }
-  }
-  .hero-search__links {
-    font-size: 20px;
-    font-weight: 600;
-    a {
-      color: var(--white);
-    }
-    a:hover {
-      text-decoration: none;
-    }
-  }
+::placeholder {
+  color: rgba(white, 0.5);
 }
-.hero-search:hover {
-  background-color: var(--black);
+
+.input-group {
+  border-bottom: 2px solid transparent;
+}
+
+.input-group-append {
+  margin-left: 0;
+}
+
+.input-group-text {
+  // gray-800
+  background-color: rgba(#343434, 0.9);
+  font-size: 1.5rem;
+  line-height: 1.6rem;
+  border: none;
+  border-radius: 0;
+}
+
+.hero-search__form-input {
+  // gray-800
+  background-color: rgba(#343434, 0.9);
+  font-size: 1.25rem;
+  line-height: 1.6rem;
+  border: none;
+}
+.hero__search__links {
+  background-color: var(--gray-900);
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.hero__search__link {
+  background-color: var(--gray-900);
+  border-radius: 0;
+  font-size: 20px;
+  font-weight: 600;
+
+  a {
+    color: var(--white);
+  }
+
+  &:hover {
+    background-color: var(--black);
+    a {
+      text-decoration: none;
+      color: var(--blue);
+    }
+  }
 }
 </style>
