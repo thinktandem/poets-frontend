@@ -18,6 +18,7 @@ $gray-700: #637381;
 $gray-800: #343434;
 $gray-900: #282828;
 $black: #1E1E1E;
+
 // Add custom colors
 $colors: ('blue-lightest': $blue-lightest,
 'blue-light': $blue-light,
@@ -48,6 +49,7 @@ $theme-colors: ("primary": $blue,
 "black": $black,
 "dark-muted": $gray-700,
 );
+
 // Grid
 $container-max-widths: (sm: 540px,
 md: 720px,
