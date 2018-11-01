@@ -1,6 +1,12 @@
 <template>
   <div>
     <AppNavigation />
+    <AppPromoSpace />
+    <AppHeroOuter
+      :variant="this.$store.state.hero.variant"
+      :lead="this.$store.state.hero.lead"
+      :subtext="this.$store.state.hero.subtext"
+    />
     <nuxt/>
     <AppFooterPrimary />
     <AppFooterUtility />
