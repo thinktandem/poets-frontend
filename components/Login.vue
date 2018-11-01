@@ -36,14 +36,6 @@
 import axios from "axios";
 import qs from "qs";
 
-// const apiUrl = process.env.API_URL;
-
-// @TODO: we won't need this when the app is landoified.
-if (process.env.NODE_ENV !== "production") {
-  let dotenv = require("dotenv");
-  dotenv.load();
-}
-
 export default {
   name: "Login",
   data() {
@@ -54,30 +46,34 @@ export default {
   },
   methods: {
     login() {
+      const apiUrl = process.env.API_URL || "https://apipoetsd8.lndo.site";
+      console.log(apiUrl);
+      console.log("clientId ", process.env.API_CLIENT_ID);
       const data = {
         username: this.username,
         password: this.password,
         grant_type: "password",
-        client_id: process.env.API_CLIENT_ID,
-        client_secret: process.env.API_CLIENT_SECRET
+        client_id:
+          process.env.API_CLIENT_ID || "03940efb-5183-4b0b-bed3-29c74809e3d9",
+        client_secret: process.env.API_CLIENT_SECRET || "a"
       };
       const options = {
         method: "POST",
         data: qs.stringify(data),
-        url: "https://apipoetsd8.lndo.site/oauth/token/"
+        url: apiUrl + "/oauth/token"
       };
 
       axios(options)
         .then(req => {
-          console.log(req);
+          console.log("thenReq", req.data.access_token);
           const options = {
             headers: {
               Authorization: `Bearer ${req.data.access_token}`
             },
-            url: "https://apipoetsd8.lndo.site/consumer/consumer/"
+            url: apiUrl + "/api/user/user/"
           };
           axios(options).then(req => {
-            console.log(req);
+            console.log("req", req);
           });
         })
         .catch(err => {
