@@ -23,8 +23,10 @@
           v-if="this.lead"
           class="lead"
         >{{ this.lead }}</p>
-        <div class="hero__subtext">
-          <slot/>
+        <div
+          class="hero__subtext"
+          v-if="this.subtext !== ''">
+          {{ this.subtext }}
         </div>
       </b-col>
       <b-col
@@ -57,6 +59,10 @@ export default {
       required: false
     },
     lead: {
+      type: String,
+      default: ""
+    },
+    subtext: {
       type: String,
       default: ""
     },

@@ -50,6 +50,8 @@ $theme-colors: ("primary": $blue,
 "dark-muted": $gray-700,
 );
 
+$body-bg: $gray-100;
+
 // Grid
 $container-max-widths: (sm: 540px,
 md: 720px,
@@ -111,3 +113,6 @@ $list-group-border-radius: 0;
 $list-group-border-color: transparent;
 $list-group-border-width: 0;
 $list-group-item-padding-y: .25rem;
+
+// Cards
+$card-border-color: transparent;
