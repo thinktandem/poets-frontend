@@ -1,7 +1,5 @@
 import Vue from "vue";
-import {
-  storiesOf
-} from "@storybook/vue";
+import { storiesOf } from "@storybook/vue";
 
 import CardDeck from "../components/CardDeck";
 import poetImage from "../static/images/poet.png";
@@ -18,7 +16,8 @@ storiesOf("Cards", module).add("Card Deck", () => ({
         href: "#",
         text: "2773 poets"
       },
-      cards: [{
+      cards: [
+        {
           name: "Bob Fred",
           img: {
             src: poetImage

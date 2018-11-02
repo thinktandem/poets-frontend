@@ -1,11 +1,21 @@
 <template>
-  <b-card class="poet" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <b-img :src="img.src" fluid-grow />
+  <b-card
+    class="poet"
+    itemprop="author"
+    itemscope
+    itemtype="http://schema.org/Person">
+    <b-img
+      :src="img.src"
+      fluid-grow />
     <div class="poet__name-bio">
-      <h3 class="poet__name" itemprop="name">{{ name }}</h3>
+      <h3
+        class="poet__name"
+        itemprop="name">{{ name }}</h3>
       <div class="poet__bio">
         <p>{{ bio }}</p>
-        <a :href="link.href" class="poet__link">Read more about {{ name }}</a>
+        <a
+          :href="link.href"
+          class="poet__link">Read more about {{ name }}</a>
       </div>
     </div>
   </b-card>
@@ -13,7 +23,24 @@
 
 <script>
 export default {
-  props: ["name", "img", "bio", "link"]
+  props: {
+    name: {
+      type: String,
+      default: ""
+    },
+    bio: {
+      type: String,
+      default: ""
+    },
+    img: {
+      type: Object,
+      default: function() {}
+    },
+    link: {
+      type: Object,
+      default: function() {}
+    }
+  }
 };
 </script>
 

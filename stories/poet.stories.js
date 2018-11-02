@@ -1,7 +1,5 @@
 import Vue from "vue";
-import {
-  storiesOf
-} from "@storybook/vue";
+import { storiesOf } from "@storybook/vue";
 
 import Poet from "../components/Poet";
 import poetImage from "../static/images/poet.png";
