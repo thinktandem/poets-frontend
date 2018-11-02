@@ -23,10 +23,16 @@ storiesOf("Cards", module).add("Poet", () => ({
     };
   },
   template: `
-    <poet
-      name="${name}"
-      :img="img"
-      :link="link"
-      bio="${bio}"
-    ></poet>`
+    <b-container>
+      <b-row>
+        <b-col cols="3">
+          <poet
+            name="${name}"
+            :img="img"
+            :link="link"
+            bio="${bio}"
+          ></poet>
+        </b-row>
+      </b-col>
+    </b-container>`
 }));
