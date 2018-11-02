@@ -1,31 +1,28 @@
 <template>
-  <b-card-group class="card-deck container"> deck
-    <b-row>
-      <h3>{{ title }}</h3>
-      <nuxt-link to="{{ link.href }}">{{ link.title }}</nuxt-link>
-    </b-row>
-    <b-row>
-      <b-card
-        v-for="card in cards"
-        :key="card.id"
-        class="card-deck__card {{ card.classes }}">
-      >
-
-      <component :is="cardType" v-bind="props"></component>
-
-      </b-card>
-    </b-row>
+  <b-card-group class="card-deck" :class="'card-deck--'+cardtype">
+    <b-container>
+      <b-row>
+        <b-col cols="12" tag="header">
+          <h2 class="card-deck__title">{{ title }}</h2>
+          <a :href="link.href">{{ link.text }}</a>
+        </b-col>
+      </b-row>
+      <b-row>
+          <b-col cols="12" md
+            v-for="card in cards"
+            :key="card.id"
+            class="card-deck__card"
+          >
+            <component :is="cardtype" v-bind="card"></component>
+          </b-col>
+      </b-row>
+    </b-container>
   </b-card-group>
 </template>
 
 <script>
-
 export default {
-  props: ['title', 'link', 'cards']
-  components: {
-  },
-  data() {
-  }
+  props: ["title", "link", "cards", "cardtype"]
 };
 </script>
 

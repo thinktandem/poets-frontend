@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-BoldItalic.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-BoldItalic.woff') format('woff');
+    url('../fonts/FoundersGrotesk-BoldItalic.woff') format('woff');
   font-weight: bold;
   font-style: italic;
 }
@@ -9,7 +9,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-SemiboldItalic.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-SemiboldItalic.woff') format('woff');
+    url('../fonts/FoundersGrotesk-SemiboldItalic.woff') format('woff');
   font-weight: 600;
   font-style: italic;
 }
@@ -17,7 +17,7 @@
 @font-face {
   font-family: 'Founders Grotesk Regular';
   src: url('../fonts/FoundersGrotesk-RegularItalic.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-RegularItalic.woff') format('woff');
+    url('../fonts/FoundersGrotesk-RegularItalic.woff') format('woff');
   font-weight: normal;
   font-style: italic;
 }
@@ -25,7 +25,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-Regular.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-Regular.woff') format('woff');
+    url('../fonts/FoundersGrotesk-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -33,7 +33,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-Bold.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-Bold.woff') format('woff');
+    url('../fonts/FoundersGrotesk-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
@@ -41,7 +41,7 @@
 @font-face {
   font-family: 'Poets Electra Roman';
   src: url('../fonts/PoetsElectra-Roman.woff2') format('woff2'),
-  url('../fonts/PoetsElectra-Roman.woff') format('woff');
+    url('../fonts/PoetsElectra-Roman.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -49,7 +49,7 @@
 @font-face {
   font-family: 'Poets Electra Roman No 2';
   src: url('../fonts/PoetsElectra-ItalicNo2.woff2') format('woff2'),
-  url('../fonts/PoetsElectra-ItalicNo2.woff') format('woff');
+    url('../fonts/PoetsElectra-ItalicNo2.woff') format('woff');
   font-weight: normal;
   font-style: italic;
 }
@@ -57,7 +57,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-Light.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-Light.woff') format('woff');
+    url('../fonts/FoundersGrotesk-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
 }
@@ -65,7 +65,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-MediumItalic.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-MediumItalic.woff') format('woff');
+    url('../fonts/FoundersGrotesk-MediumItalic.woff') format('woff');
   font-weight: 500;
   font-style: italic;
 }
@@ -73,7 +73,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-Medium.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-Medium.woff') format('woff');
+    url('../fonts/FoundersGrotesk-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
 }
@@ -81,7 +81,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-Semibold.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-Semibold.woff') format('woff');
+    url('../fonts/FoundersGrotesk-Semibold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
 }
@@ -89,7 +89,7 @@
 @font-face {
   font-family: 'Poets Electra Roman No 2';
   src: url('../fonts/PoetsElectra-RomanNo2.woff2') format('woff2'),
-  url('../fonts/PoetsElectra-RomanNo2.woff') format('woff');
+    url('../fonts/PoetsElectra-RomanNo2.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -97,7 +97,7 @@
 @font-face {
   font-family: 'Founders Grotesk';
   src: url('../fonts/FoundersGrotesk-LightItalic.woff2') format('woff2'),
-  url('../fonts/FoundersGrotesk-LightItalic.woff') format('woff');
+    url('../fonts/FoundersGrotesk-LightItalic.woff') format('woff');
   font-weight: 300;
   font-style: italic;
 }
@@ -105,9 +105,7 @@
 @font-face {
   font-family: 'Poets Electra Roman';
   src: url('../fonts/PoetsElectra-Italic.woff2') format('woff2'),
-  url('../fonts/PoetsElectra-Italic.woff') format('woff');
+    url('../fonts/PoetsElectra-Italic.woff') format('woff');
   font-weight: normal;
   font-style: italic;
 }
-
-

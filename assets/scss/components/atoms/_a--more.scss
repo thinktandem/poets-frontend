@@ -1,0 +1,12 @@
+%a--more {
+  color: $body-color;
+  text-decoration: underline;
+
+  &::after {
+    content: " >";
+  }
+}
+
+.a--more {
+  @extend %a--more;
+}
