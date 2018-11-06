@@ -18,6 +18,7 @@ $gray-700: #637381;
 $gray-800: #343434;
 $gray-900: #282828;
 $black: #1E1E1E;
+
 // Add custom colors
 $colors: ('blue-lightest': $blue-lightest,
 'blue-light': $blue-light,
@@ -72,9 +73,14 @@ sans-serif,
 "Apple Color Emoji",
 "Segoe UI Emoji",
 "Segoe UI Symbol" !default;
-$font-family-serif: "Poets Electra";
+$font-family-serif: "Poets Electra",
+"Georgia",
+"Times New Roman",
+serif;
 
 $font-weight-base: 500;
+
+$h2-font-size: $font-size-base * 3;
 
 // Shadows
 $box-shadow-sm: 0 .1rem .25rem rgba(black, .25);
