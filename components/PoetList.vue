@@ -1,13 +1,111 @@
-<template>
-    
-</template>
+<table>
+    <thead>
+    <tr>
+        <th v-for="key in columns"
+            @click="sortBy(key)"
+            :class="{ active: sortKey == key }">
+            {{ key }}
+            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+          </span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="entry in filteredData">
+        <td v-for="key in columns">
+            {{entry[key]}}
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <script>
-  export default {
-    name: "PoetList"
+export default {
+  name: "PoetList",
+  props: {
+    data: Array,
+    columns: Array,
+    filterKey: String
+  },
+  data: function() {
+    let sortOrders = {};
+    this.columns.forEach(function(key) {
+      sortOrders[key] = 1;
+    });
+    return {
+      sortKey: "",
+      sortOrders: sortOrders
+    };
+  },
+  computed: {
+    filteredData: function() {
+      let sortKey = this.sortKey;
+      let filterKey = this.filterKey && this.filterKey.toLowerCase();
+      let order = this.sortOrders[sortKey] || 1;
+      let data = this.data;
+      if (filterKey) {
+        data = data.filter(function(row) {
+          return Object.keys(row).some(function(key) {
+            return (
+              String(row[key])
+                .toLowerCase()
+                .indexOf(filterKey) > -1
+            );
+          });
+        });
+      }
+      if (sortKey) {
+        data = data.slice().sort(function(a, b) {
+          a = a[sortKey];
+          b = b[sortKey];
+          return (a === b ? 0 : a > b ? 1 : -1) * order;
+        });
+      }
+      return data;
+    }
+  },
+  methods: {
+    sortBy: function(key) {
+      this.sortKey = key;
+      this.sortOrders[key] = this.sortOrders[key] * -1;
+    }
   }
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="css">
+    table {
+       
+    }
 
+    th {
+
+    }
+
+    td {
+
+    }
+
+    th, td {
+
+    }
+
+    th.active {
+
+    }
+
+    th.active .arrow {
+
+    }
+
+    .arrow {
+
+    }
+
+    .arrow.asc {
+
+    }
+
+    .arrow.dsc {
+    }
 </style>
