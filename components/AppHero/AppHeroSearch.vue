@@ -80,6 +80,10 @@ export default {
   color: rgba(white, 0.5);
 }
 
+.form-group {
+  margin-bottom: 0;
+}
+
 .input-group {
   border-bottom: 2px solid transparent;
 }
