@@ -1,19 +1,22 @@
 <template>
   <div class="hero-search">
     <b-form class="hero-search__form">
-      <b-input-group
-        id="heroSearchInputGroup"
-        label-sr-only="search"
+      <b-form-group
+        label="search"
+        label-sr-only
         label-for="heroSearchInput">
-        <b-form-input
-          type="search"
-          v-model="searchInput"
-          placeholder="search"
-          class="hero-search__form-input px-3 pt-3 pb-2"/>
-        <b-input-group-append is-text>
-          <span class="text-primary oi oi-magnifying-glass"/>
-        </b-input-group-append>
-      </b-input-group>
+        <b-input-group>
+          <b-form-input
+            type="search"
+            v-model="searchInput"
+            placeholder="search"
+            id="heroSearchInput"
+            class="hero-search__form-input px-3 pt-3 pb-2"/>
+          <b-input-group-append is-text>
+            <span class="text-primary oi oi-magnifying-glass"/>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form-group>
       <b-list-group
         class="hero__search__links">
         <b-list-group-item
