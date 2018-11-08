@@ -14,18 +14,24 @@
             :key="poem.link"
             :class="isEven(index)"
             class="col-sm-12 col-md-5 poems__poem-data m-3">
-            <div class="poems__poem__title pt-1 pb-3">
-              {{ poem.title }}
-            </div>
-            <div class="poems__poem__poem">
-              {{ poem.poem }}
-            </div>
-            <div class="poems__poem__poet pt-3">
-              {{ poem.poet }}
-            </div>
-            <div class="poems__poem__date">
-              {{ poem.date }}
-            </div>
+            <a
+              :href="poem.link"
+              class="poem-card-link">
+              <div class="poems__poem__title pt-1 pb-3">
+                {{ poem.title }}
+              </div>
+              <div class="poems__poem__poem">
+                {{ poem.poem }}
+              </div>
+              <div
+                class="poem-container__poem-fade-out"/>
+              <div class="poems__poem__poet pt-3">
+                {{ poem.poet }}
+              </div>
+              <div class="poems__poem__date">
+                {{ poem.date }}
+              </div>
+            </a>
           </div>
         </div>
       </b-container>
@@ -108,6 +114,10 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
       text-decoration: underline;
     }
   }
+  .poem-card-link {
+    text-decoration: none;
+    color: var(--black);
+  }
   .poems__poem-data {
     background-color: var(--white);
     font-family: "Poets Electra";
@@ -130,6 +140,20 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
     }
     .poems__poem__date {
       font-size: 16px;
+    }
+    .poem-container__poem-fade-out {
+      position: absolute;
+      bottom: 73px;
+      height: 266px;
+      width: 100%;
+      background: -webkit-linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1)
+      );
+      background: linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1)
+      );
     }
   }
   .poems__poem-data.odd {
