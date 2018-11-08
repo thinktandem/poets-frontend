@@ -20,6 +20,8 @@
             <div class="poems__poem__poem">
               {{ poem.poem }}
             </div>
+            <div
+              class="poem-container__poem-fade-out"/>
             <div class="poems__poem__poet pt-3">
               {{ poem.poet }}
             </div>
@@ -130,6 +132,20 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
     }
     .poems__poem__date {
       font-size: 16px;
+    }
+    .poem-container__poem-fade-out {
+      position: absolute;
+      bottom: 73px;
+      height: 266px;
+      width: 100%;
+      background: -webkit-linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1)
+      );
+      background: linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1)
+      );
     }
   }
   .poems__poem-data.odd {
