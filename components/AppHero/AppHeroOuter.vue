@@ -21,7 +21,7 @@
         >{{ this.heading }}</h1>
         <p
           v-if="this.lead"
-          class="lead"
+          class="lead pb-3"
         >{{ this.lead }}</p>
         <div
           class="hero__subtext"
