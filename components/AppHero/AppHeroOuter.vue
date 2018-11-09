@@ -5,7 +5,7 @@
     bg-variant="primary"
     :class="variantStyle"
     fluid>
-    <b-row class="mx-auto">
+    <b-row>
       <b-col
         sm=12
         class="hero__poets-hp-link"
