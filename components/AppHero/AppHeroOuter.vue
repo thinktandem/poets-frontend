@@ -6,10 +6,12 @@
     :class="variantStyle"
     fluid>
     <b-row class="mx-auto">
-      <b-col
-        sm=12
-        class="hero__poets-hp-link"
-        v-html="this.logo"/>
+      <b-col sm=12>
+        <b-link
+          to="/"
+          class="hero__poets-hp-link"
+          v-html="this.logo"/>
+      </b-col>
       <b-col
         sm=12
         md=8
@@ -46,11 +48,7 @@ export default {
   props: {
     logo: {
       type: String,
-      default: `
-        <a href="/">
-          <span class="text-white">poets</span><span class="text-black">.org</span>
-        </a>
-      `,
+      default: `<span class="text-white">poets</span><span class="text-black">.org</span>`,
       required: false
     },
     heading: {
@@ -98,6 +96,9 @@ export default {
   font-size: 60px;
   font-weight: 700;
   line-height: 0.75;
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 
 .hero__heading {
