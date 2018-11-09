@@ -5,7 +5,7 @@
     bg-variant="primary"
     :class="variantStyle"
     fluid>
-    <b-row class="mx-auto">
+    <b-row>
       <b-col
         sm=12
         class="hero__poets-hp-link"
@@ -21,7 +21,7 @@
         >{{ this.heading }}</h1>
         <p
           v-if="this.lead"
-          class="lead"
+          class="lead pb-3"
         >{{ this.lead }}</p>
         <div
           class="hero__subtext"
