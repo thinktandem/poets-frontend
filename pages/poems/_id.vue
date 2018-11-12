@@ -86,7 +86,7 @@ Originally published in Poem-a-Day on May 7, 2015, by the Academy of American Po
   }
 
   .card-subtitle {
-    font-family: "Founders Grotesk";
+    font-family: $font-family-sans-serif;
     font-size: 1.25rem;
     line-height: 1.75rem;
     color: var(--black);
@@ -95,10 +95,10 @@ Originally published in Poem-a-Day on May 7, 2015, by the Academy of American Po
   .card-body {
     font-size: 1.25rem;
     line-height: 1.87rem;
-    font-family: "Poets Electra";
+    font-family: $font-family-serif;
   }
   .card--poem__attribution {
-    font-family: "Poets Electra";
+    font-family: $font-family-serif;
     font-size: 0.8rem;
     line-height: 1.25rem;
   }
