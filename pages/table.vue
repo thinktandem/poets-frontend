@@ -1,13 +1,18 @@
 <template>
-    $END$
+  <div>
+    <PoetList />
+  </div>
 </template>
 
 <script>
-  export default {
-    name: "table.vue"
+import PoetList from "~/components/PoetList";
+export default {
+  layout: "default",
+  components: {
+    PoetList
   }
+};
 </script>
 
-<style scoped>
-
+<style>
 </style>
