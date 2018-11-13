@@ -1,8 +1,14 @@
 module.exports = {
   modules: [
     //  '@nuxtjs/axios',
-    ["bootstrap-vue/nuxt", { css: false }]
+    ["bootstrap-vue/nuxt", { css: false }],
     //  'vue-youtube-embed'
+    [
+      "nuxt-sass-resources-loader",
+      {
+        resources: require("./assets/scss/imports.js")
+      }
+    ]
   ],
   plugins: [
     // '~/plugins/vue-youtube-embed',

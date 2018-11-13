@@ -42,6 +42,7 @@ $icon-font-path: '~open-iconic/font/fonts/';
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
 
+@import "base/grid";
 @import "base/typography";
 
 // Component CSS (Overrides to bootstrap CSS)
