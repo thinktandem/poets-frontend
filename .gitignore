@@ -15,3 +15,5 @@ dist
 .*.swp
 .env
 .DS_Store
+.idea
+.idea/*
