@@ -56,7 +56,7 @@ export default {
 Originally published in Poem-a-Day on May 7, 2015, by the Academy of American Poets.`
       },
       poet: {
-        image: "/static/images/speaker.png",
+        image: "/images/speaker.png",
         name: "some-name",
         slug: "some-name",
         poems: ["thing1", "thing2"],
