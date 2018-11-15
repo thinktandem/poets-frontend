@@ -55,13 +55,11 @@ export default {
   background-color: var(--gray-darkest);
 
   &__title {
-    height: 44px;
-    width: 276px;
-    color: #ffffff;
+    color: var(--white);
     font-family: "Poets Electra";
-    font-size: 40px;
+    font-size: 2.8rem;
     font-style: italic;
-    line-height: 44px;
+    line-height: 3rem;
     text-align: center;
   }
 }
