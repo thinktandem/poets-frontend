@@ -46,6 +46,7 @@ $icon-font-path: '~open-iconic/font/fonts/';
 @import "base/typography";
 
 // Component CSS (Overrides to bootstrap CSS)
+@import "components/atoms/breakpoint-visualizer";
 @import "components/atoms/button";
 @import "components/atoms/a--more";
 
