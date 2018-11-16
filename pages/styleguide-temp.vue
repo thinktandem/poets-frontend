@@ -4,12 +4,12 @@
       title="Poets"
       cardtype="Poet"
       :cards="poets"
-      :link="link"/>
+      :link="poetsLink"/>
     <CardDeck
       title="Poems"
       cardtype="PoemCard"
       :cards="poems"
-      :link="link"/>
+      :link="poemsLink"/>
 
   </div>
 </template>
@@ -97,10 +97,13 @@ And as for the bucket, Nantucket.`,
           }
         }
       ],
-
-      link: {
+      poemsLink: {
         href: "blah/blah",
         text: "More Poems"
+      },
+      poetsLink: {
+        href: "blah/blah",
+        text: "More Poets"
       }
     };
   }
