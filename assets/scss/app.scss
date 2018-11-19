@@ -49,8 +49,10 @@ $icon-font-path: '~open-iconic/font/fonts/';
 @import "components/atoms/breakpoint-visualizer";
 @import "components/atoms/button";
 @import "components/atoms/a--more";
+@import "components/atoms/input";
 
 @import "components/molecules/card";
+@import "components/molecules/form-group";
 
 @import "components/organisms/card-deck";
 @import "components/organisms/card-deck--poet";

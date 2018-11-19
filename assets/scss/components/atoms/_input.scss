@@ -1,0 +1,27 @@
+%input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gray-700);
+  font-weight: 500;
+
+  &:hover,
+  &:focus,
+  &:active {
+    border: 1px solid var(--gray-800);
+    outline: none;
+  }
+
+  & + .d-block {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+  }
+
+  & ~ small {
+    color: $body-color;
+  }
+}
+
+input.form-control {
+  @extend %input;
+}
