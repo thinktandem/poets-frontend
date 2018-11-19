@@ -16,4 +16,4 @@ dist
 .env
 .DS_Store
 .idea
-.idea/*
+test/output

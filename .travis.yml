@@ -22,7 +22,7 @@ script:
   # Run lint and styling checks
   - lando yarn lint
   # Run end to end tests
-  - lando yarn test
+  - lando test
   # Test build processes
   # We do this outside of lando because that is also what platform.sh does
   # @todo: these are not currently possible because of linux permission bugs in lando
