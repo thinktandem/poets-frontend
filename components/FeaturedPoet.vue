@@ -6,7 +6,8 @@
     itemtype="http://schema.org/Person">
     <b-img
       :src="img.src"
-      fluid-grow w-100/>
+      fluid-grow 
+      w-100/>
     <div class="featured-poet__name-bio">
       <h3
         class="featured-poet__name"
