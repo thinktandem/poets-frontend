@@ -28,4 +28,3 @@ script:
   # @todo: these are not currently possible because of linux permission bugs in lando
   # luckily platform.sh will test the below
   # - yarn generate
-  # - yarn buildstorybook

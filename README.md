@@ -36,9 +36,6 @@ cp .env.example .env
 # Serve the frontend with hot reload at localhost:3000
 yarn dev
 
-# Serve the styleguide at localhost:6006
-yarn storybook
-
 # Run linting
 yarn lint
 
@@ -54,9 +51,6 @@ You can also do this via `lando yarn` but makes more sense to use `yarn` straigh
 ```bash
 # Generate the frontend as a static HTML project
 yarn generate
-
-# Generate the styleguide as a static HTML project
-yarn buildstorybook
 ```
 
 Resources
