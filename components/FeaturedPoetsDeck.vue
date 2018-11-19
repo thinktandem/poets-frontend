@@ -53,6 +53,8 @@ export default {
 <style scoped lang="scss">
 .featured-poet-deck {
   background-color: var(--gray-darkest);
+  max-height: 710px;
+  overflow: visible;
 
   &__title {
     color: var(--white);
@@ -61,6 +63,7 @@ export default {
     font-style: italic;
     line-height: 3rem;
     text-align: center;
+    padding: 1.25rem 0;
   }
 }
 </style>

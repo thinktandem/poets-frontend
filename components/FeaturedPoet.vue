@@ -6,7 +6,7 @@
     itemtype="http://schema.org/Person">
     <b-img
       :src="img.src"
-      fluid-grow />
+      fluid-grow w-100/>
     <div class="featured-poet__name-bio">
       <h3
         class="featured-poet__name"
@@ -15,7 +15,7 @@
         <p>{{ bio }}</p>
         <a
           :href="link.href"
-          class="featured-poet__link">Read more about {{ name }}</a>
+          class="featured-poet__link">Read More</a>
       </div>
     </div>
   </b-card>
@@ -49,50 +49,51 @@ export default {
   margin: 0;
   position: relative;
   overflow: hidden;
-
+  background-color: transparent;
   .card-body {
     padding: 0;
+
+    img {
+      padding: 0 4%;
+      align-content: center;
+      background-color: transparent;
+    }
   }
 
   &__name-bio {
-    position: absolute;
-    top: calc(100% - 3.7rem);
-    bottom: 0;
-    transition: top 0.25s ease-in-out;
-    display: flex;
-    flex-direction: column;
-
-    &:hover,
-    &:focus,
-    &:active {
-      top: 0;
-    }
+    border-bottom: 3px solid var(--green);
+    background-color: var(--white);
+    padding: 3%;
   }
 
   &__name {
     margin: 0;
     padding: 1rem;
-    background-color: var(--gray-darkest);
-    border-bottom: 3px solid var(--green);
-    font-size: 1.25rem;
-    color: var(--white);
-    opacity: 0.9;
+    background-color: var(--white);
+    font-family: "Poets Electra";
+    font-size: 1.75rem;
+    font-style: italic;
+    color: var(--gray-900);
   }
 
   &__bio {
-    flex-grow: 1;
-    padding: 1rem;
-    color: var(--white);
-    background-color: var(--gray-800);
-    overflow: scroll;
+    font-size: 1.25rem;
+    line-height: 1.85rem;
+    font-family: "Poets Electra";
+    padding: 1% 8% 8%;
   }
 
   &__link {
-    color: var(--white);
-    font-weight: 700;
-    text-decoration: underline;
+    color: var(--blue-dark);
+    padding: 4% 0 2%;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    text-decoration: none;
+    font-family: "Founders Grotesk Text";
 
     &::after {
+      color: var(--green);
       content: " >";
     }
   }
