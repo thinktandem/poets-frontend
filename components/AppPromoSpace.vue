@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-black p-4">
+  <div class="bg-black p-4 promo">
     <b-container class="mx-auto my-1">
       <p class="text-center text-uppercase promo__disclosure">Advertisment</p>
       <b-img
-        class="mx-auto my-2"
+        class="mx-auto my-2 promo__image"
         fluid
         center
         blank

@@ -1,3 +1,11 @@
 Feature("Home");
 
-Scenario("test something", I => {});
+Scenario("Ad section is available on homepage", I => {
+  I.amOnPage("/");
+  I.seeElement(".promo__image");
+});
+
+Scenario("Poem-a-day is available on homepage", I => {
+  I.amOnPage("/");
+  I.seeElement(".poem-a-day-container");
+})
