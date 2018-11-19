@@ -8,7 +8,6 @@ hooks:
   build: |
     yarn install
     yarn generate
-    yarn buildstorybook
 size: S
 disk: 256
 web:
@@ -18,20 +17,6 @@ web:
     '/':
       passthru: false
       root: 'dist'
-      index:
-        - index.html
-      expires: 3d
-      allow: false
-      rules:
-        \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|html|ico|svg?)$:
-          allow: true
-        ^/robots\.txt$:
-          allow: true
-        search_plus_index\.json$:
-          allow: true
-    '/styleguide':
-      passthru: false
-      root: '.out'
       index:
         - index.html
       expires: 3d
