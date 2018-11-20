@@ -15,10 +15,10 @@
     "test": "codeceptjs run"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.3.0",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
     "createsend-node": "^0.8.2",
-    "dotenv": "^6.0.0",
     "fs": "^0.0.1-security",
     "node-sass": "^4.9.2",
     "nuxt": "^1.0.0",
