@@ -9,9 +9,6 @@ yarn-error.log
 .nuxt
 dist
 
-# Storybook
-.out
-
 .*.swp
 .env
 .DS_Store
