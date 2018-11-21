@@ -1,7 +1,8 @@
 <template>
   <b-card-group
     class="card-deck"
-    :class="'card-deck--'+cardtype">
+    :class="'card-deck--' + cardtype|lowercase"
+    deck>
     <b-container>
       <b-row>
         <b-col
@@ -21,7 +22,7 @@
         >
           <component
             :is="cardtype"
-            v-bind="card"/>
+            v-bind="card" />
         </b-col>
       </b-row>
     </b-container>
@@ -29,7 +30,14 @@
 </template>
 
 <script>
+import PoemCard from "~/components/Poems/PoemCard";
+import Poet from "~/components/Poet";
+
 export default {
+  components: {
+    PoemCard,
+    Poet
+  },
   props: {
     title: {
       type: String,
@@ -40,8 +48,8 @@ export default {
       default: ""
     },
     cards: {
-      type: Object,
-      default: function() {}
+      type: Array,
+      default: () => []
     },
     link: {
       type: Object,

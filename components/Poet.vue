@@ -10,7 +10,9 @@
     <div class="poet__name-bio">
       <h3
         class="poet__name"
-        itemprop="name">{{ name }}</h3>
+        itemprop="name">
+        {{ name }}
+      </h3>
       <div class="poet__bio">
         <p>{{ bio }}</p>
         <a
@@ -49,6 +51,7 @@ export default {
   margin: 0;
   position: relative;
   overflow: hidden;
+  border: none;
 
   .card-body {
     padding: 0;
@@ -94,6 +97,12 @@ export default {
 
     &::after {
       content: " >";
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--white);
     }
   }
 }
