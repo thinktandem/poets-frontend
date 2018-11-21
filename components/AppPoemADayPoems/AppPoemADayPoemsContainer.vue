@@ -131,28 +131,28 @@ export default {
       </p>
       <p>
       in not causing harm. My pride. I’m not like
-      so-and-so. My pink skin preaching, my pink skin 
-      yawping out my other hole, “I did not choke 
+      so-and-so. My pink skin preaching, my pink skin
+      yawping out my other hole, “I did not choke
       </p>
       <p>
-      the man with my elbow!” “Would never!” 
+      the man with my elbow!” “Would never!”
       “I let all the boys in hoodies walk
       through dark streets.” “I did not shoot
       </p>
       <p>
       them with my guns!” The ship rising
-      up inside me. As if the fox felt pride 
+      up inside me. As if the fox felt pride
       for not tearing the bird to pieces. As if
       </p>
       <p>
-      the owl’s heart grew large from not 
-      wrecking the squirrel’s nest. My pink skin 
+      the owl’s heart grew large from not
+      wrecking the squirrel’s nest. My pink skin
       a sail full of indignation. My eyes pitching
       </p>
       <p>
       across the feed. It is so good to be home
-      and yet. I have a ship inside. How can 
-      the organ welcome me? I’m not a sow 
+      and yet. I have a ship inside. How can
+      the organ welcome me? I’m not a sow
       </p>
       <p>
       on her worst day. Which would be what?
@@ -160,13 +160,13 @@ export default {
       and rolling in the mud? No.
       </p>
       <p>
-      Her worst would be at my hands 
+      Her worst would be at my hands
       and on my plate for supper. Grow
       like the tree, the man who heals
       </p>
       <p>
       the bodies said. In every way I became
-      the ship rising in the harbor. 
+      the ship rising in the harbor.
       How can I be welcomed after that?
       </p>
 `;
@@ -217,7 +217,7 @@ export default {
       bottom: 0;
       left: 0;
       width: 100%;
-      font-family: "Poets Electra";
+      font-family: $font-family-serif;
       .poem-a-day-container__poem-title {
         font-size: 28px;
         font-style: italic;
@@ -251,7 +251,7 @@ export default {
         width: 146px;
         color: var(--white);
         background-color: var(--blue-dark);
-        font-family: "Founders Grotesk Text";
+        font-family: $font-family-sans-serif;
         text-align: center;
         font-size: 16px;
         font-weight: 500;

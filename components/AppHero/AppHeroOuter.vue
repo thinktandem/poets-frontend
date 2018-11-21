@@ -101,13 +101,13 @@ export default {
 }
 
 .hero__heading {
-  font-family: "Poets Electra Roman No 2";
+  font-family: $font-family-serif;
   font-style: italic;
   font-weight: 500;
 }
 
 .lead {
-  font-family: "Poets Electra";
+  font-family: $font-family-serif;
   font-size: 1.9rem;
   line-height: 2.4rem;
 }

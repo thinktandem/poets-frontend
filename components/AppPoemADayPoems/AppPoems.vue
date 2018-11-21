@@ -100,12 +100,12 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
   z-index: 111;
   background: linear-gradient(90deg, #e6e7e8 0%, #c9cacb 100%);
   .poems__section-header {
-    font-family: "Poets Electra";
+    font-family: $font-family-serif;
     font-style: italic;
     font-size: 70px;
   }
   .poems__section-counter {
-    font-family: "Founders Grotesk Text";
+    font-family: $font-family-sans-serif;
     font-size: 30px;
     font-weight: 500;
     text-align: right;
@@ -120,7 +120,7 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
   }
   .poems__poem-data {
     background-color: var(--white);
-    font-family: "Poets Electra";
+    font-family: $font-family-serif;
     width: 486px;
     overflow: hidden;
     border-bottom: 4px var(--green) solid;
@@ -134,7 +134,7 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
       overflow: hidden;
     }
     .poems__poem__poet {
-      font-family: "Founders Grotesk Text";
+      font-family: $font-family-sans-serif;
       font-size: 20px;
       font-weight: 500;
     }
