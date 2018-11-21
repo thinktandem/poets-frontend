@@ -6,22 +6,18 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "buildstorybook": "build-storybook -o .out",
-    "deploystorybook": "rm -fr .out && npm run buildstorybook && echo 'poetsstyles.clients.thinktandem.io' > '.out/CNAME' && storybook-to-ghpages --ci --existing-output-dir=.out",
     "dev": "nuxt",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "start": "nuxt start",
-    "storybook": "start-storybook -p 6006",
     "test": "codeceptjs run"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.3.0",
     "bootstrap-vue": "^2.0.0-rc.11",
-    "createsend-node": "^0.8.2",
-    "dotenv": "^6.0.0",
     "fs": "^0.0.1-security",
     "node-sass": "^4.9.2",
     "nuxt": "^1.0.0",
@@ -33,11 +29,6 @@
     "vue2-filters": "^0.3.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/addon-links": "^3.4.11",
-    "@storybook/addons": "^3.4.11",
-    "@storybook/storybook-deployer": "^2.3.0",
-    "@storybook/vue": "^3.4.11",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.0",
     "babel-preset-vue": "^2.0.2",
