@@ -1,6 +1,9 @@
+require("dotenv").config();
+
 module.exports = {
   modules: [
-    //  '@nuxtjs/axios',
+    "@nuxtjs/axios",
+    "@nuxtjs/dotenv",
     ["bootstrap-vue/nuxt", { css: false }],
     //  'vue-youtube-embed'
     [
@@ -11,6 +14,7 @@ module.exports = {
     ]
   ],
   plugins: [
+    "~/plugins/vue2-filters"
     // '~/plugins/vue-youtube-embed',
   ],
   css: ["~assets/css/fonts.css", "~assets/scss/app.scss"],
