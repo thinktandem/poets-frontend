@@ -61,7 +61,7 @@ export default {
   }
 }
 .poets-electra {
-  font-family: "Poets Electra Roman No 2";
+  font-family: $font-family-serif;
   font-style: italic;
 }
 </style>

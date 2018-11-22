@@ -14,6 +14,7 @@ module.exports = {
     ]
   ],
   plugins: [
+    "~/plugins/vue2-filters"
     // '~/plugins/vue-youtube-embed',
   ],
   css: ["~assets/css/fonts.css", "~assets/scss/app.scss"],
