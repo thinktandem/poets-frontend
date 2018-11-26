@@ -5,22 +5,18 @@
 
 .btn-sm {
   line-height: 1;
-  padding-top: $btn-padding-y-sm * 1.33;
-  padding-bottom: $btn-padding-y-sm * .666;
+  padding: $btn-padding-y-sm * 1.33;
 }
 
 .btn-md {
   line-height: 1;
-  padding-bottom: $btn-padding-y * .666;
 }
 
 .btn-lg {
   line-height: 1;
-  padding-bottom: $btn-padding-y-lg * .666;
 }
 
 .input-group-append .btn {
   line-height: 1;
-  padding: $btn-padding-y * .5 $btn-padding-x * 1.5;
+  padding: $btn-padding-y * 0.5 ;
 }
-

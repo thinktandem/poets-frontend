@@ -65,20 +65,20 @@ $link-color: $blue-dark;
 // Fonts
 $font-size-base: 1rem;
 $font-family-sans-serif: "Founders Grotesk",
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-Roboto,
-"Helvetica Neue",
-Arial,
-sans-serif,
-"Apple Color Emoji",
-"Segoe UI Emoji",
-"Segoe UI Symbol" !default;
-$font-family-serif: "Poets Electra",
-"Georgia",
-"Times New Roman",
-serif;
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  "Helvetica Neue",
+  Arial,
+  sans-serif,
+  "Apple Color Emoji",
+  "Segoe UI Emoji",
+  "Segoe UI Symbol";
+$font-family-serif: "Poets Electra Roman No 2",
+  "Georgia",
+  "Times New Roman",
+  serif;
 
 $font-weight-base: 500;
 
@@ -90,9 +90,9 @@ $box-shadow-sm: 0 .1rem .25rem rgba(black, .25);
 // Default border radius;
 $border-radius: 0;
 // Buttons
-$input-btn-padding-y: .25rem !default;
-$input-btn-padding-x: .75rem !default;
-$input-btn-font-size: $font-size-base !default;
+$input-btn-padding-y: .25rem;
+$input-btn-padding-x: .75rem;
+$input-btn-font-size: $font-size-base;
 $btn-padding-y: .6rem;
 
 // Inputs
@@ -113,7 +113,7 @@ $navbar-toggler-border-radius: 0;
 
 $navbar-dark-color: $white;
 $navbar-dark-hover-color: $white;
-$navbar-dark-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#59D6FF' stroke-width='3' stroke-linecap='square' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
+$navbar-dark-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#59D6FF' stroke-width='3' stroke-linecap='square' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 
 // List groups
 $list-group-border-radius: 0;

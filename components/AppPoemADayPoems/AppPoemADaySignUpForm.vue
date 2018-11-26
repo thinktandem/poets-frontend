@@ -66,7 +66,7 @@ export default {
     }
   }
   .poem-a-day-sign-up__title {
-    font-family: "Founders Grotesk Text";
+    font-family: $font-family-sans-serif;
     font-size: 26px;
     font-weight: 600;
   }
