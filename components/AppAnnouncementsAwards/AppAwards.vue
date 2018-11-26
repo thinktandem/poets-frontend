@@ -35,15 +35,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-// So we can access breakpoints / spacer
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
 .awards {
   // text-align: center;
   background-color: var(--gray-100);
   .poets-electra {
-    font-family: "Poets Electra Roman No 2";
+    font-family: $font-family-serif;
     font-style: italic;
     text-align: center;
   }
