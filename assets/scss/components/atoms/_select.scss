@@ -1,0 +1,12 @@
+%select {
+  background-image: url(/assets/img/select.svg);
+  background-size: 0.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+select.form-control {
+  @extend %select;
+}
