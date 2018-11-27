@@ -1,0 +1,13 @@
+%form-group {
+  position: relative;
+  margin-bottom: 2rem;
+
+  > div {
+    position: relative;
+  }
+}
+
+
+.form-group {
+  @extend %form-group;
+}
