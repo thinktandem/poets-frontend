@@ -11,6 +11,7 @@
       :cards="poems"
       :link="poemsLink"/>
 
+    <StyleguideForm/>
   </div>
 </template>
 
@@ -18,12 +19,14 @@
 import PoemCard from "~/components/Poems/PoemCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
+import StyleguideForm from "~/components/Form/StyleguideForm";
 export default {
   layout: "default",
   components: {
     PoemCard,
     CardDeck,
-    Poet
+    Poet,
+    StyleguideForm
   },
   data() {
     return {
