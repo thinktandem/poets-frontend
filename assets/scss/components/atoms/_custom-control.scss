@@ -1,0 +1,55 @@
+%custom-control {
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    &:hover {
+      cursor: pointer;
+
+      &::before {
+        border: $form__border--hover;
+      }
+    }
+
+    &::before {
+      border: $form__border;
+      background-color: transparent;
+    }
+
+    span {
+      // Make sure there's no gap between the checkbox and the label.
+      display: inline-block;
+      transform: translateX(-0.5rem);
+      padding-left: 0.5rem;
+    }
+  }
+
+  .custom-control-input {
+    &:focus,
+    &:active {
+      ~ .custom-control-label {
+        &::before {
+          border: $form__border--focus;
+          box-shadow: none;
+        }
+      }
+    }
+
+    &[disabled] {
+      ~ .custom-control-label {
+        &:hover {
+          cursor: not-allowed;
+
+          &::before {
+            border: $form__border;
+          }
+        }
+      }
+    }
+  }
+}
+
+.custom-control {
+  @extend %custom-control;
+}
