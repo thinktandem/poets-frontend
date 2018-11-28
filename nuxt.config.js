@@ -60,5 +60,8 @@ module.exports = {
         };
       }
     }
+  },
+  env: {
+    baseUrl: process.env.API_URL || "https://poets.org"
   }
 };
