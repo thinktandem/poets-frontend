@@ -1,17 +1,33 @@
 <template>
   <div>
-    <CardDeck
-      title="Poets"
-      cardtype="Poet"
-      :cards="poets"
-      :link="poetsLink"/>
-    <CardDeck
-      title="Poems"
-      cardtype="PoemCard"
-      :cards="poems"
-      :link="poemsLink"/>
+    <div class="styleguide-item">
+      <CardDeck
+        title="Poets"
+        cardtype="Poet"
+        :cards="poets"
+        :link="poetsLink"/>
+    </div>
 
-    <StyleguideForm/>
+    <div class="styleguide-item">
+      <CardDeck
+        title="Poems"
+        cardtype="PoemCard"
+        :cards="poems"
+        :link="poemsLink" />
+    </div>
+
+    <div class="styleguide-item">
+      <StyleguideForm />
+    </div>
+
+    <b-container class="styleguide-item">
+      <b-row>
+        <b-col cols="12">
+          <h2>Feature</h2>
+          <FeatureCard v-bind="featurecard" />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -20,16 +36,32 @@ import PoemCard from "~/components/Poems/PoemCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
+import FeatureCard from "~/components/FeatureCard";
+
 export default {
   layout: "default",
   components: {
     PoemCard,
     CardDeck,
     Poet,
-    StyleguideForm
+    StyleguideForm,
+    FeatureCard
   },
   data() {
     return {
+      featurecard: {
+        title: "Emily Skaja: Brute",
+        subtitle: "2018 Walt Whiteman Award",
+        text:
+          "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper.",
+        img: {
+          src: "https://placekitten.com/g/400/450",
+          alt: "Kitty cat says meow."
+        },
+        link: {
+          href: "blah/blah"
+        }
+      },
       poems: [
         {
           title: "A Poem About a Thing",
@@ -114,4 +146,7 @@ And as for the bucket, Nantucket.`,
 </script>
 
 <style>
+.styleguide-item {
+  margin-bottom: 4rem;
+}
 </style>
