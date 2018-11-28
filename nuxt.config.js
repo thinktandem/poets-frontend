@@ -3,7 +3,7 @@
 module.exports = {
   modules: [
     "@nuxtjs/axios",
-    // "@nuxtjs/dotenv",
+    //  "@nuxtjs/dotenv",
     ["bootstrap-vue/nuxt", { css: false }],
     // 'vue-youtube-embed'
     [
