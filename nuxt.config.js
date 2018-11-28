@@ -62,6 +62,6 @@ module.exports = {
     }
   },
   env: {
-    baseUrl: process.env.API_URL || "https://poets.org"
+    baseURL: process.env.API_URL || "https://poets.org"
   }
 };
