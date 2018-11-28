@@ -44,13 +44,8 @@ import AppPoems from "../../components/AppPoemADayPoems/AppPoems";
 export default {
   components: { AppPoemADaySignUpForm, AppPoems },
   async asyncData({ app, params }) {
-    const options = {
-      method: "GET",
-      url: "http://apipoetsd8.lndo.site" + "/api/poems"
-    };
-
-    return app
-      .$axios(options)
+    return app.$axios
+      .get(`/api/poems`, {})
       .then(res => {
         return {
           poems: res.data
@@ -63,7 +58,6 @@ export default {
   methods: {
     getPoemTitle(viewNode) {
       const title = viewNode.split("/");
-
       return title[3];
     }
   }
@@ -71,10 +65,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/functions";
-
 .poems-list__row {
   border-bottom: 1px solid #ccc;
   font-size: 18px;
