@@ -6,7 +6,9 @@
           <b-card
             :title="poem.attributes.title"
             class="card--main">
-            <div class="card-subtitle">
+            <div
+              class="card-subtitle"
+              v-if="`${poet} !== null`">
               {{ poet.attributes.title }} -
               {{ poet.field_dob }} - {{ poet.field_dod }}
             </div>
@@ -42,34 +44,28 @@ import AppPoems from "../../components/AppPoemADayPoems/AppPoems";
 export default {
   components: { AppPoemADaySignUpForm, AppPoems },
   async asyncData({ app, params }) {
-    const options = {
-      method: "GET",
-      url: "http://apipoetsd8.lndo.site" + "/router/translate-path",
-      params: {
-        path: "poetsorg/poem/" + params.title
-      }
-    };
-
-    return app
-      .$axios(options)
+    return app.$axios
+      .get(`/router/translate-path`, {
+        params: {
+          path: "poetsorg/poem/" + params.title
+        }
+      })
       .then(res => {
-        const moreOptions = {
-          method: "GET",
-          url:
-            "http://apipoetsd8.lndo.site/api/node/poems/" +
-            res.data.entity.uuid,
-          params: {
-            include: "field_author"
-          }
-        };
-
-        return app
-          .$axios(moreOptions)
+        return app.$axios
+          .get(`/api/node/poems/` + res.data.entity.uuid, {
+            params: {
+              include: "field_author"
+            }
+          })
           .then(res => {
-            console.log("authTst", res.data.included[0]);
+            console.log("authTst", res.data);
+            let myPoet = null;
+            if ("included" in res.data) {
+              myPoet = res.data.included[0];
+            }
             return {
               poem: res.data.data,
-              poet: res.data.included[0]
+              poet: myPoet
             };
           })
           .catch(err => {
