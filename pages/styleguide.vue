@@ -20,14 +20,13 @@
       <StyleguideForm />
     </div>
 
-    <b-container class="styleguide-item">
-      <b-row>
-        <b-col cols="12">
-          <h2>Feature</h2>
-          <FeatureCard v-bind="featurecard" />
-        </b-col>
-      </b-row>
-    </b-container>
+    <div class="styleguide-item">
+      <CardDeck
+        title="Features"
+        cardtype="FeatureCard"
+        :cards="featureCards"
+        :link="poemsLink" />
+    </div>
   </div>
 </template>
 
@@ -49,19 +48,45 @@ export default {
   },
   data() {
     return {
-      featurecard: {
-        title: "Emily Skaja: Brute",
-        subtitle: "2018 Walt Whiteman Award",
-        text:
-          "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper.",
-        img: {
-          src: "https://placekitten.com/g/400/450",
-          alt: "Kitty cat says meow."
+      featureCards: [
+        {
+          title: "Emily Skaja: Brute",
+          subtitle: "2018 Walt Whiteman Award",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper.",
+          img: {
+            src: "https://placekitten.com/g/400/500",
+            alt: "Kitty cat says meow."
+          },
+          link: {
+            href: "blah/blah"
+          }
         },
-        link: {
-          href: "blah/blah"
+        {
+          title: "Mike 'Pirog' Pirog Wins again",
+          subtitle: "2005 Best in Show",
+          text:
+            "Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.",
+          video:
+            "<iframe width='560' height='315' src='https://www.youtube.com/embed/imqapaYAPbY' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>",
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          title: "Donna Bungard",
+          subtitle: "Protector of the Buns",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper.",
+          img: {
+            src: "https://placekitten.com/g/400/450",
+            alt: "Kitty cat says meow."
+          },
+          link: {
+            href: "blah/blah"
+          }
         }
-      },
+      ],
       poems: [
         {
           title: "A Poem About a Thing",
