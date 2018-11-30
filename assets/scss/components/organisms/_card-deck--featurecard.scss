@@ -1,0 +1,55 @@
+%card-deck--featurecard {
+  .card-deck__cards {
+    flex-wrap: wrap;
+
+    .card-deck__card {
+      width: 100%;
+      flex-basis: 100%;
+      margin-bottom: 2rem;
+
+      &:nth-child(even) {
+        @include media-breakpoint-up(lg) {
+          padding-right: 4rem;
+        }
+
+        @include media-breakpoint-up(xl) {
+          padding-right: 8rem;
+        }
+
+        .card {
+          @include media-breakpoint-up(md) {
+            flex-direction: row-reverse;
+          }
+
+          .card-footer {
+            left: auto;
+            right: 2rem;
+          }
+        }
+      }
+
+      &:nth-child(odd) {
+        @include media-breakpoint-up(lg) {
+          padding-left: 4rem;
+        }
+
+        @include media-breakpoint-up(xl) {
+          padding-left: 8rem;
+        }
+      }
+
+      .card {
+        background-color: transparent;
+        border: none;
+
+        @include media-breakpoint-up(md) {
+          flex-direction: row;
+        }
+      }
+    }
+  }
+}
+
+.card-deck--featurecard {
+  @extend %card-deck--featurecard;
+}
