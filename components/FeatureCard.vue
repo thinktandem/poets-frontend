@@ -87,8 +87,6 @@ $feature__img__offset: 2rem;
   border: none;
   overflow: hidden;
 
-  margin-bottom: 2rem; // TODO: DELETE ME WHEN DECK IS IMPLEMENTED.
-
   @include media-breakpoint-up(md) {
     flex-direction: row;
   }
