@@ -8,8 +8,12 @@
       margin-bottom: 2rem;
 
       &:nth-child(even) {
-        @include media-breakpoint-up(md) {
-          margin-right: 4rem;
+        @include media-breakpoint-up(lg) {
+          padding-right: 4rem;
+        }
+
+        @include media-breakpoint-up(xl) {
+          padding-right: 8rem;
         }
 
         .card {
@@ -25,8 +29,12 @@
       }
 
       &:nth-child(odd) {
-        @include media-breakpoint-up(md) {
-          margin-left: 4rem;
+        @include media-breakpoint-up(lg) {
+          padding-left: 4rem;
+        }
+
+        @include media-breakpoint-up(xl) {
+          padding-left: 8rem;
         }
       }
 
