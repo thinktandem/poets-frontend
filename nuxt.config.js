@@ -1,11 +1,8 @@
-require("dotenv").config();
-
 module.exports = {
   modules: [
     "@nuxtjs/axios",
-    "@nuxtjs/dotenv",
     ["bootstrap-vue/nuxt", { css: false }],
-    //  'vue-youtube-embed'
+    // 'vue-youtube-embed'
     [
       "nuxt-sass-resources-loader",
       {
@@ -60,5 +57,8 @@ module.exports = {
         };
       }
     }
+  },
+  env: {
+    baseURL: process.env.API_URL || "https://poets.org"
   }
 };

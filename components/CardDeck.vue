@@ -1,6 +1,5 @@
 <template>
   <b-card-group
-    class="card-deck"
     :class="'card-deck--' + cardtype|lowercase"
     deck>
     <b-container>
@@ -12,7 +11,7 @@
           <a :href="link.href">{{ link.text }}</a>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="card-deck__cards">
         <b-col
           cols="12"
           md
@@ -32,11 +31,13 @@
 <script>
 import PoemCard from "~/components/Poems/PoemCard";
 import Poet from "~/components/Poet";
+import FeatureCard from "~/components/FeatureCard";
 
 export default {
   components: {
     PoemCard,
-    Poet
+    Poet,
+    FeatureCard
   },
   props: {
     title: {
