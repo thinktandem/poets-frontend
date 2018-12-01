@@ -27,6 +27,15 @@
         :cards="featureCards"
         :link="poemsLink" />
     </div>
+
+    <b-container class="styleguide-item">
+      <b-row>
+        <b-col cols="12">
+          <h2>Poet List</h2>
+          <PoetList />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -36,6 +45,7 @@ import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
+import PoetList from "~/components/PoetList";
 
 export default {
   layout: "default",
@@ -44,7 +54,8 @@ export default {
     CardDeck,
     Poet,
     StyleguideForm,
-    FeatureCard
+    FeatureCard,
+    PoetList
   },
   data() {
     return {
