@@ -16,7 +16,7 @@ export default {
       Next: Next
     };
   },
-  getNumPages(app, url) {
+  getNumPages(app, url, numPerPage) {
     return app.$axios
       .get(url, {
         params: {
@@ -26,7 +26,7 @@ export default {
       })
       .then(res => {
         const total = res.data.meta.count;
-        const pages = Math.floor(total / 50);
+        const pages = Math.floor(total / numPerPage);
         return {
           numPages: pages
         };
