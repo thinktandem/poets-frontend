@@ -1263,6 +1263,11 @@ bluebird@^3.1.1, bluebird@^3.4.7, bluebird@^3.5.1:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
   integrity sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA==
 
+bluebird@~3.3.4:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.3.5.tgz#5ee747f1c7bd967658b683936430aee753955a34"
+  integrity sha1-XudH8ce9lnZYtoOTZDCu51OVWjQ=
+
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
@@ -2635,7 +2640,7 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-ejs@^2.5.7:
+ejs@^2.5.5, ejs@^2.5.7:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
@@ -4051,6 +4056,11 @@ in-publish@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/in-publish/-/in-publish-2.0.0.tgz#e20ff5e3a2afc2690320b6dc552682a9c7fadf51"
   integrity sha1-4g/146KvwmkDILbcVSaCqcf631E=
+
+incoming-message-hash@~3.2.1:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/incoming-message-hash/-/incoming-message-hash-3.2.2.tgz#9e3b6d86f94354450f41829a3155eee59608a4f1"
+  integrity sha1-njtthvlDVEUPQYKaMVXu5ZYIpPE=
 
 indent-string@^2.1.0:
   version "2.1.0"
@@ -8891,6 +8901,17 @@ y18n@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
   integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+
+yakbak@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/yakbak/-/yakbak-3.0.0.tgz#ec178bcb6470642a6e062cfb6d95bee0bdbc352d"
+  integrity sha1-7BeLy2RwZCpuBiz7bZW+4L28NS0=
+  dependencies:
+    bluebird "~3.3.4"
+    debug "^3.1.0"
+    ejs "^2.5.5"
+    incoming-message-hash "~3.2.1"
+    mkdirp "~0.5.0"
 
 yallist@^2.1.2:
   version "2.1.2"
