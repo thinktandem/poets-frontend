@@ -3,7 +3,8 @@
     class="newsletter">
     <h3 class="signup-title">Newsletter Sign Up</h3>
     <div class="newsletter__form">
-      <form>
+      <form
+        @submit.prevent="newsletterSignup">
         <b-form-checkbox
           v-model="aapn"
           type="checkbox"
@@ -36,7 +37,8 @@
           Poem-a-Day
         </b-form-checkbox>
         <b-form-input
-          v-model="email"
+          v-model="newsletterEmail"
+          id="newsletterEmail"
           size="9"
           type="email"
           placeholder="john@example.com"/>
@@ -53,29 +55,35 @@
 <script>
 export default {
   components: {},
-  data {
+  data() {
     return {
-      email: ""
+      aapn: false,
+      aapen: false,
+      aapttp: false,
+      aappad: false,
+      newsletterEmail: ""
     };
   },
   methods: {
     newsletterSignup() {
-      console.log(this.aapttp);
-      // const body = {
-      //   email: this.email,
-      //   forms: {
-      //     "aappad"
-      //   }
-      // };
-      // this.$axios
-      //   .post("/api/cm/poem-a-day", body)
-      //   .then(req => {
-      //     console.log("Post req sent");
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-      // this.$router.push("/newsletter-thanks");
+      const body = {
+        email: this.newsletterEmail,
+        forms: {
+          aapn: this.aapn | false,
+          aapen: this.aapen | false,
+          aapttp: this.aapttp | false,
+          aappad: this.aappad | false
+        }
+      };
+      this.$axios
+        .post("/api/cm/poem-a-day", body)
+        .then(req => {
+          console.log("Post req sent");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$router.push("/newsletter-thanks");
     }
   }
 };

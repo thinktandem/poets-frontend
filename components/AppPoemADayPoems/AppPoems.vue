@@ -11,7 +11,7 @@
         <div class="row">
           <div
             v-for="(poem, index) in poems"
-            :key="poem.link"
+            :key="`${index}-${poem.link}`"
             :class="isEven(index)"
             class="col-sm-12 col-md-5 poems__poem-data m-3">
             <a
