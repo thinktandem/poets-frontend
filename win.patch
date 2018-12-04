@@ -1,0 +1,49 @@
+diff --git a/.lando.yml b/.lando.yml
+index de18902..0443d52 100644
+--- a/.lando.yml
++++ b/.lando.yml
+@@ -5,7 +5,7 @@ proxy:
+ services:
+   appserver:
+     type: node:10
+-    command: cp -n /app/.env.example /app/.env && yarn dev --hostname 0.0.0.0 --port 80 --max-old-space-size=8192
++    command: cp -n /app/.env.example /app/.env && yarn dev --hostname 0.0.0.0 --port 80
+     install_dependencies_as_me:
+       - yarn install
+   yakbak:
+diff --git a/README.md b/README.md
+index 03cf52b..b6e817a 100644
+--- a/README.md
++++ b/README.md
+@@ -23,6 +23,10 @@ lando yarn lint
+ lando yarn test
+ ```
+ 
++#### Note About Memory Usage
++
++Nuxt frequently uses an ungodly amount of memory when it's just doing it normal thing, and by default, Docker for Mac only gives the Docker VM 2GB of memory by default, which means that Node/Docker will frequently run out of memory while trying to compile the application. For maximum awesomeness, you should increase your allottment of ram to at least 4GB.
++
+ ### 2. Using Yarn
+ 
+ ``` bash
+@@ -53,6 +57,7 @@ You can also do this via `lando yarn` but makes more sense to use `yarn` straigh
+ yarn generate
+ ```
+ 
++
+ Resources
+ ---------
+ 
+diff --git a/package.json b/package.json
+index 4d4441e..c8554b7 100644
+--- a/package.json
++++ b/package.json
+@@ -6,7 +6,7 @@
+   "private": true,
+   "scripts": {
+     "build": "nuxt build",
+-    "dev": "nuxt",
++    "dev": "NODE_OPTIONS='--max-old-space-size=8092' nuxt",
+     "generate": "nuxt generate",
+     "lint": "eslint --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
+     "lintfix": "eslint --fix --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
