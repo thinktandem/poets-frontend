@@ -27,6 +27,15 @@
         :cards="featureCards"
         :link="poemsLink" />
     </div>
+
+    <b-container class="styleguide-item">
+      <b-row>
+        <b-col cols="12">
+          <h2>Poet List</h2>
+          <PoetList :items="poetListItems" />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -36,6 +45,7 @@ import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
+import PoetList from "~/components/PoetList";
 
 export default {
   layout: "default",
@@ -44,7 +54,8 @@ export default {
     CardDeck,
     Poet,
     StyleguideForm,
-    FeatureCard
+    FeatureCard,
+    PoetList
   },
   data() {
     return {
@@ -164,7 +175,43 @@ And as for the bucket, Nantucket.`,
       poetsLink: {
         href: "blah/blah",
         text: "More Poets"
-      }
+      },
+      poetListItems: [
+        {
+          isActive: true,
+          age: 40,
+          name: { first: "Dickerson", last: "Macdonald" }
+        },
+        {
+          isActive: false,
+          age: 21,
+          name: { first: "Larsen", last: "Shaw" }
+        },
+        {
+          isActive: false,
+          age: 9,
+          name: { first: "Mini", last: "Navarro" },
+          _rowVariant: "success"
+        },
+        { isActive: false, age: 89, name: { first: "Geneva", last: "Wilson" } },
+        { isActive: true, age: 38, name: { first: "Jami", last: "Carney" } },
+        { isActive: false, age: 27, name: { first: "Essie", last: "Dunlap" } },
+        { isActive: true, age: 40, name: { first: "Thor", last: "Macdonald" } },
+        {
+          isActive: true,
+          age: 87,
+          name: { first: "Larsen", last: "Shaw" },
+          _cellVariants: { age: "danger", isActive: "warning" }
+        },
+        { isActive: false, age: 26, name: { first: "Mitzi", last: "Navarro" } },
+        {
+          isActive: false,
+          age: 22,
+          name: { first: "Genevieve", last: "Wilson" }
+        },
+        { isActive: true, age: 38, name: { first: "John", last: "Carney" } },
+        { isActive: false, age: 29, name: { first: "Dick", last: "Dunlap" } }
+      ]
     };
   }
 };

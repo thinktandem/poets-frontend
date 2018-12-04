@@ -15,10 +15,12 @@ module.exports = {
   ],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    "prettier"
   ],
   // add your custom rules here
   rules: {
+    "prettier/prettier": ["error"],
     "arrow-parens": ["error", "as-needed"],
   }
 }
