@@ -17,7 +17,11 @@ const opts = {
     "date",
     "cookie",
     "if-none-match",
-    "user-agent"
+    "user-agent",
+    "upgrade-insecure-requests",
+    "cache-control",
+    "referer",
+    "connection"
   ],
   fallbackMode: "proxy"
 };
