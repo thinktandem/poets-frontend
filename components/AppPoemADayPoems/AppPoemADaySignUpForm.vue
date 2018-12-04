@@ -26,9 +26,12 @@
     <div class="poem-a-day-sign-up__description pt-2 pb-2">
       Receive a new poem in your inbox daily
     </div>
-    <form>
+    <form
+      class="poem-a-day-signup-form"
+      @submit.prevent="poemADaySignup">
       <label class="sr-only">Email Address</label>
       <input
+        v-model="email"
         type="text"
         placeholder="john@example.com"
         class="form-control">
@@ -48,7 +51,25 @@ export default {
    * @return {{ announcements: {date: string, title: string, link: string}[]}}
    */
   data() {
-    return {};
+    return {
+      email: ""
+    };
+  },
+  methods: {
+    poemADaySignup() {
+      const body = {
+        email: this.email
+      };
+      this.$axios
+        .post("/api/cm/poem-a-day", body)
+        .then(req => {
+          console.log("Post req sent");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$router.push("/poem-a-day-thanks");
+    }
   }
 };
 </script>
