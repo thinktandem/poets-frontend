@@ -23,6 +23,10 @@ lando yarn lint
 lando yarn test
 ```
 
+#### Note About Memory Usage
+
+Nuxt frequently uses an ungodly amount of memory when it's just doing its normal thing, and by default, Docker for Mac only gives the Docker VM 2GB of memory, which means that Node/Docker will frequently run out of memory while trying to compile the application. For maximum awesomeness, you should increase your allotment of ram to at least 4GB. You can also go whole-hog and up the memory to 8GB.
+
 ### 2. Using Yarn
 
 ``` bash
