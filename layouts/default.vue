@@ -17,7 +17,6 @@
 import AppNavigation from "~/components/AppNavigation";
 import AppPromoSpace from "~/components/AppPromoSpace";
 import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
-import AppPoemADayPoemsContainer from "~/components/AppPoemADayPoems/AppPoemADayPoemsContainer";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
@@ -27,7 +26,6 @@ export default {
     AppNavigation,
     AppPromoSpace,
     AppHeroOuter,
-    AppPoemADayPoemsContainer,
     AppAnnouncementsAwards,
     AppFooterPrimary,
     AppFooterUtility

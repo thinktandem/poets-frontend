@@ -17,6 +17,7 @@ before_install:
   - node --version
   - yarn --version
   - lando version
+  - cp .env.travis .env
 install: lando start
 script:
   # Run lint and styling checks

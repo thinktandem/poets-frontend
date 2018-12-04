@@ -19,7 +19,7 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "fs": "^0.0.1-security",
     "node-sass": "^4.9.2",
-    "nuxt": "^1.0.0",
+    "nuxt": "^1.4.5",
     "nuxt-sass-resources-loader": "^2.0.5",
     "open-iconic": "^1.1.1",
     "precss": "^3.1.2",
@@ -41,6 +41,7 @@
     "eslint-plugin-vue": "^4.7.1",
     "jsdom": "^12.0.0",
     "prettier": "^1.14.3",
-    "puppeteer": "^1.8.0"
+    "puppeteer": "^1.8.0",
+    "talkback": "^1.7.0"
   }
 }

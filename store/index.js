@@ -3,6 +3,17 @@ import Vuex from "vuex";
 const createStore = () => {
   return new Vuex.Store({
     state: {
+      poemOfTheDay: {
+        poet: {
+          name: "Gabrielle Calvocoressi",
+          image: "/images/gc.png"
+        },
+        poem: {
+          link: "https://appUrl/announcementId",
+          title: "Awesome Poem Title",
+          text: "Awesome Poem"
+        }
+      },
       poem: [],
       hero: {},
       numPages: {
@@ -18,6 +29,9 @@ const createStore = () => {
       },
       updateNumPages(state, payload) {
         state.numPages = payload;
+      },
+      updatePoemOfTheDay(state, payload) {
+        state.poemOfTheDay = payload;
       }
     }
   });

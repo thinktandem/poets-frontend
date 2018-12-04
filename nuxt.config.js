@@ -10,11 +10,15 @@ module.exports = {
       }
     ]
   ],
+  axios: {
+    debug: process.env.APP_ENV !== "production"
+  },
   plugins: [
+    "~/plugins/axios",
     "~/plugins/vue2-filters"
     // '~/plugins/vue-youtube-embed',
   ],
-  css: ["~assets/css/fonts.css", "~assets/scss/app.scss"],
+  css: ["~assets/scss/app.scss"],
   /*
   ** Headers of the page
   */
@@ -39,8 +43,6 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ["axios"],
-    css: ["~assets/css/fonts.css"],
     /*
     ** Run ESLint on save
     */
