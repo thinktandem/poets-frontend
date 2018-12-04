@@ -10,6 +10,7 @@
 <script>
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 import DailyPoem from "../components/Poems/DailyPoem";
+import * as _ from "lodash";
 export default {
   layout: "default",
   components: {
@@ -23,17 +24,16 @@ export default {
         _format: "json"
       }
     });
-    // @todo: when we fix the author field, put a real author data pull in here.
-    // Do the same with the link, we need to get a resource URL for the front end for the poem.
+    const theOne = _.first(response);
     store.commit("updatePoemOfTheDay", {
       poet: {
-        name: response.poet.name,
-        image: response.poet.image
+        name: theOne.poet.name,
+        image: theOne.poet.image
       },
       poem: {
         link: "https://appUrl/announcementId",
-        title: response.poem.title,
-        text: response.poem.text
+        title: theOne.poem.title,
+        text: theOne.poem.text
       }
     });
     // Set the current hero

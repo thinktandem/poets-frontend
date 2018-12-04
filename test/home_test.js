@@ -7,5 +7,5 @@ Scenario("Ad section is available on homepage", I => {
 
 Scenario("Poem-a-day is available on homepage", I => {
   I.amOnPage("/");
-  I.seeElement(".poem-a-day-container");
+  I.seeElement(".daily-poem");
 })

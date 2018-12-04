@@ -1,13 +1,11 @@
 <template>
   <div>
     thanks
-    <AppPoemADayPoemsContainer />
     <AppAnnouncementsAwards />
   </div>
 </template>
 
 <script>
-import AppPoemADayPoemsContainer from "~/components/AppPoemADayPoems/AppPoemADayPoemsContainer";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 export default {
   layout: "default",

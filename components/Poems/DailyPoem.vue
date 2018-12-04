@@ -1,61 +1,68 @@
 <template>
-  <div class="poem-a-day-container pt-4">
-    <div class="poem-a-day__poems">
-      <h3 class="poem-a-day-container__poet-name p-2">
-        {{ poet.name }}
-      </h3>
-      <b-container>
-        <div class="row">
-          <div class="col-4 poem-a-day-container__poet-image">
-            <b-img :src="poet.image"/>
-            <div class="poem-a-day-container__sign-up-form">
-              <AppPoemADaySignUpForm />
-            </div>
+  <div class="daily-poem pt-4">
+    <h3 
+      class="daily-poem__poet-name p-2"
+      v-if="null !== poet.name">
+      {{ poet.name }}
+    </h3>
+    <b-container>
+      <b-row>
+        <b-col 
+          xs="4"
+          tag="aside"
+        >
+          <div class="pb-3 d-flex daily-poem__poet-image">
+            <b-img-lazy
+              :src="poet.image"
+              fluid
+              blank-src="images/gc.png"
+              blank-color="#00B4F0"
+            />
           </div>
-          <div class="col-sm-12 col-md-8 poem-a-day-container__poem-outer">
-            <b-container>
-              <div class="row">
-                <div class="col-sm-4 col-md-3 pt-2 pb-3">
-                  <div class="poem-a-day-container__poem-a-day-label p-3">
-                    poem-a-day
-                  </div>
+          <div class="daily-poem__sign-up-form">
+            <AppPoemADaySignUpForm />
+          </div>
+        </b-col>
+        <div class="col-sm-12 col-md-8 daily-poem__poem-outer">
+          <b-container>
+            <div class="row">
+              <div class="col-sm-4 col-md-3 pt-2 pb-3">
+                <div class="daily-poem__daily-poem-label p-3">
+                  poem-a-day
                 </div>
-                <div class="col-sm-12 col-md-9">
-                  <div class="col-sm-12 col-md-8 poem-a-day-container__poem">
-                    <div class="poem-a-day-container__poem-title pt-1 pb-3">
-                      {{ poem.title }}
-                      <b-img
-                        src="/images/speaker.png"
-                        class="poem-a-day-container__poem-speaker"/>
-                    </div>
-                    <div
-                      v-html="poem.text"
-                      class="poem-a-day-container__poem-text"/>
-                    <div
-                      class="poem-a-day-container__poem-fade-out"/>
-                    <div class="poem-a-day-container__read-the-rest mt-3 mb-3 p-2">
-                      <a href="#">read the rest</a>
-                    </div>
+              </div>
+              <div class="col-sm-12 col-md-9">
+                <div class="col-sm-12 col-md-8 daily-poem__poem">
+                  <div class="daily-poem__poem-title pt-1 pb-3">
+                    {{ poem.title }}
+                    <b-img
+                      src="/images/speaker.png"
+                      class="daily-poem__poem-speaker"/>
+                  </div>
+                  <div
+                    v-html="poem.text"
+                    class="daily-poem__poem-text"/>
+                  <div
+                    class="daily-poem__poem-fade-out"/>
+                  <div class="daily-poem__read-the-rest mt-3 mb-3 p-2">
+                    <a href="#">read the rest</a>
                   </div>
                 </div>
               </div>
-            </b-container>
-          </div>
+            </div>
+          </b-container>
         </div>
-      </b-container>
-    </div>
-    <AppPoems />
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 export default {
   name: "DailyPoem",
   components: {
-    AppPoemADaySignUpForm,
-    AppPoems
+    AppPoemADaySignUpForm
   },
   props: {
     poem: {
@@ -82,55 +89,53 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poem-a-day-container {
+.daily-poem {
   border-top: 4px var(--white) solid;
   background-color: var(--gray-800);
-  .poem-a-day__poems {
+  .daily-poem__poem {
     position: relative;
     z-index: 222;
   }
-  .poem-a-day-container__poet-name {
+  .daily-poem__poet-name {
     color: var(--white);
     margin-left: 27%;
   }
-  .poem-a-day-container__poet-image {
-    img {
-      width: 311px;
-    }
+  .daily-poem__poet-image {
+    justify-content: flex-end;
   }
-  .poem-a-day-container__poem-outer {
+  .daily-poem__poem-outer {
     background-color: var(--white);
     border-top: var(--blue) 4px solid;
     box-shadow: 0 -3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    .poem-a-day-container__poem-a-day-label {
+    .daily-poem__daily-poem-label {
       position: relative;
       top: 3px;
       left: -39px;
       background-color: var(--blue);
       font-size: 20px;
     }
-    .poem-a-day-container__poem {
+    .daily-poem__poem {
       position: relative;
       bottom: 0;
       left: 0;
       width: 100%;
       font-family: $font-family-serif;
-      .poem-a-day-container__poem-title {
+      .daily-poem__poem-title {
         font-size: 28px;
         font-style: italic;
       }
-      .poem-a-day-container__poem-speaker {
+      .daily-poem__poem-speaker {
         position: absolute;
         top: 12px;
         left: 444px;
         width: 33px;
       }
-      .poem-a-day-container__poem-text {
+      .daily-poem__poem-text {
         font-size: 20px;
         max-height: 443px;
         overflow: hidden;
       }
-      .poem-a-day-container__poem-fade-out {
+      .daily-poem__poem-fade-out {
         position: absolute;
         bottom: 63px;
         height: 266px;
@@ -145,7 +150,7 @@ export default {
         );
       }
 
-      .poem-a-day-container__read-the-rest {
+      .daily-poem__read-the-rest {
         width: 146px;
         color: var(--white);
         background-color: var(--blue-dark);

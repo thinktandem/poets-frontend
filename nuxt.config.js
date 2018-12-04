@@ -11,8 +11,7 @@ module.exports = {
     ]
   ],
   axios: {
-    debug: process.env.APP_ENV !== "production",
-    baseUrl: "http://yakbak"
+    debug: process.env.APP_ENV !== "production"
   },
   plugins: [
     "~/plugins/axios",

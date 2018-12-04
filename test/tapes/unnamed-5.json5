@@ -1,0 +1,73 @@
+{
+    meta: {
+        createdAt: '2018-12-04T18:25:16.053Z',
+        host: 'http://apipoetsd8.lndo.site',
+        resHumanReadable: true,
+    },
+    req: {
+        url: '/poem-a-day?_format=json',
+        method: 'GET',
+        headers: {
+            accept: 'application/json, text/plain, */*',
+            'accept-encoding': 'gzip, deflate',
+            'accept-language': 'en-US,en;q=0.9',
+            'cache-control': 'max-age=0',
+            referer: 'https://poetsd8.lndo.site/',
+            'upgrade-insecure-requests': '1',
+            connection: 'close',
+        },
+        body: '',
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx/1.15.7',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'transfer-encoding': [
+                'chunked',
+            ],
+            connection: [
+                'close',
+            ],
+            'x-powered-by': [
+                'PHP/7.2.12',
+            ],
+            'set-cookie': [
+                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:25:16 GMT; Max-Age=3600; path=/',
+                'SSESS304f8f6f48a5969623d7509f2c775e82=NleJzj4hfVmN-0TS7GSThXq11mwbaQgxh71ClMIsXb4; expires=Thu, 27-Dec-2018 21:58:36 GMT; Max-Age=2000000; path=/; domain=.apipoetsd8.lndo.site; secure; HttpOnly',
+            ],
+            'cache-control': [
+                'must-revalidate, no-cache, private',
+            ],
+            date: [
+                'Tue, 04 Dec 2018 18:25:16 GMT',
+            ],
+            'x-ua-compatible': [
+                'IE=edge',
+            ],
+            'content-language': [
+                'en',
+            ],
+            'x-content-type-options': [
+                'nosniff',
+            ],
+            'x-frame-options': [
+                'SAMEORIGIN',
+            ],
+            expires: [
+                'Sun, 19 Nov 1978 05:00:00 GMT',
+            ],
+            vary: [
+                '',
+            ],
+            'x-generator': [
+                'Drupal 8 (https://www.drupal.org)',
+            ],
+        },
+        body: '[{"poem":{"title":"Green Sees Things in Waves","text":"\\u003Cpre\\u003E\\r\\nGreen first thing each day sees waves\\u0026mdash;\\r\\nthe chair, armoire, overhead fixtures, you name it,\\r\\nwaves\\u0026mdash;which, you might say, things really are,\\r\\nbut Green just lies there awhile breathing\\r\\nlong slow breaths, in and out, through his mouth\\r\\nlike he was maybe seasick, until in an hour or so\\r\\nthe waves simmer down and then the trails and colors\\r\\noff of things, that all quiets down as well and Green\\r\\nstarts to think of washing up, breakfast even\\r\\nwith everything still moving around, colors, trails,\\r\\nand sounds, from the street and plumbing next door,\\r\\nvibrating\\u0026mdash;of course you might say that\\u0026#39;s what\\r\\nsound really is, after all, vibrations\\u0026mdash;but Green,\\r\\nhe\\u0026#39;s not thinking physics at this stage, nuh-uh,\\r\\nour boy\\u0026#39;s only trying to get himself out of bed,\\r\\nget a grip, but sometimes, and this is the kicker,\\r\\nanother party, shall we say, is in the room\\r\\nwith Green, and Green knows this other party\\r\\nand they do \\u003Ci\\u003Enot\\u003C\\/i\\u003E get along, which understates it\\r\\nquite a bit, quite a bit, and Green knows\\r\\nthat this other cat is an hallucination, right,\\r\\nbut these two have a routine that goes way back\\r\\nand Green starts hollering, throwing stuff\\r\\nuntil he\\u0026#39;s all shook up, whole day gone to hell,\\r\\nbummer . . .\\r\\n\\r\\n                 Anyhow, the docs are having a look,\\r\\nsee if they can\\u0026#39;t dream up a cocktail,\\r\\nbut seems our boy ate quite a pile of acid one time,\\r\\nclinical, wow, enough juice for half a block\\u0026mdash;\\r\\n\\u003Ci\\u003Ego go go, little Greenie\\u003C\\/i\\u003E\\u0026mdash;blew the wiring out\\r\\nfrom behind his headlights and now, no matter what,\\r\\ncan\\u0026#39;t find the knob to turn off the show.\\u003C\\/pre\\u003E\\r\\n","soundcloud":"\\u003Ciframe width=\\u0022100%\\u0022 height=\\u0022166\\u0022 scrolling=\\u0022no\\u0022 frameborder=\\u0022no\\u0022 src=\\u0022https:\\/\\/w.soundcloud.com\\/player\\/?url=https%3A\\/\\/api.soundcloud.com\\/tracks\\/136370419%3Fsecret_token%3Ds-ECa2C\\u0026amp;color=ff6600\\u0026amp;auto_play=false\\u0026amp;show_artwork=true\\u0022\\u003E\\u003C\\/iframe\\u003E"},"poet":{"name":"August Kleinzahler","image":null}}]',
+    },
+}
