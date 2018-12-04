@@ -1,0 +1,48 @@
+{
+    meta: {
+        createdAt: '2018-12-04T18:24:29.689Z',
+        host: 'http://apipoetsd8.lndo.site',
+        resHumanReadable: true,
+    },
+    req: {
+        url: '/poem-a-day?_format=json',
+        method: 'GET',
+        headers: {
+            accept: 'application/json, text/plain, */*',
+            'accept-encoding': 'gzip, deflate',
+            connection: 'close',
+        },
+        body: '',
+    },
+    res: {
+        status: 500,
+        headers: {
+            server: [
+                'nginx/1.15.7',
+            ],
+            'content-type': [
+                'text/html; charset=UTF-8',
+            ],
+            'transfer-encoding': [
+                'chunked',
+            ],
+            connection: [
+                'close',
+            ],
+            'x-powered-by': [
+                'PHP/7.2.12',
+            ],
+            'set-cookie': [
+                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
+            ],
+            'cache-control': [
+                'no-cache, private',
+            ],
+            date: [
+                'Tue, 04 Dec 2018 18:24:30 GMT',
+            ],
+        },
+        body: 'The website encountered an unexpected error. Please try again later.<br />',
+    },
+}
