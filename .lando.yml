@@ -31,3 +31,6 @@ tooling:
   test:
     cmd: yarn test
     service: codeception
+  codecept:
+    cmd: /app/node_modules/.bin/codeceptjs
+    service: appserver
