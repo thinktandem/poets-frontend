@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AppPoemADayPoemsContainer from "~/components/AppPoemADayPoems/AppPoemADayPoemsContainer";
+import DailyPoem from "~/components/Poems/DailyPoem";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 export default {
   layout: "default",
