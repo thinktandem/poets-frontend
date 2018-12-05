@@ -1,7 +1,7 @@
 Poets Frontend Magicks
 ======================
 
-https://travis-ci.com/thinktandem/poets-frontend.svg?branch=master
+![Travis Badge](https://travis-ci.com/thinktandem/poets-frontend.svg?branch=master)
 
 Getting Started
 ---------------

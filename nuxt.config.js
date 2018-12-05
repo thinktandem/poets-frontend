@@ -11,7 +11,7 @@ module.exports = {
     ]
   ],
   axios: {
-    debug: process.env.APP_ENV !== "production"
+    debug: process.env.NODE_ENV !== "production"
   },
   plugins: [
     "~/plugins/axios",
