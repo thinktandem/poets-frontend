@@ -8,8 +8,8 @@
     "build": "nuxt build",
     "dev": "NODE_OPTIONS='--max-old-space-size=8092' nuxt",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-pattern test/*.js --ignore-path .gitignore .",
+    "lint": "eslint --ext=.js,.vue --ignore-pattern=test/*.js --ignore-path=.gitignore .",
+    "lintfix": "eslint --fix --ext=.js,.vue --ignore-pattern=test/*.js --ignore-path=.gitignore .",
     "precommit": "npm run lint",
     "start": "nuxt start",
     "test": "codeceptjs run"

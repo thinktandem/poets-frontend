@@ -1,0 +1,79 @@
+{
+    meta: {
+        createdAt: '2018-12-04T21:05:32.728Z',
+        host: 'http://apipoetsd8.lndo.site',
+        resHumanReadable: true,
+    },
+    req: {
+        url: '/router/translate-path?path=poetsorg%2Fpoem%2Fpostcard-christ-carrying-cross',
+        method: 'GET',
+        headers: {
+            accept: 'application/json, text/plain, */*',
+            'accept-encoding': 'gzip, deflate',
+        },
+        body: '',
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx/1.15.7',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'transfer-encoding': [
+                'chunked',
+            ],
+            connection: [
+                'keep-alive',
+            ],
+            'x-powered-by': [
+                'PHP/7.2.12',
+            ],
+            'set-cookie': [
+                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 22:05:32 GMT; Max-Age=3600; path=/',
+            ],
+            'cache-control': [
+                'must-revalidate, no-cache, private',
+            ],
+            date: [
+                'Tue, 04 Dec 2018 21:05:32 GMT',
+            ],
+            'x-drupal-dynamic-cache': [
+                'MISS',
+            ],
+            'x-ua-compatible': [
+                'IE=edge',
+            ],
+            'content-language': [
+                'en',
+            ],
+            'x-content-type-options': [
+                'nosniff',
+            ],
+            'x-frame-options': [
+                'SAMEORIGIN',
+            ],
+            'x-drupal-cache-tags': [
+                'config:user.role.anonymous http_response node:405226',
+            ],
+            'x-drupal-cache-contexts': [
+                'url.query_args:path url.site user.permissions',
+            ],
+            expires: [
+                'Sun, 19 Nov 1978 05:00:00 GMT',
+            ],
+            vary: [
+                '',
+            ],
+            'x-generator': [
+                'Drupal 8 (https://www.drupal.org)',
+            ],
+            'x-drupal-cache': [
+                'MISS',
+            ],
+        },
+        body: '{"resolved":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/postcard-christ-carrying-cross","entity":{"canonical":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/postcard-christ-carrying-cross","type":"node","bundle":"poems","id":"405226","uuid":"6d0e6cef-b75b-4f41-814d-497da77bdba8"},"label":"A Postcard of Christ Carrying the Cross,","jsonapi":{"individual":"http:\\/\\/apipoetsd8.lndo.site\\/api\\/node\\/poems\\/6d0e6cef-b75b-4f41-814d-497da77bdba8","resourceName":"node--poems","pathPrefix":"api","basePath":"\\/api","entryPoint":"http:\\/\\/apipoetsd8.lndo.site\\/api"},"meta":{"deprecated":{"jsonapi.pathPrefix":"This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."}}}',
+    },
+}
