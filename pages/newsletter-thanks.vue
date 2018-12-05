@@ -1,7 +1,7 @@
 <template>
   <div>
     thanks
-    <AppPoemADayPoemsContainer />
+    <DailyPoem />
     <AppAnnouncementsAwards />
   </div>
 </template>
