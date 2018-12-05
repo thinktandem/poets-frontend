@@ -8,6 +8,7 @@
       :subtext="this.$store.state.hero.subtext"
     />
     <nuxt/>
+    <AppNewsletterSupportFollow />
     <AppFooterPrimary />
     <AppFooterUtility />
   </div>
@@ -18,6 +19,7 @@ import AppNavigation from "~/components/AppNavigation";
 import AppPromoSpace from "~/components/AppPromoSpace";
 import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import AppNewsletterSupportFollow from "~/components/AppNewsletterSupportFollow/AppNewsletterSupportFollow";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
 
@@ -27,6 +29,7 @@ export default {
     AppPromoSpace,
     AppHeroOuter,
     AppAnnouncementsAwards,
+    AppNewsletterSupportFollow,
     AppFooterPrimary,
     AppFooterUtility
   }

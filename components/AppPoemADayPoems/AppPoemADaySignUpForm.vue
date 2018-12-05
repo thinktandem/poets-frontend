@@ -46,10 +46,6 @@
 
 <script>
 export default {
-  /**
-   * @todo replace with real data/prop
-   * @return {{ announcements: {date: string, title: string, link: string}[]}}
-   */
   data() {
     return {
       email: ""
@@ -58,7 +54,10 @@ export default {
   methods: {
     poemADaySignup() {
       const body = {
-        email: this.email
+        email: this.email,
+        forms: {
+          aappad: true
+        }
       };
       this.$axios
         .post("/api/cm/poem-a-day", body)
