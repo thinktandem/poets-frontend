@@ -12,7 +12,7 @@ import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnou
 export default {
   layout: "default",
   components: {
-   DailyPoem,
+    DailyPoem,
     AppAnnouncementsAwards
   },
   fetch({ store, params }) {
