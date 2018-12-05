@@ -10,7 +10,6 @@ import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnou
 export default {
   layout: "default",
   components: {
-    AppPoemADayPoemsContainer,
     AppAnnouncementsAwards
   },
   fetch({ store, params }) {
