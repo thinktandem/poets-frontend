@@ -20,7 +20,7 @@
           class="card-deck__card"
         >
           <component
-            :is="cardtype"
+            :is="card.cardType ? card.cardType : cardtype"
             v-bind="card" />
         </b-col>
       </b-row>
@@ -32,12 +32,14 @@
 import PoemCard from "~/components/Poems/PoemCard";
 import Poet from "~/components/Poet";
 import FeatureCard from "~/components/FeatureCard";
+import adCard from "~/components/adCard";
 
 export default {
   components: {
     PoemCard,
     Poet,
-    FeatureCard
+    FeatureCard,
+    adCard
   },
   props: {
     title: {

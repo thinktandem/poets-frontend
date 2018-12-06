@@ -1,0 +1,71 @@
+%card-deck--poet--extended {
+  .card-deck__cards {
+    flex-wrap: wrap;
+  }
+
+  .card-deck__card {
+    flex-basis: 50%;
+
+    &:first-child,
+    &:last-child {
+      flex-basis: 100%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      &:first-child,
+      &:last-child,
+      & {
+        flex-basis: 30%;
+      }
+
+      &:nth-child(3),
+      &:nth-child(6) {
+        flex-basis: 40%;
+      }
+
+      &:first-child,
+      &:nth-child(2),
+      &:nth-child(3) {
+        display: flex;
+        align-items: flex-end;
+      }
+    }
+
+    &:not(:first-child) {
+      .poet__name {
+        font-size: $font-size-sm;
+
+        @include media-breakpoint-up(sm) {
+          font-size: 1.25rem;
+        }
+      }
+
+      // Prevent hover roll up functionality on mobile because they are too
+      // small.
+      $poet--extended__name-bio__top: calc(100% - 3.2rem);
+      .poet__name-bio {
+        top: $poet--extended__name-bio__top;
+
+        @include media-breakpoint-up(sm) {
+          // Revert back to old value for larger screens.
+          top: calc(100% - 3.7rem);
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+          top: $poet--extended__name-bio__top;
+
+          @include media-breakpoint-up(sm) {
+            // Revert back to old value for larger screens.
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card-deck--poet--extended {
+  @extend %card-deck--poet--extended;
+}

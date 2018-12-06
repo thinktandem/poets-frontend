@@ -10,6 +10,15 @@
 
     <div class="styleguide-item">
       <CardDeck
+        title="Poets"
+        cardtype="Poet"
+        class="card-deck--poet--extended"
+        :cards="poetsExtended"
+        :link="poetsLink"/>
+    </div>
+
+    <div class="styleguide-item">
+      <CardDeck
         title="Poems"
         cardtype="PoemCard"
         :cards="poems"
@@ -168,6 +177,67 @@ And as for the bucket, Nantucket.`,
           }
         }
       ],
+      poetsExtended: [
+        {
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
+          img: {
+            src: "/images/poet.png"
+          },
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
+          img: {
+            src: "/images/poet.png"
+          },
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
+          img: {
+            src: "/images/poet.png"
+          },
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
+          img: {
+            src: "/images/poet.png"
+          },
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
+          img: {
+            src: "/images/poet.png"
+          },
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          cardType: "adCard",
+          img: {
+            src: "/images/advertisement.png"
+          },
+          link: {
+            href: "blah/blah"
+          }
+        }
+      ],
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
@@ -217,7 +287,7 @@ And as for the bucket, Nantucket.`,
 };
 </script>
 
-<style>
+<style lang="scss">
 .styleguide-item {
   margin-bottom: 4rem;
 }
