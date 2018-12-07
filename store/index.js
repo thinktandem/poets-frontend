@@ -11,7 +11,8 @@ const createStore = () => {
         poem: {
           link: "https://appUrl/announcementId",
           title: "Awesome Poem Title",
-          text: "Awesome Poem"
+          text: "Awesome Poem",
+          soundCloud: ""
         }
       },
       poem: [],

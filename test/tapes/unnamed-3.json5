@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2018-12-04T18:24:29.689Z',
+        createdAt: '2018-12-05T19:28:37.978Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
@@ -10,18 +10,17 @@
         headers: {
             accept: 'application/json, text/plain, */*',
             'accept-encoding': 'gzip, deflate',
-            connection: 'close',
         },
         body: '',
     },
     res: {
-        status: 500,
+        status: 200,
         headers: {
             server: [
                 'nginx/1.15.7',
             ],
             'content-type': [
-                'text/html; charset=UTF-8',
+                'application/json',
             ],
             'transfer-encoding': [
                 'chunked',
@@ -33,16 +32,36 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
-                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Wed, 05-Dec-2018 20:28:37 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
-                'no-cache, private',
+                'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 04 Dec 2018 18:24:30 GMT',
+                'Wed, 05 Dec 2018 19:28:38 GMT',
+            ],
+            'x-ua-compatible': [
+                'IE=edge',
+            ],
+            'content-language': [
+                'en',
+            ],
+            'x-content-type-options': [
+                'nosniff',
+            ],
+            'x-frame-options': [
+                'SAMEORIGIN',
+            ],
+            expires: [
+                'Sun, 19 Nov 1978 05:00:00 GMT',
+            ],
+            vary: [
+                '',
+            ],
+            'x-generator': [
+                'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: 'The website encountered an unexpected error. Please try again later.<br />',
+        body: '[{"poem":{"title":"Natural History","text":"\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EToeing the metal marker drilled in granite, naked granite \\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; over glacial valley, granite scarred by glacial retreat, know\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003Esuch summits likely formed by fire, farmers riled up by wolves\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; that pilfered meat and wool, torches brandished, the plan\\u003C\\/p\\u003E\\u003Cp\\u003Eto smoke the poachers out, kill however many survived. The fires\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; burned for nights, incinerated even soil, scorched the rock\\u003C\\/p\\u003E\\u003Cp\\u003Esterile. Now picture the storms: rain and snow would river down\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; the slope, erode the lower meadows, the famished sheep sold off\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003Echeap, barns collapsing, clapboard houses collapsing\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; into their cellars, simple\\u0026shy;marked graves and cellar holes\\u003C\\/p\\u003E\\u003Cp\\u003Eall that remain in the valley, haven a wolf might make\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; its home if any wolves remained to haunt this hunted land.\\u003C\\/p\\u003E","soundcloud":null},"poet":{"name":"Brian Simoneau","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/briansimoneau_newbioimage2017.png?itok=HsS5YGAr"}}]',
     },
 }

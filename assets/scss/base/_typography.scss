@@ -1,6 +1,8 @@
 body {
-  letter-spacing: 1px;
   font-size: 16px; // Set base REM size.
 }
-
+pre {
+  white-space: pre-wrap;
+  font-family: "Poets Electra";
+}
 // @TODO Fonts should go here.

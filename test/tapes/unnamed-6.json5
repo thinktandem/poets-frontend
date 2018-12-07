@@ -1,16 +1,14 @@
 {
     meta: {
-        createdAt: '2018-12-04T18:25:37.568Z',
+        createdAt: '2018-12-05T21:05:02.762Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
     req: {
-        url: '/poem-a-day?_format=json',
+        url: '/router/translate-path?path=poetsorg%2Fpoem%2Fpostcard-christ-carrying-cross',
         method: 'GET',
         headers: {
             accept: 'application/json, text/plain, */*',
-            connection: 'keep-alive',
-            'upgrade-insecure-requests': '1',
             'accept-encoding': 'gzip, deflate',
         },
         body: '',
@@ -34,14 +32,16 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:25:37 GMT; Max-Age=3600; path=/',
-                'SESS304f8f6f48a5969623d7509f2c775e82=T45zaGjWMuKZ7BwCr-n4c7P-q1oD-BMFAdJbNaBnUAM; expires=Thu, 27-Dec-2018 21:58:57 GMT; Max-Age=2000000; path=/; domain=.apipoetsd8.lndo.site; HttpOnly',
+                'XDEBUG_SESSION=www-data; expires=Wed, 05-Dec-2018 22:05:02 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 04 Dec 2018 18:25:37 GMT',
+                'Wed, 05 Dec 2018 21:05:02 GMT',
+            ],
+            'x-drupal-dynamic-cache': [
+                'MISS',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -55,6 +55,12 @@
             'x-frame-options': [
                 'SAMEORIGIN',
             ],
+            'x-drupal-cache-tags': [
+                'config:user.role.anonymous http_response node:405226',
+            ],
+            'x-drupal-cache-contexts': [
+                'url.query_args:path url.site user.permissions',
+            ],
             expires: [
                 'Sun, 19 Nov 1978 05:00:00 GMT',
             ],
@@ -64,7 +70,10 @@
             'x-generator': [
                 'Drupal 8 (https://www.drupal.org)',
             ],
+            'x-drupal-cache': [
+                'MISS',
+            ],
         },
-        body: '[{"poem":{"title":"Magdalene\\u2014The Seven Devils","text":"\\u003Cp style=\\u0022text-align: right;\\u0022\\u003E\\u003Cem\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003E\\u0026ldquo;Mary, called Magdalene, from whom seven devils had been cast out\\u0026rdquo;\\u003C\\/span\\u003E\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\u003Cp style=\\u0022text-align: right;\\u0022\\u003E\\u003Cem\\u003ELuke 8:2.\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\u003Cp\\u003EThe first was that I was very busy.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe second\\u0026mdash;I was different from you: whatever happened to you could\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Enot happen to me, not like that.\\u003C\\/p\\u003E\\u003Cp\\u003EThe third\\u0026mdash;I worried.\\u003C\\/p\\u003E\\u003Cp\\u003EThe fourth\\u0026mdash;envy, disguised as compassion.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe fifth was that I refused to consider the quality of life of the aphid,\\u003C\\/span\\u003E\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe aphid disgusted me.\\u0026nbsp; But I couldn\\u0026rsquo;t stop thinking about it.\\u003C\\/span\\u003E\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe mosquito too\\u0026mdash;its face.\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; And the ant\\u0026mdash;its bifurcated body.\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003EOk\\u0026nbsp;\\u0026nbsp; the first was that I was so busy.\\u0026nbsp;\\u003C\\/p\\u003E\\u003Cp\\u003EThe second that I might make the wrong choice,\\u003Cbr \\/\\u003Ebecause I had decided to take that plane that day,\\u003Cbr \\/\\u003Ethat flight, before noon, so as to arrive early\\u003Cbr \\/\\u003Eand, I shouldn\\u0026rsquo;t have wanted that.\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe third was that if I walked past the certain place on the street\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Ethe house would blow up. \\u0026nbsp;\\u0026nbsp;\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe fourth was that I was made of guts and blood with a thin layer\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Eof skin lightly thrown over the whole thing.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe fifth was that the dead seemed more alive to me than the living\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe sixth\\u0026mdash;if I touched my right arm I had to touch my left arm, and if I\\u003C\\/span\\u003E\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003Etouched\\u0026nbsp; the left arm a little harder than I\\u0026rsquo;d first touched the right then I had\\u003Cbr \\/\\u003Eto retouch the left and then touch the right again so it would be even. \\u0026nbsp;\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe seventh\\u0026mdash;I knew I was breathing the expelled breath of everything that\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Ewas alive, and I couldn\\u0026rsquo;t stand it.\\u003Cbr \\/\\u003EI wanted a sieve, a mask, a, I hate this word\\u0026mdash;cheesecloth\\u0026mdash;\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003Eto breath through that would trap it\\u0026mdash;whatever was inside everyone else that\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Eentered me when I breathed in.\\u003C\\/p\\u003E\\u003Cp\\u003ENo.\\u0026nbsp; That was the first one.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe second was that I was so busy.\\u0026nbsp; I had no time.\\u0026nbsp;\\u0026nbsp; How had this happened?\\u003C\\/span\\u003E\\u003Cbr \\/\\u003EHow had our lives gotten like this?\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe third was that I couldn\\u0026rsquo;t eat food if I really saw it\\u0026mdash;distinct, separate\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Efrom me in a bowl or on a plate.\\u0026nbsp;\\u003C\\/p\\u003E\\u003Cp\\u003EOk. The first was that. I could never get to the end of the list.\\u003Cbr \\/\\u003EThe second was that the laundry was never finally done.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe third was that no one knew me, although they thought they did.\\u003C\\/span\\u003E\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EAnd that if people thought of me as little as I thought of them then what was\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Elove? \\u0026nbsp;\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe fourth was I didn\\u0026rsquo;t belong to anyone. I wouldn\\u0026rsquo;t allow myself to belong\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Eto anyone.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe fifth was that I knew none of us could ever know what we didn\\u0026rsquo;t know.\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe sixth was that I projected onto others what I myself was feeling.\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EThe seventh was the way my mother looked\\u0026nbsp;\\u0026nbsp; when she was dying,\\u003C\\/span\\u003E\\u0026nbsp;\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003Ethe sound she made\\u0026mdash;her mouth wrenched to the right and cupped open\\u003C\\/span\\u003E\\u003Cbr \\/\\u003Eso as to take in as much air\\u0026hellip; the gurgling sound, so loud\\u003Cbr \\/\\u003Ewe had to speak louder to hear each other over it.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EAnd that I couldn\\u0026rsquo;t stop hearing it\\u0026mdash;years later\\u0026mdash;grocery shopping, crossing the street\\u0026mdash;\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003ENo, not the sound\\u0026mdash;it was\\u0026nbsp;\\u0026nbsp; her body\\u0026rsquo;s hunger\\u003Cbr \\/\\u003Efinally evident\\u0026mdash;what our mother had hidden all her life.\\u003C\\/p\\u003E\\u003Cp\\u003EFor months I dreamt of knucklebones and roots, \\u0026nbsp;\\u0026nbsp;\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003Ethe slabs of sidewalk pushed up like crooked teeth by what grew underneath.\\u003C\\/span\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003EThe underneath.\\u0026nbsp; That was the first devil.\\u0026nbsp;\\u0026nbsp; It was always with me\\u003Cbr \\/\\u003E\\u003Cspan class=\\u0022long-line\\u0022\\u003EAnd that I didn\\u0026rsquo;t think you\\u0026mdash;if I told you\\u0026mdash;would understand any of this\\u0026mdash;\\u003C\\/span\\u003E\\u003C\\/p\\u003E","soundcloud":null},"poet":{"name":"Marie Howe","image":null}}]',
+        body: '{"resolved":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/postcard-christ-carrying-cross","entity":{"canonical":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/postcard-christ-carrying-cross","type":"node","bundle":"poems","id":"405226","uuid":"6d0e6cef-b75b-4f41-814d-497da77bdba8"},"label":"A Postcard of Christ Carrying the Cross,","jsonapi":{"individual":"http:\\/\\/apipoetsd8.lndo.site\\/api\\/node\\/poems\\/6d0e6cef-b75b-4f41-814d-497da77bdba8","resourceName":"node--poems","pathPrefix":"api","basePath":"\\/api","entryPoint":"http:\\/\\/apipoetsd8.lndo.site\\/api"},"meta":{"deprecated":{"jsonapi.pathPrefix":"This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."}}}',
     },
 }

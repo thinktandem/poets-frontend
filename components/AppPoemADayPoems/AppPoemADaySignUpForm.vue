@@ -1,5 +1,5 @@
 <template>
-  <div class="poem-a-day-sign-up p-3 mt-3">
+  <div class="poem-a-day-sign-up p-3">
     <div class="poem-a-day-sign-up__social-group">
       <span class="pr-2">
         <a href="#">
@@ -77,6 +77,7 @@ export default {
   color: var(--white);
   font-weight: 600;
   background-color: var(--black);
+  width: 100%;
   .poem-a-day-sign-up__social-group {
     span {
       img {
@@ -91,7 +92,6 @@ export default {
     font-weight: 600;
   }
   .poem-a-day-sign-up__description {
-    font-family: "SF Pro Display";
     font-size: 14px;
     font-weight: 100;
   }

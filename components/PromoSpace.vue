@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-black p-4 promo">
+  <section
+    class="promo p-4"
+    :class="variant">
     <b-container class="mx-auto my-1">
       <p class="text-center text-uppercase promo__disclosure">Advertisment</p>
       <b-img
@@ -11,15 +13,32 @@
         width="975"
         height="250"/>
     </b-container>
-  </div>
+  </section>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "PromoSpace",
+  props: {
+    variant: {
+      type: String,
+      default: "dark"
+    }
+  }
+};
 </script>
 <style scoped>
 .promo__disclosure {
   color: var(--dark-muted);
   font-weight: 400;
+}
+.promo.dark {
+  background-color: var(--black);
+}
+.promo.transparent {
+  background-color: transparent;
+  .promo__disclosure {
+    color: var(--dark);
+  }
 }
 </style>

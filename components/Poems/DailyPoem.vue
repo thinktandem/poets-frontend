@@ -1,59 +1,109 @@
 <template>
-  <div class="daily-poem pt-4">
-    <h3 
-      class="daily-poem__poet-name p-2"
-      v-if="null !== poet.name">
-      {{ poet.name }}
-    </h3>
-    <b-container>
+  <div class="daily-poem">
+    <b-container class="px-0">
+      <div class="daily-poem__header d-flex d-md-none">
+        <span class="daily-poem__label p-2 my-auto">
+          poem-a-day
+        </span>
+        <h3
+          class="daily-poem__poet-name my-auto px-0"
+          v-if="null !== poet.name">
+          {{ poet.name }}
+        </h3>
+        <div class="daily-poem__poet-image">
+          <b-img-lazy
+            :src="poet.image"
+            blank-color="#00B4F0"
+          />
+        </div>
+      </div>
+    </b-container>
+    <b-container class="daily-poem__poem-container">
+      <b-row class="d-none d-md-block py-4">
+        <b-col offset-md="3">
+          <h3
+            class="text-white"
+            v-if="null !== poet.name">
+            {{ poet.name }}
+          </h3>
+        </b-col>
+      </b-row>
       <b-row>
-        <b-col 
-          xs="4"
+        <b-col
+          md="4"
           tag="aside"
-        >
-          <div class="pb-3 d-flex daily-poem__poet-image">
+          class="d-none d-md-block pr-0">
+          <div class="daily-poem__poet-image">
             <b-img-lazy
               :src="poet.image"
               fluid
-              blank-src="images/gc.png"
               blank-color="#00B4F0"
             />
           </div>
-          <div class="daily-poem__sign-up-form">
+          <div class="mt-5">
             <AppPoemADaySignUpForm />
           </div>
         </b-col>
-        <div class="col-sm-12 col-md-8 daily-poem__poem-outer">
-          <b-container>
-            <div class="row">
-              <div class="col-sm-4 col-md-3 pt-2 pb-3">
-                <div class="daily-poem__daily-poem-label p-3">
-                  poem-a-day
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-9">
-                <div class="col-sm-12 col-md-8 daily-poem__poem">
-                  <div class="daily-poem__poem-title pt-1 pb-3">
-                    {{ poem.title }}
-                    <b-img
-                      src="/images/speaker.png"
-                      class="daily-poem__poem-speaker"/>
-                  </div>
-                  <div
-                    v-html="poem.text"
-                    class="daily-poem__poem-text"/>
-                  <div
-                    class="daily-poem__poem-fade-out"/>
-                  <div class="daily-poem__read-the-rest mt-3 mb-3 p-2">
-                    <a href="#">read the rest</a>
-                  </div>
-                </div>
-              </div>
+        <b-col
+          sm="12"
+          md="8"
+          class="daily-poem__poem">
+          <span class="daily-poem__label p-3 d-none d-md-inline">
+            poem-a-day
+          </span>
+          <article
+            class="pb-2 mr-3 pr-3">
+            <div
+              class="px-0 mx-0"
+              v-if="showSoundCloud"
+              v-html="poem.soundCloud"/>
+            <div class="d-flex pt-3 pb-3 daily-poem__poem-title">
+              <h2>{{ poem.title }}</h2>
+              <b-link
+                @click="showSoundCloud = true"
+                v-if="showSoundCloud == false">
+                <span class="oi oi-volume-high daily-poem__soundcloud-link"/>
+              </b-link>
+              <b-link
+                @click="showSoundCloud = false"
+                v-if="showSoundCloud == true">
+                <span class="daily-poem__soundcloud-link">&#10005;</span>
+              </b-link>
             </div>
-          </b-container>
+            <div
+              v-html="poem.text"
+              class="daily-poem__poem-text"/>
+            <div class="daily-poem__read-the-rest">
+              <b-btn
+                size="md"
+                variant="primary-dark"
+                v-b-modal.poemADayModal>read the rest</b-btn>
+            </div>
+          </article>
+        </b-col>
+        <div class="daily-poem__sign-up-form d-block d-md-none">
+          <AppPoemADaySignUpForm />
         </div>
       </b-row>
     </b-container>
+    <b-modal
+      :title="poem.title"
+      size="lg"
+      centered
+      lazy
+      busy="true"
+      id="poemADayModal">
+      <b-container>
+        <b-row>
+          <b-col sm="12">
+            <div v-html="poem.text"/>
+          </b-col>
+        </b-row>
+      </b-container>
+      <template slot="modal-footer">
+        <AppPoemADaySignUpForm />
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -64,13 +114,19 @@ export default {
   components: {
     AppPoemADaySignUpForm
   },
+  data() {
+    return {
+      showSoundCloud: false
+    };
+  },
   props: {
     poem: {
       type: Object,
       default() {
         return {
           text: "",
-          title: ""
+          title: "",
+          soundCloud: ""
         };
       }
     },
@@ -88,81 +144,142 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .daily-poem {
-  border-top: 4px var(--white) solid;
-  background-color: var(--gray-800);
-  .daily-poem__poem {
-    position: relative;
-    z-index: 222;
+  background-color: var(--gray-900);
+  & + section {
+    padding-top: $spacer * 10 !important;
+  }
+  aside {
+    .daily-poem__poet-image {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+.daily-poem__header {
+  max-height: 66px;
+  justify-content: space-between;
+  .daily-poem__poet-image {
+    flex-basis: 66px;
+    img {
+      height: 100%;
+    }
   }
   .daily-poem__poet-name {
     color: var(--white);
-    margin-left: 27%;
+    flex-basis: 30%;
+    font-size: $font-size-base;
+  }
+}
+
+.daily-poem__label {
+  background-color: var(--blue);
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+.daily-poem__poem-container.container {
+  position: relative;
+  max-height: 40rem;
+  margin-left: $spacer;
+}
+.daily-poem__poem-title {
+  flex-direction: column;
+  h2 {
+    font-family: $font-family-serif;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-style: italic;
+  }
+}
+.daily-poem__soundcloud-link {
+  float: right;
+  color: var(--blue-dark);
+  font-size: 1.25rem;
+}
+.daily-poem__poem {
+  background-color: var(--white);
+  border-top: var(--blue) 0.5px solid;
+  box-shadow: 0 -3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  position: absolute;
+}
+.daily-poem__poem-text {
+  font-size: $font-size-base;
+  font-family: $font-family-serif;
+  line-height: 1.5rem;
+  overflow: hidden;
+  max-height: 443px;
+  position: relative;
+  &:after {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    content: "";
+    overflow: hidden;
+    background: linear-gradient(
+      transparent 0%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.8) 80%,
+      rgba(255, 255, 255, 1) 90%
+    );
+    pointer-events: none;
+  }
+}
+.daily-poem__read-the-rest {
+  position: relative;
+}
+
+// sm and up
+@include media-breakpoint-up(sm) {
+  .daily-poem__header {
+    max-height: initial;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h3 {
+      font-size: $h3-font-size;
+    }
+  }
+}
+// Md and up
+@include media-breakpoint-up(md) {
+  .daily-poem__header {
+    max-height: initial;
+  }
+  .daily-poem__label {
+    font-size: 1.25rem;
+    line-height: 1.56rem;
+    position: relative;
+    left: -$spacer;
+    top: $spacer * 2.5;
   }
   .daily-poem__poet-image {
-    justify-content: flex-end;
+    height: auto;
+    max-width: %100;
   }
-  .daily-poem__poem-outer {
-    background-color: var(--white);
-    border-top: var(--blue) 4px solid;
-    box-shadow: 0 -3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    .daily-poem__daily-poem-label {
-      position: relative;
-      top: 3px;
-      left: -39px;
-      background-color: var(--blue);
-      font-size: 20px;
+  .daily-poem__poem-container.container {
+    margin: auto;
+  }
+  .daily-poem__read-the-rest {
+    padding-top: $spacer * 2;
+  }
+  .daily-poem__poem-title {
+    flex-direction: row;
+    justify-content: space-between;
+    h2 {
+      font-size: $h3-font-size;
     }
-    .daily-poem__poem {
-      position: relative;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      font-family: $font-family-serif;
-      .daily-poem__poem-title {
-        font-size: 28px;
-        font-style: italic;
-      }
-      .daily-poem__poem-speaker {
-        position: absolute;
-        top: 12px;
-        left: 444px;
-        width: 33px;
-      }
-      .daily-poem__poem-text {
-        font-size: 20px;
-        max-height: 443px;
-        overflow: hidden;
-      }
-      .daily-poem__poem-fade-out {
-        position: absolute;
-        bottom: 63px;
-        height: 266px;
-        width: 100%;
-        background: -webkit-linear-gradient(
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1)
-        );
-        background: linear-gradient(
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1)
-        );
-      }
-
-      .daily-poem__read-the-rest {
-        width: 146px;
-        color: var(--white);
-        background-color: var(--blue-dark);
-        font-family: $font-family-sans-serif;
-        text-align: center;
-        font-size: 16px;
-        font-weight: 500;
-        a {
-          color: var(--white);
-        }
-      }
+  }
+  .daily-poem__poem {
+    padding-bottom: $spacer * 2;
+    article {
+      padding-left: $spacer * 9;
     }
+  }
+  .daily-poem__poem-text {
+    font-size: 1.25rem;
   }
 }
 </style>

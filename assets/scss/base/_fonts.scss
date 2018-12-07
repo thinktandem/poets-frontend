@@ -43,3 +43,11 @@
   font-weight: normal;
   font-style: italic;
 }
+
+@font-face {
+  font-family: 'Poets Electra';
+  src: url('~/assets/fonts/PoetsElectra-Roman.woff2') format('woff2'),
+  url('~/assets/fonts/PoetsElectra-Roman.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

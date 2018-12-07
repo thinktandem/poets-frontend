@@ -3,19 +3,24 @@
     <daily-poem
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <AppAnnouncementsAwards />
+    <promo-space variant="transparent"/>
   </div>
 </template>
 
 <script>
-import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
-import DailyPoem from "../components/Poems/DailyPoem";
+import DailyPoem from "~/components/Poems/DailyPoem";
+import PromoSpace from "~/components/PromoSpace";
 import * as _ from "lodash";
 export default {
   layout: "default",
   components: {
     DailyPoem,
-    AppAnnouncementsAwards
+    PromoSpace
+  },
+  async asyncData({ app, store, params }) {
+    return {
+      poems: {}
+    };
   },
   async fetch({ app, store, params }) {
     // Fetch all poems with poem a day date somewhere today.
