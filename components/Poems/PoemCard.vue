@@ -6,7 +6,7 @@
     title-tag="h3"
     itemscope
     itemtype="http://schema.org/Article"
-  >
+  >JOSH IS NICE
     <span
       class="poem__name"
       itemprop="title"
