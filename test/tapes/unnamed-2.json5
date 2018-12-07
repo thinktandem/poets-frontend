@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2018-12-04T18:24:29.688Z',
+        createdAt: '2018-12-05T19:28:37.980Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
@@ -9,7 +9,6 @@
         method: 'GET',
         headers: {
             accept: 'application/json, text/plain, */*',
-            connection: 'close',
             'accept-encoding': 'gzip, deflate',
         },
         body: '',
@@ -33,14 +32,13 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
-                'SESS304f8f6f48a5969623d7509f2c775e82=hnVsJ14h6j2kkXoh7Eq_ISNxGIgOEXliqK-1gqwaaDw; expires=Thu, 27-Dec-2018 21:57:50 GMT; Max-Age=2000000; path=/; domain=.apipoetsd8.lndo.site; HttpOnly',
+                'XDEBUG_SESSION=www-data; expires=Wed, 05-Dec-2018 20:28:37 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 04 Dec 2018 18:24:30 GMT',
+                'Wed, 05 Dec 2018 19:28:38 GMT',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -64,6 +62,6 @@
                 'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: '[{"poem":{"title":"All That Is Limitless","text":"\\u003Cp\\u003EI usually wake up with acquisition\\u003Cbr \\/\\u003Ein mind.\\u003C\\/p\\u003E\\u003Cp\\u003EI make myself the tallest pine;\\u003Cbr \\/\\u003EI have more birds on me\\u003Cbr \\/\\u003Ethan anybody!\\u003C\\/p\\u003E\\u003Cp\\u003EThe sun hits my head\\u003Cbr \\/\\u003Efirst\\u0026mdash;it\\u0026rsquo;s cooled a bit\\u003Cbr \\/\\u003Eby the time it gets to your head.\\u003C\\/p\\u003E\\u003Cp\\u003EI thought I\\u0026rsquo;d get the most\\u003C\\/p\\u003E\\u003Cp\\u003Eif all the good saw me first\\u003Cbr \\/\\u003Eand affably went there.\\u003C\\/p\\u003E\\u003Cp\\u003EIt was sound,\\u003Cbr \\/\\u003Emy lightning rod approach.\\u003C\\/p\\u003E\\u003Cp\\u003EOne oversight\\u003Cbr \\/\\u003Ewas that when the bad was coming\\u003Cbr \\/\\u003Eit also saw me first,\\u003C\\/p\\u003E\\u003Cp\\u003Eand would match its force\\u003Cbr \\/\\u003Eto my height in a way\\u003Cbr \\/\\u003Ethat, I\\u0026rsquo;m sure, if I had a stutter\\u003Cbr \\/\\u003Eor a limp\\u003Cbr \\/\\u003Ewould be lessened.\\u003C\\/p\\u003E\\u003Cp\\u003EIn any case,\\u003Cbr \\/\\u003Eit\\u0026rsquo;s time to get lowly.\\u003C\\/p\\u003E\\u003Cp\\u003EPut on a formless gown\\u003Cbr \\/\\u003Eand call it a shroud\\u003Cbr \\/\\u003Efor your vanity, a gold braid\\u003Cbr \\/\\u003Eo\\u0026rsquo;er your forehead\\u003C\\/p\\u003E\\u003Cp\\u003Eor a word you have\\u003Cbr \\/\\u003Eto explain\\u003Cbr \\/\\u003Eto everyone at the table.\\u003C\\/p\\u003E\\u003Cp\\u003EEven if it wasn\\u0026rsquo;t vanity, but hunger.\\u003Cbr \\/\\u003EEven if it was mostly enthusiasm\\u003Cbr \\/\\u003Eand affectionate regard. An invitation\\u003Cbr \\/\\u003Eto join (less like \\u0026ldquo;participate\\u0026rdquo;\\u003Cbr \\/\\u003Eand more like \\u0026ldquo;become an actual part of,\\u0026rdquo;\\u003Cbr \\/\\u003Ecutting a part off so it fits\\u003Cbr \\/\\u003Emore snugly with the other part.)\\u003C\\/p\\u003E\\u003Cp\\u003ENow you have a bed.\\u003Cbr \\/\\u003ENow you have a table.\\u003C\\/p\\u003E\\u003Cp\\u003EIf the wood is still living\\u003Cbr \\/\\u003Ewe\\u0026rsquo;ll make not furniture\\u003Cbr \\/\\u003Ebut a living structure:\\u003Cbr \\/\\u003EWe can do what we call grafting.\\u003Cbr \\/\\u003EThis too requires a bit of cutting.\\u003C\\/p\\u003E\\u003Cp\\u003EA dormant bud\\u003Cbr \\/\\u003Ecan be cut and grafted,\\u003Cbr \\/\\u003Eas can a young shoot,\\u003Cbr \\/\\u003Ebut in all cases\\u003Cbr \\/\\u003Ethe point of vascular connection\\u003Cbr \\/\\u003Ecan end up weak\\u003Cbr \\/\\u003Edue to the varying strengths\\u003Cbr \\/\\u003Eof the two formerly distinct tissues.\\u003C\\/p\\u003E\\u003Cp\\u003EOnce I blew my nose in a cafe\\u003Cbr \\/\\u003Edespite the number of approximate men\\u003Cbr \\/\\u003Ein beautiful sweaters and I knew\\u003Cbr \\/\\u003EI\\u0026rsquo;d become another thing.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cem\\u003ENow when a block is sawed up\\u003Cbr \\/\\u003Eit is made into implements.\\u003C\\/em\\u003E\\u003C\\/p\\u003E\\u003Cp\\u003E\\u003Cem\\u003EThe finest sculptor carves\\u003Cbr \\/\\u003Ethe least. In this way,\\u003Cbr \\/\\u003Ethe block rests\\u003Cbr \\/\\u003Ewithin all that is limitless.\\u003C\\/em\\u003E\\u003Cbr \\/\\u003E\\u0026nbsp;\\u003C\\/p\\u003E","soundcloud":null},"poet":{"name":"Hannah Gamble","image":null}}]',
+        body: '[{"poem":{"title":"Translations","text":"\\u003Cpre\\u003E\\r\\nMy mother was led into the world\\r\\nby her teeth\\r\\n\\r\\nPulled\\r\\nlike a bull\\r\\ninto the \\r\\nheather\\u003C\\/pre\\u003E\\r\\n\\u003Cp\\u003EShe only ever wanted to be a mother her whole life and nothing else, not even a human being!\\u003C\\/p\\u003E\\r\\n\\u003Cpre\\u003E\\r\\nOne body turned into \\r\\nanother body\\r\\n\\r\\nPulled like that\\r\\nby the golden voices of children\\r\\n\\r\\nA bull \\r\\nout of hell\\r\\n\\r\\nCalled out\\r\\nher teeth out in front of her\\r\\nher children\\r\\n\\r\\npulling\\r\\n\\r\\n\\r\\n*\\r\\n\\r\\n\\r\\nFirst I walk my mother out\\r\\ninto the field\\r\\nby a leash\\r\\nby a lifetime\\r\\nthen she walks me out\\r\\nour coats\\r\\nshimmering\\r\\n\\r\\nI brush her hair\\r\\n\\r\\nWipe the flies away from her eyes\\r\\n\\r\\nThey are my eyes\\r\\n\\r\\nWho will ride my mother\\r\\nwhen we aren\\u0026#39;t around\\r\\nanymore?\\r\\n\\r\\nHer children won\\u0026#39;t\\r\\n\\r\\nTurned from one thing into another until you are a bull standing in a field\\r\\n\\r\\nThe field just beginning\\r\\nto whistle us\\r\\nhome\\r\\n\\r\\n\\r\\n*\\r\\n\\r\\n\\r\\nThen I am led by the mouth\\r\\nout into the yellow\\r\\nfield\\u003C\\/pre\\u003E\\r\\n\\u003Cp\\u003EThe light turning to water in the early evening, the insects dying in the cold and coming\\u003Cbr \\/\\u003E\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;back in the morning\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E\\r\\n\\u003Cpre\\u003E\\r\\nSomething has to come back\\r\\n\\r\\nWings and\\r\\nshit\\r\\n\\r\\nI have put on my horse-head\\r\\n\\r\\nLed by a bit\\r\\n\\r\\nA lead\\r\\n\\r\\nMy leader is tall and the hair on her forearms is gold\\r\\n\\r\\nIt is a miracle\\r\\nto lower your eyes\\r\\ninto the tall grass\\r\\nand eat\\u003C\\/pre\\u003E\\r\\n","soundcloud":null},"poet":{"name":"Michael Dickman","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/MichaelDickman_NewBioImage.png?itok=Vc47eaG5"}}]',
     },
 }

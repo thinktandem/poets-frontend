@@ -1,6 +1,6 @@
 <template>
   <b-jumbotron
-    class="hero pb-0 mb-0"
+    class="hero"
     :style="this.bgStyles"
     bg-variant="primary"
     :class="variantStyle"
@@ -94,6 +94,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.hero {
+  padding-bottom: 0.25 * $spacer;
+  margin-bottom: 0;
+}
 .hero__poets-hp-link {
   font-size: 60px;
   font-weight: 700;

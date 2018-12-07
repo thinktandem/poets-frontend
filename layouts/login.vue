@@ -9,7 +9,6 @@
 
 <script>
 import AppNavigation from "~/components/AppNavigation";
-import AppPromoSpace from "~/components/AppPromoSpace";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
 import Login from "~/components/Login";
@@ -17,7 +16,6 @@ import Login from "~/components/Login";
 export default {
   components: {
     AppNavigation,
-    AppPromoSpace,
     Login,
     AppFooterPrimary,
     AppFooterUtility

@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2018-12-04T18:24:29.689Z',
+        createdAt: '2018-12-05T19:28:37.980Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
@@ -10,18 +10,17 @@
         headers: {
             accept: 'application/json, text/plain, */*',
             'accept-encoding': 'gzip, deflate',
-            connection: 'close',
         },
         body: '',
     },
     res: {
-        status: 500,
+        status: 200,
         headers: {
             server: [
                 'nginx/1.15.7',
             ],
             'content-type': [
-                'text/html; charset=UTF-8',
+                'application/json',
             ],
             'transfer-encoding': [
                 'chunked',
@@ -33,16 +32,36 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
-                'XDEBUG_SESSION=www-data; expires=Tue, 04-Dec-2018 19:24:29 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Wed, 05-Dec-2018 20:28:38 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
-                'no-cache, private',
+                'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 04 Dec 2018 18:24:30 GMT',
+                'Wed, 05 Dec 2018 19:28:38 GMT',
+            ],
+            'x-ua-compatible': [
+                'IE=edge',
+            ],
+            'content-language': [
+                'en',
+            ],
+            'x-content-type-options': [
+                'nosniff',
+            ],
+            'x-frame-options': [
+                'SAMEORIGIN',
+            ],
+            expires: [
+                'Sun, 19 Nov 1978 05:00:00 GMT',
+            ],
+            vary: [
+                '',
+            ],
+            'x-generator': [
+                'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: 'The website encountered an unexpected error. Please try again later.<br />',
+        body: '[{"poem":{"title":"Inland","text":"\\u003Cp\\u003EPeople that build their houses inland,\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0People that buy a plot of ground\\u003Cbr \\/\\u003EShaped like a house, and build a house there,\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0Far from the sea-board, far from the sound\\u003Cbr \\/\\u003E\\u003Cbr \\/\\u003EOf water sucking the hollow ledges,\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0Tons of water striking the shore,\\u2014\\u003Cbr \\/\\u003EWhat do they long for, as I long for\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0One salt smell of the sea once more?\\u003Cbr \\/\\u003E\\u003Cbr \\/\\u003EPeople the waves have not awakened,\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0Spanking the boats at the harbour\\u0027s head,\\u003Cbr \\/\\u003EWhat do they long for, as I long for,\\u2014\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0Starting up in my inland bed,\\u003Cbr \\/\\u003E\\u003Cbr \\/\\u003EBeating the narrow walls, and finding\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0Neither a window nor a door,\\u003Cbr \\/\\u003EScreaming to God for death by drowning,\\u2014\\u003Cbr \\/\\u003E\\u00a0\\u00a0\\u00a0One salt taste of the sea once more?\\u003C\\/p\\u003E","soundcloud":null},"poet":{"name":"Edna St. Vincent Millay","image":"https:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/emillay.jpg?itok=6eQ5CkaO"}}]',
     },
 }

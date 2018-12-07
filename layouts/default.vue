@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppNavigation />
-    <AppPromoSpace />
+    <promo-space :variant="dark" />
     <AppHeroOuter
       :variant="this.$store.state.hero.variant"
       :lead="this.$store.state.hero.lead"
@@ -16,17 +16,17 @@
 
 <script>
 import AppNavigation from "~/components/AppNavigation";
-import AppPromoSpace from "~/components/AppPromoSpace";
 import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 import AppNewsletterSupportFollow from "~/components/AppNewsletterSupportFollow/AppNewsletterSupportFollow";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
+import PromoSpace from "~/components/PromoSpace";
 
 export default {
   components: {
+    PromoSpace,
     AppNavigation,
-    AppPromoSpace,
     AppHeroOuter,
     AppAnnouncementsAwards,
     AppNewsletterSupportFollow,
