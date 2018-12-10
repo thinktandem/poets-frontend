@@ -18,7 +18,11 @@ const createStore = () => {
       hero: {},
       numPages: {
         numPages: 0
-      }
+      },
+      filterOptions: {
+        options: []
+      },
+      states: {}
     },
     mutations: {
       addPoem(state, payload) {
@@ -32,6 +36,12 @@ const createStore = () => {
       },
       updatePoemOfTheDay(state, payload) {
         state.poemOfTheDay = payload;
+      },
+      updateFilterOptions(state, payload) {
+        state.filterOptions = payload;
+      },
+      updateStates(state, payload) {
+        state.states = payload;
       }
     }
   });
