@@ -75,7 +75,7 @@ export default {
           text:
             "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper.",
           img: {
-            src: "https://placekitten.com/g/400/500",
+            src: "https://placekitten.com/g/500/400",
             alt: "Kitty cat says meow."
           },
           link: {

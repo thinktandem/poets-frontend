@@ -101,7 +101,7 @@ $feature__img__offset: 2rem;
     }
 
     @include media-breakpoint-up(lg) {
-      flex-basis: 25%;
+      // flex-basis: 25%;
     }
 
     // Responsive image that takes up the whole width.
