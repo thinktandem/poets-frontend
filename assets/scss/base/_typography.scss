@@ -6,3 +6,15 @@ pre {
   font-family: "Poets Electra";
 }
 // @TODO Fonts should go here.
+
+.font-serif {
+  font-family: $font-family-serif;
+}
+
+.font-serif-2 {
+  font-family: "Poets Electra", serif;
+}
+
+.font-sans {
+  font-family: $font-family-sans-serif;
+}

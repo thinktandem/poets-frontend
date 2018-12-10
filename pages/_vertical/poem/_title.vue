@@ -39,15 +39,15 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "../../components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "../../components/AppPoemADayPoems/AppPoems";
+import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 export default {
   components: { AppPoemADaySignUpForm, AppPoems },
   async asyncData({ app, params }) {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: "poetsorg/poem/" + params.title
+          path: `${params.vertical}/poem/${params.title}`
         }
       })
       .then(res => {

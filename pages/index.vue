@@ -33,18 +33,22 @@ export default {
     store.commit("updatePoemOfTheDay", {
       poet: {
         name: theOne.poet.name,
-        image: theOne.poet.image
+        image: theOne.poet.image,
+        alias: theOne.poet.alias
       },
       poem: {
-        link: "https://appUrl/announcementId",
         title: theOne.poem.title,
-        text: theOne.poem.text
+        text: theOne.poem.text,
+        soundCloud: theOne.poem.soundcloud,
+        alias: theOne.poem.alias
       }
     });
     // Set the current hero
     store.commit("updateHero", {
       variant: "quote",
-      lead: "This is a Quote"
+      lead:
+        "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
+      subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
     });
   }
 };
