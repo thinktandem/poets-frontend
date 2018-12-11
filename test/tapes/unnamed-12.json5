@@ -1,11 +1,11 @@
 {
     meta: {
-        createdAt: '2018-12-11T16:05:24.946Z',
+        createdAt: '2018-12-11T16:05:38.370Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
     req: {
-        url: '/router/translate-path?path=poetsorg%2Fpoem%2Fone-strand-river-audio-only',
+        url: '/router/translate-path?path=poetsorg%2Fpoet%2Frichard-kenney',
         method: 'GET',
         headers: {
             accept: 'application/json, text/plain, */*',
@@ -34,13 +34,13 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:05:24 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:05:38 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 11 Dec 2018 16:05:25 GMT',
+                'Tue, 11 Dec 2018 16:05:38 GMT',
             ],
             'x-drupal-dynamic-cache': [
                 'MISS',
@@ -58,7 +58,7 @@
                 'SAMEORIGIN',
             ],
             'x-drupal-cache-tags': [
-                'config:user.role.anonymous http_response node:50361',
+                'config:user.role.anonymous http_response node:44322',
             ],
             'x-drupal-cache-contexts': [
                 'url.query_args:path url.site user.permissions',
@@ -79,6 +79,6 @@
                 'http://poetsd8.lndo.site',
             ],
         },
-        body: '{"resolved":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/one-strand-river-audio-only","entity":{"canonical":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/one-strand-river-audio-only","type":"node","bundle":"poems","id":"50361","uuid":"e6989a9b-5ec8-48be-a79a-7e7d36e138ab"},"label":"The One-Strand River (audio only)","jsonapi":{"individual":"http:\\/\\/apipoetsd8.lndo.site\\/api\\/node\\/poems\\/e6989a9b-5ec8-48be-a79a-7e7d36e138ab","resourceName":"node--poems","pathPrefix":"api","basePath":"\\/api","entryPoint":"http:\\/\\/apipoetsd8.lndo.site\\/api"},"meta":{"deprecated":{"jsonapi.pathPrefix":"This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."}}}',
+        body: '{"resolved":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poet\\/richard-kenney","entity":{"canonical":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poet\\/richard-kenney","type":"node","bundle":"person","id":"44322","uuid":"b52d71ac-6b48-4747-96da-a40dfd54df13"},"label":"Richard Kenney","jsonapi":{"individual":"http:\\/\\/apipoetsd8.lndo.site\\/api\\/node\\/person\\/b52d71ac-6b48-4747-96da-a40dfd54df13","resourceName":"node--person","pathPrefix":"api","basePath":"\\/api","entryPoint":"http:\\/\\/apipoetsd8.lndo.site\\/api"},"meta":{"deprecated":{"jsonapi.pathPrefix":"This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."}}}',
     },
 }

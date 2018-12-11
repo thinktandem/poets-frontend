@@ -1,6 +1,6 @@
 Feature("Poem");
 Before(I => {
-  I.amOnPage("/poems/postcard-christ-carrying-cross");
+  I.amOnPage("/poetsorg/poem/postcard-christ-carrying-cross");
 });
 Scenario("Poem is available on individual poem page", I => {
   I.see("A Postcard of Christ Carrying the Cross,");
