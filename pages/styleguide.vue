@@ -1,51 +1,101 @@
 <template>
-  <div>
-    <div class="styleguide-item">
-      <CardDeck
-        title="Poets"
-        cardtype="Poet"
-        :cards="poets"
-        :link="poetsLink"/>
-    </div>
+  <b-container>
+    <b-row>
+      <b-col
+        sm="12"
+        md="10"
+      >
+        <main id="styleguide">
+          <h1 class="my-5 font-serif">Poets.org Styleguide</h1>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="Buttons">Buttons</h2>
+            <b-button
+              class="m-2"
+              :variant="button.variant"
+              :size="button.size"
+              v-for="(button, index) in buttons"
+              :key="index">
+              {{ button.size }} {{ button.variant }}
+            </b-button>
+          </section>
+          <section class="styleguide-item" >
+            <h2
+              class="styleguide__heading"
+              id="PoetsDeck">Poets Card Deck</h2>
+            <CardDeck
+              title="Poets"
+              cardtype="Poet"
+              :cards="poets"
+              :link="poetsLink"/>
+          </section>
 
-    <div class="styleguide-item">
-      <CardDeck
-        title="Poets"
-        cardtype="Poet"
-        class="card-deck--poet--extended"
-        :cards="poetsExtended"
-        :link="poetsLink"/>
-    </div>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="PoetsFeaturedDeck">Poets Featured Deck</h2>
+            <CardDeck
+              title="Poets"
+              cardtype="Poet"
+              class="card-deck--poet--extended"
+              :cards="poetsExtended"
+              :link="poetsLink"/>
+          </section>
 
-    <div class="styleguide-item">
-      <CardDeck
-        title="Poems"
-        cardtype="PoemCard"
-        :cards="poems"
-        :link="poemsLink" />
-    </div>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="PoemCardDeck">Poem Card Deck</h2>
+            <CardDeck
+              title="Poems"
+              cardtype="PoemCard"
+              :cards="poems"
+              :link="poemsLink" />
+          </section>
 
-    <div class="styleguide-item">
-      <StyleguideForm />
-    </div>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="Forms">Forms</h2>
+            <StyleguideForm />
+          </section>
 
-    <div class="styleguide-item">
-      <CardDeck
-        title="Features"
-        cardtype="FeatureCard"
-        :cards="featureCards"
-        :link="poemsLink" />
-    </div>
-
-    <b-container class="styleguide-item">
-      <b-row>
-        <b-col cols="12">
-          <h2>Poet List</h2>
-          <PoetList :items="poetListItems" />
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+          <section class="styleguide-item">
+            <h2 
+              class="styleguide__heading" 
+              id="Features">Features</h2>
+            <CardDeck
+              title="Features"
+              cardtype="FeatureCard"
+              :cards="featureCards"
+              :link="poemsLink" />
+          </section>
+          <section class="styleguide-item">
+            <h2 
+              class="styleguide__heading" 
+              id="PoetList">Poet List</h2>
+            <PoetList :items="poetListItems" />
+          </section>
+        </main>
+      </b-col>
+      <b-col
+        sm="12"
+        md="2">
+        <aside class="styleguide__menu p-4">
+          <b-nav
+            class="border-left"
+            vertical
+            v-b-scrollspy>
+            <b-nav-item
+              v-for="(item, index) in menu"
+              :key="index"
+              :href="item.anchor">{{ item.title }}</b-nav-item>
+          </b-nav>
+        </aside>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -55,9 +105,15 @@ import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import PoetList from "~/components/PoetList";
+import * as _ from "lodash";
 
 export default {
-  layout: "default",
+  head: {
+    bodyAttrs: {
+      class: "styleguide"
+    }
+  },
+  layout: "minimal",
   components: {
     PoemCard,
     CardDeck,
@@ -65,6 +121,69 @@ export default {
     StyleguideForm,
     FeatureCard,
     PoetList
+  },
+  computed: {
+    buttons() {
+      const sizes = ["sm", "md", "lg"];
+      const variants = [
+        "default",
+        "primary",
+        "primary-dark",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "light",
+        "dark",
+        "outline-primary",
+        "outline-primary-dark",
+        "outline-secondary",
+        "outline-secondary-dark",
+        "outline-success",
+        "outline-warning",
+        "outline-danger",
+        "outline-light",
+        "outline-dark",
+        "link"
+      ];
+      return _.flatMap(sizes, size => {
+        return _.map(variants, variant => {
+          return { size: size, variant: variant };
+        });
+      });
+    },
+    menu() {
+      return [
+        {
+          title: "Buttons",
+          anchor: "#Buttons"
+        },
+        {
+          title: "Poets Deck",
+          anchor: "#PoetsDeck"
+        },
+        {
+          title: "Poets Featured Deck",
+          anchor: "#PoetsFeaturedDeck"
+        },
+        {
+          title: "Poem Card Deck",
+          anchor: "#PoemCardDeck"
+        },
+        {
+          title: "Forms",
+          anchor: "#Forms"
+        },
+        {
+          title: "Features",
+          anchor: "#Features"
+        },
+        {
+          title: "Poet List",
+          anchor: "#PoetList"
+        }
+      ];
+    }
   },
   data() {
     return {
@@ -288,7 +407,25 @@ And as for the bucket, Nantucket.`,
 </script>
 
 <style lang="scss">
+.styleguide {
+  position: relative;
+}
 .styleguide-item {
-  margin-bottom: 4rem;
+  margin-bottom: $spacer * 2;
+  padding-bottom: $spacer * 2;
+}
+.styleguide__heading {
+  padding-bottom: $spacer / 2;
+  margin-bottom: $spacer * 2;
+  border-bottom: 1px solid $gray-600;
+}
+.styleguide__menu {
+  position: sticky;
+  top: $spacer;
+  height: calc(100vh - 4rem);
+}
+.nav-link.active {
+  font-weight: bold;
+  color: $black;
 }
 </style>
