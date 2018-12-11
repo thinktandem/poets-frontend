@@ -59,6 +59,7 @@ export default {
   }
 
   .poem__body {
+    padding-left: 1rem;
     max-height: 9rem;
     position: relative;
     font-family: $font-family-serif;
@@ -83,7 +84,6 @@ export default {
 
     p {
       margin: 0;
-      font-size: $font-size-lg;
 
       &.card--poem__year {
         font-weight: 400;

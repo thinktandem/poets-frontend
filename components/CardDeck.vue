@@ -62,5 +62,41 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.card-deck {
+  padding: 4rem 0;
+
+  header {
+    @include media-breakpoint-up(sm) {
+      display: flex;
+    }
+
+    a {
+      @extend %a--more;
+      display: block;
+      margin-bottom: 2rem;
+
+      @include media-breakpoint-up(sm) {
+        line-height: $h2-font-size;
+      }
+    }
+  }
+
+  .card-deck__title {
+    font-family: $font-family-serif;
+    font-style: italic;
+
+    @include media-breakpoint-up(sm) {
+      flex-grow: 1;
+    }
+  }
+
+  .card-deck__card {
+    margin-bottom: 2rem;
+
+    .card {
+      margin: 0;
+    }
+  }
+}
 </style>
