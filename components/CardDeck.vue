@@ -8,7 +8,9 @@
           cols="12"
           tag="header">
           <h2 class="card-deck__title">{{ title }}</h2>
-          <a :href="link.href">{{ link.text }}</a>
+          <a
+            v-if="link"
+            :href="link.href">{{ link.text }}</a>
         </b-col>
       </b-row>
       <b-row class="card-deck__cards">
