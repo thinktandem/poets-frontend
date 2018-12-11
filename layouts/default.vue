@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppNavigation />
-    <promo-space :variant="dark" />
+    <promo-space variant="dark" />
     <AppHeroOuter
       :variant="this.$store.state.hero.variant"
       :lead="this.$store.state.hero.lead"

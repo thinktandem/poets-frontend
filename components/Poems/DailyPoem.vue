@@ -21,10 +21,10 @@
     <b-container class="daily-poem__poem-container">
       <b-row class="d-none d-md-block py-4">
         <b-col offset-md="3">
-          <h3
-            class="text-white"
-            v-if="null !== poet.name">
-            {{ poet.name }}
+          <h3>
+            <b-link
+              :to="poet.alias"
+              class="text-white">{{ poet.name }}</b-link>
           </h3>
         </b-col>
       </b-row>
@@ -34,11 +34,13 @@
           tag="aside"
           class="d-none d-md-block pr-0">
           <div class="daily-poem__poet-image">
-            <b-img-lazy
-              :src="poet.image"
-              fluid
-              blank-color="#00B4F0"
-            />
+            <b-link :to="poet.alias">
+              <b-img-lazy
+                :src="poet.image"
+                fluid
+                blank-color="#00B4F0"
+              />
+            </b-link>
           </div>
           <div class="mt-5">
             <AppPoemADaySignUpForm />
@@ -58,10 +60,12 @@
               v-if="showSoundCloud"
               v-html="poem.soundCloud"/>
             <div class="d-flex pt-3 pb-3 daily-poem__poem-title">
-              <h2>{{ poem.title }}</h2>
+              <h2><b-link
+                :to="poem.alias"
+                class="text-dark">{{ poem.title }}</b-link></h2>
               <b-link
                 @click="showSoundCloud = true"
-                v-if="showSoundCloud == false">
+                v-if="showSoundCloud === false && null !== poem.soundCloud">
                 <span class="oi oi-volume-high daily-poem__soundcloud-link"/>
               </b-link>
               <b-link
@@ -91,16 +95,25 @@
       size="lg"
       centered
       lazy
+      header-class="font-serif"
+      header-border-variant="0"
+      body-class="font-serif-2"
+      footer-bg-variant="black"
       busy="true"
       id="poemADayModal">
       <b-container>
         <b-row>
           <b-col sm="12">
+            <b-link 
+              :to="poet.alias"
+              class="pb-3 font-sans text-dark">{{ poet.name }}</b-link>
             <div v-html="poem.text"/>
           </b-col>
         </b-row>
       </b-container>
-      <template slot="modal-footer">
+      <template
+        slot="modal-footer"
+        class="p-0">
         <AppPoemADaySignUpForm />
       </template>
     </b-modal>
@@ -172,7 +185,24 @@ export default {
     font-size: $font-size-base;
   }
 }
-
+.daily-poem__poet-image {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    content: "";
+    background: linear-gradient(
+      0.25turn,
+      transparent 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 1) 100%
+    );
+    pointer-events: none;
+  }
+}
 .daily-poem__label {
   background-color: var(--blue);
   line-height: 1.25rem;
@@ -232,14 +262,18 @@ export default {
 
 // sm and up
 @include media-breakpoint-up(sm) {
+  .daily-poem__poem-container.container {
+    margin: auto;
+  }
   .daily-poem__header {
     max-height: initial;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    h3 {
+    .daily-poem__poet-name {
       font-size: $h3-font-size;
+      padding: $spacer $spacer;
     }
   }
 }
@@ -259,9 +293,7 @@ export default {
     height: auto;
     max-width: %100;
   }
-  .daily-poem__poem-container.container {
-    margin: auto;
-  }
+
   .daily-poem__read-the-rest {
     padding-top: $spacer * 2;
   }

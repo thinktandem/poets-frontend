@@ -1,11 +1,11 @@
 {
     meta: {
-        createdAt: '2018-12-06T21:42:21.808Z',
+        createdAt: '2018-12-11T16:04:40.010Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
     req: {
-        url: '/api/poems?page=0',
+        url: '/router/translate-path?path=poetsorg%2Fpoem%2Fone-strand-river-audio-only',
         method: 'GET',
         headers: {
             accept: 'application/json, text/plain, */*',
@@ -33,13 +33,13 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Thu, 06-Dec-2018 22:42:21 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:04:40 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Thu, 06 Dec 2018 21:42:22 GMT',
+                'Tue, 11 Dec 2018 16:04:40 GMT',
             ],
             'x-drupal-dynamic-cache': [
                 'MISS',
@@ -57,10 +57,10 @@
                 'SAMEORIGIN',
             ],
             'x-drupal-cache-tags': [
-                'config:field.storage.node.field_dob config:field.storage.node.field_dod config:field.storage.node.field_school_movement config:user.role.anonymous config:views.view.poems http_response node:490662 node:490665 node:490668 node:490671 node:490674 node:490698 node:490701 node:490704 node:490707 node:490710 node:490716 node:490731 node:490734 node:490740 node:490743 node:490746 node:490749 node:490752 node:490776 node:490779 node:490785 node:490821 node:490827 node:490833 node:490836 node:490881 node:490884 node:490887 node:490893 node:490896 node:490899 node:490902 node:490905 node:490908 node:490911 node:490914 node:490917 node:490935 node:491082 node:491085 node:491088 node:491091 node:491097 node:491130 node:491133 node:491136 node:491139 node:491142 node:491181 node:491322 node_list',
+                'config:user.role.anonymous http_response node:50361',
             ],
             'x-drupal-cache-contexts': [
-                'languages:language_content languages:language_interface request_format theme url.query_args user.node_grants:view user.permissions',
+                'url.query_args:path url.site user.permissions',
             ],
             expires: [
                 'Sun, 19 Nov 1978 05:00:00 GMT',
@@ -75,6 +75,6 @@
                 'MISS',
             ],
         },
-        body: '[{"title":"Convalescence","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/convalescence-0"},{"title":"November","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/november-2"},{"title":"If I Should Ever by Chance","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/if-i-should-ever-chance"},{"title":"Thaw","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/thaw-0"},{"title":"Will You Come?","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/will-you-come"},{"title":"The Manor Farm","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/manor-farm"},{"title":"Tears","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/tears-0"},{"title":"Unsolved","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/unsolved-0"},{"title":"The Unconquered Dead","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/unconquered-dead-0"},{"title":"Disarmament","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/disarmament-0"},{"title":"Penance","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/penance-0"},{"title":"The Anxious Dead","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/anxious-dead-0"},{"title":"The Right to Grief","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/right-grief"},{"title":"Autumn","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/autumn-10"},{"title":"Repression of War Experience","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/repression-war-experience"},{"title":"Before the Battle","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/battle"},{"title":"The Hero","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/hero"},{"title":"Stand-To: Good Friday Morning","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/stand-good-friday-morning"},{"title":"A Working Party","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/working-party"},{"title":"Break of Day","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/break-day-0"},{"title":"Wirers","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/wirers"},{"title":"Trench Duty","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/trench-duty"},{"title":"The Redeemer","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/redeemer"},{"title":"Dreamers","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/dreamers"},{"title":"Prelude: The Troops","nothing":" - ","field_school_movement":"Poets of World War I","view_node":"\\/poetsorg\\/poem\\/prelude-troops"},{"title":"future somatics to-do list","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/future-somatics-do-list"},{"title":"Feast Green and Stained","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/feast-green-and-stained"},{"title":"In the Animal Garden of My Body","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/animal-garden-my-body"},{"title":"The Unreturning","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/unreturning"},{"title":"She Walketh Veiled and Sleeping","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/she-walketh-veiled-and-sleeping"},{"title":"J. Chamberlain","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/j-chamberlain"},{"title":"Aging","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/aging"},{"title":"Ars Poetica #1,002: Rally","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/ars-poetica-1002-rally"},{"title":"Rally","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/rally"},{"title":"Stray","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/stray"},{"title":"The Dream That I Told My Mother-in-Law","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/dream-i-told-my-mother-law"},{"title":"Epistemological","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/epistemological"},{"title":"The World That the Shooter Left Us","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/world-shooter-left-us"},{"title":"It\\u2019s Not Easy Being Green","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/its-not-easy-being-green"},{"title":"Troubled with the Itch and Rubbing with Sulphur","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/troubled-itch-and-rubbing-sulphur"},{"title":"A House Called Tomorrow","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/house-called-tomorrow"},{"title":"Move","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/move"},{"title":"Kata: Bus Stop","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/kata-bus-stop"},{"title":"Lost Dog","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/lost-dog"},{"title":"If You Knew","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/if-you-knew"},{"title":"The End","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/end-1"},{"title":"Disabled ","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/disabled-0"},{"title":"Wild with All Regrets","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/wild-all-regrets-0"},{"title":"A Terre","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/terre-0"},{"title":"Conscious ","nothing":" - ","field_school_movement":"","view_node":"\\/poetsorg\\/poem\\/conscious-0"}]',
+        body: '{"resolved":"https:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/one-strand-river-audio-only","entity":{"canonical":"https:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/one-strand-river-audio-only","type":"node","bundle":"poems","id":"50361","uuid":"e6989a9b-5ec8-48be-a79a-7e7d36e138ab"},"label":"The One-Strand River (audio only)","jsonapi":{"individual":"https:\\/\\/apipoetsd8.lndo.site\\/api\\/node\\/poems\\/e6989a9b-5ec8-48be-a79a-7e7d36e138ab","resourceName":"node--poems","pathPrefix":"api","basePath":"\\/api","entryPoint":"https:\\/\\/apipoetsd8.lndo.site\\/api"},"meta":{"deprecated":{"jsonapi.pathPrefix":"This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."}}}',
     },
 }

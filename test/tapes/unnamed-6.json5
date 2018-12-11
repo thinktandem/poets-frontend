@@ -1,11 +1,11 @@
 {
     meta: {
-        createdAt: '2018-12-05T21:05:02.762Z',
+        createdAt: '2018-12-11T16:03:42.502Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
     req: {
-        url: '/router/translate-path?path=poetsorg%2Fpoem%2Fpostcard-christ-carrying-cross',
+        url: '/poem-a-day?_format=json',
         method: 'GET',
         headers: {
             accept: 'application/json, text/plain, */*',
@@ -26,22 +26,19 @@
                 'chunked',
             ],
             connection: [
-                'keep-alive',
+                'close',
             ],
             'x-powered-by': [
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Wed, 05-Dec-2018 22:05:02 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:03:42 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Wed, 05 Dec 2018 21:05:02 GMT',
-            ],
-            'x-drupal-dynamic-cache': [
-                'MISS',
+                'Tue, 11 Dec 2018 16:03:42 GMT',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -55,12 +52,6 @@
             'x-frame-options': [
                 'SAMEORIGIN',
             ],
-            'x-drupal-cache-tags': [
-                'config:user.role.anonymous http_response node:405226',
-            ],
-            'x-drupal-cache-contexts': [
-                'url.query_args:path url.site user.permissions',
-            ],
             expires: [
                 'Sun, 19 Nov 1978 05:00:00 GMT',
             ],
@@ -70,10 +61,7 @@
             'x-generator': [
                 'Drupal 8 (https://www.drupal.org)',
             ],
-            'x-drupal-cache': [
-                'MISS',
-            ],
         },
-        body: '{"resolved":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/postcard-christ-carrying-cross","entity":{"canonical":"http:\\/\\/apipoetsd8.lndo.site\\/poetsorg\\/poem\\/postcard-christ-carrying-cross","type":"node","bundle":"poems","id":"405226","uuid":"6d0e6cef-b75b-4f41-814d-497da77bdba8"},"label":"A Postcard of Christ Carrying the Cross,","jsonapi":{"individual":"http:\\/\\/apipoetsd8.lndo.site\\/api\\/node\\/poems\\/6d0e6cef-b75b-4f41-814d-497da77bdba8","resourceName":"node--poems","pathPrefix":"api","basePath":"\\/api","entryPoint":"http:\\/\\/apipoetsd8.lndo.site\\/api"},"meta":{"deprecated":{"jsonapi.pathPrefix":"This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."}}}',
+        body: '[{"poem":{"title":"Reading Biographies","text":"\\u003Cpre\\u003EPerhaps Frost was poking his secretary,\\r\\nThe apple core of his good-living chewed\\r\\nTo the bitter seed. Perhaps he buttoned up,\\r\\nDisgusted with the dead lizard cupped in his palm.\\r\\nAnd his woman? She was as large as Gilbraltar,\\r\\nA chunk of cheese in each armpit.\\r\\nShe took a deep breath\\r\\nAnd wiggled the goose of her tasty fanny\\r\\nInto the kitchen. There, she poured pancakes\\r\\nOnto a skillet as old as this country,\\r\\nAnd Frost, a pioneer for all writers,\\r\\nPicked up his beaver-thrashed pencil and proclaimed,\\r\\nO Sweet Youth, etc.\\r\\n\\r\\n\\t        I don\\u0027t know how to read\\r\\nBiographies, the dead words of dead writers\\r\\nEtched on my eyes, then gone. I read them,\\r\\nAnd drive my car recklessly through leaves,\\r\\nThe cushion for my own eventual death.\\r\\nSure, I reflect, like a chip of mirror,\\r\\nAnd then I forget them, these subjects,\\r\\nThese writers with lungs and straight-A penmanship.\\r\\nThey\\u0027re of no use. I\\u0027m not saved\\r\\nBy the repetitions of jealousy and all-day drinking.\\r\\nWind frisked the trees, hair fell like wheat,\\r\\nAnd the liver, saddlebag of disease,\\r\\nBulged with inoperable knots.\\r\\n\\r\\nI touch my own hip, then hobble home\\r\\nWhere a pumpkin glows in a window.\\r\\nBirds shrug into their coats of dirt.\\r\\nCrickets stop the violin action of their thighs.\\r\\nA fire is built, and I\\u0027m lit in the living room.\\r\\nI\\u0027m a democrat, I slur to the couch,\\r\\nAnd add, Venus is a star and fly trap.\\r\\nThank God, I\\u0027ve learned nothing.\\u003C\\/pre\\u003E","soundcloud":null,"vertical":"Poets.org","uuid":"2d05c1d4-f9b0-443d-8128-16c5dac3dade","alias":"\\/poetsorg\\/poem\\/reading-biographies"},"poet":{"name":"Gary Soto","alias":"\\/poetsorg\\/poet\\/gary-soto","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/230_gsoto2.gif?itok=5OZJb8LA"}}]',
     },
 }

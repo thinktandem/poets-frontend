@@ -6,10 +6,11 @@ const createStore = () => {
       poemOfTheDay: {
         poet: {
           name: "Gabrielle Calvocoressi",
+          alias: "/poets",
           image: "/images/gc.png"
         },
         poem: {
-          link: "https://appUrl/announcementId",
+          alias: "/poems",
           title: "Awesome Poem Title",
           text: "Awesome Poem",
           soundCloud: ""
