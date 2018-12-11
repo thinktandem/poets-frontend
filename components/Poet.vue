@@ -87,13 +87,13 @@ export default {
     padding: 1rem;
     color: var(--white);
     background-color: var(--gray-800);
+    font-weight: 400;
     overflow: scroll;
   }
 
   &__link {
     color: var(--white);
     font-weight: 700;
-    text-decoration: underline;
 
     &::after {
       content: " >";
@@ -103,6 +103,7 @@ export default {
     &:focus,
     &:active {
       color: var(--white);
+      text-decoration: underline;
     }
   }
 }
