@@ -1,22 +1,34 @@
 <template>
   <div class="poem-a-day-sign-up p-3">
     <div class="poem-a-day-sign-up__social-group">
-      <span class="pr-2">
+      <span class="pl-2 pr-2">
         <a href="#">
-          <b-img
-            src="/social/facebook.svg"/>
+          <FacebookIcon class="icon"/>
         </a>
       </span>
       <span class="pl-2 pr-2">
         <a href="#">
-          <b-img
-            src="/social/twitter.svg"/>
+          <TwitterIcon class="icon"/>
         </a>
       </span>
       <span class="pl-2 pr-2">
         <a href="#">
-          <b-img
-            src="/social/pinterest.svg"/>
+          <TumblrIcon/>
+        </a>
+      </span>
+      <span class="pl-2 pr-2">
+        <a href="#">
+          <PrintIcon/>
+        </a>
+      </span>
+      <span class="pl-2 pr-2">
+        <a href="#">
+          <EmbedIcon/>
+        </a>
+      </span>
+      <span class="pl-2 pr-2">
+        <a href="#">
+          <CollectionIcon/>
         </a>
       </span>
     </div>
@@ -45,7 +57,21 @@
 </template>
 
 <script>
+import FacebookIcon from "~/static/social/facebook.svg";
+import TwitterIcon from "~/static/social/twitter.svg";
+import TumblrIcon from "~/static/social/tumblr.svg";
+import PrintIcon from "~/static/social/print.svg";
+import EmbedIcon from "~/static/social/embed.svg";
+import CollectionIcon from "~/static/social/collection.svg";
 export default {
+  components: {
+    FacebookIcon,
+    TwitterIcon,
+    TumblrIcon,
+    PrintIcon,
+    EmbedIcon,
+    CollectionIcon
+  },
   data() {
     return {
       email: ""
@@ -78,14 +104,6 @@ export default {
   font-weight: 600;
   background-color: var(--black);
   width: 100%;
-  .poem-a-day-sign-up__social-group {
-    span {
-      img {
-        width: 26px;
-        height: 26px;
-      }
-    }
-  }
   .poem-a-day-sign-up__title {
     font-family: $font-family-sans-serif;
     font-size: 26px;

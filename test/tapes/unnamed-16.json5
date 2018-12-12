@@ -1,0 +1,68 @@
+{
+    meta: {
+        createdAt: '2018-12-11T21:33:05.041Z',
+        host: 'http://apipoetsd8.lndo.site',
+        resHumanReadable: true,
+    },
+    req: {
+        url: '/poem-a-day?_format=json',
+        method: 'GET',
+        headers: {
+            accept: 'application/json, text/plain, */*',
+            'accept-encoding': 'gzip, deflate',
+            'accept-language': 'en-US,en;q=0.5',
+        },
+        body: '',
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx/1.15.7',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'transfer-encoding': [
+                'chunked',
+            ],
+            connection: [
+                'close',
+            ],
+            'x-powered-by': [
+                'PHP/7.2.12',
+            ],
+            'set-cookie': [
+                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 22:33:05 GMT; Max-Age=3600; path=/',
+            ],
+            'cache-control': [
+                'must-revalidate, no-cache, private',
+            ],
+            date: [
+                'Tue, 11 Dec 2018 21:33:07 GMT',
+            ],
+            'x-ua-compatible': [
+                'IE=edge',
+            ],
+            'content-language': [
+                'en',
+            ],
+            'x-content-type-options': [
+                'nosniff',
+            ],
+            'x-frame-options': [
+                'SAMEORIGIN',
+            ],
+            expires: [
+                'Sun, 19 Nov 1978 05:00:00 GMT',
+            ],
+            vary: [
+                '',
+            ],
+            'x-generator': [
+                'Drupal 8 (https://www.drupal.org)',
+            ],
+        },
+        body: '[{"poem":{"title":"The Composition of the Text","text":"\\u003Cpre\\u003E\\r\\n1\\r\\nan adjective breathing the window open\\r\\nthe insertion\\u0026#39;s exact dimension in the rustling of pages\\r\\nor see maybe how the text uses the body\\r\\nsee how the work is cosmic and biological and logical\\r\\nin nocturnal voices in auroral explosions\\r\\nin the croaking scratching scraping setting fire\\r\\nhere under the soft sky sticking all over the fingers\\r\\nwords that speak\\r\\n\\r\\n2\\r\\nhe turns to the night cries out to it from the window\\r\\nto slow down or existence is the circle is the space\\r\\nis rhythmic swinging harpoon that brushes the lips\\r\\nbronze gestures darkroom a stain left by the water\\r\\nframed frozen hypocritical face dust hypnosis\\r\\nsee but how negation modifies the text\\r\\nwith possible words with impossible words\\r\\n\\r\\n3\\r\\nbut the text is a living object furnished with keys\\r\\nthe crude resection its effect the incredible osmosis\\r\\nthis is the moment you wait for start cutting\\r\\nsee how it stretches and swells it\\u0026#39;s ready to burst\\r\\nit\\u0026#39;s the young anaconda biting its own tail dragging \\r\\nodor of marshes odor coined from the breath of swamps\\r\\na book a notebook a pen a painless desire\\r\\nwithout words\\r\\n\\r\\n4\\r\\ntired now he becomes aware of his own purposes\\r\\nit\\u0026#39;s not difficult to try various tests various experiments\\r\\nimprobable preparations for a voyage by now certain\\r\\nyou too let yourself become sterile don\\u0026#39;t throw open the door\\r\\nuntreatable eczema the stamped meat the ruins the slaughterhouse\\r\\nin the text everything accumulates everything melts into vapor\\r\\nremember it\\u0026#39;s late remember it\\u0026#39;s time to go to say goodbye\\r\\nwith a few careful innocuous words\\r\\n\\r\\n5\\r\\nafter the first beats the material becomes insensible\\r\\nor sensible uncertain private risky privileged declension\\r\\nin terms of organic functions or malfunctions\\r\\nor in terms of chipped awkward monodical alternatives\\r\\nsee at this point how the text begins to miss the beat\\r\\nthe refusal is to b lame you begin with the same refusal as before\\r\\nbut you will accept whatever other duty entrusted to you\\r\\nthat has no need of words\\r\\n\\r\\n6\\r\\nit\\u0026#39;s incoherent it\\u0026#39;s undetermined his sickness has no purpose\\r\\nnow that we are in the text the fixtures appear to subside\\r\\na noun is an excess of coughing the beginning of hysteria\\r\\nthe vulgar embellishment the shears dripping with blood\\r\\nwithout falcons without promises without hunting horns without catharsis\\r\\nthe woods are full of fragile docile stupid victims\\r\\nthe woods are full of love and how it hates love \\r\\nthis word\\r\\n\\r\\n7\\r\\nbefore long in the text the final part will have begun\\r\\ncatalog of mannerisms and of rapes song and narcoses\\r\\nmarking on the calendar with a pencil the delivery date\\r\\na verb is the parasite the narcissus the rage beneath the skin\\r\\nbut see how the machine masticates and bubbles and heats up\\r\\nthe music rises the hand corrects the lights go down low\\r\\nthe head even lower open your arms wide don\\u0026#39;t shut your eyes\\r\\ncancel that word\\u003C\\/pre\\u003E\\r\\n","soundcloud":null,"vertical":"Poets.org","uuid":"8d92d621-ee7b-449f-a4ee-ecbea9973d74","alias":"\\/poetsorg\\/poem\\/composition-text"},"poet":{"name":"Adriano Spatola","alias":"\\/poetsorg\\/poet\\/adriano-spatola"}}]',
+    },
+}
