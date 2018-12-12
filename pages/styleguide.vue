@@ -40,7 +40,7 @@
               cardtype="Poet"
               class="card-deck--poet--extended"
               :cards="poetsExtended"
-              :link="poetsLink"/>
+              :link="featuredPoetsLink"/>
           </section>
 
           <section class="styleguide-item">
@@ -363,6 +363,10 @@ And as for the bucket, Nantucket.`,
       poetsLink: {
         href: "blah/blah",
         text: "More Poets"
+      },
+      featuredPoetsLink: {
+        href: "blah/blah",
+        text: "3443 Poets"
       },
       poetListItems: [
         {
