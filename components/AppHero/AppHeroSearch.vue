@@ -71,7 +71,8 @@ export default {
           link: "/announcements",
           text: "announcements"
         }
-      ]
+      ],
+      searchInput: ""
     };
   },
   methods: {
