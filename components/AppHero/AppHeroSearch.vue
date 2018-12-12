@@ -1,16 +1,17 @@
 <template>
   <div class="hero-search">
-    <b-form class="hero-search__form">
+    <b-form
+      class="hero-search__form"
+      @submit.stop.prevent="search">
       <b-form-group
         label="search"
         label-sr-only
         label-for="heroSearchInput">
         <b-input-group>
           <b-form-input
-            type="search"
+            type="text"
             v-model="searchInput"
             placeholder="search"
-            id="heroSearchInput"
             class="hero-search__form-input px-3 pt-3 pb-2"/>
           <b-input-group-append is-text>
             <span class="text-primary oi oi-magnifying-glass"/>
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+// import searchHelpers from "~/plugins/search-helpers";
 export default {
   /**
    * @todo: should/can this be a data/prop delivered by drupal?
@@ -71,6 +73,14 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    search() {
+      this.$router.push({
+        name: "search",
+        query: { combine: this.searchInput }
+      });
+    }
   }
 };
 </script>
