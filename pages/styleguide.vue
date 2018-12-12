@@ -62,18 +62,17 @@
           </section>
 
           <section class="styleguide-item">
-            <h2 
-              class="styleguide__heading" 
+            <h2
+              class="styleguide__heading"
               id="Features">Features</h2>
             <CardDeck
               title="Features"
               cardtype="FeatureCard"
-              :cards="featureCards"
-              :link="poemsLink" />
+              :cards="featureCards" />
           </section>
           <section class="styleguide-item">
-            <h2 
-              class="styleguide__heading" 
+            <h2
+              class="styleguide__heading"
               id="PoetList">Poet List</h2>
             <PoetList :items="poetListItems" />
           </section>
