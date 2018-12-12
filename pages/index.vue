@@ -33,7 +33,7 @@ export default {
     store.commit("updatePoemOfTheDay", {
       poet: {
         name: theOne.poet.name,
-        image: theOne.poet.image,
+        image: theOne.poet.image ? theOne.poet.image : "",
         alias: theOne.poet.alias
       },
       poem: {
