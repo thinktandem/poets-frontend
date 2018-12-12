@@ -59,7 +59,7 @@ module.exports = {
           loader: "vue-svg-loader",
           options: {
             svgo: {
-              plugins: [{ prefixIds: true }]
+              plugins: [{ prefixIds: true }, { removeViewBox: false }]
             }
           }
         });

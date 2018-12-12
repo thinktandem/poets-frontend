@@ -104,14 +104,6 @@ export default {
   font-weight: 600;
   background-color: var(--black);
   width: 100%;
-  .poem-a-day-sign-up__social-group {
-    span {
-      img {
-        width: 26px;
-        height: 26px;
-      }
-    }
-  }
   .poem-a-day-sign-up__title {
     font-family: $font-family-sans-serif;
     font-size: 26px;

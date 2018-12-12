@@ -66,7 +66,7 @@
               <b-link
                 @click="showSoundCloud = true"
                 v-if="showSoundCloud === false && null !== poem.soundCloud">
-                <span class="oi oi-volume-high daily-poem__soundcloud-link"/>
+                <speaker-icon class="daily-poem__soundcloud-link"/>
               </b-link>
               <b-link
                 @click="showSoundCloud = false"
@@ -122,10 +122,12 @@
 
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 export default {
   name: "DailyPoem",
   components: {
-    AppPoemADaySignUpForm
+    AppPoemADaySignUpForm,
+    SpeakerIcon
   },
   data() {
     return {
@@ -225,7 +227,10 @@ export default {
 .daily-poem__soundcloud-link {
   float: right;
   color: var(--blue-dark);
-  font-size: 1.25rem;
+  fill: var(--blue-dark);
+  font-size: 1.9rem;
+  width: 1.9rem;
+  height: 1.9rem;
 }
 .daily-poem__poem {
   background-color: var(--white);
