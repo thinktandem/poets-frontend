@@ -2,6 +2,8 @@ name: poetsd8
 proxy:
   appserver:
     - poetsd8.lndo.site
+  yakbak:
+    - yakbakpoets.lndo.site
 services:
   appserver:
     type: node:10

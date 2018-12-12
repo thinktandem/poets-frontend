@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2018-12-05T19:31:01.295Z',
+        createdAt: '2018-12-11T16:03:42.502Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
@@ -10,7 +10,6 @@
         headers: {
             accept: 'application/json, text/plain, */*',
             'accept-encoding': 'gzip, deflate',
-            'accept-language': 'en-US,en;q=0.9',
         },
         body: '',
     },
@@ -33,13 +32,13 @@
                 'PHP/7.2.12',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Wed, 05-Dec-2018 20:31:01 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:03:42 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Wed, 05 Dec 2018 19:31:01 GMT',
+                'Tue, 11 Dec 2018 16:03:42 GMT',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -63,6 +62,6 @@
                 'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: '[{"poem":{"title":"United Jewish Appeal","text":"\\u003Cpre\\u003E\\r\\nMy grandmother was eighty-nine and blind\\r\\nand I was a young boy hungry for quarters,\\r\\nso, in the waning light\\r\\nof Sunday afternoons, my parents gone,\\r\\nI would ring the doorbell\\r\\n(my friend Raymond smirking\\r\\nfrom behind the stairwell) and listen\\r\\nfor the slow shuffle of slippers\\r\\nin the hall, the soft thump\\r\\nof her body against the closet.\\r\\n\\r\\nShe would come to the door,\\r\\nmy parakeet Jerry trapped in her hairnet,\\r\\nstammering a \\u0026quot;Who\\u0026#39;s there?\\u0026quot; in minimal English,\\r\\nbetween the chain and the doorjamb,\\r\\nand, without hesitancy or shame,\\r\\nin a cracked, mock-Hassidic voice,\\r\\nI\\u0026#39;d answer: \\u0026quot;United Jewish Appeal,\\u0026quot;\\r\\nswaying my hand, like a small plane\\r\\nmoving over an airstrip, toward her.\\r\\n\\r\\nShe would open the door\\u0026mdash;tentative,\\r\\ntimid, charity having won out over terror\\u0026mdash;\\r\\nand reach a palm out into the hallway,\\r\\nthe way she reached out under the candles\\r\\nto bless me on Sabbath. \\u0026quot;My daughter . . .\\u0026quot;\\r\\nshe would stammer, \\u0026quot;she is not home now,\\u0026quot;\\r\\npoking her eyes like Borges into the vastness.\\r\\nA better heart than mine was\\r\\nmight have stopped there, but I was a boy\\r\\nravenous for malteds and baseball cards,\\r\\nso I repeated the words of my small litany,\\r\\n\\u0026quot;United Jewish Appeal,\\u0026quot; and reached my hand out again\\r\\nuntil it almost touched the blue print of her smock.\\r\\n\\r\\nAll the while my parakeet sat there,\\r\\ndropping small coils of bird shit onto her hair\\r\\nuntil she retreated again down the long yellow hallway,\\r\\nreading the braille of the walls\\r\\nwith her hands. And I would wink\\r\\nat my good friend Raymond behind the stairwell\\r\\nwhen the rattle of change clanged out\\r\\nfrom my parents\\u0026#39; bedroom, and we heard again\\r\\nthe slow sweep of her feet, and, at last,\\r\\nthe shiny fruits of cleverness and hunger\\r\\nfell into my palm, and my grandmother Johanna,\\r\\nthe parakeet still flapping like a crazed duck\\r\\nin her hairnet, closed the door behind her,\\r\\nleaving me and my friend Raymond\\r\\nto frolic off into the sun-licked,\\r\\nagnostic streets of Washington Heights,\\r\\nfull of the love of grandmothers\\r\\nand of change, forever singing the praises\\r\\nof the United Jewish Appeal.\\u003C\\/pre\\u003E\\r\\n","soundcloud":null},"poet":{"name":"Michael Blumenthal","image":"https:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/Michael-Blumenthal-NewBioImage.png?itok=PUDQOCfp"}}]',
+        body: '[{"poem":{"title":"The Young Man\\u0027s Song","text":"\\u003Cpre\\u003E\\r\\nI whispered, \\u0026quot;I am too young,\\u0026quot;  \\r\\nAnd then, \\u0026quot;I am old enough\\u0026quot;;   \\r\\nWherefore I threw a penny   \\r\\nTo find out if I might love.   \\r\\n\\u0026quot;Go and love, go and love, young man,\\r\\nIf the lady be young and fair,\\u0026quot;   \\r\\nAh, penny, brown penny, brown penny,   \\r\\nI am looped in the loops of her hair.   \\r\\n   \\r\\nOh, love is the crooked thing,   \\r\\nThere is nobody wise enough\\r\\nTo find out all that is in it,   \\r\\nFor he would be thinking of love   \\r\\nTill the stars had run away,   \\r\\nAnd the shadows eaten the moon.   \\r\\nAh, penny, brown penny, brown penny,\\r\\nOne cannot begin it too soon. \\r\\n\\u003C\\/pre\\u003E\\r\\n","soundcloud":null,"vertical":"Poets.org","uuid":"1d3147bc-3d9e-4c77-9e44-308aa1ff77a1","alias":"\\/poetsorg\\/poem\\/young-mans-song"},"poet":{"name":"W. B. Yeats","alias":"\\/poetsorg\\/poet\\/w-b-yeats","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/wbyeats.jpg?itok=LbycKv1L"}}]',
     },
 }
