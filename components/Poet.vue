@@ -61,6 +61,8 @@ export default {
     position: absolute;
     top: calc(100% - 3.7rem);
     bottom: 0;
+    left: 0;
+    right: 0;
     transition: top 0.25s ease-in-out;
     display: flex;
     flex-direction: column;
