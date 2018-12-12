@@ -43,7 +43,7 @@
             </b-link>
           </div>
           <div class="mt-5">
-            <AppPoemADaySignUpForm />
+            <AppPoemADaySignUpForm :poem="poem"/>
           </div>
         </b-col>
         <b-col
@@ -86,7 +86,7 @@
           </article>
         </b-col>
         <div class="daily-poem__sign-up-form d-block d-md-none">
-          <AppPoemADaySignUpForm />
+          <AppPoemADaySignUpForm :poem="poem"/>
         </div>
       </b-row>
     </b-container>
@@ -99,7 +99,6 @@
       header-border-variant="0"
       body-class="font-serif-2"
       footer-bg-variant="black"
-      busy="true"
       id="poemADayModal">
       <b-container>
         <b-row>
@@ -114,7 +113,7 @@
       <template
         slot="modal-footer"
         class="p-0">
-        <AppPoemADaySignUpForm />
+        <AppPoemADaySignUpForm :poem="poem" />
       </template>
     </b-modal>
   </div>
