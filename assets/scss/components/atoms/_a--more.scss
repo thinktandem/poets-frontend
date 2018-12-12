@@ -1,9 +1,14 @@
 %a--more {
   color: $body-color;
-  text-decoration: underline;
 
   &::after {
     content: " >";
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
   }
 }
 
