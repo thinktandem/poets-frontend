@@ -28,12 +28,13 @@
           </h3>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="d-flex flex-wrap flex-md-nowrap">
         <b-col
           md="4"
+          sm="12"
           tag="aside"
-          class="d-none d-md-block pr-0">
-          <div class="daily-poem__poet-image">
+          class="daily-poem__aside px-0 order-2 order-md-1">
+          <div class="daily-poem__poet-image d-md-flex d-none">
             <b-link :to="poet.alias">
               <b-img-lazy
                 :src="poet.image"
@@ -42,14 +43,14 @@
               />
             </b-link>
           </div>
-          <div class="mt-5">
+          <div class="mt-md-5">
             <AppPoemADaySignUpForm :poem="poem"/>
           </div>
         </b-col>
         <b-col
           sm="12"
           md="8"
-          class="daily-poem__poem">
+          class="daily-poem__poem order-1 order-md-2">
           <span class="daily-poem__label p-3 d-none d-md-inline">
             poem-a-day
           </span>
@@ -85,9 +86,6 @@
             </div>
           </article>
         </b-col>
-        <div class="daily-poem__sign-up-form d-block d-md-none">
-          <AppPoemADaySignUpForm :poem="poem"/>
-        </div>
       </b-row>
     </b-container>
     <b-modal
@@ -103,7 +101,7 @@
       <b-container>
         <b-row>
           <b-col sm="12">
-            <b-link 
+            <b-link
               :to="poet.alias"
               class="pb-3 font-sans text-dark">{{ poet.name }}</b-link>
             <div v-html="poem.text"/>
