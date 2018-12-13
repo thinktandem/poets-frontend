@@ -1,37 +1,49 @@
 <template>
   <div class="poem-a-day-sign-up p-3 bg-black">
-    <div class="poem-a-day-sign-up__social-group">
-      <span class="pr-2">
+    <ul class="list-inline poem-a-day-sign-up__social-group d-flex flex-row flex-wrap justify-content-between mr-4 pr-5">
+      <li class="list-inline-item">
         <b-link :href="facebookUrl">
+
           <FacebookIcon class="icon"/>
+
         </b-link>
-      </span>
-      <span class="pl-2 pr-2">
+      </li>
+      <li class="list-inline-item">
         <b-link :href="twitterUrl">
+
           <TwitterIcon class="icon"/>
+
         </b-link>
-      </span>
-      <span class="pl-2 pr-2">
+      </li>
+      <li class="list-inline-item">
         <b-link :href="tumblrUrl">
+
           <TumblrIcon/>
+
         </b-link>
-      </span>
-      <span class="pl-2 pr-2">
+      </li>
+      <li class="list-inline-item">
         <b-link @click="print()">
+
           <PrintIcon/>
+
         </b-link>
-      </span>
-      <span class="pl-2 pr-2">
+      </li>
+      <li class="list-inline-item">
         <b-link v-b-modal.poemEmbedModal>
+
           <EmbedIcon/>
+
         </b-link>
-      </span>
-      <span class="pl-2">
+      </li>
+      <li class="list-inline-item">
         <b-link>
+
           <CollectionIcon/>
+
         </b-link>
-      </span>
-    </div>
+      </li>
+    </ul>
     <div class="poem-a-day-sign-up__title pt-2 text-white">
       sign up for poem-a-day
     </div>

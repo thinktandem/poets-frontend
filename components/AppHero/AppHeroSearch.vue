@@ -14,10 +14,10 @@
             placeholder="search"
             class="hero-search__form-input px-3 pt-3 pb-2"/>
           <b-input-group-append is-text>
-            <span>
-              <magnifying-glass-icon
-                class="icon mr-2"/>
-            </span>
+
+            <magnifying-glass-icon
+              class="icon mr-2"/>
+
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
