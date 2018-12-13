@@ -12,7 +12,7 @@
             type="text"
             v-model="searchInput"
             placeholder="search"
-            class="hero-search__form-input px-3 pt-3 pb-2"/>
+            class="hero-search__form-input"/>
           <b-input-group-append is-text>
 
             <magnifying-glass-icon
@@ -104,8 +104,8 @@ export default {
 
 .icon {
   fill: $blue;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .input-group {
@@ -126,15 +126,21 @@ export default {
 
 .hero-search__form-input {
   // gray-800
-  background-color: rgba(#343434, 0.9);
+  background-color: rgba($gray-800, 0.9);
+  color: rgba($white, 0.5);
   font-size: 1.25rem;
   line-height: 1.6rem;
+  padding: 0.75rem 1.25rem;
   border: none;
+  &:focus {
+    color: rgba($white, 0.5);
+    background-color: rgba($gray-800, 0.9);
+  }
 }
 .hero__search__links {
   background-color: var(--gray-900);
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 0.7rem;
+  padding-bottom: 1rem;
 }
 
 .hero__search__link {
