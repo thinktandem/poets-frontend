@@ -1,18 +1,21 @@
 import _ from "lodash";
 
 export default {
-  getFilterOptions(app, url, fieldName) {
+  getFilterOptions(app, url, fieldName, dataType) {
     return app.$axios
       .get(url, {
         params: {
-          // "fields[taxonomy_term--school_movement]": "tid,name"
           fieldName
         }
       })
       .then(res => {
         let opts = {};
         _.each(res.data.data, i => {
-          opts[i.attributes.name] = i.attributes.tid;
+          if (dataType == "taxonomy") {
+            opts[i.attributes.name] = i.attributes.tid;
+          } else if (dataType == "node") {
+            opts[i.attributes.nid] = i.attributes.title;
+          }
         });
         return {
           options: opts
