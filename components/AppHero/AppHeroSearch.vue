@@ -14,7 +14,10 @@
             placeholder="search"
             class="hero-search__form-input px-3 pt-3 pb-2"/>
           <b-input-group-append is-text>
-            <span class="text-primary oi oi-magnifying-glass"/>
+
+            <magnifying-glass-icon
+              class="icon mr-2"/>
+
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
@@ -35,7 +38,11 @@
 
 <script>
 // import searchHelpers from "~/plugins/search-helpers";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 export default {
+  components: {
+    MagnifyingGlassIcon
+  },
   /**
    * @todo: should/can this be a data/prop delivered by drupal?
    * @return {{ quotes: {quote: string, attribution: string}[]}}`
@@ -95,6 +102,12 @@ export default {
   margin-bottom: 0;
 }
 
+.icon {
+  fill: $blue;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
 .input-group {
   border-bottom: 2px solid transparent;
 }
@@ -104,8 +117,7 @@ export default {
 }
 
 .input-group-text {
-  // gray-800
-  background-color: rgba(#343434, 0.9);
+  background-color: rgba($gray-800, 0.9);
   font-size: 1.5rem;
   line-height: 1.6rem;
   border: none;

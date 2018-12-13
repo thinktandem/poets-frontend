@@ -47,6 +47,19 @@ module.exports = {
     ** Run ESLint on save
     */
     extend(config, { isDev, isClient }) {
+      const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
+
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        loader: "vue-svg-loader",
+        options: {
+          svgo: {
+            plugins: [{ prefixIds: true }, { removeViewBox: false }]
+          }
+        }
+      });
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: "pre",

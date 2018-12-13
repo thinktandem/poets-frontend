@@ -1,0 +1,70 @@
+{
+    meta: {
+        createdAt: '2018-12-11T21:36:45.121Z',
+        host: 'http://apipoetsd8.lndo.site',
+        resHumanReadable: true,
+    },
+    req: {
+        url: '/poem-a-day?_format=json',
+        method: 'GET',
+        headers: {
+            accept: 'application/json, text/plain, */*',
+            'accept-encoding': 'gzip, deflate',
+            'accept-language': 'en-US,en;q=0.5',
+            dnt: '1',
+            pragma: 'no-cache',
+        },
+        body: '',
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx/1.15.7',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'transfer-encoding': [
+                'chunked',
+            ],
+            connection: [
+                'close',
+            ],
+            'x-powered-by': [
+                'PHP/7.2.12',
+            ],
+            'set-cookie': [
+                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 22:36:45 GMT; Max-Age=3600; path=/',
+            ],
+            'cache-control': [
+                'must-revalidate, no-cache, private',
+            ],
+            date: [
+                'Tue, 11 Dec 2018 21:36:45 GMT',
+            ],
+            'x-ua-compatible': [
+                'IE=edge',
+            ],
+            'content-language': [
+                'en',
+            ],
+            'x-content-type-options': [
+                'nosniff',
+            ],
+            'x-frame-options': [
+                'SAMEORIGIN',
+            ],
+            expires: [
+                'Sun, 19 Nov 1978 05:00:00 GMT',
+            ],
+            vary: [
+                '',
+            ],
+            'x-generator': [
+                'Drupal 8 (https://www.drupal.org)',
+            ],
+        },
+        body: '[{"poem":{"title":"From","text":"\\u003Cp\\u003E\\u003Cb\\u003Efrom\\u003C\\/b\\u003E (\\u0026rarr;) \\u003Ci\\u003Eprep\\u003C\\/i\\u003E. \\u003Cb\\u003E1.\\u003C\\/b\\u003E Starting at (a particular place or time): As in, John was \\u003Ci\\u003Efrom\\u003C\\/i\\u003E Chicago, but he played guitar straight \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the Delta; he wore a blue suit \\u003Ci\\u003Efrom\\u003C\\/i\\u003E Robert Hall\\u0026#39;s; his hair smelled like coconut; his breath, like mint and bourbon; his hands felt like they were \\u003Ci\\u003Efrom\\u003C\\/i\\u003E slave times when he touched me\\u0026mdash;hungry, stealthy, trembling. \\u003Cb\\u003E2.\\u003C\\/b\\u003E Out of: He pulled a knot of bills \\u003Ci\\u003Efrom\\u003C\\/i\\u003E his pocket, paid the man and we went upstairs. \\u003Cb\\u003E3.\\u003C\\/b\\u003E Not near to or in contact with: He smoked the weed, but, surprisingly, he kept it \\u003Ci\\u003Efrom\\u003C\\/i\\u003E me. He ~aid it would make me too self-conscious, and he wanted those feelings as far away \\u003Ci\\u003Efrom\\u003C\\/i\\u003E us as possible; he said a good part of my beauty was that I wasn\\u0026#39;t conscious of my beauty. Isn\\u0026#39;t that funny? So we drank Bloody Mothers (Hennessey and tomato juice), which was hard to keep \\u003Ci\\u003Efrom\\u003C\\/i\\u003E him\\u0026mdash;he always did like to drink. \\u003Cb\\u003E4\\u0026middot;\\u003C\\/b\\u003E Out of the control or authority of: I was released \\u003Ci\\u003Efrom\\u003C\\/i\\u003E my mama\\u0026#39;s house, \\u003Ci\\u003Efrom\\u003C\\/i\\u003E dreams of hands holding me down, \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the threat of hands not pulling me up, \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the man that knew me, but of whom I did not know; released \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the dimming of twilight, \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the brightness of morning; \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the love I thought had to look like love; \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the love I thought had to taste like love, \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the love I thought I had to love like love. \\u003Cb\\u003E5.\\u003C\\/b\\u003E Out of the totality of: I came \\u003Ci\\u003Efrom\\u003C\\/i\\u003E a family full of women; I came \\u003Ci\\u003Efrom\\u003C\\/i\\u003E a family full of believers; I came \\u003Ci\\u003Efrom\\u003C\\/i\\u003E a pack of witches\\u0026mdash;I\\u0026#39;m just waiting to conjure my powers; I came \\u003Ci\\u003Efrom\\u003C\\/i\\u003E a legacy of lovers\\u0026mdash;I\\u0026#39;m just waiting to seduce my seducer; I came \\u003Ci\\u003Efrom\\u003C\\/i\\u003E a pride of proud women, and we take good care of our young. \\u003Cb\\u003E6.\\u003C\\/b\\u003E As being other or another than: He couldn\\u0026#39;t tell me \\u003Ci\\u003Efrom his mother\\u003C\\/i\\u003E; he couldn\\u0026#39;t tell me \\u003Ci\\u003Efrom\\u003C\\/i\\u003E his sister; he couldn\\u0026#39;t tell me \\u003Ci\\u003Efrom\\u003C\\/i\\u003E the last woman he had before me, and why should he\\u0026mdash;we\\u0026#39;re all the same woman. \\u003Cb\\u003E7.\\u003C\\/b\\u003E With (some person, place, or thing) as the instrument, maker, or source: Here\\u0026#39;s a note \\u003Ci\\u003Efrom\\u003C\\/i\\u003E my mother, and you can take it as advice \\u003Ci\\u003Efrom\\u003C\\/i\\u003E me: A weak lover is more dangerous than a strong enemy; if you\\u0026#39;re going to love someone, make sure you know where they\\u0026#39;re coming \\u003Ci\\u003Efrom\\u003C\\/i\\u003E. \\u003Cb\\u003E8.\\u003C\\/b\\u003E Because of: Becoming an alcoholic, learning to walk away, being a good speller, being good in bed, falling in love\\u0026mdash;they all come \\u003Ci\\u003Efrom\\u003C\\/i\\u003E practice. \\u003Cb\\u003E9.\\u003C\\/b\\u003E Outside or beyond the possibility of: In the room, he kept me \\u003Ci\\u003Efrom\\u003C\\/i\\u003E leaving by keeping me curious; he kept me \\u003Ci\\u003Efrom\\u003C\\/i\\u003E drowning by holding my breath in his mouth; yes, he kept me \\u003Ci\\u003Efrom\\u003C\\/i\\u003E leaving till the next day when he said \\u003Ci\\u003ELeave\\u003C\\/i\\u003E. Then, he couldn\\u0026#39;t keep me \\u003Ci\\u003Efrom\\u003C\\/i\\u003E coming back.\\u003C\\/p\\u003E","soundcloud":"\\u003Ciframe width=\\u0022100%\\u0022 height=\\u0022166\\u0022 scrolling=\\u0022no\\u0022 frameborder=\\u0022no\\u0022 src=\\u0022https:\\/\\/w.soundcloud.com\\/player\\/?url=https%3A\\/\\/api.soundcloud.com\\/tracks\\/136370342%3Fsecret_token%3Ds-txexX\\u0026amp;color=ff6600\\u0026amp;auto_play=false\\u0026amp;show_artwork=true\\u0022\\u003E\\u003C\\/iframe\\u003E","vertical":"Poets.org","uuid":"53a8487f-00c9-4ac5-96f5-c9cd27df8702","alias":"\\/poetsorg\\/poem\\/from"},"poet":{"name":"A. Van Jordan","alias":"\\/poetsorg\\/poet\\/van-jordan","image":"https:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/A.VanJordan_NewBioImage2015-AnthonyAlvarez.png?itok=wGYQcXG6"}}]',
+    },
+}

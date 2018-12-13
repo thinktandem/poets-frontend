@@ -28,12 +28,13 @@
           </h3>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="d-flex flex-wrap flex-md-nowrap">
         <b-col
           md="4"
+          sm="12"
           tag="aside"
-          class="d-none d-md-block pr-0">
-          <div class="daily-poem__poet-image">
+          class="daily-poem__aside px-0 order-2 order-md-1">
+          <div class="daily-poem__poet-image d-md-flex d-none">
             <b-link :to="poet.alias">
               <b-img-lazy
                 :src="poet.image"
@@ -42,14 +43,14 @@
               />
             </b-link>
           </div>
-          <div class="mt-5">
-            <AppPoemADaySignUpForm />
+          <div class="mt-md-5">
+            <AppPoemADaySignUpForm :poem="poem"/>
           </div>
         </b-col>
         <b-col
           sm="12"
           md="8"
-          class="daily-poem__poem">
+          class="daily-poem__poem order-1 order-md-2">
           <span class="daily-poem__label p-3 d-none d-md-inline">
             poem-a-day
           </span>
@@ -66,7 +67,7 @@
               <b-link
                 @click="showSoundCloud = true"
                 v-if="showSoundCloud === false && null !== poem.soundCloud">
-                <span class="oi oi-volume-high daily-poem__soundcloud-link"/>
+                <speaker-icon class="daily-poem__soundcloud-link"/>
               </b-link>
               <b-link
                 @click="showSoundCloud = false"
@@ -85,9 +86,6 @@
             </div>
           </article>
         </b-col>
-        <div class="daily-poem__sign-up-form d-block d-md-none">
-          <AppPoemADaySignUpForm />
-        </div>
       </b-row>
     </b-container>
     <b-modal
@@ -99,12 +97,11 @@
       header-border-variant="0"
       body-class="font-serif-2"
       footer-bg-variant="black"
-      busy="true"
       id="poemADayModal">
       <b-container>
         <b-row>
           <b-col sm="12">
-            <b-link 
+            <b-link
               :to="poet.alias"
               class="pb-3 font-sans text-dark">{{ poet.name }}</b-link>
             <div v-html="poem.text"/>
@@ -114,7 +111,7 @@
       <template
         slot="modal-footer"
         class="p-0">
-        <AppPoemADaySignUpForm />
+        <AppPoemADaySignUpForm :poem="poem" />
       </template>
     </b-modal>
   </div>
@@ -122,10 +119,12 @@
 
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 export default {
   name: "DailyPoem",
   components: {
-    AppPoemADaySignUpForm
+    AppPoemADaySignUpForm,
+    SpeakerIcon
   },
   data() {
     return {
@@ -225,7 +224,10 @@ export default {
 .daily-poem__soundcloud-link {
   float: right;
   color: var(--blue-dark);
-  font-size: 1.25rem;
+  fill: var(--blue-dark);
+  font-size: 1.9rem;
+  width: 1.9rem;
+  height: 1.9rem;
 }
 .daily-poem__poem {
   background-color: var(--white);
