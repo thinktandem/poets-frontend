@@ -95,14 +95,10 @@ export default {
     };
   },
   async asyncData({ app, query }) {
-    return searchHelpers.getSearchResults(app, query);
+    const url = "/api/search";
+    return searchHelpers.getSearchResults(url, app, query);
   },
-  methods: {
-    getPoetTitle(viewNode) {
-      const title = viewNode.split("/");
-      return title[3];
-    }
-  },
+  methods: {},
   watchQuery: ["combine"]
 };
 </script>

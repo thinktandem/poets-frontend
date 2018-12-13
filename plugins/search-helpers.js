@@ -2,18 +2,16 @@ export default {
   /**
    * Load up the search results.
    *
+   * @param {string} url the api end point to query.
    * @param {Object} app The app.
    * @param {Object} query The query string as an Object.
    *
    * @return {Object} The search results.
    */
-  getSearchResults(app, query) {
+  getSearchResults(url, app, query) {
     return app.$axios
-      .get(`/api/search`, {
-        params: {
-          page: query.page || "",
-          combine: query.combine || ""
-        }
+      .get(url, {
+        params: query
       })
       .then(res => {
         let prevPageNum = 0;
@@ -32,8 +30,10 @@ export default {
           Next: nextPageNum,
           currentPage: res.data.pager.current_page,
           totalPages: res.data.pager.total_pages,
-          combine: myQuery.combine || "gff",
-          page: myQuery.page || ""
+          combine: myQuery.combine || "",
+          page: myQuery.page || "",
+          school: myQuery.school || "",
+          state: myQuery.state || ""
         };
       })
       .catch(err => {
