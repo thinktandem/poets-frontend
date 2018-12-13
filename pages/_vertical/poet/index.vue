@@ -87,12 +87,12 @@
           <div
             v-if="currentPage"
             class="prev-button">
-            <a :href="`/poetsorg/poet?page=${Prev}&combine=${combine}`">
+            <a :href="`/poetsorg/poet?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`">
               &lt;&lt; Prev
             </a>
           </div>
           <div v-else>
-            <a :href="`/poetsorg/poet?page=0&combine=${combine}`">
+            <a :href="`/poetsorg/poet?page=0${preparedState}${preparedSchool}${preparedCombine}`">
               &lt;&lt; First page
             </a>
           </div>
@@ -100,30 +100,30 @@
         <b-col md="4">
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 1}&combine=${combine}`">
+            :href="`/poetsorg/poet?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`">
             {{ pageNum + 1 }}
           </a>
           <a
             v-if="pageNum + 2 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 2}&combine=${combine}`">
+            :href="`/poetsorg/poet?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`">
             {{ pageNum + 2 }}
           </a>
           <a
             v-if="pageNum + 3 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 3}&combine=${combine}`">
+            :href="`/poetsorg/poet?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`">
             {{ pageNum + 3 }}
           </a>
           . . .
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poet?page=${totalPages - 1}&combine=${combine}`">
+            :href="`/poetsorg/poet?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`">
             {{ totalPages }}
           </a>
         </b-col>
         <b-col md="4">
           <a
             v-if="Next"
-            :href="`/poetsorg/poet?page=${Next}&combine=${combine}`">
+            :href="`/poetsorg/poet?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`">
             Next &gt;&gt;
           </a>
         </b-col>
@@ -136,7 +136,6 @@
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 import PoetList from "~/components/PoetList";
-// import paginationHelpers from "~/plugins/pagination-helpers";
 import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
 export default {
@@ -150,11 +149,15 @@ export default {
       schoolInput: null,
       stateInput: null,
       searchInput: null,
-      results: null
+      results: null,
+      Next: null,
+      Prev: null,
+      preparedState: null,
+      preparedSchool: null,
+      preparedCombine: null
     };
   },
   async asyncData({ app, params, query }) {
-    // const pageLinks = paginationHelpers.getPageLinks(query);
     const url = "/api/poets";
     return searchHelpers.getSearchResults(url, app, query);
   },
@@ -173,13 +176,6 @@ export default {
     );
     store.commit("updateStates", states.options);
     store.commit("updateFilterOptions", schools.options);
-
-    // const numPages = await paginationHelpers.getNumPages(
-    //   app,
-    //   "/api/node/person",
-    //   20
-    // );
-    // store.commit("updateNumPages", numPages);
   },
   methods: {
     applyFilters() {

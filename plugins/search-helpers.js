@@ -23,6 +23,12 @@ export default {
           nextPageNum = res.data.pager.current_page + 1;
         }
         const myQuery = app.router.history.current.query;
+        let preparedState = "";
+        let preparedSchool = "";
+        let preparedCombine = "";
+        if (query.state) preparedState = "&state=" + query.state;
+        if (query.school) preparedSchool = "&school=" + query.school;
+        if (query.combine) preparedCombine = "&combine=" + query.combine;
         return {
           results: res.data.rows,
           pageNum: res.data.pager.current_page,
@@ -33,7 +39,10 @@ export default {
           combine: myQuery.combine || "",
           page: myQuery.page || "",
           school: myQuery.school || "",
-          state: myQuery.state || ""
+          state: myQuery.state || "",
+          preparedState: preparedState,
+          preparedSchool: preparedSchool,
+          preparedCombine: preparedCombine
         };
       })
       .catch(err => {
