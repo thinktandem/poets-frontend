@@ -21,7 +21,8 @@
       <b-row
         v-for="poet in poets"
         class="poets-list__row poets-list__poems"
-        :key="poet.id">
+        :key="poet.id"
+      >
         <b-col md="4">
           <a :href="`/poets/${getPoetTitle(poet.view_node)}`">
             {{ poet.poets }}
@@ -58,7 +59,8 @@
         <b-col md="4">
           <a
             v-if="$store.state.numPages.numPages > Next"
-            :href="`/poets?page=${Next}`">
+            :href="`/poets?page=${Next}`"
+          >
             Next &gt;&gt;
           </a>
         </b-col>
@@ -70,13 +72,13 @@
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
-import PoetList from "~/components/PoetList";
+import FilterTable from "~/components/FilterTable";
 import paginationHelpers from "~/plugins/pagination-helpers";
 export default {
   components: {
     AppPoemADaySignUpForm,
     AppPoems,
-    PoetList
+    FilterTable
   },
   async asyncData({ app, params, query }) {
     const pageLinks = paginationHelpers.getPageLinks(query);
