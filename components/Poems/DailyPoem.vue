@@ -77,7 +77,7 @@
             </div>
             <div
               v-html="poem.text"
-              class="daily-poem__poem-text"/>
+              class="daily-poem__poem-text font-serif-2"/>
             <div class="daily-poem__read-the-rest">
               <b-btn
                 size="md"
@@ -314,6 +314,7 @@ export default {
   }
   .daily-poem__poem-text {
     font-size: 1.25rem;
+    line-height: 1.85rem;
   }
 }
 </style>
