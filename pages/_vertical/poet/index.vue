@@ -2,45 +2,53 @@
   <div>
     <b-container
       fluid
-      class="poets-list__filters">
+      class="poets-list__filters"
+    >
       <b-row class="poets-list__filters-row">
         <b-col
           md="12"
-          class="my-1">
+          class="my-1"
+        >
           <b-form
             class="poets-list__search"
-            @submit.stop.prevent="applyFilters">
+            @submit.stop.prevent="applyFilters"
+          >
             <b-form-group
               @submit.stop.prevent="applyFilters"
               horizontal
               label="Filter by"
-              class="mb-0">
+              class="mb-0"
+            >
               <b-form-select
                 class="mb-0"
                 inline
-                v-model="stateInput">
+                v-model="stateInput"
+              >
                 <option :value="null">State</option>
                 <option
                   v-for="(opt, i) in $store.state.states"
                   :key="`opt-${i}`"
-                  :value="i">{{ opt }}</option>
+                  :value="i"
+                >{{ opt }}</option>
               </b-form-select>
               <b-form-select
                 v-model="schoolInput"
-                inline>
+                inline
+              >
                 <option :value="null">Schools & Movements</option>
                 <option
                   v-for="(opt, i) in $store.state.filterOptions"
                   :key="`opt-${i}`"
-                  :value="opt">{{ i }}</option>
+                  :value="opt"
+                >{{ i }}</option>
               </b-form-select>
               <b-form-input
                 v-model="searchInput"
                 type="text"
                 size="22"
-                placeholder="Search by poet, movement, etc..."/>
-              <b-btn
-                class="btn-primary">
+                placeholder="Search by poet, movement, etc..."
+              />
+              <b-btn class="btn-primary">
                 mag
               </b-btn>
             </b-form-group>
@@ -69,11 +77,13 @@
       <b-row
         v-for="poet in results"
         class="poets-list__row poets-list__poems"
-        :key="poet.id">
+        :key="poet.id"
+      >
         <b-col md="4">
           <a
             :href="poet.view_node"
-            v-html="poet.poets"/>
+            v-html="poet.poets"
+          />
         </b-col>
         <b-col md="4">
           {{ poet.field_dob }} - {{ poet.field_dod }}
@@ -86,7 +96,8 @@
         <b-col md="4">
           <div
             v-if="currentPage"
-            class="prev-button">
+            class="prev-button"
+          >
             <a :href="`/poetsorg/poet?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`">
               &lt;&lt; Prev
             </a>
@@ -100,30 +111,35 @@
         <b-col md="4">
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`">
+            :href="`/poetsorg/poet?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+          >
             {{ pageNum + 1 }}
           </a>
           <a
             v-if="pageNum + 2 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`">
+            :href="`/poetsorg/poet?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+          >
             {{ pageNum + 2 }}
           </a>
           <a
             v-if="pageNum + 3 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`">
+            :href="`/poetsorg/poet?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+          >
             {{ pageNum + 3 }}
           </a>
           . . .
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poet?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`">
+            :href="`/poetsorg/poet?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+          >
             {{ totalPages }}
           </a>
         </b-col>
         <b-col md="4">
           <a
             v-if="Next"
-            :href="`/poetsorg/poet?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`">
+            :href="`/poetsorg/poet?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+          >
             Next &gt;&gt;
           </a>
         </b-col>
@@ -135,14 +151,14 @@
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
-import PoetList from "~/components/PoetList";
+import FilterTable from "~/components/FilterTable";
 import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
 export default {
   components: {
     AppPoemADaySignUpForm,
     AppPoems,
-    PoetList
+    FilterTable
   },
   data() {
     return {

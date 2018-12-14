@@ -10,86 +10,99 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="Buttons">Buttons</h2>
+              id="Buttons"
+            >Buttons</h2>
             <b-button
               class="m-2"
               :variant="button.variant"
               :size="button.size"
               v-for="(button, index) in buttons"
-              :key="index">
-              {{ button.size }} {{ button.variant }}
-            </b-button>
+              :key="index"
+            >{{ button.size }} {{ button.variant }}</b-button>
           </section>
-          <section class="styleguide-item" >
+          <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="PoetsDeck">Poets Card Deck</h2>
+              id="PoetsDeck"
+            >Poets Card Deck</h2>
             <CardDeck
               title="Poets"
               cardtype="Poet"
               :cards="poets"
-              :link="poetsLink"/>
+              :link="poetsLink"
+            />
           </section>
 
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="PoetsFeaturedDeck">Poets Featured Deck</h2>
+              id="PoetsFeaturedDeck"
+            >Poets Featured Deck</h2>
             <CardDeck
               title="Poets"
               cardtype="Poet"
               class="card-deck--poet--extended"
               :cards="poetsExtended"
-              :link="featuredPoetsLink"/>
+              :link="featuredPoetsLink"
+            />
           </section>
 
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="PoemCardDeck">Poem Card Deck</h2>
+              id="PoemCardDeck"
+            >Poem Card Deck</h2>
             <CardDeck
               title="Poems"
               cardtype="PoemCard"
               :cards="poems"
-              :link="poemsLink" />
+              :link="poemsLink"
+            />
           </section>
 
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="Forms">Forms</h2>
+              id="Forms"
+            >Forms</h2>
             <StyleguideForm />
           </section>
 
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="Features">Features</h2>
+              id="Features"
+            >Features</h2>
             <CardDeck
               title="Features"
               cardtype="FeatureCard"
-              :cards="featureCards" />
+              :cards="featureCards"
+            />
           </section>
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="PoetList">Poet List</h2>
-            <PoetList :items="poetListItems" />
+              id="FilterTable"
+            >Poet List</h2>
+            <FilterTable :items="poetListItems" />
           </section>
         </main>
       </b-col>
       <b-col
         sm="12"
-        md="2">
+        md="2"
+      >
         <aside class="styleguide__menu p-4">
           <b-nav
             class="border-left"
             vertical
-            v-b-scrollspy>
+            v-b-scrollspy
+          >
             <b-nav-item
               v-for="(item, index) in menu"
               :key="index"
-              :href="item.anchor">{{ item.title }}</b-nav-item>
+              :href="item.anchor"
+            >{{ item.title }}</b-nav-item>
           </b-nav>
         </aside>
       </b-col>
@@ -103,7 +116,7 @@ import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
-import PoetList from "~/components/PoetList";
+import FilterTable from "~/components/FilterTable";
 import * as _ from "lodash";
 
 export default {
@@ -119,7 +132,7 @@ export default {
     Poet,
     StyleguideForm,
     FeatureCard,
-    PoetList
+    FilterTable
   },
   computed: {
     buttons() {
@@ -178,8 +191,8 @@ export default {
           anchor: "#Features"
         },
         {
-          title: "Poet List",
-          anchor: "#PoetList"
+          title: "Filter Table",
+          anchor: "#FilterTable"
         }
       ];
     }
@@ -370,39 +383,66 @@ And as for the bucket, Nantucket.`,
       },
       poetListItems: [
         {
-          isActive: true,
-          age: 40,
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
           name: { first: "Dickerson", last: "Macdonald" }
         },
         {
-          isActive: false,
-          age: 21,
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
           name: { first: "Larsen", last: "Shaw" }
         },
         {
-          isActive: false,
-          age: 9,
-          name: { first: "Mini", last: "Navarro" },
-          _rowVariant: "success"
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Mini", last: "Navarro" }
         },
-        { isActive: false, age: 89, name: { first: "Geneva", last: "Wilson" } },
-        { isActive: true, age: 38, name: { first: "Jami", last: "Carney" } },
-        { isActive: false, age: 27, name: { first: "Essie", last: "Dunlap" } },
-        { isActive: true, age: 40, name: { first: "Thor", last: "Macdonald" } },
         {
-          isActive: true,
-          age: 87,
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Geneva", last: "Wilson" }
+        },
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Jami", last: "Carney" }
+        },
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Essie", last: "Dunlap" }
+        },
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Thor", last: "Macdonald" }
+        },
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
           name: { first: "Larsen", last: "Shaw" },
-          _cellVariants: { age: "danger", isActive: "warning" }
+          _cellVariants: { years: "danger", schoolsMovements: "warning" }
         },
-        { isActive: false, age: 26, name: { first: "Mitzi", last: "Navarro" } },
         {
-          isActive: false,
-          age: 22,
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Mitzi", last: "Navarro" }
+        },
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
           name: { first: "Genevieve", last: "Wilson" }
         },
-        { isActive: true, age: 38, name: { first: "John", last: "Carney" } },
-        { isActive: false, age: 29, name: { first: "Dick", last: "Dunlap" } }
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "John", last: "Carney" }
+        },
+        {
+          schoolsMovements: "Objectivist",
+          years: "1978 - Present",
+          name: { first: "Dick", last: "Dunlap" }
+        }
       ]
     };
   }

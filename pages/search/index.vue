@@ -1,17 +1,18 @@
 <template>
   <div>
     <h1>Search Results</h1>
-    <b-container
-      v-if="!totalPages">
+    <b-container v-if="!totalPages">
       Your search didn't turn up any results.
     </b-container>
     <b-container
       v-else
-      class="results-list py-5">
+      class="results-list py-5"
+    >
       <b-row
         v-for="(result, i) in results"
         class="results-list__row"
-        :key="`result.view_node-${i}`">
+        :key="`result.view_node-${i}`"
+      >
         <b-col md="12">
           <div class="result-type">
             {{ result.type }}
@@ -23,14 +24,16 @@
           </div>
           <div
             class="result-body"
-            v-html="result.body"/>
+            v-html="result.body"
+          />
         </b-col>
       </b-row>
       <b-row>
         <b-col md="4">
           <div
             v-if="currentPage"
-            class="prev-button">
+            class="prev-button"
+          >
             <a :href="`/search?page=${Prev}&combine=${combine}`">
               &lt;&lt; Prev
             </a>
@@ -44,30 +47,35 @@
         <b-col md="4">
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/search?page=${pageNum + 1}&combine=${combine}`">
+            :href="`/search?page=${pageNum + 1}&combine=${combine}`"
+          >
             {{ pageNum + 1 }}
           </a>
           <a
             v-if="pageNum + 2 < totalPages"
-            :href="`/search?page=${pageNum + 2}&combine=${combine}`">
+            :href="`/search?page=${pageNum + 2}&combine=${combine}`"
+          >
             {{ pageNum + 2 }}
           </a>
           <a
             v-if="pageNum + 3 < totalPages"
-            :href="`/search?page=${pageNum + 3}&combine=${combine}`">
+            :href="`/search?page=${pageNum + 3}&combine=${combine}`"
+          >
             {{ pageNum + 3 }}
           </a>
           . . .
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/search?page=${totalPages - 1}&combine=${combine}`">
+            :href="`/search?page=${totalPages - 1}&combine=${combine}`"
+          >
             {{ totalPages }}
           </a>
         </b-col>
         <b-col md="4">
           <a
             v-if="Next"
-            :href="`/search?page=${Next}&combine=${combine}`">
+            :href="`/search?page=${Next}&combine=${combine}`"
+          >
             Next &gt;&gt;
           </a>
         </b-col>
@@ -79,13 +87,13 @@
 <script>
 import AppPoemADaySignUpForm from "../../components/AppPoemADayPoems/AppPoemADaySignUpForm";
 import AppPoems from "../../components/AppPoemADayPoems/AppPoems";
-import PoetList from "../../components/PoetList";
+import FilterTable from "../../components/FilterTable";
 import searchHelpers from "~/plugins/search-helpers";
 export default {
   components: {
     AppPoemADaySignUpForm,
     AppPoems,
-    PoetList
+    FilterTable
   },
   data() {
     return {
