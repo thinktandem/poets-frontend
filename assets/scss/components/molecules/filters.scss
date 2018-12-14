@@ -1,0 +1,38 @@
+%filters {
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-bottom: 2rem;
+    border: 1px solid $gray-600;
+
+    .form-group {
+      display: flex;
+      flex-basis: 100%;
+      margin-bottom: 0;
+
+      >div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 100%;
+
+        @include media-breakpoint-up(sm) {
+          flex-wrap: nowrap;
+        }
+
+        >select,
+        >input {
+          flex-basis: 100%;
+
+          &:not(:last-child) {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.filters {
+  @extend %filters;
+}
