@@ -44,12 +44,12 @@
             v-if="currentPage"
             class="prev-button"
           >
-            <a :href="`/poetsorg/poet?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`">
+            <a :href="`/poetsorg/poem-a-day?page=${Prev}`">
               &lt;&lt; Prev
             </a>
           </div>
           <div v-else>
-            <a :href="`/poetsorg/poet?page=0${preparedState}${preparedSchool}${preparedCombine}`">
+            <a :href="`/poetsorg/poem-a-day?page=0`">
               &lt;&lt; First page
             </a>
           </div>
@@ -57,26 +57,24 @@
         <b-col md="4">
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
-          >
+            :href="`/poetsorg/poem-a-day?page=${pageNum + 1}`">
             {{ pageNum + 1 }}
           </a>
           <a
             v-if="pageNum + 2 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
-          >
+            :href="`/poetsorg/poem-a-day?page=${pageNum + 2}`">
             {{ pageNum + 2 }}
           </a>
           <a
             v-if="pageNum + 3 < totalPages"
-            :href="`/poetsorg/poet?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+            :href="`/poetsorg/poem-a-day?page=${pageNum + 3}`"
           >
             {{ pageNum + 3 }}
           </a>
           . . .
           <a
             v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poet?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+            :href="`/poetsorg/poem-a-day?page=${totalPages - 1}`"
           >
             {{ totalPages }}
           </a>
@@ -84,7 +82,7 @@
         <b-col md="4">
           <a
             v-if="Next"
-            :href="`/poetsorg/poet?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+            :href="`/poetsorg/poem-a-day?page=${Next}`"
           >
             Next &gt;&gt;
           </a>
