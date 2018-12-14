@@ -131,6 +131,10 @@ export default {
   }
 }
 @include media-breakpoint-up(md) {
+  .hero {
+    padding-bottom: 0;
+    border-bottom: 2px solid $white;
+  }
   .lead {
     font-size: 1.9rem;
     line-height: 2.4rem;
