@@ -174,25 +174,6 @@ export default {
 
 <style lang="scss">
 .filter-table {
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 1rem 2rem 0 2rem;
-    margin-bottom: 2rem;
-    border: 1px solid $gray-600;
-
-    .form-group {
-      flex-basis: 100%;
-
-      @include media-breakpoint-up(md) {
-        flex-basis: 50%;
-        flex-grow: 1;
-        padding-right: 2rem;
-        margin-bottom: 1rem;
-      }
-    }
-  }
-
   .table {
     td,
     th {
