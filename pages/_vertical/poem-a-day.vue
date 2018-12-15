@@ -1,31 +1,27 @@
 <template>
   <div>
-    <h3 class="poem-a-day__previous-poems-title">
-      Previous Poems
-    </h3>
-    <b-container
-      fluid
-      class="poem-a-day__previous-poems">
+    <b-container class="poem-a-day__previous-poems tabular-list">
       <b-row>
-        <b-col
-          class="poem-a-day__previous-poems-header"
-          md="4">
+        <h3 class="poem-a-day__previous-poems-title">
+          Previous Poems
+        </h3>
+      </b-row>
+      <b-row class="tabular-list__row tabular-list__header">
+        <b-col md="4">
           Date
         </b-col>
-        <b-col
-          class="poem-a-day__previous-poems-header"
-          md="4">
+        <b-col md="4">
           Title
         </b-col>
-        <b-col
-          class="poem-a-day__previous-poems-header"
-          md="4">
+        <b-col md="4">
           Poet
         </b-col>
       </b-row>
       <b-row
         v-for="(poem, i) in results"
-        :key="`poem-${i}`">
+        :key="`poem-${i}`"
+        class="tabular-list__row"
+      >
         <b-col md="4">
           <a :href="poem.view_node">
             {{ poem.field_poem_of_the_day_date }}
@@ -38,56 +34,104 @@
           {{ poem.field_author }}
         </b-col>
       </b-row>
-      <b-row>
-        <b-col md="4">
-          <div
-            v-if="currentPage"
-            class="prev-button"
+      <div class="pager">
+        <ul
+          role="menubar"
+          aria-disabled="false"
+          aria-label="Pagination"
+          class="pagination"
+        >
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item"
+            :class="{ disabled: !currentPage}"
           >
-            <a :href="`/poetsorg/poem-a-day?page=${Prev}`">
-              &lt;&lt; Prev
+            <a
+              :href="`/poetsorg/poem-a-day?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              class="page-link"
+            >
+              <iconMediaSkipBackwards /> Prev
             </a>
-          </div>
-          <div v-else>
-            <a :href="`/poetsorg/poem-a-day?page=0`">
-              &lt;&lt; First page
+          </li>
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item"
+          >
+            <a
+              v-if="pageNum + 1 < totalPages"
+              :href="`/poetsorg/poem-a-day?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              class="page-link"
+            >
+              {{ pageNum + 1 }}
             </a>
-          </div>
-        </b-col>
-        <b-col md="4">
-          <a
-            v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poem-a-day?page=${pageNum + 1}`">
-            {{ pageNum + 1 }}
-          </a>
-          <a
-            v-if="pageNum + 2 < totalPages"
-            :href="`/poetsorg/poem-a-day?page=${pageNum + 2}`">
-            {{ pageNum + 2 }}
-          </a>
-          <a
-            v-if="pageNum + 3 < totalPages"
-            :href="`/poetsorg/poem-a-day?page=${pageNum + 3}`"
+
+          </li>
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item"
           >
-            {{ pageNum + 3 }}
-          </a>
-          . . .
-          <a
-            v-if="pageNum + 1 < totalPages"
-            :href="`/poetsorg/poem-a-day?page=${totalPages - 1}`"
+            <a
+              v-if="pageNum + 2 < totalPages"
+              :href="`/poetsorg/poem-a-day?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              class="page-link"
+            >
+              {{ pageNum + 2 }}
+            </a>
+          </li>
+
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item"
           >
-            {{ totalPages }}
-          </a>
-        </b-col>
-        <b-col md="4">
-          <a
-            v-if="Next"
-            :href="`/poetsorg/poem-a-day?page=${Next}`"
+            <a
+              v-if="pageNum + 3 < totalPages"
+              :href="`/poetsorg/poem-a-day?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              class="page-link"
+            >
+              {{ pageNum + 3 }}
+            </a>
+          </li>
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item ellipsis"
           >
-            Next &gt;&gt;
-          </a>
-        </b-col>
-      </b-row>
+            <span>&hellip;</span>
+          </li>
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item"
+          >
+            <a
+              v-if="pageNum + 1 < totalPages"
+              :href="`/poetsorg/poem-a-day?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              class="page-link"
+            >
+              {{ totalPages }}
+            </a>
+          </li>
+          <li
+            role="none presentation"
+            aria-hidden="true"
+            class="page-item"
+          >
+            <a
+              :href="`/poetsorg/poem-a-day?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              class="page-link"
+              :class="{disabled: !Next}"
+            >
+              Next
+              <iconMediaSkipForwards />
+            </a>
+
+          </li>
+        </ul>
+      </div>
     </b-container>
   </div>
 </template>
@@ -96,8 +140,16 @@
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 import searchHelpers from "~/plugins/search-helpers";
+import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
+import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
+
 export default {
-  components: { AppPoemADaySignUpForm, AppPoems },
+  components: {
+    AppPoemADaySignUpForm,
+    AppPoems,
+    iconMediaSkipBackwards,
+    iconMediaSkipForwards
+  },
   data() {
     return {
       results: null,

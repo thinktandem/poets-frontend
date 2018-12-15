@@ -53,27 +53,21 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="poets-list">
-      <b-row class="poets-list__row">
+    <b-container class="poets-list tabular-list">
+      <b-row class="tabular-list__row tabular-list__header">
         <b-col md="4">
-          <div class="poets-list__list-header">
-            Name
-          </div>
+          Name
         </b-col>
         <b-col md="4">
-          <div class="poets-list__list-header">
-            Years
-          </div>
+          Years
         </b-col>
         <b-col md="4">
-          <div class="poets-list__list-header">
-            Schools and Movements
-          </div>
+          Schools and Movements
         </b-col>
       </b-row>
       <b-row
         v-for="poet in results"
-        class="poets-list__row poets-list__poems"
+        class="tabular-list__row poets-list__poems"
         :key="poet.id"
       >
         <b-col md="4">
@@ -89,7 +83,7 @@
           {{ poet.field_school_movement }}
         </b-col>
       </b-row>
-      <div class="poets-list__pager">
+      <div class="pager">
         <ul
           role="menubar"
           aria-disabled="false"
@@ -153,9 +147,9 @@
           <li
             role="none presentation"
             aria-hidden="true"
-            class="page-item"
+            class="page-item ellipsis"
           >
-            &hellip;
+            <span>&hellip;</span>
           </li>
           <li
             role="none presentation"
@@ -264,25 +258,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poets-list__row {
-  border-bottom: 1px solid $gray-400;
-  font-size: 18px;
-  min-height: 47px;
-}
-.poets-list__list-header {
-  font-weight: bold;
-}
-
 .poets-list__poems {
   font-weight: 400;
-
-  > div {
-    height: 3.4rem;
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.4rem;
-  }
-
   a {
     color: $body-color;
 
@@ -376,9 +353,5 @@ export default {
       height: 100%;
     }
   }
-}
-
-.poets-list__pager {
-  margin: 2.6rem -12px 0 -12px;
 }
 </style>

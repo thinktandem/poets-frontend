@@ -1,0 +1,26 @@
+%tabular-list {
+  .tabular-list__header {
+    font-weight: bold;
+  }
+
+  .tabular-list__row {
+    border-bottom: 1px solid $gray-400;
+    font-size: 1.125rem;
+    min-height: 3.5rem;
+
+    >div {
+      height: 3.4rem;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.4rem;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.tabular-list {
+  @extend %tabular-list;
+}
