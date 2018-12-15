@@ -1,68 +1,80 @@
 %pager {
-  display: flex;
+  margin: 2.6rem -12px 0 -12px;
 
-  li {
+  .pagination {
+    display: flex;
 
-    &:first-child,
-    &:last-child {
-      flex-grow: 1;
-    }
+    li {
 
-    &:last-child {
-      text-align: right;
-
-      .page-link {
-        padding-right: 0;
+      &:first-child,
+      &:last-child {
+        flex-grow: 1;
       }
-    }
 
-    &:first-child {
-      .page-link {
-        padding-left: 0;
+      &:last-child {
+        text-align: right;
+
+        .page-link {
+          padding-right: 0;
+        }
       }
-    }
 
-    &.active {
-      .page-link {
-        background-color: var(--blue-dark);
+      &:first-child {
+        .page-link {
+          padding-left: 0;
+        }
       }
-    }
 
-    &.disabled {
-      .page-link {
-        background-color: transparent !important;
+      &.active {
+        .page-link {
+          background-color: var(--blue-dark);
+        }
+      }
 
-        svg {
+      &.disabled {
+        .page-link {
+          background-color: transparent !important;
+          color: $gray-600;
 
-          rect,
-          g {
-            fill: $gray-600;
+          svg {
+
+            rect,
+            g {
+              fill: $gray-600;
+            }
           }
         }
-      }
-    }
 
-    .page-link {
-      border: none;
-      background-color: transparent;
-      color: $body-color;
-
-      svg {
-        rect {
-          fill: $body-color;
-        }
       }
 
-      &:hover,
-      &:focus,
-      &:active {
+      &.ellipsis {
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 0.3rem;
+      }
+
+      .page-link {
+        border: none;
         background-color: transparent;
-        text-decoration: underline;
+        color: $body-color;
+
+        svg {
+          rect {
+            fill: $body-color;
+          }
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: transparent;
+          text-decoration: underline;
+        }
       }
     }
   }
 }
 
-.pagination {
+.pager {
   @extend %pager;
 }
