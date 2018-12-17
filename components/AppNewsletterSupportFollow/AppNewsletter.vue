@@ -69,10 +69,10 @@ export default {
       const body = {
         email: this.newsletterEmail,
         forms: {
-          aapn: this.aapn | false,
-          aapen: this.aapen | false,
-          aapttp: this.aapttp | false,
-          aappad: this.aappad | false
+          AAPN: this.aapn || false,
+          AAPEN: this.aapen || false,
+          AAPTTP: this.aapttp || false,
+          AAPPAD: this.aappad || false
         }
       };
       this.$axios
