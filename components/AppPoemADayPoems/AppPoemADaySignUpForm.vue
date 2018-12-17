@@ -147,7 +147,7 @@ export default {
       const body = {
         email: this.email,
         forms: {
-          aappad: true
+          AAPPAD: true
         }
       };
       this.$axios
