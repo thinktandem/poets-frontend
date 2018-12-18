@@ -6,9 +6,22 @@
 
     li {
 
+      // Prev/Next links.
       &:first-child,
       &:last-child {
         flex-grow: 1;
+
+        .page-link {
+          color: var(--blue-dark);
+
+          svg {
+
+            rect,
+            g {
+              fill: var(--blue-dark);
+            }
+          }
+        }
       }
 
       &:last-child {
