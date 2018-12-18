@@ -1,5 +1,6 @@
 module.exports = {
   modules: [
+    "@nuxtjs/auth",
     "@nuxtjs/axios",
     ["bootstrap-vue/nuxt", { css: false }],
     // 'vue-youtube-embed'
@@ -12,6 +13,32 @@ module.exports = {
   ],
   axios: {
     debug: process.env.APP_ENV !== "production"
+  },
+  auth: {
+    strategies: {
+      local: {
+        // _scheme: "oauth2",
+        endpoints: {
+          login: {
+            url: "/oauth/authorize",
+            method: "post",
+            propertyName: "access_token"
+          },
+          tokenRequired: true,
+          tokenType: 'Bearer'
+        }
+      },
+      "poets-api": {
+        _scheme: "oauth2",
+        authorization_endpoint: "/oauth/token",
+        userinfo_endpoint: false,
+        scope: ["vue_consumer"],
+        response_type: "token",
+        redirect_uri: "/login",
+        client_id: process.env.API_CLIENT_ID,
+        token_key: process.env.API_CLIENT_SECRET
+      }
+    }
   },
   plugins: [
     "~/plugins/axios",
