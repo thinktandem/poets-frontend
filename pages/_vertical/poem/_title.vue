@@ -1,87 +1,326 @@
 <template>
   <div>
-    <b-container class="py-5">
+    <b-container class="pt-5">
       <b-row>
-        <b-col md=8>
+        <b-col
+          class="pb-5"
+          offset-md="1"
+          md="7">
           <b-card
-            :title="poem.attributes.title"
+            tag="main"
+            header-class="pb-2 pt-3 bg-white"
+            footer-class="bg-white"
             class="card--main">
             <div
-              class="card-subtitle"
-              v-if="`${poet} !== null`">
-              {{ poet.attributes.title }} -
-              {{ poet.field_dob }} - {{ poet.field_dod }}
-            </div>
-            <!-- <div
-              class="card-body"
-              v-html="poem.attributes.title" /> -->
+              class="px-0 mx-0"
+              v-if="showSoundCloud"
+              v-html="poem.field_soundcloud_embed_code"/>
             <div
-              class="card--poem__attribution text-muted"
-              v-html="poem.attributes.body.value"/>
+              slot="header">
+              <div class="d-flex poem__title mb-1">
+                <h1 class="card-title">{{ poem.title }}</h1>
+                <b-link
+                  @click="showSoundCloud = true"
+                  v-if="showSoundCloud === false && null !== poem.field_soundcloud_embed_code"
+                >
+                  <speaker-icon class="poem__soundcloud-link"/>
+                </b-link>
+                <b-link
+                  @click="showSoundCloud = false"
+                  v-if="showSoundCloud == true">
+                  <span class="poem__soundcloud-link">&#10005;</span>
+                </b-link>
+              </div>
+              <span
+                class="card-subtitle"
+                v-if="poet !== null">
+                <b-link :to="poet.path.alias">{{ poet.title }}</b-link>
+                <span
+                  v-if="poet.field_dob !== null"
+                >- {{ poet.field_dob.split("-", 1)[0] }} - {{ poet.field_dod }}</span>
+              </span>
+            </div>
+            <poem-actions
+              orientation="vertical"
+              :poem="{ alias: poem.path.alias, title: poem.title }"/>
+            <div
+              class="px-md-4 "
+              v-if="poem.body !== null"
+              v-html="poem.body.processed"/>
+            <div
+              slot="footer"
+              v-if="poem.field_credit !== null"
+              class="card--poem__attribution text-muted font-sans"
+              v-html="poem.field_credit.processed"
+            />
           </b-card>
         </b-col>
-        <b-col md=4>
-          <div class="poet--aside">
-            <b-img class="poet--aside__image" />
-            <p class="poet--aside__bio text-dark-muted">{{ poem.attributes.url }}</p>
-            <b-link :to="poem.link">More {{ poem.attributes.title }}</b-link>
+        <b-col
+          md="4"
+          tag="aside">
+          <div
+            class="poet--aside px-4"
+            v-if="poet !== null">
+            <div class="poet--aside__image">
+              <b-img
+                fluid
+                :src="image"/>
+            </div>
+            <div
+              v-html="poet.body.summary"
+              class="poet--aside__bio text-dark-muted my-3"/>
+            <div class="mb-4">
+              <b-link :to="poet.path.alias">More {{ poet.title }} ></b-link>
+            </div>
           </div>
           <app-poem-a-day-sign-up-form/>
         </b-col>
       </b-row>
     </b-container>
-    <poem-card-deck
-      :title="`More by ${poet.attributes.title}`"
-      :more-count="poem.attributes.length"
-      :poems="poet.attributes.title"
+    <card-deck
+      :title="`More by ${poet.title}`"
+      cardtype="PoemCard"
+      :link="{ text:`${poemCount} Poems`, href: ''}"
+      :cards="morePoems"
     />
+    <card-deck
+      title="Related Poets"
+      cardtype="Poet"
+      :cards="morePoets"/>
   </div>
 </template>
 
 <script>
 import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
+import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
+import CardDeck from "~/components/CardDeck";
+import PoemActions from "~/components/PoemActions";
+import * as qs from "qs";
+import * as _ from "lodash";
+
 export default {
-  components: { AppPoemADaySignUpForm, AppPoems },
-  async asyncData({ app, params }) {
+  components: {
+    AppPoemADaySignUpForm,
+    AppPoems,
+    CardDeck,
+    PoemActions,
+    SpeakerIcon
+  },
+  data() {
+    return {
+      showSoundCloud: false
+    };
+  },
+  async asyncData({ app, params, env }) {
+    // Build an alias path to query
+    const routerQuery = qs.stringify({
+      path: `${params.vertical}/poem/${params.title}`
+    });
+
+    const routerRequest = {
+      requestId: "router",
+      action: "view",
+      uri: `/router/translate-path?${routerQuery}`
+    };
+
+    const poemParams = qs.stringify({
+      fields: {
+        "node--poems": [
+          "title",
+          "body",
+          "field_author",
+          "field_credit",
+          "field_soundcloud_embed_code",
+          "path"
+        ]
+      }
+    });
+
+    const poemRequest = {
+      action: "view",
+      requestId: "poem",
+      uri: `{{router.body@$.jsonapi.individual}}?${poemParams}`,
+      headers: {
+        "Content-Type": "application/vnd.api+json"
+      },
+      waitFor: ["router"]
+    };
+
+    const poetParams = qs.stringify({
+      fields: {
+        "node--person": [
+          "title",
+          "body",
+          "field_dob",
+          "field_dod",
+          "field_image",
+          "path"
+        ]
+      }
+    });
+
+    const poetRequest = {
+      action: "view",
+      requestId: "poet",
+      uri: `{{poem.body@$.data.relationships.field_author.links.related}}?${poetParams}`,
+      headers: {
+        "Content-Type": "application/vnd.api+json"
+      },
+      waitFor: ["poem"]
+    };
+
+    const imageRequest = {
+      action: "view",
+      requestId: "file",
+      uri: "{{poet.body@$.data[0].relationships.field_image.links.related}}",
+      headers: {
+        "Content-Type": "application/vnd.api+json"
+      },
+      waitFor: ["poet"]
+    };
+
+    const morePoemParams = qs.stringify({
+      page: {
+        limit: 3
+      },
+      filter: {
+        // Only published
+        status: 1,
+        // NOT the current poem
+        uuid: {
+          operator: "NOT IN",
+          value: "{{poem.body@$.data.id}}"
+        },
+        // Author is this poem's author
+        "field_author.uuid": "{{poet.body@$.data[0].id}}"
+      }
+    });
+
+    const morePoemsRequest = {
+      action: "view",
+      requestId: "more_poems",
+      uri: `/api/node/poems?${morePoemParams}`,
+      headers: {
+        "Content-Type": "application/vnd.api+json"
+      },
+      waitFor: ["poet"]
+    };
+
+    const morePoetParams = qs.stringify({
+      page: {
+        limit: 6
+      },
+      include: "field_image"
+    });
+
+    const morePoetsRequest = {
+      action: "view",
+      requestId: "more_poets",
+      uri: `/api/node/person?${morePoetParams}`,
+      headers: {
+        "Content-Type": "application/vnd.api+json"
+      },
+      waitFor: ["poem"]
+    };
+
+    // const morePoetImageParams =  qs.stringify({
+    //   filter: {
+    //     uuids: {
+    //       operator: "IN",
+    //       value: "{{}}"
+    //     }
+    //   }
+    // });
+
     return app.$axios
-      .get(`/router/translate-path`, {
-        params: {
-          path: `${params.vertical}/poem/${params.title}`
+      .$post(
+        "/subrequests",
+        [
+          routerRequest,
+          poemRequest,
+          poetRequest,
+          imageRequest,
+          morePoemsRequest,
+          morePoetsRequest
+        ],
+        {
+          params: {
+            _format: "json"
+          },
+          headers: {
+            Accept: "application/vnd.api+json",
+            "Content-Type": "application/json"
+          }
         }
-      })
-      .then(res => {
-        return app.$axios
-          .get(`/api/node/poems/` + res.data.entity.uuid, {
-            params: {
-              include: "field_author"
+      )
+      .then(response => {
+        return {
+          poem: JSON.parse(response["poem#uri{0}"].body).data.attributes,
+          poet: JSON.parse(response["poet#uri{0}"].body).data[0].attributes,
+          image: `${env.baseURL}${
+            JSON.parse(response["file#uri{0}"].body).data[0].attributes.url
+          }`,
+          poemCount: JSON.parse(response["more_poems#uri{0}"].body).meta.count,
+          morePoems: _.map(
+            JSON.parse(response["more_poems#uri{0}"].body).data,
+            poem => {
+              return {
+                link: poem.attributes.path.alias,
+                title: poem.attributes.title,
+                text: poem.attributes.body.processed,
+                year: poem.attributes.field_copyright_date.split("-")[0],
+                poet: {
+                  name: JSON.parse(response["poet#uri{0}"].body).data[0]
+                    .attributes.title
+                }
+              };
             }
-          })
-          .then(res => {
-            console.log("authTst", res.data);
-            let myPoet = null;
-            if ("included" in res.data) {
-              myPoet = res.data.included[0];
+          ),
+          morePoets: _.map(
+            JSON.parse(response["more_poets"].body).data,
+            poet => {
+              return {
+                name: poet.attributes.title,
+                img: {
+                  src: ""
+                },
+                link: {
+                  href: poet.attributes.path.alias
+                }
+              };
             }
-            return {
-              poem: res.data.data,
-              poet: myPoet
-            };
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
+          )
+        };
       });
+  },
+  async fetch({ app, store, params }) {
+    // Set the current hero
+    store.commit("updateHero", {
+      variant: "default",
+      heading: "Find Poems",
+      lead:
+        "Find the perfect poems, save them, and share them to your heart’s content."
+    });
   }
 };
 </script>
 
 <style scoped lang="scss">
+.poem__title {
+  flex-direction: row;
+  justify-content: space-between;
+}
+.poem__soundcloud-link {
+  color: var(--blue-dark);
+  fill: var(--blue-dark);
+  font-size: 1.9rem;
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
 .card--main {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 4px 0 0 var(--green);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 4px 0 0 #32d17e;
   .card-title {
     font-size: 2.5rem;
   }
@@ -99,14 +338,24 @@ export default {
     font-family: $font-family-serif;
   }
   .card--poem__attribution {
-    font-family: $font-family-serif;
     font-size: 0.8rem;
     line-height: 1.25rem;
   }
 }
 
+.poet--aside__image {
+  border-bottom: 5px solid $green;
+  img {
+    width: 100%;
+  }
+}
 .poet--aside__bio {
   font-size: 0.9rem;
   line-height: 1.07rem;
+}
+@include media-breakpoint-up(md) {
+  .poem__actions {
+    left: -3rem;
+  }
 }
 </style>
