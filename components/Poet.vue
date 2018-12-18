@@ -3,21 +3,25 @@
     class="poet"
     itemprop="author"
     itemscope
-    itemtype="http://schema.org/Person">
+    itemtype="http://schema.org/Person"
+  >
     <b-img
       :src="img.src"
-      fluid-grow />
+      fluid-grow
+    />
     <div class="poet__name-bio">
       <h3
         class="poet__name"
-        itemprop="name">
+        itemprop="name"
+      >
         {{ name }}
       </h3>
       <div class="poet__bio">
         <p>{{ bio }}</p>
         <a
           :href="link.href"
-          class="poet__link">Read more about {{ name }}</a>
+          class="poet__link"
+        >Read more about {{ name }}</a>
       </div>
     </div>
   </b-card>
@@ -59,7 +63,7 @@ export default {
 
   &__name-bio {
     position: absolute;
-    top: calc(100% - 3.7rem);
+    top: calc(100% - 3.65rem);
     bottom: 0;
     left: 0;
     right: 0;
