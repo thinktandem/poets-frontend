@@ -13,6 +13,7 @@
     }
 
     @include media-breakpoint-up(sm) {
+
       &:first-child,
       &:last-child,
       & {
@@ -44,12 +45,13 @@
       // Prevent hover roll up functionality on mobile because they are too
       // small.
       $poet--extended__name-bio__top: calc(100% - 3.2rem);
+
       .poet__name-bio {
         top: $poet--extended__name-bio__top;
 
         @include media-breakpoint-up(sm) {
           // Revert back to old value for larger screens.
-          top: calc(100% - 3.7rem);
+          top: calc(100% - 3.65rem);
         }
 
         &:hover,
