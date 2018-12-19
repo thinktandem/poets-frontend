@@ -211,7 +211,10 @@ export default {
       page: {
         limit: 6
       },
-      include: "field_image"
+      filter: {
+        "field_school_movement.uuid":
+          "{{poet.body@$.data[0].relationships.field_school_movement.data[0].id}}"
+      }
     });
 
     const morePoetsRequest = {
@@ -221,17 +224,8 @@ export default {
       headers: {
         "Content-Type": "application/vnd.api+json"
       },
-      waitFor: ["poem"]
+      waitFor: ["poet"]
     };
-
-    // const morePoetImageParams =  qs.stringify({
-    //   filter: {
-    //     uuids: {
-    //       operator: "IN",
-    //       value: "{{}}"
-    //     }
-    //   }
-    // });
 
     return app.$axios
       .$post(
