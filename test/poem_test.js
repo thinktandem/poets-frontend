@@ -1,4 +1,4 @@
-Feature("Poem");
+Feature("Poem").retry(3);
 Before(I => {
   I.amOnPage("/poetsorg/poem/disposed");
 });
