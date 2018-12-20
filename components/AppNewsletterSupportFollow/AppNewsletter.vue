@@ -84,7 +84,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.$router.push("/newsletter-thanks");
+      this.$toast.success("Thanks! You are subscribed.").goAway(1500);
     }
   }
 };
