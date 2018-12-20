@@ -1,12 +1,13 @@
 %tabular-list {
   .tabular-list__header {
-    font-weight: bold;
+    font-weight: 600;
   }
 
   .tabular-list__row {
     border-bottom: 1px solid $gray-400;
     font-size: 1.125rem;
     min-height: 3.5rem;
+    font-weight: 400;
 
     >div {
       height: 3.4rem;
@@ -16,6 +17,21 @@
 
       &:last-child {
         text-align: right;
+      }
+
+      &.date {
+        a {
+          color: var(--red-dark);
+        }
+      }
+
+      &.poem-title {
+        font-family: $font-family-serif;
+        font-style: italic;
+      }
+
+      &.event-title {
+        font-weight: 600;
       }
     }
   }

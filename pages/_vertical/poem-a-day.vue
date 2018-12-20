@@ -7,10 +7,10 @@
         </h3>
       </b-row>
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
+        <b-col md="2">
           Date
         </b-col>
-        <b-col md="4">
+        <b-col md="6">
           Title
         </b-col>
         <b-col md="4">
@@ -22,12 +22,18 @@
         :key="`poem-${i}`"
         class="tabular-list__row"
       >
-        <b-col md="4">
+        <b-col
+          md="2"
+          class="date"
+        >
           <a :href="poem.view_node">
             {{ poem.field_poem_of_the_day_date }}
           </a>
         </b-col>
-        <b-col md="4">
+        <b-col
+          md="6"
+          class="poem-title"
+        >
           {{ poem.title }}
         </b-col>
         <b-col md="4">
