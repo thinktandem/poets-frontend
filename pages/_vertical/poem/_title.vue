@@ -78,15 +78,20 @@
       </b-row>
     </b-container>
     <card-deck
+      v-if="morePoems.poems.length >= 1"
       :title="`More by ${poet.title}`"
       cardtype="PoemCard"
-      :link="{ text:`${poemCount} Poems`, href: ''}"
-      :cards="morePoems"
+      :link="buildSectionLink(morePoems.response, { field_author: poet.uuid })"
+      :cards="morePoems.poems"
     />
     <card-deck
-      title="Related Poets"
-      cardtype="Poet"
-      :cards="morePoets"/>
+      v-if="relatedPoems.poems.length >= 1"
+      class="bg-primary"
+      title="Related Poems"
+      cardtype="PoemCard"
+      :link="buildSectionLink(relatedPoems.response, {field_related_poems: poem.uuid })"
+      :cards="relatedPoems.poems"
+    />
   </div>
 </template>
 
@@ -207,24 +212,23 @@ export default {
       waitFor: ["poet"]
     };
 
-    const morePoetParams = qs.stringify({
+    const relatedPoemsParams = qs.stringify({
       page: {
-        limit: 6
+        limit: 3
       },
       filter: {
-        "field_school_movement.uuid":
-          "{{poet.body@$.data[0].relationships.field_school_movement.data[0].id}}"
+        status: 1
       }
     });
 
-    const morePoetsRequest = {
+    const relatedPoemsRequest = {
       action: "view",
-      requestId: "more_poets",
-      uri: `/api/node/person?${morePoetParams}`,
+      requestId: "related_poems",
+      uri: `{{poem.body@$.data.relationships.field_related_poems.links.related}}?${relatedPoemsParams}`,
       headers: {
         "Content-Type": "application/vnd.api+json"
       },
-      waitFor: ["poet"]
+      waitFor: ["poem"]
     };
 
     return app.$axios
@@ -236,7 +240,7 @@ export default {
           poetRequest,
           imageRequest,
           morePoemsRequest,
-          morePoetsRequest
+          relatedPoemsRequest
         ],
         {
           params: {
@@ -249,16 +253,19 @@ export default {
         }
       )
       .then(response => {
+        const morePoemResponse = JSON.parse(response["more_poems#uri{0}"].body);
+        const relatedPoemResponse = JSON.parse(
+          response["related_poems#uri{0}"].body
+        );
         return {
           poem: JSON.parse(response["poem#uri{0}"].body).data.attributes,
           poet: JSON.parse(response["poet#uri{0}"].body).data[0].attributes,
           image: `${env.baseURL}${
             JSON.parse(response["file#uri{0}"].body).data[0].attributes.url
           }`,
-          poemCount: JSON.parse(response["more_poems#uri{0}"].body).meta.count,
-          morePoems: _.map(
-            JSON.parse(response["more_poems#uri{0}"].body).data,
-            poem => {
+          morePoems: {
+            response: morePoemResponse,
+            poems: _.map(morePoemResponse.data, poem => {
               return {
                 link: poem.attributes.path.alias,
                 title: poem.attributes.title,
@@ -269,22 +276,23 @@ export default {
                     .attributes.title
                 }
               };
-            }
-          ),
-          morePoets: _.map(
-            JSON.parse(response["more_poets"].body).data,
-            poet => {
+            })
+          },
+          relatedPoems: {
+            response: relatedPoemResponse,
+            poems: _.map(relatedPoemResponse.data, poem => {
               return {
-                name: poet.attributes.title,
-                img: {
-                  src: ""
-                },
-                link: {
-                  href: poet.attributes.path.alias
+                link: poem.attributes.path.alias,
+                title: poem.attributes.title,
+                text: poem.attributes.body.processed,
+                year: poem.attributes.field_copyright_date.split("-")[0],
+                poet: {
+                  name: JSON.parse(response["poet#uri{0}"].body).data[0]
+                    .attributes.title
                 }
               };
-            }
-          )
+            })
+          }
         };
       });
   },
@@ -294,8 +302,22 @@ export default {
       variant: "default",
       heading: "Find Poems",
       lead:
-        "Find the perfect poems, save them, and share them to your heart’s content."
+        "Find the perfect poems, save them, and share them to your heart’s content.",
+      links: [{ to: { name: "vertical-poem" }, text: "find poems" }]
     });
+  },
+  methods: {
+    buildSectionLink(response, query = {}) {
+      return _.has(response, "meta.count") && response.meta.count > 3
+        ? {
+            to: {
+              name: "vertical-poem",
+              query: query
+            },
+            text: `${response.meta.count} Poems`
+          }
+        : null;
+    }
   }
 };
 </script>
