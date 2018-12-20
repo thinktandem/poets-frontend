@@ -4,7 +4,7 @@
     <h3 class="signup-title">Newsletter Sign Up</h3>
     <div class="newsletter__form">
       <form
-        @submit.prevent="newsletterSignup">
+        @submit.stop.prevent="newsletterSignup">
         <b-form-checkbox
           v-model="aapn"
           type="checkbox"
@@ -44,7 +44,8 @@
           placeholder="john@example.com"/>
         <button
           type="button"
-          class="btn btn-primary">
+          class="btn btn-primary"
+          @click.stop.prevent="newsletterSignup">
           submit
         </button>
       </form>
