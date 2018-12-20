@@ -61,7 +61,8 @@
         class="form-control">
       <button
         type="button"
-        class="btn btn-primary poem-a-day-button">
+        class="btn btn-primary poem-a-day-button"
+        @click.stop.prevent="poemADaySignup">
         Sign Up
       </button>
     </form>
@@ -158,7 +159,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.$router.push("/poem-a-day-thanks");
+      this.$toast
+        .show("Thanks! You are subscribed.", {
+          theme: "toasted-primary",
+          position: "top-left"
+        })
+        .goAway(1500);
     },
     print() {
       window.print();
