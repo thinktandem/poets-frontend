@@ -61,7 +61,9 @@
           <div
             class="poet--aside px-4"
             v-if="poet !== null">
-            <div class="poet--aside__image">
+            <div
+              v-if="image !== null"
+              class="poet--aside__image">
               <b-img
                 fluid
                 :src="image"/>
@@ -260,9 +262,14 @@ export default {
         return {
           poem: JSON.parse(response["poem#uri{0}"].body).data.attributes,
           poet: JSON.parse(response["poet#uri{0}"].body).data[0].attributes,
-          image: `${env.baseURL}${
-            JSON.parse(response["file#uri{0}"].body).data[0].attributes.url
-          }`,
+          image: _.has(
+            JSON.parse(response["file#uri{0}"].body).data[0],
+            "attributes"
+          )
+            ? `${env.baseURL}${
+                JSON.parse(response["file#uri{0}"].body).data[0].attributes.url
+              }`
+            : null,
           morePoems: {
             response: morePoemResponse,
             poems: _.map(morePoemResponse.data, poem => {
