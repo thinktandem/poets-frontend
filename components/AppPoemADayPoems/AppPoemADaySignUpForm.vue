@@ -61,7 +61,8 @@
         class="form-control">
       <button
         type="button"
-        class="btn btn-primary poem-a-day-button">
+        class="btn btn-primary poem-a-day-button"
+        @click.stop.prevent="poemADaySignup">
         Sign Up
       </button>
     </form>
