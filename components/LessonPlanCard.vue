@@ -7,7 +7,7 @@
     title-tag="h3"
   >
     <span
-      class="lesson-plan__name"
+      class="card__title"
       itemprop="title"
     >
       {{ title }}
@@ -42,19 +42,8 @@ export default {
   border-color: var(--blue);
 }
 
-// This exists only for the itemprop. Visual title comes in .card-title
-.lesson-plan__name {
-  display: none;
-}
-
 .card-footer {
-  padding: 2rem 0 0 0;
-  font-family: $font-family-sans-serif;
-  background-color: transparent;
-
   p {
-    margin: 0;
-
     &.card--lesson-plan__level {
       font-weight: 400;
     }
