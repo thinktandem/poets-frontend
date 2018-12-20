@@ -6,7 +6,7 @@
         md="10"
       >
         <main id="styleguide">
-          <h1 class="my-5 font-serif">Poets.org Styleguide</h1>
+          <h1 class="my-5 font-serif-italic">Poets.org Styleguide</h1>
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"

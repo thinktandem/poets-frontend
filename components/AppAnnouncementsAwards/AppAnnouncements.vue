@@ -1,10 +1,11 @@
 <template>
   <div class="announcemets p-4">
-    <h2 class="poets-electra pb-3">Announcements</h2>
+    <h2 class="pb-3">Announcements</h2>
     <div
       v-for="announcement in announcements"
       :key="announcement.link"
-      class="announcement pt-3">
+      class="announcement pt-3"
+    >
       <div class="announcement__date pb-2">
         {{ announcement.date }}
       </div>
@@ -60,8 +61,7 @@ export default {
     }
   }
 }
-.poets-electra {
-  font-family: $font-family-serif;
-  font-style: italic;
+h2 {
+  font-family: $font-family-serif-italic;
 }
 </style>

@@ -13,18 +13,19 @@
             v-for="(poem, index) in poems"
             :key="`${index}-${poem.link}`"
             :class="isEven(index)"
-            class="col-sm-12 col-md-5 poems__poem-data m-3">
+            class="col-sm-12 col-md-5 poems__poem-data m-3"
+          >
             <a
               :href="poem.link"
-              class="poem-card-link">
+              class="poem-card-link"
+            >
               <div class="poems__poem__title pt-1 pb-3">
                 {{ poem.title }}
               </div>
               <div class="poems__poem__poem">
                 {{ poem.poem }}
               </div>
-              <div
-                class="poem-container__poem-fade-out"/>
+              <div class="poem-container__poem-fade-out" />
               <div class="poems__poem__poet pt-3">
                 {{ poem.poet }}
               </div>
@@ -100,7 +101,7 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
   z-index: 111;
   background: linear-gradient(90deg, #e6e7e8 0%, #c9cacb 100%);
   .poems__section-header {
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
     font-style: italic;
     font-size: 70px;
   }
@@ -120,7 +121,7 @@ i know we exist because of what we make. my dad works at a steel mill. he worked
   }
   .poems__poem-data {
     background-color: var(--white);
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
     width: 486px;
     overflow: hidden;
     border-bottom: 4px var(--green) solid;

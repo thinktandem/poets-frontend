@@ -4,9 +4,10 @@
     :style="this.bgStyles"
     bg-variant="primary"
     :class="variantStyle"
-    fluid>
+    fluid
+  >
     <div class="hero__logo-container">
-      <main-logo class="hero__logo"/>
+      <main-logo class="hero__logo" />
     </div>
     <b-row>
       <b-col
@@ -24,14 +25,16 @@
         >{{ this.lead }}</p>
         <div
           class="hero__subtext"
-          v-if="this.subtext !== ''">
+          v-if="this.subtext !== ''"
+        >
           {{ this.subtext }}
         </div>
       </b-col>
       <b-col
         class="pr-md-0 pl-md-3"
         sm=12
-        md=4>
+        md=4
+      >
         <AppHeroSearch />
       </b-col>
     </b-row>
@@ -99,13 +102,13 @@ export default {
 }
 
 .hero__heading {
-  font-family: $font-family-serif;
+  font-family: $font-family-serif-italic;
   font-style: italic;
   font-weight: 500;
 }
 
 .lead {
-  font-family: $font-family-serif;
+  font-family: $font-family-serif-italic;
   font-size: 1.2rem;
   line-height: 1.75rem;
 }

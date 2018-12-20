@@ -15,7 +15,8 @@
     </span>
     <div
       class="poem__body"
-      v-html="text"/>
+      v-html="text"
+    />
     <div class="card-footer">
       <p
         class="card--poem__name"
@@ -62,7 +63,7 @@ export default {
     padding-left: 1rem;
     max-height: 9rem;
     position: relative;
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
     white-space: pre-wrap; // This preserves the line breaks.
     overflow: hidden;
 

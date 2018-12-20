@@ -187,10 +187,10 @@ export default {
   .card-body {
     font-size: 1.25rem;
     line-height: 1.87rem;
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
   }
   .card--poem__attribution {
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
     font-size: 0.8rem;
     line-height: 1.25rem;
   }

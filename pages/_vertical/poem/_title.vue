@@ -5,10 +5,12 @@
         <b-col md=8>
           <b-card
             :title="poem.attributes.title"
-            class="card--main">
+            class="card--main"
+          >
             <div
               class="card-subtitle"
-              v-if="`${poet} !== null`">
+              v-if="`${poet} !== null`"
+            >
               {{ poet.attributes.title }} -
               {{ poet.field_dob }} - {{ poet.field_dod }}
             </div>
@@ -17,7 +19,8 @@
               v-html="poem.attributes.title" /> -->
             <div
               class="card--poem__attribution text-muted"
-              v-html="poem.attributes.body.value"/>
+              v-html="poem.attributes.body.value"
+            />
           </b-card>
         </b-col>
         <b-col md=4>
@@ -26,7 +29,7 @@
             <p class="poet--aside__bio text-dark-muted">{{ poem.attributes.url }}</p>
             <b-link :to="poem.link">More {{ poem.attributes.title }}</b-link>
           </div>
-          <app-poem-a-day-sign-up-form/>
+          <app-poem-a-day-sign-up-form />
         </b-col>
       </b-row>
     </b-container>
@@ -96,10 +99,10 @@ export default {
   .card-body {
     font-size: 1.25rem;
     line-height: 1.87rem;
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
   }
   .card--poem__attribution {
-    font-family: $font-family-serif;
+    font-family: $font-family-serif-italic;
     font-size: 0.8rem;
     line-height: 1.25rem;
   }

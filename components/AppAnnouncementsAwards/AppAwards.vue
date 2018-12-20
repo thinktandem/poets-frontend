@@ -1,13 +1,15 @@
 <template>
   <div class="p-4 awards">
-    <h2 class="poets-electra">Awards</h2>
+    <h2>Awards</h2>
     <p
       v-for="award in awards"
       :key="award.img"
-      class="awards__image">
+      class="awards__image"
+    >
       <b-img
         :src="award.img"
-        :alt="award.alt" />
+        :alt="award.alt"
+      />
     </p>
   </div>
 </template>
@@ -38,9 +40,8 @@ export default {
 .awards {
   // text-align: center;
   background-color: var(--gray-100);
-  .poets-electra {
-    font-family: $font-family-serif;
-    font-style: italic;
+
+  h2 {
     text-align: center;
   }
 }
