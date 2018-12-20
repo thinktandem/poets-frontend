@@ -39,6 +39,7 @@
               id="PoetsFeaturedDeck"
             >Poets Featured Deck</h2>
             <CardDeck
+              :featured="true"
               title="Poets"
               cardtype="Poet"
               class="card-deck--poet--extended"

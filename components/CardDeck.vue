@@ -8,12 +8,12 @@
           cols="12"
           tag="header">
           <h2 class="card-deck__title">{{ title }}</h2>
-          <a
+          <b-link
             v-if="link"
-            :href="link.href">{{ link.text }}</a>
+            :to="link.to">{{ link.text }}</b-link>
         </b-col>
       </b-row>
-      <b-row class="card-deck__cards">
+      <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
           md
@@ -22,6 +22,7 @@
           class="card-deck__card"
         >
           <component
+            :class="{'h-100': featured !== true }"
             :is="card.cardType ? card.cardType : cardtype"
             v-bind="card" />
         </b-col>
@@ -44,6 +45,10 @@ export default {
     adCard
   },
   props: {
+    featured: {
+      type: Boolean,
+      default: false
+    },
     title: {
       type: String,
       default: ""
