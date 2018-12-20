@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2018-12-11T16:03:42.502Z',
+        createdAt: '2018-12-20T19:00:52.560Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
@@ -29,16 +29,16 @@
                 'close',
             ],
             'x-powered-by': [
-                'PHP/7.2.12',
+                'PHP/7.2.13',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:03:42 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Thu, 20-Dec-2018 20:00:52 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 11 Dec 2018 16:03:42 GMT',
+                'Thu, 20 Dec 2018 19:00:52 GMT',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -62,6 +62,6 @@
                 'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: '[{"poem":{"title":"Reading Biographies","text":"\\u003Cpre\\u003EPerhaps Frost was poking his secretary,\\r\\nThe apple core of his good-living chewed\\r\\nTo the bitter seed. Perhaps he buttoned up,\\r\\nDisgusted with the dead lizard cupped in his palm.\\r\\nAnd his woman? She was as large as Gilbraltar,\\r\\nA chunk of cheese in each armpit.\\r\\nShe took a deep breath\\r\\nAnd wiggled the goose of her tasty fanny\\r\\nInto the kitchen. There, she poured pancakes\\r\\nOnto a skillet as old as this country,\\r\\nAnd Frost, a pioneer for all writers,\\r\\nPicked up his beaver-thrashed pencil and proclaimed,\\r\\nO Sweet Youth, etc.\\r\\n\\r\\n\\t        I don\\u0027t know how to read\\r\\nBiographies, the dead words of dead writers\\r\\nEtched on my eyes, then gone. I read them,\\r\\nAnd drive my car recklessly through leaves,\\r\\nThe cushion for my own eventual death.\\r\\nSure, I reflect, like a chip of mirror,\\r\\nAnd then I forget them, these subjects,\\r\\nThese writers with lungs and straight-A penmanship.\\r\\nThey\\u0027re of no use. I\\u0027m not saved\\r\\nBy the repetitions of jealousy and all-day drinking.\\r\\nWind frisked the trees, hair fell like wheat,\\r\\nAnd the liver, saddlebag of disease,\\r\\nBulged with inoperable knots.\\r\\n\\r\\nI touch my own hip, then hobble home\\r\\nWhere a pumpkin glows in a window.\\r\\nBirds shrug into their coats of dirt.\\r\\nCrickets stop the violin action of their thighs.\\r\\nA fire is built, and I\\u0027m lit in the living room.\\r\\nI\\u0027m a democrat, I slur to the couch,\\r\\nAnd add, Venus is a star and fly trap.\\r\\nThank God, I\\u0027ve learned nothing.\\u003C\\/pre\\u003E","soundcloud":null,"vertical":"Poets.org","uuid":"2d05c1d4-f9b0-443d-8128-16c5dac3dade","alias":"\\/poetsorg\\/poem\\/reading-biographies"},"poet":{"name":"Gary Soto","alias":"\\/poetsorg\\/poet\\/gary-soto","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/230_gsoto2.gif?itok=5OZJb8LA"}}]',
+        body: '[{"poem":{"title":"Fledgling","text":"\\u003Cdiv\\u003EI scare away rabbits stripping the strawberries\\u003C\\/div\\u003E\\u003Cdiv\\u003Ein the garden, ripened ovaries reddening\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Etheir mouths. You take down the hanging basket\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Eand show it to our son\\u0026mdash;a nest, secret as a heart,\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Ethrobbing between flowers. \\u003Cem\\u003ELook, but don\\u0026rsquo;t touch,\\u0026nbsp;\\u003C\\/em\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003Eyou instruct our son who has already begun\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Eto reach for the black globes of a new bird\\u0026rsquo;s eyes,\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Ewanting to touch the world. To know it.\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003EDisappointed, you say: \\u003Cem\\u003ECommon house finch,\\u0026nbsp;\\u003C\\/em\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003Eas if even banal miracles aren\\u0026rsquo;t still pink\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Eand blind and heaving with life. When the cat\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Eyour ex-wife gave you died, I was grateful.\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003EI\\u0026rsquo;d never seen a man grieve like that\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Efor an animal. I held you like a victory,\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Eembarrassed and relieved that this was how\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Eyou loved. To the bone of you. To the meat.\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003EAnd we want the stricken pleasure of intimacy,\\u003C\\/div\\u003E\\u003Cdiv\\u003Eso we risk it. We do. Every day we take down\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003Ethe basket and prove it to our son. Just look\\u003C\\/div\\u003E\\u003Cdiv\\u003Eat its rawness, its tenderness, it\\u0026rsquo;s almost flying.\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp;\\u003C\\/div\\u003E","soundcloud":"\\u003Ciframe width=\\u0022100%\\u0022 height=\\u0022166\\u0022 scrolling=\\u0022no\\u0022 frameborder=\\u0022no\\u0022 src=\\u0022https:\\/\\/w.soundcloud.com\\/player\\/?url=https%3A\\/\\/api.soundcloud.com\\/tracks\\/338019256%3Fsecret_token%3Ds-8F5aA\\u0026amp;color=%23ff5500\\u0026amp;auto_play=false\\u0026amp;hide_related=false\\u0026amp;show_comments=true\\u0026amp;show_user=true\\u0026amp;show_reposts=false\\u0022\\u003E\\u003C\\/iframe\\u003E","vertical":"Poets.org","uuid":"6010c00b-5db3-46eb-8e29-608a6dff7ada","alias":"\\/poetsorg\\/poem\\/fledgling"},"poet":{"name":"Traci Brimhall","alias":"\\/poetsorg\\/poet\\/traci-brimhall","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/tracibrinhall_newbioimage_2017.143020.png?itok=nKSXOHxN"}}]',
     },
 }

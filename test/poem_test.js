@@ -1,10 +1,16 @@
 Feature("Poem");
 Before(I => {
-  I.amOnPage("/poetsorg/poem/postcard-christ-carrying-cross");
+  I.amOnPage("/poetsorg/poem/disposed");
 });
 Scenario("Poem is available on individual poem page", I => {
-  I.see("A Postcard of Christ Carrying the Cross,");
+  I.see("Disposed");
 });
-Scenario("Poem a day signup shows up on poem pages", I => {
-  I.see('sign up for poem-a-day');
-})
+Scenario("Poem a day signup shows up on poem page", I => {
+  I.see("sign up for poem-a-day");
+});
+Scenario("More by Poet is available on poem page", I => {
+  I.see("More by Khadijah Queen");
+});
+Scenario("Related poems are available on poem page", I => {
+  I.see("Related Poems");
+});
