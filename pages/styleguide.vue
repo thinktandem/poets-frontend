@@ -50,6 +50,19 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="EssayCardDeck"
+            >Poem Card Deck</h2>
+            <CardDeck
+              title="Essays on Teaching Poetry"
+              cardtype="EssayCard"
+              :cards="essays"
+              :link="essaysLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="PoemCardDeck"
             >Poem Card Deck</h2>
             <CardDeck
@@ -183,6 +196,10 @@ export default {
           anchor: "#PoemCardDeck"
         },
         {
+          title: "Essays Deck",
+          anchor: "#EssayCardDeck"
+        },
+        {
           title: "Forms",
           anchor: "#Forms"
         },
@@ -270,6 +287,35 @@ Who kept all his cash in a bucket.
   But his daughter, named Nan,
   Ran away with a man
 And as for the bucket, Nantucket.`,
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        }
+      ],
+      essays: [
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
           poet: {
             name: "Dustin LeKensrue"
           },
@@ -372,6 +418,10 @@ And as for the bucket, Nantucket.`,
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
+      },
+      essaysLink: {
+        href: "blah/blah",
+        text: "28 Essays"
       },
       poetsLink: {
         href: "blah/blah",

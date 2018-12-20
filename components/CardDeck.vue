@@ -1,16 +1,19 @@
 <template>
   <b-card-group
     :class="'card-deck--' + cardtype|lowercase"
-    deck>
+    deck
+  >
     <b-container>
       <b-row>
         <b-col
           cols="12"
-          tag="header">
+          tag="header"
+        >
           <h2 class="card-deck__title">{{ title }}</h2>
           <a
             v-if="link"
-            :href="link.href">{{ link.text }}</a>
+            :href="link.href"
+          >{{ link.text }}</a>
         </b-col>
       </b-row>
       <b-row class="card-deck__cards">
@@ -23,7 +26,8 @@
         >
           <component
             :is="card.cardType ? card.cardType : cardtype"
-            v-bind="card" />
+            v-bind="card"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -35,13 +39,15 @@ import PoemCard from "~/components/Poems/PoemCard";
 import Poet from "~/components/Poet";
 import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
+import EssayCard from "~/components/EssayCard";
 
 export default {
   components: {
     PoemCard,
     Poet,
     FeatureCard,
-    adCard
+    adCard,
+    EssayCard
   },
   props: {
     title: {

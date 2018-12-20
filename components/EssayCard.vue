@@ -1,6 +1,6 @@
 <template>
   <b-card
-    class="card--poem"
+    class="card--essay"
     :title="title"
     tag="article"
     title-tag="h3"
@@ -51,3 +51,9 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.card--essay {
+  border-bottom: 3px solid $brown;
+}
+</style>
