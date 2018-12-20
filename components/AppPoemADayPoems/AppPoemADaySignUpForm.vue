@@ -159,7 +159,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.$router.push("/poem-a-day-thanks");
+      this.$toast
+        .show("Thanks! You are subscribed.", {
+          theme: "toasted-primary",
+          position: "top-left"
+        })
+        .goAway(1500);
     },
     print() {
       window.print();
