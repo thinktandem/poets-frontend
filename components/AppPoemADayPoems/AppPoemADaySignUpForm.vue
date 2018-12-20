@@ -159,7 +159,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.$toast.success("Thanks! You are subscribed.").goAway(1500);
+      this.$toast
+        .show("Thanks! You are subscribed.", {
+          theme: "toasted-primary",
+          position: "top-left"
+        })
+        .goAway(1500);
     },
     print() {
       window.print();
