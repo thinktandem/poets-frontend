@@ -12,13 +12,14 @@
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
             v-if="link"
-            :to="link.to">{{ link.text }}</b-link>
+            :to="link.to"
+          >{{ link.text }}</b-link>
         </b-col>
       </b-row>
       <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
-          md
+          :md="cols"
           v-for="card in cards"
           :key="card.id"
           class="card-deck__card"
@@ -35,10 +36,13 @@
 </template>
 
 <script>
+// Import all the cards that might need to be used in a deck.
 import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
+import EssayCard from "~/components/EssayCard";
 import TeachingCard from "~/components/TeachingCard";
 
 export default {
@@ -47,6 +51,8 @@ export default {
     Poet,
     FeatureCard,
     adCard,
+    EssayCard,
+    LessonPlanCard,
     TeachingCard
   },
   props: {
@@ -69,6 +75,10 @@ export default {
     link: {
       type: Object,
       default: function() {}
+    },
+    cols: {
+      type: String,
+      default: "4"
     }
   }
 };
@@ -107,7 +117,8 @@ export default {
     margin-bottom: 2rem;
 
     .card {
-      margin: 0;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
     }
   }
 }

@@ -51,6 +51,19 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="EssayCardDeck"
+            >Poem Card Deck</h2>
+            <CardDeck
+              title="Essays on Teaching Poetry"
+              cardtype="EssayCard"
+              :cards="essays"
+              :link="essaysLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="PoemCardDeck"
             >Poem Card Deck</h2>
             <CardDeck
@@ -58,6 +71,20 @@
               cardtype="PoemCard"
               :cards="poems"
               :link="poemsLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="LessonPlanCardDeck"
+            >Lesson Plan Card Deck</h2>
+            <CardDeck
+              title="Lesson Plans"
+              cardtype="LessonPlanCard"
+              cols="6"
+              :cards="LessonPlans"
+              :link="LessonPlansLink"
             />
           </section>
 
@@ -123,6 +150,7 @@
 
 <script>
 import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
@@ -145,6 +173,7 @@ export default {
     StyleguideForm,
     FeatureCard,
     FilterTable,
+    LessonPlanCard,
     TeachingIntro
   },
   computed: {
@@ -184,16 +213,24 @@ export default {
           anchor: "#Buttons"
         },
         {
-          title: "Poets Deck",
+          title: "Poets",
           anchor: "#PoetsDeck"
         },
         {
-          title: "Poets Featured Deck",
+          title: "Poets - Featured",
           anchor: "#PoetsFeaturedDeck"
         },
         {
-          title: "Poem Card Deck",
+          title: "Poems",
           anchor: "#PoemCardDeck"
+        },
+        {
+          title: "Essays Deck",
+          anchor: "#EssayCardDeck"
+        },
+        {
+          title: "Lesson Plans",
+          anchor: "#LessonPlanCardDeck"
         },
         {
           title: "Forms",
@@ -293,6 +330,57 @@ And as for the bucket, Nantucket.`,
           year: "2018"
         }
       ],
+      essays: [
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        }
+      ],
+      LessonPlans: [
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        }
+      ],
       poets: [
         {
           name: "Dustin LeKensrue",
@@ -386,9 +474,18 @@ And as for the bucket, Nantucket.`,
           }
         }
       ],
+      LessonPlansLink: {
+        href: "blah/blah",
+        text: "185 Lesson Plans"
+      },
+
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
+      },
+      essaysLink: {
+        href: "blah/blah",
+        text: "28 Essays"
       },
       poetsLink: {
         href: "blah/blah",
