@@ -12,7 +12,7 @@
     </div>
     <b-form
       inline
-      @submit="poemADaySignup">
+      @submit.prevent="poemADaySignup">
       <label 
         class="sr-only" 
         for="poemADayEmail">Email Address</label>
@@ -24,6 +24,7 @@
           placeholder="john@example.com"/>
         <b-input-group-append>
           <b-btn
+            @click.stop.prevent="poemADaySignup"
             variant="primary-dark">Sign Up</b-btn>
         </b-input-group-append>
       </b-input-group>
