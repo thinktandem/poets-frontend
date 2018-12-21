@@ -465,9 +465,10 @@ And as for the bucket, Nantucket.`,
           }
         },
         {
-          cardType: "adCard",
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
           img: {
-            src: "/images/advertisement.png"
+            src: "/images/poet.png"
           },
           link: {
             href: "blah/blah"
