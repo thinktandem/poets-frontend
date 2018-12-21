@@ -27,12 +27,11 @@
       <b-list-group
         class="hero__search__links">
         <b-list-group-item
-          v-for="search in searches"
-          :key="search.link"
+          v-for="(link, index) in links"
+          :key="index"
+          :to="link.to"
           class="hero__search__link">
-          <a :href="search.link">
-            {{ search.text }}
-          </a>
+          {{ link.text }}
         </b-list-group-item>
       </b-list-group>
     </b-form>
@@ -46,42 +45,59 @@ export default {
   components: {
     MagnifyingGlassIcon
   },
-  /**
-   * @todo: should/can this be a data/prop delivered by drupal?
-   * @return {{ quotes: {quote: string, attribution: string}[]}}`
-   */
+  props: {
+    links: {
+      type: Array,
+      default() {
+        return [
+          {
+            to: {
+              name: "vertical-poem",
+              params: { vertical: "poetsorg" }
+            },
+            text: "find poems"
+          },
+          {
+            to: {
+              name: "vertical-poet",
+              params: { vertical: "poetsorg" }
+            },
+            text: "find poets"
+          },
+          {
+            to: {
+              name: "vertical-poet",
+              params: { vertical: "poetsorg" }
+            },
+            text: "poem-a-day"
+          },
+          {
+            to: {
+              name: "vertical-poet",
+              params: { vertical: "poetsorg" }
+            },
+            text: "library (texts, books, & more)"
+          },
+          {
+            to: {
+              name: "vertical-poet",
+              params: { vertical: "poetsorg" }
+            },
+            text: "materials for teachers"
+          },
+          {
+            to: {
+              name: "vertical-poet",
+              params: { vertical: "poetsorg" }
+            },
+            text: "poetry near you"
+          }
+        ];
+      }
+    }
+  },
   data() {
     return {
-      searches: [
-        {
-          link: "/programs",
-          text: "programs"
-        },
-        {
-          link: "/prizes",
-          text: "prizes"
-        },
-        {
-          link: "/leadership-and-staff",
-          text: "leadership & staff"
-        },
-        {
-          link: "/mission-and-history",
-          text: "mission & history"
-        },
-        {
-          link: "/poetry-coalition",
-          text: "poetry coalition"
-        },
-        {
-          link: "/about-us",
-          text: "about us"
-        },
-        {
-          link: "/announcements",
-          text: "announcements"
-        }
-      ],
       searchInput: ""
     };
   },
@@ -133,7 +149,7 @@ export default {
   color: rgba($white, 0.5);
   font-size: 1.25rem;
   line-height: 1.6rem;
-  padding: 0.75rem 1.25rem;
+  padding: 1.5rem 1.25rem;
   border: none;
   &:focus {
     color: rgba($white, 0.5);
@@ -151,17 +167,12 @@ export default {
   border-radius: 0;
   font-size: 20px;
   font-weight: 600;
+  color: var(--white);
 
-  a {
-    color: var(--white);
-  }
-
+  &.active,
   &:hover {
     background-color: var(--black);
-    a {
-      text-decoration: none;
-      color: var(--blue);
-    }
+    color: var(--blue);
   }
 }
 </style>

@@ -1,18 +1,20 @@
 <template>
   <b-card
     class="card--poem"
-    :title="title"
     tag="article"
-    title-tag="h3"
     itemscope
     itemtype="http://schema.org/Article"
   >
-    <span
-      class="card__title"
-      itemprop="title"
-    >
-      {{ title }}
-    </span>
+    <h3 
+      class="card-title">
+      <b-link
+        class="text-dark"
+        :to="link"
+        itemprop="title"
+      >
+        {{ title }}
+      </b-link>
+    </h3>
     <div
       class="card__body"
       v-html="text"
@@ -47,6 +49,10 @@ export default {
     year: {
       type: String,
       default: ""
+    },
+    link: {
+      type: String,
+      default: "/"
     }
   }
 };
