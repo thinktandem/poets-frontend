@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      loggedIn: false
     };
   },
   methods: {
@@ -51,16 +52,26 @@ export default {
       console.log("password: ", this.password);
       const password = this.password;
       const username = this.username;
-      this.$auth.loginWith("local", {
-        data: {
-          username: username,
-          password: password,
-          grant_type: "password",
-          client_id:
-            process.env.API_CLIENT_ID || "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
-          client_secret: process.env.API_CLIENT_SECRET || "a"
-        }
-      });
+      this.$auth
+        .loginWith("local", {
+          data: {
+            username: username,
+            password: password,
+            grant_type: "password",
+            client_id:
+              process.env.API_CLIENT_ID ||
+              "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
+            client_secret: process.env.API_CLIENT_SECRET || "a",
+            scope: "vue_consumer"
+          }
+        })
+        .then(() => this.$toast.show("You are Logged In!"), {
+          theme: "toasted-primary",
+          duration: 1500,
+          fullWidth: true,
+          position: "top-center"
+        });
+      console.log("login token?\n\n", this.$auth.getToken());
       // this.$auth.loginWith("poets-api");
       // const apiUrl = process.env.API_URL || "http://apipoetsd8.lndo.site";
       // console.log(apiUrl);

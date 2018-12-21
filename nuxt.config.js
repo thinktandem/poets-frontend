@@ -18,26 +18,31 @@ module.exports = {
   auth: {
     strategies: {
       local: {
-        // _scheme: "oauth2",
         endpoints: {
           login: {
-            url: "/oauth/authorize",
+            url: "/oauth/token",
             method: "post",
             propertyName: "access_token"
           },
+          user: false,
+          logout: {
+            url: "/user/logout",
+            method: "post"
+          },
           tokenRequired: true,
-          tokenType: 'Bearer'
+          tokenType: "Bearer"
         }
       },
-      "poets-api": {
-        _scheme: "oauth2",
-        authorization_endpoint: "/oauth/token",
+      facebook: {
+        client_id: "",
         userinfo_endpoint: false,
-        scope: ["vue_consumer"],
-        response_type: "token",
-        redirect_uri: "/login",
-        client_id: process.env.API_CLIENT_ID,
-        token_key: process.env.API_CLIENT_SECRET
+        scope: ["public_profile", "email"],
+        redirect_uri: "/"
+      },
+      google: {
+        client_id: "",
+        user: false,
+        redirect_uri: "/"
       }
     }
   },

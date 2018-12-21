@@ -32,8 +32,22 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item
           href="/login"
-          class="navbar__login">Membership / Login</b-nav-item>
+          class="navbar__login"
+          v-if="loggedIn == false">Membership / Login</b-nav-item>
 
+        <b-nav-item-dropdown
+          text="User"
+          right
+          v-else
+        >
+          <b-dropdown-item href="#">Collections</b-dropdown-item>
+          <b-dropdown-item
+            href="#"
+            @click.stop.prevent="logout"
+          >
+            Logout
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
         <b-button
           class="d-block d-md-none"
           variant="secondary-dark"
@@ -59,6 +73,7 @@ export default {
    * @return {{links: {href: string, text: string}[]}}
    */
   data() {
+    console.log("gff\n\n\n\n", this.$auth.loggedIn);
     return {
       links: [
         {
@@ -73,8 +88,15 @@ export default {
           href: "/magazine",
           text: "American Poets Magazine"
         }
-      ]
+      ],
+      loggedIn: this.$auth.loggedIn
     };
+  },
+  methods: {
+    async logout() {
+      console.log("el token\n\n\n", this.$auth.getToken());
+      await this.$auth.logout();
+    }
   }
 };
 </script>
