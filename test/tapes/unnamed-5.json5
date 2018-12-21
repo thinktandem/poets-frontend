@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2018-12-11T16:03:42.502Z',
+        createdAt: '2018-12-20T19:00:52.564Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
@@ -29,16 +29,16 @@
                 'close',
             ],
             'x-powered-by': [
-                'PHP/7.2.12',
+                'PHP/7.2.13',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Tue, 11-Dec-2018 17:03:42 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Thu, 20-Dec-2018 20:00:52 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Tue, 11 Dec 2018 16:03:42 GMT',
+                'Thu, 20 Dec 2018 19:00:52 GMT',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -62,6 +62,6 @@
                 'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: '[{"poem":{"title":"The Young Man\\u0027s Song","text":"\\u003Cpre\\u003E\\r\\nI whispered, \\u0026quot;I am too young,\\u0026quot;  \\r\\nAnd then, \\u0026quot;I am old enough\\u0026quot;;   \\r\\nWherefore I threw a penny   \\r\\nTo find out if I might love.   \\r\\n\\u0026quot;Go and love, go and love, young man,\\r\\nIf the lady be young and fair,\\u0026quot;   \\r\\nAh, penny, brown penny, brown penny,   \\r\\nI am looped in the loops of her hair.   \\r\\n   \\r\\nOh, love is the crooked thing,   \\r\\nThere is nobody wise enough\\r\\nTo find out all that is in it,   \\r\\nFor he would be thinking of love   \\r\\nTill the stars had run away,   \\r\\nAnd the shadows eaten the moon.   \\r\\nAh, penny, brown penny, brown penny,\\r\\nOne cannot begin it too soon. \\r\\n\\u003C\\/pre\\u003E\\r\\n","soundcloud":null,"vertical":"Poets.org","uuid":"1d3147bc-3d9e-4c77-9e44-308aa1ff77a1","alias":"\\/poetsorg\\/poem\\/young-mans-song"},"poet":{"name":"W. B. Yeats","alias":"\\/poetsorg\\/poet\\/w-b-yeats","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/wbyeats.jpg?itok=LbycKv1L"}}]',
+        body: '[{"poem":{"title":"The Everglades","text":"\\u003Cp\\u003EGreen and blue and white, it is a flag\\u003Cbr \\/\\u003Efor Florida stitched by hungry ibises.\\u003C\\/p\\u003E\\u003Cp\\u003EIt is a paradise of flocks, a cornucopia\\u003Cbr \\/\\u003Eof wind and grass and dark, slow waters.\\u003C\\/p\\u003E\\u003Cp\\u003ETurtles bask in the last tatters of afternoon,\\u003Cbr \\/\\u003Efrogs perfect their symphony at dusk\\u0026mdash;\\u003C\\/p\\u003E\\u003Cp\\u003Ein its solitude we remember ourselves,\\u003Cbr \\/\\u003Edimly, as creatures of mud and starlight.\\u003C\\/p\\u003E\\u003Cp\\u003EClouds and savannahs and horizons,\\u003Cbr \\/\\u003Eits emptiness is an antidote, its ink\\u003C\\/p\\u003E\\u003Cp\\u003Eilluminates the manuscript of the heart.\\u003Cbr \\/\\u003EIt is not ours though it is ours\\u003C\\/p\\u003E\\u003Cp\\u003Eto destroy or preserve, this the kingdom\\u003Cbr \\/\\u003Eof otter, kingfisher, alligator, heron.\\u003C\\/p\\u003E\\u003Cp\\u003EIf the sacred is a river within us, let it flow\\u003Cbr \\/\\u003Elike this, serene and magnificent, forever.\\u003C\\/p\\u003E\\u003Cp\\u003E\\u0026nbsp;\\u003C\\/p\\u003E","soundcloud":null,"vertical":"Poets.org","uuid":"ca85d9f1-4d26-4d92-868a-f68fb1827a1b","alias":"\\/poetsorg\\/poem\\/everglades"},"poet":{"name":"Campbell McGrath","alias":"\\/poetsorg\\/poet\\/campbell-mcgrath","image":"https:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/CampbellMcGrath-NewBioImage2015.png?itok=590ZxANI"}}]',
     },
 }
