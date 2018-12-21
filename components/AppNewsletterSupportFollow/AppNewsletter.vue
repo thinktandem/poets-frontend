@@ -2,7 +2,7 @@
   <div class="newsletter">
     <h3 class="signup-title">Newsletter Sign Up</h3>
     <div class="newsletter__form newsletter__content">
-      <form @submit.prevent="newsletterSignup">
+      <form @submit.stop.prevent="newsletterSignup">
         <b-form-checkbox
           v-model="aapn"
           type="checkbox"
@@ -49,6 +49,7 @@
           <button
             type="button"
             class="btn btn-primary"
+            @click.stop.prevent="newsletterSignup"
           >
             submit
           </button>
@@ -89,7 +90,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.$router.push("/newsletter-thanks");
+      this.$toast
+        .show("Thanks! You are subscribed.", {
+          theme: "toasted-primary",
+          position: "top-left"
+        })
+        .goAway(1500);
     }
   }
 };

@@ -39,11 +39,25 @@
               id="PoetsFeaturedDeck"
             >Poets Featured Deck</h2>
             <CardDeck
+              :featured="true"
               title="Poets"
               cardtype="Poet"
               class="card-deck--poet--extended"
               :cards="poetsExtended"
               :link="featuredPoetsLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="EssayCardDeck"
+            >Poem Card Deck</h2>
+            <CardDeck
+              title="Essays on Teaching Poetry"
+              cardtype="EssayCard"
+              :cards="essays"
+              :link="essaysLink"
             />
           </section>
 
@@ -57,6 +71,20 @@
               cardtype="PoemCard"
               :cards="poems"
               :link="poemsLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="LessonPlanCardDeck"
+            >Lesson Plan Card Deck</h2>
+            <CardDeck
+              title="Lesson Plans"
+              cardtype="LessonPlanCard"
+              cols="6"
+              :cards="LessonPlans"
+              :link="LessonPlansLink"
             />
           </section>
 
@@ -86,6 +114,16 @@
             >Poet List</h2>
             <FilterTable :items="poetListItems" />
           </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="TeachingCardDeck"
+            >Teaching Intro</h2>
+            <TeachingIntro
+              :cards="teachingCards"
+              :text="teachingText"
+            />
+          </section>
         </main>
       </b-col>
       <b-col
@@ -112,11 +150,13 @@
 
 <script>
 import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
+import TeachingIntro from "~/components/TeachingIntro";
 import * as _ from "lodash";
 
 export default {
@@ -132,7 +172,9 @@ export default {
     Poet,
     StyleguideForm,
     FeatureCard,
-    FilterTable
+    FilterTable,
+    LessonPlanCard,
+    TeachingIntro
   },
   computed: {
     buttons() {
@@ -171,16 +213,24 @@ export default {
           anchor: "#Buttons"
         },
         {
-          title: "Poets Deck",
+          title: "Poets",
           anchor: "#PoetsDeck"
         },
         {
-          title: "Poets Featured Deck",
+          title: "Poets - Featured",
           anchor: "#PoetsFeaturedDeck"
         },
         {
-          title: "Poem Card Deck",
+          title: "Poems",
           anchor: "#PoemCardDeck"
+        },
+        {
+          title: "Essays Deck",
+          anchor: "#EssayCardDeck"
+        },
+        {
+          title: "Lesson Plans",
+          anchor: "#LessonPlanCardDeck"
         },
         {
           title: "Forms",
@@ -193,6 +243,10 @@ export default {
         {
           title: "Filter Table",
           anchor: "#FilterTable"
+        },
+        {
+          title: "Teaching",
+          anchor: "#TeachingCardDeck"
         }
       ];
     }
@@ -274,6 +328,57 @@ And as for the bucket, Nantucket.`,
             name: "Dustin LeKensrue"
           },
           year: "2018"
+        }
+      ],
+      essays: [
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        }
+      ],
+      LessonPlans: [
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
         }
       ],
       poets: [
@@ -360,18 +465,28 @@ And as for the bucket, Nantucket.`,
           }
         },
         {
-          cardType: "adCard",
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
           img: {
-            src: "/images/advertisement.png"
+            src: "/images/poet.png"
           },
           link: {
             href: "blah/blah"
           }
         }
       ],
+      LessonPlansLink: {
+        href: "blah/blah",
+        text: "185 Lesson Plans"
+      },
+
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
+      },
+      essaysLink: {
+        href: "blah/blah",
+        text: "28 Essays"
       },
       poetsLink: {
         href: "blah/blah",
@@ -442,6 +557,42 @@ And as for the bucket, Nantucket.`,
           schoolsMovements: "Objectivist",
           years: "1978 - Present",
           name: { first: "Dick", last: "Dunlap" }
+        }
+      ],
+      teachingText:
+        "Here you’ll find poetry lesson plans, essays about teaching, a glossary of poetry terms, and more. And our lesson plans, most of which are aligned with the Common Core, have been reviewed by our Educator in Residence with an eye toward developing skills of perception and imagination.",
+      teachingCards: [
+        {
+          title: "Crafting a Poetic Sensibility",
+          text:
+            "An essay by our educator in residence, Madeleine Fuchs Holzer, about crafting a poetic sensibility",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Poems for Kids",
+          text:
+            "30 selections of poems curated for young people around specific themes",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Create Online Anthologies",
+          text:
+            "Instructions on how to create an online anthology of poems to share, right here on Poets.org",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Poetry Resources for Teens",
+          text:
+            "Poetry resources for teens, including additional selections of poems curated especially for teens",
+          img: {
+            src: "/images/poet.png"
+          }
         }
       ]
     };
