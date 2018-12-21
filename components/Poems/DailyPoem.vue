@@ -44,7 +44,9 @@
             </b-link>
           </div>
           <div class="mt-md-5">
-            <AppPoemADaySignUpForm :poem="poem"/>
+            <AppPoemADaySignUpForm 
+              :show-actions="true" 
+              :poem="poem"/>
           </div>
         </b-col>
         <b-col
@@ -80,7 +82,6 @@
               class="daily-poem__poem-text font-serif-2"/>
             <div class="daily-poem__read-the-rest">
               <b-btn
-                size="md"
                 variant="primary-dark"
                 v-b-modal.poemADayModal>read the rest</b-btn>
             </div>

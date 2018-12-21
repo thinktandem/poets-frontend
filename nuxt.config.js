@@ -8,10 +8,16 @@ module.exports = {
       {
         resources: require("./assets/scss/imports.js")
       }
-    ]
+    ],
+    "@nuxtjs/toast"
   ],
   axios: {
     debug: process.env.APP_ENV !== "production"
+  },
+  toast: {
+    position: "top-left",
+    className: "toast-success",
+    theme: "bubble"
   },
   plugins: [
     "~/plugins/axios",

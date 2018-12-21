@@ -4,6 +4,7 @@
     <promo-space variant="dark" />
     <AppHeroOuter
       :variant="this.$store.state.hero.variant"
+      :heading="this.$store.state.hero.heading"
       :lead="this.$store.state.hero.lead"
       :subtext="this.$store.state.hero.subtext"
     />
