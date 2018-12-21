@@ -97,6 +97,16 @@
               :text="teachingText"
             />
           </section>
+          <section class="styleguide-item">
+            <h2 
+              class="styleguide__heading" 
+              id="calloutCard">
+              Callout Card
+            </h2>
+            <callout-card
+              body="Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation. "
+            />
+          </section>
         </main>
       </b-col>
       <b-col
@@ -125,6 +135,7 @@
 import PoemCard from "~/components/Poems/PoemCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
+import CalloutCard from "~/components/CalloutCard";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
@@ -145,7 +156,8 @@ export default {
     StyleguideForm,
     FeatureCard,
     FilterTable,
-    TeachingIntro
+    TeachingIntro,
+    CalloutCard
   },
   computed: {
     buttons() {
@@ -210,6 +222,10 @@ export default {
         {
           title: "Teaching",
           anchor: "#TeachingCardDeck"
+        },
+        {
+          title: "Callout Card",
+          anchor: "#calloutCard"
         }
       ];
     }
