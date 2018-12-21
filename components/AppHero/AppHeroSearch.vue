@@ -13,7 +13,10 @@
             v-model="searchInput"
             placeholder="search"
             class="hero-search__form-input"/>
-          <b-input-group-append is-text>
+          <b-input-group-append
+            is-text
+            @click.stop.prevent="search"
+          >
 
             <magnifying-glass-icon
               class="icon mr-2"/>

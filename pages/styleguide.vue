@@ -113,6 +113,16 @@
             >Poet List</h2>
             <FilterTable :items="poetListItems" />
           </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="TeachingCardDeck"
+            >Teaching Intro</h2>
+            <TeachingIntro
+              :cards="teachingCards"
+              :text="teachingText"
+            />
+          </section>
         </main>
       </b-col>
       <b-col
@@ -145,6 +155,7 @@ import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
+import TeachingIntro from "~/components/TeachingIntro";
 import * as _ from "lodash";
 
 export default {
@@ -162,6 +173,7 @@ export default {
     FeatureCard,
     FilterTable,
     LessonPlanCard
+    TeachingIntro
   },
   computed: {
     buttons() {
@@ -230,6 +242,10 @@ export default {
         {
           title: "Filter Table",
           anchor: "#FilterTable"
+        },
+        {
+          title: "Teaching",
+          anchor: "#TeachingCardDeck"
         }
       ];
     }
@@ -539,6 +555,42 @@ And as for the bucket, Nantucket.`,
           schoolsMovements: "Objectivist",
           years: "1978 - Present",
           name: { first: "Dick", last: "Dunlap" }
+        }
+      ],
+      teachingText:
+        "Here you’ll find poetry lesson plans, essays about teaching, a glossary of poetry terms, and more. And our lesson plans, most of which are aligned with the Common Core, have been reviewed by our Educator in Residence with an eye toward developing skills of perception and imagination.",
+      teachingCards: [
+        {
+          title: "Crafting a Poetic Sensibility",
+          text:
+            "An essay by our educator in residence, Madeleine Fuchs Holzer, about crafting a poetic sensibility",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Poems for Kids",
+          text:
+            "30 selections of poems curated for young people around specific themes",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Create Online Anthologies",
+          text:
+            "Instructions on how to create an online anthology of poems to share, right here on Poets.org",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Poetry Resources for Teens",
+          text:
+            "Poetry resources for teens, including additional selections of poems curated especially for teens",
+          img: {
+            src: "/images/poet.png"
+          }
         }
       ]
     };
