@@ -2,11 +2,49 @@
   border: none;
   border-bottom: 3px solid var(--green);
 
+  // This exists only for the itemprop. Visual title comes in .card-title
+  .card__title {
+    display: none;
+  }
+
   .card-title {
     font-family: 'Poets Electra Roman No 2';
     font-style: italic;
     font-size: 1.65rem;
     line-height: 2rem;
+  }
+
+  .card__body {
+    padding-left: 1rem;
+    max-height: 9rem;
+    position: relative;
+    font-family: $font-family-serif;
+    white-space: pre-wrap; // This preserves the line breaks.
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0), #fff);
+    }
+  }
+
+  .card-footer {
+    padding: 2rem 0 0 0;
+    font-family: $font-family-sans-serif;
+    background-color: transparent;
+
+    p {
+      margin: 0;
+
+      &.card__year {
+        font-weight: 400;
+      }
+    }
   }
 }
 
