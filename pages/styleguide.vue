@@ -187,8 +187,8 @@ export default {
     FeatureCard,
     FilterTable,
     TeachingIntro,
-    SignupBlock
-    LessonPlanCard,
+    SignupBlock,
+    LessonPlanCard
   },
   computed: {
     buttons() {
