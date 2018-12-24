@@ -51,6 +51,19 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="EssayCardDeck"
+            >Poem Card Deck</h2>
+            <CardDeck
+              title="Essays on Teaching Poetry"
+              cardtype="EssayCard"
+              :cards="essays"
+              :link="essaysLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="PoemCardDeck"
             >Poem Card Deck</h2>
             <CardDeck
@@ -58,6 +71,20 @@
               cardtype="PoemCard"
               :cards="poems"
               :link="poemsLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="LessonPlanCardDeck"
+            >Lesson Plan Card Deck</h2>
+            <CardDeck
+              title="Lesson Plans"
+              cardtype="LessonPlanCard"
+              cols="6"
+              :cards="LessonPlans"
+              :link="LessonPlansLink"
             />
           </section>
 
@@ -103,9 +130,19 @@
               id="calloutCard">
               Callout Card
             </h2>
-            <callout-card
-              body="Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation. "
-            />
+            <callout-card>
+              Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation.
+            </callout-card>
+          <section class="styleguide-item">
+            <h2 
+              class="styleguide__heading" 
+              id="signupBlock">Signup Block</h2>
+            <signup-block
+              class="w-50"
+              title="Monthly Educator Newsletter"
+              list="poem-a-day">
+              Receive monthly updates on lesson plans and more!
+            </signup-block>
           </section>
         </main>
       </b-col>
@@ -133,12 +170,14 @@
 
 <script>
 import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
 import CalloutCard from "~/components/CalloutCard";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
+import SignupBlock from "../components/SignupBlock";
 import TeachingIntro from "~/components/TeachingIntro";
 import * as _ from "lodash";
 
@@ -157,7 +196,9 @@ export default {
     FeatureCard,
     FilterTable,
     TeachingIntro,
-    CalloutCard
+    CalloutCard,
+    SignupBlock,
+    LessonPlanCard
   },
   computed: {
     buttons() {
@@ -196,16 +237,24 @@ export default {
           anchor: "#Buttons"
         },
         {
-          title: "Poets Deck",
+          title: "Poets",
           anchor: "#PoetsDeck"
         },
         {
-          title: "Poets Featured Deck",
+          title: "Poets - Featured",
           anchor: "#PoetsFeaturedDeck"
         },
         {
-          title: "Poem Card Deck",
+          title: "Poems",
           anchor: "#PoemCardDeck"
+        },
+        {
+          title: "Essays Deck",
+          anchor: "#EssayCardDeck"
+        },
+        {
+          title: "Lesson Plans",
+          anchor: "#LessonPlanCardDeck"
         },
         {
           title: "Forms",
@@ -226,6 +275,10 @@ export default {
         {
           title: "Callout Card",
           anchor: "#calloutCard"
+        },
+        {
+          title: "SignupBlock",
+          anchor: "#signupBlock"
         }
       ];
     }
@@ -307,6 +360,57 @@ And as for the bucket, Nantucket.`,
             name: "Dustin LeKensrue"
           },
           year: "2018"
+        }
+      ],
+      essays: [
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        }
+      ],
+      LessonPlans: [
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
         }
       ],
       poets: [
@@ -393,18 +497,28 @@ And as for the bucket, Nantucket.`,
           }
         },
         {
-          cardType: "adCard",
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
           img: {
-            src: "/images/advertisement.png"
+            src: "/images/poet.png"
           },
           link: {
             href: "blah/blah"
           }
         }
       ],
+      LessonPlansLink: {
+        href: "blah/blah",
+        text: "185 Lesson Plans"
+      },
+
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
+      },
+      essaysLink: {
+        href: "blah/blah",
+        text: "28 Essays"
       },
       poetsLink: {
         href: "blah/blah",

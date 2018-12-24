@@ -9,7 +9,7 @@
       height="110"
       blank
       blank-color="#00B4F0"/>
-    <p class="card-text">{{ body }}</p>
+    <p class="card-text"><slot/></p>
     <div slot="footer">
       <b-btn
         :to="action.to"
@@ -25,10 +25,6 @@ export default {
     title: {
       type: String,
       default: "Teach This Poem"
-    },
-    body: {
-      type: String,
-      default: "Body"
     },
     icon: {
       type: String,
