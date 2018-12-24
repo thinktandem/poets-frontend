@@ -124,6 +124,18 @@
               :text="teachingText"
             />
           </section>
+          <section class="styleguide-item">
+            <h2 
+              class="styleguide__heading" 
+              id="signupBlock">Signup Block</h2>
+            <signup-block
+              class="w-50"
+              title="Monthly Educator Newsletter"
+              list="poem-a-day"
+            >
+              Receive monthly updates on lesson plans and more!
+            </signup-block>
+          </section>
         </main>
       </b-col>
       <b-col
@@ -156,6 +168,7 @@ import CardDeck from "~/components/CardDeck";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
+import SignupBlock from "../components/SignupBlock";
 import TeachingIntro from "~/components/TeachingIntro";
 import * as _ from "lodash";
 
@@ -173,8 +186,9 @@ export default {
     StyleguideForm,
     FeatureCard,
     FilterTable,
-    LessonPlanCard,
-    TeachingIntro
+    TeachingIntro,
+    SignupBlock,
+    LessonPlanCard
   },
   computed: {
     buttons() {
@@ -247,6 +261,10 @@ export default {
         {
           title: "Teaching",
           anchor: "#TeachingCardDeck"
+        },
+        {
+          title: "SignupBlock",
+          anchor: "#signupBlock"
         }
       ];
     }
