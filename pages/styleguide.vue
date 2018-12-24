@@ -133,18 +133,18 @@
             <callout-card>
               Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation.
             </callout-card>
-          <section class="styleguide-item">
-            <h2 
-              class="styleguide__heading" 
-              id="signupBlock">Signup Block</h2>
-            <signup-block
-              class="w-50"
-              title="Monthly Educator Newsletter"
-              list="poem-a-day">
-              Receive monthly updates on lesson plans and more!
-            </signup-block>
-          </section>
-        </main>
+            <section class="styleguide-item">
+              <h2 
+                class="styleguide__heading" 
+                id="signupBlock">Signup Block</h2>
+              <signup-block
+                class="w-50"
+                title="Monthly Educator Newsletter"
+                list="poem-a-day">
+                Receive monthly updates on lesson plans and more!
+              </signup-block>
+            </section>
+        </section></main>
       </b-col>
       <b-col
         sm="12"
