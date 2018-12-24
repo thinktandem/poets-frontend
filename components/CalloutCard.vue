@@ -26,10 +26,6 @@ export default {
       type: String,
       default: "Teach This Poem"
     },
-    body: {
-      type: String,
-      default: "Body"
-    },
     icon: {
       type: String,
       default: "lightbulb"
