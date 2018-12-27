@@ -144,7 +144,18 @@
                 Receive monthly updates on lesson plans and more!
               </signup-block>
             </section>
-        </section></main>
+          </section>
+          <section class="styleguide-item">
+            <h2 
+              class="styleguide__heading" 
+              id="videoBlock">Video Block</h2>
+            <video-block
+              class="w-50"
+              title="A Teacher’s Guide to Poets.org"
+              youtube-id="Waw7d8evTfg"
+              vimeo-id="182766909">With a special introduction by Education Ambassador Richard Blanco, this brief video guide for teachers highlights the many educational resources available on Poets.org.</video-block>
+          </section>
+        </main>
       </b-col>
       <b-col
         sm="12"
@@ -179,6 +190,7 @@ import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
 import SignupBlock from "../components/SignupBlock";
 import TeachingIntro from "~/components/TeachingIntro";
+import VideoBlock from "~/components/VideoBlock";
 import * as _ from "lodash";
 
 export default {
@@ -198,7 +210,8 @@ export default {
     TeachingIntro,
     CalloutCard,
     SignupBlock,
-    LessonPlanCard
+    LessonPlanCard,
+    VideoBlock
   },
   computed: {
     buttons() {
@@ -279,6 +292,10 @@ export default {
         {
           title: "SignupBlock",
           anchor: "#signupBlock"
+        },
+        {
+          title: "Video Block",
+          anchor: "#videoBlock"
         }
       ];
     }
