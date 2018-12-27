@@ -33,8 +33,8 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import qs from "qs";
+import axios from "axios";
+import qs from "qs";
 
 export default {
   name: "Login",
@@ -47,67 +47,40 @@ export default {
   },
   methods: {
     login() {
-      console.log("loggedIn: ", this.$auth.loggedIn);
       console.log("username: ", this.username);
       console.log("password: ", this.password);
       const password = this.password;
       const username = this.username;
-      this.$auth
-        .loginWith("local", {
-          data: {
-            username: username,
-            password: password,
-            grant_type: "password",
-            client_id:
-              process.env.API_CLIENT_ID ||
-              "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
-            client_secret: process.env.API_CLIENT_SECRET || "a",
-            scope: "vue_consumer"
-          }
+      const data = {
+        grant_type: "password",
+        username: username,
+        password: password,
+        client_id: "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
+        scope: "vue_consumer"
+      };
+      axios
+        .post("http://apipoetsd8.lndo.site/oauth/token", {
+          data: qs.stringify(data)
         })
-        .then(() => this.$toast.show("You are Logged In!"), {
-          theme: "toasted-primary",
-          duration: 1500,
-          fullWidth: true,
-          position: "top-center"
+        .then(req => {
+          console.log("token\n\n", req.data.access_token);
+        })
+        // .then(req => {
+        //   console.log("thenReq", req.data.access_token);
+        //   axios
+        //     .get("/api/user/user", {
+        //       headers: {
+        //         Authorization: `Bearer ${req.data.access_token}`
+        //       }
+        //     })
+        //     .then(req => {
+        //       console.log("req", req);
+        //     });
+        // })
+        .catch(err => {
+          console.log("sadly gff is not the best");
+          console.log(err);
         });
-      console.log("login token?\n\n", this.$auth.getToken());
-      // this.$auth.loginWith("poets-api");
-      // const apiUrl = process.env.API_URL || "http://apipoetsd8.lndo.site";
-      // console.log(apiUrl);
-      // console.log("clientId ", process.env.API_CLIENT_ID);
-      // console.log(this.username, this.password);
-      // const data = {
-      //   username: this.username,
-      //   password: this.password,
-      //   grant_type: "password",
-      //   client_id:
-      //     process.env.API_CLIENT_ID || "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
-      //   client_secret: process.env.API_CLIENT_SECRET || "a"
-      // };
-      // const options = {
-      //   method: "POST",
-      //   data: qs.stringify(data),
-      //   url: apiUrl + "/oauth/token"
-      // };
-      // console.log(options);
-      // axios(options)
-      //   .then(req => {
-      //     console.log("thenReq", req.data.access_token);
-      //     const options = {
-      //       headers: {
-      //         Authorization: `Bearer ${req.data.access_token}`
-      //       },
-      //       url: apiUrl + "/api/user/user/"
-      //     };
-      //     axios(options).then(req => {
-      //       console.log("req", req);
-      //     });
-      //   })
-      //   .catch(err => {
-      //     console.log("sadly gff is not the best");
-      //     console.log(err);
-      //   });
     }
   }
 };

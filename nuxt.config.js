@@ -33,6 +33,17 @@ module.exports = {
           tokenType: "Bearer"
         }
       },
+      api: {
+        _scheme: "oauth2",
+        authorization_endpoint: "http://apipoetsd8.lndo.site/oauth/token",
+        userinfo_endpoint: false,
+        scope: ["vue_consumer"],
+        response_type: "token",
+        token_type: 'Bearer',
+        redirect_uri: undefined,
+        client_id: "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
+        token_key: 'access_token'
+      },
       facebook: {
         client_id: "",
         userinfo_endpoint: false,
