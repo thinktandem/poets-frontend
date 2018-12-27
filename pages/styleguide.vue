@@ -136,6 +136,35 @@
               :cards="bookCards"
               :link="bookLink"
             />
+            <h2
+              class="styleguide__heading"
+              id="calloutCard">
+              Callout Card
+            </h2>
+            <callout-card>
+              Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation.
+            </callout-card>
+            <section class="styleguide-item">
+              <h2
+                class="styleguide__heading"
+                id="signupBlock">Signup Block</h2>
+              <signup-block
+                class="w-50"
+                title="Monthly Educator Newsletter"
+                list="poem-a-day">
+                Receive monthly updates on lesson plans and more!
+              </signup-block>
+            </section>
+          </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="videoBlock">Video Block</h2>
+            <video-block
+              class="w-50"
+              title="A Teacher’s Guide to Poets.org"
+              youtube-id="Waw7d8evTfg"
+              vimeo-id="182766909">With a special introduction by Education Ambassador Richard Blanco, this brief video guide for teachers highlights the many educational resources available on Poets.org.</video-block>
           </section>
         </main>
       </b-col>
@@ -166,10 +195,13 @@ import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
+import CalloutCard from "~/components/CalloutCard";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
 import FilterTable from "~/components/FilterTable";
+import SignupBlock from "../components/SignupBlock";
 import TeachingIntro from "~/components/TeachingIntro";
+import VideoBlock from "~/components/VideoBlock";
 import * as _ from "lodash";
 
 export default {
@@ -186,8 +218,11 @@ export default {
     StyleguideForm,
     FeatureCard,
     FilterTable,
+    TeachingIntro,
+    CalloutCard,
+    SignupBlock,
     LessonPlanCard,
-    TeachingIntro
+    VideoBlock
   },
   computed: {
     buttons() {
@@ -264,6 +299,16 @@ export default {
         {
           title: "Books",
           anchor: "#BookCardDeck"
+          title: "Callout Card",
+          anchor: "#calloutCard"
+        },
+        {
+          title: "SignupBlock",
+          anchor: "#signupBlock"
+        },
+        {
+          title: "Video Block",
+          anchor: "#videoBlock"
         }
       ];
     }

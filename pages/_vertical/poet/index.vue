@@ -186,8 +186,6 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
@@ -196,8 +194,6 @@ import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
-    AppPoemADaySignUpForm,
-    AppPoems,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     iconSearch
