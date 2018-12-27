@@ -44,7 +44,7 @@
             </b-link>
           </div>
           <div class="mt-md-5">
-            <AppPoemADaySignUpForm 
+            <signup-block
               :show-actions="true" 
               :poem="poem"/>
           </div>
@@ -112,19 +112,19 @@
       <template
         slot="modal-footer"
         class="p-0">
-        <AppPoemADaySignUpForm :poem="poem" />
+        <signup-block :poem="poem" />
       </template>
     </b-modal>
   </div>
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import SignupBlock from "~/components/SignupBlock";
 import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 export default {
   name: "DailyPoem",
   components: {
-    AppPoemADaySignUpForm,
+    SignupBlock,
     SpeakerIcon
   },
   data() {

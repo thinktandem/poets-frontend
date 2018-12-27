@@ -75,7 +75,7 @@
               <b-link :to="poet.path.alias">More {{ poet.title }} ></b-link>
             </div>
           </div>
-          <app-poem-a-day-sign-up-form/>
+          <signup-block/>
         </b-col>
       </b-row>
     </b-container>
@@ -98,18 +98,16 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 import CardDeck from "~/components/CardDeck";
+import SignupBlock from "~/components/SignupBlock";
 import PoemActions from "~/components/PoemActions";
 import * as qs from "qs";
 import * as _ from "lodash";
 
 export default {
   components: {
-    AppPoemADaySignUpForm,
-    AppPoems,
+    SignupBlock,
     CardDeck,
     PoemActions,
     SpeakerIcon
