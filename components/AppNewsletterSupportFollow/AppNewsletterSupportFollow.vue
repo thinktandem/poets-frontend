@@ -1,21 +1,24 @@
 <template>
-  <div
-    class="p-4 newsletter-support-follow">
-    <b-container class="mx-auto my-1">
+  <div class="newsletter-support-follow">
+    <b-container>
       <b-row class="row">
         <b-col
           class="newsletter-form"
-          cols="4">
+          md="4"
+        >
           <AppNewsletter />
         </b-col>
         <b-col
           class="support"
-          cols="4">
+          md="3"
+          offset-sm="1"
+        >
           <AppSupport />
         </b-col>
         <b-col
           class="follow"
-          cols="4">
+          md="4"
+        >
           <AppFollow />
         </b-col>
       </b-row>
@@ -36,19 +39,23 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-.newsletter-support-follow {
-  background-color: var(--gray-100);
-}
-</style>
 <style lang="scss">
-.newsletter,
-.support,
-.follow {
-  .signup-title {
-    font-size: 18px;
-    font-weight: 100;
-    border-bottom: 1px solid #ccc;
+.newsletter-support-follow {
+  padding: 2.125rem 0 3.125rem 0;
+  background-color: $gray-200;
+
+  h3.signup-title {
+    padding: 1.25rem;
+    font-size: 2rem;
+    border-bottom: 3px solid $newsletter-support-follow__h3__border-color;
+    font-family: $font-family-serif;
+    font-style: italic;
+  }
+
+  .support__content,
+  .newsletter__content,
+  .follow__content {
+    padding: 1rem 1rem 2rem;
   }
 }
 </style>
