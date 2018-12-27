@@ -299,6 +299,8 @@ export default {
         {
           title: "Books",
           anchor: "#BookCardDeck"
+        },
+        {
           title: "Callout Card",
           anchor: "#calloutCard"
         },
