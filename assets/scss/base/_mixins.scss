@@ -1,0 +1,15 @@
+@mixin trans-bg--multiply($bg-color) {
+  position: relative;
+  background-color: transparent;
+
+  &::before {
+    content: "";
+    mix-blend-mode: multiply;
+    background-color: $bg-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

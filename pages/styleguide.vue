@@ -48,6 +48,20 @@
             />
           </section>
 
+          <section class="styleguide-item trans-bg-eg">
+            <h2
+              class="styleguide__heading"
+              id="PoetsFeaturedDeck"
+            >Poets Featured Deck with background</h2>
+            <CardDeck
+              title="Poets"
+              cardtype="Poet"
+              class="card-deck--poet--extended"
+              :cards="poetsExtended"
+              :link="featuredPoetsLink"
+            />
+          </section>
+
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
@@ -742,5 +756,17 @@ And as for the bucket, Nantucket.`,
 .nav-link.active {
   font-weight: bold;
   color: $black;
+}
+
+// Special Background magics.
+.trans-bg-eg {
+  background-image: url(https://www.teenbookfest.org/img/book-page.jpg);
+  background-size: contain;
+  background-color: #eee;
+  background-blend-mode: overlay;
+
+  .card-deck--poet--extended {
+    @include trans-bg--multiply(var(--green));
+  }
 }
 </style>
