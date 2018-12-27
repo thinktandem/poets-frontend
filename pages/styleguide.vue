@@ -125,8 +125,19 @@
             />
           </section>
           <section class="styleguide-item">
-            <h2 
-              class="styleguide__heading" 
+            <h2
+              class="styleguide__heading"
+              id="BookCardDeck"
+            >Books</h2>
+            <CardDeck
+              title="Books"
+              cardtype="BookCard"
+              cols="3"
+              :cards="bookCards"
+              :link="bookLink"
+            />
+            <h2
+              class="styleguide__heading"
               id="calloutCard">
               Callout Card
             </h2>
@@ -134,8 +145,8 @@
               Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation.
             </callout-card>
             <section class="styleguide-item">
-              <h2 
-                class="styleguide__heading" 
+              <h2
+                class="styleguide__heading"
                 id="signupBlock">Signup Block</h2>
               <signup-block
                 class="w-50"
@@ -146,8 +157,8 @@
             </section>
           </section>
           <section class="styleguide-item">
-            <h2 
-              class="styleguide__heading" 
+            <h2
+              class="styleguide__heading"
               id="videoBlock">Video Block</h2>
             <video-block
               class="w-50"
@@ -286,6 +297,8 @@ export default {
           anchor: "#TeachingCardDeck"
         },
         {
+          title: "Books",
+          anchor: "#BookCardDeck"
           title: "Callout Card",
           anchor: "#calloutCard"
         },
@@ -528,7 +541,10 @@ And as for the bucket, Nantucket.`,
         href: "blah/blah",
         text: "185 Lesson Plans"
       },
-
+      bookLink: {
+        href: "blah/blah",
+        text: "402 books"
+      },
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
@@ -606,6 +622,60 @@ And as for the bucket, Nantucket.`,
           schoolsMovements: "Objectivist",
           years: "1978 - Present",
           name: { first: "Dick", last: "Dunlap" }
+        }
+      ],
+      bookCards: [
+        {
+          title: "Brown",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Alfred A. Knopf",
+          year: "2018",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        },
+        {
+          title: "American Sonnets for My Past and Future Assassin",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Terrence Hayes",
+          year: "",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        },
+        {
+          title: "Brown",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Alfred A. Knopf",
+          year: "2018",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        },
+        {
+          title: "American Sonnets for My Past and Future Assassin",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Terrence Hayes",
+          year: "",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
         }
       ],
       teachingText:
