@@ -85,14 +85,10 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "../../components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "../../components/AppPoemADayPoems/AppPoems";
 import FilterTable from "../../components/FilterTable";
 import searchHelpers from "~/plugins/search-helpers";
 export default {
   components: {
-    AppPoemADaySignUpForm,
-    AppPoems,
     FilterTable
   },
   data() {

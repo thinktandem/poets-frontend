@@ -1,20 +1,19 @@
 <template>
-  <div class="poem-a-day-sign-up p-3 bg-black">
+  <div class="sign-up p-3 bg-black">
     <poem-actions
       color="light"
-      :poem="poem" 
+      :poem="poem"
       v-if="showActions"/>
     <div class="poem-a-day-sign-up__title text-white">
-      sign up for poem-a-day
+      {{ title }}
     </div>
     <div class="poem-a-day-sign-up__description text-white">
-      Receive a new poem in your inbox daily
+      <slot>Receive a new poem in your inbox daily</slot>
     </div>
     <b-form
-      inline
       @submit.prevent="poemADaySignup">
-      <label 
-        class="sr-only" 
+      <label
+        class="sr-only"
         for="poemADayEmail">Email Address</label>
       <b-input-group>
         <b-form-input
@@ -50,25 +49,41 @@ export default {
         }
       };
       this.$axios
-        .post("/api/cm/poem-a-day", body)
-        .then(req => {
-          console.log("Post req sent");
+        .post(`/api/cm/${this.list}`, body)
+        .then(() => {
+          this.$toast
+            .show("Thanks! You are subscribed.", {
+              theme: "toasted-primary",
+              position: "top-left"
+            })
+            .goAway(1500);
         })
         .catch(err => {
+          this.$toast
+            .show(
+              "Sorry, there was an error subscribing you, please try again :(",
+              {
+                theme: "toasted-danger",
+                position: "top-left"
+              }
+            )
+            .goAway(1500);
           console.log(err);
         });
-      this.$toast
-        .show("Thanks! You are subscribed.", {
-          theme: "toasted-primary",
-          position: "top-left"
-        })
-        .goAway(1500);
     },
     print() {
       window.print();
     }
   },
   props: {
+    title: {
+      type: String,
+      default: "sign up for poem-a-day"
+    },
+    list: {
+      type: String,
+      default: "poem-a-day"
+    },
     poem: {
       type: Object,
       default() {
@@ -85,8 +100,9 @@ export default {
   }
 };
 </script>
+
 <style scoped lang="scss">
-.poem-a-day-sign-up {
+.sign-up {
   font-weight: 600;
   width: 100%;
   .poem-a-day-sign-up__title {
@@ -94,7 +110,7 @@ export default {
     font-size: 26px;
     font-weight: 600;
     padding-bottom: 1rem;
-    line-height: 1.25ar;
+    line-height: 1.25rem;
   }
   .poem-a-day-sign-up__description {
     font-size: 14px;
