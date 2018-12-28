@@ -35,10 +35,10 @@
           Name
         </b-col>
         <b-col md="4">
-          Years
+          Author
         </b-col>
         <b-col md="4">
-          Schools and Movements
+          Year
         </b-col>
       </b-row>
       <b-row
