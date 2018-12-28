@@ -124,13 +124,6 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="FilterTable"
-            >Poet List</h2>
-            <FilterTable :items="poetListItems" />
-          </section>
-          <section class="styleguide-item">
-            <h2
-              class="styleguide__heading"
               id="TeachingCardDeck"
             >Teaching Intro</h2>
             <TeachingIntro
@@ -212,7 +205,6 @@ import CardDeck from "~/components/CardDeck";
 import CalloutCard from "~/components/CalloutCard";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
-import FilterTable from "~/components/FilterTable";
 import SignupBlock from "../components/SignupBlock";
 import TeachingIntro from "~/components/TeachingIntro";
 import VideoBlock from "~/components/VideoBlock";
@@ -231,7 +223,6 @@ export default {
     Poet,
     StyleguideForm,
     FeatureCard,
-    FilterTable,
     TeachingIntro,
     CalloutCard,
     SignupBlock,
@@ -301,10 +292,6 @@ export default {
         {
           title: "Features",
           anchor: "#Features"
-        },
-        {
-          title: "Filter Table",
-          anchor: "#FilterTable"
         },
         {
           title: "Teaching",

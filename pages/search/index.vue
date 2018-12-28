@@ -85,12 +85,9 @@
 </template>
 
 <script>
-import FilterTable from "../../components/FilterTable";
 import searchHelpers from "~/plugins/search-helpers";
 export default {
-  components: {
-    FilterTable
-  },
+  components: {},
   data() {
     return {
       query: {
