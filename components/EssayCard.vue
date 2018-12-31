@@ -55,5 +55,9 @@ export default {
 <style scoped lang="scss">
 .card--essay {
   border-bottom: 3px solid $brown;
+  .card__body {
+    font-family: "Founders Grotesk";
+    font-weight: 400;
+  }
 }
 </style>
