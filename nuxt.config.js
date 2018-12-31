@@ -62,6 +62,7 @@ module.exports = {
           }
         }
       });
+      config.node = { fs: false };
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: "pre",
