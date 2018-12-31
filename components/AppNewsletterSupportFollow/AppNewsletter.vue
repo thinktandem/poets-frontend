@@ -102,6 +102,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .newsletter-checkbox {
+  font-weight: 400;
   label {
     &::before {
       border-radius: 2px;
