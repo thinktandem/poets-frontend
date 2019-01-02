@@ -62,11 +62,7 @@ module.exports = {
     className: "toast-success",
     theme: "bubble"
   },
-  plugins: [
-    "~/plugins/axios",
-    "~/plugins/vue2-filters"
-    // '~/plugins/vue-youtube-embed',
-  ],
+  plugins: ["~/plugins/axios", "~/plugins/vue2-filters"],
   css: ["~assets/scss/app.scss"],
   /*
   ** Headers of the page

@@ -1,15 +1,14 @@
 <template>
-  <div
-    class="newsletter">
+  <div class="newsletter">
     <h3 class="signup-title">Newsletter Sign Up</h3>
-    <div class="newsletter__form">
-      <form
-        @submit.stop.prevent="newsletterSignup">
+    <div class="newsletter__form newsletter__content">
+      <form @submit.stop.prevent="newsletterSignup">
         <b-form-checkbox
           v-model="aapn"
           type="checkbox"
           id="aapn"
-          class="newsletter-checkbox">
+          class="newsletter-checkbox"
+        >
           Academy of American Poets Newsletter
         </b-form-checkbox>
         <br>
@@ -17,7 +16,8 @@
           v-model="aapen"
           type="checkbox"
           id="aapen"
-          class="newsletter-checkbox">
+          class="newsletter-checkbox"
+        >
           Academy of American Poets Educator Newsletter
         </b-form-checkbox>
         <br>
@@ -25,7 +25,8 @@
           v-model="aapttp"
           type="checkbox"
           id="aapttp"
-          class="newsletter-checkbox">
+          class="newsletter-checkbox"
+        >
           Teach This Poem
         </b-form-checkbox>
         <br>
@@ -33,21 +34,26 @@
           v-model="aappad"
           type="checkbox"
           id="aappad"
-          class="newsletter-checkbox">
+          class="newsletter-checkbox"
+        >
           Poem-a-Day
         </b-form-checkbox>
-        <b-form-input
-          v-model="newsletterEmail"
-          id="newsletterEmail"
-          size="9"
-          type="email"
-          placeholder="john@example.com"/>
-        <button
-          type="button"
-          class="btn btn-primary"
-          @click.stop.prevent="newsletterSignup">
-          submit
-        </button>
+        <div class="newsletter__email">
+          <b-form-input
+            v-model="newsletterEmail"
+            id="newsletterEmail"
+            size="9"
+            type="email"
+            placeholder="john@example.com"
+          />
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click.stop.prevent="newsletterSignup"
+          >
+            submit
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -94,9 +100,38 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .newsletter-checkbox {
-  font-size: 14px;
-  font-weight: 100;
+  font-weight: 400;
+  label {
+    &::before {
+      border-radius: 2px;
+      border-color: $gray-600;
+    }
+  }
+}
+
+input {
+  &[type="checkbox"] {
+    &:checked {
+      & + label {
+        &::before {
+          border-color: $body-color;
+        }
+      }
+    }
+  }
+}
+
+.newsletter__email {
+  margin-top: 1rem;
+  height: 2.25rem;
+  display: flex;
+
+  button {
+    padding-top: 0.3rem;
+    border: none;
+    background-color: var(--primary-dark);
+  }
 }
 </style>

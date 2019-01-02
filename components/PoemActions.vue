@@ -1,71 +1,39 @@
 <template>
-  <div class="poem-a-day-sign-up p-3 bg-black">
-    <ul class="list-inline poem-a-day-sign-up__social-group d-flex flex-row flex-wrap justify-content-between mr-4 pr-5">
-      <li class="list-inline-item">
+  <div 
+    class="poem__actions" 
+    :class="`${orientation} ${color}`">
+    <ul class="d-flex flex-wrap">
+      <li class="pr-2">
         <b-link :href="facebookUrl">
-
           <FacebookIcon class="icon"/>
-
         </b-link>
       </li>
-      <li class="list-inline-item">
+      <li class="pr-2">
         <b-link :href="twitterUrl">
-
           <TwitterIcon class="icon"/>
-
         </b-link>
       </li>
-      <li class="list-inline-item">
+      <li class="pr-2">
         <b-link :href="tumblrUrl">
-
-          <TumblrIcon/>
-
+          <TumblrIcon class="icon"/>
         </b-link>
       </li>
-      <li class="list-inline-item">
+      <li class="pr-2">
         <b-link @click="print()">
-
-          <PrintIcon/>
-
+          <PrintIcon class="icon"/>
         </b-link>
       </li>
-      <li class="list-inline-item">
+      <li class="pr-2">
         <b-link v-b-modal.poemEmbedModal>
-
-          <EmbedIcon/>
-
+          <EmbedIcon class="icon"/>
         </b-link>
       </li>
-      <li class="list-inline-item">
+      <li class="pr-2">
         <b-link>
-
-          <CollectionIcon/>
-
+          <CollectionIcon class="icon"/>
         </b-link>
       </li>
     </ul>
-    <div class="poem-a-day-sign-up__title pt-2 text-white">
-      sign up for poem-a-day
-    </div>
-    <div class="poem-a-day-sign-up__description pt-2 pb-2 text-white">
-      Receive a new poem in your inbox daily
-    </div>
-    <form
-      class="poem-a-day-signup-form"
-      @submit.prevent="poemADaySignup">
-      <label class="sr-only">Email Address</label>
-      <input
-        v-model="email"
-        type="text"
-        placeholder="john@example.com"
-        class="form-control">
-      <button
-        type="button"
-        class="btn btn-primary poem-a-day-button"
-        @click.stop.prevent="poemADaySignup">
-        Sign Up
-      </button>
-    </form>
     <b-modal
       title="embed this poem"
       centered
@@ -88,7 +56,6 @@
     </b-modal>
   </div>
 </template>
-
 <script>
 import FacebookIcon from "~/static/social/facebook.svg";
 import TwitterIcon from "~/static/social/twitter.svg";
@@ -104,6 +71,22 @@ export default {
     PrintIcon,
     EmbedIcon,
     CollectionIcon
+  },
+  props: {
+    orientation: {
+      type: String,
+      default: "horizontal"
+    },
+    color: {
+      type: String,
+      default: "dark"
+    },
+    poem: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   computed: {
     facebookUrl() {
@@ -144,72 +127,40 @@ export default {
         console.log("Oops, unable to copy");
       }
     },
-    poemADaySignup() {
-      const body = {
-        email: this.email,
-        forms: {
-          AAPPAD: true
-        }
-      };
-      this.$axios
-        .post("/api/cm/poem-a-day", body)
-        .then(req => {
-          console.log("Post req sent");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$toast
-        .show("Thanks! You are subscribed.", {
-          theme: "toasted-primary",
-          position: "top-left"
-        })
-        .goAway(1500);
-    },
     print() {
       window.print();
-    }
-  },
-  props: {
-    poem: {
-      type: Object,
-      default() {
-        return {
-          alias: "",
-          title: ""
-        };
-      }
     }
   }
 };
 </script>
 <style scoped lang="scss">
-.poem-a-day-sign-up {
-  font-weight: 600;
+.poem__actions {
+  position: relative;
   width: 100%;
-  .poem-a-day-sign-up__title {
-    font-family: $font-family-sans-serif;
-    font-size: 26px;
-    font-weight: 600;
+  flex-grow: 1;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.dark {
+  .icon g {
+    fill: $blue-dark;
   }
-  .poem-a-day-sign-up__description {
-    font-size: 14px;
-    font-weight: 100;
+}
+.light {
+  .icon g {
+    fill: $blue;
   }
-  form {
-    input {
-      width: 67%;
-      height: 43px;
-      display: inline-block;
-    }
-    input,
-    .poem-a-day-button {
-      border-radius: 0;
-      vertical-align: baseline;
-    }
-    .poem-a-day-button {
-      background-color: var(--blue-dark);
-      border: none;
+}
+@include media-breakpoint-up(md) {
+  .vertical {
+    position: absolute;
+    ul {
+      flex-direction: column;
     }
   }
 }

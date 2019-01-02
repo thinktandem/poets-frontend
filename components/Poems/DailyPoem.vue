@@ -44,7 +44,9 @@
             </b-link>
           </div>
           <div class="mt-md-5">
-            <AppPoemADaySignUpForm :poem="poem"/>
+            <signup-block
+              :show-actions="true"
+              :poem="poem"/>
           </div>
         </b-col>
         <b-col
@@ -80,7 +82,6 @@
               class="daily-poem__poem-text font-serif-2"/>
             <div class="daily-poem__read-the-rest">
               <b-btn
-                size="md"
                 variant="primary-dark"
                 v-b-modal.poemADayModal>read the rest</b-btn>
             </div>
@@ -111,19 +112,19 @@
       <template
         slot="modal-footer"
         class="p-0">
-        <AppPoemADaySignUpForm :poem="poem" />
+        <signup-block :poem="poem" />
       </template>
     </b-modal>
   </div>
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import SignupBlock from "~/components/SignupBlock";
 import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 export default {
   name: "DailyPoem",
   components: {
-    AppPoemADaySignUpForm,
+    SignupBlock,
     SpeakerIcon
   },
   data() {

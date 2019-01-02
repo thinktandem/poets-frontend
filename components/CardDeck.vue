@@ -1,29 +1,34 @@
 <template>
   <b-card-group
     :class="'card-deck--' + cardtype|lowercase"
-    deck>
+    deck
+  >
     <b-container>
       <b-row>
         <b-col
           cols="12"
-          tag="header">
+          tag="header"
+        >
           <h2 class="card-deck__title">{{ title }}</h2>
-          <a
+          <b-link
             v-if="link"
-            :href="link.href">{{ link.text }}</a>
+            :to="link.to"
+          >{{ link.text }}</b-link>
         </b-col>
       </b-row>
-      <b-row class="card-deck__cards">
+      <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
-          md
+          :md="cols"
           v-for="card in cards"
           :key="card.id"
           class="card-deck__card"
         >
           <component
+            :class="{'h-100': featured !== true }"
             :is="card.cardType ? card.cardType : cardtype"
-            v-bind="card" />
+            v-bind="card"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -31,19 +36,32 @@
 </template>
 
 <script>
+// Import all the cards that might need to be used in a deck.
 import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
+import EssayCard from "~/components/EssayCard";
+import TeachingCard from "~/components/TeachingCard";
+import BookCard from "~/components/BookCard";
 
 export default {
   components: {
     PoemCard,
     Poet,
     FeatureCard,
-    adCard
+    adCard,
+    EssayCard,
+    LessonPlanCard,
+    BookCard,
+    TeachingCard
   },
   props: {
+    featured: {
+      type: Boolean,
+      default: false
+    },
     title: {
       type: String,
       default: ""
@@ -59,6 +77,10 @@ export default {
     link: {
       type: Object,
       default: function() {}
+    },
+    cols: {
+      type: String,
+      default: "4"
     }
   }
 };
@@ -97,7 +119,8 @@ export default {
     margin-bottom: 2rem;
 
     .card {
-      margin: 0;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
     }
   }
 }

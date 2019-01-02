@@ -35,10 +35,10 @@
           Name
         </b-col>
         <b-col md="4">
-          Years
+          Author
         </b-col>
         <b-col md="4">
-          Schools and Movements
+          Year
         </b-col>
       </b-row>
       <b-row
@@ -162,8 +162,6 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -171,8 +169,6 @@ import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
-    AppPoemADaySignUpForm,
-    AppPoems,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     iconSearch

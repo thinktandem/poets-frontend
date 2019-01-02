@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Search Results</h1>
+    <h1 class="search-results__header">Search Results</h1>
     <b-container v-if="!totalPages">
       Your search didn't turn up any results.
     </b-container>
@@ -85,16 +85,9 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "../../components/AppPoemADayPoems/AppPoemADaySignUpForm";
-import AppPoems from "../../components/AppPoemADayPoems/AppPoems";
-import FilterTable from "../../components/FilterTable";
 import searchHelpers from "~/plugins/search-helpers";
 export default {
-  components: {
-    AppPoemADaySignUpForm,
-    AppPoems,
-    FilterTable
-  },
+  components: {},
   data() {
     return {
       query: {
@@ -112,15 +105,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poets-list__row {
-  border-bottom: 1px solid #ccc;
-  font-size: 18px;
-  min-height: 47px;
+.search-results__header {
+  margin-left: 8%;
 }
-.poets-list__list-header {
-  font-weight: bold;
+.results-list__row {
+  padding-top: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--gray-600);
 }
-.poets-list__poems {
-  font-weight: 111;
+.result-type {
+  font-weight: 100;
+}
+.result-title {
+  font-size: 1.3em;
+}
+.result-body {
+  font-weight: 300;
 }
 </style>

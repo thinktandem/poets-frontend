@@ -1,5 +1,9 @@
 <template>
   <div>
+    <daily-poem
+      :poem="$store.state.poemOfTheDay.poem"
+      :poet="$store.state.poemOfTheDay.poet"/>
+    <AboutPoemADay/>
     <b-container class="poem-a-day__previous-poems tabular-list">
       <b-row>
         <h3 class="poem-a-day__previous-poems-title">
@@ -143,18 +147,23 @@
 </template>
 
 <script>
-import AppPoemADaySignUpForm from "~/components/AppPoemADayPoems/AppPoemADaySignUpForm";
+import DailyPoem from "~/components/Poems/DailyPoem";
+import AboutPoemADay from "~/components/AppPoemADayPoems/AboutPoemADay";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
+import SignupBlock from "~/components/SignupBlock";
+import * as _ from "lodash";
 
 export default {
   components: {
-    AppPoemADaySignUpForm,
+    DailyPoem,
+    AboutPoemADay,
     AppPoems,
     iconMediaSkipBackwards,
-    iconMediaSkipForwards
+    iconMediaSkipForwards,
+    SignupBlock
   },
   data() {
     return {
@@ -166,6 +175,35 @@ export default {
   async asyncData({ app, params, query }) {
     const url = "/api/previous-poems";
     return searchHelpers.getSearchResults(url, app, query);
+  },
+  async fetch({ app, store, params }) {
+    // Fetch all poems with poem a day date somewhere today.
+    const response = await app.$axios.$get("/poem-a-day", {
+      params: {
+        _format: "json"
+      }
+    });
+    const theOne = _.first(response);
+    store.commit("updatePoemOfTheDay", {
+      poet: {
+        name: theOne.poet.name,
+        image: theOne.poet.image ? theOne.poet.image : "",
+        alias: theOne.poet.alias
+      },
+      poem: {
+        title: theOne.poem.title,
+        text: theOne.poem.text,
+        soundCloud: theOne.poem.soundcloud,
+        alias: theOne.poem.alias
+      }
+    });
+    // Set the current hero
+    store.commit("updateHero", {
+      variant: "quote",
+      lead:
+        "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
+      subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
+    });
   }
 };
 </script>

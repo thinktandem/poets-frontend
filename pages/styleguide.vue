@@ -39,11 +39,39 @@
               id="PoetsFeaturedDeck"
             >Poets Featured Deck</h2>
             <CardDeck
+              :featured="true"
               title="Poets"
               cardtype="Poet"
               class="card-deck--poet--extended"
               :cards="poetsExtended"
               :link="featuredPoetsLink"
+            />
+          </section>
+
+          <section class="styleguide-item trans-bg-eg">
+            <h2
+              class="styleguide__heading"
+              id="PoetsFeaturedDeck"
+            >Poets Featured Deck with background</h2>
+            <CardDeck
+              title="Poets"
+              cardtype="Poet"
+              class="card-deck--poet--extended"
+              :cards="poetsExtended"
+              :link="featuredPoetsLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="EssayCardDeck"
+            >Poem Card Deck</h2>
+            <CardDeck
+              title="Essays on Teaching Poetry"
+              cardtype="EssayCard"
+              :cards="essays"
+              :link="essaysLink"
             />
           </section>
 
@@ -57,6 +85,20 @@
               cardtype="PoemCard"
               :cards="poems"
               :link="poemsLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="LessonPlanCardDeck"
+            >Lesson Plan Card Deck</h2>
+            <CardDeck
+              title="Lesson Plans"
+              cardtype="LessonPlanCard"
+              cols="6"
+              :cards="LessonPlans"
+              :link="LessonPlansLink"
             />
           </section>
 
@@ -82,9 +124,54 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
-              id="FilterTable"
-            >Poet List</h2>
-            <FilterTable :items="poetListItems" />
+              id="TeachingCardDeck"
+            >Teaching Intro</h2>
+            <TeachingIntro
+              :cards="teachingCards"
+              :text="teachingText"
+            />
+          </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="BookCardDeck"
+            >Books</h2>
+            <CardDeck
+              title="Books"
+              cardtype="BookCard"
+              cols="3"
+              :cards="bookCards"
+              :link="bookLink"
+            />
+            <h2
+              class="styleguide__heading"
+              id="calloutCard">
+              Callout Card
+            </h2>
+            <callout-card>
+              Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation.
+            </callout-card>
+            <section class="styleguide-item">
+              <h2
+                class="styleguide__heading"
+                id="signupBlock">Signup Block</h2>
+              <signup-block
+                class="w-50"
+                title="Monthly Educator Newsletter"
+                list="poem-a-day">
+                Receive monthly updates on lesson plans and more!
+              </signup-block>
+            </section>
+          </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="videoBlock">Video Block</h2>
+            <video-block
+              class="w-50"
+              title="A Teacher’s Guide to Poets.org"
+              youtube-id="Waw7d8evTfg"
+              vimeo-id="182766909">With a special introduction by Education Ambassador Richard Blanco, this brief video guide for teachers highlights the many educational resources available on Poets.org.</video-block>
           </section>
         </main>
       </b-col>
@@ -112,11 +199,15 @@
 
 <script>
 import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
 import CardDeck from "~/components/CardDeck";
+import CalloutCard from "~/components/CalloutCard";
 import StyleguideForm from "~/components/Form/StyleguideForm";
 import FeatureCard from "~/components/FeatureCard";
-import FilterTable from "~/components/FilterTable";
+import SignupBlock from "../components/SignupBlock";
+import TeachingIntro from "~/components/TeachingIntro";
+import VideoBlock from "~/components/VideoBlock";
 import * as _ from "lodash";
 
 export default {
@@ -132,7 +223,11 @@ export default {
     Poet,
     StyleguideForm,
     FeatureCard,
-    FilterTable
+    TeachingIntro,
+    CalloutCard,
+    SignupBlock,
+    LessonPlanCard,
+    VideoBlock
   },
   computed: {
     buttons() {
@@ -171,16 +266,24 @@ export default {
           anchor: "#Buttons"
         },
         {
-          title: "Poets Deck",
+          title: "Poets",
           anchor: "#PoetsDeck"
         },
         {
-          title: "Poets Featured Deck",
+          title: "Poets - Featured",
           anchor: "#PoetsFeaturedDeck"
         },
         {
-          title: "Poem Card Deck",
+          title: "Poems",
           anchor: "#PoemCardDeck"
+        },
+        {
+          title: "Essays Deck",
+          anchor: "#EssayCardDeck"
+        },
+        {
+          title: "Lesson Plans",
+          anchor: "#LessonPlanCardDeck"
         },
         {
           title: "Forms",
@@ -191,8 +294,24 @@ export default {
           anchor: "#Features"
         },
         {
-          title: "Filter Table",
-          anchor: "#FilterTable"
+          title: "Teaching",
+          anchor: "#TeachingCardDeck"
+        },
+        {
+          title: "Books",
+          anchor: "#BookCardDeck"
+        },
+        {
+          title: "Callout Card",
+          anchor: "#calloutCard"
+        },
+        {
+          title: "SignupBlock",
+          anchor: "#signupBlock"
+        },
+        {
+          title: "Video Block",
+          anchor: "#videoBlock"
         }
       ];
     }
@@ -274,6 +393,57 @@ And as for the bucket, Nantucket.`,
             name: "Dustin LeKensrue"
           },
           year: "2018"
+        }
+      ],
+      essays: [
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "An Essay About a Thing",
+          text:
+            "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.",
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        }
+      ],
+      LessonPlans: [
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
+        },
+        {
+          title: "Teach this Poem: 'Mustard Flowers' by",
+          meta: "Madeleine Fuchs Hoizer",
+          level: "Grades 6-12"
         }
       ],
       poets: [
@@ -360,18 +530,31 @@ And as for the bucket, Nantucket.`,
           }
         },
         {
-          cardType: "adCard",
+          name: "Dustin LeKensrue",
+          bio: "Praesent commodo cursus magna, vel scelerisque nisl consect",
           img: {
-            src: "/images/advertisement.png"
+            src: "/images/poet.png"
           },
           link: {
             href: "blah/blah"
           }
         }
       ],
+      LessonPlansLink: {
+        href: "blah/blah",
+        text: "185 Lesson Plans"
+      },
+      bookLink: {
+        href: "blah/blah",
+        text: "402 books"
+      },
       poemsLink: {
         href: "blah/blah",
         text: "More Poems"
+      },
+      essaysLink: {
+        href: "blah/blah",
+        text: "28 Essays"
       },
       poetsLink: {
         href: "blah/blah",
@@ -443,6 +626,96 @@ And as for the bucket, Nantucket.`,
           years: "1978 - Present",
           name: { first: "Dick", last: "Dunlap" }
         }
+      ],
+      bookCards: [
+        {
+          title: "Brown",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Alfred A. Knopf",
+          year: "2018",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        },
+        {
+          title: "American Sonnets for My Past and Future Assassin",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Terrence Hayes",
+          year: "",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        },
+        {
+          title: "Brown",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Alfred A. Knopf",
+          year: "2018",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        },
+        {
+          title: "American Sonnets for My Past and Future Assassin",
+          text:
+            "Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum.",
+          author: "Terrence Hayes",
+          year: "",
+          img: {
+            src: "/images/book.png"
+          },
+          link: {
+            href: "/"
+          }
+        }
+      ],
+      teachingText:
+        "Here you’ll find poetry lesson plans, essays about teaching, a glossary of poetry terms, and more. And our lesson plans, most of which are aligned with the Common Core, have been reviewed by our Educator in Residence with an eye toward developing skills of perception and imagination.",
+      teachingCards: [
+        {
+          title: "Crafting a Poetic Sensibility",
+          text:
+            "An essay by our educator in residence, Madeleine Fuchs Holzer, about crafting a poetic sensibility",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Poems for Kids",
+          text:
+            "30 selections of poems curated for young people around specific themes",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Create Online Anthologies",
+          text:
+            "Instructions on how to create an online anthology of poems to share, right here on Poets.org",
+          img: {
+            src: "/images/poet.png"
+          }
+        },
+        {
+          title: "Poetry Resources for Teens",
+          text:
+            "Poetry resources for teens, including additional selections of poems curated especially for teens",
+          img: {
+            src: "/images/poet.png"
+          }
+        }
       ]
     };
   }
@@ -470,5 +743,17 @@ And as for the bucket, Nantucket.`,
 .nav-link.active {
   font-weight: bold;
   color: $black;
+}
+
+// Special Background magics.
+.trans-bg-eg {
+  background-image: url(https://www.teenbookfest.org/img/book-page.jpg);
+  background-size: contain;
+  background-color: #eee;
+  background-blend-mode: overlay;
+
+  .card-deck--poet--extended {
+    @include trans-bg--multiply(var(--green));
+  }
 }
 </style>
