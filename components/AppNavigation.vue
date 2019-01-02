@@ -73,7 +73,6 @@ export default {
    * @return {{links: {href: string, text: string}[]}}
    */
   data() {
-    console.log("gff\n\n\n\n", this.$auth.loggedIn);
     return {
       links: [
         {

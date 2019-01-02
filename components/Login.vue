@@ -59,24 +59,27 @@ export default {
         scope: "vue_consumer"
       };
       axios
-        .post("http://apipoetsd8.lndo.site/oauth/token", {
-          data: qs.stringify(data)
-        })
+        .post("http://apipoetsd8.lndo.site/oauth/token", qs.stringify(data))
         .then(req => {
           console.log("token\n\n", req.data.access_token);
+          let x = req.data.access_token;
+          return x;
         })
-        // .then(req => {
-        //   console.log("thenReq", req.data.access_token);
-        //   axios
-        //     .get("/api/user/user", {
-        //       headers: {
-        //         Authorization: `Bearer ${req.data.access_token}`
-        //       }
-        //     })
-        //     .then(req => {
-        //       console.log("req", req);
-        //     });
-        // })
+        .then(x => {
+          console.log("thenReq", x);
+          axios
+            .get(
+              "http://apipoetsd8.lndo.site/api/user/user/e5e8b095-626d-400a-a8e5-6695a1bd10d3",
+              {
+                headers: {
+                  Authorization: `Bearer ${x}`
+                }
+              }
+            )
+            .then(req => {
+              console.log("req", req);
+            });
+        })
         .catch(err => {
           console.log("sadly gff is not the best");
           console.log(err);
