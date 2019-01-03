@@ -92,9 +92,10 @@ export default {
     };
   },
   methods: {
-    async logout() {
-      console.log("el token\n\n\n", this.$auth.getToken());
-      await this.$auth.logout();
+    logout() {
+      return this.$auth.logout().then(res => {
+        this.$router.push({ path: "/" });
+      });
     }
   }
 };

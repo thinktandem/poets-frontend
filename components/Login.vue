@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import qs from "qs";
+// import axios from "axios";
+// import qs from "qs";
 
 export default {
   name: "Login",
@@ -47,41 +47,24 @@ export default {
   },
   methods: {
     login() {
-      console.log("username: ", this.username);
-      console.log("password: ", this.password);
       const password = this.password;
       const username = this.username;
-      const data = {
-        grant_type: "password",
-        username: username,
-        password: password,
-        client_id: "b2c84c2c-b241-4611-b86e-7cc51801d0a1",
-        scope: "vue_consumer"
-      };
-      axios
-        .post("http://apipoetsd8.lndo.site/oauth/token", qs.stringify(data))
-        .then(req => {
-          console.log("token\n\n", req.data.access_token);
-          let x = req.data.access_token;
-          return x;
+      let bodyFormData = new FormData();
+      bodyFormData.set("username", username);
+      bodyFormData.set("password", password);
+      bodyFormData.set("grant_type", "password");
+      bodyFormData.set("client_id", "b2c84c2c-b241-4611-b86e-7cc51801d0a1");
+      bodyFormData.set("scope", "vue_consumer");
+      bodyFormData.set("response_type", "token");
+      bodyFormData.set("token_type", "Bearer");
+      this.$auth
+        .loginWith("drupal", {
+          data: bodyFormData
         })
-        .then(x => {
-          console.log("thenReq", x);
-          axios
-            .get(
-              "http://apipoetsd8.lndo.site/api/user/user/e5e8b095-626d-400a-a8e5-6695a1bd10d3",
-              {
-                headers: {
-                  Authorization: `Bearer ${x}`
-                }
-              }
-            )
-            .then(req => {
-              console.log("req", req);
-            });
+        .then(res => {
+          console.log(res);
         })
         .catch(err => {
-          console.log("sadly gff is not the best");
           console.log(err);
         });
     }
