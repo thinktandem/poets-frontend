@@ -1,120 +1,148 @@
 <template>
-  <div class="daily-poem">
-    <b-container class="px-0">
-      <div class="daily-poem__header d-flex d-md-none">
-        <span class="daily-poem__label p-2 my-auto">
-          poem-a-day
-        </span>
-        <h3
-          class="daily-poem__poet-name my-auto px-0"
-          v-if="null !== poet.name">
-          {{ poet.name }}
-        </h3>
-        <div class="daily-poem__poet-image">
-          <b-img-lazy
-            :src="poet.image"
-            blank-color="#00B4F0"
-          />
-        </div>
-      </div>
-    </b-container>
-    <b-container class="daily-poem__poem-container">
-      <b-row class="d-none d-md-block py-4">
-        <b-col offset-md="3">
-          <h3>
-            <b-link
-              :to="poet.alias"
-              class="text-white">{{ poet.name }}</b-link>
-          </h3>
-        </b-col>
-      </b-row>
-      <b-row class="d-flex flex-wrap flex-md-nowrap">
-        <b-col
-          md="4"
-          sm="12"
-          tag="aside"
-          class="daily-poem__aside px-0 order-2 order-md-1">
-          <div class="daily-poem__poet-image d-md-flex d-none">
-            <b-link :to="poet.alias">
-              <b-img-lazy
-                :src="poet.image"
-                fluid
-                blank-color="#00B4F0"
-              />
-            </b-link>
-          </div>
-          <div class="mt-md-5">
-            <signup-block
-              :show-actions="true"
-              :poem="poem"/>
-          </div>
-        </b-col>
-        <b-col
-          sm="12"
-          md="8"
-          class="daily-poem__poem order-1 order-md-2">
-          <span class="daily-poem__label p-3 d-none d-md-inline">
+  <div>
+    <div
+      class="daily-poem"
+      :class="{summary: (extended !== true)}">
+      <b-container class="px-0">
+        <div class="daily-poem__header d-flex d-md-none">
+          <span class="daily-poem__label p-2 my-auto">
             poem-a-day
           </span>
-          <article
-            class="pb-2 mr-3 pr-3">
-            <div
-              class="px-0 mx-0"
-              v-if="showSoundCloud"
-              v-html="poem.soundCloud"/>
-            <div class="d-flex pt-3 pb-3 daily-poem__poem-title">
-              <h2><b-link
-                :to="poem.alias"
-                class="text-dark">{{ poem.title }}</b-link></h2>
+          <h3
+            class="daily-poem__poet-name my-auto px-0"
+            v-if="null !== poet.name">
+            {{ poet.name }}
+          </h3>
+          <div class="daily-poem__poet-image">
+            <b-img-lazy
+              :src="poet.image"
+              blank-color="#00B4F0"
+            />
+          </div>
+        </div>
+      </b-container>
+      <b-container class="daily-poem__poem-container">
+        <b-row class="d-none d-md-block py-4">
+          <b-col offset-md="3">
+            <h3>
               <b-link
-                @click="showSoundCloud = true"
-                v-if="showSoundCloud === false && null !== poem.soundCloud">
-                <speaker-icon class="daily-poem__soundcloud-link"/>
-              </b-link>
-              <b-link
-                @click="showSoundCloud = false"
-                v-if="showSoundCloud == true">
-                <span class="daily-poem__soundcloud-link">&#10005;</span>
+                :to="poet.alias"
+                class="text-white">{{ poet.name }}</b-link>
+            </h3>
+          </b-col>
+        </b-row>
+        <b-row class="d-flex flex-wrap flex-md-nowrap">
+          <b-col
+            md="4"
+            sm="12"
+            tag="aside"
+            class="daily-poem__aside px-0 order-2 order-md-1">
+            <div class="daily-poem__poet-image d-md-flex d-none">
+              <b-link :to="poet.alias">
+                <b-img-lazy
+                  :src="poet.image"
+                  fluid
+                  blank-color="#00B4F0"
+                />
               </b-link>
             </div>
-            <div
-              v-html="poem.text"
-              class="daily-poem__poem-text font-serif-2"/>
-            <div class="daily-poem__read-the-rest">
-              <b-btn
-                variant="primary-dark"
-                v-b-modal.poemADayModal>read the rest</b-btn>
+            <div class="mt-md-5">
+              <signup-block
+                :show-actions="true"
+                :poem="poem"/>
             </div>
-          </article>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-modal
-      :title="poem.title"
-      size="lg"
-      centered
-      lazy
-      header-class="font-serif"
-      header-border-variant="0"
-      body-class="font-serif-2"
-      footer-bg-variant="black"
-      id="poemADayModal">
-      <b-container>
-        <b-row>
-          <b-col sm="12">
-            <b-link
-              :to="poet.alias"
-              class="pb-3 font-sans text-dark">{{ poet.name }}</b-link>
-            <div v-html="poem.text"/>
+            <div 
+              v-if="extended === true"
+              class="daily-poem__about pl-3 pr-4">
+              <h3 class="font-serif">About Poem-a-Day</h3>
+              <p class="poem-a-day__about-content">
+                Poem-a-day is the original and only daily digital poetry series featuring
+                over 200 new, previously unpublished poems by today’s talented poets each
+                year. On weekdays, poems are accompanied by exclusive commentary by the
+                poets. The series highlights classic poems on weekends. Launched in 2006,
+                Poem-a-Day is now distributed via email, web, and social media to
+                350,000+ readers free of charge and is available for syndication. For more
+                information about how to syndicate Poem-a-Day, contact
+                <a href="mailto:poem-a-day@poets.org">poem-a-day@poets.org</a>.
+              </p>
+            </div>
+          </b-col>
+          <b-col
+            sm="12"
+            md="8"
+            class="daily-poem__poem order-1 order-md-2 d-flex flex-column justify-content-between">
+            <div>
+              <span class="daily-poem__label p-3 d-none d-md-inline">
+                poem-a-day
+              </span>
+              <article
+                class="pb-2 mr-3 pr-3">
+                <div
+                  class="px-0 mx-0"
+                  v-if="showSoundCloud"
+                  v-html="poem.soundCloud"/>
+                <div class="d-flex pt-3 pb-3 daily-poem__poem-title">
+                  <h2><b-link
+                    :to="poem.alias"
+                    class="text-dark">{{ poem.title }}</b-link></h2>
+                  <b-link
+                    @click="showSoundCloud = true"
+                    v-if="showSoundCloud === false && null !== poem.soundCloud">
+                    <speaker-icon class="daily-poem__soundcloud-link"/>
+                  </b-link>
+                  <b-link
+                    @click="showSoundCloud = false"
+                    v-if="showSoundCloud == true">
+                    <span class="daily-poem__soundcloud-link">&#10005;</span>
+                  </b-link>
+                </div>
+                <div
+                  v-html="poem.text"
+                  class="daily-poem__poem-text font-serif-2"/>
+                <div
+                  class="daily-poem__read-the-rest pb-4"
+                  v-if="extended === false">
+                  <b-btn
+                    variant="primary-dark"
+                    v-b-modal.poemADayModal>read the rest</b-btn>
+                </div>
+              </article>
+            </div>
+            <div
+              class="poem-a-day__attribution text-muted-dark p-2"
+              v-if="poem.attribution"
+              v-html="poem.attribution"/>
           </b-col>
         </b-row>
       </b-container>
-      <template
-        slot="modal-footer"
-        class="p-0">
-        <signup-block :poem="poem" />
-      </template>
-    </b-modal>
+      <b-modal
+        v-if="extended === false"
+        :title="poem.title"
+        size="lg"
+        centered
+        lazy
+        header-class="font-serif"
+        header-border-variant="0"
+        body-class="font-serif-2"
+        footer-bg-variant="black"
+        id="poemADayModal">
+        <b-container>
+          <b-row>
+            <b-col sm="12">
+              <b-link
+                :to="poet.alias"
+                class="pb-3 font-sans text-dark">{{ poet.name }}</b-link>
+              <div v-html="poem.text"/>
+            </b-col>
+          </b-row>
+        </b-container>
+        <template
+          slot="modal-footer"
+          class="p-0">
+          <signup-block :poem="poem" />
+        </template>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -133,6 +161,10 @@ export default {
     };
   },
   props: {
+    extended: {
+      type: Boolean,
+      default: false
+    },
     poem: {
       type: Object,
       default() {
@@ -159,17 +191,44 @@ export default {
 
 <style lang="scss">
 .daily-poem {
-  background-color: var(--gray-900);
-  & + section {
-    padding-top: $spacer * 10 !important;
-  }
+  background: linear-gradient($gray-900);
+  background-size: auto 38rem;
+  background-repeat: no-repeat;
   aside {
     .daily-poem__poet-image {
       display: flex;
       justify-content: flex-end;
     }
   }
+  & + section {
+    padding-top: $spacer * 10 !important;
+  }
 }
+.summary .daily-poem__poem {
+  box-shadow: 0 -3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.summary .daily-poem__poem-text {
+  overflow: hidden;
+  position: relative;
+  max-height: 443px;
+  &:after {
+    position: absolute;
+    bottom: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    content: "";
+    overflow: hidden;
+    background: linear-gradient(
+      transparent 0%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.8) 80%,
+      rgba(255, 255, 255, 1) 90%
+    );
+    pointer-events: none;
+  }
+}
+
 .daily-poem__header {
   max-height: 66px;
   justify-content: space-between;
@@ -208,10 +267,13 @@ export default {
   line-height: 1.25rem;
   font-weight: 600;
 }
-.daily-poem__poem-container.container {
-  position: relative;
-  max-height: 40rem;
+
+.daily-poem__poem-container .container {
+  /*position: relative;*/
   margin-left: $spacer;
+}
+.summary .daily-poem__poem-container .container {
+  /*max-height: 40rem;*/
 }
 .daily-poem__poem-title {
   flex-direction: column;
@@ -231,38 +293,31 @@ export default {
   height: 1.9rem;
 }
 .daily-poem__poem {
+  box-shadow: 0 3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: var(--white);
-  border-top: var(--blue) 0.5px solid;
-  box-shadow: 0 -3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  position: absolute;
+}
+.summary .daily-poem__poem {
+  /*position: absolute;*/
 }
 .daily-poem__poem-text {
   font-size: $font-size-base;
   font-family: $font-family-serif;
   line-height: 1.5rem;
-  overflow: hidden;
-  max-height: 443px;
-  position: relative;
-  &:after {
-    position: absolute;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    content: "";
-    overflow: hidden;
-    background: linear-gradient(
-      transparent 0%,
-      transparent 70%,
-      rgba(255, 255, 255, 0.8) 80%,
-      rgba(255, 255, 255, 1) 90%
-    );
-    pointer-events: none;
-  }
 }
 .daily-poem__read-the-rest {
   position: relative;
 }
 
+.daily-poem__about {
+  h3 {
+    font-size: 1.9rem;
+    line-height: 1.9rem;
+  }
+  p {
+    font-weight: 400;
+  }
+  padding-top: 3rem;
+}
 // sm and up
 @include media-breakpoint-up(sm) {
   .daily-poem__poem-container.container {
@@ -294,7 +349,7 @@ export default {
   }
   .daily-poem__poet-image {
     height: auto;
-    max-width: %100;
+    max-width: 100%;
   }
 
   .daily-poem__read-the-rest {
@@ -308,14 +363,17 @@ export default {
     }
   }
   .daily-poem__poem {
-    padding-bottom: $spacer * 2;
     article {
+      padding-bottom: $spacer * 2;
       padding-left: $spacer * 9;
     }
   }
   .daily-poem__poem-text {
     font-size: 1.25rem;
     line-height: 1.85rem;
+  }
+  .poem-a-day__attribution {
+    font-weight: 400;
   }
 }
 </style>
