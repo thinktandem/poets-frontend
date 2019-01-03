@@ -4,21 +4,21 @@
     :class="`${orientation} ${color}`">
     <ul class="d-flex flex-wrap">
       <li class="pr-2">
-        <b-link 
-          target="_blank" 
+        <b-link
+          target="_blank"
           :href="facebookUrl">
           <FacebookIcon class="icon"/>
         </b-link>
       </li>
       <li class="pr-2">
-        <b-link 
-          target="_blank" 
+        <b-link
+          target="_blank"
           :href="twitterUrl">
           <TwitterIcon class="icon"/>
         </b-link>
       </li>
       <li class="pr-2">
-        <b-link 
+        <b-link
           target="_blank" 
           :href="tumblrUrl">
           <TumblrIcon class="icon"/>

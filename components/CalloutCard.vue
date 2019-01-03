@@ -1,16 +1,27 @@
 <template>
   <b-card
-    :title="title"
     class="card--callout"
-    bg-variant="warning">
+    :bg-variant="bg">
     <b-img
       class="card--callout__image"
+      :src="img.src"
       width="110"
       height="110"
-      blank
       blank-color="#00B4F0"/>
-    <p class="card-text"><slot/></p>
-    <div slot="footer">
+    <h4
+      class="card-title"
+      v-if="null !== titleLink">
+      <b-link :to="titleLink">{{ title }}</b-link>
+    </h4>
+    <h4
+      class="card-title"
+      v-else>
+      {{ title }}
+    </h4>
+    <p class="card-text">{{ text }}</p>
+    <div
+      slot="footer"
+      v-if="null !== action.to">
       <b-btn
         :to="action.to"
         class="border-primary bg-white text-primary">{{ action.text }}</b-btn>
@@ -26,18 +37,43 @@ export default {
       type: String,
       default: "Teach This Poem"
     },
-    icon: {
+    titleLink: {
       type: String,
-      default: "lightbulb"
+      default: null
+    },
+    img: {
+      type: Object,
+      default() {
+        return {
+          src: "/images/bulb-book.png"
+        };
+      }
+    },
+    text: {
+      type: String,
+      default: ""
     },
     action: {
       type: Object,
       default() {
         return {
-          to: "/",
-          text: "Learn More & Sign Up"
+          to: null,
+          text: ""
         };
       }
+    },
+    variant: {
+      type: String,
+      default: "default"
+    }
+  },
+  computed: {
+    bg() {
+      const map = {
+        default: "white",
+        bold: "warning"
+      };
+      return map[this.variant];
     }
   }
 };
@@ -46,6 +82,7 @@ export default {
 <style scoped lang="scss">
 .card--callout {
   padding-top: $spacer * 3;
+  padding-bottom: $spacer / 2;
   border: none;
   .card-title {
     font-size: 1.15rem;

@@ -1,10 +1,10 @@
 <template>
   <div class="teaching-intro">
     <p v-html="text" />
-    <CardDeck
-      cardtype="TeachingCard"
+    <card-deck
+      cardtype="CalloutCard"
       :cards="cards"
-    />
+      cols="6"/>
   </div>
 
 </template>
@@ -31,6 +31,7 @@ export default {
 .teaching-intro {
   p {
     font-size: 1.25rem;
+    font-weight: 400;
   }
 
   // We need some extra space to handle the offset image.
