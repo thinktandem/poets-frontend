@@ -88,14 +88,19 @@ export default {
           text: "American Poets Magazine"
         }
       ],
-      loggedIn: this.$auth.loggedIn
+      loggedIn: this.$store.state.auth.loggedIn
     };
   },
   methods: {
     logout() {
-      return this.$auth.logout().then(res => {
-        this.$router.push({ path: "/" });
-      });
+      return this.$auth
+        .logout()
+        .then(res => {
+          this.$router.push({ path: "/_empty" });
+        })
+        .then(aRes => {
+          this.$router.push({ path: "/" });
+        });
     }
   }
 };
