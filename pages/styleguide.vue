@@ -134,6 +134,17 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="calloutCard">
+              Callout Card
+            </h2>
+            <callout-card
+              variant="bold"
+              :action="calloutAction"
+              text="Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation."/>
+          </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="BookCardDeck"
             >Books</h2>
             <CardDeck
@@ -143,14 +154,6 @@
               :cards="bookCards"
               :link="bookLink"
             />
-            <h2
-              class="styleguide__heading"
-              id="calloutCard">
-              Callout Card
-            </h2>
-            <callout-card>
-              Inspired by the success of our popular syndicated series Poem-a-Day, we’re pleased to present Teach This Poem, winner of the 2018 Innovations in Reading Prize given by the National Book Foundation.
-            </callout-card>
             <section class="styleguide-item">
               <h2
                 class="styleguide__heading"
@@ -298,12 +301,12 @@ export default {
           anchor: "#TeachingCardDeck"
         },
         {
-          title: "Books",
-          anchor: "#BookCardDeck"
-        },
-        {
           title: "Callout Card",
           anchor: "#calloutCard"
+        },
+        {
+          title: "Books",
+          anchor: "#BookCardDeck"
         },
         {
           title: "SignupBlock",
@@ -686,6 +689,7 @@ And as for the bucket, Nantucket.`,
       teachingCards: [
         {
           title: "Crafting a Poetic Sensibility",
+          titleLink: "/blah",
           text:
             "An essay by our educator in residence, Madeleine Fuchs Holzer, about crafting a poetic sensibility",
           img: {
@@ -694,6 +698,7 @@ And as for the bucket, Nantucket.`,
         },
         {
           title: "Poems for Kids",
+          titleLink: "/blah",
           text:
             "30 selections of poems curated for young people around specific themes",
           img: {
@@ -702,6 +707,7 @@ And as for the bucket, Nantucket.`,
         },
         {
           title: "Create Online Anthologies",
+          titleLink: "/blah",
           text:
             "Instructions on how to create an online anthology of poems to share, right here on Poets.org",
           img: {
@@ -710,13 +716,18 @@ And as for the bucket, Nantucket.`,
         },
         {
           title: "Poetry Resources for Teens",
+          titleLink: "/blah",
           text:
             "Poetry resources for teens, including additional selections of poems curated especially for teens",
           img: {
             src: "/images/poet.png"
           }
         }
-      ]
+      ],
+      calloutAction: {
+        to: "/blah",
+        text: "Learn More & Sign Up"
+      }
     };
   }
 };

@@ -43,8 +43,8 @@ import Poet from "~/components/Poet";
 import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
 import EssayCard from "~/components/EssayCard";
-import TeachingCard from "~/components/TeachingCard";
 import BookCard from "~/components/BookCard";
+import CalloutCard from "./CalloutCard";
 
 export default {
   components: {
@@ -55,7 +55,7 @@ export default {
     EssayCard,
     LessonPlanCard,
     BookCard,
-    TeachingCard
+    CalloutCard
   },
   props: {
     featured: {

@@ -15,7 +15,7 @@
       </b-link>
     </h3>
     <div
-      class="card__body"
+      class="card__body card__body--fade font-serif-2"
       v-html="text"
     />
     <div class="card-footer">
