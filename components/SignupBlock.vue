@@ -20,6 +20,7 @@
           id="poemADayEmail"
           v-model="email"
           type="text"
+          class="border-0"
           placeholder="john@example.com"/>
         <b-input-group-append>
           <b-btn
