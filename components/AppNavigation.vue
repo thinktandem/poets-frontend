@@ -30,15 +30,10 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item
-          href="/login"
-          class="navbar__login"
-          v-if="loggedIn == false">Membership / Login</b-nav-item>
-
         <b-nav-item-dropdown
           text="User"
           right
-          v-else
+          v-if="this.$auth.loggedIn"
         >
           <b-dropdown-item href="#">Collections</b-dropdown-item>
           <b-dropdown-item
@@ -48,6 +43,11 @@
             Logout
           </b-dropdown-item>
         </b-nav-item-dropdown>
+        <b-nav-item
+          href="/login"
+          class="navbar__login"
+          v-else>Membership / Login</b-nav-item>
+
         <b-button
           class="d-block d-md-none"
           variant="secondary-dark"
@@ -68,10 +68,6 @@
 
 <script>
 export default {
-  /**
-   * @todo replace with real data/prop
-   * @return {{links: {href: string, text: string}[]}}
-   */
   data() {
     return {
       links: [
@@ -87,8 +83,7 @@ export default {
           href: "/magazine",
           text: "American Poets Magazine"
         }
-      ],
-      loggedIn: this.$store.state.auth.loggedIn
+      ]
     };
   },
   methods: {
