@@ -49,10 +49,10 @@ export default {
   async asyncData({ app, params, query }) {
     const Twit = require("twit");
     const config = {
-      consumer_key: "VD1mP2OGqooLrjxrHWBDQHUbo",
-      consumer_secret: "IYnXGS44hYcqLG4RLm3gGL7yFlqz1t3BjWob4UW1Yyyb7OmtGx",
-      access_token: "17496303-FpXOkS3TpEWIk9zqR2EmWkNEICWWm3Qn3Onjx8N4X",
-      access_token_secret: "QnOByeSXPDSdOX7zT5E6JpydMCNldHr2IDDxrHFWAo0mx"
+      consumer_key: process.env.TWIT_CONSUMER_KEY,
+      consumer_secret: process.env.TWIT_CONSUMER_SECRET,
+      access_token: process.env.TWIT_ACCESS_TOKEN,
+      access_token_secret: process.env.TWIT_TOKEN_SECRET
     };
     const T = new Twit(config);
 
