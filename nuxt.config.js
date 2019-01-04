@@ -62,7 +62,7 @@ module.exports = {
           }
         }
       });
-      config.node = { fs: false };
+      config.node = { fs: "empty" };
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: "pre",
@@ -70,9 +70,6 @@ module.exports = {
           loader: "eslint-loader",
           exclude: /(node_modules)/
         });
-        config.node = {
-          fs: "empty"
-        };
       }
     }
   },
