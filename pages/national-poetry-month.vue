@@ -1,12 +1,15 @@
 <template>
   <div>
-    <b-container class="npm__container">
+    <b-container class="npm__tweets-container">
       <b-row>
-        <b-col md="12">
-          Twitter :: Poets.org
+        <b-col
+          md="12"
+          class="npm__tweets-row-header"
+        >
+          <TwitterIcon/> Poets.org
         </b-col>
       </b-row>
-      <b-row class="npm__tweets-row">
+      <b-row class="npm__tweets-row-tweets">
         <b-col
           v-for="tweet in tweets"
           :key="`--${tweet}`"
@@ -14,8 +17,11 @@
           class="npm__tweets-col"
         >
           <div class="npm__tweets-col-date">
-            <a :href="tweet.created_at">
-              {{ tweet.created_at }}
+            <a
+              :href="`https://twitter.com/POETSorg/status/${tweet.id_str}`"
+              target="_elBlanco"
+            >
+              {{ niceDate(tweet.created_at) }}
             </a>
           </div>
           <div class="npm__tweets-col-text">
@@ -28,8 +34,13 @@
 </template>
 
 <script>
+import TwitterIcon from "~/static/social/twitter.svg";
+import niceDate from "~/plugins/niceDate";
+
 export default {
-  components: {},
+  components: {
+    TwitterIcon
+  },
   data() {
     return {
       tweets: {}
@@ -60,13 +71,36 @@ export default {
       };
     });
   },
-  methods: {},
+  methods: {
+    niceDate(date) {
+      return niceDate.niceDate(date);
+    }
+  },
   watchQuery: true
 };
 </script>
 
 <style scoped lang="scss">
+.npm__tweets-container {
+  margin-top: 26px;
+  margin-bottom: 32px;
+}
+.npm__tweets-row-header {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 28px;
+  svg {
+    position: relative;
+    top: 6px;
+  }
+}
 .npm__tweets-col {
   font-weight: 400;
+  .npm__tweets-col-date {
+    margin-bottom: 7px;
+  }
+  a {
+    font-weight: 600;
+  }
 }
 </style>
