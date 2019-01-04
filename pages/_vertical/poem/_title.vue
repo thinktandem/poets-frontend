@@ -36,21 +36,22 @@
                 v-if="poet !== null">
                 <b-link :to="poet.path.alias">{{ poet.title }}</b-link>
                 <span
+                  class="dates"
                   v-if="poet.field_dob !== null"
-                >- {{ poet.field_dob.split("-", 1)[0] }} - {{ poet.field_dod }}</span>
+                > - {{ poet.field_dob.split("-", 1)[0] }}-{{ poet.field_dod.split("-", 1)[0] }}</span>
               </span>
             </div>
             <poem-actions
               orientation="vertical"
               :poem="{ alias: poem.path.alias, title: poem.title }"/>
             <div
-              class="px-md-4 "
+              class="px-md-4 font-serif-2"
               v-if="poem.body !== null"
               v-html="poem.body.processed"/>
             <div
               slot="footer"
               v-if="poem.field_credit !== null"
-              class="card--poem__attribution text-muted font-sans"
+              class="card--poem__attribution text-muted-dark font-sans p-3"
               v-html="poem.field_credit.processed"
             />
           </b-card>
@@ -328,6 +329,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.dates {
+  font-weight: 400;
+}
 .poem__title {
   flex-direction: row;
   justify-content: space-between;
@@ -361,6 +365,7 @@ export default {
   .card--poem__attribution {
     font-size: 0.8rem;
     line-height: 1.25rem;
+    font-weight: 400;
   }
 }
 
@@ -372,6 +377,7 @@ export default {
 }
 .poet--aside__bio {
   font-size: 0.9rem;
+  font-weight: 400;
   line-height: 1.07rem;
 }
 @include media-breakpoint-up(md) {

@@ -14,7 +14,7 @@
       {{ title }}
     </span>
     <div
-      class="card__body"
+      class="card__body card__body--fade"
       v-html="text"
     />
     <div class="card-footer">
@@ -55,5 +55,9 @@ export default {
 <style scoped lang="scss">
 .card--essay {
   border-bottom: 3px solid $brown;
+  .card__body card__body--fade {
+    font-family: "Founders Grotesk";
+    font-weight: 400;
+  }
 }
 </style>

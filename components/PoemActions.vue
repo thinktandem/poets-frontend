@@ -1,20 +1,26 @@
 <template>
-  <div 
-    class="poem__actions" 
+  <div
+    class="poem__actions"
     :class="`${orientation} ${color}`">
     <ul class="d-flex flex-wrap">
       <li class="pr-2">
-        <b-link :href="facebookUrl">
+        <b-link
+          target="_blank"
+          :href="facebookUrl">
           <FacebookIcon class="icon"/>
         </b-link>
       </li>
       <li class="pr-2">
-        <b-link :href="twitterUrl">
+        <b-link
+          target="_blank"
+          :href="twitterUrl">
           <TwitterIcon class="icon"/>
         </b-link>
       </li>
       <li class="pr-2">
-        <b-link :href="tumblrUrl">
+        <b-link
+          target="_blank" 
+          :href="tumblrUrl">
           <TumblrIcon class="icon"/>
         </b-link>
       </li>

@@ -45,7 +45,7 @@
           </div>
           <div class="mt-md-5">
             <signup-block
-              :show-actions="true" 
+              :show-actions="true"
               :poem="poem"/>
           </div>
         </b-col>
