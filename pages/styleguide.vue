@@ -23,6 +23,14 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="Announcements"
+            >Announcements</h2>
+            <app-announcements
+              :announcements="announcements"/>
+          </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="PoetsDeck"
             >Poets Card Deck</h2>
             <CardDeck
@@ -201,6 +209,7 @@
 </template>
 
 <script>
+import AppAnnouncements from "~/components/AppAnnouncements";
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
@@ -221,6 +230,7 @@ export default {
   },
   layout: "minimal",
   components: {
+    AppAnnouncements,
     PoemCard,
     CardDeck,
     Poet,
@@ -267,6 +277,10 @@ export default {
         {
           title: "Buttons",
           anchor: "#Buttons"
+        },
+        {
+          title: "Announcements",
+          anchor: "#Announcements"
         },
         {
           title: "Poets",
@@ -321,6 +335,28 @@ export default {
   },
   data() {
     return {
+      announcements: [
+        {
+          title: "A Letter from the Executive Director",
+          date: "Jan 1, 2000",
+          link: "/blah"
+        },
+        {
+          title:
+            "The Academy of American Poets Is Pleased to Announce the Winners of the Golden Shovel Anthology International Student Poetry Competition",
+          date: "Jan 1, 2001",
+          link: "/blah"
+        },
+        {
+          title:
+            "We’re excited to announce that we’ve invited twelve new guest editors to each curate a month of Poem-a-Day in 2018. The guest editor for August is Evie Shockley. Find out more about the program and the other guest editors.",
+          date: "Jan 1, 2002",
+          link: "/blah"
+        },
+        {
+          title: "You can't see me!"
+        }
+      ],
       featureCards: [
         {
           title: "Emily Skaja: Brute",

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import AppAnnouncements from "~/components/AppAnnouncementsAwards/AppAnnouncements";
+import AppAnnouncements from "~/components/AppAnnouncements";
 import AppAwards from "~/components/AppAnnouncementsAwards/AppAwards";
 
 export default {
