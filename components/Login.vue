@@ -57,6 +57,10 @@ export default {
       bodyFormData.set("scope", "vue_consumer");
       bodyFormData.set("response_type", "token");
       bodyFormData.set("token_type", "Bearer");
+
+      // @TODO: Try using setToken() mock up.
+
+      // Old way with loginWith
       this.$auth
         .loginWith("drupal", {
           data: bodyFormData
