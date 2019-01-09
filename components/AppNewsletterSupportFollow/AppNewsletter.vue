@@ -101,6 +101,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.signup-title {
+  font-size: 1.75rem;
+  color: $gray-900;
+}
 .newsletter-checkbox {
   font-weight: 400;
   label {
