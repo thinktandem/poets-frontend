@@ -1,11 +1,10 @@
-
 <template>
   <b-card
     class="card--book"
     tag="article"
   >
     <b-img
-      :src="img.src"
+      :src="books.field_image"
       slot="header"
       fluid
     />
@@ -48,7 +47,8 @@ export default {
     },
     img: {
       type: Object,
-      default: () => {}
+      default: () => {},
+      src: ""
     }
   }
 };

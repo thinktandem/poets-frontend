@@ -29,20 +29,21 @@ export default {
         if (query.state) preparedState = "&state=" + query.state;
         if (query.school) preparedSchool = "&school=" + query.school;
         if (query.combine) preparedCombine = "&combine=" + query.combine;
+        console.log("the fucking res\n\n\n", res);
         return {
           results: res.data.rows,
-          pageNum: res.data.pager.current_page,
-          Prev: prevPageNum,
-          Next: nextPageNum,
-          currentPage: res.data.pager.current_page,
-          totalPages: res.data.pager.total_pages,
+          pageNum: res.data.pager.current_page || "",
+          Prev: prevPageNum || "",
+          Next: nextPageNum || "",
+          currentPage: res.data.pager.current_page || "",
+          totalPages: res.data.pager.total_pages || "",
           combine: myQuery.combine || "",
           page: myQuery.page || "",
           school: myQuery.school || "",
           state: myQuery.state || "",
-          preparedState: preparedState,
-          preparedSchool: preparedSchool,
-          preparedCombine: preparedCombine
+          preparedState: preparedState || "",
+          preparedSchool: preparedSchool || "",
+          preparedCombine: preparedCombine || ""
         };
       })
       .catch(err => {
