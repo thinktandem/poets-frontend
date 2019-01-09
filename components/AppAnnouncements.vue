@@ -1,6 +1,8 @@
 <template>
   <div class="announcements p-4">
-    <h2 class="font-serif pb-3">Announcements</h2>
+    <component 
+      :is="titleTag" 
+      class="font-serif announcements__title">Announcements</component>
     <app-announcement
       v-if="announcements.length >= 1"
       v-for="(announcement, index) in announcements.slice(0,3)"
@@ -31,11 +33,19 @@ export default {
       default() {
         return [];
       }
+    },
+    titleTag: {
+      type: String,
+      default: "h3"
     }
   }
 };
 </script>
 <style scoped lang="scss">
+.announcements__title {
+  font-size: 2.65rem;
+  line-height: 2.75rem;
+}
 .chevron {
   height: 10px;
   width: 10px;

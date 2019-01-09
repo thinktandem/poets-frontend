@@ -2,16 +2,17 @@
   <b-media
     class="mb-5"
     :tag="tag">
-    <b-img
-      v-if="null !== img"
-      slot="aside" 
-      :src="img.src" 
-      :alt="img.alt"/>
+    <b-img-lazy
+      :blank-src="null"
+      slot="aside"
+      :src="imgSrc"/>
     <component
       v-if="null !== title"
       class="media-title"
       :is="titleTag"><b-link :to="titleLink">{{ title }}</b-link></component>
-    <b-media-body v-if="null !== body">{{ body }}</b-media-body>
+    <b-media-body 
+      v-if="null !== body" 
+      v-html="body"/>
   </b-media>
 </template>
 
@@ -39,9 +40,21 @@ export default {
       type: String,
       default: null
     },
-    img: {
-      type: Object,
-      default: null
+    imgId: {
+      type: String,
+      default: ""
+    }
+  },
+  asyncComputed: {
+    imgSrc() {
+      return this.$axios.$get(`/api/file/file/${this.imgId}`).then(response => {
+        // Strip the protocol from the URI.
+        const uri = response.data.attributes.uri.value.replace(
+          /(^\w+:|^)\/\//,
+          ""
+        );
+        return `${process.env.baseURL}/sites/default/files/${uri}`;
+      });
     }
   }
 };
