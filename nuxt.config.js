@@ -78,6 +78,7 @@ module.exports = {
     }
   },
   env: {
-    baseURL: process.env.API_URL || "https://poets.org"
+    baseURL: process.env.API_URL || "https://poets.org",
+    CONSUMER_ID: process.env.CONSUMER_ID
   }
 };
