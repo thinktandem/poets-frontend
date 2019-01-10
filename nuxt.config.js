@@ -19,7 +19,11 @@ module.exports = {
     className: "toast-success",
     theme: "bubble"
   },
-  plugins: ["~/plugins/axios", "~/plugins/vue2-filters"],
+  plugins: [
+    "~/plugins/axios",
+    "~/plugins/vue2-filters",
+    "~/plugins/asyncComputed"
+  ],
   css: ["~assets/scss/app.scss"],
   /*
   ** Headers of the page
@@ -74,6 +78,7 @@ module.exports = {
     }
   },
   env: {
-    baseURL: process.env.API_URL || "https://poets.org"
+    baseURL: process.env.API_URL || "https://poets.org",
+    CONSUMER_ID: process.env.CONSUMER_ID
   }
 };
