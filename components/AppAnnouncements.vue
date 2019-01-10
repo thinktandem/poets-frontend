@@ -1,19 +1,22 @@
 <template>
-  <div class="announcements p-4">
+  <div class="announcements py-4">
     <component 
       :is="titleTag" 
       class="font-serif announcements__title">Announcements</component>
-    <app-announcement
-      v-if="announcements.length >= 1"
-      v-for="(announcement, index) in announcements.slice(0,3)"
-      :key="index"
-      :date="announcement.date"
-      :title="announcement.title"
-      :link="announcement.link"/>
+    <ul class="pl-3 list-unstyled">
+      <app-announcement
+        v-if="announcements.length >= 1"
+        v-for="(announcement, index) in announcements.slice(0,3)"
+        :key="index"
+        :date="announcement.date"
+        :body="announcement.body"
+        :link="announcement.link"/>
+    </ul>
     <div class="d-flex pt-4 flex-column align-items-end">
       <b-link
+        class="announcements__more-link"
         v-if="announcements.length > 3"
-        to="/announcements">More Announcements <chevron-right class="chevron"/></b-link>
+        :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
     </div>
   </div>
 </template>
@@ -37,6 +40,15 @@ export default {
     titleTag: {
       type: String,
       default: "h3"
+    },
+    moreLink: {
+      type: Object,
+      default() {
+        return {
+          to: "/poetsorg/announcements",
+          text: "More Announcements"
+        };
+      }
     }
   }
 };
@@ -45,6 +57,9 @@ export default {
 .announcements__title {
   font-size: 2.65rem;
   line-height: 2.75rem;
+}
+.announcements__more-link {
+  font-size: 1.25rem;
 }
 .chevron {
   height: 10px;
