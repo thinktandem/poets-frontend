@@ -1,18 +1,19 @@
 <template>
   <b-media
-    class="mb-5"
+    class="mb-4"
     :tag="tag">
     <b-img-lazy
       :blank-src="null"
       slot="aside"
-      :src="imgSrc"/>
+      :src="imgSrc"
+      :alt="img.alt"/>
     <component
       v-if="null !== title"
       class="media-title"
       :is="titleTag"><b-link :to="titleLink">{{ title }}</b-link></component>
     <b-media-body 
       v-if="null !== body" 
-      v-html="body"/>
+      v-html="teaserText"/>
   </b-media>
 </template>
 
@@ -40,21 +41,29 @@ export default {
       type: String,
       default: null
     },
-    imgId: {
-      type: String,
-      default: ""
+    img: {
+      type: Object,
+      default() {
+        return {
+          id: "",
+          alt: "Program Image"
+        };
+      }
     }
   },
   asyncComputed: {
     imgSrc() {
-      return this.$axios.$get(`/api/file/file/${this.imgId}`).then(response => {
-        // Strip the protocol from the URI.
-        const uri = response.data.attributes.uri.value.replace(
-          /(^\w+:|^)\/\//,
-          ""
-        );
-        return `${process.env.baseURL}/sites/default/files/${uri}`;
-      });
+      return this.$axios
+        .$get(`/api/file/file/${this.img.id}`)
+        .then(response => {
+          return response.data.meta.derivatives.media_aside;
+        })
+        .catch(error => console.log(error));
+    },
+    teaserText() {
+      return this.body.length > 300
+        ? `${this.body.substr(0, this.body.lastIndexOf(" ", 364))}...`
+        : this.body;
     }
   }
 };

@@ -7,7 +7,7 @@
         class="font-serif media-list__title">{{ title }}</component>
       <b-link :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
     </div>
-    <ul class="list-unstyled">
+    <ul class="list-unstyled pl-3">
       <app-media
         v-for="(program, index) in programs.slice(0, 3)"
         :key="index"
