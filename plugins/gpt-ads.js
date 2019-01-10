@@ -1,8 +1,6 @@
 export default {
   /*
    * Gather the data needed to query Google Ad Manager for adverts.
-   *
-   * @param {Object} gptOptions the options for the call.
    */
   gatherMeData() {
     const gptAdsOptions = {
