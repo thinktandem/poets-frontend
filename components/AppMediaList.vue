@@ -4,15 +4,17 @@
       <component
         :is="titleTag"
         v-if="null !== title"
-        class="font-serif">{{ title }}</component>
+        class="font-serif media-list__title">{{ title }}</component>
       <b-link :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
     </div>
-    <ul class="list-unstyled">
+    <ul class="list-unstyled pl-3">
       <app-media
-        v-for="(program, index) in programs"
+        v-for="(program, index) in programs.slice(0, 3)"
         :key="index"
         tag="li"
+        :img-id="program.imgId"
         :title="program.title"
+        :title-link="program.titleLink"
         :body="program.body"
         :img="program.img"/>
     </ul>
@@ -60,5 +62,9 @@ export default {
 }
 .media-list__header {
   font-size: 1.25rem;
+}
+.media-list__title {
+  font-size: 2.65rem;
+  line-height: 2.75rem;
 }
 </style>
