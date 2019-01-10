@@ -23,6 +23,7 @@ import AppNewsletterSupportFollow from "~/components/AppNewsletterSupportFollow/
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
 import PromoSpace from "~/components/PromoSpace";
+import GptAds from "~/plugins/gpt-ads";
 
 export default {
   components: {
@@ -33,6 +34,16 @@ export default {
     AppNewsletterSupportFollow,
     AppFooterPrimary,
     AppFooterUtility
+  },
+  head() {
+    return {
+      script: [
+        {
+          src: "https://www.googletagservices.com/tag/js/gpt.js"
+        },
+        GptAds.gatherMeData().gptInitScript
+      ]
+    };
   }
 };
 </script>
