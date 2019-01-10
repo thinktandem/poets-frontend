@@ -41,12 +41,17 @@ export default {
 </script>
 <style lang="scss">
 .newsletter-support-follow {
-  padding: 2.125rem 0 3.125rem 0;
+  padding: 2.7rem 0 4.25rem 0;
   background-color: $gray-200;
-
+  label {
+    color: $indigo;
+    line-height: 1.25rem;
+  }
   h3.signup-title {
-    padding: 1.25rem;
-    font-size: 2rem;
+    padding: 1.1rem;
+    margin-bottom: 0;
+    font-size: 1.75rem;
+    line-height: 2rem;
     border-bottom: 3px solid $newsletter-support-follow__h3__border-color;
     font-family: $font-family-serif;
     font-style: italic;
@@ -55,7 +60,7 @@ export default {
   .support__content,
   .newsletter__content,
   .follow__content {
-    padding: 1rem 1rem 2rem;
+    padding: 1rem;
   }
 }
 </style>
