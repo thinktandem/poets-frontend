@@ -5274,6 +5274,11 @@ mocha@^4.1.0:
     mkdirp "0.5.1"
     supports-color "4.4.0"
 
+moment@^2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
+  integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -8788,6 +8793,11 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+vue-async-computed@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/vue-async-computed/-/vue-async-computed-3.5.1.tgz#bfb4f6f1788bd13dd1f170641e20ba10dbd26c6c"
+  integrity sha512-69BVyTQavguFcBVU7tDgujyTUIXrJdAAZ5LlB4bLwj9Ghd65TZYGsGl/CWZ3HY3u14uPvgmQ4dKIwl3matw+fQ==
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"

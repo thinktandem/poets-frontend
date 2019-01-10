@@ -1,27 +1,29 @@
 <template>
-  <div
+  <component
+    :is="tag"
     class="announcement pt-3">
     <div 
       class="announcement__date pb-2" 
       v-if="null !== date">
-      {{ date }}
-    </div>
-    <div class="announcement__text">
-      {{ title }}
+      {{ formattedDate }}
     </div>
     <div 
+      class="announcement__text" 
+      v-html="teaserText" />
+    <div
       class="announcement__read-more pt-1 pb-3" 
-      v-if="null !== link">
+      v-if="null !== link && body.length > 300">
       <b-link :to="link">read more</b-link>
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
+import moment from "moment";
 export default {
   name: "AppAnnouncement",
   props: {
-    title: {
+    body: {
       type: String,
       required: true
     },
@@ -32,6 +34,20 @@ export default {
     link: {
       type: String,
       default: null
+    },
+    tag: {
+      type: String,
+      default: "li"
+    }
+  },
+  computed: {
+    formattedDate() {
+      return moment.unix(this.date).format("MMM D, YYYY");
+    },
+    teaserText() {
+      return this.body.length > 300
+        ? `${this.body.substr(0, this.body.lastIndexOf(" ", 222))}...`
+        : this.body;
     }
   }
 };
