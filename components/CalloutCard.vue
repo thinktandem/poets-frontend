@@ -22,9 +22,23 @@
     <div
       slot="footer"
       v-if="null !== action.to">
-      <b-btn
-        :to="action.to"
-        class="border-primary bg-white text-primary">{{ action.text }}</b-btn>
+      <b-form
+        @submit.stop.prevent="signUp"
+        inline
+      >
+        <b-form-input
+          v-model="email"
+          type="email"
+          placeholder="you@example.com"
+        />
+        <b-btn
+          :to="action.to"
+          class="border-primary bg-white text-primary"
+          @click.stop.prevent="signUp"
+        >
+          {{ action.text }}
+        </b-btn>
+      </b-form>
     </div>
   </b-card>
 </template>
@@ -32,6 +46,11 @@
 <script>
 export default {
   name: "CalloutCard",
+  data() {
+    return {
+      email: ""
+    };
+  },
   props: {
     title: {
       type: String,
@@ -74,6 +93,38 @@ export default {
         bold: "warning"
       };
       return map[this.variant];
+    }
+  },
+  methods: {
+    signUp() {
+      const body = {
+        email: this.email,
+        forms: {
+          AAPTTP: true
+        }
+      };
+      this.$axios
+        .post(`/api/cm/poem-a-day`, body)
+        .then(() => {
+          this.$toast
+            .show("Thanks! You are subscribed.", {
+              theme: "toasted-primary",
+              position: "top-left"
+            })
+            .goAway(1500);
+        })
+        .catch(err => {
+          this.$toast
+            .show(
+              "Sorry, there was an error subscribing you, please try again :(",
+              {
+                theme: "toasted-danger",
+                position: "top-left"
+              }
+            )
+            .goAway(1500);
+          console.log(err);
+        });
     }
   }
 };
