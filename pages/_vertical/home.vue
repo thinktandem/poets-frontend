@@ -1,7 +1,7 @@
 <template>
   <div>
     <programs-announcements
-      :program-options="programOptions"
+      :program-options="programs.data"
       :announcements="announcements"/>
   </div>
 </template>
@@ -15,18 +15,35 @@ export default {
     ProgramsAnnouncements
   },
   async asyncData({ app, params, query }) {
-    const requestParams = qs.stringify({
+    const programRequestParams = qs.stringify({
       _format: "json",
       filter: {
         field_program: 1
       }
     });
-    return app.$axios
-      .$get(`/api/node/prize_or_program?${requestParams}`)
+    const announcementRequestParams = qs.stringify({
+      _format: "json",
+      filter: {
+        // Hard coded ID for announcement story type
+        // @todo do some magic to make this dynamic
+        field_story_type: 8
+      },
+      sort: {
+        created: {
+          path: "created",
+          direction: "DESC"
+        }
+      },
+      page: {
+        limit: 4
+      }
+    });
+    const programs = await app.$axios
+      .$get(`/api/node/prize_or_program?${programRequestParams}`)
       .then(response => {
         return {
           response: response,
-          programOptions: {
+          data: {
             title: "Programs",
             moreLink: {
               to: `/${params.vertical}/programs`,
@@ -36,17 +53,44 @@ export default {
               return {
                 title: item.attributes.title,
                 titleLink: item.attributes.path.alias,
-                body: item.attributes.body.summary,
-                imgId:
-                  item.relationships.field_image.data.length >= 1
-                    ? item.relationships.field_image.data[0].id
-                    : null
+                body: item.attributes.body.processed,
+                img: {
+                  alt:
+                    item.relationships.field_image.data.length >= 1
+                      ? item.relationships.field_image.data[0].meta.alt
+                      : null,
+                  id:
+                    item.relationships.field_image.data.length >= 1
+                      ? item.relationships.field_image.data[0].id
+                      : null
+                }
               };
             })
-          },
-          announcements: []
+          }
         };
       });
+
+    const announcements = await app.$axios
+      .$get(`/api/node/basic_page?${announcementRequestParams}`)
+      .then(response => {
+        return {
+          response: response,
+          moreLink: {
+            to: `/${params.vertical}/annoucements`,
+            text: "More Annoucements"
+          },
+          announcements: _.map(response.data, item => {
+            return {
+              date: item.attributes.changed,
+              body:
+                item.attributes.body.summary || item.attributes.body.processed,
+              link: ""
+            };
+          })
+        };
+      });
+
+    return { programs: programs, announcements: announcements };
   },
   async fetch({ app, store, params }) {
     // Set the current hero
