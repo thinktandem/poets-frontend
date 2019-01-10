@@ -32,7 +32,6 @@
           placeholder="you@example.com"
         />
         <b-btn
-          :to="action.to"
           class="border-primary bg-white text-primary"
           @click.stop.prevent="signUp"
         >
