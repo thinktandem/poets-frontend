@@ -184,6 +184,15 @@
               youtube-id="Waw7d8evTfg"
               vimeo-id="182766909">With a special introduction by Education Ambassador Richard Blanco, this brief video guide for teachers highlights the many educational resources available on Poets.org.</video-block>
           </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="Programs">Programs</h2>
+            <app-media-list
+              title="Programs"
+              :more-link="programsMoreLink"
+              :programs="programs"/>
+          </section>
         </main>
       </b-col>
       <b-col
@@ -210,6 +219,7 @@
 
 <script>
 import AppAnnouncements from "~/components/AppAnnouncements";
+import AppMediaList from "~/components/AppMediaList";
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Poet";
@@ -231,6 +241,7 @@ export default {
   layout: "minimal",
   components: {
     AppAnnouncements,
+    AppMediaList,
     PoemCard,
     CardDeck,
     Poet,
@@ -329,6 +340,10 @@ export default {
         {
           title: "Video Block",
           anchor: "#videoBlock"
+        },
+        {
+          title: "Programs",
+          anchor: "#Programs"
         }
       ];
     }
@@ -337,20 +352,20 @@ export default {
     return {
       announcements: [
         {
-          title: "A Letter from the Executive Director",
-          date: "Jan 1, 2000",
+          body: "A Letter from the Executive Director",
+          date: "1533960000",
           link: "/blah"
         },
         {
-          title:
+          body:
             "The Academy of American Poets Is Pleased to Announce the Winners of the Golden Shovel Anthology International Student Poetry Competition",
-          date: "Jan 1, 2001",
+          date: "1533960000",
           link: "/blah"
         },
         {
-          title:
+          body:
             "We’re excited to announce that we’ve invited twelve new guest editors to each curate a month of Poem-a-Day in 2018. The guest editor for August is Evie Shockley. Find out more about the program and the other guest editors.",
-          date: "Jan 1, 2002",
+          date: "1533960000",
           link: "/blah"
         },
         {
@@ -763,7 +778,40 @@ And as for the bucket, Nantucket.`,
       calloutAction: {
         to: "/blah",
         text: "Learn More & Sign Up"
-      }
+      },
+      programsMoreLink: {
+        to: "/blah",
+        text: "8 Programs"
+      },
+      programs: [
+        {
+          title: "Poets Forum/Chancellor Events",
+          img: {
+            alt: "Program Image",
+            id: "b8cd40b3-85e9-4a87-a5d8-984c68cddcc7"
+          },
+          body:
+            "We are pleased to present the award-winning and esteemed poets who serve as Chancellors of the Academy of American Poets at the Dodge Poetry Festival on October 18 - 21, 2018. The weekend will include a group reading and conversations."
+        },
+        {
+          title: "Poem-a-Day",
+          img: {
+            alt: "Program Image",
+            id: "b8cd40b3-85e9-4a87-a5d8-984c68cddcc7"
+          },
+          body:
+            "Poem-a-Day is the original and only daily digital poetry series featuring over 200 new, previously unpublished poems by today’s talented poets each year. On weekdays, poems are accompanied by exclusive commentary by the poets, and several featured..."
+        },
+        {
+          title: "American Poets Prizes",
+          img: {
+            alt: "Program Image",
+            id: "b8cd40b3-85e9-4a87-a5d8-984c68cddcc7"
+          },
+          body:
+            "Since 1934, the Academy of American Poets has provided visibility and financial support to poets demonstrating artistic excellence. Guidelines and entry forms are provided, where applicable. All poets who receive an Academy of American Poets Prize are strongly promoted, including features in American Poets magazine, on social media, and, of course, on Poets.org."
+        }
+      ]
     };
   }
 };
