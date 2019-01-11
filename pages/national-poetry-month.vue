@@ -6,7 +6,7 @@
           md="12"
           class="npm__tweets-row-header"
         >
-          <TwitterIcon/> Poets.org
+          <TwitterIcon/> <span class="poets-org">Poets.org</span>
         </b-col>
       </b-row>
       <b-row class="npm__tweets-row-tweets">
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import TwitterIcon from "~/static/social/twitter.svg";
+import TwitterIcon from "~/static/social/twitter-just-bird.svg";
 import niceDate from "~/plugins/niceDate";
 
 export default {
@@ -87,11 +87,12 @@ export default {
 }
 .npm__tweets-row-header {
   margin-top: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 26px;
   font-size: 28px;
   svg {
     position: relative;
-    top: 6px;
+    top: 9px;
+    margin-right: 7px;
   }
 }
 .npm__tweets-col {
