@@ -87,6 +87,10 @@ export default {
         alt: featuredProduct.relationships.field_image.hasOwnProperty("data")
           ? featuredProduct.relationships.field_image.data[0].meta.alt
           : null
+      },
+      link: {
+        to: `/academy-american-poets/become-member`,
+        text: "Become a member"
       }
     });
   }
