@@ -4,48 +4,53 @@
     tag="article"
   >
     <b-img
-      :src="books.field_image"
       slot="header"
       fluid
+      :src="baseurl + field_image"
     />
     <h3 class="card-title">
       <b-link
-        :to="link"
+        :to="view_node_1"
         itemprop="title"
       >
         {{ title }}
       </b-link>
     </h3>
     <div class="card--book__author-year">
-      {{ author }} <span v-if="year"> - {{ year }}</span>
+      {{ field_author }} <span v-if="field_date_published"> - {{ field_date_published }}</span>
     </div>
-    <p v-html="text" />
+    <p v-html="body"/>
   </b-card>
 </template>
 <script>
 export default {
+  data() {
+    return {
+      baseurl: process.env.baseURL
+    };
+  },
   props: {
     title: {
       type: String,
       default: ""
     },
-    text: {
+    body: {
       type: String,
       default: ""
     },
-    author: {
+    field_author: {
       type: String,
       default: ""
     },
-    year: {
+    field_date_published: {
       type: String,
       default: ""
     },
-    link: {
+    view_node_1: {
       type: String,
       default: "/"
     },
-    img: {
+    field_image: {
       type: Object,
       default: () => {},
       src: ""

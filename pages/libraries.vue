@@ -6,7 +6,6 @@
         cardtype="BookCard"
         cols="3"
         :cards="books"
-        :link="bookLink"
       />
     </b-container>
   </div>
@@ -19,22 +18,17 @@ export default {
   components: {
     CardDeck
   },
-  data() {
-    return {
-      books: {}
-    };
-  },
-  async asyncData({ app, params, query }) {
-    const books = await app.$axios.get("/api/books", {}).then(res => {
-      console.log("\n\n------------- res ---------\n\n", res.data);
-      return {
-        books: res.data
-      };
-    });
-    console.log("\n\nbooks ------------\n\n", books);
-    return {
-      books: books
-    };
+  async asyncData({ app, store, params }) {
+    return app.$axios
+      .get("/api/books", {})
+      .then(res => {
+        return {
+          books: res.data
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {},
   watchQuery: true
