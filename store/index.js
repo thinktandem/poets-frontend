@@ -24,7 +24,8 @@ const createStore = () => {
       filterOptions: {
         options: []
       },
-      states: {}
+      states: {},
+      productFeature: {}
     },
     mutations: {
       addPoem(state, payload) {
@@ -44,6 +45,9 @@ const createStore = () => {
       },
       updateStates(state, payload) {
         state.states = payload;
+      },
+      updateProductFeature(state, payload) {
+        state.productFeature = payload;
       }
     }
   });
