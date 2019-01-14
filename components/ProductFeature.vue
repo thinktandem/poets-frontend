@@ -6,35 +6,35 @@
           class="product-feature__info pb-4 pb-lg-5">
           <h2 
             class="font-serif pb-3" 
-            v-if="$store.state.productFeature.title">{{ $store.state.productFeature.title }}</h2>
+            v-if="title">{{ title }}</h2>
           <div class="pl-lg-4 pr-md-3">
             <p 
               class="pb-4 product-feature__intro"
-              v-if="$store.state.productFeature.intro"
-              v-html="$store.state.productFeature.intro"/>
+              v-if="intro"
+              v-html="intro"/>
             <h3 
               class="text-primary-lightest pb-2" 
-              v-if="$store.state.productFeature.subTitle">{{ $store.state.productFeature.subTitle }}</h3>
+              v-if="subTitle">{{ subTitle }}</h3>
             <ul 
               class="list-unstyled product-feature__list"
-              v-if="$store.state.productFeature.contents.length >= 1">
+              v-if="contents.length >= 1">
               <li 
-                v-for="(item, index) in $store.state.productFeature.contents"
+                v-for="(item, index) in contents"
                 :key="index" >{{ item }}</li>
             </ul>
             <p class="pl-4">... and much more</p>
             <b-btn
-              to="/something"
-              variant="secondary">Become a Member</b-btn> <span class="pl-2">to receive your copy of American Poets twice a year.</span>
+              :to="link.to"
+              variant="secondary">{{ link.text }}</b-btn> <span class="pl-2">to receive your copy of American Poets twice a year.</span>
           </div>
         </div>
         <div 
           class="product-feature__image" 
-          v-if="$store.state.productFeature.img">
+          v-if="img">
           <b-img-lazy
             fluid
-            :alt="$store.state.productFeature.img.alt"
-            :src="$store.state.productFeature.img.src"/>
+            :alt="img.alt"
+            :src="img.src"/>
         </div>
       </div>
     </b-container>
@@ -43,7 +43,45 @@
 
 <script>
 export default {
-  name: "ProductFeature"
+  name: "ProductFeature",
+  props: {
+    title: {
+      type: String,
+      default: "American Poets Magazine"
+    },
+    subTitle: {
+      type: String,
+      default: ""
+    },
+    intro: {
+      type: String,
+      default: ""
+    },
+    contents: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    img: {
+      type: Object,
+      default() {
+        return {
+          src: "",
+          alt: ""
+        };
+      }
+    },
+    link: {
+      type: Object,
+      default() {
+        return {
+          to: "become-member",
+          text: "Become a Member"
+        };
+      }
+    }
+  }
 };
 </script>
 

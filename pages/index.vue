@@ -4,7 +4,13 @@
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
     <promo-space variant="transparent"/>
-    <product-feature/>
+    <product-feature
+      :title="$store.state.productFeature.title"
+      :sub-title="$store.state.productFeature.subTitle"
+      :intro="$store.state.productFeature.intro"
+      :contents="$store.state.productFeature.contents"
+      :img="$store.state.productFeature.img"
+      :link="$store.state.productFeature.link"/>
   </div>
 </template>
 
