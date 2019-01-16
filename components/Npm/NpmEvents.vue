@@ -40,9 +40,9 @@
         accordion="my-accordion"
         role="tabpanel">
         <b-card-body>
-          <p
+          <div
             v-html="event.body"
-            class="npm__events-row-body card-text"/>
+            class="npm__event-row-body card-text"/>
         </b-card-body>
       </b-collapse>
     </b-card>
