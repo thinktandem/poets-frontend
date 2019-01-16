@@ -59,6 +59,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+h3 {
+  font-family: "Poets Electric";
+  font-weight: 566;
+  font-style: italic;
+}
 .npm__news-row-date {
   color: var(--red-dark);
 }
