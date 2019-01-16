@@ -1,6 +1,27 @@
 <template>
   <div role="tablist">
     <h3>Upcoming Events</h3>
+    <b-container>
+      <b-row
+        class="npm__events-header"
+        lg="12">
+        <b-col
+          lg="3"
+          class="npm__events-header-date">
+          Date
+        </b-col>
+        <b-col
+          lg="6"
+          class="npm__events-header-event">
+          Event
+        </b-col>
+        <b-col
+          lg="3"
+          class="npm__events-header-location">
+          Location
+        </b-col>
+      </b-row>
+    </b-container>
     <b-card
       v-for="(event, i) in events"
       :key="`event${i}`"
@@ -70,6 +91,14 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.npm__events-header {
+  border: 1px solid #eaf0f1;
+  padding: 12px;
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+}
 h3 {
   font-family: "Poets Electric";
   font-weight: 566;
