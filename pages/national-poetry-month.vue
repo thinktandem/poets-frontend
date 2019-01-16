@@ -1,5 +1,17 @@
 <template>
   <div>
+    <b-container>
+      <b-row>
+        <b-col lg="6">
+          <h3>--- Upcoming Events ---</h3>
+        </b-col>
+        <b-col lg="6">
+          <NpmNews
+            :news="news"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
     <b-container class="npm__tweets-container">
       <b-row>
         <b-col
@@ -34,19 +46,31 @@
 </template>
 
 <script>
+import NpmNews from "~/components/Npm/NpmNews";
 import TwitterIcon from "~/static/social/twitter-just-bird.svg";
 import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
+    NpmNews,
     TwitterIcon
   },
   data() {
     return {
+      news: {},
       tweets: {}
     };
   },
   async asyncData({ app, params, query }) {
+    const news = await app.$axios
+      .get("/api/npm_news", {})
+      .then(res => {
+        return res.data.rows;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     const Twit = require("twit");
     const config = {
       consumer_key: process.env.TWIT_CONSUMER_KEY,
@@ -61,15 +85,18 @@ export default {
      *
      * https://api.twitter.com/1.1/statuses/user_timeline.json
      */
-    return T.get("statuses/user_timeline", {
+    let tweets = await T.get("statuses/user_timeline", {
       screen_name: "POETSorg",
       count: 4
     }).then(res => {
       console.log(res.data);
-      return {
-        tweets: res.data
-      };
+      return res.data;
     });
+
+    return {
+      news,
+      tweets
+    };
   },
   methods: {
     niceDate(date) {
