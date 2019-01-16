@@ -41,6 +41,16 @@
         </b-container>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col
+        lg="12"
+        class="npm__news-row-more-link">
+        <b-link
+          to="/national-poetry-month/news">
+          More News & Updates >
+        </b-link>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 <script>
@@ -78,5 +88,8 @@ h3 {
   color: #212b36;
   font-size: 16pxa;
   font-weight: 400;
+}
+.npm__news-row-more-link {
+  font-size: 20px;
 }
 </style>
