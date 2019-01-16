@@ -48,12 +48,14 @@
 </template>
 
 <script>
+import NpmEvents from "~/components/Npm/NpmEvents";
 import NpmNews from "~/components/Npm/NpmNews";
 import TwitterIcon from "~/static/social/twitter-just-bird.svg";
 import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
+    NpmEvents,
     NpmNews,
     TwitterIcon
   },
