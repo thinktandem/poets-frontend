@@ -3,7 +3,9 @@
     <b-container>
       <b-row>
         <b-col lg="6">
-          <h3>--- Upcoming Events ---</h3>
+          <NpmEvents
+            :events="events"
+          />
         </b-col>
         <b-col lg="6">
           <NpmNews
@@ -46,12 +48,14 @@
 </template>
 
 <script>
+import NpmEvents from "~/components/Npm/NpmEvents";
 import NpmNews from "~/components/Npm/NpmNews";
 import TwitterIcon from "~/static/social/twitter-just-bird.svg";
 import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
+    NpmEvents,
     NpmNews,
     TwitterIcon
   },
@@ -62,6 +66,14 @@ export default {
     };
   },
   async asyncData({ app, params, query }) {
+    const events = await app.$axios
+      .get("/api/npm_events", {})
+      .then(res => {
+        return res.data.rows;
+      })
+      .catch(err => {
+        console.log(err);
+      });
     const news = await app.$axios
       .get("/api/npm_news", {})
       .then(res => {
@@ -94,6 +106,7 @@ export default {
     });
 
     return {
+      events,
       news,
       tweets
     };
