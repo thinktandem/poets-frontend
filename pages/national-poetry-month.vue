@@ -2,6 +2,19 @@
   <div>
     <b-container>
       <b-row>
+        <b-col lg="12">
+          <CardDeck
+            title="Features"
+            cardtype="FeatureCard"
+            :cards="para"
+          />
+          {{ page.data.relationships.field_content_sections.data[0].id }} gff
+          {{ para }}
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container>
+      <b-row>
         <b-col lg="6">
           <NpmEvents
             :events="events"
@@ -48,6 +61,7 @@
 </template>
 
 <script>
+import CardDeck from "~/components/CardDeck";
 import NpmEvents from "~/components/Npm/NpmEvents";
 import NpmNews from "~/components/Npm/NpmNews";
 import TwitterIcon from "~/static/social/twitter-just-bird.svg";
@@ -55,17 +69,42 @@ import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
+    CardDeck,
     NpmEvents,
     NpmNews,
     TwitterIcon
   },
   data() {
     return {
+      para: {},
+      page: {},
+      events: {},
       news: {},
       tweets: {}
     };
   },
   async asyncData({ app, params, query }) {
+    const page = await app.$axios
+      .get("api/node/basic_page/ea845730-7b1a-4f35-a6fa-14213f8615b2", {})
+      .then(res => {
+        console.log("node - res.data\n\n", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    const para = await app.$axios
+      .get(
+        "/api/paragraph/sidebar_text_and_image/" +
+          page.data.relationships.field_content_sections.data[0].id,
+        {}
+      )
+      .then(res => {
+        return res.data.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
     const events = await app.$axios
       .get("/api/npm_events", {})
       .then(res => {
@@ -106,6 +145,12 @@ export default {
     });
 
     return {
+      page,
+      para: {
+        title: para.attributes.title,
+        id: para.id,
+        text: para.attributes.body
+      },
       events,
       news,
       tweets
