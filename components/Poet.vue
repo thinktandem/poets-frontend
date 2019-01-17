@@ -6,8 +6,13 @@
     itemtype="http://schema.org/Person"
   >
     <b-img
-      :src="img.src"
+      v-if="img"
+      :src="baseurl + img"
       fluid-grow
+    />
+    <div
+      v-else
+      class="empty-div"
     />
     <div class="poet__name-bio">
       <h3
@@ -17,9 +22,9 @@
         {{ name }}
       </h3>
       <div class="poet__bio">
-        <p>{{ bio }}</p>
+        <div v-html="bio"/>
         <a
-          :href="link.href"
+          :href="link"
           class="poet__link"
         >Read more about {{ name }}</a>
       </div>
@@ -29,6 +34,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      baseurl: process.env.baseURL
+    };
+  },
   props: {
     name: {
       type: String,
@@ -39,8 +49,8 @@ export default {
       default: ""
     },
     img: {
-      type: Object,
-      default: function() {}
+      type: String,
+      default: ""
     },
     link: {
       type: Object,
@@ -60,7 +70,11 @@ export default {
   .card-body {
     padding: 0;
   }
-
+  .empty-div {
+    min-height: 384px;
+    min-width: 388px;
+    background-color: var(--gray-900);
+  }
   &__name-bio {
     position: absolute;
     top: calc(100% - 3.65rem);
