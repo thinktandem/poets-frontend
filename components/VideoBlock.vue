@@ -8,7 +8,7 @@
         :src="`https://www.youtube.com/embed/${youtubeId}`"/>
     </div>
     <div class="video-block__description">
-      <slot/>
+      <div v-html="body"/>
       <div class="video-block__links d-flex justify-content-start pt-3">
         <b-link
           v-if="vimeoId !== null"
@@ -31,6 +31,10 @@ export default {
     tag: {
       type: String,
       default: "div"
+    },
+    body: {
+      type: String,
+      default: ""
     },
     youtubeId: {
       type: String,

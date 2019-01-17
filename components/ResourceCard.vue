@@ -4,7 +4,7 @@
       center
       fluid
       class="m-4 resource__image"
-      :src="img.src"
+      :src="imgSrc"
       :alt="img.alt"/>
     <h3 class="resource__title">{{ title }}</h3>
     <div class="resource__body">
@@ -13,8 +13,9 @@
     <div class="text-center">
       <b-btn
         class="mt-4 mb-5"
-        :to="link.to"
-        variant="primary-dark">{{ link.text }}</b-btn>
+        target="_blank"
+        :href="fileUrl"
+        variant="primary-dark">Download it Now</b-btn>
     </div>
   </div>
 </template>
@@ -31,23 +32,35 @@ export default {
       type: String,
       default: ""
     },
-    link: {
+    file: {
       type: Object,
       default() {
-        return {
-          to: null,
-          text: "Download it Now"
-        };
+        return {};
       }
     },
     img: {
       type: Object,
       default() {
-        return {
-          src: null,
-          alt: null
-        };
+        return {};
       }
+    }
+  },
+  asyncComputed: {
+    imgSrc() {
+      return this.$axios
+        .$get(this.img.links.related)
+        .then(response => {
+          return response.data.meta.derivatives.resource_image;
+        })
+        .catch(error => console.log(error));
+    },
+    fileUrl() {
+      return this.$axios
+        .$get(this.file.links.related)
+        .then(
+          response => `${process.env.baseURL}${response.data.attributes.url}`
+        )
+        .catch(error => console.log(error));
     }
   }
 };

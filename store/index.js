@@ -25,7 +25,9 @@ const createStore = () => {
         options: []
       },
       states: {},
-      productFeature: {}
+      productFeature: {},
+      pageData: {},
+      sidebarData: {}
     },
     mutations: {
       addPoem(state, payload) {
@@ -48,6 +50,12 @@ const createStore = () => {
       },
       updateProductFeature(state, payload) {
         state.productFeature = payload;
+      },
+      updatePageData(state, payload) {
+        state.pageData = payload;
+      },
+      updateSidebarData(state, payload) {
+        state.sidebarData = payload;
       }
     }
   });
