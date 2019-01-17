@@ -193,6 +193,17 @@
               :more-link="programsMoreLink"
               :programs="programs"/>
           </section>
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
+              id="ResourceCard">Resource Card</h2>
+            <resource-card
+              style="width: 380px;"
+              :title="resourceCard.title"
+              :body="resourceCard.body"
+              :link="resourceCard.link"
+              :img="resourceCard.img"/>
+          </section>
         </main>
       </b-col>
       <b-col
@@ -231,6 +242,7 @@ import SignupBlock from "../components/SignupBlock";
 import TeachingIntro from "~/components/TeachingIntro";
 import VideoBlock from "~/components/VideoBlock";
 import * as _ from "lodash";
+import ResourceCard from "~/components/ResourceCard";
 
 export default {
   head: {
@@ -251,7 +263,8 @@ export default {
     CalloutCard,
     SignupBlock,
     LessonPlanCard,
-    VideoBlock
+    VideoBlock,
+    ResourceCard
   },
   computed: {
     buttons() {
@@ -344,6 +357,11 @@ export default {
         {
           title: "Programs",
           anchor: "#Programs"
+        },
+
+        {
+          title: "Resource Card",
+          anchor: "#ResourceCard"
         }
       ];
     }
@@ -811,7 +829,20 @@ And as for the bucket, Nantucket.`,
           body:
             "Since 1934, the Academy of American Poets has provided visibility and financial support to poets demonstrating artistic excellence. Guidelines and entry forms are provided, where applicable. All poets who receive an Academy of American Poets Prize are strongly promoted, including features in American Poets magazine, on social media, and, of course, on Poets.org."
         }
-      ]
+      ],
+      resourceCard: {
+        title: "Poetry in the Classroom Calendar",
+        body:
+          "Take a look at our brand-new Poetry in the Classroom Calendar, a downloadable, interactive PDF designed to inspire ideas for teaching poetry throughout each month, with links to related lesson plans, activities, and other resources.",
+        link: {
+          to: "/blah",
+          text: "Download it Now"
+        },
+        img: {
+          src: "https://placekitten.com/277/372",
+          alt: "A cute kitten"
+        }
+      }
     };
   }
 };
