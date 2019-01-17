@@ -20,7 +20,7 @@
         >{{ this.heading }}</h1>
         <p
           v-if="this.lead"
-          class="lead mb-3"
+          class="lead mb-3 font-serif-2"
         >{{ this.lead }}</p>
         <div
           class="hero__subtext"
@@ -105,7 +105,6 @@ export default {
 }
 
 .lead {
-  font-family: $font-family-serif;
   font-size: 1.2rem;
   line-height: 1.75rem;
 }
