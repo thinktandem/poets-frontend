@@ -1,5 +1,16 @@
 <template>
   <div>
+    <b-container
+      fluid
+      class="libraries__poets-deck">
+      <CardDeck
+        title="Poets"
+        cardtype="Poet"
+        cols="4"
+        :cards="poets"
+        :link="poetsLink"
+      />
+    </b-container>
     <b-container>
       <CardDeck
         title="Texts"
@@ -30,6 +41,11 @@ export default {
   },
   data() {
     return {
+      poets: {},
+      poetsLink: {
+        to: "/poetsorg/poet",
+        text: "0"
+      },
       texts: {},
       textsLink: {
         to: "/poetsorg/text",
@@ -43,6 +59,20 @@ export default {
     };
   },
   async asyncData({ app, store, params }) {
+    let poets = await app.$axios
+      .get("/api/libraries_featured_poets", {})
+      .then(res => {
+        return {
+          rows: res.data.rows,
+          poetsLink: {
+            to: "/poetsorg/poet",
+            text: res.data.pager.total_items
+          }
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
     let texts = await app.$axios
       .get("/api/texts", {})
       .then(res => {
@@ -73,6 +103,8 @@ export default {
       });
 
     return {
+      poets: poets.rows,
+      poetsLink: poets.poetsLink,
       texts: texts.rows,
       textsLink: texts.textsLink,
       books: books.rows,
