@@ -32,24 +32,29 @@
         class="p-1"
         role="tab">
         <b-container>
-          <b-row>
+          <b-row
+            v-b-toggle="`accordion${i}`"
+          >
             <b-col
               class="npm__event-row-date"
-              lg="3">
+              xl="3"
+              lg="12">
               {{ event.field_event_date }}
             </b-col>
-            <b-col lg="6">
+            <b-col
+              xl="6"
+              lg="12">
               <div
                 v-html="event.title"
                 class="npm__news-row-title"
                 block
                 href="#"
-                v-b-toggle="`accordion${i}`"
                 variant="info"/>
             </b-col>
             <b-col
               class="npm__event-row-location"
-              lg="3">
+              xl="3"
+              lg="12">
               <span class="span-location">{{ event.nothing }}</span>
               <span class="plus"> + </span>
             </b-col>
@@ -98,6 +103,9 @@ export default {
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 500;
+  @media (max-width: 1200px) {
+    display: none;
+  }
 }
 h3 {
   font-family: "Poets Electric";
@@ -105,6 +113,7 @@ h3 {
   font-style: italic;
 }
 .npm__events {
+  font-family: "Founders Grotesk Text";
   border-bottom: 1px solid var(--gray-600);
 }
 .npm__event-row-date {
@@ -115,6 +124,10 @@ h3 {
 }
 .npm__news-row-title {
   color: var(--blue-dark);
+  font-weight: 600;
+  @media (max-width: 1200px) {
+    padding-top: 16px;
+  }
 }
 .npm__event-row-location {
   postition: relative;
