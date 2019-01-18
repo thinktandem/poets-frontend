@@ -62,8 +62,8 @@ export default {
   },
   props: {
     news: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     }
   }
 };
