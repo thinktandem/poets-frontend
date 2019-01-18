@@ -1,5 +1,14 @@
 <template>
   <div>
+    <b-container>
+      <CardDeck
+        title="Poems"
+        cardtype="PoemCard"
+        cols="4"
+        :cards="poems"
+        :link="poemsLink"
+      />
+    </b-container>
     <b-container
       fluid
       class="libraries__poets-deck">
@@ -59,6 +68,20 @@ export default {
     };
   },
   async asyncData({ app, store, params }) {
+    let poems = await app.$axios
+      .get("/api/libraries_featured_poems", {})
+      .then(res => {
+        return {
+          rows: res.data.rows,
+          poemsLink: {
+            to: "/poetsorg/poem",
+            text: res.data.pager.total_items
+          }
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
     let poets = await app.$axios
       .get("/api/libraries_featured_poets", {})
       .then(res => {
@@ -103,6 +126,8 @@ export default {
       });
 
     return {
+      poems: poems.rows,
+      poemsLink: poems.poemsLink,
       poets: poets.rows,
       poetsLink: poets.poetsLink,
       texts: texts.rows,

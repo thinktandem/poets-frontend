@@ -7,12 +7,11 @@
   >
     <h3 class="card-title">
       <b-link
+        v-html="title"
         class="text-dark"
         :to="link"
         itemprop="title"
-      >
-        {{ title }}
-      </b-link>
+      />
     </h3>
     <div
       class="card__body card__body--fade font-serif-2"
