@@ -51,9 +51,8 @@ export default {
       default: "/"
     },
     field_image: {
-      type: Object,
-      default: () => {},
-      src: ""
+      type: String,
+      default: ""
     }
   }
 };
