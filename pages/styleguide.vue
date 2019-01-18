@@ -233,7 +233,7 @@ import AppAnnouncements from "~/components/AppAnnouncements";
 import AppMediaList from "~/components/AppMediaList";
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
-import Poet from "~/components/Poet";
+import Poet from "~/components/Libraries/Poet";
 import CardDeck from "~/components/CardDeck";
 import CalloutCard from "~/components/CalloutCard";
 import StyleguideForm from "~/components/Form/StyleguideForm";
