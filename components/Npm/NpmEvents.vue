@@ -66,9 +66,46 @@
         accordion="my-accordion"
         role="tabpanel">
         <b-card-body>
-          <div
-            v-html="event.body"
-            class="npm__event-row-body card-text"/>
+          <b-container>
+            <b-row>
+              <b-col
+                xl="8"
+                lg="12"
+              >
+                <div
+                  v-html="event.body"
+                  class="npm__event-row-body card-text"/>
+              </b-col>
+              <b-col
+                xl="4"
+                lg="12"
+              >
+                <div class="expanded-time">
+                  {{ event.time }}<br>
+                  -- SOME Theater --
+                </div>
+                <div class="expanded-address">
+                  -- Place --<br>
+                  -- 111 Some street --<br>
+                  -- 09987 New York, New York ---
+                </div>
+                <div class="expanded-register-botton">
+                  <b-button class="register-button">
+                    Register
+                  </b-button>
+                </div>
+                <div class="expanded-share">
+                  share this event
+                  <PoemActions
+                    :poem="{
+                      alias: event.view_node,
+                      title: event.title
+                    }"
+                  />
+                </div>
+              </b-col>
+            </b-row>
+          </b-container>
         </b-card-body>
       </b-collapse>
     </b-card>
@@ -82,15 +119,17 @@
 </template>
 <script>
 import TwitterIcon from "~/static/social/twitter-just-bird.svg";
+import PoemActions from "~/components/PoemActions";
 
 export default {
   components: {
-    TwitterIcon
+    TwitterIcon,
+    PoemActions
   },
   props: {
     events: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     }
   }
 };
@@ -145,6 +184,18 @@ h3 {
 }
 .npm__event-row-body {
   font-weight: 400;
+}
+.expanded-time {
+  font-weight: 600;
+}
+.register-button {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  background-color: var(--blue-dark);
+  border: var(--blue-dark);
+}
+.expanded-share {
+  font-weight: 600;
 }
 .npm__events-more-link {
   font-size: 20px;
