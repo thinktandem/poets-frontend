@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LibNav/>
     <b-container>
       <CardDeck
         title="Poems"
@@ -42,10 +43,12 @@
 </template>
 
 <script>
+import LibNav from "~/components/Libraries/LibNav";
 import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
+    LibNav,
     CardDeck
   },
   data() {
