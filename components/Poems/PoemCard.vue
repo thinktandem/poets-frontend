@@ -41,8 +41,8 @@ export default {
       default: ""
     },
     poet: {
-      type: Object,
-      default: function() {}
+      type: String,
+      default: ""
     },
     year: {
       type: String,

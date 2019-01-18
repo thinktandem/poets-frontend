@@ -53,8 +53,8 @@ export default {
       default: ""
     },
     link: {
-      type: Object,
-      default: function() {}
+      type: String,
+      default: "#"
     }
   }
 };
