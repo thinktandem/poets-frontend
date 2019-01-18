@@ -45,6 +45,10 @@ export default {
     view_node: {
       type: String,
       default: ""
+    },
+    numTexts: {
+      type: String,
+      default: "0"
     }
   }
 };
