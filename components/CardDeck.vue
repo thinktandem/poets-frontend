@@ -39,13 +39,13 @@
 // Import all the cards that might need to be used in a deck.
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
-import Poet from "~/components/Poet";
+import Poet from "~/components/Libraries/Poet";
 import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
 import EssayCard from "~/components/EssayCard";
-import BookCard from "~/components/BookCard";
+import BookCard from "~/components/Libraries/BookCard";
 import CalloutCard from "./CalloutCard";
-import TextCard from "~/components/TextCard";
+import TextCard from "~/components/Libraries/TextCard";
 
 export default {
   components: {
