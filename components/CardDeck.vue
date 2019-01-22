@@ -12,7 +12,7 @@
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
             v-if="link"
-            :to="link.to"
+            :href="link.to"
           >{{ link.text }}</b-link>
         </b-col>
       </b-row>
