@@ -9,38 +9,38 @@
       tabs
     >
       <b-nav-item
-        to="/libraries"
+        href="/libraries"
         active
       >
         Library
       </b-nav-item>
       <b-nav-item
-        to="poetsorg/poem"
+        href="poetsorg/poem"
       >
         Poems
       </b-nav-item>
       <b-nav-item
-        to="/poetsorg/poet"
+        href="/poetsorg/poet"
       >
         Poets
       </b-nav-item>
       <b-nav-item
-        to="/poetsorg/text"
+        href="/poetsorg/text"
       >
         Texts
       </b-nav-item>
       <b-nav-item
-        to="/poetsorg/book"
+        href="/poetsorg/book"
       >
         Books
       </b-nav-item>
       <b-nav-item
-        to="/poetsorg/audio"
+        href="/poetsorg/audio"
       >
         Audio
       </b-nav-item>
       <b-nav-item
-        to="poetsorg/video"
+        href="poetsorg/video"
       >
         Video
       </b-nav-item>
@@ -62,15 +62,18 @@ export default {
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 .lib-nav-container {
+  margin-top: -2px;
   background-color: var(--gray-900);
   min-height: 42px;
-  position: relative;
-  top: -2px;
+}
+.nav-tabs {
+  border-bottom: none;
 }
 .lib-nav {
   .nav-item {
     padding-left: 12px;
     padding-right: 12px;
+    border-bottom: none;
     a {
       color: var(--white);
     }
