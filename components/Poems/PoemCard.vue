@@ -9,7 +9,7 @@
       <b-link
         v-html="title"
         class="text-dark"
-        :to="link"
+        :href="link"
         itemprop="title"
       />
     </h3>
