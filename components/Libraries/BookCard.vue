@@ -3,18 +3,21 @@
     class="card--book"
     tag="article"
   >
-    <b-img
+    <b-link
+      :href="view_node_1"
       slot="header"
-      fluid
-      :src="baseurl + field_image"
-    />
+    >
+      <b-img
+        fluid
+        :src="baseurl + field_image"
+      />
+    </b-link>
     <h3 class="card-title">
       <b-link
-        :to="view_node_1"
+        v-html="title"
+        :href="view_node_1"
         itemprop="title"
-      >
-        {{ title }}
-      </b-link>
+      />
     </h3>
     <div class="card--book__author-year">
       {{ field_author }} <span v-if="field_date_published"> - {{ field_date_published }}</span>
@@ -70,9 +73,11 @@ export default {
 
   .card-header {
     padding: 0;
-    border: 5px solid #f0f2f5;
-    border-bottom: none;
     background-color: transparent;
+    @media (min-width: 560px) {
+      border: 5px solid #f0f2f5;
+      border-bottom: none;
+    }
   }
 
   .card-title {
