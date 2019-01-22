@@ -79,6 +79,7 @@
               <b-col
                 xl="4"
                 lg="12"
+                class="npm__event-expanded-location-data"
               >
                 <div class="expanded-time">
                   {{ event.time }}<br>
@@ -184,6 +185,9 @@ h3 {
 }
 .npm__event-row-body {
   font-weight: 400;
+}
+.npm__event-expanded-location-data {
+  font-size: 12px;
 }
 .expanded-time {
   font-weight: 600;
