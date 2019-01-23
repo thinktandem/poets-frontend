@@ -74,7 +74,7 @@ export default {
   .card-header {
     padding: 0;
     background-color: transparent;
-    @media (min-width: 560px) {
+    @media (min-width: 768px) {
       border: 5px solid #f0f2f5;
       border-bottom: none;
     }
