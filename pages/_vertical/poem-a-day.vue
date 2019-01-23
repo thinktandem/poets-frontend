@@ -10,10 +10,40 @@
           Previous Poems
         </h3>
       </b-row>
-      <app-table
-        :items="results"
-        :fields="fields"
-        sort-by="date"/>
+      <b-row class="tabular-list__row tabular-list__header">
+        <b-col md="2">
+          Date
+        </b-col>
+        <b-col md="6">
+          Title
+        </b-col>
+        <b-col md="4">
+          Poet
+        </b-col>
+      </b-row>
+      <b-row
+        v-for="(poem, i) in results"
+        :key="`poem-${i}`"
+        class="tabular-list__row"
+      >
+        <b-col
+          md="2"
+          class="date"
+        >
+          {{ poem.field_poem_of_the_day_date }}
+        </b-col>
+        <b-col
+          md="6"
+          class="poem-title"
+        >
+          <a
+            v-html="poem.title"
+            :href="poem.view_node"/>
+        </b-col>
+        <b-col md="4">
+          {{ poem.field_author }}
+        </b-col>
+      </b-row>
       <div class="pager">
         <ul
           role="menubar"
@@ -138,42 +168,43 @@ export default {
   data() {
     return {
       results: null,
-      fields: [
-        {
-          key: "date",
-          label: "date",
-          sortable: true,
-          sortDirection: "desc",
-          tdClass: "text-secondary previous-poems__date"
-        },
-        {
-          key: "title",
-          label: "title",
-          tdClass: "font-serif previous-poems__title"
-        },
-        {
-          key: "poet",
-          label: "poet",
-          tdClass: "previous-poems__poet"
-        }
-      ],
+      // fields: [
+      //   {
+      //     key: "date",
+      //     label: "date",
+      //     sortable: true,
+      //     sortDirection: "desc",
+      //     tdClass: "text-secondary previous-poems__date"
+      //   },
+      //   {
+      //     key: "title",
+      //     label: "title",
+      //     tdClass: "font-serif previous-poems__title"
+      //   },
+      //   {
+      //     key: "poet",
+      //     label: "poet",
+      //     tdClass: "previous-poems__poet"
+      //   }
+      // ],
       Prev: null,
       Next: null
     };
   },
   async asyncData({ app, params, query }) {
     const url = "/api/previous-poems";
-    return searchHelpers.getSearchResults(url, app, query).then(response => {
-      return Object.assign(response, {
-        results: _.map(response.results, result => {
-          return {
-            date: result.field_poem_of_the_day_date,
-            title: result.title,
-            poet: result.field_author
-          };
-        })
-      });
-    });
+    return searchHelpers.getSearchResults(url, app, query);
+    // .then(response => {
+    //  return Object.assign(response, {
+    //    results: _.map(response.results, result => {
+    //      return {
+    //        date: result.field_poem_of_the_day_date,
+    //        title: result.title,
+    //        poet: result.field_author
+    //      };
+    //    })
+    //  });
+    //  });
   },
   async fetch({ app, store, params }) {
     // Fetch all poems with poem a day date somewhere today.
@@ -214,6 +245,17 @@ export default {
   h3 {
     font-size: 1.9rem;
     line-height: 1.9rem;
+  }
+  .tabular-list__header {
+    background-color: #f2f8fa;
+    text-transform: uppercase;
+    font-weight: 560;
+  }
+  .date {
+    color: var(--red-dark);
+  }
+  .poem-title a {
+    color: var(--gray-800);
   }
 }
 </style>
