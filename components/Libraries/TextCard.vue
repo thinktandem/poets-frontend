@@ -5,18 +5,17 @@
     tag="article"
     :link="numTexts"
   >
-    <h3 class="card-title">
-      <b-link
-        :to="view_node"
-        itemprop="title"
-      >
-        {{ title }}
-      </b-link>
-    </h3>
     <div
       v-html="field_texttype"
       class="card--lesson-plan__header"
     />
+    <h3 class="card-title">
+      <b-link
+        v-html="title"
+        :href="view_node"
+        itemprop="title"
+      />
+    </h3>
     <div class="card-footer">
       <p class="card--lesson-plan__meta">{{ field_contributors }}</p>
       <p class="card--lesson-plan__level">{{ field_date_published }}</p>
@@ -57,6 +56,11 @@ export default {
 <style scoped lang="scss">
 .card--lesson-plan {
   border-color: var(--tertiary-orange);
+  .card--lesson-plan__header {
+    margin-bottom: 8px;
+    color: var(--gray-700);
+    font-weight: 200;
+  }
   .card-title {
     a {
       color: var(--gray-900);
