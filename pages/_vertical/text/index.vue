@@ -20,7 +20,10 @@
                   size="22"
                   placeholder="Search title or text ..."
                 />
-                <b-btn class="btn-primary">
+                <b-btn
+                  class="btn-primary"
+                  @submit.stop.prevent="applyFilters"
+                >
                   <iconSearch />
                 </b-btn>
               </div>
