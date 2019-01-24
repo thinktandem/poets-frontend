@@ -3,13 +3,13 @@
     <b-container class="py-5">
       <b-row>
         <b-col xl="12">
-          <h1>{{ text.attributes.title }}</h1>
+          <h1>{{ book.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="text.attributes.body.value"
-          class="text__body"
+          v-html="book.attributes.body.value"
+          class="book__body"
           xl="12"/>
       </b-row>
     </b-container>
@@ -22,16 +22,15 @@ export default {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: `${params.vertical}/text/${params.title}`
+          path: `${params.vertical}/book/${params.title}`
         }
       })
       .then(res => {
         return app.$axios
-          .get(`/api/node/texts/${res.data.entity.uuid}`)
+          .get(`/api/node/books/${res.data.entity.uuid}`)
           .then(res => {
-            console.log("\n\nres.data.data??????\n\n", res.data.data);
             return {
-              text: res.data.data
+              book: res.data.data
             };
           })
           .catch(err => {
@@ -46,7 +45,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.text__body {
+.book__body {
   font-weight: 400;
   font-size: 1.2em;
 }
