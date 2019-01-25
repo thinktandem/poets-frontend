@@ -31,13 +31,13 @@
     </b-container>
     <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
+        <b-col md="3">
           Year
         </b-col>
-        <b-col md="4">
+        <b-col md="6">
           Title
         </b-col>
-        <b-col md="4">
+        <b-col md="3">
           Author
         </b-col>
       </b-row>
@@ -46,19 +46,19 @@
         class="tabular-list__row poems-list__poems"
         :key="poem.id"
       >
-        <b-col md="4">
+        <b-col md="3">
           {{ poem.field_date_published }}
         </b-col>
-        <b-col md="4">
+        <b-col md="6">
           <b-link
             class="poem__link"
             :to="poem.view_node"
             v-html="poem.title"
           />
         </b-col>
-        <b-col md="4">
-          {{ poem.field_author }}
-        </b-col>
+        <b-col
+          v-html="poem.field_author"
+          md="2"/>
       </b-row>
       <div class="pager">
         <ul
