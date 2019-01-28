@@ -7,7 +7,7 @@
       <use xlink:href="#a"/>
     </mask>
     <use fill="#212B36" xlink:href="#a"/>
-    <g mask="url(#b)" fill="#00B4F0">
+    <g mask="url(#b)" fill="#007ab3">
       <rect width="30" height="30" rx="4"/>
     </g>
   </g>

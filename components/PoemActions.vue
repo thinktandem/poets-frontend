@@ -7,36 +7,36 @@
         <b-link
           target="_blank"
           :href="facebookUrl">
-          <FacebookIcon class="icon"/>
+          <img src="/social/facebook.svg">
         </b-link>
       </li>
       <li class="pr-2">
         <b-link
           target="_blank"
           :href="twitterUrl">
-          <TwitterIcon class="icon"/>
+          <img src="/social/twitter.svg">
         </b-link>
       </li>
       <li class="pr-2">
         <b-link
-          target="_blank" 
+          target="_blank"
           :href="tumblrUrl">
-          <TumblrIcon class="icon"/>
+          <img src="/social/tumblr.svg">
         </b-link>
       </li>
       <li class="pr-2">
         <b-link @click="print()">
-          <PrintIcon class="icon"/>
+          <img src="/social/print.svg">
         </b-link>
       </li>
       <li class="pr-2">
         <b-link v-b-modal.poemEmbedModal>
-          <EmbedIcon class="icon"/>
+          <img src="/social/embed.svg">
         </b-link>
       </li>
       <li class="pr-2">
         <b-link>
-          <CollectionIcon class="icon"/>
+          <img src="/social/collection.svg">
         </b-link>
       </li>
     </ul>
@@ -152,15 +152,8 @@ ul {
 li {
   list-style: none;
 }
-.dark {
-  .icon g {
-    fill: $blue-dark;
-  }
-}
-.light {
-  .icon g {
-    fill: $blue;
-  }
+li img {
+  margin: 6px;
 }
 @include media-breakpoint-up(md) {
   .vertical {
