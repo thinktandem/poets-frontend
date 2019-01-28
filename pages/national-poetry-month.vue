@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="npm__news-and-events">
     <b-container>
       <b-row>
         <b-col lg="6">
@@ -121,6 +121,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.npm__news-and-events {
+  margin-top: 64px;
+}
 .npm__tweets-container {
   margin-top: 26px;
   margin-bottom: 32px;
