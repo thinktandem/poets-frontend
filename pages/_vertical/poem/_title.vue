@@ -244,9 +244,6 @@ export default {
           relatedPoemsRequest
         ],
         {
-          params: {
-            _format: "json"
-          },
           headers: {
             Accept: "application/vnd.api+json",
             "Content-Type": "application/json"

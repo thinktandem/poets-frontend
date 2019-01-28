@@ -20,8 +20,8 @@
         <b-col
           cols="12"
           :md="cols"
-          v-for="card in cards"
-          :key="card.id"
+          v-for="(card, index) in cards"
+          :key="index"
           class="card-deck__card"
         >
           <component

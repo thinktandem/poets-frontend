@@ -34,9 +34,7 @@ export default {
   async fetch({ app, store, params }) {
     // Fetch all poems with poem a day date somewhere today.
     const poemOfTheDayResponse = await app.$axios.$get("/poem-a-day", {
-      params: {
-        _format: "json"
-      }
+      params: {}
     });
     const theOnePoemOfTheDay = _.first(poemOfTheDayResponse);
     store.commit("updatePoemOfTheDay", {

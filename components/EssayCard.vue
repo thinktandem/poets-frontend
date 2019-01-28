@@ -1,32 +1,36 @@
 <template>
   <b-card
     class="card--essay"
-    :title="title"
     tag="article"
-    title-tag="h3"
     itemscope
     itemtype="http://schema.org/Article"
+    no-body
   >
-    <span
-      class="card__title"
-      itemprop="title"
-    >
-      {{ title }}
-    </span>
-    <div
-      class="card__body card__body--fade"
-      v-html="text"
-    />
-    <div class="card-footer">
-      <p
-        class="card__name"
-        itemprop="author"
-      >{{ poet.name }}</p>
-      <p
-        class="card__year"
-        itemprop="datePublished"
-      >{{ year }}</p>
-    </div>
+    <b-card-body class="d-flex justify-content-between flex-column align-content-between">
+      <h3 class="card-title">
+        <b-link
+          class="text-dark"
+          :to="link"
+          itemprop="title"
+        >
+          {{ title }}
+        </b-link>
+      </h3>
+      <div
+        class="card__body card__body--fade"
+        v-html="text"
+      />
+      <div class="card-footer">
+        <p
+          class="card__name"
+          itemprop="author"
+        >{{ author }}</p>
+        <p
+          class="card__year"
+          itemprop="datePublished"
+        >{{ year }}</p>
+      </div>
+    </b-card-body>
   </b-card>
 </template>
 <script>
@@ -36,13 +40,17 @@ export default {
       type: String,
       default: ""
     },
+    link: {
+      type: String,
+      default: ""
+    },
     text: {
       type: String,
       default: ""
     },
-    poet: {
-      type: Object,
-      default: function() {}
+    author: {
+      type: String,
+      default: ""
     },
     year: {
       type: String,

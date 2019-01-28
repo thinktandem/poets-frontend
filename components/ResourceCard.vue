@@ -1,11 +1,15 @@
 <template>
   <div class="resource px-3 bg-white">
-    <b-img-lazy
+    <app-image
       center
       fluid
+      width="277"
+      height="372"
       class="m-4 resource__image"
-      :src="imgSrc"
-      :alt="img.alt"/>
+      image-style="resource_image"
+      :img-src="imgSrc"
+      :img="img"
+    />
     <h3 class="resource__title">{{ title }}</h3>
     <div class="resource__body">
       {{ body }}
@@ -21,8 +25,10 @@
 </template>
 
 <script>
+import AppImage from "~/components/AppImage";
 export default {
   name: "ResourceCard",
+  components: { AppImage },
   props: {
     title: {
       type: String,
@@ -38,29 +44,36 @@ export default {
         return {};
       }
     },
+    fileLink: {
+      type: String,
+      default: ""
+    },
     img: {
       type: Object,
       default() {
         return {};
       }
+    },
+    imgSrc: {
+      type: String,
+      default: ""
     }
   },
   asyncComputed: {
-    imgSrc() {
-      return this.$axios
-        .$get(this.img.links.related)
-        .then(response => {
-          return response.data.meta.derivatives.resource_image;
-        })
-        .catch(error => console.log(error));
-    },
+    /**
+     * If we are given a file link, use it, or fetch from Drupal
+     * @return {$string} The URL for the file.
+     */
     fileUrl() {
-      return this.$axios
-        .$get(this.file.links.related)
-        .then(
-          response => `${process.env.baseURL}${response.data.attributes.url}`
-        )
-        .catch(error => console.log(error));
+      return this.fileLink.length >= 1
+        ? this.fileLink
+        : this.$axios
+            .$get(this.file.links.related)
+            .then(
+              response =>
+                `${process.env.baseURL}${response.data.attributes.url}`
+            )
+            .catch(error => console.log(error));
     }
   }
 };

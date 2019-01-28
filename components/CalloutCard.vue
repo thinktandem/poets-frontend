@@ -2,12 +2,12 @@
   <b-card
     class="card--callout"
     :bg-variant="bg">
-    <b-img
+    <app-image
       class="card--callout__image"
-      :src="img.src"
-      width="110"
-      height="110"
-      blank-color="#00B4F0"/>
+      :img="img"
+      :img-src="imgSrc"
+      image-style="thumbnail"
+      width="110"/>
     <h4
       class="card-title"
       v-if="null !== titleLink">
@@ -18,7 +18,10 @@
       v-else>
       {{ title }}
     </h4>
-    <p class="card-text">{{ text }}</p>
+    <app-teaser-text
+      class="card-text"
+      :length="teaserLength"
+      :text="text"/>
     <div
       slot="footer"
       v-if="null !== action.to">
@@ -43,8 +46,11 @@
 </template>
 
 <script>
+import AppImage from "~/components/AppImage";
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
   name: "CalloutCard",
+  components: { AppImage, AppTeaserText },
   data() {
     return {
       email: ""
@@ -61,15 +67,19 @@ export default {
     },
     img: {
       type: Object,
-      default() {
-        return {
-          src: "/images/bulb-book.png"
-        };
-      }
+      default: null
+    },
+    imgSrc: {
+      type: String,
+      default: ""
     },
     text: {
       type: String,
       default: ""
+    },
+    teaserLength: {
+      type: Number,
+      default: 100
     },
     action: {
       type: Object,
