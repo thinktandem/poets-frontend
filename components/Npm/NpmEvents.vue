@@ -91,7 +91,10 @@
                   -- 09987 New York, New York ---
                 </div>
                 <div class="expanded-register-botton">
-                  <b-button class="register-button">
+                  <b-button
+                    v-if="event.register_link"
+                    :href="event.register_link"
+                    class="register-button">
                     Register
                   </b-button>
                 </div>
