@@ -2,11 +2,11 @@
   <b-card
     class="card--callout"
     :bg-variant="bg">
-    <app-image
+    <b-img-lazy
+      v-if="img !== null"
       class="card--callout__image"
-      :img="img"
-      :img-src="imgSrc"
-      image-style="thumbnail"
+      :src="img.src"
+      :alt="img.alt"
       width="110"/>
     <h4
       class="card-title"
@@ -68,10 +68,6 @@ export default {
     img: {
       type: Object,
       default: null
-    },
-    imgSrc: {
-      type: String,
-      default: ""
     },
     text: {
       type: String,

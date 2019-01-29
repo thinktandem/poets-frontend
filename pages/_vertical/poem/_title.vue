@@ -67,7 +67,7 @@
               class="poet--aside__image">
               <b-img
                 fluid
-                :src="image"/>
+                :src="image.links.poem_a_day_portrait.href"/>
             </div>
             <div
               v-html="poet.body.summary"
@@ -92,7 +92,6 @@
       class="bg-primary"
       title="Related Poems"
       cardtype="PoemCard"
-      :link="buildSectionLink(relatedPoems.response, {field_related_poems: poem.uuid })"
       :cards="relatedPoems.poems"
     />
   </div>
@@ -140,7 +139,8 @@ export default {
           "field_soundcloud_embed_code",
           "path"
         ]
-      }
+      },
+      include: "field_author.field_image,field_related_poems"
     });
 
     const poemRequest = {
@@ -148,150 +148,80 @@ export default {
       requestId: "poem",
       uri: `{{router.body@$.jsonapi.individual}}?${poemParams}`,
       headers: {
-        "Content-Type": "application/vnd.api+json"
+        "Content-Type": "application/json",
+        "X-CONSUMER-ID": process.env.CONSUMER_ID
       },
       waitFor: ["router"]
     };
 
-    const poetParams = qs.stringify({
-      fields: {
-        "node--person": [
-          "title",
-          "body",
-          "field_dob",
-          "field_dod",
-          "field_image",
-          "path"
-        ]
-      }
-    });
-
-    const poetRequest = {
-      action: "view",
-      requestId: "poet",
-      uri: `{{poem.body@$.data.relationships.field_author.links.related}}?${poetParams}`,
-      headers: {
-        "Content-Type": "application/vnd.api+json"
-      },
-      waitFor: ["poem"]
-    };
-
-    const imageRequest = {
-      action: "view",
-      requestId: "file",
-      uri: "{{poet.body@$.data[0].relationships.field_image.links.related}}",
-      headers: {
-        "Content-Type": "application/vnd.api+json"
-      },
-      waitFor: ["poet"]
-    };
-
-    const morePoemParams = qs.stringify({
-      page: {
-        limit: 3
-      },
-      filter: {
-        // Only published
-        status: 1,
-        // NOT the current poem
-        uuid: {
-          operator: "NOT IN",
-          value: "{{poem.body@$.data.id}}"
-        },
-        // Author is this poem's author
-        "field_author.uuid": "{{poet.body@$.data[0].id}}"
-      }
-    });
-
-    const morePoemsRequest = {
-      action: "view",
-      requestId: "more_poems",
-      uri: `/api/node/poems?${morePoemParams}`,
-      headers: {
-        "Content-Type": "application/vnd.api+json"
-      },
-      waitFor: ["poet"]
-    };
-
-    const relatedPoemsParams = qs.stringify({
-      page: {
-        limit: 3
-      },
-      filter: {
-        status: 1
-      }
-    });
-
-    const relatedPoemsRequest = {
-      action: "view",
-      requestId: "related_poems",
-      uri: `{{poem.body@$.data.relationships.field_related_poems.links.related}}?${relatedPoemsParams}`,
-      headers: {
-        "Content-Type": "application/vnd.api+json"
-      },
-      waitFor: ["poem"]
-    };
-
     return app.$axios
-      .$post(
-        "/subrequests",
-        [
-          routerRequest,
-          poemRequest,
-          poetRequest,
-          imageRequest,
-          morePoemsRequest,
-          relatedPoemsRequest
-        ],
-        {
-          headers: {
-            Accept: "application/vnd.api+json",
-            "Content-Type": "application/json"
-          }
+      .$post("/subrequests?_format=json", [routerRequest, poemRequest], {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
         }
-      )
-      .then(response => {
-        const morePoemResponse = JSON.parse(response["more_poems#uri{0}"].body);
-        const relatedPoemResponse = JSON.parse(
-          response["related_poems#uri{0}"].body
+      })
+      .then(async response => {
+        const poem = JSON.parse(response["poem#uri{0}"].body);
+        const poet = _.find(
+          poem.included,
+          include => include.type === "node--person"
+        );
+        const relatedPoems = _.filter(
+          poem.included,
+          include => include.type === "node--poems"
+        );
+        const morePoemParams = qs.stringify({
+          page: {
+            limit: 3
+          },
+          filter: {
+            // Only published
+            status: 1,
+            // NOT the current poem
+            id: {
+              operator: "NOT IN",
+              value: poem.data.id
+            },
+            // Author is this poem's author
+            "field_author.id": poet.id
+          }
+        });
+
+        const morePoems = await app.$axios.$get(
+          `/api/node/poems?${morePoemParams}`
         );
         return {
-          poem: JSON.parse(response["poem#uri{0}"].body).data.attributes,
-          poet: JSON.parse(response["poet#uri{0}"].body).data[0].attributes,
-          image: _.has(
-            JSON.parse(response["file#uri{0}"].body).data[0],
-            "attributes"
-          )
-            ? `${env.baseURL}${
-                JSON.parse(response["file#uri{0}"].body).data[0].attributes.url
-              }`
-            : null,
+          response: poem,
+          poem: poem.data.attributes,
+          poet: poet.attributes,
+          image: _.find(
+            poem.included,
+            include => include.type === "file--file"
+          ),
           morePoems: {
-            response: morePoemResponse,
-            poems: _.map(morePoemResponse.data, poem => {
+            response: morePoems,
+            poems: _.map(morePoems.data, poem => {
               return {
                 link: poem.attributes.path.alias,
                 title: poem.attributes.title,
                 text: poem.attributes.body.processed,
                 year: poem.attributes.field_copyright_date.split("-")[0],
                 poet: {
-                  name: JSON.parse(response["poet#uri{0}"].body).data[0]
-                    .attributes.title
+                  name: poet.attributes.title
                 }
               };
             })
           },
           relatedPoems: {
-            response: relatedPoemResponse,
-            poems: _.map(relatedPoemResponse.data, poem => {
+            poems: _.map(relatedPoems, poem => {
               return {
                 link: poem.attributes.path.alias,
                 title: poem.attributes.title,
                 text: poem.attributes.body.processed,
                 year: poem.attributes.field_copyright_date.split("-")[0],
                 poet: {
-                  name: JSON.parse(response["poet#uri{0}"].body).data[0]
-                    .attributes.title
+                  name: poet.attributes.title
                 }
               };
             })

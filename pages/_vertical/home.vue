@@ -16,17 +16,16 @@ export default {
   },
   async asyncData({ app, params, query }) {
     const programRequestParams = qs.stringify({
-      _format: "json",
       filter: {
         field_program: 1
-      }
+      },
+      include: "field_image"
     });
     const announcementRequestParams = qs.stringify({
-      _format: "json",
       filter: {
         // Hard coded ID for announcement story type
         // @todo do some magic to make this dynamic
-        field_story_type: 8
+        "field_story_type.tid": 8
       },
       sort: {
         created: {
@@ -51,19 +50,23 @@ export default {
             },
             programs: _.map(response.data, item => {
               return {
+                item,
                 title: item.attributes.title,
                 titleLink: item.attributes.path.alias,
                 body: item.attributes.body.processed,
-                img: {
-                  alt:
-                    item.relationships.field_image.data.length >= 1
-                      ? item.relationships.field_image.data[0].meta.alt
-                      : null,
-                  id:
-                    item.relationships.field_image.data.length >= 1
-                      ? item.relationships.field_image.data[0].id
-                      : null
-                }
+                img:
+                  item.relationships.field_image.data.length >= 1
+                    ? {
+                        src: _.find(
+                          response.included,
+                          include =>
+                            include.id ===
+                            item.relationships.field_image.data[0].id
+                        ).links.media_aside.href,
+                        alt:
+                          item.relationships.field_image.data[0].meta.alt || ""
+                      }
+                    : null
               };
             })
           }

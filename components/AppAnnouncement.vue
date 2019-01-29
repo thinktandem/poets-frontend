@@ -5,7 +5,7 @@
     <div 
       class="announcement__date pb-2" 
       v-if="null !== date">
-      {{ formattedDate }}
+      {{ date }}
     </div>
     <div 
       class="announcement__text" 
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import moment from "moment";
 export default {
   name: "AppAnnouncement",
   props: {
@@ -41,9 +40,6 @@ export default {
     }
   },
   computed: {
-    formattedDate() {
-      return moment.unix(this.date).format("MMM D, YYYY");
-    },
     teaserText() {
       return this.body.length > 300
         ? `${this.body.substr(0, this.body.lastIndexOf(" ", 222))}...`

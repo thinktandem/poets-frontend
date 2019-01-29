@@ -3,9 +3,9 @@
     class="mb-4"
     :tag="tag">
     <b-img-lazy
-      :blank-src="null"
+      v-if="img !== null"
       slot="aside"
-      :src="imgSrc"
+      :src="img.src"
       :alt="img.alt"/>
     <component
       v-if="null !== title"
@@ -45,22 +45,7 @@ export default {
     },
     img: {
       type: Object,
-      default() {
-        return {
-          id: "",
-          alt: "Program Image"
-        };
-      }
-    }
-  },
-  asyncComputed: {
-    imgSrc() {
-      return this.$axios
-        .$get(`/api/file/file/${this.img.id}`)
-        .then(response => {
-          return response.data.meta.derivatives.media_aside;
-        })
-        .catch(error => console.log(error));
+      default: null
     }
   }
 };

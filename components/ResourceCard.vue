@@ -1,20 +1,22 @@
 <template>
   <div class="resource px-3 bg-white">
-    <app-image
+    <b-img-lazy
+      v-if="img !== null"
       center
       fluid
       width="277"
       height="372"
       class="m-4 resource__image"
-      image-style="resource_image"
-      :img-src="imgSrc"
-      :img="img"
+      :src="img.src"
+      :alt="img.alt"
     />
     <h3 class="resource__title">{{ title }}</h3>
     <div class="resource__body">
       {{ body }}
     </div>
-    <div class="text-center">
+    <div 
+      class="text-center" 
+      v-if="fileUrl">
       <b-btn
         class="mt-4 mb-5"
         target="_blank"
@@ -50,13 +52,7 @@ export default {
     },
     img: {
       type: Object,
-      default() {
-        return {};
-      }
-    },
-    imgSrc: {
-      type: String,
-      default: ""
+      default: null
     }
   },
   asyncComputed: {

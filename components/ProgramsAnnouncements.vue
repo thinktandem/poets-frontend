@@ -42,7 +42,7 @@ export default {
       }
     },
     announcements: {
-      type: Array,
+      type: Object,
       default: null
     }
   }

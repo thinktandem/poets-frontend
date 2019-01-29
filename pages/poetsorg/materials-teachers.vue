@@ -34,7 +34,7 @@ export default {
         action: {
           text: "Learn More & Sign Up"
         },
-        imgSrc: "/images/bulb-book.png"
+        imgSrc: "images/bulb-book.png"
       }
     };
   },
@@ -48,7 +48,6 @@ export default {
         })
         // Now add in our page specific magic.
         .then(() => {
-          store.commit("updateCallToAction", {});
           const lessonParams = qs.stringify({
             filter: {
               status: 1
@@ -103,10 +102,8 @@ export default {
                   to: "/poetorg/lesson_plans",
                   text: `${lessons.meta.count} Lesson Plans`
                 },
-                data: lessons,
                 cards: _.map(lessons.data, item => {
                   return {
-                    data: item,
                     title: item.attributes.title,
                     link: item.attributes.path.alias,
                     meta: _.find(
@@ -125,7 +122,6 @@ export default {
               });
               const essays = JSON.parse(response.essays.body);
               return store.commit("updateBottomContent", {
-                data: essays,
                 title: "Essays on Teaching Poetry",
                 cardType: "EssayCard",
                 link: {
@@ -140,7 +136,6 @@ export default {
                       item.relationships.field_contributors.data[0].id
                   );
                   return {
-                    data: item,
                     title: item.attributes.title,
                     year: item.attributes.field_date_published.split("-")[0],
                     poet: { name: "name" },
