@@ -1,15 +1,17 @@
 {
     meta: {
-        createdAt: '2018-12-20T19:00:52.564Z',
+        createdAt: '2019-01-30T16:24:24.651Z',
         host: 'http://apipoetsd8.lndo.site',
         resHumanReadable: true,
     },
     req: {
-        url: '/poem-a-day?_format=json',
+        url: '/poem-a-day',
         method: 'GET',
         headers: {
             accept: 'application/json, text/plain, */*',
             'accept-encoding': 'gzip, deflate',
+            'accept-language': 'en-US,en;q=0.9',
+            'x-consumer-id': 'b2c84c2c-b241-4611-b86e-7cc51801d0a1',
         },
         body: '',
     },
@@ -17,7 +19,7 @@
         status: 200,
         headers: {
             server: [
-                'nginx/1.15.7',
+                'nginx/1.15.8',
             ],
             'content-type': [
                 'application/json',
@@ -29,16 +31,16 @@
                 'close',
             ],
             'x-powered-by': [
-                'PHP/7.2.13',
+                'PHP/7.2.14',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Thu, 20-Dec-2018 20:00:52 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Wed, 30-Jan-2019 17:24:24 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Thu, 20 Dec 2018 19:00:52 GMT',
+                'Wed, 30 Jan 2019 16:24:24 GMT',
             ],
             'x-ua-compatible': [
                 'IE=edge',
@@ -62,6 +64,6 @@
                 'Drupal 8 (https://www.drupal.org)',
             ],
         },
-        body: '[{"poem":{"title":"Harbor Seal","text":"\\u003Cdiv\\u003EShe did not seem\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; focused\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;on any one thing.\\u003C\\/div\\u003E\\u003Cdiv\\u003EShe swam \\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;the river\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;dark mottled face\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;above the surface \\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;her nose \\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;pointed up stream.\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;But \\u0026nbsp; \\u0026nbsp; \\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003Ethen she turned\\u003C\\/div\\u003E\\u003Cdiv\\u003Eher face \\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003Eneck\\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003Efair\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E bare belly\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;to the sky\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;and closed her eyes\\u0026mdash;\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003Eas if to listen\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u0026nbsp;\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;or remember\\u003Cspan style=\\u0022white-space:pre\\u0022\\u003E \\u003C\\/span\\u003E\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;\\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp; \\u0026nbsp;\\u0026nbsp;or memorize.\\u0026nbsp;\\u003C\\/div\\u003E\\u003Cdiv\\u003E\\u0026nbsp;\\u003C\\/div\\u003E","soundcloud":null,"vertical":"Poets.org","uuid":"1c7043e1-298e-4406-8e61-554c9674e48d","alias":"\\/poetsorg\\/poem\\/harbor-seal"},"poet":{"name":"Amanda Hawkins","alias":"\\/poetsorg\\/poet\\/amanda-hawkins","image":"http:\\/\\/apipoetsd8.lndo.site\\/sites\\/default\\/files\\/styles\\/poem_a_day_portrait\\/public\\/images\\/biographies\\/trinas-headshot1.png?itok=clQeKuNN"}}]',
+        body: '[{"poem":{"title":"Untitled","text":"\\u003Cp\\u003EI want to write a poem the birds will understand\\u003Cbr \\/\\u003Eand the snakes and stones\\u003Cbr \\/\\u003Ethe trees with their\\u003Cbr \\/\\u003E\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; secrets and green faces\\u003Cbr \\/\\u003ELet it enchant the dolphins and the whales\\u003Cbr \\/\\u003Ewhen they are courting in the middle of the ocean\\u003Cbr \\/\\u003ELet it talk with the aborigine\\u003Cbr \\/\\u003Ewho knows the moon\\u0026rsquo;s a person in the sky\\u003Cbr \\/\\u003EAnd should it be the last poem in the world\\u003Cbr \\/\\u003Elet it be among the first in worlds we\\u0026rsquo;ve never\\u003Cbr \\/\\u003Eseen\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; where it may talk to rivers\\u003Cbr \\/\\u003Ethere\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; and animals we\\u0026rsquo;ve only\\u003Cbr \\/\\u003Eseen in dreams\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; Let it walk\\u003Cbr \\/\\u003Earound in rooms\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; where\\u003Cbr \\/\\u003EGod\\u0026rsquo;s footprints have remained behind\\u003Cbr \\/\\u003ELet it be something I\\u0026rsquo;ve been unable to imagine here\\u003Cbr \\/\\u003EThere\\u0026rsquo;ll be fish there\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; I may be riding on the\\u003Cbr \\/\\u003E\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp;\\u0026nbsp; back of one today\\u003Cbr \\/\\u003EWill the poem be about the cheetahs and the wind\\u003Cbr \\/\\u003Ewe only see when we\\u0026rsquo;re in love?\\u003C\\/p\\u003E","soundcloud":null,"vertical":"Poets.org","uuid":"2a6a117d-76bd-4110-bb67-73894f6257b5","alias":"\\/poetsorg\\/poem\\/untitled-4","attribution":"\\u003Cp\\u003ECopyright \\u0026copy; 2016 by Maryrose Carroll.\\u0026nbsp;Used by permission of Maryrose Carroll.\\u003C\\/p\\u003E"},"poet":{"name":"Paul Carroll","alias":"\\/poetsorg\\/poet\\/paul-carroll"}}]',
     },
 }
