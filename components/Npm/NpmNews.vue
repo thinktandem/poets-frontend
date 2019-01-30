@@ -9,9 +9,9 @@
     >
       <b-col lg="12">
         <b-container>
-          <b-row>
+          <b-row class="npm__event-row">
             <b-col
-              lg="1">
+              lg="5">
               <div
                 v-if="field_content_sections"
                 class="npm__news-row-image">
@@ -20,10 +20,10 @@
               <div
                 v-else
                 class="npm__news-row-image">
-                <TwitterIcon/>
+                <b-img :src="baseURL + item.field_image"/>
               </div>
             </b-col>
-            <b-col lg="11">
+            <b-col lg="7">
               <div class="npm__news-row-date">
                 {{ item.created }}
               </div>
@@ -54,11 +54,12 @@
   </b-container>
 </template>
 <script>
-import TwitterIcon from "~/static/social/twitter-just-bird.svg";
-
 export default {
-  components: {
-    TwitterIcon
+  components: {},
+  data() {
+    return {
+      baseURL: process.env.baseURL
+    };
   },
   props: {
     news: {
@@ -73,6 +74,9 @@ h3 {
   font-family: "Poets Electric";
   font-weight: 566;
   font-style: italic;
+}
+.npm__event-row {
+  margin-bottom: 16px;
 }
 .npm__news-row-date {
   color: var(--red-dark);
