@@ -16,6 +16,17 @@ export default ({ app }, inject) => {
         return null;
       }
     };
+
+    const getFilePath = item => {
+      if (
+        item.relationships.hasOwnProperty("resource_file") &&
+        item.relationships.resource_file.data !== null
+      ) {
+        return item.relationships.resource_file.data.id;
+      } else {
+        return null;
+      }
+    };
     const routerRequest = {
       requestId: "router",
       action: "view",
@@ -75,7 +86,12 @@ export default ({ app }, inject) => {
                       alt: item.relationships.image.data.meta.alt
                     }
                   : null,
-                file: item.relationships.resource_file,
+                file: getFilePath(item)
+                  ? _.find(
+                      page.included,
+                      include => include.id === getFilePath(item)
+                    )
+                  : null,
                 youtubeId: item.attributes.youtube_id,
                 vimeoId: item.attributes.vimeo_id
               }
@@ -86,7 +102,10 @@ export default ({ app }, inject) => {
         // more than one.
         const signupBlock = {
           component: "SignupBlock",
-          props: {}
+          props: {
+            title: "Monthly Educator Newsletter",
+            text: "Receive monthly updates on lesson plans and more!"
+          }
         };
         // // Javascript is evil, boo side effects!
         if (sidebarData.length >= 1) {

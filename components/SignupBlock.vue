@@ -8,7 +8,7 @@
       {{ title }}
     </div>
     <div class="poem-a-day-sign-up__description text-white">
-      <slot>Receive a new poem in your inbox daily</slot>
+      <p>{{ text }}</p>
     </div>
     <b-form
       @submit.prevent="poemADaySignup">
@@ -81,6 +81,10 @@ export default {
       type: String,
       default: "sign up for poem-a-day"
     },
+    text: {
+      type: String,
+      default: "Receive a new poem in your inbox daily"
+    },
     list: {
       type: String,
       default: "poem-a-day"
@@ -108,16 +112,15 @@ export default {
   width: 100%;
   .poem-a-day-sign-up__title {
     font-family: $font-family-sans-serif;
-    font-size: 26px;
+    font-size: 1.4rem;
     font-weight: 600;
-    padding-bottom: 1rem;
-    line-height: 1.25rem;
+    padding-bottom: $spacer / 2;
+    line-height: 2rem;
   }
   .poem-a-day-sign-up__description {
-    font-size: 14px;
+    font-size: 0.9rem;
     font-weight: 400;
-    line-height: 1.25;
-    padding-bottom: 1rem;
+    line-height: 1.4;
   }
 }
 </style>
