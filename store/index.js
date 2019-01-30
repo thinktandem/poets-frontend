@@ -27,9 +27,18 @@ const createStore = () => {
       states: {},
       productFeature: {},
       pageData: {},
-      sidebarData: {}
+      sidebarData: {},
+      highlightedData: {},
+      relatedContent: {},
+      bottomContent: {}
     },
     mutations: {
+      updateBottomContent(state, payload) {
+        state.bottomContent = payload;
+      },
+      updateRelatedContent(state, payload) {
+        state.relatedContent = payload;
+      },
       addPoem(state, payload) {
         state.poem = payload;
       },
@@ -56,6 +65,12 @@ const createStore = () => {
       },
       updateSidebarData(state, payload) {
         state.sidebarData = payload;
+      },
+      updateHighlightedData(state, payload) {
+        state.highlightedData = payload;
+      },
+      updateMore(state, payload) {
+        state.more = payload;
       }
     }
   });

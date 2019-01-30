@@ -201,8 +201,8 @@
               style="width: 380px;"
               :title="resourceCard.title"
               :body="resourceCard.body"
-              :link="resourceCard.link"
-              :img="resourceCard.img"/>
+              :file-link="resourceCard.fileLink"
+              :img-src="resourceCard.imgSrc"/>
           </section>
         </main>
       </b-col>
@@ -838,10 +838,8 @@ And as for the bucket, Nantucket.`,
           to: "/blah",
           text: "Download it Now"
         },
-        img: {
-          src: "https://placekitten.com/277/372",
-          alt: "A cute kitten"
-        }
+        imgSrc: "https://placekitten.com/277/372",
+        fileLink: "https://google.com"
       }
     };
   }

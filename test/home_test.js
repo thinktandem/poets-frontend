@@ -1,4 +1,4 @@
-Feature("Home");
+Feature("Home").retry(10);
 
 Before(I => {
   I.amOnPage("/");

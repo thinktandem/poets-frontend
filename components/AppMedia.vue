@@ -3,23 +3,25 @@
     class="mb-4"
     :tag="tag">
     <b-img-lazy
-      :blank-src="null"
+      v-if="img !== null"
       slot="aside"
-      :src="imgSrc"
+      :src="img.src"
       :alt="img.alt"/>
     <component
       v-if="null !== title"
       class="media-title"
       :is="titleTag"><b-link :to="titleLink">{{ title }}</b-link></component>
-    <b-media-body 
-      v-if="null !== body" 
-      v-html="teaserText"/>
+    <b-media-body v-if="null !== body">
+      <app-teaser-text :text="body"/>
+    </b-media-body>
   </b-media>
 </template>
 
 <script>
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
   name: "AppMedia",
+  components: { AppTeaserText },
   props: {
     tag: {
       type: String,
@@ -43,27 +45,7 @@ export default {
     },
     img: {
       type: Object,
-      default() {
-        return {
-          id: "",
-          alt: "Program Image"
-        };
-      }
-    }
-  },
-  asyncComputed: {
-    imgSrc() {
-      return this.$axios
-        .$get(`/api/file/file/${this.img.id}`)
-        .then(response => {
-          return response.data.meta.derivatives.media_aside;
-        })
-        .catch(error => console.log(error));
-    },
-    teaserText() {
-      return this.body.length > 300
-        ? `${this.body.substr(0, this.body.lastIndexOf(" ", 364))}...`
-        : this.body;
+      default: null
     }
   }
 };
