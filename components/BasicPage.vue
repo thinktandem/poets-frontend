@@ -1,12 +1,14 @@
 <template>
-  <b-container class="py-5">
+  <b-container class="pt-5">
     <b-row class="basic_page__body">
-      <b-col md="8">
+      <b-col 
+        md="8" 
+        class="pb-2">
         <div
           v-html="body"
           class="pb-4"/>
         <card-deck
-          class="py-3"
+          class="pt-3 pb-1"
           :cards="highlighted"
           cardtype="CalloutCard"
           cols="6"/>
@@ -19,6 +21,7 @@
           :title="callToAction.title"
           :action="callToAction.action"/>
         <card-deck
+          class="pt-5"
           v-if="more !== null"
           cols="6"
           :cardtype="more.cardType"
@@ -28,7 +31,7 @@
       </b-col>
       <b-col
         md="4"
-        class="basic_page__sidebar">
+        class="basic_page__sidebar pb-2">
         <component
           v-for="(item, index) in sidebarData"
           :key="index"

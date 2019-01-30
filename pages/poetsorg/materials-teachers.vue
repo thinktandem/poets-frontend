@@ -6,8 +6,8 @@
       :call-to-action="callToAction"
       :more="$store.state.relatedContent"
       :sidebar-data="$store.state.sidebarData"/>
-
     <card-deck
+      class="py-4"
       :cards="$store.state.bottomContent.cards"
       :cardtype="$store.state.bottomContent.cardType"
       :title="$store.state.bottomContent.title"
@@ -34,6 +34,7 @@ export default {
         action: {
           text: "Learn More & Sign Up"
         },
+        teaserLength: 300,
         img: {
           src: "/images/bulb-book.png",
           alt: "A lightbulb emerging from a book"
@@ -129,7 +130,7 @@ export default {
                 cardType: "EssayCard",
                 link: {
                   to: "/poetorg/texts/teaching-poetry",
-                  text: `${essays.meta.count} essays`
+                  text: `${essays.meta.count} Essays`
                 },
                 cards: _.map(essays.data, item => {
                   let author = _.find(
