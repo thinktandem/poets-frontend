@@ -34,7 +34,10 @@ export default {
         action: {
           text: "Learn More & Sign Up"
         },
-        imgSrc: "images/bulb-book.png"
+        img: {
+          src: "/images/bulb-book.png",
+          alt: "A lightbulb emerging from a book"
+        }
       }
     };
   },

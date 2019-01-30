@@ -13,7 +13,6 @@
         <callout-card
           v-if="callToAction !== null"
           :img="callToAction.img"
-          :img-src="callToAction.imgSrc"
           variant="bold"
           :teaser-length="callToAction.teaserLength"
           :text="callToAction.text"
