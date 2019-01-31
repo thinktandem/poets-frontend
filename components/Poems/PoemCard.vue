@@ -55,3 +55,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.grande {
+  .card-title {
+    font-size: 1.75rem;
+  }
+  .card__body {
+    max-height: 16rem;
+    font-size: 1.25rem;
+  }
+}
+</style>
