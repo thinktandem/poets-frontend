@@ -22,10 +22,7 @@ install: lando start
 script:
   # Run lint and styling checks
   - lando yarn lint
+  # Wait for Nuxt to finish the build
+  - bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' poetsd8.lndo.site)" != "200" ]]; do sleep 5; done'
   # Run end to end tests
   - lando test
-  # Test build processes
-  # We do this outside of lando because that is also what platform.sh does
-  # @todo: these are not currently possible because of linux permission bugs in lando
-  # luckily platform.sh will test the below
-  # - yarn generate
