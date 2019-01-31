@@ -9,7 +9,7 @@
             v-if="count >= 1"
             class="d-flex justify-content-end"><b-link 
               to="/poetsorg/poem"
-              class="text-dark more">{{ count }} poems ></b-link></p>
+              class="text-dark more">{{ count }} poems <i class="fancy-chevron"/> </b-link></p>
         </header>
         <poem-card
           v-if="poems !== null"
@@ -47,6 +47,9 @@ export default {
 .card-columns {
   column-count: 2;
   orphans: 2;
+}
+.fancy-chevron {
+  @include chevron(0.8rem, 3px, 5px);
 }
 @include media-breakpoint-up(lg) {
   h2 {

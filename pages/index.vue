@@ -3,7 +3,7 @@
     <daily-poem
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <section>
+    <section class="bg-faded-img">
       <promo-space variant="transparent"/>
       <featured-poems
         :poems="$store.state.featuredPoems.poems"
@@ -155,5 +155,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.bg-faded-img {
+  background-image: url("/poets-mystery-man.png");
+  background-size: cover;
+}
 </style>
