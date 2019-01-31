@@ -1,5 +1,5 @@
 <template>
-  <section class="py-5">
+  <section class="featured-poems py-5">
     <b-container>
       <h2 class="font-serif ">Poems</h2>
       <b-card-group 
