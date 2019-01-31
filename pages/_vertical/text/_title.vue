@@ -8,18 +8,31 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="text.attributes.body.value"
           class="text__body"
-          xl="12"/>
+          xl="12"
+        >
+          <div v-if="Object.keys(bodyData).length">
+            <div v-html="bodyData.myJson[0]"/>
+            <div>
+              <b-img :src="bodyData.myImg"/>
+            </div>
+            <div v-html="bodyData.endJson"/>
+          </div>
+          <div
+            v-else
+            v-html="staticUrl"/>
+        </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
+import imgUrl from "~/plugins/inlineImagesUrl.js";
+
 export default {
   async asyncData({ app, params }) {
-    return app.$axios
+    const text = await app.$axios
       .get(`/router/translate-path`, {
         params: {
           path: `${params.vertical}/text/${params.title}`
@@ -29,10 +42,7 @@ export default {
         return app.$axios
           .get(`/api/node/texts/${res.data.entity.uuid}`)
           .then(res => {
-            console.log("\n\nres.data.data??????\n\n", res.data.data);
-            return {
-              text: res.data.data
-            };
+            return res.data.data;
           })
           .catch(err => {
             console.log(err);
@@ -41,6 +51,18 @@ export default {
       .catch(err => {
         console.log(err);
       });
+    const bodyData = await imgUrl.imgUrl(text.attributes.body.value, app);
+
+    return {
+      text,
+      bodyData,
+      staticUrl: imgUrl.staticUrl(text.attributes.body.value) || ""
+    };
+  },
+  methods: {
+    staticUrl(content) {
+      return imgUrl.staticUrl(content);
+    }
   }
 };
 </script>
