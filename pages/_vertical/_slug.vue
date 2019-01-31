@@ -1,42 +1,33 @@
 <template>
-  <b-container class="py-5">
-    <b-row class="basic_page__body">
-      <b-col md="8">
-        <div v-html="$store.state.pageData.attributes.body.processed"/>
-      </b-col>
-      <b-col
-        md="4"
-        class="basic_page__sidebar">
-        <component
-          v-for="(item, index) in $store.state.sidebarData"
-          :key="index"
-          :is="item.component"
-          v-bind="item.props"/>
-      </b-col>
-    </b-row>
-  </b-container>
+  <div>
+    <basic-page
+      :body="$store.state.pageData.attributes.body.processed"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <card-deck
+      :cards="$store.state.bottomContent.items"
+      :cardtype="$store.state.bottomContent.cardType"
+      :title="$store.state.bottomContent.title"
+      :link="$store.state.bottomContent.link"/>
+  </div>
 </template>
 
 <script>
-import ProgramsAnnouncements from "~/components/ProgramsAnnouncements";
-import ResourceCard from "~/components/ResourceCard";
-import VideoBlock from "~/components/VideoBlock.vue";
+import BasicPage from "~/components/BasicPage";
+import CardDeck from "~/components/CardDeck";
 import qs from "qs";
 import * as _ from "lodash";
-import SignupBlock from "~/components/SignupBlock";
 export default {
   components: {
-    ProgramsAnnouncements,
-    ResourceCard,
-    SignupBlock,
-    VideoBlock
+    BasicPage,
+    CardDeck
   },
   async fetch({ app, store, params }) {
     // Build an alias path to query
     const routerQuery = qs.stringify({
       path: `${params.vertical}/${params.slug}`
     });
-
     const routerRequest = {
       requestId: "router",
       action: "view",
@@ -44,7 +35,13 @@ export default {
     };
     const pageQuery = qs.stringify({
       fields: {
-        "node--basic_page": ["title", "body", "path", "lead_text"]
+        "node--basic_page": [
+          "title",
+          "body",
+          "path",
+          "lead_text",
+          "related_content"
+        ]
       }
     });
     const pageRequest = {
@@ -97,7 +94,7 @@ export default {
                     item.attributes.body !== null
                       ? item.attributes.body.processed
                       : null,
-                  img: item.relationships.image,
+                  img: item.relationships.image || null,
                   file: item.relationships.resource_file,
                   youtubeId: item.attributes.youtube_id,
                   vimeoId: item.attributes.vimeo_id
@@ -117,6 +114,95 @@ export default {
             } else {
               store.commit("updateSidebarData", [signupBlock]);
             }
+          })
+          .then(() => {
+            // Handle the content in the 'highlighted' area.
+            return app.$axios
+              .$get(page.data.relationships.highlighted_content.links.related)
+              .then(response => {
+                const data = _.map(response.data, item => {
+                  return {
+                    data: item,
+                    title: item.attributes.title,
+                    img: item.relationships.field_image,
+                    text:
+                      item.attributes.body.summary ||
+                      item.attributes.body.processed,
+                    titleLink: item.attributes.path.alias
+                  };
+                });
+                store.commit("updateHighlightedData", data);
+              });
+          })
+          .then(() => {
+            if (page.data.attributes.related_content !== null) {
+              const contentType = page.data.attributes.related_content;
+              const type = contentType == "essay" ? "texts" : contentType;
+              const params = qs.stringify({
+                _format: "json",
+                filter: {
+                  status: 1
+                },
+                page: {
+                  limit: 4
+                }
+              });
+              return app.$axios
+                .$get(`/api/node/${type}?${params}`)
+                .then(response => {
+                  store.commit("updateRelatedContent", {
+                    title: "title",
+                    items: response.data
+                  });
+                });
+            } else {
+              return null;
+            }
+          })
+          .then(() => {
+            if (page.data.attributes.bottom_content !== null) {
+              const contentType = _.first(page.data.attributes.bottom_content);
+              const type = contentType == "essay" ? "texts" : contentType;
+              const params = qs.stringify({
+                _format: "json",
+                filter: {
+                  status: 1
+                },
+                page: {
+                  limit: 3
+                }
+              });
+              return app.$axios
+                .$get(`/api/node/${type}?${params}`)
+                .then(response => {
+                  let payload = {};
+                  switch (contentType) {
+                    case "essay":
+                      payload = {
+                        title: "Essays on Teaching Poetry",
+                        cardType: "EssayCard",
+                        link: {
+                          to: `${params.vertical}/texts/essays`,
+                          text: `${response.meta.count} essays`
+                        },
+                        items: _.map(response.data, item => {
+                          return {
+                            title: item.attributes.title,
+                            link: item.attributes.path.alias,
+                            text: item.attributes.body.processed,
+                            poet: {
+                              name: "placeholder"
+                            },
+                            year: item.attributes.field_date_published
+                          };
+                        })
+                      };
+                  }
+                  store.commit("updateBottomContent", payload);
+                });
+            } else {
+              return null;
+            }
           });
       });
   }
@@ -124,23 +210,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.basic_page__body {
-  font-size: 1.25rem;
-  font-weight: 400;
-}
-
-.basic_page__sidebar {
-  div:first-child {
-    margin-top: 0;
-    margin-bottom: $spacer * 2;
-  }
-  div:last-child {
-    margin-top: $spacer * 2;
-    margin-bottom: 0;
-  }
-  div:not(:first-child):not(:last-child) {
-    margin-top: $spacer * 2;
-    margin-bottom: $spacer * 2;
-  }
-}
 </style>

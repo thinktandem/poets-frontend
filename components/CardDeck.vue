@@ -11,6 +11,7 @@
         >
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
+            class="card-deck__link"
             v-if="link"
             :href="link.to"
           >{{ link.text }}</b-link>
@@ -20,8 +21,8 @@
         <b-col
           cols="12"
           :md="cols"
-          v-for="card in cards"
-          :key="card.id"
+          v-for="(card, index) in cards"
+          :key="index"
           class="card-deck__card"
         >
           <component
@@ -90,8 +91,6 @@ export default {
 
 <style lang="scss">
 .card-deck {
-  padding: 4rem 0;
-
   header {
     @include media-breakpoint-up(sm) {
       display: flex;
@@ -124,6 +123,11 @@ export default {
       margin-left: 0 !important;
       margin-right: 0 !important;
     }
+  }
+  .card-deck__link {
+    font-size: 1.25rem;
+    line-height: 2;
+    font-weight: 500;
   }
 }
 </style>

@@ -1,18 +1,23 @@
 <template>
-  <div class="resource px-3 bg-white">
+  <div class="resource pt-4 px-3 bg-white">
     <b-img-lazy
+      v-if="img !== null"
       center
       fluid
-      class="m-4 resource__image"
-      :src="imgSrc"
-      :alt="img.alt"/>
+      width="277"
+      height="372"
+      class="resource__image mb-4"
+      :src="img.src"
+      :alt="img.alt"
+    />
     <h3 class="resource__title">{{ title }}</h3>
-    <div class="resource__body">
+    <div class="resource__body mb-4">
       {{ body }}
     </div>
-    <div class="text-center">
+    <div 
+      class="text-center mb-4"
+      v-if="fileUrl">
       <b-btn
-        class="mt-4 mb-5"
         target="_blank"
         :href="fileUrl"
         variant="primary-dark">Download it Now</b-btn>
@@ -21,8 +26,10 @@
 </template>
 
 <script>
+import AppImage from "~/components/AppImage";
 export default {
   name: "ResourceCard",
+  components: { AppImage },
   props: {
     title: {
       type: String,
@@ -38,29 +45,29 @@ export default {
         return {};
       }
     },
+    fileLink: {
+      type: String,
+      default: ""
+    },
     img: {
       type: Object,
-      default() {
-        return {};
-      }
+      default: null
     }
   },
   asyncComputed: {
-    imgSrc() {
-      return this.$axios
-        .$get(this.img.links.related)
-        .then(response => {
-          return response.data.meta.derivatives.resource_image;
-        })
-        .catch(error => console.log(error));
-    },
+    /**
+     * If we are given a file link, use it, or fetch from Drupal
+     * @return {$string} The URL for the file.
+     */
     fileUrl() {
-      return this.$axios
-        .$get(this.file.links.related)
-        .then(
-          response => `${process.env.baseURL}${response.data.attributes.url}`
-        )
-        .catch(error => console.log(error));
+      return this.fileLink.length >= 1 ? this.fileLink : this.buildFileUrl();
+    }
+  },
+  methods: {
+    buildFileUrl() {
+      return this.file !== null
+        ? `${process.env.baseURL}${this.file.attributes.uri.url}`
+        : null;
     }
   }
 };

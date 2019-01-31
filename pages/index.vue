@@ -34,9 +34,7 @@ export default {
   async fetch({ app, store, params }) {
     // Fetch all poems with poem a day date somewhere today.
     const poemOfTheDayResponse = await app.$axios.$get("/poem-a-day", {
-      params: {
-        _format: "json"
-      }
+      params: {}
     });
     const theOnePoemOfTheDay = _.first(poemOfTheDayResponse);
     store.commit("updatePoemOfTheDay", {
@@ -69,24 +67,27 @@ export default {
           filter: {
             status: 1,
             promote: 1
-          }
+          },
+          page: {
+            limit: 1
+          },
+          include: "field_image"
         }
       }
     );
     const featuredProduct = _.first(featuredProductResponse.data);
-    const featuredProductImg = await app.$axios.$get(
-      `/api/file/file/${featuredProduct.relationships.field_image.data[0].id}`
-    );
+    let img = _(featuredProductResponse.included)
+      .filter(include => include.type === "file--file")
+      .first();
     store.commit("updateProductFeature", {
+      data: featuredProductResponse,
       title: featuredProduct.attributes.title,
       intro: featuredProduct.attributes.body.processed,
       subTitle: featuredProduct.attributes.subtitle,
       contents: featuredProduct.attributes.contents,
       img: {
-        src: featuredProductImg.data.meta.derivatives.magazine_cover,
-        alt: featuredProduct.relationships.field_image.hasOwnProperty("data")
-          ? featuredProduct.relationships.field_image.data[0].meta.alt
-          : null
+        src: img.links.magazine_cover.href,
+        alt: "Magazine Cover"
       },
       link: {
         to: `/academy-american-poets/become-member`,

@@ -22,7 +22,7 @@
                 v-for="(item, index) in contents"
                 :key="index" >{{ item }}</li>
             </ul>
-            <p class="pl-4">... and much more</p>
+            <p class="pl-4 more">... and much more</p>
             <b-btn
               :to="link.to"
               variant="secondary">{{ link.text }}</b-btn> <span class="pl-2">to receive your copy of American Poets twice a year.</span>
@@ -112,6 +112,9 @@ h2 {
   border-radius: 50%;
   display: inline-block;
   background-color: $orange;
+}
+.more {
+  font-weight: 400;
 }
 .product-feature__image {
   order: 1;
