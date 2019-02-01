@@ -85,7 +85,7 @@ export default {
     }
     a.active {
       background-color: var(--white);
-      color: var(--blue);
+      color: var(--blue) !important;
       padding-bottom: 10px;
       @include media-breakpoint-down(md) {
         background-color: var(--gray-800);
