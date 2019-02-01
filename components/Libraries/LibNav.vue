@@ -1,51 +1,57 @@
 <template>
-  <div
-    class="lib-nav-container"
-    fluid
-    lg="12"
+  <b-navbar
+    class="lib-nav-container shadow-sm d-flex"
+    toggleable="md"
+    type="dark"
+    variant="dark"
   >
-    <b-nav
-      class="lib-nav float-right"
-      tabs
+    <b-navbar-toggle
+      class="border-0 bg-dark-gray"
+      target="nav_collapse"/>
+    <b-collapse
+      is-nav
+      id="nav_collapse"
     >
-      <b-nav-item
-        href="/libraries"
-        active
-      >
-        Library
-      </b-nav-item>
-      <b-nav-item
-        href="poetsorg/poem"
-      >
-        Poems
-      </b-nav-item>
-      <b-nav-item
-        href="/poetsorg/poet"
-      >
-        Poets
-      </b-nav-item>
-      <b-nav-item
-        href="/poetsorg/text"
-      >
-        Texts
-      </b-nav-item>
-      <b-nav-item
-        href="/poetsorg/book"
-      >
-        Books
-      </b-nav-item>
-      <b-nav-item
-        href="/poetsorg/audio"
-      >
-        Audio
-      </b-nav-item>
-      <b-nav-item
-        href="poetsorg/video"
-      >
-        Video
-      </b-nav-item>
-    </b-nav>
-  </div>
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item
+          href="/libraries"
+          active
+        >
+          Library
+        </b-nav-item>
+        <b-nav-item
+          href="poetsorg/poem"
+        >
+          Poems
+        </b-nav-item>
+        <b-nav-item
+          href="/poetsorg/poet"
+        >
+          Poets
+        </b-nav-item>
+        <b-nav-item
+          href="/poetsorg/text"
+        >
+          Texts
+        </b-nav-item>
+        <b-nav-item
+          href="/poetsorg/book"
+        >
+          Books
+        </b-nav-item>
+        <b-nav-item
+          href="/poetsorg/audio"
+        >
+          Audio
+        </b-nav-item>
+        <b-nav-item
+          href="poetsorg/video"
+        >
+          Video
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
@@ -69,16 +75,25 @@ export default {
 .nav-tabs {
   border-bottom: none;
 }
-.lib-nav {
+.navbar-nav {
   .nav-item {
     padding-left: 12px;
     padding-right: 12px;
     border-bottom: none;
-    a {
+    a.nav-link {
       color: var(--white);
     }
     a.active {
+      background-color: var(--white);
       color: var(--blue);
+      padding-bottom: 10px;
+      @include media-breakpoint-down(md) {
+        background-color: var(--gray-800);
+      }
+    }
+    a:hover {
+      background-color: var(--black);
+      color: var(--blue) !important;
     }
   }
 }
