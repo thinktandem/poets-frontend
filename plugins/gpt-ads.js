@@ -7,7 +7,7 @@ export default {
       debug: false,
       individualRefresh: true,
       collapseEmptyDivs: false,
-      size: [[728, 90], [970, 250]],
+      size: [[728, 90], [300, 250]],
       networkCode: "307760595",
       GPT_LIB_SCRIPT_ID: "google-publisher-tag-lib-script",
       GPT_INIT_SCRIPT_ID: "google-publisher-tag-init-script",
