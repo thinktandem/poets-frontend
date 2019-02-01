@@ -34,9 +34,10 @@ export default {
       windowResizeListenerDebounce: null,
       ghostMode: false,
       adUnit: this.whichPromoSpace(),
-      size: [[728, 90]],
-      sizeMapping: [],
+      size: [[728, 90], [300, 250]],
+      sizeMapping: [[[1024, 0], [728, 90]], [[0, 0], [300, 250]]],
       slots: [],
+      responsive: true,
       individualRefresh: true
     };
   },
@@ -56,7 +57,7 @@ export default {
       return `/${networkCode}/${this.whichPromoSpace()}`;
     },
     divId() {
-      const id = this.whichPromoSpace(); // "AAP-Desktop-AmericanPoets-Leaderboard-AD";
+      const id = this.whichPromoSpace();
       return `div-gpt-ad-${id}-0`;
     },
     formattedSize() {
