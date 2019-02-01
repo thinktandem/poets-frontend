@@ -12,11 +12,11 @@
           xl="12"
         >
           <div v-if="Object.keys(bodyData).length">
-            <div v-html="bodyData.myJson[0]"/>
+            <div v-html="bodyPreface"/>
             <div>
               <b-img :src="bodyData.myImg"/>
             </div>
-            <div v-html="bodyData.endJson"/>
+            <div v-html="bodyEnd"/>
           </div>
           <div
             v-else
@@ -56,13 +56,10 @@ export default {
     return {
       text,
       bodyData,
+      bodyPreface: imgUrl.staticUrl(bodyData.myJson[0]),
+      bodyEnd: imgUrl.staticUrl(bodyData.endJson),
       staticUrl: imgUrl.staticUrl(text.attributes.body.value) || ""
     };
-  },
-  methods: {
-    staticUrl(content) {
-      return imgUrl.staticUrl(content);
-    }
   }
 };
 </script>
