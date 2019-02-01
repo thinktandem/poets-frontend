@@ -30,7 +30,8 @@ const createStore = () => {
       sidebarData: {},
       highlightedData: {},
       relatedContent: {},
-      bottomContent: {}
+      bottomContent: {},
+      featuredPoems: {}
     },
     mutations: {
       updateBottomContent(state, payload) {
@@ -71,6 +72,9 @@ const createStore = () => {
       },
       updateMore(state, payload) {
         state.more = payload;
+      },
+      updateFeaturedPoems(state, payload) {
+        state.featuredPoems = payload;
       }
     }
   });

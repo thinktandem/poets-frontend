@@ -13,3 +13,12 @@
     bottom: 0;
   }
 }
+
+@mixin chevron($size, $weight, $offset) {
+  display: inline-block;
+  border-right: $weight solid black;
+  border-bottom: $weight solid black;
+  width: $size;
+  height: $size;
+  transform: translateY(-$offset) rotate(-45deg);
+}

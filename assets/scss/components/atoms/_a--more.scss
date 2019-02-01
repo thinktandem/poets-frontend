@@ -1,10 +1,6 @@
 %a--more {
   color: $body-color;
 
-  &::after {
-    content: " >";
-  }
-
   &:hover,
   &:focus,
   &:active {

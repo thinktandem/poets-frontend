@@ -13,5 +13,12 @@ Scenario("Poem-a-day is available on homepage", I => {
 });
 
 Scenario("Donate button is available on homepage", I => {
-  I.see('Donate');
+  I.see("Donate");
 });
+
+Scenario("Featured Poems are available on homepage", I => {
+  I.seeElement(".featured-poems");
+});
+Scenario("Featured Product is available on homepage", I => {
+  I.seeElement(".product-feature");
+})
