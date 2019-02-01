@@ -14,7 +14,7 @@
             class="card-deck__link"
             v-if="link"
             :href="link.to"
-          >{{ link.text }}</b-link>
+          >{{ link.text }} <i class="fancy-chevron"/></b-link>
         </b-col>
       </b-row>
       <b-row class="card-deck__cards d-flex">
@@ -106,7 +106,9 @@ export default {
       }
     }
   }
-
+  .fancy-chevron {
+    @include chevron(0.5rem, 2px, 2px);
+  }
   .card-deck__title {
     font-family: $font-family-serif;
     font-style: italic;
