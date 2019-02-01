@@ -46,12 +46,19 @@ export default {
     return (
       app
         // Start with the 'basic page' essentials
-        .$buildBasicPage(app, store, {
-          vertical: "poetsorg",
-          slug: "materials-teachers"
-        })
+        .$buildBasicPage(app, store, "poetsorg/materials-teachers")
         // Now add in our page specific magic.
         .then(() => {
+          const signupBlock = {
+            component: "SignupBlock",
+            props: {
+              title: "Monthly Educator Newsletter",
+              text: "Receive monthly updates on lesson plans and more!"
+            }
+          };
+          const sidebar = store.state.sidebarData;
+          sidebar.splice(1, 0, signupBlock);
+          store.commit("updateSidebarData", sidebar);
           const lessonParams = qs.stringify({
             filter: {
               status: 1
@@ -97,7 +104,6 @@ export default {
               }
             })
             .then(response => {
-              // store.commit("updateRelatedContent", response);
               const lessons = JSON.parse(response.lessons.body);
               store.commit("updateRelatedContent", {
                 title: "Lesson Plans",

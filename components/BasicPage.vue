@@ -48,11 +48,13 @@ import CardDeck from "~/components/CardDeck";
 import ResourceCard from "~/components/ResourceCard";
 import VideoBlock from "~/components/VideoBlock";
 import SignupBlock from "~/components/SignupBlock";
+import ImageBlock from "~/components/ImageBlock";
 export default {
   name: "BasicPage",
   components: {
     CalloutCard,
     CardDeck,
+    ImageBlock,
     ResourceCard,
     SignupBlock,
     VideoBlock
@@ -93,7 +95,7 @@ export default {
     margin-top: 0;
     margin-bottom: $spacer * 2;
   }
-  div:last-child {
+  div:last-child:not(:first-child) {
     margin-top: $spacer * 2;
     margin-bottom: 0;
   }

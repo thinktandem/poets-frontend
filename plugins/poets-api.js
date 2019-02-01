@@ -1,12 +1,15 @@
 import * as _ from "lodash";
 export default ({ app }, inject) => {
-  inject("buildBasicPage", (app, store, params) => {
+  inject("buildBasicPage", (app, store, path) => {
     const getImgPath = item => {
       if (
         item.relationships.hasOwnProperty("image") &&
         item.relationships.image.data !== null
       ) {
-        return item.relationships.image.data.target_uuid;
+        return (
+          item.relationships.image.data.target_uuid ||
+          item.relationships.image.data.id
+        );
       } else if (
         item.relationships.hasOwnProperty("field_image") &&
         item.relationships.field_image.data.length >= 1
@@ -27,10 +30,11 @@ export default ({ app }, inject) => {
         return null;
       }
     };
+
     const routerRequest = {
       requestId: "router",
       action: "view",
-      uri: `/router/translate-path?path=${params.vertical}/${params.slug}`
+      uri: `/router/translate-path?path=${path}`
     };
     const pageRequest = {
       requestId: "Page",
@@ -64,16 +68,22 @@ export default ({ app }, inject) => {
         // Set the sidebar
         const components = {
           "paragraph--resource": "ResourceCard",
-          "paragraph--video": "VideoBlock"
+          "paragraph--video": "VideoBlock",
+          "paragraph--image": "ImageBlock"
         };
         const sidebarData = _(page.included)
           .filter(item => Object.keys(components).includes(item.type))
           .map(item => {
+            const imageStyles = {
+              "paragraph--resource": "resource_image",
+              "paragraph--image": "image_block"
+            };
             return {
               component: components[item.type] || "ResourceCard",
               props: {
                 title: item.attributes.title,
                 body:
+                  item.attributes.hasOwnProperty("body") &&
                   item.attributes.body !== null
                     ? item.attributes.body.processed
                     : null,
@@ -82,7 +92,7 @@ export default ({ app }, inject) => {
                       src: _.find(
                         page.included,
                         include => include.id === getImgPath(item)
-                      ).links.resource_image.href,
+                      ).links[imageStyles[item.type]].href,
                       alt: item.relationships.image.data.meta.alt
                     }
                   : null,
@@ -92,28 +102,21 @@ export default ({ app }, inject) => {
                       include => include.id === getFilePath(item)
                     )
                   : null,
-                youtubeId: item.attributes.youtube_id,
-                vimeoId: item.attributes.vimeo_id
+                youtubeId:
+                  item.attributes.hasOwnProperty("youtube_id") &&
+                  item.attributes.youtube_id !== null
+                    ? item.attributes.youtube_id
+                    : null,
+                vimeoId:
+                  item.attributes.hasOwnProperty("vimeo_id") &&
+                  item.attributes.vimeo_id !== null
+                    ? item.attributes.vimeo_id
+                    : null
               }
             };
           })
           .value();
-        // The signup block should always be the second item if there are
-        // more than one.
-        const signupBlock = {
-          component: "SignupBlock",
-          props: {
-            title: "Monthly Educator Newsletter",
-            text: "Receive monthly updates on lesson plans and more!"
-          }
-        };
-        // // Javascript is evil, boo side effects!
-        if (sidebarData.length >= 1) {
-          sidebarData.splice(1, 0, signupBlock);
-          store.commit("updateSidebarData", sidebarData);
-        } else {
-          store.commit("updateSidebarData", [signupBlock]);
-        }
+        store.commit("updateSidebarData", sidebarData);
         // Handle the content in the 'highlighted' area.
         const highlightedData = _(page.included)
           .filter(item => item.type.includes("node"))
@@ -130,7 +133,11 @@ export default ({ app }, inject) => {
                   }
                 : null,
               text:
-                item.attributes.body.summary || item.attributes.body.processed,
+                item.attributes.hasOwnProperty("body") &&
+                item.attributes.body !== null
+                  ? item.attributes.body.summary ||
+                    item.attributes.body.processed
+                  : "",
               titleLink: item.attributes.path.alias
             };
           })
