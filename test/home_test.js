@@ -1,4 +1,4 @@
-Feature("Home").retry(10);
+Feature("Home").retry(20);
 
 Before(I => {
   I.amOnPage("/");
@@ -21,4 +21,4 @@ Scenario("Featured Poems are available on homepage", I => {
 });
 Scenario("Featured Product is available on homepage", I => {
   I.seeElement(".product-feature");
-})
+});

@@ -4,6 +4,8 @@ proxy:
     - poetsd8.lndo.site
   yakbak:
     - yakbakpoets.lndo.site
+env_file:
+  - .env
 services:
   appserver:
     type: node:10

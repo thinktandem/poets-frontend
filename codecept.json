@@ -4,7 +4,7 @@
   "output": "./test/output",
   "helpers": {
     "Puppeteer": {
-      "url": "http://poetsd8.lndo.site",
+      "url": "http://appserver",
       "chrome": {
         "args": ["--no-sandbox"]
       }
