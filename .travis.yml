@@ -12,7 +12,7 @@ before_install:
   # Install Lando
   - sudo apt-get -y update
   - sudo apt-get -y install cgroup-bin curl
-  - curl -fsSL -o /tmp/lando.deb https://github.com/lando/lando/releases/download/v3.0.0-rc.1/lando-v3.0.0-rc.1.deb
+  - curl -fsSL -o /tmp/lando.deb https://github.com/lando/lando/releases/download/v3.0.0-rc.5/lando-v3.0.0-rc.5.deb
   - sudo dpkg -i /tmp/lando.deb
   # Sanity check to make sure we are rolling
   - node --version
@@ -23,7 +23,5 @@ install: lando start
 script:
   # Run lint and styling checks
   - lando yarn lint
-  # Wait for Nuxt to finish the build
-  - bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' poetsd8.lndo.site)" != "200" ]]; do sleep 5; done'
   # Run end to end tests
   - lando test
