@@ -1,8 +1,8 @@
 <template>
   <b-container class="pt-5">
     <b-row class="basic_page__body">
-      <b-col 
-        md="8" 
+      <b-col
+        md="8"
         class="pb-2">
         <div
           v-html="body"
@@ -39,6 +39,18 @@
           v-bind="item.props"/>
       </b-col>
     </b-row>
+    <b-row class="py-3">
+      <b-col
+        v-if="extendedContent !== null"
+        md="12">
+        <component
+          class="py-3"
+          v-for="(item, index) in extendedContent"
+          :key="index"
+          :is="item.component"
+          v-bind="item.props"/>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -63,6 +75,10 @@ export default {
     body: {
       type: String,
       default: ""
+    },
+    extendedContent: {
+      type: Array,
+      default: null
     },
     highlighted: {
       type: Array,

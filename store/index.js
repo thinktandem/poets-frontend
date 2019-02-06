@@ -29,7 +29,7 @@ const createStore = () => {
       pageData: {},
       sidebarData: {},
       highlightedData: {},
-      relatedContent: {},
+      extendedContent: {},
       bottomContent: {},
       featuredPoems: {}
     },
@@ -70,8 +70,8 @@ const createStore = () => {
       updateHighlightedData(state, payload) {
         state.highlightedData = payload;
       },
-      updateMore(state, payload) {
-        state.more = payload;
+      updateExtendedContent(state, payload) {
+        state.extendedContent = payload;
       },
       updateFeaturedPoems(state, payload) {
         state.featuredPoems = payload;
