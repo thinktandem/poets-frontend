@@ -144,6 +144,46 @@ const buildImg = (entity, page) =>
     : null;
 
 /**
+ * Build an array of slides for slideshow components
+ *
+ * @param {Object} entity
+ *  Paragraph entity to build out the slides for
+ * @param {Object} page
+ *  The Drupal page object
+ * @return {Array} An array of slide definitions to render component.
+ */
+const buildSlides = (entity, page) => {
+  if (entity.type !== "paragraph--slideshow") {
+    return null;
+  }
+
+  const paragraph = _.find(
+    page.included,
+    included => entity.id === included.id
+  );
+
+  return _.map(paragraph.relationships.side_image.data, related => {
+    const mediaItem = _.find(
+      page.included,
+      include => related.id === include.id
+    );
+    const imageFile = _.find(
+      page.included,
+      include => mediaItem.relationships.field_image.data.id === include.id
+    );
+
+    return {
+      img: {
+        src: imageFile.links.media_aside.href,
+        alt: mediaItem.relationships.field_image.data.meta.alt
+      },
+      caption: mediaItem.attributes.name,
+      text: mediaItem.relationships.field_image.data.meta.title
+    };
+  });
+};
+
+/**
  * Handle the verbose checking for possibly empty fields
  *
  * @param {Object} entity
@@ -175,8 +215,10 @@ const buildComponent = (item, page) => {
     component: components[entity.type] || "ResourceCard",
     props: {
       title: entity.attributes.title,
-      body: maybeField(entity, "body").processed,
-      item,
+      body:
+        maybeField(entity, "body") !== null
+          ? maybeField(entity, "body").processed
+          : null,
       img: buildImg(entity, page),
       file: getFilePath(entity)
         ? _.find(page.included, include => include.id === getFilePath(entity))
@@ -189,6 +231,7 @@ const buildComponent = (item, page) => {
         maybeField(entity, "side_text_2") !== null
           ? maybeField(entity, "side_text_2").processed
           : null,
+      slides: buildSlides(item, page),
       youtubeId: maybeField(entity, "youtube_id"),
       vimeoId: maybeField(entity, "vimeo_id")
     }
