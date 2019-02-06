@@ -61,6 +61,7 @@ import ResourceCard from "~/components/ResourceCard";
 import VideoBlock from "~/components/VideoBlock";
 import SignupBlock from "~/components/SignupBlock";
 import ImageBlock from "~/components/ImageBlock";
+import SidebarTextImage from "~/components/SidebarTextImage";
 export default {
   name: "BasicPage",
   components: {
@@ -69,6 +70,7 @@ export default {
     ImageBlock,
     ResourceCard,
     SignupBlock,
+    SidebarTextImage,
     VideoBlock
   },
   props: {
