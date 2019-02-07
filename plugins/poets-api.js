@@ -1,41 +1,335 @@
+/**
+ * @file
+ * Provide some helpers for interacting with the Poets API
+ */
+
 import * as _ from "lodash";
+
+// Map paragraph types from Drupal to VueJS components.
+const components = {
+  "paragraph--image": "ImageBlock",
+  "paragraph--media": "MediaBlock",
+  "paragraph--resource": "ResourceCard",
+  "paragraph--sidebar_text_and_image": "SidebarTextImage",
+  "paragraph--slideshow": "SlideshowBlock",
+  "paragraph--standard_text": "StandardTextBlock",
+  "paragraph--video": "VideoBlock"
+};
+
+// Map paragraph types to image styles
+const imageStyles = {
+  "paragraph--resource": "resource_image",
+  "paragraph--sidebar_text_and_image": "resource_image",
+  "paragraph--slideshow": "slide",
+  "paragraph--image": "image_block"
+};
+
+/**
+ * Fetch the image uuid.
+ *
+ * @note This is a little funky, we're cascading through possible field names
+ *  and it isn't clear what the best order is, or how we handle a component with
+ *  multiple images.
+ *
+ * @param {Object} item
+ *  data from Drupal
+ * @param {Object} page
+ *  page object from Drupal
+ * @return {String|null} Either the ID or null if can't be found
+ */
+const getImgPath = (item, page) => {
+  if (
+    item.relationships.hasOwnProperty("image") &&
+    item.relationships.image.data !== null
+  ) {
+    return (
+      item.relationships.image.data.target_uuid ||
+      item.relationships.image.data.id
+    );
+  } else if (
+    item.relationships.hasOwnProperty("field_image") &&
+    item.relationships.field_image.data.length >= 1
+  ) {
+    return _.first(item.relationships.field_image.data).id;
+  } else if (
+    item.relationships.hasOwnProperty("side_image") &&
+    item.relationships.side_image.hasOwnProperty("data") &&
+    item.relationships.side_image.data.hasOwnProperty("id") &&
+    item.relationships.side_image.data.id !== null
+  ) {
+    return _.find(page.included, include => {
+      const mediaItem = _.find(
+        page.included,
+        include => include.id === item.relationships.side_image.data.id
+      );
+      return include.id === mediaItem.relationships.field_image.data.id;
+    }).id;
+  } else if (
+    item.relationships.hasOwnProperty("side_image") &&
+    item.relationships.side_image.hasOwnProperty("data") &&
+    item.relationships.side_image.data.constructor === Array &&
+    item.relationships.side_image.data.length >= 1
+  ) {
+    return _.find(page.included, include => {
+      const mediaItem = _.find(
+        page.included,
+        include => include.id === _.first(item.relationships.side_image.data).id
+      );
+      return include.id === mediaItem.relationships.field_image.data.id;
+    }).id;
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Fetch the file uuid
+ *
+ * @param {Object} item
+ *  data from Drupal
+ * @return {String|null} Either the ID or null if can't be found
+ */
+const getFilePath = item => {
+  if (
+    item.relationships.hasOwnProperty("resource_file") &&
+    item.relationships.resource_file.data !== null
+  ) {
+    return item.relationships.resource_file.data.id;
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Build an alt string
+ *
+ * @param {Object} entity
+ *  Drupal entity from API
+ * @param {Object} page
+ *  Drupal page object from API
+ * @return {String} an alt string
+ */
+const buildAlt = (entity, page) => {
+  const imgPath = getImgPath(entity, page);
+  const related = _.find(
+    entity.relationships,
+    relationship => relationship.data.id === imgPath
+  );
+  if (related !== undefined) {
+    return related.data.meta.alt;
+  } else {
+    const media = _.find(page.included, include => {
+      // is a media item and is related to entity...
+      return (
+        include.type === "media--image" &&
+        _.find(
+          entity.relationships,
+          relationship => relationship.data.id === include.id
+        ) !== undefined
+      );
+    });
+    return media !== undefined &&
+      media.hasOwnProperty("relationships") &&
+      media.relationships !== null &&
+      media.relationships.hasOwnProperty("field_image")
+      ? media.relationships.field_image.data.meta.alt
+      : "";
+  }
+};
+
+/**
+ * Build an image object
+ *
+ * @param {Object} entity
+ *  Drupal entity from API
+ * @param {Object} page
+ *  Drupal page object from API
+ * @return {Object} an object for vue to render an image
+ */
+const buildImg = (entity, page) =>
+  getImgPath(entity, page)
+    ? {
+        src: _.find(
+          page.included,
+          include => include.id === getImgPath(entity, page)
+        ).links[imageStyles[entity.type]].href,
+        alt: buildAlt(entity, page)
+      }
+    : null;
+
+/**
+ * Build an array of slides for slideshow components
+ *
+ * @param {Object} entity
+ *  Paragraph entity to build out the slides for
+ * @param {Object} page
+ *  The Drupal page object
+ * @return {Array} An array of slide definitions to render component.
+ */
+const buildSlides = (entity, page) => {
+  if (entity.type !== "paragraph--slideshow") {
+    return null;
+  }
+
+  const paragraph = _.find(
+    page.included,
+    included => entity.id === included.id
+  );
+
+  return _.map(paragraph.relationships.side_image.data, related => {
+    const mediaItem = _.find(
+      page.included,
+      include => related.id === include.id
+    );
+    const imageFile = _.find(
+      page.included,
+      include => mediaItem.relationships.field_image.data.id === include.id
+    );
+
+    return {
+      img: {
+        src: imageFile.links.slide.href,
+        alt: mediaItem.relationships.field_image.data.meta.alt
+      },
+      caption: mediaItem.attributes.name,
+      text: mediaItem.relationships.field_image.data.meta.title
+    };
+  });
+};
+
+/**
+ * Handle the verbose checking for possibly empty fields
+ *
+ * @param {Object} entity
+ *  Entity object from Drupal API
+ * @param {String} field
+ *  The Field name to check
+ * @return {mixed} the field value or null
+ */
+const maybeField = (entity, field) => {
+  return entity.hasOwnProperty("attributes") &&
+    entity.attributes.hasOwnProperty(field) &&
+    entity.attributes[field] !== null
+    ? entity.attributes[field]
+    : null;
+};
+
+/**
+ * Generic function to build a component from Drupal data
+ *
+ * @param {Object} item
+ *  Data object representing a component
+ * @param {Object} page
+ *  Data object representing the parent page
+ * @return {Object} the formatted data to load a vue component
+ */
+const buildComponent = (item, page) => {
+  const entity = _.find(page.included, include => include.id === item.id);
+  return {
+    component: components[entity.type] || "ResourceCard",
+    props: {
+      title: entity.attributes.title,
+      body:
+        maybeField(entity, "body") !== null
+          ? maybeField(entity, "body").processed
+          : null,
+      img: buildImg(entity, page),
+      file: getFilePath(entity)
+        ? _.find(page.included, include => include.id === getFilePath(entity))
+        : null,
+      sidebarTop:
+        maybeField(entity, "side_text_1") !== null
+          ? maybeField(entity, "side_text_1").processed
+          : null,
+      sidebarBottom:
+        maybeField(entity, "side_text_2") !== null
+          ? maybeField(entity, "side_text_2").processed
+          : null,
+      slides: buildSlides(item, page),
+      youtubeId: maybeField(entity, "youtube_id"),
+      vimeoId: maybeField(entity, "vimeo_id")
+    }
+  };
+};
+
+/**
+ * Build up the sidebar data region
+ *
+ * @param {Object} page
+ *  The page data from Drupal
+ * @return {Object}
+ *  formatted sidebar area data
+ */
+const buildSidebar = page =>
+  _(page.data.relationships.sidebar_sections.data)
+    .map(item => buildComponent(item, page))
+    .value();
+
+/**
+ * Build up the highlighted data region
+ *
+ * @param {Object} page
+ *  The page data from Drupal
+ * @return {Object}
+ *  formatted highlighted area data
+ *
+ * @todo refactor to be more deterministic
+ */
+const buildHighlightedData = page =>
+  _(page.included)
+    .filter(item => item.type.includes("node"))
+    .map(item => {
+      return {
+        title: item.attributes.title,
+        img: getImgPath(item, page)
+          ? {
+              src: _.find(
+                page.included,
+                include => include.id === getImgPath(item, page)
+              ).links.thumbnail.href,
+              alt: _.first(item.relationships.field_image.data).meta.alt
+            }
+          : null,
+        text:
+          item.attributes.hasOwnProperty("body") &&
+          item.attributes.body !== null
+            ? item.attributes.body.summary || item.attributes.body.processed
+            : "",
+        titleLink: item.attributes.path.alias
+      };
+    })
+    .value();
+
+/**
+ * Build the extended content region
+ *
+ * @param {Object} page
+ *  Page data from Drupal
+ * @return {Object} formatted data for extended region
+ */
+const buildExtendedContentSection = page =>
+  _(page.data.relationships.field_content_sections.data)
+    .map(item => buildComponent(item, page))
+    .value();
+
 export default ({ app }, inject) => {
   inject("buildBasicPage", (app, store, path) => {
-    const getImgPath = item => {
-      if (
-        item.relationships.hasOwnProperty("image") &&
-        item.relationships.image.data !== null
-      ) {
-        return (
-          item.relationships.image.data.target_uuid ||
-          item.relationships.image.data.id
-        );
-      } else if (
-        item.relationships.hasOwnProperty("field_image") &&
-        item.relationships.field_image.data.length >= 1
-      ) {
-        return _.first(item.relationships.field_image.data).id;
-      } else {
-        return null;
-      }
-    };
-
-    const getFilePath = item => {
-      if (
-        item.relationships.hasOwnProperty("resource_file") &&
-        item.relationships.resource_file.data !== null
-      ) {
-        return item.relationships.resource_file.data.id;
-      } else {
-        return null;
-      }
-    };
-
+    // The router request
     const routerRequest = {
       requestId: "router",
       action: "view",
       uri: `/router/translate-path?path=${path}`
     };
+    // This is the list of items to include with the page request
+    const includes = [
+      "sidebar_sections.image",
+      "field_content_sections.image",
+      "highlighted_content.field_image",
+      "field_content_sections.resource_file",
+      "sidebar_sections.resource_file",
+      "field_content_sections.side_image.field_image"
+    ].join(",");
+    // The page request
     const pageRequest = {
       requestId: "Page",
       action: "view",
@@ -43,7 +337,7 @@ export default ({ app }, inject) => {
         Accept: "application/json",
         "X-CONSUMER-ID": process.env.CONSUMER_ID
       },
-      uri: `{{router.body@$.jsonapi.individual}}?include=field_content_sections.image,highlighted_content.field_image,field_content_sections.resource_file`,
+      uri: `{{router.body@$.jsonapi.individual}}?include=${includes}`,
       waitFor: ["router"]
     };
     return app.$axios
@@ -65,84 +359,13 @@ export default ({ app }, inject) => {
         });
         // Set the main page data
         store.commit("updatePageData", page);
-        // Set the sidebar
-        const components = {
-          "paragraph--resource": "ResourceCard",
-          "paragraph--video": "VideoBlock",
-          "paragraph--image": "ImageBlock"
-        };
-        const sidebarData = _(page.included)
-          .filter(item => Object.keys(components).includes(item.type))
-          .map(item => {
-            const imageStyles = {
-              "paragraph--resource": "resource_image",
-              "paragraph--image": "image_block"
-            };
-            return {
-              component: components[item.type] || "ResourceCard",
-              props: {
-                title: item.attributes.title,
-                body:
-                  item.attributes.hasOwnProperty("body") &&
-                  item.attributes.body !== null
-                    ? item.attributes.body.processed
-                    : null,
-                img: getImgPath(item)
-                  ? {
-                      src: _.find(
-                        page.included,
-                        include => include.id === getImgPath(item)
-                      ).links[imageStyles[item.type]].href,
-                      alt: item.relationships.image.data.meta.alt
-                    }
-                  : null,
-                file: getFilePath(item)
-                  ? _.find(
-                      page.included,
-                      include => include.id === getFilePath(item)
-                    )
-                  : null,
-                youtubeId:
-                  item.attributes.hasOwnProperty("youtube_id") &&
-                  item.attributes.youtube_id !== null
-                    ? item.attributes.youtube_id
-                    : null,
-                vimeoId:
-                  item.attributes.hasOwnProperty("vimeo_id") &&
-                  item.attributes.vimeo_id !== null
-                    ? item.attributes.vimeo_id
-                    : null
-              }
-            };
-          })
-          .value();
+        const sidebarData = buildSidebar(page);
         store.commit("updateSidebarData", sidebarData);
         // Handle the content in the 'highlighted' area.
-        const highlightedData = _(page.included)
-          .filter(item => item.type.includes("node"))
-          .map(item => {
-            return {
-              title: item.attributes.title,
-              img: getImgPath(item)
-                ? {
-                    src: _.find(
-                      page.included,
-                      include => include.id === getImgPath(item)
-                    ).links.thumbnail.href,
-                    alt: _.first(item.relationships.field_image.data).meta.alt
-                  }
-                : null,
-              text:
-                item.attributes.hasOwnProperty("body") &&
-                item.attributes.body !== null
-                  ? item.attributes.body.summary ||
-                    item.attributes.body.processed
-                  : "",
-              titleLink: item.attributes.path.alias
-            };
-          })
-          .value();
+        const highlightedData = buildHighlightedData(page);
         store.commit("updateHighlightedData", highlightedData);
+        const extendedContent = buildExtendedContentSection(page);
+        store.commit("updateExtendedContent", extendedContent);
       });
   });
 };

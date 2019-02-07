@@ -11,10 +11,10 @@
       :alt="img.alt"
     />
     <h3 class="resource__title">{{ title }}</h3>
-    <div class="resource__body mb-4">
-      {{ body }}
-    </div>
-    <div 
+    <div
+      class="resource__body mb-4"
+      v-html="body"/>
+    <div
       class="text-center mb-4"
       v-if="fileUrl">
       <b-btn

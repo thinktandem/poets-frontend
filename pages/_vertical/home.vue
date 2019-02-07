@@ -50,7 +50,6 @@ export default {
             },
             programs: _.map(response.data, item => {
               return {
-                item,
                 title: item.attributes.title,
                 titleLink: item.attributes.path.alias,
                 body: item.attributes.body.processed,

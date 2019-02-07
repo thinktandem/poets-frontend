@@ -2,6 +2,7 @@
   <div>
     <basic-page
       :body="$store.state.pageData.data.attributes.body.processed"
+      :extended-content="$store.state.extendedContent"
       :highlighted="$store.state.highlightedData"
       :call-to-action="callToAction"
       :more="$store.state.relatedContent"
