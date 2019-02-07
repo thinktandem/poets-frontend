@@ -54,11 +54,6 @@ Building for Production
 
 You can also do this via `lando yarn` but makes more sense to use `yarn` straight up. See the `.platform.app.yaml` for the actual production build and deployment steps.
 
-```bash
-# Generate the frontend as a static HTML project
-yarn generate
-```
-
 Resources
 ---------
 
