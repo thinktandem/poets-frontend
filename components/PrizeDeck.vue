@@ -1,13 +1,135 @@
 <template>
-    
+  <b-card-group
+    :class="'prize-deck--' + cardtype|lowercase"
+    deck
+  >
+    <b-container>
+      <b-row>
+        <b-col
+          cols="12"
+          tag="header"
+        >
+          <h2 class="prize-deck__title">{{ title }}</h2>
+          <b-link
+            class="prize-deck__link"
+            v-if="link"
+            :href="link.to"
+          >{{ link.text }} <i class="fancy-chevron"/></b-link>
+        </b-col>
+      </b-row>
+      <b-row class="prize-deck__cards d-flex">
+        <b-col
+          cols="12"
+          :md="cols"
+          v-for="(card, index) in cards"
+          :key="index"
+          class="prize-deck__card"
+        >
+          <component
+            :class="{'h-100': featured !== true }"
+            :is="card.cardType ? card.cardType : cardtype"
+            v-bind="card"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
+  </b-card-group>
 </template>
 
 <script>
-  export default {
-    name: "Prizedeck.vue"
+// Import all the cards that might need to be used in a deck.
+import PoemCard from "~/components/Poems/PoemCard";
+import LessonPlanCard from "~/components/LessonPlanCard";
+import Poet from "~/components/Libraries/Poet";
+import FeatureCard from "~/components/FeatureCard";
+import adCard from "~/components/adCard";
+import EssayCard from "~/components/EssayCard";
+import BookCard from "~/components/Libraries/BookCard";
+import CalloutCard from "./CalloutCard";
+import TextCard from "~/components/Libraries/TextCard";
+
+export default {
+  components: {
+    PoemCard,
+    Poet,
+    FeatureCard,
+    adCard,
+    EssayCard,
+    LessonPlanCard,
+    BookCard,
+    CalloutCard,
+    TextCard
+  },
+  props: {
+    featured: {
+      type: Boolean,
+      default: false
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    cardtype: {
+      type: String,
+      default: ""
+    },
+    cards: {
+      type: Array,
+      default: () => []
+    },
+    link: {
+      type: Object,
+      default: function() {}
+    },
+    cols: {
+      type: String,
+      default: "4"
+    }
   }
+};
 </script>
 
-<style scoped>
+<style lang="scss">
+.prize-deck {
+  header {
+    @include media-breakpoint-up(sm) {
+      display: flex;
+    }
 
+    a {
+      @extend %a--more;
+      display: block;
+      margin-bottom: 2rem;
+
+      @include media-breakpoint-up(sm) {
+        line-height: $h2-font-size;
+      }
+    }
+  }
+  .fancy-chevron {
+    @include chevron(0.5rem, 2px, 2px);
+  }
+  .prize-deck__title {
+    font-family: $font-family-serif;
+    font-style: italic;
+
+    @include media-breakpoint-up(sm) {
+      flex-grow: 1;
+    }
+  }
+
+  .prize-deck__card {
+    margin-bottom: 2rem;
+
+    .card {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+  }
+  .prize-deck__link {
+    font-size: 1.25rem;
+    line-height: 2;
+    font-weight: 500;
+  }
+}
 </style>
