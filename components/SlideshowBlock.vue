@@ -8,7 +8,7 @@
           class="text-white text-center pb-3"
           :is="titleTag">{{ title }}</component>
         <b-carousel
-          style="width: 860px;"
+          style="max-width: 860px;"
           id="carousel"
           class="align-self-center"
           controls
