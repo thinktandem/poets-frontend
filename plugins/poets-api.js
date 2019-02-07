@@ -20,6 +20,7 @@ const components = {
 const imageStyles = {
   "paragraph--resource": "resource_image",
   "paragraph--sidebar_text_and_image": "resource_image",
+  "paragraph--slideshow": "slide",
   "paragraph--image": "image_block"
 };
 
@@ -60,6 +61,19 @@ const getImgPath = (item, page) => {
       const mediaItem = _.find(
         page.included,
         include => include.id === item.relationships.side_image.data.id
+      );
+      return include.id === mediaItem.relationships.field_image.data.id;
+    }).id;
+  } else if (
+    item.relationships.hasOwnProperty("side_image") &&
+    item.relationships.side_image.hasOwnProperty("data") &&
+    item.relationships.side_image.data.constructor === Array &&
+    item.relationships.side_image.data.length >= 1
+  ) {
+    return _.find(page.included, include => {
+      const mediaItem = _.find(
+        page.included,
+        include => include.id === _.first(item.relationships.side_image.data).id
       );
       return include.id === mediaItem.relationships.field_image.data.id;
     }).id;
@@ -174,7 +188,7 @@ const buildSlides = (entity, page) => {
 
     return {
       img: {
-        src: imageFile.links.media_aside.href,
+        src: imageFile.links.slide.href,
         alt: mediaItem.relationships.field_image.data.meta.alt
       },
       caption: mediaItem.attributes.name,

@@ -1,57 +1,53 @@
 <template>
-  <b-container class="pt-5">
-    <b-row class="basic_page__body">
-      <b-col
-        md="8"
-        class="pb-2">
-        <div
-          v-html="body"
-          class="pb-4"/>
-        <card-deck
-          class="pt-3 pb-1"
-          :cards="highlighted"
-          cardtype="CalloutCard"
-          cols="6"/>
-        <callout-card
-          v-if="callToAction !== null"
-          :img="callToAction.img"
-          variant="bold"
-          :teaser-length="callToAction.teaserLength"
-          :text="callToAction.text"
-          :title="callToAction.title"
-          :action="callToAction.action"/>
-        <card-deck
-          class="pt-5"
-          v-if="more !== null"
-          cols="6"
-          :cardtype="more.cardType"
-          :title="more.title"
-          :link="more.link"
-          :cards="more.cards"/>
-      </b-col>
-      <b-col
-        md="4"
-        class="basic_page__sidebar pb-2">
-        <component
-          v-for="(item, index) in sidebarData"
-          :key="index"
-          :is="item.component"
-          v-bind="item.props"/>
-      </b-col>
-    </b-row>
-    <b-row class="py-3">
-      <b-col
-        v-if="extendedContent !== null"
-        md="12">
-        <component
-          class="py-3"
-          v-for="(item, index) in extendedContent"
-          :key="index"
-          :is="item.component"
-          v-bind="item.props"/>
-      </b-col>
-    </b-row>
-  </b-container>
+  <div>
+    <b-container class="pt-5">
+      <b-row class="basic_page__body">
+        <b-col
+          md="8"
+          class="pb-2">
+          <div
+            v-html="body"
+            class="pb-4"/>
+          <card-deck
+            class="pt-3 pb-1"
+            :cards="highlighted"
+            cardtype="CalloutCard"
+            cols="6"/>
+          <callout-card
+            v-if="callToAction !== null"
+            :img="callToAction.img"
+            variant="bold"
+            :teaser-length="callToAction.teaserLength"
+            :text="callToAction.text"
+            :title="callToAction.title"
+            :action="callToAction.action"/>
+          <card-deck
+            class="pt-5"
+            v-if="more !== null"
+            cols="6"
+            :cardtype="more.cardType"
+            :title="more.title"
+            :link="more.link"
+            :cards="more.cards"/>
+        </b-col>
+        <b-col
+          md="4"
+          class="basic_page__sidebar pb-2">
+          <component
+            v-for="(item, index) in sidebarData"
+            :key="index"
+            :is="item.component"
+            v-bind="item.props"/>
+        </b-col>
+      </b-row>
+    </b-container>
+    <component
+      class="py-3"
+      v-for="(item, index) in extendedContent"
+      :key="index"
+      :is="item.component"
+      v-bind="item.props"/>
+  </div>
 </template>
 
 <script>
