@@ -47,6 +47,7 @@ import EssayCard from "~/components/EssayCard";
 import BookCard from "~/components/Libraries/BookCard";
 import CalloutCard from "./CalloutCard";
 import TextCard from "~/components/Libraries/TextCard";
+import PrizeCard from "~/components/PrizeCard";
 
 export default {
   components: {
@@ -58,7 +59,8 @@ export default {
     LessonPlanCard,
     BookCard,
     CalloutCard,
-    TextCard
+    TextCard,
+    PrizeCard
   },
   props: {
     featured: {
@@ -91,6 +93,7 @@ export default {
 
 <style lang="scss">
 .prize-deck {
+  background: linear-gradient(270deg, #8195a6 0%, #637381 100%);
   header {
     @include media-breakpoint-up(sm) {
       display: flex;
@@ -112,6 +115,7 @@ export default {
   .prize-deck__title {
     font-family: $font-family-serif;
     font-style: italic;
+    color: $white;
 
     @include media-breakpoint-up(sm) {
       flex-grow: 1;
@@ -130,6 +134,7 @@ export default {
     font-size: 1.25rem;
     line-height: 2;
     font-weight: 500;
+    color: $white;
   }
 }
 </style>

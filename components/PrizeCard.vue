@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "PrizeCardVue"
+  name: "PrizeCard"
 };
 </script>
 

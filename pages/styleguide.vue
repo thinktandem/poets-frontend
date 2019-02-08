@@ -113,6 +113,20 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="PrizeCardDeck"
+            >Prize Deck</h2>
+            <CardDeck
+              title="Prizes"
+              cardtype="PrizeDeck"
+              cols="6"
+              :cards="PrizeCard"
+              :link="PrizeLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="Forms"
             >Forms</h2>
             <StyleguideForm />
@@ -325,6 +339,10 @@ export default {
         {
           title: "Lesson Plans",
           anchor: "#LessonPlanCardDeck"
+        },
+        {
+          title: "Prize Deck",
+          anchor: "#PrizeCardDeck"
         },
         {
           title: "Forms",
@@ -635,6 +653,10 @@ And as for the bucket, Nantucket.`,
       featuredPoetsLink: {
         href: "blah/blah",
         text: "3443 Poets"
+      },
+      PrizeLink: {
+        href: "blah/blah",
+        text: "11 Prizes"
       },
       poetListItems: [
         {
