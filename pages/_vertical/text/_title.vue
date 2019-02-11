@@ -12,11 +12,15 @@
           xl="12"
         >
           <div v-if="Object.keys(bodyData).length">
-            <div v-html="bodyPreface"/>
+            <div
+              class="text__body-preface"
+              v-html="bodyPreface"/>
             <div>
               <b-img :src="bodyData.myImg"/>
             </div>
-            <div v-html="bodyEnd"/>
+            <div
+              class="text__body-end"
+              v-html="bodyEnd"/>
           </div>
           <div
             v-else
@@ -56,7 +60,7 @@ export default {
     return {
       text,
       bodyData,
-      bodyPreface: imgUrl.staticUrl(bodyData.myJson[0]),
+      bodyPreface: imgUrl.staticUrl(bodyData.myJson[0]) || "",
       bodyEnd: imgUrl.staticUrl(bodyData.endJson),
       staticUrl: imgUrl.staticUrl(text.attributes.body.value) || ""
     };
@@ -68,5 +72,11 @@ export default {
 .text__body {
   font-weight: 400;
   font-size: 1.2em;
+  .text__body-preface /deep/,
+  .text__body-end /deep/ {
+    p img {
+      max-width: 100%;
+    }
+  }
 }
 </style>
