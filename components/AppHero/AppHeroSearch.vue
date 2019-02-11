@@ -66,21 +66,21 @@ export default {
           },
           {
             to: {
-              name: "vertical-poet",
+              name: "poem-a-day",
               params: { vertical: "poetsorg" }
             },
             text: "poem-a-day"
           },
           {
             to: {
-              name: "vertical-poet",
+              name: "libraries",
               params: { vertical: "poetsorg" }
             },
             text: "library (texts, books, & more)"
           },
           {
             to: {
-              name: "vertical-poet",
+              name: "vertical/materials-teachers",
               params: { vertical: "poetsorg" }
             },
             text: "materials for teachers"
