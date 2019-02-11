@@ -41,6 +41,11 @@
         </b-col>
       </b-row>
     </b-container>
+    <card-deck
+      v-if="featureCards !== null"
+      title="Featured"
+      cardtype="FeatureCard"
+      :cards="featureCards"/>
     <component
       class="py-3"
       v-for="(item, index) in extendedContent"
@@ -96,6 +101,10 @@ export default {
       default: null
     },
     sidebarData: {
+      type: Array,
+      default: null
+    },
+    featureCards: {
       type: Array,
       default: null
     }
