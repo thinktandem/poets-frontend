@@ -10,7 +10,7 @@
             <a :href="link.url">{{ link.text }}</a>
           </span>
           <div class="utility__links_copyright pt-4">
-            © Academy of American Poets, 75 Maiden Lane, Suite 901, New York, NY 10038 
+            © Academy of American Poets, 75 Maiden Lane, Suite 901, New York, NY 10038
           </div>
         </div>
         <div class="col-sm-12 col-md-2">
@@ -27,28 +27,32 @@
 
 <script>
 export default {
-  /**
-   * @todo: should/can this be a data/prop delivered by drupal?
-   * @return {{ links: {text: string, url: string}[]}}`
-   */
   data() {
     return {
       links: [
         {
           text: "Contact",
-          url: "#"
+          url: "/academy-american-poets/contact-us"
         },
         {
           text: "About Us",
-          url: "#"
+          url: "/academy-american-poets/about-us"
         },
         {
           text: "For Advertisers",
-          url: "#"
+          url: "/academy-american-poets/advertise-us"
         },
         {
           text: "Press Center",
-          url: "#"
+          url: "/academy-american-poets/press-center"
+        },
+        {
+          text: "Credits",
+          url: "/poetsorg/site-credits"
+        },
+        {
+          text: "Privacy",
+          url: "/privacy"
         }
       ]
     };
