@@ -56,11 +56,11 @@ export default {
           icon: "SoundcloudIcon"
         },
         {
-          url: "https://www.youtube.com/channel/UCMbWrLV3xwKly6vqhnl0IXg"
+          url: "https://www.youtube.com/channel/UCMbWrLV3xwKly6vqhnl0IXg",
           icon: "YoutubeIcon"
         },
         {
-          url: `https://fixthislink.com?text=${this.title}&url=${this.siteUri}`,
+          url: "#",
           icon: "InstagramIcon"
         },
         {
