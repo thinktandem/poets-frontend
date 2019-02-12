@@ -40,29 +40,23 @@ export default {
     social() {
       return [
         {
-          url: `https://facebook.com/sharer.php?u=${this.siteUri}&t=${
-            this.title
-          }`,
+          url: "https://www.facebook.com/poets.org",
           icon: "FacebookIcon"
         },
         {
-          url: `https://twitter.com/share?text=${this.title}&url=${
-            this.siteUri
-          }`,
+          url: "https://twitter.com/POETSorg",
           icon: "TwitterIcon"
         },
         {
-          url: `https://tumblr.com/share/link?url=${this.siteUri}&name=${
-            this.title
-          }`,
+          url: "http://poetsorg.tumblr.com/",
           icon: "TumblrIcon"
         },
         {
-          url: `https://fixthislink.com?text=${this.title}&url=${this.siteUri}`,
+          url: "https://soundcloud.com/poets-org",
           icon: "SoundcloudIcon"
         },
         {
-          url: `https://fixthislink.com?text=${this.title}&url=${this.siteUri}`,
+          url: "https://www.youtube.com/channel/UCMbWrLV3xwKly6vqhnl0IXg"
           icon: "YoutubeIcon"
         },
         {
@@ -70,7 +64,7 @@ export default {
           icon: "InstagramIcon"
         },
         {
-          url: `https://fixthislink.com?text=${this.title}&url=${this.siteUri}`,
+          url: "https://www.pinterest.com/poetsorg/",
           icon: "PinterestIcon"
         }
       ];
