@@ -37,7 +37,7 @@
         </div>
         <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
-            american poets 
+            american poets
           </h3>
           <div
             v-for="link in linksAmericanPoets"
@@ -62,23 +62,23 @@ export default {
       linksPoets: [
         {
           text: "Contact",
-          url: "#"
+          url: "/academy-american-poets/contact-us"
         },
         {
           text: "About Us",
-          url: "#"
+          url: "/academy-american-poets/about-us"
         },
         {
           text: "For Advertisers",
-          url: "#"
+          url: "/academy-american-poets/advertise-us"
         },
         {
           text: "Press Center",
-          url: "#"
+          url: "/academy-american-poets/press-center"
         },
         {
           text: "Audio",
-          url: "#"
+          url: "/poetsorg/audio"
         },
         {
           text: "Jobs for Poets",
@@ -86,25 +86,25 @@ export default {
         },
         {
           text: "Materials for Teachers",
-          url: "#"
+          url: "/poetsorg/materials-teachers"
         }
       ],
       linksAcademy: [
         {
           text: "Contact",
-          url: "#"
+          url: "/academy-american-poets/contact-us"
         },
         {
           text: "About Us",
-          url: "#"
+          url: "/academy-american-poets/about-us"
         },
         {
           text: "For Advertisers",
-          url: "#"
+          url: "/academy-american-poets/advertise-us"
         },
         {
           text: "Press Center",
-          url: "#"
+          url: "/academy-american-poets/press-center"
         }
       ],
       linksPoetryMonth: [
@@ -114,7 +114,7 @@ export default {
         },
         {
           text: "About Us",
-          url: "#"
+          url: "/national-poetry-month/about-celebration"
         },
         {
           text: "For Advertisers",
@@ -132,11 +132,11 @@ export default {
         },
         {
           text: "About Us",
-          url: "#"
+          url: "/american-poets-magazine"
         },
         {
           text: "For Advertisers",
-          url: "#"
+          url: "/american-poets-magazine/advertising-american-poets"
         },
         {
           text: "Press Center",
