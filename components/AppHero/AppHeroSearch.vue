@@ -29,7 +29,7 @@
         <b-list-group-item
           v-for="(link, index) in links"
           :key="index"
-          :to="link.to"
+          :href="link.to"
           class="hero__search__link">
           {{ link.text }}
         </b-list-group-item>
@@ -45,60 +45,35 @@ export default {
   components: {
     MagnifyingGlassIcon
   },
-  props: {
-    links: {
-      type: Array,
-      default() {
-        return [
-          {
-            to: {
-              name: "vertical-poem",
-              params: { vertical: "poetsorg" }
-            },
-            text: "find poems"
-          },
-          {
-            to: {
-              name: "vertical-poet",
-              params: { vertical: "poetsorg" }
-            },
-            text: "find poets"
-          },
-          {
-            to: {
-              name: "poem-a-day",
-              params: { vertical: "poetsorg" }
-            },
-            text: "poem-a-day"
-          },
-          {
-            to: {
-              name: "libraries",
-              params: { vertical: "poetsorg" }
-            },
-            text: "library (texts, books, & more)"
-          },
-          {
-            to: {
-              name: "vertical/materials-teachers",
-              params: { vertical: "poetsorg" }
-            },
-            text: "materials for teachers"
-          },
-          {
-            to: {
-              name: "vertical-poet",
-              params: { vertical: "poetsorg" }
-            },
-            text: "poetry near you"
-          }
-        ];
-      }
-    }
-  },
   data() {
     return {
-      searchInput: ""
+      searchInput: "",
+      links: [
+        {
+          to: "/poetsorg/poem",
+          text: "find poems"
+        },
+        {
+          to: "/poetsorg/poet",
+          text: "find poets"
+        },
+        {
+          to: "/poetsorg/poem-a-day",
+          text: "poem-a-day"
+        },
+        {
+          to: "/libraries",
+          text: "library (texts, books, & more)"
+        },
+        {
+          to: "/poetsorg/materials-teachers",
+          text: "materials for teachers"
+        },
+        {
+          to: "/poetsorg/poetry-near-you",
+          text: "poetry near you"
+        }
+      ]
     };
   },
   methods: {
