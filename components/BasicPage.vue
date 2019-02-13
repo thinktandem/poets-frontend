@@ -22,9 +22,9 @@
             :title="callToAction.title"
             :action="callToAction.action"/>
           <card-deck
-            class="pt-5"
             v-if="more !== null"
             cols="6"
+            class="pt-5"
             :cardtype="more.cardType"
             :title="more.title"
             :link="more.link"
@@ -41,6 +41,10 @@
         </b-col>
       </b-row>
     </b-container>
+    <feature-stack
+      v-if="features.length >= 1"
+      title="Featured"
+      :features="features"/>
     <component
       class="py-3"
       v-for="(item, index) in extendedContent"
@@ -53,6 +57,7 @@
 <script>
 import CalloutCard from "~/components/CalloutCard";
 import CardDeck from "~/components/CardDeck";
+import FeatureStack from "~/components/FeatureStack";
 import ResourceCard from "~/components/ResourceCard";
 import VideoBlock from "~/components/VideoBlock";
 import SignupBlock from "~/components/SignupBlock";
@@ -66,6 +71,7 @@ export default {
   components: {
     CalloutCard,
     CardDeck,
+    FeatureStack,
     ImageBlock,
     ResourceCard,
     SignupBlock,
@@ -98,12 +104,18 @@ export default {
     sidebarData: {
       type: Array,
       default: null
+    },
+    features: {
+      type: Array,
+      default: function() {
+        return [];
+      }
     }
   }
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .basic_page__body {
   font-size: 1.25rem;
   font-weight: 400;
