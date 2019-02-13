@@ -358,7 +358,8 @@ const buildFeaturedContentSection = page =>
         {
           title: referencedContent.attributes.title,
           subtitle: referencedContent.attributes.featured_meta,
-          text: referencedContent.attributes.body.processed
+          text: referencedContent.attributes.body.processed,
+          link: referencedContent.attributes.path.alias
         },
         buildMedia(media, page)
       );

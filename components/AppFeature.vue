@@ -17,7 +17,9 @@
     </div>
     <div class="feature__content py-3 h-100">
       <span class="feature__subtitle">{{ subtitle }}</span>
-      <h3 class="feature__title">{{ title }}</h3>
+      <h3 class="feature__title"><b-link
+        :to="link"
+        class="text-dark">{{ title }}</b-link></h3>
       <app-teaser-text
         :text="text"
         class="feature__text"/>
@@ -52,8 +54,8 @@ export default {
       default: ""
     },
     link: {
-      type: Object,
-      default: function() {}
+      type: String,
+      default: "/"
     },
     reverse: {
       type: Boolean,

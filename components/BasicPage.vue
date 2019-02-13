@@ -42,7 +42,7 @@
       </b-row>
     </b-container>
     <feature-stack
-      v-if="features !== null"
+      v-if="features.length >= 1"
       title="Featured"
       :features="features"/>
     <component
