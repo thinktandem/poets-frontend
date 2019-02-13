@@ -20,7 +20,7 @@
       <b-btn
         target="_blank"
         :href="fileUrl"
-        variant="primary-dark">Download it Now</b-btn>
+        variant="primary-dark">Download It Now</b-btn>
     </div>
   </div>
 </template>
