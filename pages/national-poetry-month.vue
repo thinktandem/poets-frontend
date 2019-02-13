@@ -3,7 +3,7 @@
     <basic-page
       :body="$store.state.pageData.data.attributes.body.processed"
       :highlighted="$store.state.highlightedData"
-      :featured-content="$store.state.featuredContent"
+      :features="$store.state.featuredContent"
       :more="$store.state.relatedContent"
       :sidebar-data="$store.state.sidebarData"/>
     <div class="npm__news-and-events">

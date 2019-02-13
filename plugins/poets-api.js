@@ -21,7 +21,8 @@ const imageStyles = {
   "paragraph--resource": "resource_image",
   "paragraph--sidebar_text_and_image": "resource_image",
   "paragraph--slideshow": "slide",
-  "paragraph--image": "image_block"
+  "paragraph--image": "image_block",
+  "media--image": "feature"
 };
 
 /**
@@ -30,6 +31,8 @@ const imageStyles = {
  * @note This is a little funky, we're cascading through possible field names
  *  and it isn't clear what the best order is, or how we handle a component with
  *  multiple images.
+ *
+ * @todo Make this not awful
  *
  * @param {Object} item
  *  data from Drupal
@@ -48,9 +51,11 @@ const getImgPath = (item, page) => {
     );
   } else if (
     item.relationships.hasOwnProperty("field_image") &&
-    item.relationships.field_image.data.length >= 1
+    item.relationships.field_image.data.length > 1
   ) {
     return _.first(item.relationships.field_image.data).id;
+  } else if (item.relationships.hasOwnProperty("field_image")) {
+    return item.relationships.field_image.data.id;
   } else if (
     item.relationships.hasOwnProperty("side_image") &&
     item.relationships.side_image.hasOwnProperty("data") &&
@@ -113,7 +118,7 @@ const buildAlt = (entity, page) => {
   const imgPath = getImgPath(entity, page);
   const related = _.find(
     entity.relationships,
-    relationship => relationship.data.id === imgPath
+    relationship => _.get(relationship, "data.id", null) === imgPath
   );
   if (related !== undefined) {
     return related.data.meta.alt;
@@ -146,16 +151,24 @@ const buildAlt = (entity, page) => {
  *  Drupal page object from API
  * @return {Object} an object for vue to render an image
  */
-const buildImg = (entity, page) =>
-  getImgPath(entity, page)
+const buildImg = (entity, page) => {
+  // Try to get the right imagestyle, fallback to thumbnail.
+  const imageStyle = imageStyles[entity.type] || "thumbnail";
+  // Try to find the image object.
+  const img = _.find(
+    page.included,
+    include => include.id === getImgPath(entity, page)
+  );
+  return getImgPath(entity, page)
     ? {
-        src: _.find(
-          page.included,
-          include => include.id === getImgPath(entity, page)
-        ).links[imageStyles[entity.type]].href,
+        src:
+          img !== undefined && img.links.hasOwnProperty(imageStyle)
+            ? img.links[imageStyle].href
+            : "",
         alt: buildAlt(entity, page)
       }
     : null;
+};
 
 /**
  * Build an array of slides for slideshow components
@@ -276,26 +289,26 @@ const buildSidebar = page =>
  * @todo refactor to be more deterministic
  */
 const buildHighlightedData = page =>
-  _(page.included)
-    .filter(item => item.type.includes("node"))
+  _(page.data.relationships.highlighted_content.data)
     .map(item => {
+      const entity = _.find(page.included, include => include.id === item.id);
       return {
-        title: item.attributes.title,
-        img: getImgPath(item, page)
+        title: entity.attributes.title,
+        img: getImgPath(entity, page)
           ? {
               src: _.find(
                 page.included,
-                include => include.id === getImgPath(item, page)
+                include => include.id === getImgPath(entity, page)
               ).links.thumbnail.href,
-              alt: _.first(item.relationships.field_image.data).meta.alt
+              alt: _.first(entity.relationships.field_image.data).meta.alt
             }
           : null,
         text:
-          item.attributes.hasOwnProperty("body") &&
-          item.attributes.body !== null
-            ? item.attributes.body.summary || item.attributes.body.processed
+          entity.attributes.hasOwnProperty("body") &&
+          entity.attributes.body !== null
+            ? entity.attributes.body.summary || entity.attributes.body.processed
             : "",
-        titleLink: item.attributes.path.alias
+        titleLink: entity.attributes.path.alias
       };
     })
     .value();
@@ -310,6 +323,46 @@ const buildHighlightedData = page =>
 const buildExtendedContentSection = page =>
   _(page.data.relationships.field_content_sections.data)
     .map(item => buildComponent(item, page))
+    .value();
+
+const buildMedia = (media, page) => {
+  if (media === undefined || media === null) {
+    return null;
+  }
+  switch (media.type) {
+    case "media--image":
+      return {
+        img: buildImg(media, page)
+      };
+    case "media--video_embed":
+      return {
+        video: media.attributes.field_media_video_embed_field
+      };
+  }
+};
+
+const buildFeaturedContentSection = page =>
+  _(page.data.relationships.featured.data)
+    .map(item => {
+      const referencedContent = _.find(
+        page.included,
+        include => include.id === item.id
+      );
+      const media = _.find(
+        page.included,
+        include =>
+          include.id ===
+          _.get(referencedContent, "relationships.featured_media.data.id", null)
+      );
+      return Object.assign(
+        {
+          title: referencedContent.attributes.title,
+          subtitle: referencedContent.attributes.featured_meta,
+          text: referencedContent.attributes.body.processed
+        },
+        buildMedia(media, page)
+      );
+    })
     .value();
 
 export default ({ app }, inject) => {
@@ -327,7 +380,8 @@ export default ({ app }, inject) => {
       "highlighted_content.field_image",
       "field_content_sections.resource_file",
       "sidebar_sections.resource_file",
-      "field_content_sections.side_image.field_image"
+      "field_content_sections.side_image.field_image",
+      "featured.featured_media.field_image"
     ].join(",");
     // The page request
     const pageRequest = {
@@ -366,6 +420,8 @@ export default ({ app }, inject) => {
         store.commit("updateHighlightedData", highlightedData);
         const extendedContent = buildExtendedContentSection(page);
         store.commit("updateExtendedContent", extendedContent);
+        const featuredContent = buildFeaturedContentSection(page);
+        store.commit("updateFeaturedContent", featuredContent);
       });
   });
 };
