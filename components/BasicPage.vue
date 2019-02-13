@@ -107,7 +107,9 @@ export default {
     },
     features: {
       type: Array,
-      default: null
+      default: function() {
+        return [];
+      }
     }
   }
 };
