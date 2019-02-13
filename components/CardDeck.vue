@@ -8,6 +8,7 @@
         <b-col
           cols="12"
           tag="header"
+          class="d-flex flex-lg-row flex-column"
         >
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
@@ -20,7 +21,7 @@
       <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
-          :md="cols"
+          :lg="cols"
           v-for="(card, index) in cards"
           :key="index"
           class="card-deck__card"
