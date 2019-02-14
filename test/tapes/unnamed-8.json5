@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2019-02-04T15:47:14.098Z',
+        createdAt: '2019-02-14T19:27:42.833Z',
         host: 'http://api-poetsd8.lndo.site',
     },
     req: {
@@ -32,13 +32,13 @@
                 'PHP/7.2.14',
             ],
             'set-cookie': [
-                'XDEBUG_SESSION=www-data; expires=Mon, 04-Feb-2019 16:47:14 GMT; Max-Age=3600; path=/',
+                'XDEBUG_SESSION=www-data; expires=Thu, 14-Feb-2019 20:27:42 GMT; Max-Age=3600; path=/',
             ],
             'cache-control': [
                 'must-revalidate, no-cache, private',
             ],
             date: [
-                'Mon, 04 Feb 2019 15:47:14 GMT',
+                'Thu, 14 Feb 2019 19:27:42 GMT',
             ],
             'x-drupal-dynamic-cache': [
                 'MISS',
