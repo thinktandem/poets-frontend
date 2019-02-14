@@ -257,7 +257,7 @@ export default {
     CardDeck,
     Poet,
     StyleguideForm,
-    FeatureCard,
+    FeatureStack,
     TeachingIntro,
     CalloutCard,
     SignupBlock,
@@ -406,8 +406,7 @@ export default {
           subtitle: "2005 Best in Show",
           text:
             "Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.",
-          video:
-            "<iframe width='560' height='315' src='https://www.youtube.com/embed/imqapaYAPbY' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>",
+          video: "https://www.youtube.com/watch?v=Pg_5Ni1_bg4",
           link: "blah/blah"
         },
         {
