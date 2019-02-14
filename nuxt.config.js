@@ -3,13 +3,18 @@ module.exports = {
     "@nuxtjs/axios",
     ["bootstrap-vue/nuxt", { css: false }],
     // 'vue-youtube-embed'
+    "@nuxtjs/toast",
     [
       "nuxt-sass-resources-loader",
-      {
-        resources: require("./assets/scss/imports.js")
-      }
-    ],
-    "@nuxtjs/toast"
+      [
+        "~/assets/scss/_bootstrap-variables.scss",
+        "~/assets/scss/_custom-variables.scss",
+        "bootstrap/scss/_functions.scss",
+        "bootstrap/scss/_variables.scss",
+        "bootstrap/scss/_mixins.scss",
+        "~/assets/scss/base/_mixins.scss"
+      ]
+    ]
   ],
   axios: {
     debug: process.env.APP_ENV !== "production"
