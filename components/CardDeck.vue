@@ -42,7 +42,6 @@
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Libraries/Poet";
-import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
 import EssayCard from "~/components/EssayCard";
 import BookCard from "~/components/Libraries/BookCard";
@@ -53,7 +52,6 @@ export default {
   components: {
     PoemCard,
     Poet,
-    FeatureCard,
     adCard,
     EssayCard,
     LessonPlanCard,
@@ -98,7 +96,6 @@ export default {
     }
 
     a {
-      @extend %a--more;
       display: block;
       margin-bottom: 2rem;
 
