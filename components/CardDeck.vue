@@ -47,6 +47,7 @@ import EssayCard from "~/components/EssayCard";
 import BookCard from "~/components/Libraries/BookCard";
 import CalloutCard from "./CalloutCard";
 import TextCard from "~/components/Libraries/TextCard";
+import Staff from "~/components/Aap/Staff";
 
 export default {
   components: {
@@ -58,7 +59,8 @@ export default {
     LessonPlanCard,
     BookCard,
     CalloutCard,
-    TextCard
+    TextCard,
+    Staff
   },
   props: {
     featured: {
