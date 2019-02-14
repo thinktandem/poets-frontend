@@ -9,6 +9,9 @@
         :poems="$store.state.featuredPoems.poems"
         :count="$store.state.featuredPoems.count"/>
     </section>
+    <feature-stack
+      :features="$store.state.featuredContent"
+      title="Features"/>
     <product-feature
       :title="$store.state.productFeature.title"
       :sub-title="$store.state.productFeature.subTitle"
@@ -25,24 +28,30 @@ import FeaturedPoems from "~/components/FeaturedPoems";
 import PromoSpace from "~/components/PromoSpace";
 import qs from "qs";
 import * as _ from "lodash";
+import FeatureStack from "~/components/FeatureStack";
 import ProductFeature from "~/components/ProductFeature";
 export default {
   layout: "default",
   components: {
     DailyPoem,
     FeaturedPoems,
+    FeatureStack,
     PromoSpace,
     ProductFeature
   },
   async fetch({ app, store, params }) {
-    // Set the current hero
+    // Override the hero with a quote on the homepage, this will overwrite
+    // Drupal.
     store.commit("updateHero", {
       variant: "quote",
       lead:
         "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
       subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
     });
-    // Fetch all poems with poem a day date somewhere today.
+    // @todo: We're counting on this path in Drupal, which might be something we want
+    // to change.
+    app.$buildBasicPage(app, store, "/poetsorg/home");
+    // Fetch the page contents not handled by the basic page builder.
     const commonHeaders = {
       Accept: "application/json",
       "X-CONSUMER-ID": process.env.CONSUMER_ID
