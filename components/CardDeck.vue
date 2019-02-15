@@ -49,6 +49,8 @@ import CalloutCard from "./CalloutCard";
 import TextCard from "~/components/Libraries/TextCard";
 import Staff from "~/components/Aap/Staff";
 import Chancellors from "~/components/Aap/Chancellors";
+import Board from "~/components/Aap/Board";
+import EAC from "~/components/Aap/EducationAdvisoryCouncil";
 
 export default {
   components: {
@@ -61,7 +63,9 @@ export default {
     CalloutCard,
     TextCard,
     Staff,
-    Chancellors
+    Chancellors,
+    Board,
+    EAC
   },
   props: {
     featured: {
