@@ -48,6 +48,7 @@ import BookCard from "~/components/Libraries/BookCard";
 import CalloutCard from "./CalloutCard";
 import TextCard from "~/components/Libraries/TextCard";
 import Staff from "~/components/Aap/Staff";
+import Chancellors from "~/components/Aap/Chancellors";
 
 export default {
   components: {
@@ -59,7 +60,8 @@ export default {
     BookCard,
     CalloutCard,
     TextCard,
-    Staff
+    Staff,
+    Chancellors
   },
   props: {
     featured: {

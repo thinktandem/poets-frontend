@@ -14,24 +14,24 @@
     >
       <b-navbar-nav class="ml-auto">
         <b-nav-item
-          :to="{name: academy-american-poets-leadership-staff}"
-        >
-          Leadership & Staff
-        </b-nav-item>
-        <b-nav-item
           :to="{name: academy-american-poets-staff}"
         >
           Staff
         </b-nav-item>
         <b-nav-item
-          href="/academy-american-poets/chancellors"
+          :to="{name: academy-american-poets-chancellors}"
         >
           Chancellors
         </b-nav-item>
         <b-nav-item
-          href="/academy-american-poets/board-dirctors"
+          :to="{name: academy-american-poets-board-directors}"
         >
           Board of Directors
+        </b-nav-item>
+        <b-nav-item
+          href="/academy-american-poets/education-advisory-council"
+        >
+          Education Advisory Council
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>

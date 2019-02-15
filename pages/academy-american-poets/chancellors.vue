@@ -3,9 +3,9 @@
     <AapNav/>
     <b-container>
       <CardDeck
-        cardtype="Staff"
-        cols="3"
-        :cards="staff"
+        cardtype="Chancellors"
+        cols="4"
+        :cards="chancellors"
       />
     </b-container>
   </div>
@@ -24,8 +24,8 @@ export default {
     return {};
   },
   async asyncData({ app, store, params }) {
-    let staff = await app.$axios
-      .get("/api/aap_staff", {})
+    let chancellors = await app.$axios
+      .get("/api/aap_chancellors", {})
       .then(res => {
         return {
           rows: res.data.rows
@@ -36,7 +36,7 @@ export default {
       });
 
     return {
-      staff: staff.rows
+      chancellors: chancellors.rows
     };
   },
   methods: {},
