@@ -5,9 +5,9 @@
       <ul>
         <li
           v-for="item in supportMenu"
-          :key="item.id"
+          :key="item.href"
         >
-          <a href="item.href">{{ item.title }}</a>
+          <a :href="item.href">{{ item.title }}</a>
         </li>
       </ul>
     </div>
@@ -21,7 +21,7 @@ export default {
       supportMenu: [
         {
           title: "Become a Member",
-          href: "blah/blah"
+          href: "/membership"
         },
         {
           title: "Donate Now",
@@ -37,7 +37,7 @@ export default {
         },
         {
           title: "Advertise with Us",
-          href: "blah/blah"
+          href: "/academy-american-poets/advertise-us"
         },
         {
           title: "Poets Shop",

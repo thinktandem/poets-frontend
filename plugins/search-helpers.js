@@ -29,7 +29,7 @@ export default {
         if (query.state) preparedState = "&state=" + query.state;
         if (query.school) preparedSchool = "&school=" + query.school;
         if (query.combine) preparedCombine = "&combine=" + query.combine;
-        console.log("the fucking res\n\n\n", res);
+
         return {
           results: res.data.rows,
           pageNum: res.data.pager.current_page || "",

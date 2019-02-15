@@ -8,6 +8,7 @@
         <b-col
           cols="12"
           tag="header"
+          class="d-flex flex-lg-row flex-column"
         >
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
@@ -20,7 +21,7 @@
       <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
-          :md="cols"
+          :lg="cols"
           v-for="(card, index) in cards"
           :key="index"
           class="card-deck__card"
@@ -41,24 +42,26 @@
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Libraries/Poet";
-import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
 import EssayCard from "~/components/EssayCard";
 import BookCard from "~/components/Libraries/BookCard";
 import CalloutCard from "./CalloutCard";
 import TextCard from "~/components/Libraries/TextCard";
+import Staff from "~/components/Aap/Staff";
+import Chancellors from "~/components/Aap/Chancellors";
 
 export default {
   components: {
     PoemCard,
     Poet,
-    FeatureCard,
     adCard,
     EssayCard,
     LessonPlanCard,
     BookCard,
     CalloutCard,
-    TextCard
+    TextCard,
+    Staff,
+    Chancellors
   },
   props: {
     featured: {
@@ -97,7 +100,6 @@ export default {
     }
 
     a {
-      @extend %a--more;
       display: block;
       margin-bottom: 2rem;
 

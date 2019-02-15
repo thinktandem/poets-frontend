@@ -8,9 +8,9 @@ export default {
     const baseURL = process.env.API_URL;
     const regex = /(\[\[)/;
     const myJson = content.split(regex);
+    let endJson = "";
+    let imgs = [];
     if (myJson.length > 1) {
-      let endJson = "";
-      let imgs = [];
       _.each(myJson, (val, i) => {
         const newVal = val.split(/\]\]/);
         endJson = newVal[newVal.length - 1];
@@ -20,18 +20,21 @@ export default {
           }
         });
       });
-      const myImg = await app.$axios
-        .get(`/api/file/${imgs[0].fid}`, {})
-        .then(res => {
-          return baseURL + res.data[0].url;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      let myImg = "";
+      if (imgs.length > 1) {
+        myImg = await app.$axios
+          .get(`/api/file/${imgs[0].fid}`, {})
+          .then(res => {
+            return baseURL + res.data[0].url;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
 
       return { myJson, myImg, endJson };
     } else {
-      return {};
+      return { myJson, imgs, endJson };
     }
   },
   staticUrl(content) {

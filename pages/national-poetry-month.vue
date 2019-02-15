@@ -3,6 +3,7 @@
     <basic-page
       :body="$store.state.pageData.data.attributes.body.processed"
       :highlighted="$store.state.highlightedData"
+      :features="$store.state.featuredContent"
       :more="$store.state.relatedContent"
       :sidebar-data="$store.state.sidebarData"/>
     <div class="npm__news-and-events">
@@ -75,7 +76,7 @@ export default {
     };
   },
   async fetch({ app, store }) {
-    app.$buildBasicPage(app, store, "/national-poetry-month");
+    return app.$buildBasicPage(app, store, "/national-poetry-month");
   },
   async asyncData({ app, store, params, query }) {
     const events = await app.$axios
