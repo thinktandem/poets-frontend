@@ -27,7 +27,6 @@
           v-html="job"/>
       </div>
       <div class="poet__bio">
-        <!-- <div v-html="bio"/> -->
         <div
           class="orange-link-holder">
           <a
