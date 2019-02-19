@@ -1,5 +1,6 @@
 <template>
   <section class="featured-poems py-5">
+    <promo-space variant="transparent"/>
     <b-container>
       <h2 class="font-serif ">Poems</h2>
       <b-card-group
@@ -26,10 +27,11 @@
 </template>
 
 <script>
+import PromoSpace from "~/components/PromoSpace";
 import PoemCard from "~/components/Poems/PoemCard";
 export default {
   name: "FeaturedPoems",
-  components: { PoemCard },
+  components: { PoemCard, PromoSpace },
   props: {
     poems: {
       type: Array,
@@ -44,6 +46,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.featured-poems {
+  background: url(/poets-mystery-man.png),
+    linear-gradient(90deg, $gray-400, #c9cacb);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .card-columns {
   column-count: 1;
   .card {

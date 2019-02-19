@@ -3,18 +3,15 @@
     <daily-poem
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <section class="bg-faded-img">
-      <promo-space variant="transparent"/>
-      <featured-poems
-        :poems="$store.state.featuredPoems.poems"
-        :count="$store.state.featuredPoems.count"/>
-      <card-deck
-        class="py-5"
-        title="Poets"
-        :link="$store.state.featuredPoets.link"
-        cardtype="Poet"
-        :cards="$store.state.featuredPoets.poets"/>
-    </section>
+    <featured-poems
+      :poems="$store.state.featuredPoems.poems"
+      :count="$store.state.featuredPoems.count"/>
+    <card-deck
+      class="py-5"
+      title="Poets"
+      :link="$store.state.featuredPoets.link"
+      cardtype="Poet"
+      :cards="$store.state.featuredPoets.poets"/>
     <feature-stack
       :features="$store.state.featuredContent"
       title="Features"/>
@@ -32,7 +29,6 @@
 import CardDeck from "~/components/CardDeck";
 import DailyPoem from "~/components/Poems/DailyPoem";
 import FeaturedPoems from "~/components/FeaturedPoems";
-import PromoSpace from "~/components/PromoSpace";
 import qs from "qs";
 import * as _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
@@ -44,7 +40,6 @@ export default {
     DailyPoem,
     FeaturedPoems,
     FeatureStack,
-    PromoSpace,
     ProductFeature
   },
   async fetch({ app, store, params }) {
@@ -186,10 +181,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.bg-faded-img {
-  background-image: url("/poets-mystery-man.png");
-  background-size: cover;
-}
-</style>

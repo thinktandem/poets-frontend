@@ -51,7 +51,7 @@
                 :show-actions="true"
                 :poem="poem"/>
             </div>
-            <div 
+            <div
               v-if="extended === true"
               class="daily-poem__about pl-3 pr-4">
               <h3 class="font-serif">About Poem-a-Day</h3>
@@ -191,8 +191,9 @@ export default {
 
 <style lang="scss">
 .daily-poem {
-  background: linear-gradient($gray-900);
-  background-size: auto 38rem;
+  background: linear-gradient($gray-900),
+    linear-gradient(90deg, $gray-400, #c9cacb);
+  background-size: auto 38rem, auto;
   background-repeat: no-repeat;
   aside {
     .daily-poem__poet-image {
@@ -269,11 +270,7 @@ export default {
 }
 
 .daily-poem__poem-container .container {
-  /*position: relative;*/
   margin-left: $spacer;
-}
-.summary .daily-poem__poem-container .container {
-  /*max-height: 40rem;*/
 }
 .daily-poem__poem-title {
   flex-direction: column;

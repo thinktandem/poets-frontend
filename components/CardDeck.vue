@@ -137,4 +137,11 @@ export default {
     font-weight: 500;
   }
 }
+.card-deck--poet {
+  background: url(/poets-mystery-man.png),
+    linear-gradient(90deg, $green, $green);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 </style>
