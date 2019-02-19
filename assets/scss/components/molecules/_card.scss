@@ -51,3 +51,6 @@
 .card {
   @extend %card;
 }
+.card-deck__cards {
+  margin-bottom: 3rem;
+}

@@ -27,7 +27,7 @@
           v-html="job"/>
       </div>
       <div class="poet__bio">
-        <div v-html="bio"/>
+        <!-- <div v-html="bio"/> -->
         <div
           class="orange-link-holder">
           <a
@@ -80,7 +80,6 @@ export default {
   position: relative;
   overflow: hidden;
   border: none;
-
   .card-body {
     padding: 0;
   }
@@ -90,7 +89,7 @@ export default {
     background-color: var(--gray-900);
   }
   .poet__name {
-    min-height: 98px;
+    min-height: 84px;
     padding: 12px;
     h3 {
       font-size: 1rem;
@@ -100,9 +99,12 @@ export default {
       color: var(--white);
     }
   }
+  .poet__name:hover {
+    border-bottom: none;
+  }
   &__name-bio {
     position: absolute;
-    top: calc(100% - 6.1rem);
+    top: calc(100% - 5.3rem);
     bottom: 0;
     left: 0;
     right: 0;
@@ -113,8 +115,11 @@ export default {
     &:hover,
     &:focus,
     &:active {
-      top: 0;
+      top: 154px;
     }
+  }
+  .poet__bio {
+    overflow: hidden;
   }
   .orange-link-holder {
     background-color: var(--orange);
@@ -122,7 +127,7 @@ export default {
     padding: 12px;
     position: relative;
     left: -16px;
-    bottom: -20px;
+    bottom: 18px;
     a {
       color: var(--gray-darkest);
     }
