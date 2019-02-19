@@ -120,26 +120,36 @@ export default {
     const featuredPoets = await app.$axios.$get(
       `/api/node/person?${featuredPoetsQuery}`
     );
-    store.commit("updateFeaturedPoets", {
-      featuredPoets,
-      poets: _.map(featuredPoets.data, poet => ({
-        name: poet.attributes.title,
-        img: {
-          src: _.find(
-            featuredPoets.included,
-            include =>
-              include.id === _.first(poet.relationships.field_image.data).id
-          ).links.poem_a_day_portrait.href,
-          alt: _.first(poet.relationships.field_image.data).meta.alt
-        },
-        bio: poet.attributes.body.summary || poet.attributes.body.processed,
-        link: poet.attributes.path.alias
-      })),
-      link: {
-        text: `${featuredPoets.meta.count} Poets`,
-        to: "/poetsorg/poet"
-      }
-    });
+    if (featuredPoets.data.length >= 1) {
+      store.commit("updateFeaturedPoets", {
+        poets: _.map(featuredPoets.data, poet => ({
+          name: poet.attributes.title,
+          img: {
+            src: _.get(
+              _.find(
+                featuredPoets.included,
+                include =>
+                  include.id ===
+                  _.get(
+                    _.first(poet.relationships.field_image.data),
+                    "id",
+                    null
+                  )
+              ),
+              "links.poem_a_day_portrait.href",
+              ""
+            ),
+            alt: _.get(_.first(poet.relationships.field_image.data), "meta.alt")
+          },
+          bio: poet.attributes.body.summary || poet.attributes.body.processed,
+          link: poet.attributes.path.alias
+        })),
+        link: {
+          text: `${featuredPoets.meta.count} Poets`,
+          to: "/poetsorg/poet"
+        }
+      });
+    }
     const magazineQuery = qs.stringify({
       filter: {
         status: 1,
