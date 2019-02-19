@@ -3,18 +3,15 @@
     <daily-poem
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <section class="bg-faded-img">
-      <promo-space variant="transparent"/>
-      <featured-poems
-        :poems="$store.state.featuredPoems.poems"
-        :count="$store.state.featuredPoems.count"/>
-      <card-deck
-        class="py-5"
-        title="Poets"
-        :link="$store.state.featuredPoets.link"
-        cardtype="Poet"
-        :cards="$store.state.featuredPoets.poets"/>
-    </section>
+    <featured-poems
+      :poems="$store.state.featuredPoems.poems"
+      :count="$store.state.featuredPoems.count"/>
+    <card-deck
+      class="py-5"
+      title="Poets"
+      :link="$store.state.featuredPoets.link"
+      cardtype="Poet"
+      :cards="$store.state.featuredPoets.poets"/>
     <feature-stack
       :features="$store.state.featuredContent"
       title="Features"/>
@@ -32,7 +29,6 @@
 import CardDeck from "~/components/CardDeck";
 import DailyPoem from "~/components/Poems/DailyPoem";
 import FeaturedPoems from "~/components/FeaturedPoems";
-import PromoSpace from "~/components/PromoSpace";
 import qs from "qs";
 import * as _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
@@ -44,10 +40,13 @@ export default {
     DailyPoem,
     FeaturedPoems,
     FeatureStack,
-    PromoSpace,
     ProductFeature
   },
   async fetch({ app, store, params }) {
+    // @todo: We're counting on this path in Drupal, which might be something we want
+    // to change.
+    app.$buildBasicPage(app, store, "/poetsorg/home");
+
     // Override the hero with a quote on the homepage, this will overwrite
     // Drupal.
     store.commit("updateHero", {
@@ -56,9 +55,6 @@ export default {
         "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
       subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
     });
-    // @todo: We're counting on this path in Drupal, which might be something we want
-    // to change.
-    // app.$buildBasicPage(app, store, "/poetsorg/home");
 
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
     const theOnePoemOfTheDay = _.first(poemOftheDay);
@@ -186,10 +182,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.bg-faded-img {
-  background-image: url("/poets-mystery-man.png");
-  background-size: cover;
-}
-</style>
