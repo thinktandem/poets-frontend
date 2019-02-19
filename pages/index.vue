@@ -43,6 +43,10 @@ export default {
     ProductFeature
   },
   async fetch({ app, store, params }) {
+    // @todo: We're counting on this path in Drupal, which might be something we want
+    // to change.
+    app.$buildBasicPage(app, store, "/poetsorg/home");
+
     // Override the hero with a quote on the homepage, this will overwrite
     // Drupal.
     store.commit("updateHero", {
@@ -51,9 +55,6 @@ export default {
         "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
       subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
     });
-    // @todo: We're counting on this path in Drupal, which might be something we want
-    // to change.
-    // app.$buildBasicPage(app, store, "/poetsorg/home");
 
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
     const theOnePoemOfTheDay = _.first(poemOftheDay);
