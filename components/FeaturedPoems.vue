@@ -2,12 +2,12 @@
   <section class="featured-poems py-5">
     <b-container>
       <h2 class="font-serif ">Poems</h2>
-      <b-card-group 
+      <b-card-group
         columns>
-        <header class="d-flex flex-column pt-5 mb-4 pb-2">
-          <p 
+        <header class="d-flex flex-column pt-lg-5 mb-lg-4 pb-2">
+          <p
             v-if="count >= 1"
-            class="d-flex justify-content-end"><b-link 
+            class="d-flex justify-content-lg-end"><b-link
               to="/poetsorg/poem"
               class="text-dark more">{{ count }} poems <i class="fancy-chevron"/> </b-link></p>
         </header>
@@ -45,8 +45,13 @@ export default {
 
 <style lang="scss" scoped>
 .card-columns {
-  column-count: 2;
-  orphans: 2;
+  column-count: 1;
+  .card {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    display: block;
+  }
 }
 .fancy-chevron {
   @include chevron(0.8rem, 3px, 5px);
@@ -62,9 +67,10 @@ export default {
     line-height: 2rem;
   }
   .card-columns {
+    column-count: 2;
+    orphans: 2;
     padding: 0 5rem;
     column-gap: 4.1rem;
-    max-height: 67rem;
   }
 }
 </style>

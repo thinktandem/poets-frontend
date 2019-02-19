@@ -32,6 +32,9 @@ const createStore = () => {
       extendedContent: {},
       bottomContent: {},
       featuredPoems: {},
+      featuredPoets: {
+        link: ""
+      },
       featuredContent: {}
     },
     mutations: {
@@ -76,6 +79,9 @@ const createStore = () => {
       },
       updateFeaturedPoems(state, payload) {
         state.featuredPoems = payload;
+      },
+      updateFeaturedPoets(state, payload) {
+        state.featuredPoets = payload;
       },
       updateFeaturedContent(state, payload) {
         state.featuredContent = payload;
