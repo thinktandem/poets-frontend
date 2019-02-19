@@ -141,8 +141,10 @@ export default {
             ),
             alt: _.get(_.first(poet.relationships.field_image.data), "meta.alt")
           },
-          bio: poet.attributes.body.summary || poet.attributes.body.processed,
-          link: poet.attributes.path.alias
+          bio:
+            _.get(poet, "attributes.body.summary") ||
+            _.get(poet, "attributes.body.processed"),
+          link: _.get(poet, "attributes.path.alias")
         })),
         link: {
           text: `${featuredPoets.meta.count} Poets`,
