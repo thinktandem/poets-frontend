@@ -12,7 +12,7 @@
         >
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
-            class="card-deck__link"
+            class="card-deck__link text-dark"
             v-if="link"
             :href="link.to"
           >{{ link.text }} <i class="fancy-chevron"/></b-link>
@@ -105,7 +105,6 @@ export default {
 
     a {
       display: block;
-      margin-bottom: 2rem;
 
       @include media-breakpoint-up(sm) {
         line-height: $h2-font-size;

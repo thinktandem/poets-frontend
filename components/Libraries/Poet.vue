@@ -5,9 +5,10 @@
     itemscope
     itemtype="http://schema.org/Person"
   >
-    <b-img
+    <b-img-lazy
       v-if="img"
-      :src="baseurl + img"
+      :src="img.src"
+      :alt="img.alt"
       fluid-grow
     />
     <div
@@ -34,11 +35,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      baseurl: process.env.baseURL
-    };
-  },
+  name: "Poet",
   props: {
     name: {
       type: String,
@@ -49,8 +46,8 @@ export default {
       default: ""
     },
     img: {
-      type: String,
-      default: ""
+      type: Object,
+      default: null
     },
     link: {
       type: String,
