@@ -336,7 +336,7 @@ const buildMedia = (media, page) => {
       };
     case "media--video_embed":
       return {
-        video: media.attributes.field_media_video_embed_field
+        video: _.get(media, "attributes.field_media_video_embed_field")
       };
   }
 };
