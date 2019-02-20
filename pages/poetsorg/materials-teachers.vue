@@ -136,7 +136,7 @@ export default {
                 title: "Lesson Plans",
                 cardType: "LessonPlanCard",
                 link: {
-                  to: "/poetorg/lesson_plans",
+                  to: "/poetorg/lesson-plans",
                   text: `${lessons.meta.count} Lesson Plans`
                 },
                 cards: _.map(lessons.data, item => {

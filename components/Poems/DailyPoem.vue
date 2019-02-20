@@ -191,8 +191,7 @@ export default {
 
 <style lang="scss">
 .daily-poem {
-  background: linear-gradient($gray-900),
-    linear-gradient(90deg, $gray-400, #c9cacb);
+  background: linear-gradient($gray-900), linear-gradient(#c9cacb);
   background-size: auto 38rem, auto;
   background-repeat: no-repeat;
   aside {
