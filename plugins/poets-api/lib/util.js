@@ -112,6 +112,9 @@ export default {
    */
   buildComponent(item, page) {
     const entity = _.find(page.included, include => include.id === item.id);
+    if (entity.attributes.title === "Sponsors & Partners") {
+      console.log("entity is", entity.relationships.image);
+    }
     return {
       component: components[entity.type] || "ResourceCard",
       props: {
