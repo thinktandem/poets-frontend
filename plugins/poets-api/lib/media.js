@@ -50,7 +50,7 @@ export default {
    */
   getImgPath(item, page) {
     const image = this.handleDefaultImage(item);
-    const fieldImage = this.handlFieldImage(item);
+    const fieldImage = this.handleFieldImage(item);
     const sideImage = this.handleSideImage(page, item);
     return image || fieldImage || sideImage;
   },
