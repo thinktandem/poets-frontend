@@ -4,6 +4,8 @@
  */
 
 import sections from "./lib/sections";
+import imgUrl from "~/plugins/inlineImagesUrl";
+
 export default ({ app }, inject) => {
   /**
    * Inject a helper function to build out basic pages. this can be called within the 'fetch' function of any nuxt page
@@ -45,7 +47,10 @@ export default ({ app }, inject) => {
         }
       })
       .then(response => {
-        const page = JSON.parse(response.data["Page#uri{0}"].body);
+        let page = JSON.parse(response.data["Page#uri{0}"].body);
+        page.data.attributes.body.processed = imgUrl.staticUrl(
+          page.data.attributes.body.processed
+        );
 
         store.commit("updateHero", {
           variant: "default",

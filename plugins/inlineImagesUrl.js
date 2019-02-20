@@ -1,9 +1,9 @@
 export default {
   staticUrl(content) {
-    const baseURL = process.env.API_URL;
+    const baseURL = process.env.API_URL || "https://api.poets.org";
     const contentWithImages = content.replace(
-      /\/sites\/default\/files\//g,
-      baseURL + "/sites/default/files/"
+      /src\=\"\/sites\/default\/files\//g,
+      'src="' + baseURL + "/sites/default/files/"
     );
 
     return contentWithImages;
