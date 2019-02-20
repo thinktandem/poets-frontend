@@ -11,20 +11,9 @@
           class="text__body"
           xl="8"
         >
-          <div v-if="Object.keys(bodyData).length">
-            <div
-              class="text__body-preface"
-              v-html="bodyPreface"/>
-            <div>
-              <b-img :src="bodyData.myImg"/>
-            </div>
-            <div
-              class="text__body-end"
-              v-html="bodyEnd"/>
-          </div>
           <div
-            v-else
-            v-html="staticUrl"/>
+            class="text__body-preface"
+            v-html="body"/>
         </b-col>
       </b-row>
     </b-container>
@@ -55,14 +44,11 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    const bodyData = await imgUrl.imgUrl(text.attributes.body.value, app);
+    const body = await imgUrl.staticUrl(text.attributes.body.value, app);
 
     return {
       text,
-      bodyData,
-      bodyPreface: imgUrl.staticUrl(bodyData.myJson[0]) || "",
-      bodyEnd: imgUrl.staticUrl(bodyData.endJson),
-      staticUrl: imgUrl.staticUrl(text.attributes.body.value) || ""
+      body
     };
   }
 };
