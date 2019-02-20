@@ -10,6 +10,7 @@
 
 <script>
 import BasicPage from "~/components/BasicPage";
+
 export default {
   components: {
     BasicPage
