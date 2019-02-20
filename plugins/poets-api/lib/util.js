@@ -86,6 +86,21 @@ export default {
       : null;
   },
 
+  buildProcessable(entity, field = "body", summary = false) {
+    return this.maybeField(entity, field) !== null
+      ? this.maybeField(entity, field).processed
+      : null;
+  },
+
+  buildFile(entity, page) {
+    return this.getFilePath(entity)
+      ? _.find(
+          page.included,
+          include => include.id === this.getFilePath(entity)
+        )
+      : null;
+  },
+
   /**
    * Generic function to build a component from Drupal data
    *
@@ -101,25 +116,11 @@ export default {
       component: components[entity.type] || "ResourceCard",
       props: {
         title: entity.attributes.title,
-        body:
-          this.maybeField(entity, "body") !== null
-            ? this.maybeField(entity, "body").processed
-            : null,
+        body: this.buildProcessable(entity),
         img: media.buildImg(entity, page),
-        file: this.getFilePath(entity)
-          ? _.find(
-              page.included,
-              include => include.id === this.getFilePath(entity)
-            )
-          : null,
-        sidebarTop:
-          this.maybeField(entity, "side_text_1") !== null
-            ? this.maybeField(entity, "side_text_1").processed
-            : null,
-        sidebarBottom:
-          this.maybeField(entity, "side_text_2") !== null
-            ? this.maybeField(entity, "side_text_2").processed
-            : null,
+        file: this.buildFile(entity, page),
+        sidebarTop: this.buildProcessable(entity, "side_text_1"),
+        sidebarBottom: this.buildProcessable(entity, "side_text_2"),
         slides: this.buildSlides(item, page),
         youtubeId: this.maybeField(entity, "youtube_id"),
         vimeoId: this.maybeField(entity, "vimeo_id")

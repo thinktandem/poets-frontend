@@ -8,14 +8,39 @@ export default {
     "paragraph--image": "image_block",
     "media--image": "feature"
   },
+  handleMultiImage(field) {
+    return field.data.constructor === Array && field.data.length > 1
+      ? _.get(_.first(field.data), "id")
+      : _.get(field.data, "id");
+  },
+  handleFieldImage(item) {
+    const fieldImage = _.get(item, "relationships.field_image");
+    return fieldImage ? handleMultiImage(fieldImage) : null;
+  },
+  findMediaImage(page, imageField) {
+    return _.find(page.included, include => {
+      const mediaItem = _.find(
+        page.included,
+        include => include.id === imageField.id
+      );
+      return include.id === mediaItem.relationships.field_image.data.id;
+    });
+  },
+  handleSideImage(page, item) {
+    const sideImage = _.get(item, "relationships.side_image");
+    return sideImage.data.constructor === Array && sideImage.length >= 1
+      ? this.findMediaImage(page, _.first(sideImage.data))
+      : this.findMediaImage(page, sideImage.data);
+  },
+
+  handleDefaultImage(item) {
+    return (
+      _.get(item, "relationships.image.data") ||
+      _.get(item, "relationships.image.target_uuid")
+    );
+  },
   /**
-   * Fetch the image uuid.
-   *
-   * @note This is a little funky, we're cascading through possible field names
-   *  and it isn't clear what the best order is, or how we handle a component with
-   *  multiple media.
-   *
-   * @todo Make this not awful
+   * Fetch the image uuid. This function cascades through multiple possible image fields to look for an id.
    *
    * @param {Object} item
    *  data from Drupal
@@ -24,51 +49,10 @@ export default {
    * @return {String|null} Either the ID or null if can't be found
    */
   getImgPath(item, page) {
-    if (
-      item.relationships.hasOwnProperty("image") &&
-      item.relationships.image.data !== null
-    ) {
-      return (
-        item.relationships.image.data.target_uuid ||
-        item.relationships.image.data.id
-      );
-    } else if (
-      item.relationships.hasOwnProperty("field_image") &&
-      item.relationships.field_image.data.length > 1
-    ) {
-      return _.first(item.relationships.field_image.data).id;
-    } else if (item.relationships.hasOwnProperty("field_image")) {
-      return item.relationships.field_image.data.id;
-    } else if (
-      item.relationships.hasOwnProperty("side_image") &&
-      item.relationships.side_image.hasOwnProperty("data") &&
-      item.relationships.side_image.data.hasOwnProperty("id") &&
-      item.relationships.side_image.data.id !== null
-    ) {
-      return _.find(page.included, include => {
-        const mediaItem = _.find(
-          page.included,
-          include => include.id === item.relationships.side_image.data.id
-        );
-        return include.id === mediaItem.relationships.field_image.data.id;
-      }).id;
-    } else if (
-      item.relationships.hasOwnProperty("side_image") &&
-      item.relationships.side_image.hasOwnProperty("data") &&
-      item.relationships.side_image.data.constructor === Array &&
-      item.relationships.side_image.data.length >= 1
-    ) {
-      return _.find(page.included, include => {
-        const mediaItem = _.find(
-          page.included,
-          include =>
-            include.id === _.first(item.relationships.side_image.data).id
-        );
-        return include.id === mediaItem.relationships.field_image.data.id;
-      }).id;
-    } else {
-      return null;
-    }
+    const image = this.handleDefaultImage(item);
+    const fieldImage = this.handlFieldImage(item);
+    const sideImage = this.handleSideImage(page, item);
+    return image || fieldImage || sideImage;
   },
   /**
    * Build an alt string
