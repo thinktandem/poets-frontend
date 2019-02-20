@@ -171,7 +171,7 @@ export default {
       subTitle: topProduct.attributes.subtitle,
       contents: topProduct.attributes.contents,
       img: {
-        src: img.links.magazine_cover.href,
+        src: _.get(img, "links.magazine_cover.href"),
         alt: "Magazine Cover"
       },
       link: {

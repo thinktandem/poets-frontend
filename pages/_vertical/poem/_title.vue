@@ -63,7 +63,7 @@
             class="poet--aside px-4"
             v-if="poet !== null">
             <div
-              v-if="image !== null"
+              v-if="image"
               class="poet--aside__image">
               <b-img
                 fluid

@@ -35,7 +35,8 @@ const createStore = () => {
       featuredPoets: {
         link: ""
       },
-      featuredContent: {}
+      featuredContent: {},
+      subNavigation: null
     },
     mutations: {
       updateBottomContent(state, payload) {
@@ -80,11 +81,14 @@ const createStore = () => {
       updateFeaturedPoems(state, payload) {
         state.featuredPoems = payload;
       },
+      updateFeaturedContent(state, payload) {
+        state.featuredContent = payload;
+      },
       updateFeaturedPoets(state, payload) {
         state.featuredPoets = payload;
       },
-      updateFeaturedContent(state, payload) {
-        state.featuredContent = payload;
+      updateSubNavigation(state, payload) {
+        state.subNavigation = payload;
       }
     }
   });
