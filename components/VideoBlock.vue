@@ -12,8 +12,10 @@
       <div class="video-block__links d-flex justify-content-start pt-3">
         <b-link
           v-if="vimeoId !== null"
+          target="_blank"
           :href="`https://vimeo.com/${vimeoId}`">Watch on Vimeo</b-link>
         <b-link
+          target="_blank"
           :href="`https://www.youtube.com/watch?v=${youtubeId}`">Watch on Youtube</b-link>
       </div>
     </div>
