@@ -2,6 +2,11 @@ import _ from "lodash";
 import media from "./media";
 import util from "./util";
 export default {
+  buildGenericSection(page, section) {
+    return _(_.get(page, `data.relationships[${section}].data`))
+      .map(item => util.buildComponent(item, page))
+      .value();
+  },
   /**
    * Build up the sidebar data region
    *
@@ -11,9 +16,7 @@ export default {
    *  formatted sidebar area data
    */
   buildSidebar(page) {
-    return _(page.data.relationships.sidebar_sections.data)
-      .map(item => util.buildComponent(item, page))
-      .value();
+    return this.buildGenericSection(page, "sidebar_sections");
   },
 
   /**
@@ -61,9 +64,7 @@ export default {
    * @return {Object} formatted data for extended region
    */
   buildExtendedContentSection(page) {
-    return _(page.data.relationships.field_content_sections.data)
-      .map(item => util.buildComponent(item, page))
-      .value();
+    return this.buildGenericSection(page, "field_content_sections");
   },
 
   buildFeaturedContentSection(page) {
