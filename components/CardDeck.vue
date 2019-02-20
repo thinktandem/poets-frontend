@@ -21,7 +21,7 @@
       <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
-          :lg="cols"
+          v-bind="columnBinding"
           v-for="(card, index) in cards"
           :key="index"
           class="card-deck__card"
@@ -91,6 +91,17 @@ export default {
     cols: {
       type: String,
       default: "4"
+    },
+    colSize: {
+      type: String,
+      default: "lg"
+    }
+  },
+  computed: {
+    columnBinding() {
+      let obj = {};
+      obj[this.colSize] = this.cols;
+      return obj;
     }
   }
 };

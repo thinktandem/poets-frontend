@@ -9,6 +9,7 @@
       :sidebar-data="$store.state.sidebarData"/>
     <card-deck
       class="py-4"
+      col-size="md"
       :cards="$store.state.bottomContent.cards"
       :cardtype="$store.state.bottomContent.cardType"
       :title="$store.state.bottomContent.title"

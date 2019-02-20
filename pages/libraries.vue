@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LibNav/>
     <b-container>
       <CardDeck
         title="Poems"
@@ -43,12 +42,10 @@
 </template>
 
 <script>
-import LibNav from "~/components/Libraries/LibNav";
 import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
-    LibNav,
     CardDeck
   },
   data() {
@@ -69,6 +66,38 @@ export default {
         text: "0"
       }
     };
+  },
+  async fetch({ app, store, params }) {
+    store.commit("updateSubNavigation", [
+      {
+        to: "/libraries",
+        text: "Library"
+      },
+      {
+        to: "/poetorg/poems",
+        text: "Poems"
+      },
+      {
+        to: "/poetorg/poets",
+        text: "Poets"
+      },
+      {
+        to: "/poetsorg/texts",
+        text: "Texts"
+      },
+      {
+        to: "/poetsorg/books",
+        text: "Books"
+      },
+      {
+        to: "/poetsorg/audio",
+        text: "Audio"
+      },
+      {
+        to: "/poetsorg/video",
+        text: "Video"
+      }
+    ]);
   },
   async asyncData({ app, store, params }) {
     let poems = await app.$axios
