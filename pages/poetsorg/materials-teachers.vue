@@ -44,6 +44,32 @@ export default {
     };
   },
   async fetch({ app, store, params }) {
+    store.commit("updateSubNavigation", [
+      {
+        to: "/poetsorg/poems-kids",
+        text: "Poems for Kids"
+      },
+      {
+        to: "/poetsorg/poems-teens",
+        text: "Poems for Teens"
+      },
+      {
+        to: "/poetsorg/lesson-plans",
+        text: "Lesson Plans"
+      },
+      {
+        to: "/poetsorg/essays",
+        text: "Essays"
+      },
+      {
+        to: "/poetsorg/teach-this-poem",
+        text: "Teach this Poem"
+      },
+      {
+        to: "/poetorg/resources",
+        text: "Resources"
+      }
+    ]);
     return (
       app
         // Start with the 'basic page' essentials
@@ -110,7 +136,7 @@ export default {
                 title: "Lesson Plans",
                 cardType: "LessonPlanCard",
                 link: {
-                  to: "/poetorg/lesson_plans",
+                  to: "/poetorg/lesson-plans",
                   text: `${lessons.meta.count} Lesson Plans`
                 },
                 cards: _.map(lessons.data, item => {

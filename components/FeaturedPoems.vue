@@ -47,8 +47,8 @@ export default {
 
 <style lang="scss" scoped>
 .featured-poems {
-  background: url(/poets-mystery-man.png),
-    linear-gradient(90deg, $gray-400, #c9cacb);
+  background: linear-gradient(#c9cacb 0%, transparent 20%),
+    url(/poets-mystery-man.png), linear-gradient(90deg, $gray-400, #c9cacb);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
