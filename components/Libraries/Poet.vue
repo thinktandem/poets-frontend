@@ -9,6 +9,7 @@
       v-if="img"
       :src="img.src"
       :alt="img.alt"
+      blank-color="#000"
       fluid-grow
     />
     <div

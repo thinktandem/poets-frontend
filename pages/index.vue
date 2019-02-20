@@ -9,6 +9,7 @@
     <card-deck
       class="py-5"
       title="Poets"
+      col-size="md"
       :link="$store.state.featuredPoets.link"
       cardtype="Poet"
       :cards="$store.state.featuredPoets.poets"/>
@@ -132,7 +133,7 @@ export default {
                     null
                   )
               ),
-              "links.poem_a_day_portrait.href",
+              "links.portrait.href",
               ""
             ),
             alt: _.get(_.first(poet.relationships.field_image.data), "meta.alt")
