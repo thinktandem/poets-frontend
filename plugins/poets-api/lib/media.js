@@ -9,34 +9,45 @@ export default {
     "media--image": "feature"
   },
   handleMultiImage(field) {
-    return field.data.constructor === Array && field.data.length > 1
-      ? _.get(_.first(field.data), "id")
-      : _.get(field.data, "id");
+    return _.get(field, "data", null).constructor === Array &&
+      _.get(field, "data", []).length > 1
+      ? _.get(_.first(field.data), "id", null)
+      : _.get(field.data, "id", null);
   },
   handleFieldImage(item) {
     const fieldImage = _.get(item, "relationships.field_image");
-    return fieldImage ? handleMultiImage(fieldImage) : null;
+    return fieldImage ? this.handleMultiImage(fieldImage) : null;
   },
   findMediaImage(page, imageField) {
     return _.find(page.included, include => {
       const mediaItem = _.find(
         page.included,
-        include => include.id === imageField.id
+        include => include.id === _.get(imageField, "id")
       );
-      return include.id === mediaItem.relationships.field_image.data.id;
+      return (
+        include.id === _.get(mediaItem, "relationships.field_image.data.id")
+      );
     });
   },
   handleSideImage(page, item) {
     const sideImage = _.get(item, "relationships.side_image");
-    return sideImage.data.constructor === Array && sideImage.length >= 1
-      ? this.findMediaImage(page, _.first(sideImage.data))
-      : this.findMediaImage(page, sideImage.data);
+    return sideImage &&
+      sideImage.data.constructor === Array &&
+      sideImage.length >= 1
+      ? this.findMediaImage(page, _.first(_.get(sideImage, "data")))
+      : this.findMediaImage(page, _.get(sideImage, "data"));
   },
 
+  /**
+   * Handles the "image" field in Drupal.
+   * @param {Object} item
+   *  structured object representing entity from Drupal.
+   * @return {String|null} UUID or null
+   */
   handleDefaultImage(item) {
     return (
-      _.get(item, "relationships.image.data") ||
-      _.get(item, "relationships.image.target_uuid")
+      _.get(item, "relationships.image.data.id", null) ||
+      _.get(item, "relationships.image.data.target_uuid", null)
     );
   },
   /**
@@ -49,10 +60,11 @@ export default {
    * @return {String|null} Either the ID or null if can't be found
    */
   getImgPath(item, page) {
-    const image = this.handleDefaultImage(item);
-    const fieldImage = this.handlFieldImage(item);
-    const sideImage = this.handleSideImage(page, item);
-    return image || fieldImage || sideImage;
+    return (
+      this.handleDefaultImage(item) ||
+      this.handleFieldImage(item) ||
+      this.handleSideImage(page, item)
+    );
   },
   /**
    * Build an alt string
