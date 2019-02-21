@@ -127,7 +127,8 @@ export default {
         sidebarBottom: this.buildProcessable(entity, "side_text_2"),
         slides: this.buildSlides(item, page),
         youtubeId: this.maybeField(entity, "youtube_id"),
-        vimeoId: this.maybeField(entity, "vimeo_id")
+        vimeoId: this.maybeField(entity, "vimeo_id"),
+        moreLink: this.maybeField(entity, "more_link")
       }
     };
   }

@@ -3,7 +3,7 @@ export default {
   // Map paragraph types to image styles
   imageStyles: {
     "paragraph--resource": "resource_image",
-    "paragraph--sidebar_text_and_image": "resource_image",
+    "paragraph--sidebar_text_and_image": "media_aside_lg",
     "paragraph--slideshow": "slide",
     "paragraph--image": "image_block",
     "media--image": "feature"
