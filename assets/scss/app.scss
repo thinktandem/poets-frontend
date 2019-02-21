@@ -45,6 +45,7 @@
 @import "base/typography";
 
 // Component CSS (Overrides to bootstrap CSS)
+@import "components/atoms/blockquote";
 @import "components/atoms/button";
 @import "components/atoms/form-control";
 @import "components/atoms/form-description";
