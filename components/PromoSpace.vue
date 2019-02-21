@@ -34,8 +34,12 @@ export default {
       windowResizeListenerDebounce: null,
       ghostMode: false,
       adUnit: this.whichPromoSpace(),
-      size: [[728, 90], [300, 250]],
-      sizeMapping: [[[1024, 0], [728, 90]], [[0, 0], [300, 250]]],
+      size: [[728, 90], [300, 250], [180, 150]],
+      sizeMapping: [
+        [[1024, 0], [728, 90]],
+        [[375, 0], [300, 250]],
+        [[0, 0], [180, 150]]
+      ],
       slots: [],
       responsive: true,
       individualRefresh: true

@@ -83,6 +83,10 @@ export default {
     background-color: var(--gray-900);
   }
   .poet__name {
+    border-bottom: none;
+  }
+  .poet__name-bio:hover .poet__bio {
+    bottom: -64px;
   }
   &__name-bio {
     position: absolute;
@@ -103,13 +107,19 @@ export default {
   .job-title {
     min-height: 30px;
   }
+  .poet__bio {
+    overflow: hidden;
+    max-height: 56px;
+    position: relative;
+    bottom: 5px;
+  }
   .orange-link-holder {
     background-color: var(--orange);
-    min-width: 282px;
+    min-width: 388px;
     padding: 12px;
     position: relative;
     left: -16px;
-    bottom: -20px;
+    bottom: 11px;
     a {
       color: var(--gray-darkest);
     }

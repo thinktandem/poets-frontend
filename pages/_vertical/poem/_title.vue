@@ -63,7 +63,7 @@
             class="poet--aside px-4"
             v-if="poet !== null">
             <div
-              v-if="image !== null"
+              v-if="image"
               class="poet--aside__image">
               <b-img
                 fluid
@@ -82,14 +82,17 @@
     </b-container>
     <card-deck
       v-if="morePoems.poems.length >= 1"
+      col-size="md"
       :title="`More by ${poet.title}`"
       cardtype="PoemCard"
+      class="py-5"
       :link="buildSectionLink(morePoems.response, { field_author: poet.uuid })"
       :cards="morePoems.poems"
     />
     <card-deck
+      col-size="md"
       v-if="relatedPoems.poems.length >= 1"
-      class="bg-primary"
+      class="bg-primary py-5"
       title="Related Poems"
       cardtype="PoemCard"
       :cards="relatedPoems.poems"

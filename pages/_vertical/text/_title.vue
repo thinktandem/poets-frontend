@@ -2,29 +2,18 @@
   <div>
     <b-container class="py-5">
       <b-row>
-        <b-col xl="12">
+        <b-col xl="8">
           <h1>{{ text.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
           class="text__body"
-          xl="12"
+          xl="8"
         >
-          <div v-if="Object.keys(bodyData).length">
-            <div
-              class="text__body-preface"
-              v-html="bodyPreface"/>
-            <div>
-              <b-img :src="bodyData.myImg"/>
-            </div>
-            <div
-              class="text__body-end"
-              v-html="bodyEnd"/>
-          </div>
           <div
-            v-else
-            v-html="staticUrl"/>
+            class="text__body-preface"
+            v-html="body"/>
         </b-col>
       </b-row>
     </b-container>
@@ -55,14 +44,11 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    const bodyData = await imgUrl.imgUrl(text.attributes.body.value, app);
+    const body = await imgUrl.staticUrl(text.attributes.body.value, app);
 
     return {
       text,
-      bodyData,
-      bodyPreface: imgUrl.staticUrl(bodyData.myJson[0]) || "",
-      bodyEnd: imgUrl.staticUrl(bodyData.endJson),
-      staticUrl: imgUrl.staticUrl(text.attributes.body.value) || ""
+      body
     };
   }
 };
@@ -72,11 +58,12 @@ export default {
 .text__body {
   font-weight: 400;
   font-size: 1.2em;
-  .text__body-preface /deep/,
-  .text__body-end /deep/ {
-    p img {
-      max-width: 100%;
-    }
+  .text__body-preface /deep/ img,
+  .text__body-end /deep/ img,
+  /deep/ img {
+    max-width: 100%;
+    float: left;
+    padding-right: 22px;
   }
 }
 </style>

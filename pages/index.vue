@@ -3,12 +3,16 @@
     <daily-poem
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <section class="bg-faded-img">
-      <promo-space variant="transparent"/>
-      <featured-poems
-        :poems="$store.state.featuredPoems.poems"
-        :count="$store.state.featuredPoems.count"/>
-    </section>
+    <featured-poems
+      :poems="$store.state.featuredPoems.poems"
+      :count="$store.state.featuredPoems.count"/>
+    <card-deck
+      class="py-5"
+      title="Poets"
+      col-size="md"
+      :link="$store.state.featuredPoets.link"
+      cardtype="Poet"
+      :cards="$store.state.featuredPoets.poets"/>
     <feature-stack
       :features="$store.state.featuredContent"
       title="Features"/>
@@ -23,9 +27,9 @@
 </template>
 
 <script>
+import CardDeck from "~/components/CardDeck";
 import DailyPoem from "~/components/Poems/DailyPoem";
 import FeaturedPoems from "~/components/FeaturedPoems";
-import PromoSpace from "~/components/PromoSpace";
 import qs from "qs";
 import * as _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
@@ -33,13 +37,17 @@ import ProductFeature from "~/components/ProductFeature";
 export default {
   layout: "default",
   components: {
+    CardDeck,
     DailyPoem,
     FeaturedPoems,
     FeatureStack,
-    PromoSpace,
     ProductFeature
   },
   async fetch({ app, store, params }) {
+    // @todo: We're counting on this path in Drupal, which might be something we want
+    // to change.
+    app.$buildBasicPage(app, store, "/poetsorg/home");
+
     // Override the hero with a quote on the homepage, this will overwrite
     // Drupal.
     store.commit("updateHero", {
@@ -48,32 +56,99 @@ export default {
         "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
       subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
     });
-    // @todo: We're counting on this path in Drupal, which might be something we want
-    // to change.
-    app.$buildBasicPage(app, store, "/poetsorg/home");
-    // Fetch the page contents not handled by the basic page builder.
-    const commonHeaders = {
-      Accept: "application/json",
-      "X-CONSUMER-ID": process.env.CONSUMER_ID
-    };
-    const poemOfTheDayRequest = {
-      requestId: "poemADay",
-      uri: "/poem-a-day",
-      action: "view",
-      headers: commonHeaders
-    };
+
+    const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
+    const theOnePoemOfTheDay = _.first(poemOftheDay);
+    store.commit("updatePoemOfTheDay", {
+      poet: {
+        name: theOnePoemOfTheDay.poet.name,
+        image: theOnePoemOfTheDay.poet.image
+          ? theOnePoemOfTheDay.poet.image
+          : "",
+        alias: theOnePoemOfTheDay.poet.alias
+      },
+      poem: {
+        title: theOnePoemOfTheDay.poem.title,
+        text: theOnePoemOfTheDay.poem.text,
+        soundCloud: theOnePoemOfTheDay.poem.soundcloud,
+        alias: theOnePoemOfTheDay.poem.alias
+      }
+    });
+
     const featuredPoemsQuery = qs.stringify({
       page: {
         limit: 4
       },
+      sort: "-promote",
       include: "field_author"
     });
-    const featuredPoemsRequest = {
-      requestId: "featuredPoems",
-      uri: `/api/node/poems?${featuredPoemsQuery}`,
-      action: "view",
-      headers: commonHeaders
-    };
+    const featuredPoems = await app.$axios.$get(
+      `/api/node/poems?${featuredPoemsQuery}`
+    );
+    store.commit("updateFeaturedPoems", {
+      count: featuredPoems.meta.count,
+      poems: _.map(featuredPoems.data, poem => {
+        return {
+          title: poem.attributes.title,
+          link: poem.attributes.path.alias,
+          text: poem.attributes.body.processed,
+          poet: {
+            name: _.find(
+              featuredPoems.included,
+              include =>
+                include.id === poem.relationships.field_author.data[0].id
+            ).attributes.title
+          },
+          year: poem.attributes.field_date_published.split("-")[0]
+        };
+      })
+    });
+    const featuredPoetsQuery = qs.stringify({
+      filter: {
+        status: 1,
+        field_p_type: "poet"
+      },
+      sort: "-promote",
+      page: {
+        limit: 6
+      },
+      include: "field_image"
+    });
+    const featuredPoets = await app.$axios.$get(
+      `/api/node/person?${featuredPoetsQuery}`
+    );
+    if (featuredPoets.data.length >= 1) {
+      store.commit("updateFeaturedPoets", {
+        poets: _.map(featuredPoets.data, poet => ({
+          name: poet.attributes.title,
+          img: {
+            src: _.get(
+              _.find(
+                featuredPoets.included,
+                include =>
+                  include.id ===
+                  _.get(
+                    _.first(poet.relationships.field_image.data),
+                    "id",
+                    null
+                  )
+              ),
+              "links.portrait.href",
+              ""
+            ),
+            alt: _.get(_.first(poet.relationships.field_image.data), "meta.alt")
+          },
+          bio:
+            _.get(poet, "attributes.body.summary") ||
+            _.get(poet, "attributes.body.processed"),
+          link: _.get(poet, "attributes.path.alias")
+        })),
+        link: {
+          text: `${featuredPoets.meta.count} Poets`,
+          to: "/poetsorg/poet"
+        }
+      });
+    }
     const magazineQuery = qs.stringify({
       filter: {
         status: 1,
@@ -84,89 +159,27 @@ export default {
       },
       include: "field_image"
     });
-    const magazineRequest = {
-      requestId: "magazine",
-      action: "view",
-      headers: commonHeaders,
-      uri: `/api/node/magazine?${magazineQuery}`
-    };
-    const requestCollection = [
-      poemOfTheDayRequest,
-      featuredPoemsRequest,
-      magazineRequest
-    ];
-    const requestOptions = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
+    const magazine = await app.$axios.$get(
+      `/api/node/magazine?${magazineQuery}`
+    );
+    let img = _(magazine.included)
+      .filter(include => include.type === "file--file")
+      .first();
+    const topProduct = _.first(magazine.data);
+    store.commit("updateProductFeature", {
+      title: topProduct.attributes.title,
+      intro: topProduct.attributes.body.processed,
+      subTitle: topProduct.attributes.subtitle,
+      contents: topProduct.attributes.contents,
+      img: {
+        src: _.get(img, "links.magazine_cover.href"),
+        alt: "Magazine Cover"
+      },
+      link: {
+        to: `/academy-american-poets/become-member`,
+        text: "Become a member"
       }
-    };
-    return app.$axios
-      .$post("/subrequests?_format=json", requestCollection, requestOptions)
-      .then(response => {
-        store.commit("updatePageData", response);
-        const theOnePoemOfTheDay = _.first(JSON.parse(response.poemADay.body));
-        store.commit("updatePoemOfTheDay", {
-          poet: {
-            name: theOnePoemOfTheDay.poet.name,
-            image: theOnePoemOfTheDay.poet.image
-              ? theOnePoemOfTheDay.poet.image
-              : "",
-            alias: theOnePoemOfTheDay.poet.alias
-          },
-          poem: {
-            title: theOnePoemOfTheDay.poem.title,
-            text: theOnePoemOfTheDay.poem.text,
-            soundCloud: theOnePoemOfTheDay.poem.soundcloud,
-            alias: theOnePoemOfTheDay.poem.alias
-          }
-        });
-        const featuredPoems = JSON.parse(response.featuredPoems.body);
-        store.commit("updateFeaturedPoems", {
-          count: featuredPoems.meta.count,
-          poems: _.map(featuredPoems.data, poem => {
-            return {
-              title: poem.attributes.title,
-              link: poem.attributes.path.alias,
-              text: poem.attributes.body.processed,
-              poet: {
-                name: _.find(
-                  featuredPoems.included,
-                  include =>
-                    include.id === poem.relationships.field_author.data[0].id
-                ).attributes.title
-              },
-              year: poem.attributes.field_date_published.split("-")[0]
-            };
-          })
-        });
-        const featuredProduct = JSON.parse(response.magazine.body);
-        let img = _(featuredProduct.included)
-          .filter(include => include.type === "file--file")
-          .first();
-        const topProduct = _.first(featuredProduct.data);
-        store.commit("updateProductFeature", {
-          title: topProduct.attributes.title,
-          intro: topProduct.attributes.body.processed,
-          subTitle: topProduct.attributes.subtitle,
-          contents: topProduct.attributes.contents,
-          img: {
-            src: img.links.magazine_cover.href,
-            alt: "Magazine Cover"
-          },
-          link: {
-            to: `/academy-american-poets/become-member`,
-            text: "Become a member"
-          }
-        });
-      });
+    });
   }
 };
 </script>
-
-<style scoped>
-.bg-faded-img {
-  background-image: url("/poets-mystery-man.png");
-  background-size: cover;
-}
-</style>

@@ -12,7 +12,7 @@
         >
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
-            class="card-deck__link"
+            class="card-deck__link text-dark"
             v-if="link"
             :href="link.to"
           >{{ link.text }} <i class="fancy-chevron"/></b-link>
@@ -21,7 +21,7 @@
       <b-row class="card-deck__cards d-flex">
         <b-col
           cols="12"
-          :lg="cols"
+          v-bind="columnBinding"
           v-for="(card, index) in cards"
           :key="index"
           class="card-deck__card"
@@ -91,6 +91,17 @@ export default {
     cols: {
       type: String,
       default: "4"
+    },
+    colSize: {
+      type: String,
+      default: "lg"
+    }
+  },
+  computed: {
+    columnBinding() {
+      let obj = {};
+      obj[this.colSize] = this.cols;
+      return obj;
     }
   }
 };
@@ -105,7 +116,6 @@ export default {
 
     a {
       display: block;
-      margin-bottom: 2rem;
 
       @include media-breakpoint-up(sm) {
         line-height: $h2-font-size;
@@ -137,5 +147,12 @@ export default {
     line-height: 2;
     font-weight: 500;
   }
+}
+.card-deck--poet {
+  background: url(/poets-mystery-man.png),
+    linear-gradient(90deg, $green, $green);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>

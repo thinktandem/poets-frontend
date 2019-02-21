@@ -8,6 +8,9 @@
       :lead="this.$store.state.hero.lead"
       :subtext="this.$store.state.hero.subtext"
     />
+    <sub-navigation
+      v-if="$store.state.subNavigation"
+      :links="$store.state.subNavigation"/>
     <nuxt/>
     <AppNewsletterSupportFollow />
     <AppFooterPrimary />
@@ -24,7 +27,7 @@ import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
 import PromoSpace from "~/components/PromoSpace";
 import GptAds from "~/plugins/gpt-ads";
-
+import SubNavigation from "~/components/SubNavigation";
 export default {
   components: {
     PromoSpace,
@@ -33,7 +36,8 @@ export default {
     AppAnnouncementsAwards,
     AppNewsletterSupportFollow,
     AppFooterPrimary,
-    AppFooterUtility
+    AppFooterUtility,
+    SubNavigation
   },
   head() {
     return {
