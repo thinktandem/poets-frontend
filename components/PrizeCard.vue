@@ -1,40 +1,68 @@
+
 <template>
   <b-card
     class="card--prize"
     tag="article"
-    itemscope
-    itemtype="http://schema.org/Article"
+    no-body
   >
-    <h3 class="prize-title">
-      <b-link
-        v-html="title"
-        class="text-dark"
-        :href="link"
-        itemprop="title"
-      />
-    </h3>
-    <div
-      class="prize__body prize__body--fade font-serif-2"
-      v-html="text"
-    />
-    <div class="prize-footer">
-      <p
-        class="card__name"
-        itemprop="author"
-      >{{ poet.name }}</p>
-      <p
-        class="card__year"
-        itemprop="datePublished"
-      >{{ year }}</p>
-    </div>
+    <b-card-body class="d-flex justify-content-between flex-column align-content-between">
+      <h3 class="card-title">
+        <b-link
+          class="text-dark"
+          :to="link"
+          itemprop="title"
+        >
+          {{ title }}
+        </b-link>
+      </h3>
+      <div class="card-footer">
+        <p
+          class="card--prize__meta"
+          v-html="meta"/>
+        <p class="card--prize__level">{{ level }}</p>
+      </div>
+    </b-card-body>
   </b-card>
 </template>
-
 <script>
 export default {
-  name: "PrizeCard"
+  props: {
+    title: {
+      type: String,
+      default: ""
+    },
+    meta: {
+      type: String,
+      default: ""
+    },
+    level: {
+      type: String,
+      default: ""
+    },
+    link: {
+      type: String,
+      default: ""
+    }
+  }
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.card--prize {
+  border-color: var(--orange);
+}
+.card--prize__meta {
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  line-height: 1.75;
+}
+.card-footer {
+  p {
+    &.card--prize__level {
+      font-weight: 400;
+      font-size: $font-size-base;
+      line-height: 1;
+    }
+  }
+}
 </style>

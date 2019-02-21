@@ -1,15 +1,12 @@
 <template>
-  <b-card-group
-    :class="'prize-deck--' + cardtype|lowercase"
-    deck
-  >
+  <section class="card-deck--prizedeck">
     <b-container>
       <b-row>
         <b-col
           cols="12"
           tag="header"
         >
-          <h2 class="prize-deck__title">{{ title }}</h2>
+          <h2 class="font-serif prize-deck__title">{{ title }}</h2>
           <b-link
             class="prize-deck__link"
             v-if="link"
@@ -33,7 +30,7 @@
         </b-col>
       </b-row>
     </b-container>
-  </b-card-group>
+  </section>
 </template>
 
 <script>
@@ -41,7 +38,6 @@
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Libraries/Poet";
-import FeatureCard from "~/components/FeatureCard";
 import adCard from "~/components/adCard";
 import EssayCard from "~/components/EssayCard";
 import BookCard from "~/components/Libraries/BookCard";
@@ -53,7 +49,6 @@ export default {
   components: {
     PoemCard,
     Poet,
-    FeatureCard,
     adCard,
     EssayCard,
     LessonPlanCard,
@@ -92,7 +87,8 @@ export default {
 </script>
 
 <style lang="scss">
-.prize-deck {
+.card-deck--prizedeck {
+  min-height: 464px;
   background: linear-gradient(270deg, #8195a6 0%, #637381 100%);
   header {
     @include media-breakpoint-up(sm) {
@@ -100,10 +96,6 @@ export default {
     }
 
     a {
-      @extend %a--more;
-      display: block;
-      margin-bottom: 2rem;
-
       @include media-breakpoint-up(sm) {
         line-height: $h2-font-size;
       }

@@ -118,8 +118,8 @@
             <CardDeck
               title="Prizes"
               cardtype="PrizeDeck"
-              cols="6"
-              :cards="PrizeCard"
+              cols="4"
+              :cards="PrizeCards"
               :link="PrizeLink"
             />
           </section>
@@ -440,6 +440,44 @@ export default {
         }
       ],
       poems: [
+        {
+          title: "A Poem About a Thing",
+          text: `There once was a man from Nantucket
+Who kept all his cash in a bucket.
+  But his daughter, named Nan,
+  Ran away with a man
+And as for the bucket, Nantucket.`,
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "A Poem About a Thing",
+          text: `There once was a man from Nantucket
+Who kept all his cash in a bucket.
+  But his daughter, named Nan,
+  Ran away with a man
+And as for the bucket, Nantucket.`,
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        },
+        {
+          title: "A Poem About a Thing",
+          text: `There once was a man from Nantucket
+Who kept all his cash in a bucket.
+  But his daughter, named Nan,
+  Ran away with a man
+And as for the bucket, Nantucket.`,
+          poet: {
+            name: "Dustin LeKensrue"
+          },
+          year: "2018"
+        }
+      ],
+      PrizeCards: [
         {
           title: "A Poem About a Thing",
           text: `There once was a man from Nantucket

@@ -51,6 +51,7 @@ import Staff from "~/components/Aap/Staff";
 import Chancellors from "~/components/Aap/Chancellors";
 import Board from "~/components/Aap/Board";
 import EAC from "~/components/Aap/EducationAdvisoryCouncil";
+import PrizeDeck from "~/components/PrizeDeck";
 
 export default {
   components: {
@@ -65,7 +66,8 @@ export default {
     Staff,
     Chancellors,
     Board,
-    EAC
+    EAC,
+    PrizeDeck
   },
   props: {
     featured: {
