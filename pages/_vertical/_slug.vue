@@ -1,7 +1,7 @@
 <template>
   <div>
     <basic-page
-      :body="$store.state.pageData.data.attributes.body.processed"
+      :body="$store.state.pageData.data.attributes.body"
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
       :sidebar-data="$store.state.sidebarData"/>

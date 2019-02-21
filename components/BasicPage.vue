@@ -6,9 +6,11 @@
           md="8"
           class="pb-2">
           <div
-            v-html="body"
+            v-if="body"
+            v-html="body.processed"
             class="pb-4"/>
           <card-deck
+            v-if="highlighted.length >= 1"
             class="pt-3 pb-1"
             :cards="highlighted"
             cardtype="CalloutCard"
