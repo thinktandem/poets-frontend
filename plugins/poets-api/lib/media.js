@@ -19,7 +19,7 @@ export default {
     return fieldImage ? this.handleMultiImage(fieldImage) : null;
   },
   findMediaImage(page, imageField) {
-    return _.find(page.included, include => {
+    const imgObject = _.find(page.included, include => {
       const mediaItem = _.find(
         page.included,
         include => include.id === _.get(imageField, "id")
@@ -28,14 +28,14 @@ export default {
         include.id === _.get(mediaItem, "relationships.field_image.data.id")
       );
     });
+
+    return _.get(imgObject, "id", null);
   },
   handleSideImage(page, item) {
-    const sideImage = _.get(item, "relationships.side_image");
-    return sideImage &&
-      sideImage.data.constructor === Array &&
-      sideImage.length >= 1
-      ? this.findMediaImage(page, _.first(_.get(sideImage, "data")))
-      : this.findMediaImage(page, _.get(sideImage, "data"));
+    const sideImage = _.get(item, "relationships.side_image.data", null);
+    return sideImage && sideImage.constructor === Array && sideImage.length >= 1
+      ? this.findMediaImage(page, _.first(sideImage))
+      : null;
   },
 
   /**
