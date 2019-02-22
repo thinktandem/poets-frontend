@@ -1,9 +1,10 @@
 <template>
   <div>
     <basic-page
-      :body="$store.state.pageData.data.attributes.body.processed"
+      :body="$store.state.pageData.data.attributes.body"
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
       :sidebar-data="$store.state.sidebarData"/>
   </div>
 </template>

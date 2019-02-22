@@ -14,10 +14,10 @@
   }
 }
 
-@mixin chevron($size, $weight, $offset) {
+@mixin chevron($size, $weight, $offset, $color: "black") {
   display: inline-block;
-  border-right: $weight solid black;
-  border-bottom: $weight solid black;
+  border-right: $weight solid #{$color};
+  border-bottom: $weight solid #{$color};
   width: $size;
   height: $size;
   transform: translateY(-$offset) rotate(-45deg);

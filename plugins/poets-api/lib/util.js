@@ -1,5 +1,6 @@
 import _ from "lodash";
 import media from "./media";
+import imgUrl from "~/plugins/inlineImagesUrl";
 // Map paragraph types from Drupal to VueJS components.
 const components = {
   "paragraph--image": "ImageBlock",
@@ -88,7 +89,7 @@ export default {
 
   buildProcessable(entity, field = "body", summary = false) {
     return this.maybeField(entity, field) !== null
-      ? this.maybeField(entity, field).processed
+      ? imgUrl.staticUrl(this.maybeField(entity, field).processed)
       : null;
   },
 
@@ -126,7 +127,8 @@ export default {
         sidebarBottom: this.buildProcessable(entity, "side_text_2"),
         slides: this.buildSlides(item, page),
         youtubeId: this.maybeField(entity, "youtube_id"),
-        vimeoId: this.maybeField(entity, "vimeo_id")
+        vimeoId: this.maybeField(entity, "vimeo_id"),
+        moreLink: this.maybeField(entity, "more_link")
       }
     };
   }

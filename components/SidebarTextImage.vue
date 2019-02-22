@@ -1,31 +1,42 @@
 <template>
   <section class="sidebar-text-image">
     <b-container>
-      <component
-        v-if="title.length >= 1"
-        :is="titleTag">{{ title }}</component>
       <b-row>
-        <b-col
-          class="pr-5"
-          md="8">
-          <div
-            class="pr-4"
-            v-if="body.length >=1"
-            v-html="body"/>
+        <b-col lg="8">
+          <b-media
+            no-body
+            class="d-flex flex-column flex-md-row">
+            <b-media-aside
+              v-if="img !== null"
+              class="mr-3">
+              <b-img-lazy
+                fluid
+                :src="img.src"
+                :alt="img.alt"/>
+            </b-media-aside>
+            <b-media-body
+              class="d-flex flex-column">
+              <component
+                class="title mt-2 mb-3"
+                v-if="title"
+                :is="titleTag">{{ title }}</component>
+              <div
+                class="pr-4 mb-3"
+                v-if="body"
+                v-html="body"/>
+              <b-link
+                class="more-link mt-auto mb-3"
+                v-if="moreLink"
+                :to="moreLink.uri">{{ moreLink.title }} <i
+                  class="fancy-chevron"/></b-link>
+            </b-media-body>
+          </b-media>
         </b-col>
-        <b-col md="4">
+        <b-col lg="4">
           <div
-            class="px-3"
             v-html="sidebarTop"
             v-if="sidebarTop !== null"/>
-          <b-img-lazy
-            class="pb-3 px-3"
-            fluid
-            v-if="img !== null"
-            :src="img.src"
-            :alt="img.alt"/>
           <div
-            class="px-3"
             v-html="sidebarBottom"
             v-if="sidebarBottom !== null"/>
         </b-col>
@@ -60,6 +71,10 @@ export default {
     img: {
       type: Object,
       default: null
+    },
+    moreLink: {
+      type: Object,
+      default: null
     }
   }
 };
@@ -67,5 +82,18 @@ export default {
 <style lang="scss" scoped>
 .sidebar-text-image {
   font-weight: 400;
+  color: $gray-700;
+}
+.title {
+  font-weight: 600;
+  font-size: 1.75rem;
+  color: $indigo;
+}
+.more-link {
+  font-weight: 500;
+  color: $blue-dark;
+}
+.fancy-chevron {
+  @include chevron(0.5rem, 3px, 1px, $blue-dark);
 }
 </style>
