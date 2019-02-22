@@ -117,7 +117,7 @@
             >Prize Deck</h2>
             <CardDeck
               title="Prizes"
-              cardtype="PrizeDeck"
+              cardtype="PrizeCard"
               cols="4"
               :cards="PrizeCards"
               :link="PrizeLink"
@@ -485,10 +485,9 @@ Who kept all his cash in a bucket.
   But his daughter, named Nan,
   Ran away with a man
 And as for the bucket, Nantucket.`,
-          poet: {
-            name: "Dustin LeKensrue"
-          },
-          year: "2018"
+          link: {
+            href: "blah/blah"
+          }
         },
         {
           title: "A Poem About a Thing",
@@ -497,10 +496,9 @@ Who kept all his cash in a bucket.
   But his daughter, named Nan,
   Ran away with a man
 And as for the bucket, Nantucket.`,
-          poet: {
-            name: "Dustin LeKensrue"
-          },
-          year: "2018"
+          link: {
+            href: "blah/blah"
+          }
         },
         {
           title: "A Poem About a Thing",
@@ -509,10 +507,9 @@ Who kept all his cash in a bucket.
   But his daughter, named Nan,
   Ran away with a man
 And as for the bucket, Nantucket.`,
-          poet: {
-            name: "Dustin LeKensrue"
-          },
-          year: "2018"
+          link: {
+            href: "blah/blah"
+          }
         }
       ],
       essays: [

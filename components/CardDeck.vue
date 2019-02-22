@@ -51,7 +51,7 @@ import Staff from "~/components/Aap/Staff";
 import Chancellors from "~/components/Aap/Chancellors";
 import Board from "~/components/Aap/Board";
 import EAC from "~/components/Aap/EducationAdvisoryCouncil";
-import PrizeDeck from "~/components/PrizeDeck";
+import PrizeCard from "~/components/PrizeCard";
 
 export default {
   components: {
@@ -67,7 +67,7 @@ export default {
     Chancellors,
     Board,
     EAC,
-    PrizeDeck
+    PrizeCard
   },
   props: {
     featured: {
@@ -156,5 +156,24 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.card-deck--prizecard {
+  background: linear-gradient(270deg, #8195a6 0%, #637381 100%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 2rem;
+
+  .card-deck__title {
+    color: $white;
+  }
+  .card-deck__link {
+    color: $white;
+  }
+  .fancy-chevron {
+    border-right: 2px solid $white;
+    border-bottom: 2px solid $white;
+  }
 }
 </style>

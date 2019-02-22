@@ -18,8 +18,7 @@
       <div class="card-footer">
         <p
           class="card--prize__meta"
-          v-html="meta"/>
-        <p class="card--prize__level">{{ level }}</p>
+          v-html="text"/>
       </div>
     </b-card-body>
   </b-card>
@@ -31,11 +30,7 @@ export default {
       type: String,
       default: ""
     },
-    meta: {
-      type: String,
-      default: ""
-    },
-    level: {
+    text: {
       type: String,
       default: ""
     },
