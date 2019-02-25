@@ -1,7 +1,10 @@
-Poets Frontend Magicks
-======================
+Poets Frontend
+==============
 
 https://travis-ci.com/thinktandem/poets-frontend.svg?branch=master
+
+The `poets-frontend` app is a Nuxt JS app that consumes data from a Contenta CMS
+Drupal backend.
 
 Getting Started
 ---------------
