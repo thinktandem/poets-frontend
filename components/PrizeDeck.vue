@@ -1,30 +1,26 @@
 <template>
-  <b-card-group
-    :class="'card-deck--' + cardtype|lowercase"
-    deck
-  >
+  <section class="card-deck--prizedeck">
     <b-container>
       <b-row>
         <b-col
           cols="12"
           tag="header"
-          class="d-flex flex-lg-row flex-column"
         >
-          <h2 class="card-deck__title">{{ title }}</h2>
+          <h2 class="font-serif prize-deck__title">{{ title }}</h2>
           <b-link
-            class="card-deck__link text-color"
+            class="prize-deck__link"
             v-if="link"
             :href="link.to"
           >{{ link.text }} <i class="fancy-chevron"/></b-link>
         </b-col>
       </b-row>
-      <b-row class="card-deck__cards d-flex">
+      <b-row class="prize-deck__cards d-flex">
         <b-col
           cols="12"
-          v-bind="columnBinding"
+          :md="cols"
           v-for="(card, index) in cards"
           :key="index"
-          class="card-deck__card"
+          class="card--prize"
         >
           <component
             :class="{'h-100': featured !== true }"
@@ -34,7 +30,7 @@
         </b-col>
       </b-row>
     </b-container>
-  </b-card-group>
+  </section>
 </template>
 
 <script>
@@ -47,11 +43,6 @@ import EssayCard from "~/components/EssayCard";
 import BookCard from "~/components/Libraries/BookCard";
 import CalloutCard from "./CalloutCard";
 import TextCard from "~/components/Libraries/TextCard";
-import Staff from "~/components/Aap/Staff";
-import Chancellors from "~/components/Aap/Chancellors";
-import Board from "~/components/Aap/Board";
-import EAC from "~/components/Aap/EducationAdvisoryCouncil";
-import PrizeCard from "~/components/PrizeCard";
 
 export default {
   components: {
@@ -62,12 +53,7 @@ export default {
     LessonPlanCard,
     BookCard,
     CalloutCard,
-    TextCard,
-    Staff,
-    Chancellors,
-    Board,
-    EAC,
-    PrizeCard
+    TextCard
   },
   props: {
     featured: {
@@ -93,97 +79,50 @@ export default {
     cols: {
       type: String,
       default: "4"
-    },
-    colSize: {
-      type: String,
-      default: "lg"
-    }
-  },
-  computed: {
-    columnBinding() {
-      let obj = {};
-      obj[this.colSize] = this.cols;
-      return obj;
     }
   }
 };
 </script>
 
 <style lang="scss">
-.card-deck {
+.card-deck--prizedeck {
+  min-height: 464px;
+  background: linear-gradient(270deg, #8195a6 0%, #637381 100%);
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   header {
+    color: $white;
+    padding-bottom: 2rem;
+
     @include media-breakpoint-up(sm) {
       display: flex;
     }
 
     a {
-      display: block;
-      color: $black;
-
       @include media-breakpoint-up(sm) {
         line-height: $h2-font-size;
       }
     }
-  }
-  .text-color {
-    color: $black;
+    .prize-deck__link {
+      font-size: 1.25rem;
+      line-height: 2;
+      font-weight: 500;
+      color: $white;
+    }
   }
   .fancy-chevron {
     @include chevron(0.5rem, 2px, 2px);
+    border-right: 2px solid $white;
+    border-bottom: 2px solid $white;
   }
-  .card-deck__title {
+  .prize-deck__title {
     font-family: $font-family-serif;
     font-style: italic;
+    color: $white;
 
     @include media-breakpoint-up(sm) {
       flex-grow: 1;
     }
-  }
-
-  .card-deck__card {
-    margin-bottom: 2rem;
-
-    .card {
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
-  }
-  .card-deck__link {
-    font-size: 1.25rem;
-    line-height: 2;
-    font-weight: 500;
-  }
-}
-.card-deck--poet {
-  background: url(/poets-mystery-man.png),
-    linear-gradient(90deg, $green, $green);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.card-deck--prizecard {
-  background: linear-gradient(270deg, #8195a6 0%, #637381 100%);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 2rem;
-
-  a {
-    color: $black;
-  }
-  .text-color {
-    color: $black;
-  }
-  .card-deck__title {
-    color: $white;
-  }
-  .card-deck__link {
-    color: $white;
-  }
-  .fancy-chevron {
-    border-right: 2px solid $white;
-    border-bottom: 2px solid $white;
   }
 }
 </style>

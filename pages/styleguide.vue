@@ -340,7 +340,7 @@ export default {
           anchor: "#LessonPlanCardDeck"
         },
         {
-          title: "Prize Deck",
+          title: "Prize Card Deck",
           anchor: "#PrizeCardDeck"
         },
         {

@@ -8,7 +8,7 @@
     <b-card-body class="d-flex justify-content-between flex-column align-content-between">
       <h3 class="card-title">
         <b-link
-          class="text-dark"
+          class="text-color"
           :to="link"
           itemprop="title"
         >
