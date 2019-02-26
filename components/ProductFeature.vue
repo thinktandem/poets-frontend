@@ -4,21 +4,21 @@
       <div class="d-flex flex-column flex-lg-row">
         <div
           class="product-feature__info pb-4 pb-lg-5">
-          <h2 
-            class="font-serif pb-3" 
+          <h2
+            class="font-serif pb-3"
             v-if="title">{{ title }}</h2>
           <div class="pl-lg-4 pr-md-3">
-            <p 
+            <p
               class="pb-4 product-feature__intro"
               v-if="intro"
               v-html="intro"/>
-            <h3 
-              class="text-primary-lightest pb-2" 
+            <h3
+              class="text-primary-lightest pb-2"
               v-if="subTitle">{{ subTitle }}</h3>
-            <ul 
+            <ul
               class="list-unstyled product-feature__list"
-              v-if="contents.length >= 1">
-              <li 
+              v-if="contents">
+              <li
                 v-for="(item, index) in contents"
                 :key="index" >{{ item }}</li>
             </ul>
@@ -28,8 +28,8 @@
               variant="secondary">{{ link.text }}</b-btn> <span class="pl-2">to receive your copy of American Poets twice a year.</span>
           </div>
         </div>
-        <div 
-          class="product-feature__image" 
+        <div
+          class="product-feature__image"
           v-if="img">
           <b-img-lazy
             fluid

@@ -14,6 +14,7 @@
       cardtype="Poet"
       :cards="$store.state.featuredPoets.poets"/>
     <feature-stack
+      v-if="$store.state.featuredContent"
       :features="$store.state.featuredContent"
       title="Features"/>
     <product-feature
@@ -89,9 +90,9 @@ export default {
       count: featuredPoems.meta.count,
       poems: _.map(featuredPoems.data, poem => {
         return {
-          title: poem.attributes.title,
-          link: poem.attributes.path.alias,
-          text: poem.attributes.body.processed,
+          title: _.get(poem, "attributes.title", null),
+          link: _.get(poem, "attributes.path.alias", null),
+          text: _.get(poem, "attributes.body.processed", null),
           poet: {
             name: _.find(
               featuredPoems.included,
@@ -99,7 +100,9 @@ export default {
                 include.id === poem.relationships.field_author.data[0].id
             ).attributes.title
           },
-          year: poem.attributes.field_date_published.split("-")[0]
+          year: _.get(poem, "attributes.field_date_published", "-").split(
+            "-"
+          )[0]
         };
       })
     });
@@ -120,7 +123,7 @@ export default {
     if (featuredPoets.data.length >= 1) {
       store.commit("updateFeaturedPoets", {
         poets: _.map(featuredPoets.data, poet => ({
-          name: poet.attributes.title,
+          name: _.get(poet, "attributes.title", null),
           img: {
             src: _.get(
               _.find(
@@ -167,10 +170,10 @@ export default {
       .first();
     const topProduct = _.first(magazine.data);
     store.commit("updateProductFeature", {
-      title: topProduct.attributes.title,
-      intro: topProduct.attributes.body.processed,
-      subTitle: topProduct.attributes.subtitle,
-      contents: topProduct.attributes.contents,
+      title: _.get(topProduct, "attributes.title", null),
+      intro: _.get(topProduct, "attributes.body.processed", null),
+      subTitle: _.get(topProduct, "attributes.subtitle", null),
+      contents: _.get(topProduct, "attributes.contents", null),
       img: {
         src: _.get(img, "links.magazine_cover.href"),
         alt: "Magazine Cover"
