@@ -39,6 +39,9 @@ export default {
       staff: staff.rows
     };
   },
+  async fetch({ app, store, params }) {
+    app.$buildBasicPage(app, store, "/geoff-best-lolz");
+  },
   methods: {},
   watchQuery: true
 };
