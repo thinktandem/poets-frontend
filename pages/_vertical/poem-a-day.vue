@@ -226,6 +226,7 @@ export default {
         text: theOne.poem.text,
         soundCloud: theOne.poem.soundcloud,
         alias: theOne.poem.alias,
+        id: _.get(theOne, "poem.uuid"),
         about: _.get(theOne, "poem.about")
       }
     });

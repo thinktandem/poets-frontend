@@ -14,14 +14,14 @@
             <div
               class="px-0 mx-0"
               v-if="showSoundCloud"
-              v-html="poem.field_soundcloud_embed_code"/>
+              v-html="poem.attributes.field_soundcloud_embed_code"/>
             <div
               slot="header">
               <div class="d-flex poem__title mb-1">
-                <h1 class="card-title">{{ poem.title }}</h1>
+                <h1 class="card-title">{{ poem.attributes.title }}</h1>
                 <b-link
                   @click="showSoundCloud = true"
-                  v-if="showSoundCloud === false && null !== poem.field_soundcloud_embed_code"
+                  v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"
                 >
                   <speaker-icon class="poem__soundcloud-link"/>
                 </b-link>
@@ -43,16 +43,16 @@
             </div>
             <poem-actions
               orientation="vertical"
-              :poem="{ alias: poem.path.alias, title: poem.title }"/>
+              :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"/>
             <div
               class="px-md-4 font-serif-2"
-              v-if="poem.body !== null"
-              v-html="poem.body.processed"/>
+              v-if="poem.attributes.body !== null"
+              v-html="poem.attributes.body.processed"/>
             <div
               slot="footer"
-              v-if="poem.field_credit !== null"
+              v-if="poem.attributes.field_credit !== null"
               class="card--poem__attribution text-muted-dark font-sans p-3"
-              v-html="poem.field_credit.processed"
+              v-html="poem.attributes.field_credit.processed"
             />
           </b-card>
         </b-col>
@@ -79,9 +79,9 @@
           <signup-block/>
           <section
             class="py-4 about-poem text-dark-muted"
-            v-if="poem.field_about_this_poem">
+            v-if="poem.attributes.field_about_this_poem">
             <h4>About This Poem</h4>
-            <div v-html="poem.field_about_this_poem.processed"/>
+            <div v-html="poem.attributes.field_about_this_poem.processed"/>
           </section>
         </b-col>
       </b-row>
@@ -202,14 +202,13 @@ export default {
         );
         return {
           response: poem,
-          poem: poem.data.attributes,
+          poem: poem.data,
           poet: poet.attributes,
           image: _.find(
             poem.included,
             include => include.type === "file--file"
           ),
           morePoems: {
-            response: morePoems,
             poems: _.map(morePoems.data, poem => {
               return {
                 link: poem.attributes.path.alias,
