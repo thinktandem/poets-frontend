@@ -8,9 +8,13 @@
       <div
         v-if="poem.attributes.body"
         v-html="poem.attributes.body.processed"/>
-      <div
-        v-if="poem.attributes.field_credit"
-        v-html="poem.attributes.field_credit.processed"/>
+      <section class="py-3">
+        <p class="h4">Credit</p>
+        <hr>
+        <div
+          v-if="poem.attributes.field_credit"
+          v-html="poem.attributes.field_credit.processed"/>
+      </section>
       <section
         class="py-3"
         v-if="poem.attributes.field_about_this_poem">
@@ -43,6 +47,7 @@
         </div>
       </section>
       <p v-if="poem.attributes.field_date_published">Date Published: {{ poem.attributes.field_date_published }}</p>
+      <p v-if="poem.attributes.path.alias">Source URL: {{ host }}{{ poem.attributes.path.alias }}</p>
     </article>
   </main>
 </template>
@@ -76,7 +81,9 @@ export default {
           poem: _.get(response, "data"),
           poet,
           image,
-          host: process.server ? `https://${req.headers.host}` : null
+          host: process.server
+            ? `https://${req.headers.host}`
+            : `https://${window.location.hostname}`
         };
       });
   }
