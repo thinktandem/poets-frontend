@@ -40,7 +40,7 @@ export default {
     };
   },
   async fetch({ app, store, params }) {
-    app.$buildBasicPage(app, store, "/geoff-best-lolz");
+    return app.$buildBasicPage(app, store, "/leadership-staff");
   },
   methods: {},
   watchQuery: true
