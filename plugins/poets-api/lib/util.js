@@ -64,7 +64,6 @@ export default {
           src: imageFile.links.slide.href,
           alt: mediaItem.relationships.field_image.data.meta.alt
         },
-        caption: mediaItem.attributes.name,
         text: mediaItem.relationships.field_image.data.meta.title
       };
     });
