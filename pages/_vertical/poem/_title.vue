@@ -77,6 +77,12 @@
             </div>
           </div>
           <signup-block/>
+          <section
+            class="py-4 about-poem text-dark-muted"
+            v-if="poem.field_about_this_poem">
+            <h4>About This Poem</h4>
+            <div v-html="poem.field_about_this_poem.processed"/>
+          </section>
         </b-col>
       </b-row>
     </b-container>
@@ -305,7 +311,8 @@ export default {
     width: 100%;
   }
 }
-.poet--aside__bio {
+.poet--aside__bio,
+.about-poem {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.07rem;

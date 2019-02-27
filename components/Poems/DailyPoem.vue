@@ -72,11 +72,28 @@
             md="8"
             class="daily-poem__poem order-1 order-md-2 d-flex flex-column justify-content-between">
             <div>
-              <span class="daily-poem__label p-3 d-none d-md-inline">
-                poem-a-day
-              </span>
+              <div>
+                <span class="daily-poem__label p-3 d-none d-md-inline">
+                  poem-a-day
+                </span>
+              </div>
               <article
                 class="pb-2 mr-3 pr-3">
+                <div
+                  v-if="poem.about && showAbout"
+                  class="p-4 mb-4 border-left border-primary bg-light">
+                  <button
+                    @click="showAbout = false"
+                    type="button"
+                    class="close"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h3>About this Poem</h3>
+                  <div
+                    class="text-gray"
+                    v-html="poem.about"/>
+                </div>
                 <div
                   class="px-0 mx-0"
                   v-if="showSoundCloud"
@@ -85,16 +102,21 @@
                   <h2><b-link
                     :to="poem.alias"
                     class="text-dark">{{ poem.title }}</b-link></h2>
-                  <b-link
-                    @click="showSoundCloud = true"
-                    v-if="showSoundCloud === false && null !== poem.soundCloud">
-                    <speaker-icon class="daily-poem__soundcloud-link"/>
-                  </b-link>
-                  <b-link
-                    @click="showSoundCloud = false"
-                    v-if="showSoundCloud == true">
-                    <span class="daily-poem__soundcloud-link">&#10005;</span>
-                  </b-link>
+                  <div class="d-flex flex-column align-items-center">
+                    <b-link
+                      @click="showSoundCloud = true"
+                      v-if="showSoundCloud === false && null !== poem.soundCloud">
+                      <speaker-icon class="daily-poem__soundcloud-link mb-2"/>
+                    </b-link>
+                    <b-link
+                      @click="showSoundCloud = false"
+                      v-if="showSoundCloud == true">
+                      <span class="daily-poem__soundcloud-link">&#10005;</span>
+                    </b-link>
+                    <b-link
+                      v-if="showAbout == false && null !== poem.about"
+                      @click="showAbout = true">more</b-link>
+                  </div>
                 </div>
                 <div
                   v-html="poem.text"
@@ -157,7 +179,8 @@ export default {
   },
   data() {
     return {
-      showSoundCloud: false
+      showSoundCloud: false,
+      showAbout: false
     };
   },
   props: {
@@ -190,6 +213,9 @@ export default {
 </script>
 
 <style lang="scss">
+.fancy-chevron {
+  @include chevron(0.5rem, 3px, 0px, $blue-dark);
+}
 .daily-poem {
   background: linear-gradient($gray-900), linear-gradient(#c9cacb);
   background-size: auto 38rem, auto;
@@ -331,6 +357,14 @@ export default {
     }
   }
 }
+.daily-poem__about-poem {
+  background-color: var(--dark);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+}
 // Md and up
 @include media-breakpoint-up(md) {
   .daily-poem__header {
@@ -370,6 +404,11 @@ export default {
   }
   .poem-a-day__attribution {
     font-weight: 400;
+  }
+  .daily-poem__about-poem {
+    display: inline-block;
+    left: -$spacer;
+    top: 4 * $spacer;
   }
 }
 </style>
