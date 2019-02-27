@@ -82,10 +82,14 @@ export default {
         );
         return Object.assign(
           {
-            title: referencedContent.attributes.title,
-            subtitle: referencedContent.attributes.featured_meta,
-            text: referencedContent.attributes.body.processed,
-            link: referencedContent.attributes.path.alias
+            title: _.get(referencedContent, "attributes.title", null),
+            subtitle: _.get(
+              referencedContent,
+              "attributes.featured_meta",
+              null
+            ),
+            text: _.get(referencedContent, "attributes.body.processed", null),
+            link: _.get(referencedContent, "attributes.path.alias", null)
           },
           media.buildMedia(featuredMedia, page)
         );

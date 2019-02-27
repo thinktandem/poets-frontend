@@ -20,7 +20,6 @@
             img-width="860"
             :img-src="slide.img.src"
             :img-alt="slide.img.alt"
-            :caption="slide.caption"
             :text="slide.text"/>
         </b-carousel>
       </b-row>
