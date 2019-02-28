@@ -39,6 +39,9 @@ export default {
       staff: staff.rows
     };
   },
+  async fetch({ app, store, params }) {
+    return app.$buildBasicPage(app, store, "/leadership-staff");
+  },
   methods: {},
   watchQuery: true
 };
