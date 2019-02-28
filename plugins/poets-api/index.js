@@ -48,9 +48,11 @@ export default ({ app }, inject) => {
       })
       .then(response => {
         let page = JSON.parse(response.data["Page#uri{0}"].body);
-        page.data.attributes.body.processed = imgUrl.staticUrl(
-          page.data.attributes.body.processed
-        );
+        if (page.data.attributes.body !== null) {
+          page.data.attributes.body.processed = imgUrl.staticUrl(
+            page.data.attributes.body.processed
+          );
+        }
 
         store.commit("updateHero", {
           variant: "default",

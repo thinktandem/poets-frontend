@@ -25,7 +25,7 @@
         </b-link>
       </li>
       <li class="pr-2">
-        <b-link @click="print()">
+        <b-link :to="`/print/poem/${poem.id}`">
           <img src="/social/print.svg">
         </b-link>
       </li>

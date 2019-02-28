@@ -9,7 +9,7 @@ export default {
     "media--image": "feature"
   },
   handleMultiImage(field) {
-    return _.get(field, "data", null).constructor === Array &&
+    return _.get(field, "data.constructor", {}) === Array &&
       _.get(field, "data", []).length > 1
       ? _.get(_.first(field.data), "id", null)
       : _.get(field.data, "id", null);
