@@ -37,7 +37,8 @@
             <b-img
               fluid
               v-if="image"
-              :src="image.links.poem_a_day_portrait.href"/>
+              :src="image.src"
+              :alt="image.alt"/>
           </div>
           <div
             class="py-3 pl-4 w-75"
@@ -80,7 +81,13 @@ export default {
         return {
           poem: _.get(response, "data"),
           poet,
-          image,
+          image: {
+            src: _.get(image, "links.poem_a_day_portrait.href"),
+            alt: _.get(
+              _.first(_.get(poet, "data.relationships.field_image.data")),
+              "id"
+            )
+          },
           host: process.server
             ? `https://${req.headers.host}`
             : `https://${window.location.hostname}`
@@ -90,7 +97,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.logo {
-  stroke: $dark;
+.logo g path:first-child {
+  fill: $gray-500;
 }
 </style>
