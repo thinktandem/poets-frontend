@@ -25,7 +25,9 @@
         </b-link>
       </li>
       <li class="pr-2">
-        <b-link :to="`/print/poem/${poem.id}`">
+        <b-link
+          target="_blank"
+          :to="`/print/poem/${poem.id}`">
           <img src="/social/print.svg">
         </b-link>
       </li>
