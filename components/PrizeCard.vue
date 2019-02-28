@@ -9,7 +9,7 @@
       <h3 class="card-title">
         <b-link
           class="text-color"
-          :to="link"
+          :to="titleLink"
           itemprop="title"
         >
           {{ title }}
@@ -18,7 +18,7 @@
       <div class="card-footer">
         <p
           class="card--prize__meta"
-          v-html="text"/>
+          v-html="body"/>
       </div>
     </b-card-body>
   </b-card>
@@ -30,11 +30,11 @@ export default {
       type: String,
       default: ""
     },
-    text: {
+    body: {
       type: String,
       default: ""
     },
-    link: {
+    titleLink: {
       type: String,
       default: ""
     }
