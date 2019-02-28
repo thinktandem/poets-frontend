@@ -38,3 +38,5 @@ tooling:
   codecept:
     cmd: /app/node_modules/.bin/codeceptjs
     service: appserver
+excludes:
+  - node_modules
