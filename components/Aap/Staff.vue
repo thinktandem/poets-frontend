@@ -88,12 +88,13 @@ export default {
     background-color: var(--gray-900);
   }
   .poet__name {
-    min-height: 84px;
+    min-height: 90px;
     padding: 12px;
     h3 {
       font-size: 1rem;
     }
     .job-title {
+      line-height: 1.4;
       font-size: 0.9rem;
       color: var(--white);
     }
@@ -103,7 +104,7 @@ export default {
   }
   &__name-bio {
     position: absolute;
-    top: calc(100% - 5.3rem);
+    top: calc(100% - 5.7rem);
     bottom: 0;
     left: 0;
     right: 0;
