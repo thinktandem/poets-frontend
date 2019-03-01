@@ -67,7 +67,8 @@
               class="poet--aside__image">
               <b-img
                 fluid
-                :src="image.links.poem_a_day_portrait.href"/>
+                :src="image.src"
+                :alt="image.alt"/>
             </div>
             <div
               v-html="poet.body.summary"
@@ -112,7 +113,7 @@ import CardDeck from "~/components/CardDeck";
 import SignupBlock from "~/components/SignupBlock";
 import PoemActions from "~/components/PoemActions";
 import * as qs from "qs";
-import * as _ from "lodash";
+import _ from "lodash";
 
 export default {
   components: {
@@ -127,57 +128,29 @@ export default {
     };
   },
   async asyncData({ app, params, env }) {
-    // Build an alias path to query
-    const routerQuery = qs.stringify({
-      path: `${params.vertical}/poem/${params.title}`
-    });
-
-    const routerRequest = {
-      requestId: "router",
-      action: "view",
-      uri: `/router/translate-path?${routerQuery}`
-    };
-
-    const poemParams = qs.stringify({
-      fields: {
-        "node--poems": [
-          "title",
-          "body",
-          "field_author",
-          "field_credit",
-          "field_soundcloud_embed_code",
-          "path"
-        ]
-      },
-      include: "field_author.field_image,field_related_poems"
-    });
-
-    const poemRequest = {
-      action: "view",
-      requestId: "poem",
-      uri: `{{router.body@$.jsonapi.individual}}?${poemParams}`,
-      headers: {
-        "Content-Type": "application/json",
-        "X-CONSUMER-ID": process.env.CONSUMER_ID
-      },
-      waitFor: ["router"]
-    };
-
     return app.$axios
-      .$post("/subrequests?_format=json", [routerRequest, poemRequest], {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      })
+      .$get(
+        `/router/translate-path?path=${params.vertical}/poem/${params.title}`
+      )
+      .then(async res =>
+        app.$axios.$get(
+          `/api/node/poems/${
+            res.entity.uuid
+          }?include=field_author.field_image,field_related_poems`
+        )
+      )
       .then(async response => {
-        const poem = JSON.parse(response["poem#uri{0}"].body);
         const poet = _.find(
-          poem.included,
-          include => include.type === "node--person"
+          response.included,
+          include =>
+            _.get(include, "id") ===
+            _.get(
+              _.first(_.get(response, "data.relationships.field_author.data")),
+              "id"
+            )
         );
         const relatedPoems = _.filter(
-          poem.included,
+          response.included,
           include => include.type === "node--poems"
         );
         const morePoemParams = qs.stringify({
@@ -190,7 +163,7 @@ export default {
             // NOT the current poem
             id: {
               operator: "NOT IN",
-              value: poem.data.id
+              value: response.data.id
             },
             // Author is this poem's author
             "field_author.id": poet.id
@@ -201,12 +174,13 @@ export default {
           `/api/node/poems?${morePoemParams}`
         );
         return {
-          response: poem,
-          poem: poem.data,
+          poem: response.data,
           poet: poet.attributes,
-          image: _.find(
-            poem.included,
-            include => include.type === "file--file"
+          image: app.$buildImg(
+            poet,
+            response,
+            "field_image",
+            "poem_a_day_portrait"
           ),
           morePoems: {
             poems: _.map(morePoems.data, poem => {

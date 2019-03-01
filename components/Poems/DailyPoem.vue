@@ -115,7 +115,7 @@
                     </b-link>
                     <b-link
                       v-if="showAbout == false && null !== poem.about"
-                      @click="showAbout = true">more</b-link>
+                      @click="showAbout = true">more <i class="fancy-chevron"/></b-link>
                   </div>
                 </div>
                 <div
@@ -357,14 +357,6 @@ export default {
     }
   }
 }
-.daily-poem__about-poem {
-  background-color: var(--dark);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-}
 // Md and up
 @include media-breakpoint-up(md) {
   .daily-poem__header {
@@ -404,11 +396,6 @@ export default {
   }
   .poem-a-day__attribution {
     font-weight: 400;
-  }
-  .daily-poem__about-poem {
-    display: inline-block;
-    left: -$spacer;
-    top: 4 * $spacer;
   }
 }
 </style>
