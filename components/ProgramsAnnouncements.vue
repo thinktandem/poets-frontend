@@ -6,11 +6,11 @@
           <app-media-list
             class="program-list"
             :title="programOptions.title"
-            :more-link="programOptions.moreLink" 
+            :more-link="programOptions.moreLink"
             :programs="programOptions.programs"/>
         </b-col>
         <b-col lg="4">
-          <app-announcements 
+          <app-announcements
             :announcements="announcements.announcements"
             :more-link="announcements.moreLink"/>
         </b-col>
