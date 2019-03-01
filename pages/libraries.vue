@@ -1,47 +1,42 @@
 <template>
   <div>
-    <b-container>
-      <CardDeck
-        title="Poems"
-        cardtype="PoemCard"
-        cols="4"
-        :cards="poems"
-        :link="poemsLink"
-      />
-    </b-container>
-    <b-container
-      fluid
-      class="libraries__poets-deck">
-      <CardDeck
-        title="Poets"
-        cardtype="Poet"
-        cols="4"
-        :cards="poets"
-        :link="poetsLink"
-      />
-    </b-container>
-    <b-container>
-      <CardDeck
-        title="Texts"
-        cardtype="TextCard"
-        cols="4"
-        :cards="texts"
-        :link="textsLink"
-      />
-    </b-container>
-    <b-container>
-      <CardDeck
-        title="Books"
-        cardtype="BookCard"
-        cols="3"
-        :cards="books"
-        :link="booksLink"
-      />
-    </b-container>
+    <CardDeck
+      title="Poems"
+      class="pt-5 pb-3"
+      cardtype="PoemCard"
+      cols="4"
+      :cards="poems"
+      :link="poemsLink"
+    />
+    <CardDeck
+      title="Poets"
+      class="pt-5 pb-3"
+      cardtype="Poet"
+      cols="4"
+      :cards="poets"
+      :link="poetsLink"
+    />
+    <CardDeck
+      title="Texts"
+      class="pt-5 pb-3"
+      cardtype="TextCard"
+      cols="4"
+      :cards="texts"
+      :link="textsLink"
+    />
+    <CardDeck
+      title="Books"
+      class="pt-5 pb-3"
+      cardtype="BookCard"
+      cols="3"
+      :cards="books"
+      :link="booksLink"
+    />
   </div>
 </template>
 
 <script>
+import _ from "lodash";
 import CardDeck from "~/components/CardDeck";
 
 export default {
@@ -115,13 +110,34 @@ export default {
         console.log(err);
       });
     let poets = await app.$axios
-      .get("/api/libraries_featured_poets", {})
+      .get("/api/node/person", {
+        params: {
+          filter: {
+            status: 1,
+            field_p_type: "poet"
+          },
+          page: {
+            limit: 6
+          },
+          sort: "-field_featured",
+          include: "field_image"
+        }
+      })
       .then(res => {
         return {
-          rows: res.data.rows,
+          rows: _.map(_.get(res, "data.data"), row => {
+            return {
+              row,
+              name: _.get(row, "attributes.title", null),
+              bio:
+                _.get(row, "attributes.body.summary", null) ||
+                _.get(row, "attributes.body.processed", null),
+              img: app.$buildImg(res.data, row, "field_image", "portrait")
+            };
+          }),
           poetsLink: {
             to: "/poetsorg/poet",
-            text: res.data.pager.total_items
+            text: `${res.data.meta.count} Poets`
           }
         };
       })
