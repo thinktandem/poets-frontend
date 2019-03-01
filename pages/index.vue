@@ -72,7 +72,9 @@ export default {
         title: theOnePoemOfTheDay.poem.title,
         text: theOnePoemOfTheDay.poem.text,
         soundCloud: theOnePoemOfTheDay.poem.soundcloud,
-        alias: theOnePoemOfTheDay.poem.alias
+        alias: theOnePoemOfTheDay.poem.alias,
+        id: _.get(theOnePoemOfTheDay, "poem.uuid", null),
+        about: _.get(theOnePoemOfTheDay, "poem.about", null)
       }
     });
 

@@ -5,8 +5,25 @@
 
 import sections from "./lib/sections";
 import imgUrl from "~/plugins/inlineImagesUrl";
+import _ from "lodash";
 
 export default ({ app }, inject) => {
+  inject(
+    "buildImg",
+    (entity, page, relationship = "field_image", imageStyle = "thumbnail") => {
+      const related = _.first(
+        _.get(entity, `relationships.${relationship}.data`)
+      );
+      const file = _.find(
+        _.get(page, "included"),
+        include => include.id === related.id
+      );
+      return {
+        src: _.get(file, `links.${imageStyle}.href`),
+        alt: _.get(related, "meta.alt")
+      };
+    }
+  );
   /**
    * Inject a helper function to build out basic pages. this can be called within the 'fetch' function of any nuxt page
    * to automatically hydrate the store items needed to render a basic page.

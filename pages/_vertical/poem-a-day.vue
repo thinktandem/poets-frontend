@@ -225,7 +225,9 @@ export default {
         title: theOne.poem.title,
         text: theOne.poem.text,
         soundCloud: theOne.poem.soundcloud,
-        alias: theOne.poem.alias
+        alias: theOne.poem.alias,
+        id: _.get(theOne, "poem.uuid"),
+        about: _.get(theOne, "poem.about")
       }
     });
     // Set the current hero

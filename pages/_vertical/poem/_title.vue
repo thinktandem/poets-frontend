@@ -14,14 +14,14 @@
             <div
               class="px-0 mx-0"
               v-if="showSoundCloud"
-              v-html="poem.field_soundcloud_embed_code"/>
+              v-html="poem.attributes.field_soundcloud_embed_code"/>
             <div
               slot="header">
               <div class="d-flex poem__title mb-1">
-                <h1 class="card-title">{{ poem.title }}</h1>
+                <h1 class="card-title">{{ poem.attributes.title }}</h1>
                 <b-link
                   @click="showSoundCloud = true"
-                  v-if="showSoundCloud === false && null !== poem.field_soundcloud_embed_code"
+                  v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"
                 >
                   <speaker-icon class="poem__soundcloud-link"/>
                 </b-link>
@@ -43,16 +43,16 @@
             </div>
             <poem-actions
               orientation="vertical"
-              :poem="{ alias: poem.path.alias, title: poem.title }"/>
+              :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"/>
             <div
               class="px-md-4 font-serif-2"
-              v-if="poem.body !== null"
-              v-html="poem.body.processed"/>
+              v-if="poem.attributes.body !== null"
+              v-html="poem.attributes.body.processed"/>
             <div
               slot="footer"
-              v-if="poem.field_credit !== null"
+              v-if="poem.attributes.field_credit !== null"
               class="card--poem__attribution text-muted-dark font-sans p-3"
-              v-html="poem.field_credit.processed"
+              v-html="poem.attributes.field_credit.processed"
             />
           </b-card>
         </b-col>
@@ -67,7 +67,8 @@
               class="poet--aside__image">
               <b-img
                 fluid
-                :src="image.links.poem_a_day_portrait.href"/>
+                :src="image.src"
+                :alt="image.alt"/>
             </div>
             <div
               v-html="poet.body.summary"
@@ -77,6 +78,12 @@
             </div>
           </div>
           <signup-block/>
+          <section
+            class="py-4 about-poem text-dark-muted"
+            v-if="poem.attributes.field_about_this_poem">
+            <h4>About This Poem</h4>
+            <div v-html="poem.attributes.field_about_this_poem.processed"/>
+          </section>
         </b-col>
       </b-row>
     </b-container>
@@ -106,7 +113,7 @@ import CardDeck from "~/components/CardDeck";
 import SignupBlock from "~/components/SignupBlock";
 import PoemActions from "~/components/PoemActions";
 import * as qs from "qs";
-import * as _ from "lodash";
+import _ from "lodash";
 
 export default {
   components: {
@@ -121,57 +128,29 @@ export default {
     };
   },
   async asyncData({ app, params, env }) {
-    // Build an alias path to query
-    const routerQuery = qs.stringify({
-      path: `${params.vertical}/poem/${params.title}`
-    });
-
-    const routerRequest = {
-      requestId: "router",
-      action: "view",
-      uri: `/router/translate-path?${routerQuery}`
-    };
-
-    const poemParams = qs.stringify({
-      fields: {
-        "node--poems": [
-          "title",
-          "body",
-          "field_author",
-          "field_credit",
-          "field_soundcloud_embed_code",
-          "path"
-        ]
-      },
-      include: "field_author.field_image,field_related_poems"
-    });
-
-    const poemRequest = {
-      action: "view",
-      requestId: "poem",
-      uri: `{{router.body@$.jsonapi.individual}}?${poemParams}`,
-      headers: {
-        "Content-Type": "application/json",
-        "X-CONSUMER-ID": process.env.CONSUMER_ID
-      },
-      waitFor: ["router"]
-    };
-
     return app.$axios
-      .$post("/subrequests?_format=json", [routerRequest, poemRequest], {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      })
+      .$get(
+        `/router/translate-path?path=${params.vertical}/poem/${params.title}`
+      )
+      .then(async res =>
+        app.$axios.$get(
+          `/api/node/poems/${
+            res.entity.uuid
+          }?include=field_author.field_image,field_related_poems`
+        )
+      )
       .then(async response => {
-        const poem = JSON.parse(response["poem#uri{0}"].body);
         const poet = _.find(
-          poem.included,
-          include => include.type === "node--person"
+          response.included,
+          include =>
+            _.get(include, "id") ===
+            _.get(
+              _.first(_.get(response, "data.relationships.field_author.data")),
+              "id"
+            )
         );
         const relatedPoems = _.filter(
-          poem.included,
+          response.included,
           include => include.type === "node--poems"
         );
         const morePoemParams = qs.stringify({
@@ -184,7 +163,7 @@ export default {
             // NOT the current poem
             id: {
               operator: "NOT IN",
-              value: poem.data.id
+              value: response.data.id
             },
             // Author is this poem's author
             "field_author.id": poet.id
@@ -195,15 +174,15 @@ export default {
           `/api/node/poems?${morePoemParams}`
         );
         return {
-          response: poem,
-          poem: poem.data.attributes,
+          poem: response.data,
           poet: poet.attributes,
-          image: _.find(
-            poem.included,
-            include => include.type === "file--file"
+          image: app.$buildImg(
+            poet,
+            response,
+            "field_image",
+            "poem_a_day_portrait"
           ),
           morePoems: {
-            response: morePoems,
             poems: _.map(morePoems.data, poem => {
               return {
                 link: poem.attributes.path.alias,
@@ -305,7 +284,8 @@ export default {
     width: 100%;
   }
 }
-.poet--aside__bio {
+.poet--aside__bio,
+.about-poem {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.07rem;
