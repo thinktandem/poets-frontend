@@ -177,8 +177,8 @@ export default {
           poem: response.data,
           poet: poet.attributes,
           image: app.$buildImg(
-            poet,
             response,
+            poet,
             "field_image",
             "poem_a_day_portrait"
           ),

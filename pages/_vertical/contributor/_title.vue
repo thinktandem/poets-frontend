@@ -1,78 +1,92 @@
 <template>
   <div>
-    {{ image }}
     <b-container class="py-5">
-      <!-- <b-row>
+      <b-row>
         <b-col xl="8">
-          <h1>{{ person.title }}</h1>
-        </b-col>
-        <b-col xl="4">
-          Put an image here ...
+          <span class="person__type">Contributor</span>
+          <h1>{{ person.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="person.body.value"
+          v-html="person.attributes.body.processed"
           class="book__body"
           xl="8"/>
-      </b-row> -->
+        <b-col xl="4">
+          <div class="person__image">
+            <b-img
+              :src="image.src"
+              :alt="image.alt"/>
+          </div>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
-import * as qs from "qs";
-
 export default {
   async asyncData({ app, params }) {
-    const personParams = qs.stringify({
-      path: `${params.vertical}/contributor/${params.title}`,
-      fields: {
-        "node--person": ["title", "body", "field_image", "path"]
-      },
-      include: "field_image",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CONSUMER-ID": process.env.CONSUMER_ID
-      },
-      waitFor: ["router"]
-    });
     const attributes = await app.$axios
-      .get(`/router/translate-path?${personParams}`)
+      .get(
+        `/router/translate-path?path=${params.vertical}/contributor/${
+          params.title
+        }`
+      )
       .then(res => {
         return app.$axios
-          .get(`/api/node/person/${res.data.entity.uuid}`, personParams)
+          .get(`/api/node/person/${res.data.entity.uuid}?include=field_image`)
           .then(res => {
-            console.log(
-              "\n\n---------------------- geoff ------------------------\n",
-              res.data.data.relationships.field_image.data[0].id
+            const image = app.$buildImg(
+              res.data,
+              null,
+              "field_image",
+              "poem_a_day_portrait"
             );
-            return res.data.data;
+
+            return {
+              node: res.data,
+              person: res.data.data,
+              image
+            };
           })
           .catch(err => {
             console.log(err);
           });
       });
-    console.log(
-      "\n\n----------------attributes -------------------\n\n\n\n",
-      attributes
-    );
-
-    const image = await app.$axios.get(
-      `/api/file/file/${attributes.relationships.field_image.data[0].id}`
-    );
 
     return {
-      // person: attributes,
-      image
+      person: attributes.person,
+      image: attributes.image,
+      node: attributes.node
     };
+  },
+  async fetch({ app, store, params }) {
+    return app.$buildBasicPage(app, store, "/leadership-staff");
   }
 };
 </script>
 
 <style scoped lang="scss">
+.person__type {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--red-dark);
+}
 .book__body {
   font-weight: 400;
   font-size: 1.2em;
+}
+.person__image {
+  width: 311px;
+  box-shadow: 0 6px 0 0 #ffa02f;
+}
+
+@include media-breakpoint-up(xl) {
+  .col-xl-4 .person__image {
+    position: relative;
+    top: -94px;
+  }
 }
 </style>
