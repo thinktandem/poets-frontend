@@ -8,19 +8,43 @@ import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
 
 export default ({ app }, inject) => {
+  /**
+   *  @param {Object} topLevelResponse
+   *    This is the full json api response from drupal.
+   *
+   *  @param {Object} entity
+   *    This is usually a node, but the main thing is it has to have
+   *    an img relationship.
+   *
+   *  @param {String} relationship
+   *    This is the name of the image field you are trying to access.
+   *
+   *  @param {String} imageStyle
+   *    The machine name of the image style on Drupal.
+   *
+   * @return {Object}
+   *   The scr URL of the image style and alt text.
+   */
   inject(
     "buildImg",
-    (entity, page, relationship = "field_image", imageStyle = "thumbnail") => {
+    (
+      topLevelResponse = {},
+      entity = null,
+      relationship = "field_image",
+      imageStyle = "thumbnail"
+    ) => {
+      const prioritizedEntity = entity || topLevelResponse.data;
       const related = _.first(
-        _.get(entity, `relationships.${relationship}.data`)
+        _.get(prioritizedEntity, `relationships.${relationship}.data`)
       );
+
       const file = _.find(
-        _.get(page, "included"),
-        include => include.id === related.id
+        _.get(topLevelResponse, "included"),
+        include => _.get(include, "id") === _.get(related, "id")
       );
       return {
-        src: _.get(file, `links.${imageStyle}.href`),
-        alt: _.get(related, "meta.alt")
+        src: _.get(file, `links.${imageStyle}.href`, null),
+        alt: _.get(related, "meta.alt", null)
       };
     }
   );
