@@ -113,6 +113,20 @@
           <section class="styleguide-item">
             <h2
               class="styleguide__heading"
+              id="PrizeCardDeck"
+            >Prize Deck</h2>
+            <CardDeck
+              title="Prizes"
+              cardtype="PrizeCard"
+              cols="4"
+              :cards="PrizeCards"
+              :link="PrizeLink"
+            />
+          </section>
+
+          <section class="styleguide-item">
+            <h2
+              class="styleguide__heading"
               id="Forms"
             >Forms</h2>
             <StyleguideForm />
@@ -326,6 +340,10 @@ export default {
           anchor: "#LessonPlanCardDeck"
         },
         {
+          title: "Prize Card Deck",
+          anchor: "#PrizeCardDeck"
+        },
+        {
           title: "Forms",
           anchor: "#Forms"
         },
@@ -457,6 +475,41 @@ And as for the bucket, Nantucket.`,
             name: "Dustin LeKensrue"
           },
           year: "2018"
+        }
+      ],
+      PrizeCards: [
+        {
+          title: "A Poem About a Thing",
+          text: `There once was a man from Nantucket
+Who kept all his cash in a bucket.
+  But his daughter, named Nan,
+  Ran away with a man
+And as for the bucket, Nantucket.`,
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          title: "A Poem About a Thing",
+          text: `There once was a man from Nantucket
+Who kept all his cash in a bucket.
+  But his daughter, named Nan,
+  Ran away with a man
+And as for the bucket, Nantucket.`,
+          link: {
+            href: "blah/blah"
+          }
+        },
+        {
+          title: "A Poem About a Thing",
+          text: `There once was a man from Nantucket
+Who kept all his cash in a bucket.
+  But his daughter, named Nan,
+  Ran away with a man
+And as for the bucket, Nantucket.`,
+          link: {
+            href: "blah/blah"
+          }
         }
       ],
       essays: [
@@ -627,6 +680,10 @@ And as for the bucket, Nantucket.`,
       featuredPoetsLink: {
         href: "blah/blah",
         text: "3443 Poets"
+      },
+      PrizeLink: {
+        href: "blah/blah",
+        text: "11 Prizes"
       },
       poetListItems: [
         {

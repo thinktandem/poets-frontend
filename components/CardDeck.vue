@@ -12,7 +12,7 @@
         >
           <h2 class="card-deck__title">{{ title }}</h2>
           <b-link
-            class="card-deck__link text-dark"
+            class="card-deck__link text-color"
             v-if="link"
             :href="link.to"
           >{{ link.text }} <i class="fancy-chevron"/></b-link>
@@ -51,6 +51,7 @@ import Staff from "~/components/Aap/Staff";
 import Chancellors from "~/components/Aap/Chancellors";
 import Board from "~/components/Aap/Board";
 import EAC from "~/components/Aap/EducationAdvisoryCouncil";
+import PrizeCard from "~/components/PrizeCard";
 
 export default {
   components: {
@@ -65,7 +66,8 @@ export default {
     Staff,
     Chancellors,
     Board,
-    EAC
+    EAC,
+    PrizeCard
   },
   props: {
     featured: {
@@ -116,11 +118,15 @@ export default {
 
     a {
       display: block;
+      color: $black;
 
       @include media-breakpoint-up(sm) {
         line-height: $h2-font-size;
       }
     }
+  }
+  .text-color {
+    color: $black;
   }
   .fancy-chevron {
     @include chevron(0.5rem, 2px, 2px);
@@ -154,5 +160,30 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.card-deck--prizecard {
+  background: linear-gradient(270deg, #8195a6 0%, #637381 100%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 2rem;
+
+  a {
+    color: $black;
+  }
+  .text-color {
+    color: $black;
+  }
+  .card-deck__title {
+    color: $white;
+  }
+  .card-deck__link {
+    color: $white;
+  }
+  .fancy-chevron {
+    border-right: 2px solid $white;
+    border-bottom: 2px solid $white;
+  }
 }
 </style>

@@ -3,16 +3,25 @@
     <programs-announcements
       :program-options="programs.data"
       :announcements="announcements"/>
+    <CardDeck
+      title="Prizes"
+      cardtype="PrizeCard"
+      cols="4"
+      :cards="prizes.data.prizes"
+      :link="prizes.data.link"
+    />
   </div>
 </template>
 
 <script>
 import ProgramsAnnouncements from "~/components/ProgramsAnnouncements";
+import CardDeck from "~/components/CardDeck";
 import * as qs from "qs";
 import * as _ from "lodash";
 export default {
   components: {
-    ProgramsAnnouncements
+    ProgramsAnnouncements,
+    CardDeck
   },
   async asyncData({ app, params, query }) {
     const programRequestParams = qs.stringify({
@@ -35,6 +44,15 @@ export default {
       },
       page: {
         limit: 4
+      }
+    });
+    const prizeRequestParams = qs.stringify({
+      filter: {
+        field_program: 0,
+        status: 1
+      },
+      page: {
+        limit: 3
       }
     });
     const programs = await app.$axios
@@ -91,8 +109,30 @@ export default {
           })
         };
       });
+    const prizes = await app.$axios
+      .$get(`/api/node/prize_or_program?${prizeRequestParams}`)
+      .then(response => {
+        return {
+          response: response,
+          data: {
+            title: "Prizes",
+            link: {
+              to: `/${params.vertical}/prizes`,
+              text: `${response.meta.count} Prizes`
+            },
+            prizes: _.map(response.data, item => {
+              return {
+                title: item.attributes.title || "",
+                titleLink: item.attributes.path.alias,
+                body:
+                  item.attributes.body.summary || item.attributes.body.processed
+              };
+            })
+          }
+        };
+      });
 
-    return { programs: programs, announcements: announcements };
+    return { programs: programs, announcements: announcements, prizes: prizes };
   },
   async fetch({ app, store, params }) {
     // Set the current hero
