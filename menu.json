@@ -1,0 +1,25 @@
+{
+  "Poets.org": {
+    "to": "/",
+    "children": {
+      "find poems": {
+        "to": "/poetsorg/poem"
+      },
+      "find poets": {
+        "to": "/poetsorg/poet"
+      },
+      "poem-a-day": {
+        "to": "/poetsorg/poem-a-day"
+      },
+      "library (texts, books & more)": {
+        "to": "/poetsorg/libraries"
+      },
+      "materials for teachers": {
+        "to": "/poetsorg/materials-for-teachers"
+      },
+      "poetry near you": {
+        "to": "/poetsorg/poetry-near-you"
+      }
+    }
+  }
+}
