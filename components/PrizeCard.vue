@@ -1,4 +1,3 @@
-
 <template>
   <b-card
     class="card--prize"
@@ -16,15 +15,17 @@
         </b-link>
       </h3>
       <div class="card-footer">
-        <p
+        <app-teaser-text
           class="card--prize__meta"
-          v-html="body"/>
+          :text="body"/>
       </div>
     </b-card-body>
   </b-card>
 </template>
 <script>
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
+  components: { AppTeaserText },
   props: {
     title: {
       type: String,
@@ -52,12 +53,13 @@ export default {
   line-height: 1.75;
 }
 .card-footer {
+  margin-top: 0;
+  padding-top: 0;
+
   p {
-    &.card--prize__level {
-      font-weight: 400;
-      font-size: $font-size-base;
-      line-height: 1;
-    }
+    font-weight: 300;
+    font-size: $font-size-base;
+    line-height: 1;
   }
 }
 </style>
