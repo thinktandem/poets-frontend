@@ -93,6 +93,8 @@ export default {
         text: "Video"
       }
     ]);
+
+    return app.$buildBasicPage(app, store, "/poetsorg/poems-poets");
   },
   async asyncData({ app, store, params }) {
     let poems = await app.$axios
