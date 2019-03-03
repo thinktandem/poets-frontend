@@ -127,6 +127,18 @@ export default {
       showSoundCloud: false
     };
   },
+  head() {
+    return {
+      title: `${this.poem.attributes.title} | Poets.org`,
+      meta: [
+        {
+          hid: "image",
+          name: "og:image",
+          content: this.socialImage
+        }
+      ]
+    };
+  },
   async asyncData({ app, params, env }) {
     return app.$axios
       .$get(
@@ -182,6 +194,12 @@ export default {
             "field_image",
             "poem_a_day_portrait"
           ),
+          socialImage: app.$buildImg(
+            response,
+            poet,
+            "field_image",
+            "social_share"
+          ).src,
           morePoems: {
             poems: _.map(morePoems.data, poem => {
               return {
