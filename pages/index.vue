@@ -14,23 +14,24 @@
       cardtype="Poet"
       :cards="$store.state.featuredPoets.poets"/>
     <feature-stack
-      v-if="$store.state.featuredContent"
+      v-if="$store.state.featuredContent && $store.state.featuredContent.length >= 1"
       :features="$store.state.featuredContent"
       title="Features"/>
-    <product-feature
-      :title="$store.state.productFeature.title"
-      :sub-title="$store.state.productFeature.subTitle"
-      :intro="$store.state.productFeature.intro"
-      :contents="$store.state.productFeature.contents"
-      :img="$store.state.productFeature.img"
-      :link="$store.state.productFeature.link"/>
-    <b-container>
+    <b-container class="py-5">
       <b-row>
         <b-col md="8">
           <app-announcements v-bind="$store.state.announcements"/>
         </b-col>
       </b-row>
     </b-container>
+    <product-feature
+      v-if="$store.state.productFeature.title"
+      :title="$store.state.productFeature.title"
+      :sub-title="$store.state.productFeature.subTitle"
+      :intro="$store.state.productFeature.intro"
+      :contents="$store.state.productFeature.contents"
+      :img="$store.state.productFeature.img"
+      :link="$store.state.productFeature.link"/>
   </div>
 </template>
 
