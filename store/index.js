@@ -3,6 +3,7 @@ import Vuex from "vuex";
 const createStore = () => {
   return new Vuex.Store({
     state: {
+      announcements: [],
       poemOfTheDay: {
         poet: {
           name: "Gabrielle Calvocoressi",
@@ -47,6 +48,9 @@ const createStore = () => {
       },
       addPoem(state, payload) {
         state.poem = payload;
+      },
+      updateAnnouncements(state, payload) {
+        state.announcements = payload;
       },
       updateHero(state, payload) {
         state.hero = payload;
