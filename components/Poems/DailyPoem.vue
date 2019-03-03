@@ -23,13 +23,7 @@
       </b-container>
       <b-container class="daily-poem__poem-container">
         <b-row class="d-none d-md-block py-4">
-          <b-col offset-md="3">
-            <h3>
-              <b-link
-                :to="poet.alias"
-                class="text-white">{{ poet.name }}</b-link>
-            </h3>
-          </b-col>
+          <b-col offset-md="3"/>
         </b-row>
         <b-row class="d-flex flex-wrap flex-md-nowrap">
           <b-col
@@ -37,7 +31,14 @@
             sm="12"
             tag="aside"
             class="daily-poem__aside px-0 order-2 order-md-1">
-            <div class="daily-poem__poet-image d-md-flex d-none">
+            <h3 class="pr-3 d-flex flex-row-reverse">
+              <b-link
+                :to="poet.alias"
+                class="text-white">{{ poet.name }}</b-link>
+            </h3>
+            <div
+              class="daily-poem__poet-image d-md-flex flex-column
+              align-items-end d-none">
               <b-link :to="poet.alias">
                 <b-img-lazy
                   :src="poet.image"
@@ -266,7 +267,7 @@ export default {
   }
   .daily-poem__poet-name {
     color: var(--white);
-    flex-basis: 30%;
+    // flex-basis: 30%;
     font-size: $font-size-base;
   }
 }
