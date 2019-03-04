@@ -79,7 +79,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .sidebar-text-image {
   font-weight: 400;
   color: $gray-700;
@@ -95,5 +95,12 @@ export default {
 }
 .fancy-chevron {
   @include chevron(0.5rem, 3px, 1px, $blue-dark);
+}
+
+.summary-with-image {
+  display: block;
+  clear: both;
+  margin-bottom: 15px;
+  min-height: 116px;
 }
 </style>
