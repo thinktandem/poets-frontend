@@ -191,7 +191,8 @@ export default {
       preparedCombine: null
     };
   },
-  async asyncData({ app, params, query }) {
+  async asyncData({ app, store, params, query }) {
+    app.$buildBasicPage(app, store, "/texts");
     const url = "/api/texts_list";
     return searchHelpers.getSearchResults(url, app, query);
   },
