@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!-- <h2
+      class="styleguide__heading"
+      id="PoetsDeck"
+      >Poets Card Deck</h2> -->
+    <CardDeck
+      title="Poets"
+      cardtype="Poet"
+      :cards="$store.state.featuredPoets"
+      :link="poetsLink"
+    />geoff
     <b-container class="poets-list__filters filters">
       <b-row class="poets-list__filters-row">
         <b-col md="12">
@@ -186,17 +196,21 @@
 </template>
 
 <script>
+// import qs from "qs";
+import _ from "lodash";
 import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
+import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    iconSearch,
+    CardDeck
   },
   data() {
     return {
@@ -208,7 +222,8 @@ export default {
       Prev: null,
       preparedState: null,
       preparedSchool: null,
-      preparedCombine: null
+      preparedCombine: null,
+      featuredPoets: null
     };
   },
   async asyncData({ app, params, query }) {
@@ -230,6 +245,48 @@ export default {
     );
     store.commit("updateStates", states.options);
     store.commit("updateFilterOptions", schools.options);
+
+    let poets = await app.$axios
+      .get("/api/node/person", {
+        params: {
+          filter: {
+            status: 1,
+            field_p_type: "poet"
+          },
+          page: {
+            limit: 3
+          },
+          sort: "-field_featured",
+          include: "field_image"
+        }
+      })
+      .then(res => {
+        return {
+          rows: _.map(_.get(res, "data.data"), row => {
+            return {
+              row,
+              name: _.get(row, "attributes.title", null),
+              bio:
+                _.get(row, "attributes.body.summary", null) ||
+                _.get(row, "attributes.body.processed", null),
+              img: app.$buildImg(res.data, row, "field_image", "portrait")
+            };
+          }),
+          poetsLink: {
+            to: "/poetsorg/poet",
+            text: `${res.data.meta.count} Poets`
+          }
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    console.log(
+      "\n\n --------------------- you do it --------------------\n",
+      poets
+    );
+
+    store.commit("updateFeaturedPoets", poets);
   },
   methods: {
     applyFilters() {
