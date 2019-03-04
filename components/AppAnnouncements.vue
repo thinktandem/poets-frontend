@@ -1,7 +1,7 @@
 <template>
   <div class="announcements py-4">
-    <component 
-      :is="titleTag" 
+    <component
+      :is="titleTag"
       class="font-serif announcements__title">Announcements</component>
     <ul class="pl-3 list-unstyled">
       <app-announcement
@@ -25,7 +25,7 @@
 import ChevronRight from "~/node_modules/open-iconic/svg/chevron-right.svg";
 import AppAnnouncement from "~/components/AppAnnouncement";
 export default {
-  name: "AppAnnoucement",
+  name: "AppAnnouncements",
   components: {
     AppAnnouncement,
     ChevronRight
