@@ -219,13 +219,13 @@ export default {
     const schools = await filterHelpers.getFilterOptions(
       app,
       "/api/taxonomy_term/school_movement",
-      "'fields[taxonomy_term--school_movement]': 'tid,title'",
+      "'fields[taxonomy_term--school_movement]': 'drupal_internal__tid,name'",
       "taxonomy"
     );
     const states = await filterHelpers.getFilterOptions(
       app,
       "/api/node/state",
-      "'fields[node--state]': 'nid,name'",
+      "'fields[node--state]': 'drupal_internal__nid,title'",
       "node"
     );
     store.commit("updateStates", states.options);
