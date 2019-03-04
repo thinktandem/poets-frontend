@@ -68,7 +68,7 @@ export default {
       subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
     });
 
-    const poemOftheDay = await app.$axios.$get(`/poem-day`);
+    const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
     const theOnePoemOfTheDay = _.first(poemOftheDay);
     store.commit("updatePoemOfTheDay", {
       poet: {
