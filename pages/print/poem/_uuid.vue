@@ -98,6 +98,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .logo g path:first-child {
-  fill: $gray-500;
+  fill: $print-logo-grey;
 }
 </style>

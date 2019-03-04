@@ -4,9 +4,9 @@
       :extended="true"
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <b-container class="poem-a-day__previous-poems tabular-list">
+    <b-container class="poem-day__previous-poems tabular-list">
       <b-row>
-        <h3 class="poem-a-day__previous-poems-title font-serif pb-3">
+        <h3 class="poem-day__previous-poems-title font-serif pb-3">
           Previous Poems
         </h3>
       </b-row>
@@ -58,7 +58,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poem-a-day?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poem-day?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -71,7 +71,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poem-a-day?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poem-day?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -85,7 +85,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poem-a-day?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poem-day?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -99,7 +99,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poem-a-day?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poem-day?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -119,7 +119,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poem-a-day?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poem-day?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -131,7 +131,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poem-a-day?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              :href="`/poetsorg/poem-day?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -242,7 +242,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poem-a-day__previous-poems {
+.poem-day__previous-poems {
   padding-top: $spacer * 5;
   h3 {
     font-size: 1.9rem;
