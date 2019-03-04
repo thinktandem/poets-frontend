@@ -14,10 +14,18 @@
       cardtype="Poet"
       :cards="$store.state.featuredPoets.poets"/>
     <feature-stack
-      v-if="$store.state.featuredContent"
+      v-if="$store.state.featuredContent && $store.state.featuredContent.length >= 1"
       :features="$store.state.featuredContent"
       title="Features"/>
+    <b-container class="py-5">
+      <b-row>
+        <b-col md="8">
+          <app-announcements v-bind="$store.state.announcements"/>
+        </b-col>
+      </b-row>
+    </b-container>
     <product-feature
+      v-if="$store.state.productFeature.title"
       :title="$store.state.productFeature.title"
       :sub-title="$store.state.productFeature.subTitle"
       :intro="$store.state.productFeature.intro"
@@ -32,12 +40,14 @@ import CardDeck from "~/components/CardDeck";
 import DailyPoem from "~/components/Poems/DailyPoem";
 import FeaturedPoems from "~/components/FeaturedPoems";
 import qs from "qs";
-import * as _ from "lodash";
+import _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
 import ProductFeature from "~/components/ProductFeature";
+import AppAnnouncements from "~/components/AppAnnouncements";
 export default {
   layout: "default",
   components: {
+    AppAnnouncements,
     CardDeck,
     DailyPoem,
     FeaturedPoems,
@@ -184,6 +194,33 @@ export default {
         to: `/academy-american-poets/become-member`,
         text: "Become a member"
       }
+    });
+
+    const announcementRequestParams = qs.stringify({
+      filter: {
+        // Hard coded ID for announcement story type
+        // @todo do some magic to make this dynamic
+        "field_story_type.tid": 8
+      },
+      sort: "-promote",
+      page: {
+        limit: 3
+      }
+    });
+    const announcements = await app.$axios.$get(
+      `/api/node/basic_page?${announcementRequestParams}`
+    );
+    store.commit("updateAnnouncements", {
+      title: "Announcements",
+      announcements: _.map(announcements.data, announcement => {
+        return {
+          body:
+            _.get(announcement, "attributes.body.summary", null) ||
+            _.get(announcement, "attributes.body.processed", null),
+          date: _.get(announcement, "attributes.changed", null),
+          link: _.get(announcement, "attributes.path.alias", null)
+        };
+      })
     });
   }
 };
