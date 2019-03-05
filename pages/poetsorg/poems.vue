@@ -182,7 +182,7 @@ export default {
       preparedCombine: null
     };
   },
-  async asyncData({ app, params, query }) {
+  async asyncData({ app, params, query, route }) {
     const url = "/api/poems";
     return searchHelpers.getSearchResults(url, app, query);
   },
