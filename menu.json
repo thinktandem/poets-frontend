@@ -38,7 +38,27 @@
         }
       },
       "materials for teachers": {
-        "to": "/poetsorg/materials-teachers"
+        "to": "/poetsorg/materials-teachers",
+        "children": {
+          "Poems for Kids": {
+            "to": "/poetsorg/poems-kids"
+          },
+          "Poems for Teens": {
+            "to": "/poetsorg/poems-teens"
+          },
+          "Lesson Plans": {
+            "to": "/poetsorg/lesson-plans"
+          },
+          "Essays": {
+            "to": "/poetsorg/essays"
+          },
+          "Teach this Poem": {
+            "to": "/poetsorg/teach-poem"
+          },
+          "Resources": {
+            "to": "/poetsorg/resources"
+          }
+        }
       },
       "poetry near you": {
         "to": "/poetsorg/poetry-near-you"
@@ -55,7 +75,21 @@
         "to": "/academy-american-poets/prizes"
       },
       "leadership & staff": {
-        "to": "/academy-american-poets/staff"
+        "to": "/academy-american-poets/staff",
+        "children": {
+          "Staff": {
+            "to": "/academy-american-poets/staff"
+          },
+          "Chancellors": {
+            "to": "/academy-american-poets/chancellors"
+          },
+          "Board of Directors": {
+            "to": "/academy-american-poets/board-directors"
+          },
+          "Education Advisory Council": {
+            "to": "/academy-american-poets/education-advisory-council"
+          }
+        }
       },
       "mission & history": {
         "to": "/academy-american-poets/mission-history"

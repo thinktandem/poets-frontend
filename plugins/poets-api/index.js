@@ -121,10 +121,15 @@ export default ({ app }, inject) => {
       _.find(menu, (link, key) => key === "Poets.org");
     store.commit("updateMidMenu", transformTree(midMenu.children));
     const currentSubPage = path.length >= 3 ? path[1] + "/" + path[2] : path[1];
-    const subMenu = _.find(
-      midMenu.children,
-      link => link.to === "/" + currentSubPage
-    ) || { children: [] };
-    store.commit("updateSubMenu", transformTree(subMenu.children));
+
+    const buildSubMenu = (midMenu, currentSubPage) => {
+      const subMenu = _.find(
+        midMenu.children,
+        link => link.to === "/" + currentSubPage
+      );
+      return _.get(subMenu, "children") ? transformTree(subMenu.children) : [];
+    };
+
+    store.commit("updateSubMenu", buildSubMenu(midMenu, currentSubPage));
   });
 };
