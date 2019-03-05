@@ -31,7 +31,7 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-item
-          href="/login"
+          :href="loginUrl"
           class="navbar__login">Membership / Login</b-nav-item>
 
         <b-button
@@ -60,6 +60,7 @@ export default {
    */
   data() {
     return {
+      loginUrl: `${process.env.baseURL}/user/login?redirect=frontend`,
       links: [
         {
           href: "/american-academy-poets/home",
