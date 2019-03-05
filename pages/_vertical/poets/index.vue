@@ -229,7 +229,14 @@ export default {
         params: {
           filter: {
             status: 1,
-            field_p_type: "poet"
+            field_p_type: "poet",
+            require_image: {
+              condition: {
+                path: "field_image.id",
+                operator: "<>",
+                value: ""
+              }
+            }
           },
           page: {
             limit: 3
