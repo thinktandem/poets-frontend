@@ -221,6 +221,7 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
+    app.$buildBasicPage(app, store, "/poetsorg/poets");
     const url = "/api/poets";
     const msh = await searchHelpers.getSearchResults(url, app, query);
     let poets = await app.$axios
@@ -228,7 +229,14 @@ export default {
         params: {
           filter: {
             status: 1,
-            field_p_type: "poet"
+            field_p_type: "poet",
+            require_image: {
+              condition: {
+                path: "field_image.id",
+                operator: "<>",
+                value: ""
+              }
+            }
           },
           page: {
             limit: 3
