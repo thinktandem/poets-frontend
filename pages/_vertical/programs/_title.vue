@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  asyncData: async function({ app, params }) {
+  async asyncData({ app, params }) {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
