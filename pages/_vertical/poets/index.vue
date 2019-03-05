@@ -221,6 +221,7 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
+    app.$buildBasicPage(app, store, "/poetsorg/poets");
     const url = "/api/poets";
     const msh = await searchHelpers.getSearchResults(url, app, query);
     let poets = await app.$axios
