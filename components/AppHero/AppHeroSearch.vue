@@ -54,7 +54,7 @@ export default {
           text: "find poems"
         },
         {
-          to: "/poetsorg/poet",
+          to: "/poetsorg/poets",
           text: "find poets"
         },
         {
