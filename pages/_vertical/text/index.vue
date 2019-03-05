@@ -1,5 +1,12 @@
 <template>
   <div>
+    <CardDeck
+      title=""
+      class="pt-5 pb-3"
+      cardtype="TextCard"
+      cols="4"
+      :cards="texts"
+    />
     <b-container class="texts-list__filters filters">
       <b-row class="texts-list__filters-row">
         <b-col md="12">
@@ -175,12 +182,14 @@ import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
+import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    iconSearch,
+    CardDeck
   },
   data() {
     return {
@@ -194,7 +203,35 @@ export default {
   async asyncData({ app, store, params, query }) {
     app.$buildBasicPage(app, store, "/texts");
     const url = "/api/texts_list";
-    return searchHelpers.getSearchResults(url, app, query);
+    const mySearchHelpers = await searchHelpers.getSearchResults(
+      url,
+      app,
+      query
+    );
+
+    let texts = await app.$axios
+      .get("/api/texts", {})
+      .then(res => {
+        return {
+          rows: res.data.rows,
+          textsLink: {
+            to: "/poetsorg/text",
+            text: res.data.pager.total_items
+          }
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    return {
+      combinedInput: mySearchHelpers.combinedInput,
+      results: mySearchHelpers.results,
+      Next: mySearchHelpers.Next,
+      Prev: mySearchHelpers.Prev,
+      preparedComgine: mySearchHelpers.preparedCombine,
+      texts: texts.rows
+    };
   },
   methods: {
     applyFilters() {
