@@ -3,13 +3,13 @@
     <b-container class="py-5">
       <b-row>
         <b-col xl="12">
-          <h1>{{ prize.attributes.title }}</h1>
+          <h1>{{ programs.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="prize.attributes.body.value"
-          class="prizes__body"
+          v-html="programs.attributes.body.value"
+          class="program__body"
           xl="12"/>
       </b-row>
     </b-container>
@@ -22,7 +22,7 @@ export default {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: `${params.vertical}/prizes/${params.title}`
+          path: `${params.vertical}/programs/${params.title}`
         }
       })
       .then(res => {
@@ -30,7 +30,7 @@ export default {
           .get(`/api/node/prize_or_program/${res.data.entity.uuid}`)
           .then(res => {
             return {
-              prize: res.data.data
+              programs: res.data.data
             };
           })
           .catch(err => {

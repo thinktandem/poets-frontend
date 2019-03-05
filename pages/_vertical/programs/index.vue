@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container class="prizes-list tabular-list">
+    <b-container class="programs-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
         <b-col
           md="3">
@@ -14,26 +14,26 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="prizes in results"
+        v-for="programs in results"
         class="tabular-list__row prizes-list__books"
-        :key="prizes.title"
+        :key="programs.title"
       >
         <b-col
           class="date"
           md="3"
         >
-          {{ prizes.field_date_published }}
+          {{ programs.field_date_published }}
         </b-col>
         <b-col
           class="books-list__books-title"
           md="6">
           <a
-            :href="prizes.view_node"
-            v-html="prizes.title"
+            :href="programs.view_node"
+            v-html="programs.title"
           />
         </b-col>
         <b-col md="3">
-          {{ prizes.field_author }}
+          {{ programs.field_author }}
         </b-col>
       </b-row>
       <div class="pager">
@@ -50,7 +50,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/prizes?page=${Prev}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -63,7 +63,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/poetsorg/programs?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -77,7 +77,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/prizes?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -91,7 +91,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/prizes?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -111,7 +111,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/prizes?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -123,7 +123,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/book?page=${Next}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
