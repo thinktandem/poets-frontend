@@ -12,7 +12,15 @@
         "to": "/poetsorg/poem-a-day"
       },
       "library (texts, books & more)": {
-        "to": "/poetsorg/libraries"
+        "to": "/poetsorg/libraries",
+        "children": {
+          "Library": {
+            "to": "/poetsorg/libraries"
+          },
+          "Poems": {
+            "to": "/poetsorg/poems"
+          }
+        }
       },
       "materials for teachers": {
         "to": "/poetsorg/materials-for-teachers"
@@ -21,5 +29,19 @@
         "to": "/poetsorg/poetry-near-you"
       }
     }
+  },
+  "Academy of American Poets": {
+    "to": "/academy-american-poets",
+    "children": {
+      "foo": {
+        "to": "/bar"
+      }
+    }
+  },
+  "National Poetry Month": {
+    "to": "/national-poetry-month"
+  },
+  "American Poets Magazine": {
+    "to": "/american-poets-magazine"
   }
 }

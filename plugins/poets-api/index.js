@@ -115,4 +115,29 @@ export default ({ app }, inject) => {
         store.commit("updateFeaturedContent", featuredContent);
       });
   });
+  inject("buildMenu", ({ menu, route, store }) => {
+    const transformTree = menu => {
+      return _.zipWith(
+        _.keys(menu),
+        _.map(menu, link => link.to),
+        (text, to) => ({
+          text,
+          to
+        })
+      );
+    };
+    const top = transformTree(menu);
+
+    store.commit(
+      "updateTopMenu",
+      _.reject(top, link => link.text == "Poets.org")
+    );
+    // Vertical should be the first route segment after the root /.
+    const currentVertical = route.path.split("/")[1];
+    const midMenu =
+      _.find(menu, link => link.to === "/" + currentVertical) ||
+      _.find(menu, (link, key) => key === "Poets.org");
+
+    store.commit("updateMidMenu", transformTree(midMenu.children));
+  });
 };

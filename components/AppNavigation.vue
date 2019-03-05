@@ -23,9 +23,9 @@
 
       <b-navbar-nav>
         <b-nav-item
-          v-for="(link, index) in links"
+          v-for="(link, index) in $store.state.topMenu"
           :key="index"
-          :href="link.href">{{ link.text }}</b-nav-item>
+          :to="link.to">{{ link.text }}</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -53,30 +53,7 @@
 </template>
 
 <script>
-export default {
-  /**
-   * @todo replace with real data/prop
-   * @return {{links: {href: string, text: string}[]}}
-   */
-  data() {
-    return {
-      links: [
-        {
-          href: "/american-academy-poets/home",
-          text: "Academy of American Poets"
-        },
-        {
-          href: "/national-poetry-month",
-          text: "National Poetry Month"
-        },
-        {
-          href: "/magazine",
-          text: "American Poets Magazine"
-        }
-      ]
-    };
-  }
-};
+export default {};
 </script>
 
 <style scoped lang="scss">

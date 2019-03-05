@@ -134,13 +134,14 @@ export default {
 
     return { programs: programs, announcements: announcements, prizes: prizes };
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, params, menu, route }) {
     // Set the current hero
     store.commit("updateHero", {
       variant: "default",
       lead:
         "The Academy of American Poets was founded in 1934 to support American poets at all stages of their careers and to foster the appreciation of contemporary poetry."
     });
+    app.$buildMenu({ store, menu, route });
   }
 };
 </script>

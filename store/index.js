@@ -37,7 +37,10 @@ const createStore = () => {
         link: ""
       },
       featuredContent: {},
-      subNavigation: null
+      subNavigation: null,
+      topMenu: [],
+      midMenu: [],
+      subMenu: []
     },
     mutations: {
       updateBottomContent(state, payload) {
@@ -93,6 +96,12 @@ const createStore = () => {
       },
       updateSubNavigation(state, payload) {
         state.subNavigation = payload;
+      },
+      updateTopMenu(state, payload) {
+        state.topMenu = payload;
+      },
+      updateMidMenu(state, payload) {
+        state.midMenu = payload;
       }
     }
   });
