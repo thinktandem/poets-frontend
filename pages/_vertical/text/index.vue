@@ -213,11 +213,7 @@ export default {
       .get("/api/texts", {})
       .then(res => {
         return {
-          rows: res.data.rows,
-          textsLink: {
-            to: "/poetsorg/text",
-            text: res.data.pager.total_items
-          }
+          rows: res.data.rows
         };
       })
       .catch(err => {
