@@ -52,13 +52,7 @@ export default ({ app }, inject) => {
    * Inject a helper function to build out basic pages. this can be called within the 'fetch' function of any nuxt page
    * to automatically hydrate the store items needed to render a basic page.
    */
-  inject("buildBasicPage", (app, store, path) => {
-    // The router request
-    const routerRequest = {
-      requestId: "router",
-      action: "view",
-      uri: `/router/translate-path?path=${path}`
-    };
+  inject("buildBasicPage", async (app, store, path) => {
     // This is the list of items to include with the page request
     const includes = [
       "sidebar_sections.image",
@@ -69,26 +63,13 @@ export default ({ app }, inject) => {
       "field_content_sections.side_image.field_image",
       "featured.featured_media.field_image"
     ].join(",");
-    // The page request
-    const pageRequest = {
-      requestId: "Page",
-      action: "view",
-      headers: {
-        Accept: "application/json",
-        "X-CONSUMER-ID": process.env.CONSUMER_ID
-      },
-      uri: `{{router.body@$.jsonapi.individual}}?include=${includes}`,
-      waitFor: ["router"]
-    };
+    const routerResponse = await app.$axios.$get(
+      `/router/translate-path?path=${path}`
+    );
     return app.$axios
-      .post("/subrequests?_format=json", [routerRequest, pageRequest], {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        }
-      })
+      .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)
       .then(response => {
-        let page = JSON.parse(response.data["Page#uri{0}"].body);
+        let page = response;
         if (page.data.attributes.body !== null) {
           page.data.attributes.body.processed = imgUrl.staticUrl(
             page.data.attributes.body.processed
@@ -126,6 +107,7 @@ export default ({ app }, inject) => {
         })
       );
     };
+    const path = route.path.split("/");
     const top = transformTree(menu);
 
     store.commit(
@@ -133,11 +115,16 @@ export default ({ app }, inject) => {
       _.reject(top, link => link.text == "Poets.org")
     );
     // Vertical should be the first route segment after the root /.
-    const currentVertical = route.path.split("/")[1];
+    const currentVertical = path.length >= 2 ? path[1] : "";
     const midMenu =
       _.find(menu, link => link.to === "/" + currentVertical) ||
       _.find(menu, (link, key) => key === "Poets.org");
-
     store.commit("updateMidMenu", transformTree(midMenu.children));
+    const currentSubPage = path.length >= 3 ? path[2] : "";
+    const subMenu = _.find(
+      midMenu.children,
+      link => link.to === "/" + currentSubPage
+    ) || { children: [] };
+    store.commit("updateSubMenu", transformTree(subMenu.children));
   });
 };

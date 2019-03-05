@@ -186,9 +186,6 @@ export default {
     const url = "/api/poems";
     return searchHelpers.getSearchResults(url, app, query);
   },
-  async fetch({ app, store, menu, route }) {
-    return app.$buildMenu({ store, menu, route });
-  },
   methods: {
     applyFilters() {
       let myQuery = {};

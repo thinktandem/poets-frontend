@@ -15,7 +15,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item
           v-if="links !== null"
-          v-for="(link, index) in links"
+          v-for="(link, index) in $store.state.subMenu"
           :key="index"
           :to="link.to"
         >
@@ -28,13 +28,7 @@
 
 <script>
 export default {
-  name: "SubNavigation",
-  props: {
-    links: {
-      type: Array,
-      default: null
-    }
-  }
+  name: "SubNavigation"
 };
 </script>
 

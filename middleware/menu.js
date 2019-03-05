@@ -5,6 +5,5 @@ import menu from "~/menu.json";
  * @return {void}
  */
 export default function(context) {
-  context.menu = menu;
-  console.log("menu is", menu);
+  context.app.$buildMenu({ menu, route: context.route, store: context.store });
 }

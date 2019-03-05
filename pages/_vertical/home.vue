@@ -141,7 +141,6 @@ export default {
       lead:
         "The Academy of American Poets was founded in 1934 to support American poets at all stages of their careers and to foster the appreciation of contemporary poetry."
     });
-    app.$buildMenu({ store, menu, route });
   }
 };
 </script>

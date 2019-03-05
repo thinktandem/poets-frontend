@@ -102,6 +102,9 @@ const createStore = () => {
       },
       updateMidMenu(state, payload) {
         state.midMenu = payload;
+      },
+      updateSubMenu(state, payload) {
+        state.subMenu = payload;
       }
     }
   });

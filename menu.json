@@ -9,7 +9,7 @@
         "to": "/poetsorg/poet"
       },
       "poem-a-day": {
-        "to": "/poetsorg/poem-a-day"
+        "to": "/poetsorg/poem-day"
       },
       "library (texts, books & more)": {
         "to": "/poetsorg/libraries",
@@ -23,7 +23,7 @@
         }
       },
       "materials for teachers": {
-        "to": "/poetsorg/materials-for-teachers"
+        "to": "/poetsorg/materials-teachers"
       },
       "poetry near you": {
         "to": "/poetsorg/poetry-near-you"

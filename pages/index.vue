@@ -57,7 +57,6 @@ export default {
   async fetch({ app, store, params, route, menu }) {
     // @todo: We're counting on this path in Drupal, which might be something we want
     // to change.
-    app.$buildMenu({ menu, route, store });
     app.$buildBasicPage(app, store, "/poetsorg/home");
 
     // Override the hero with a quote on the homepage, this will overwrite
