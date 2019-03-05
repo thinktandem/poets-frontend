@@ -134,7 +134,7 @@ export default {
 
     return { programs: programs, announcements: announcements, prizes: prizes };
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, params, menu, route }) {
     // Set the current hero
     store.commit("updateHero", {
       variant: "default",

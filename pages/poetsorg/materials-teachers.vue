@@ -45,38 +45,12 @@ export default {
     };
   },
   async fetch({ app, store, params }) {
-    store.commit("updateSubNavigation", [
-      {
-        to: "/poetsorg/poems-kids",
-        text: "Poems for Kids"
-      },
-      {
-        to: "/poetsorg/poems-teens",
-        text: "Poems for Teens"
-      },
-      {
-        to: "/poetsorg/lesson-plans",
-        text: "Lesson Plans"
-      },
-      {
-        to: "/poetsorg/essays",
-        text: "Essays"
-      },
-      {
-        to: "/poetsorg/teach-this-poem",
-        text: "Teach this Poem"
-      },
-      {
-        to: "/poetorg/resources",
-        text: "Resources"
-      }
-    ]);
     return (
       app
         // Start with the 'basic page' essentials
         .$buildBasicPage(app, store, "poetsorg/materials-teachers")
         // Now add in our page specific magic.
-        .then(() => {
+        .then(async () => {
           const signupBlock = {
             component: "SignupBlock",
             props: {
@@ -96,14 +70,6 @@ export default {
             },
             include: "field_level,field_contributors"
           });
-          const lessonRequest = {
-            requestId: "lessons",
-            uri: `/api/node/lesson_plans?${lessonParams}`,
-            action: "view",
-            headers: {
-              Accept: "application/json"
-            }
-          };
           const essayParams = qs.stringify({
             filter: {
               status: 1,
@@ -116,75 +82,61 @@ export default {
             },
             include: "field_contributors"
           });
-          const essayRequest = {
-            requestId: "essays",
-            uri: `/api/node/texts?${essayParams}`,
-            action: "view",
-            headers: {
-              Accept: "application/json"
-            }
-          };
-          return app.$axios
-            .$post("/subrequests?_format=json", [lessonRequest, essayRequest], {
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-              }
+          const lessons = await app.$axios.$get(
+            `/api/node/lesson_plans?${lessonParams}`
+          );
+          const essays = await app.$axios.$get(
+            `/api/node/texts?${essayParams}`
+          );
+          store.commit("updateRelatedContent", {
+            title: "Lesson Plans",
+            cardType: "LessonPlanCard",
+            link: {
+              to: "/poetorg/lesson-plans",
+              text: `${lessons.meta.count} Lesson Plans`
+            },
+            cards: _.map(lessons.data, item => {
+              return {
+                title: item.attributes.title,
+                link: item.attributes.path.alias,
+                meta: _.find(
+                  lessons.included,
+                  include =>
+                    include.id ===
+                    item.relationships.field_contributors.data[0].id
+                ).attributes.body.processed,
+                level: _.find(
+                  lessons.included,
+                  include =>
+                    include.id === item.relationships.field_level.data[0].id
+                ).attributes.name
+              };
             })
-            .then(response => {
-              const lessons = JSON.parse(response.lessons.body);
-              store.commit("updateRelatedContent", {
-                title: "Lesson Plans",
-                cardType: "LessonPlanCard",
-                link: {
-                  to: "/poetorg/lesson-plans",
-                  text: `${lessons.meta.count} Lesson Plans`
-                },
-                cards: _.map(lessons.data, item => {
-                  return {
-                    title: item.attributes.title,
-                    link: item.attributes.path.alias,
-                    meta: _.find(
-                      lessons.included,
-                      include =>
-                        include.id ===
-                        item.relationships.field_contributors.data[0].id
-                    ).attributes.body.processed,
-                    level: _.find(
-                      lessons.included,
-                      include =>
-                        include.id === item.relationships.field_level.data[0].id
-                    ).attributes.name
-                  };
-                })
-              });
-              const essays = JSON.parse(response.essays.body);
-              return store.commit("updateBottomContent", {
-                title: "Essays on Teaching Poetry",
-                cardType: "EssayCard",
-                link: {
-                  to: "/poetorg/texts/teaching-poetry",
-                  text: `${essays.meta.count} Essays`
-                },
-                cards: _.map(essays.data, item => {
-                  let author = _.find(
-                    essays.included,
-                    include =>
-                      include.id ===
-                      item.relationships.field_contributors.data[0].id
-                  );
-                  return {
-                    title: item.attributes.title,
-                    year: item.attributes.field_date_published.split("-")[0],
-                    poet: { name: "name" },
-                    author: author ? author.attributes.title : "",
-                    text:
-                      item.attributes.body.summary ||
-                      item.attributes.body.processed
-                  };
-                })
-              });
-            });
+          });
+          return store.commit("updateBottomContent", {
+            title: "Essays on Teaching Poetry",
+            cardType: "EssayCard",
+            link: {
+              to: "/poetorg/texts/teaching-poetry",
+              text: `${essays.meta.count} Essays`
+            },
+            cards: _.map(essays.data, item => {
+              let author = _.find(
+                essays.included,
+                include =>
+                  include.id ===
+                  item.relationships.field_contributors.data[0].id
+              );
+              return {
+                title: item.attributes.title,
+                year: item.attributes.field_date_published.split("-")[0],
+                poet: { name: "name" },
+                author: author ? author.attributes.title : "",
+                text:
+                  item.attributes.body.summary || item.attributes.body.processed
+              };
+            })
+          });
         })
     );
   }

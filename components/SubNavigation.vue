@@ -1,5 +1,6 @@
 <template>
   <b-navbar
+    v-if="links.length >= 1"
     class="lib-nav-container shadow-sm d-flex"
     toggleable="md"
     type="dark"
@@ -32,7 +33,7 @@ export default {
   props: {
     links: {
       type: Array,
-      default: null
+      default: () => []
     }
   }
 };
