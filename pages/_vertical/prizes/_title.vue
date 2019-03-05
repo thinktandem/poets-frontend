@@ -3,12 +3,12 @@
     <b-container class="py-5">
       <b-row>
         <b-col xl="12">
-          <h1>{{ prize.attributes.title }}</h1>
+          <h1>{{ prizes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="prize.attributes.body.value"
+          v-html="prizes.body"
           class="prizes__body"
           xl="12"/>
       </b-row>
@@ -17,33 +17,38 @@
 </template>
 
 <script>
+import * as qs from "qs";
+import * as _ from "lodash";
+
 export default {
-  asyncData: async function({ app, params }) {
-    return app.$axios
-      .get(`/router/translate-path`, {
-        params: {
-          path: `${params.vertical}/prizes/${params.title}`
-        }
-      })
-      .then(res => {
-        return app.$axios
-          .get(`/api/node/prize_or_program/${res.data.entity.uuid}`)
-          .then(res => {
-            return {
-              prize: res.data.data
-            };
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
+  async asyncData({ app, params, query }) {
+    const prizes = await app.$axios
+      .$get(`/api/node/${}/${response.data.entity.uuid}`)
+      .then(response => {
+        return {
+          response: response,
+          data: {
+            title: "Prizes",
+            link: {
+              to: `/${params.vertical}/prizes`,
+              text: `${response.meta.count} Prizes`
+            },
+            prizes: _.map(response.data, item => {
+              return {
+                title: item.attributes.title,
+                titleLink: item.attributes.path.alias,
+                body: item.attributes.body.value
+              };
+            })
+          }
+        };
       });
+
+    return { prizes: prizes };
   }
 };
 </script>
-
+s
 <style scoped lang="scss">
 .book__body {
   font-weight: 400;
