@@ -120,7 +120,7 @@ export default ({ app }, inject) => {
       _.find(menu, link => link.to === "/" + currentVertical) ||
       _.find(menu, (link, key) => key === "Poets.org");
     store.commit("updateMidMenu", transformTree(midMenu.children));
-    const currentSubPage = path.length >= 3 ? path[2] : "";
+    const currentSubPage = path.length >= 3 ? path[1] + "/" + path[2] : path[1];
     const subMenu = _.find(
       midMenu.children,
       link => link.to === "/" + currentSubPage

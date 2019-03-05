@@ -1,5 +1,6 @@
 <template>
   <b-navbar
+    v-if="links.length >= 1"
     class="lib-nav-container shadow-sm d-flex"
     toggleable="md"
     type="dark"
@@ -15,7 +16,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item
           v-if="links !== null"
-          v-for="(link, index) in $store.state.subMenu"
+          v-for="(link, index) in links"
           :key="index"
           :to="link.to"
         >
@@ -28,7 +29,13 @@
 
 <script>
 export default {
-  name: "SubNavigation"
+  name: "SubNavigation",
+  props: {
+    links: {
+      type: Array,
+      default: () => []
+    }
+  }
 };
 </script>
 

@@ -9,8 +9,8 @@
       :subtext="this.$store.state.hero.subtext"
     />
     <sub-navigation
-      v-if="$store.state.subNavigation"
-      :links="$store.state.subNavigation"/>
+      v-if="$store.state.subMenu"
+      :links="$store.state.subMenu"/>
     <nuxt/>
     <AppNewsletterSupportFollow />
     <AppFooterPrimary />

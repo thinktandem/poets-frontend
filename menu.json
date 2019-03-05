@@ -3,22 +3,37 @@
     "to": "/",
     "children": {
       "find poems": {
-        "to": "/poetsorg/poem"
+        "to": "/poetsorg/poems"
       },
       "find poets": {
-        "to": "/poetsorg/poet"
+        "to": "/poetsorg/poets"
       },
       "poem-a-day": {
         "to": "/poetsorg/poem-day"
       },
       "library (texts, books & more)": {
-        "to": "/poetsorg/libraries",
+        "to": "/libraries",
         "children": {
           "Library": {
-            "to": "/poetsorg/libraries"
+            "to": "/libraries"
           },
           "Poems": {
             "to": "/poetsorg/poems"
+          },
+          "Poets": {
+            "to": "/poetsorg/poets"
+          },
+          "Texts": {
+            "to": "/poetsorg/texts"
+          },
+          "Books": {
+            "to": "/poetsorg/books"
+          },
+          "Audio": {
+            "to": "/poetsorg/audio"
+          },
+          "Video": {
+            "to": "poetsorg/videos"
           }
         }
       },
@@ -33,13 +48,54 @@
   "Academy of American Poets": {
     "to": "/academy-american-poets",
     "children": {
-      "foo": {
-        "to": "/bar"
+      "programs": {
+        "to": "/academy-american-poets/programs"
+      },
+      "prizes": {
+        "to": "/academy-american-poets/prizes"
+      },
+      "leadership & staff": {
+        "to": "/academy-american-poets/staff"
+      },
+      "mission & history": {
+        "to": "/academy-american-poets/mission-history"
+      },
+      "poetry coalition": {
+        "to": "/american-academy-poets/poetry-coalition"
+      },
+      "about us": {
+        "to": "/american-academy-poets/about-us"
+      },
+      "annoucements": {
+        "to": "/american-academy-poets/annoucements"
       }
     }
   },
   "National Poetry Month": {
-    "to": "/national-poetry-month"
+    "to": "/national-poetry-month",
+    "children": {
+      "about the celebration": {
+        "to": "/national-poetry-month/about-celebration"
+      },
+      "national poetry month poster": {
+        "to": "/national-poetry-month/poster"
+      },
+      "poem in your pocket day": {
+        "to": "/national-poetry-month/poem-your-pocket-day"
+      },
+      "dear poet": {
+        "to": "/national-poetry-month/dear-poet"
+      },
+      "programming": {
+        "to": "/national-poetry-month/programming"
+      },
+      "sponsors": {
+        "to": "/national-poetry-month/sponsors"
+      },
+      "faq": {
+        "to": "/national-poetry-month/faq"
+      }
+    }
   },
   "American Poets Magazine": {
     "to": "/american-poets-magazine"
