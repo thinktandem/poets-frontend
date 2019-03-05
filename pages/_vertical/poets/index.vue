@@ -1,15 +1,10 @@
 <template>
   <div>
-    <!-- <h2
-      class="styleguide__heading"
-      id="PoetsDeck"
-      >Poets Card Deck</h2> -->
     <CardDeck
-      title="Poets"
+      title=""
       cardtype="Poet"
-      :cards="$store.state.featuredPoets"
-      :link="poetsLink"
-    />geoff
+      :cards="featuredPoets"
+    />
     <b-container class="poets-list__filters filters">
       <b-row class="poets-list__filters-row">
         <b-col md="12">
@@ -107,7 +102,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poet?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -120,7 +115,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poet?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -134,7 +129,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poet?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -148,7 +143,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poet?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -168,7 +163,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poet?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -180,7 +175,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poet?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              :href="`/poetsorg/poets?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -196,7 +191,6 @@
 </template>
 
 <script>
-// import qs from "qs";
 import _ from "lodash";
 import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
@@ -226,26 +220,9 @@ export default {
       featuredPoets: null
     };
   },
-  async asyncData({ app, params, query }) {
+  async asyncData({ app, store, params, query }) {
     const url = "/api/poets";
-    return searchHelpers.getSearchResults(url, app, query);
-  },
-  async fetch({ app, store, params, query }) {
-    const schools = await filterHelpers.getFilterOptions(
-      app,
-      "/api/taxonomy_term/school_movement",
-      "'fields[taxonomy_term--school_movement]': 'drupal_internal__tid,name'",
-      "taxonomy"
-    );
-    const states = await filterHelpers.getFilterOptions(
-      app,
-      "/api/node/state",
-      "'fields[node--state]': 'drupal_internal__nid,title'",
-      "node"
-    );
-    store.commit("updateStates", states.options);
-    store.commit("updateFilterOptions", schools.options);
-
+    const msh = await searchHelpers.getSearchResults(url, app, query);
     let poets = await app.$axios
       .get("/api/node/person", {
         params: {
@@ -271,22 +248,45 @@ export default {
                 _.get(row, "attributes.body.processed", null),
               img: app.$buildImg(res.data, row, "field_image", "portrait")
             };
-          }),
-          poetsLink: {
-            to: "/poetsorg/poet",
-            text: `${res.data.meta.count} Poets`
-          }
+          })
         };
       })
       .catch(err => {
         console.log(err);
       });
-    console.log(
-      "\n\n --------------------- you do it --------------------\n",
-      poets
-    );
 
-    store.commit("updateFeaturedPoets", poets);
+    return {
+      schoolInput: msh.schoolInput,
+      stateInput: msh.stateInput,
+      searchInput: msh.searchInput,
+      results: msh.results,
+      currentPage: msh.currentPage,
+      totalPages: msh.totalPages,
+      pageNum: msh.pageNum,
+      Next: msh.Next,
+      Prev: msh.Prev,
+      preparedState: msh.preparedState,
+      preparedSchool: msh.preparedSchool,
+      preparedCombine: msh.preparedCombine,
+      featuredPoets: poets.rows
+    };
+  },
+  async fetch({ app, store, params, query }) {
+    const schools = await filterHelpers.getFilterOptions(
+      app,
+      "/api/taxonomy_term/school_movement",
+      "'fields[taxonomy_term--school_movement]': 'drupal_internal__tid,name'",
+      "taxonomy"
+    );
+    const states = await filterHelpers.getFilterOptions(
+      app,
+      "/api/node/state",
+      "'fields[node--state]': 'drupal_internal__nid,title'",
+      "node"
+    );
+    store.commit("updateStates", states.options);
+    store.commit("updateFilterOptions", schools.options);
+    // return app.$buildBasicPage(app, store, "/poems-poets");
   },
   methods: {
     applyFilters() {
@@ -406,5 +406,9 @@ export default {
       height: 100%;
     }
   }
+}
+div /deep/ .card-deck__cards {
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 </style>
