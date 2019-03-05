@@ -24,7 +24,9 @@
         {{ name }}
       </h3>
       <div class="poet__bio">
-        <div v-html="bio"/>
+        <app-teaser-text
+          :text="bio"
+        />
         <a
           :href="link"
           class="poet__link"
@@ -35,8 +37,10 @@
 </template>
 
 <script>
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
   name: "Poet",
+  components: { AppTeaserText },
   props: {
     name: {
       type: String,
