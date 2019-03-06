@@ -294,7 +294,6 @@ export default {
     );
     store.commit("updateStates", states.options);
     store.commit("updateFilterOptions", schools.options);
-    // return app.$buildBasicPage(app, store, "/poems-poets");
   },
   methods: {
     applyFilters() {
@@ -309,7 +308,7 @@ export default {
         myQuery.school = this.schoolInput;
       }
       this.$router.push({
-        name: "vertical-poet",
+        name: "vertical-poets",
         query: myQuery
       });
     }
