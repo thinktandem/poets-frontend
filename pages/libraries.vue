@@ -86,7 +86,13 @@ export default {
         params: {
           filter: {
             status: 1,
-            field_p_type: "poet"
+            field_p_type: "poet",
+
+            image: {
+              path: "field_image.id",
+              operator: "<>",
+              value: ""
+            }
           },
           page: {
             limit: 6
