@@ -45,9 +45,11 @@
 import _ from "lodash";
 import qs from "qs";
 import CardDeck from "~/components/CardDeck";
+import BasicPage from "~/components/BasicPage";
 
 export default {
   components: {
+    BasicPage,
     CardDeck
   },
   data() {
