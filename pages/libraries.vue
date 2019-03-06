@@ -1,5 +1,11 @@
 <template>
   <div>
+    <basic-page
+      :body="$store.state.pageData.data.attributes.body"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
     <CardDeck
       title="Poems"
       class="pt-5 pb-3"
@@ -63,8 +69,8 @@ export default {
       }
     };
   },
-  async fetch({ app, store, params }) {
-    return app.$buildBasicPage(app, store, "/poetsorg/poems-poets");
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   async asyncData({ app, store, params }) {
     let poems = await app.$axios
