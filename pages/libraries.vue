@@ -37,6 +37,7 @@
 
 <script>
 import _ from "lodash";
+import qs from "qs";
 import CardDeck from "~/components/CardDeck";
 
 export default {
@@ -63,37 +64,6 @@ export default {
     };
   },
   async fetch({ app, store, params }) {
-    store.commit("updateSubNavigation", [
-      {
-        to: "/libraries",
-        text: "Library"
-      },
-      {
-        to: "/poetorg/poems",
-        text: "Poems"
-      },
-      {
-        to: "/poetorg/poets",
-        text: "Poets"
-      },
-      {
-        to: "/poetsorg/texts",
-        text: "Texts"
-      },
-      {
-        to: "/poetsorg/books",
-        text: "Books"
-      },
-      {
-        to: "/poetsorg/audio",
-        text: "Audio"
-      },
-      {
-        to: "/poetsorg/video",
-        text: "Video"
-      }
-    ]);
-
     return app.$buildBasicPage(app, store, "/poetsorg/poems-poets");
   },
   async asyncData({ app, store, params }) {
@@ -160,14 +130,43 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    let books = await app.$axios
-      .get("/api/books", {})
+
+    const bookParams = qs.stringify({
+      filter: {
+        field_featured: 1
+      },
+      page: {
+        limit: 4
+      },
+      include: "field_author,field_image"
+    });
+    const books = await app.$axios
+      .$get(`/api/node/books?${bookParams}`)
       .then(res => {
         return {
-          rows: res.data.rows,
+          rows: _.map(res.data, book => ({
+            title: _.get(book, "attributes.title"),
+            body:
+              _.get(book, "attributes.body.summary") ||
+              _.get(book, "attributes.body.processed"),
+            field_image: app.$buildImg(res, book, "field_image", "book"),
+            field_author: _.get(
+              _.find(
+                res.included,
+                include =>
+                  _.get(include, "id") ===
+                  _.get(
+                    _.first(_.get(book, "relationships.field_author.data")),
+                    "id"
+                  )
+              ),
+              "attributes.title"
+            ),
+            view_node_1: _.get(book, "attributes.path.alias")
+          })),
           booksLink: {
-            to: "/poetsorg/book",
-            text: res.data.pager.total_items
+            to: "/poetsorg/books",
+            text: res.meta.count + " books"
           }
         };
       })
