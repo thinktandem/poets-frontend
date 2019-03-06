@@ -1,5 +1,14 @@
 <template>
   <div>
+    <basic-page
+      :body="$store.state.pageData.data.attributes.body"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <card-deck
+      cardtype="PoemCard"
+      :cards="featuredPoems.cards"/>
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
@@ -163,6 +172,10 @@
 </template>
 
 <script>
+import _ from "lodash";
+import qs from "qs";
+import BasicPage from "~/components/BasicPage";
+import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -170,6 +183,8 @@ import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
+    BasicPage,
+    CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     iconSearch
@@ -185,7 +200,52 @@ export default {
   },
   async asyncData({ app, params, query }) {
     const url = "/api/audio_poems";
-    return searchHelpers.getSearchResults(url, app, query);
+    const results = await searchHelpers.getSearchResults(url, app, query);
+    const featureParams = qs.stringify({
+      filter: {
+        soundcloud: {
+          path: "field_soundcloud_embed_code",
+          operator: "<>",
+          value: ""
+        },
+        field_featured: 1
+      },
+      page: {
+        limit: 3
+      },
+      include: "field_author"
+    });
+    const featured = await app.$axios.$get(`/api/node/poems?${featureParams}`);
+    return _.merge(results, {
+      featuredPoems: {
+        response: featured,
+        cards: _.map(featured.data, poem => ({
+          title: _.get(poem, "attributes.title"),
+          text:
+            _.get(poem, "attributes.body.summary") ||
+            _.get(poem, "attributes.body.processed"),
+          poet: {
+            name: _.get(
+              _.find(
+                featured.included,
+                include =>
+                  _.get(include, "id") ===
+                  _.get(
+                    _.first(_.get(poem, "relationships.field_author.data")),
+                    "id"
+                  )
+              ),
+              "attributes.title"
+            )
+          },
+          year: _.get(poem, "attributes.field_date_published").split("-")[0],
+          link: _.get(poem, "attributes.path.alias")
+        }))
+      }
+    });
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {
     applyFilters() {
