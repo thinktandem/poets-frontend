@@ -22,7 +22,6 @@
 
 <script>
 import imgUrl from "~/plugins/inlineImagesUrl.js";
-
 export default {
   async asyncData({ app, params }) {
     const text = await app.$axios
