@@ -40,6 +40,11 @@ export default {
       .catch(err => {
         console.log(err);
       });
+  },
+  async fetch({ store }) {
+    store.commit("updateHero", {
+      heading: "Programs"
+    });
   }
 };
 </script>
