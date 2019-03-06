@@ -195,6 +195,11 @@ export default {
         body: _.get(prize, "data.attributes.body.processed")
       }
     };
+  },
+  async fetch({ store }) {
+    store.commit("updateHero", {
+      heading: "Prizes"
+    });
   }
 };
 </script>
