@@ -8,9 +8,21 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="winner.body"
+          v-html="winner.prizeDetails"
           class="program__body"
           xl="12"/>
+      </b-row>
+      <b-row>
+        <b-col
+          v-html="winner.body"
+          class="program__body"
+          md="8"/>
+        <b-col md="4">
+          <b-img-lazy
+            fluid
+            :src="winner.image.src"
+            :alt="winner.image.alt"/>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -24,19 +36,26 @@ export default {
     const routerResponse = await app.$axios.$get(
       `/router/translate-path?path=${route.path}`
     );
-    const winner = await app.$axios.$get(routerResponse.jsonapi.individual);
+    const winner = await app.$axios.$get(
+      routerResponse.jsonapi.individual + "?include=field_image"
+    );
 
     return {
       winner: {
         response: winner,
         title: _.get(winner, "data.attributes.title"),
-        body: _.get(winner, "data.attributes.body.processed")
+        image: app.$buildImg(winner, null, "field_image", "portrait"),
+        body: _.get(winner, "data.attributes.body.processed"),
+        prizeDetails: _.get(
+          winner,
+          "data.attributes.field_progprize_details.processed"
+        )
       }
     };
   },
-  async fetch({ store }) {
+  async fetch({ store, params }) {
     store.commit("updateHero", {
-      heading: "Prize Winner"
+      heading: params.program === "programs" ? "Programs" : "Prize Winner"
     });
   }
 };
