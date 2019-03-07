@@ -64,12 +64,21 @@
 </template>
 
 <script>
-import { get } from "lodash";
+import { get, isNil } from "lodash";
 
 /*
  * Helper to get name
  */
-const getName = (first = "My", last = "Account") => `${first} ${last}`;
+const getName = (first = "My", last = "Account") => {
+  // Alao handle the cases where first is null
+  if (isNil(first)) {
+    first = "My";
+  }
+  if (isNil(last)) {
+    last = "Account";
+  }
+  return `${first} ${last}`;
+};
 
 /*
  * Helper to get dashboard url
@@ -87,12 +96,12 @@ export default {
   computed: {
     name() {
       return getName(
-        get(this.$auth, "user.field_first_name"),
-        get(this.$auth, "user.field_last_name")
+        get(this.$auth, "user.field_first_name", undefined),
+        get(this.$auth, "user.field_last_name", undefined)
       );
     },
     dashboardURL() {
-      return getDashboardURL(get(this.$auth, "user.drupal_internal__uid"));
+      return getDashboardURL(get(this.$auth, "user.drupal_internal__uid", ""));
     }
   },
   methods: {
