@@ -1,5 +1,8 @@
 <template>
   <div>
+    <BasicPage
+      :body="$store.state.pageData.data.attributes.body"
+      highlighted=""/>
     <b-container>
       <b-row>
         <b-col xl="8">
@@ -124,9 +127,13 @@
 </template>
 
 <script>
+import BasicPage from "~/components/BasicPage";
+
 export default {
   layout: "default",
-  components: {},
+  components: {
+    BasicPage
+  },
   data() {
     return {
       res: {},
@@ -147,11 +154,6 @@ export default {
     };
   },
   async asyncData({ app, store, params, route, menu }) {
-    app.$buildBasicPage(
-      app,
-      store,
-      "/national-poetry-month/poster-request-form"
-    );
     return app.$axios
       .$get("/webform_rest/get_the_poster/fields?_format=json")
       .then(res => {
@@ -162,6 +164,9 @@ export default {
       .catch(err => {
         console.log(err);
       });
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {
     posterSubmit() {
