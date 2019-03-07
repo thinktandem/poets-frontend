@@ -1,4 +1,4 @@
-import { has, isNil, isObject, forEach, merge, random } from "lodash";
+import { has, isEmpty, isNil, isObject, forEach, merge, pick, random } from "lodash";
 
 /*
  * Helper to build token
@@ -6,9 +6,9 @@ import { has, isNil, isObject, forEach, merge, random } from "lodash";
 const buildToken = (token, type = 'Bearer') => type + ' ' + token;
 
 /*
- * Helper to parse header
+ * Helper to parse base64 datas
  */
-const parseHeader = data => {
+const base64decode = data => {
   try {
     return JSON.parse(new Buffer(data, "base64").toString());
   }
@@ -42,6 +42,11 @@ const validateAuth = auth => {
   return true;
 }
 
+/*
+ * Helper to validate whether user is fetchable
+ */
+const validateFetchable = (user, env = process.env) => has(user, 'id') && has(env, 'baseURL');
+
 /**
  * A Drupal login scheme for nuxt auth module
  */
@@ -72,15 +77,20 @@ export default class DrupalScheme {
    * Make sure we set the axios token when we can
    */
   async mounted() {
-    // Sync token
+    // Sync token and user if applicable
     const token = this.$auth.syncToken(this.name);
+    const user = this.$auth.$storage.syncUniversal('user', {}, true);
     // Set axios token
     if (token) {
       this._setToken(token);
     }
-    // Get user
-    console.log(this.$auth);
-    console.log(token);
+    // Set the user with the full data model
+    if (validateFetchable(user, this.$auth.ctx.env)) {
+      this.$auth.setUser(user);
+      this.$auth.fetchUser().then(user => {
+        this.$auth.setUser(user);
+      });
+    }
   }
 
   /**
@@ -116,7 +126,7 @@ export default class DrupalScheme {
    */
   async login(raw) {
     // Let's validate the data
-    const auth = parseHeader(raw.data);
+    const auth = base64decode(raw.data);
     // Redirect to home if validation fails
     if (!validateAuth(auth)) {
       return;
@@ -130,7 +140,7 @@ export default class DrupalScheme {
     // @see: https://auth0.com/docs/protocols/oauth2/oauth-state
     this.$auth.$storage.setLocalStorage(this.name + '.state', random(7, 47000));
     // Set the user, we need to augment this in fetch user
-    this.$auth.setUser({ id: auth.user, destination: destination });
+    this.$auth.setUser({ id: auth.user, destination });
     // Store token
     this.$auth.setToken(this.name, token);
     // Set axios token
@@ -147,30 +157,49 @@ export default class DrupalScheme {
    * Get the user profile data from Drupal
    */
   async fetchUser() {
+    // @TODO: Try to get some universal storage first?
     // Validate that we have a token\
     if (!this.$auth.getToken(this.name)) {
       return;
     }
-    // Validate that we have a UUID
-    if (!has(this.$auth.$state, 'user.id') || !has(this.$auth.$state, 'user.destination')) {
+    // Validate that we can fetch data
+    if (!validateFetchable(this.$auth.user, this.$auth.ctx.env)) {
       return;
     }
 
     // Get the user data
     const userURL = process.env.baseURL + '/api/user/user/' + this.$auth.$state.user.id;
     const raw = await this.$auth.requestWith(this.name, { url: userURL });
-    const destination = this.$auth.$state.user.destination;
+    const destination = this.$auth.user.destination;
 
     // Validate the user data
     if (!has(raw, 'data.id') || !has(raw, 'data.attributes.name')) {
       return;
     }
 
-    // Generate the new user object and set it universally
-    const user = merge({}, raw.data.attributes, { id: raw.data.id, destination });
-    this.$auth.setUser(user);
-    this.$auth.$storage.setUniversal('user', user);
+    // Mege things together and get dat user
+    const user = merge({}, raw.data.attributes, { id: raw.data.id, destination })
+    // Persist "core" user data for performance reasons, on a page load we will
+    // lazy load the rest of the properties
+    // NOTE: this should be the set of properties we need to be able to
+    // 1. render a page quickly with "profile" info, eg a picture or name
+    // 2. handle any biz/controller logic without having to make an http request first
+    const corePropz = _.pick(user, [
+      'destination',
+      'drupal_internal__uid',
+      'field_first_name',
+      'field_last_name',
+      'field_membership_status',
+      'id',
+      'langcode',
+      'mail',
+      'name',
+      'timezone',
+    ]);
+    this.$auth.$storage.setUniversal('user', corePropz, true);
     this.$auth.$storage.setUniversal('loggedIn', Boolean(user));
-    return user.destination;
+
+    // Generate the new user object and set it universally
+    return user;
   }
 }

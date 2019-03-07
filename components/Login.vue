@@ -17,12 +17,15 @@ export default {
       .fromPairs()
       .value();
 
-    // Invoke our custom login method
-    return this.$auth.loginWith("drupal", raw).then(() => {
-      return this.$auth.fetchUser().then(dest => {
-        this.$auth.redirect(dest, true);
+    // Invoke our custom login method if we have raw data
+    if (!_.isEmpty(_.compact(_.values(raw)))) {
+      return this.$auth.loginWith("drupal", raw).then(() => {
+        return this.$auth.fetchUser().then(user => {
+          this.$auth.setUser(user);
+          this.$auth.redirect(user.destination, true);
+        });
       });
-    });
+    }
   }
 };
 </script>
