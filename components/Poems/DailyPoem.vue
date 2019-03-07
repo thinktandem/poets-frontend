@@ -115,7 +115,7 @@
                       <span class="daily-poem__soundcloud-link">&#10005;</span>
                     </b-link>
                     <b-link
-                      class="border-top"
+                      class="border-top border-dark-muted pt-2"
                       v-if="showAbout == false && null !== poem.about"
                       @click="showAbout = true">about <i class="fancy-chevron"/></b-link>
                   </div>
