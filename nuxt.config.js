@@ -22,10 +22,10 @@ module.exports = {
   },
   auth: {
     cookie: {
-      prefix: 'auth.',
+      prefix: "auth.",
       options: {
-        path: '/',
-        secure: true,
+        path: "/",
+        secure: true
       }
     },
     strategies: {
