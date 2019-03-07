@@ -10,7 +10,14 @@
         <b-col
           v-html="prize.body"
           class="prizes__body"
-          xl="12"/>
+          md="8"/>
+        <b-col md="4">
+          <b-img-lazy
+            :src="prize.image.src"
+            :alt="prize.image.alt"
+            fluid
+            center/>
+        </b-col>
       </b-row>
     </b-container>
 
@@ -41,14 +48,14 @@
         <b-col
           class="books-list__books-title"
           md="3">
-          <b-link 
-            :to="subPrize.winnerLink" 
+          <b-link
+            :to="subPrize.winnerLink"
             class="text-dark">
             {{ subPrize.name }}
         </b-link></b-col>
         <b-col md="7">
-          <b-link 
-            :to="subPrize.winningLink" 
+          <b-link
+            :to="subPrize.winningLink"
             class="text-dark">
             {{ subPrize.title }}
           </b-link>
@@ -164,7 +171,9 @@ export default {
     const routerResponse = await app.$axios.$get(
       `/router/translate-path?path=${route.path}`
     );
-    const prize = await app.$axios.$get(routerResponse.jsonapi.individual);
+    const prize = await app.$axios.$get(
+      routerResponse.jsonapi.individual + "?include=field_image"
+    );
 
     const subPrize = await app.$axios.$get(
       `/api/node/sub_prize_or_program?filter[field_parent.id]=${
@@ -190,9 +199,9 @@ export default {
         };
       }),
       prize: {
-        response: prize,
         title: _.get(prize, "data.attributes.title"),
-        body: _.get(prize, "data.attributes.body.processed")
+        body: _.get(prize, "data.attributes.body.processed"),
+        image: app.$buildImg(prize, null, "field_image", "media_aside_lg")
       }
     };
   },
