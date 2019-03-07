@@ -141,7 +141,7 @@
       </b-container>
       <b-modal
         v-if="extended === false"
-        :title="poem.title"
+        title="poem-a-day"
         size="lg"
         centered
         lazy
@@ -151,6 +151,23 @@
         footer-bg-variant="black"
         id="poemADayModal">
         <b-container>
+          <b-row>
+            <b-col sm="12">
+              <h5
+                class="font-serif h3"
+                style="margin-bottom: 0"
+                v-html="poem.title"/>
+              <b-link
+                :to="poet.alias"
+                class="pb-4 font-sans text-dark" 
+                style="display: block">{{ poet.name }}</b-link>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col sm="12">
+              <div v-html="poem.text"/>
+            </b-col>
+          </b-row>
           <b-row>
             <b-col sm="12">
               <b-link
