@@ -2,44 +2,42 @@
   <div>
     <b-container class="py-5">
       <b-row>
-        <b-col xl="12">
-          <h1>{{ programs.attributes.title }}</h1>
+        <b-col md="12">
+          <h1>{{ title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="programs.attributes.body.value"
+          v-html="body"
           class="program__body"
-          xl="12"/>
+          md="8"/>
+        <b-col md="4">
+          <b-img-lazy
+            fluid
+            center
+            :src="image.src"
+            :alt="image.alt"/>
+        </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
+import _ from "lodash";
 export default {
-  async asyncData({ app, params }) {
+  async asyncData({ app, route }) {
+    const routerResponse = await app.$axios.$get(
+      `/router/translate-path?path=${route.path}`
+    );
+
     return app.$axios
-      .get(`/router/translate-path`, {
-        params: {
-          path: `${params.vertical}/programs/${params.title}`
-        }
-      })
-      .then(res => {
-        return app.$axios
-          .get(`/api/node/prize_or_program/${res.data.entity.uuid}`)
-          .then(res => {
-            return {
-              programs: res.data.data
-            };
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      .$get(routerResponse.jsonapi.individual + "?include=field_image")
+      .then(program => ({
+        title: _.get(program, "data.attributes.title"),
+        body: _.get(program, "data.attributes.body.processed"),
+        image: app.$buildImg(program, null, "field_image", "media_aside_lg")
+      }));
   },
   async fetch({ store }) {
     store.commit("updateHero", {
