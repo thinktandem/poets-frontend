@@ -21,6 +21,7 @@ module.exports = {
     debug: process.env.APP_ENV !== "production"
   },
   auth: {
+    watchLoggedIn: false,
     strategies: {
       drupal: {
         _scheme: "~/plugins/drupal-auth.js"

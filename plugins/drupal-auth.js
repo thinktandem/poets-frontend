@@ -1,86 +1,46 @@
+import { has, isNil, isObject, forEach, merge, random } from "lodash";
+
 /*
-  async _handleCallback(uri) {
-    // Callback flow is not supported in server side
-    if (process.server) {
-      return
-    }
+ * Helper to build token
+ */
+const buildToken = (token, type = 'Bearer') => type + ' ' + token;
 
-    // Parse query from both search and hash fragments
-    const hash = parseQuery(window.location.hash.substr(1))
-    const search = parseQuery(window.location.search.substr(1))
-    const parsedQuery = Object.assign({}, search, hash)
-
-    // accessToken/idToken
-    let token = parsedQuery[this.options.token_key || 'access_token']
-
-    // refresh token
-    let refreshToken = parsedQuery[this.options.refresh_token_key || 'refresh_token']
-
-    // -- Authorization Code Grant --
-    if (this.options.response_type === 'code' && parsedQuery.code) {
-      const data = await this.$auth.request({
-        method: 'post',
-        url: this.options.access_token_endpoint,
-        baseURL: false,
-        data: encodeQuery({
-          code: parsedQuery.code,
-          client_id: this.options.client_id,
-          redirect_uri: this._redirectURI,
-          response_type: this.options.response_type,
-          audience: this.options.audience,
-          grant_type: this.options.grant_type
-        })
-      })
-
-      if (data.access_token) {
-        token = data.access_token
-      }
-
-      if (data.refresh_token) {
-        refreshToken = data.refresh_token
-      }
-    }
-
-    if (!token || !token.length) {
-      return
-    }
-
-    // Validate state
-    const state = this.$auth.$storage.getLocalStorage(this.name + '.state')
-    this.$auth.$storage.setLocalStorage(this.name + '.state', null)
-    if (state && parsedQuery.state !== state) {
-      return
-    }
-
-    // Append token_type
-    if (this.options.token_type) {
-      token = this.options.token_type + ' ' + token
-    }
-
-    // Store token
-    this.$auth.setToken(this.name, token)
-
-    // Set axios token
-    this._setToken(token)
-
-    // Store refresh token
-    if (refreshToken && refreshToken.length) {
-      refreshToken = this.options.token_type + ' ' + refreshToken
-      this.$auth.setRefreshToken(this.name, refreshToken)
-    }
-
-    // Redirect to home
-    this.$auth.redirect('home', true)
-
-    return true // True means a redirect happened
+/*
+ * Helper to parse header
+ */
+const parseHeader = data => {
+  try {
+    return JSON.parse(new Buffer(data, "base64").toString());
   }
-*/
+  catch(error) {
+    return undefined;
+  }
+}
 
-const DEFAULTS = {
-  token_type: "Bearer",
-  response_type: "token",
-  tokenName: "Authorization"
-};
+/*
+ * Helper to validate auth
+ */
+const validateAuth = auth => {
+  // Return if this is server side for whatever reason
+  if (process.server) {
+    return false;
+  }
+
+  // Redirect if empty or not an object
+  if (auth === undefined || !_.isObject(auth)) {
+    return false;
+  }
+
+  // Make sure we have all the required properties and they are set to something
+  _.forEach(['access_token', 'expires_in', 'token_type', 'user'], key => {
+    if (!has(auth, key) || isNil(auth[key])) {
+      return false;
+    }
+  });
+
+  // I guess we are good!
+  return true;
+}
 
 /**
  * A Drupal login scheme for nuxt auth module
@@ -96,7 +56,7 @@ export default class DrupalScheme {
   constructor(auth, options, data) {
     this.$auth = auth;
     this.name = options._name;
-    this.options = Object.assign({}, DEFAULTS, options);
+    this.options = options;
   }
 
   /**
@@ -112,20 +72,15 @@ export default class DrupalScheme {
    * Make sure we set the axios token when we can
    */
   async mounted() {
-    console.log("MOUNTED");
     // Sync token
     const token = this.$auth.syncToken(this.name);
     // Set axios token
     if (token) {
       this._setToken(token);
     }
-
-    // Handle callbacks on page load
-    // const redirected = await this._handleCallback();
-
-    // if (!redirected) {
-    //   return this.$auth.fetchUserOnce();
-    // }
+    // Get user
+    console.log(this.$auth);
+    console.log(token);
   }
 
   /**
@@ -159,27 +114,63 @@ export default class DrupalScheme {
   /**
    * Accept the Drupal stuff and login
    */
-  async login(data) {
-    console.log("login");
+  async login(raw) {
+    // Let's validate the data
+    const auth = parseHeader(raw.data);
+    // Redirect to home if validation fails
+    if (!validateAuth(auth)) {
+      return;
+    }
+
+    // Get our things
+    const destination = (!isNil(auth.destination)) ? auth.destination : 'home';
+    const token = buildToken(auth.access_token, auth.token_type);
+
+    // Note: The primary reason for using the state parameter is to mitigate CSRF attacks.
+    // @see: https://auth0.com/docs/protocols/oauth2/oauth-state
+    this.$auth.$storage.setLocalStorage(this.name + '.state', random(7, 47000));
+    // Set the user, we need to augment this in fetch user
+    this.$auth.setUser({ id: auth.user, destination: destination });
+    // Store token
+    this.$auth.setToken(this.name, token);
+    // Set axios token
+    this._setToken(token);
+    // Store refresh token if we can
+    if (auth.refresh_token && auth.refresh_token.length) {
+      this.$auth.setRefreshToken(this.name, buildToken(auth.refresh_token, auth.token_type));
+    }
+    // Redirect to destination parameter
+    return true;
   }
 
   /**
    * Get the user profile data from Drupal
    */
   async fetchUser() {
+    // Validate that we have a token\
     if (!this.$auth.getToken(this.name)) {
       return;
     }
-
-    if (!this.options.userinfo_endpoint) {
-      this.$auth.setUser({});
+    // Validate that we have a UUID
+    if (!has(this.$auth.$state, 'user.id') || !has(this.$auth.$state, 'user.destination')) {
       return;
     }
 
-    const user = await this.$auth.requestWith(this.name, {
-      url: this.options.userinfo_endpoint
-    });
+    // Get the user data
+    const userURL = process.env.baseURL + '/api/user/user/' + this.$auth.$state.user.id;
+    const raw = await this.$auth.requestWith(this.name, { url: userURL });
+    const destination = this.$auth.$state.user.destination;
 
+    // Validate the user data
+    if (!has(raw, 'data.id') || !has(raw, 'data.attributes.name')) {
+      return;
+    }
+
+    // Generate the new user object and set it universally
+    const user = merge({}, raw.data.attributes, { id: raw.data.id, destination });
     this.$auth.setUser(user);
+    this.$auth.$storage.setUniversal('user', user);
+    this.$auth.$storage.setUniversal('loggedIn', Boolean(user));
+    return user.destination;
   }
 }
