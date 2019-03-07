@@ -21,12 +21,19 @@ module.exports = {
     debug: process.env.APP_ENV !== "production"
   },
   auth: {
-    watchLoggedIn: false,
+    cookie: {
+      prefix: 'auth.',
+      options: {
+        path: '/',
+        secure: true,
+      }
+    },
     strategies: {
       drupal: {
         _scheme: "~/plugins/drupal-auth.js"
       }
-    }
+    },
+    watchLoggedIn: false
   },
   toast: {
     position: "top-left",
