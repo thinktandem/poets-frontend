@@ -27,9 +27,9 @@
       <b-list-group
         class="hero__search__links">
         <b-list-group-item
-          v-for="(link, index) in links"
+          v-for="(link, index) in $store.state.midMenu"
           :key="index"
-          :href="link.to"
+          :to="link.to"
           class="hero__search__link">
           {{ link.text }}
         </b-list-group-item>
@@ -47,33 +47,7 @@ export default {
   },
   data() {
     return {
-      searchInput: "",
-      links: [
-        {
-          to: "/poetsorg/poem",
-          text: "find poems"
-        },
-        {
-          to: "/poetsorg/poet",
-          text: "find poets"
-        },
-        {
-          to: "/poetsorg/poem-a-day",
-          text: "poem-a-day"
-        },
-        {
-          to: "/libraries",
-          text: "library (texts, books, & more)"
-        },
-        {
-          to: "/poetsorg/materials-teachers",
-          text: "materials for teachers"
-        },
-        {
-          to: "/poetsorg/poetry-near-you",
-          text: "poetry near you"
-        }
-      ]
+      searchInput: ""
     };
   },
   methods: {

@@ -1,45 +1,6 @@
 <template>
   <div>
-    <CardDeck
-      title=""
-      class="pt-5 pb-3"
-      cardtype="TextCard"
-      cols="4"
-      :cards="texts"
-    />
-    <b-container class="texts-list__filters filters">
-      <b-row class="texts-list__filters-row">
-        <b-col md="12">
-          <b-form
-            class="texts-list__search"
-            @submit.stop.prevent="applyFilters"
-          >
-            <b-form-group>
-              <div class="legend-selects">
-                <div class="texts-list__filters__legend">
-                  <legend>Filter by</legend>
-                </div>
-              </div>
-              <div class="texts-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn
-                  class="btn-primary"
-                  @submit.stop.prevent="applyFilters"
-                >
-                  <iconSearch />
-                </b-btn>
-              </div>
-            </b-form-group>
-          </b-form>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="texts-list tabular-list">
+    <b-container class="programs-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
         <b-col
           md="3">
@@ -49,30 +10,30 @@
           Title
         </b-col>
         <b-col md="3">
-          Type
+          Author
         </b-col>
       </b-row>
       <b-row
-        v-for="text in results"
-        class="tabular-list__row texts-list__texts"
-        :key="text.title"
+        v-for="programs in results"
+        class="tabular-list__row prizes-list__books"
+        :key="programs.title"
       >
         <b-col
           class="date"
           md="3"
         >
-          {{ text.field_date_published }}
+          {{ programs.field_date_published }}
         </b-col>
         <b-col
-          class="texts-list__texts-title"
+          class="books-list__books-title"
           md="6">
           <a
-            :href="text.view_node"
-            v-html="text.title"
+            :href="programs.view_node"
+            v-html="programs.title"
           />
         </b-col>
         <b-col md="3">
-          {{ text.field_texttype }}
+          {{ programs.field_author }}
         </b-col>
       </b-row>
       <div class="pager">
@@ -89,7 +50,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/text?page=${Prev}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -102,7 +63,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/text?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/poetsorg/programs?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -116,7 +77,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/text?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -130,7 +91,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/text?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -150,7 +111,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/text?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -162,7 +123,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/text?page=${Next}${preparedCombine}`"
+              :href="`/poetsorg/programs?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -182,14 +143,12 @@ import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
-import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch,
-    CardDeck
+    iconSearch
   },
   data() {
     return {
@@ -200,34 +159,9 @@ export default {
       preparedCombine: null
     };
   },
-  async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/texts");
-    const url = "/api/texts_list";
-    const mySearchHelpers = await searchHelpers.getSearchResults(
-      url,
-      app,
-      query
-    );
-
-    let texts = await app.$axios
-      .get("/api/texts", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    return {
-      combinedInput: mySearchHelpers.combinedInput,
-      results: mySearchHelpers.results,
-      Next: mySearchHelpers.Next,
-      Prev: mySearchHelpers.Prev,
-      preparedComgine: mySearchHelpers.preparedCombine,
-      texts: texts.rows
-    };
+  async asyncData({ app, params, query }) {
+    const url = "/api/prize_list";
+    return searchHelpers.getSearchResults(url, app, query);
   },
   methods: {
     applyFilters() {
@@ -236,7 +170,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-text",
+        name: "vertical-prizes",
         query: myQuery
       });
     }
@@ -246,7 +180,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.texts-list__texts {
+.books-list__books {
   font-weight: 400;
   a {
     color: $body-color;
@@ -266,19 +200,19 @@ export default {
 .date {
   color: var(--red-dark);
 }
-.texts-list__texts-title {
+.books-list__books-title {
   min-height: 88px;
 }
-.texts-list__texts-title a {
+.books-list__books-title a {
   color: var(--gray-800);
   font-weight: 560;
 }
-.texts-list {
+.books-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-.texts-list__search {
+.books-list__search {
   margin-top: 2rem;
 }
 
@@ -295,7 +229,7 @@ export default {
   }
 }
 
-.texts-list__filters__legend {
+.books-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -306,7 +240,7 @@ export default {
   }
 }
 
-.texts-list__input--search {
+.books-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;

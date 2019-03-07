@@ -1,6 +1,5 @@
 <template>
   <div>
-    <AapNav/>
     <b-container>
       <CardDeck
         cardtype="Board"
@@ -12,12 +11,10 @@
 </template>
 
 <script>
-import AapNav from "~/components/Aap/AapNav";
 import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
-    AapNav,
     CardDeck
   },
   data() {

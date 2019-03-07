@@ -54,7 +54,7 @@ export default {
     FeatureStack,
     ProductFeature
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, params, route, menu }) {
     // @todo: We're counting on this path in Drupal, which might be something we want
     // to change.
     app.$buildBasicPage(app, store, "/poetsorg/home");
@@ -121,7 +121,12 @@ export default {
     const featuredPoetsQuery = qs.stringify({
       filter: {
         status: 1,
-        field_p_type: "poet"
+        field_p_type: "poet",
+        image: {
+          path: "field_image.id",
+          operator: "<>",
+          value: ""
+        }
       },
       sort: "-promote",
       page: {

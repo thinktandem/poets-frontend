@@ -1,38 +1,10 @@
 <template>
   <div>
-    <b-container class="poems-list__filters filters">
-      <b-row class="poems-list__filters-row">
-        <b-col md="12">
-          <b-form
-            class="poems-list__search"
-            @submit.stop.prevent="applyFilters"
-          >
-            <b-form-group>
-              <div class="legend-selects">
-                <div class="poems-list__filters__legend">
-                  <legend>Filter by</legend>
-                </div>
-              </div>
-              <div class="poems-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn class="btn-primary">
-                  <iconSearch />
-                </b-btn>
-              </div>
-            </b-form-group>
-          </b-form>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="poems-list tabular-list">
+    <b-container class="prizes-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="3">
-          Year
+        <b-col
+          md="3">
+          Date
         </b-col>
         <b-col md="6">
           Title
@@ -42,23 +14,27 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
-        class="tabular-list__row poems-list__poems"
-        :key="poem.id"
+        v-for="prizes in results"
+        class="tabular-list__row prizes-list__books"
+        :key="prizes.title"
       >
-        <b-col md="3">
-          {{ poem.field_date_published }}
-        </b-col>
-        <b-col md="6">
-          <b-link
-            class="poem__link"
-            :to="poem.view_node"
-            v-html="poem.title"
-          />
+        <b-col
+          class="date"
+          md="3"
+        >
+          {{ prizes.field_date_published }}
         </b-col>
         <b-col
-          v-html="poem.field_author"
-          md="2"/>
+          class="books-list__books-title"
+          md="6">
+          <a
+            :href="prizes.view_node"
+            v-html="prizes.title"
+          />
+        </b-col>
+        <b-col md="3">
+          {{ prizes.field_author }}
+        </b-col>
       </b-row>
       <div class="pager">
         <ul
@@ -74,7 +50,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/audio?page=${Prev}${preparedCombine}`"
+              :href="`/poetsorg/prizes?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -87,7 +63,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/poetsorg/book?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -101,7 +77,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/poetsorg/prizes?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -115,7 +91,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/poetsorg/prizes?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -135,7 +111,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/audio?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/poetsorg/prizes?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -147,7 +123,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/audio?page=${Next}${preparedCombine}`"
+              :href="`/poetsorg/book?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -184,7 +160,7 @@ export default {
     };
   },
   async asyncData({ app, params, query }) {
-    const url = "/api/audio_poems";
+    const url = "/api/prize_list";
     return searchHelpers.getSearchResults(url, app, query);
   },
   methods: {
@@ -194,7 +170,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-audio",
+        name: "vertical-prizes",
         query: myQuery
       });
     }
@@ -204,7 +180,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poems-list__poems {
+.books-list__books {
   font-weight: 400;
   a {
     color: $body-color;
@@ -221,16 +197,25 @@ export default {
   text-transform: uppercase;
   font-weight: 560;
 }
-.poems-list {
+.date {
+  color: var(--red-dark);
+}
+.books-list__books-title {
+  min-height: 88px;
+}
+.books-list__books-title a {
+  color: var(--gray-800);
+  font-weight: 560;
+}
+.books-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-.poems-list__search {
+
+.books-list__search {
   margin-top: 2rem;
 }
-.poem__link {
-  font-weight: 560;
-}
+
 .legend-selects {
   display: flex;
   flex-basis: 100%;
@@ -244,7 +229,7 @@ export default {
   }
 }
 
-.poems-list__filters__legend {
+.books-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -255,7 +240,7 @@ export default {
   }
 }
 
-.poems-list__input--search {
+.books-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;

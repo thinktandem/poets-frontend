@@ -1,5 +1,10 @@
 <template>
   <div>
+    <CardDeck
+      title=""
+      cardtype="Poet"
+      :cards="featuredPoets"
+    />
     <b-container class="poets-list__filters filters">
       <b-row class="poets-list__filters-row">
         <b-col md="12">
@@ -97,7 +102,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poet?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -110,7 +115,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poet?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -124,7 +129,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poet?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -138,7 +143,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poet?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -158,7 +163,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poet?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poetsorg/poets?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -170,7 +175,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poet?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              :href="`/poetsorg/poets?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -186,17 +191,20 @@
 </template>
 
 <script>
+import _ from "lodash";
 import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
+import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    iconSearch,
+    CardDeck
   },
   data() {
     return {
@@ -208,12 +216,68 @@ export default {
       Prev: null,
       preparedState: null,
       preparedSchool: null,
-      preparedCombine: null
+      preparedCombine: null,
+      featuredPoets: null
     };
   },
-  async asyncData({ app, params, query }) {
+  async asyncData({ app, store, params, query }) {
+    app.$buildBasicPage(app, store, "/poetsorg/poets");
     const url = "/api/poets";
-    return searchHelpers.getSearchResults(url, app, query);
+    const msh = await searchHelpers.getSearchResults(url, app, query);
+    let poets = await app.$axios
+      .get("/api/node/person", {
+        params: {
+          filter: {
+            status: 1,
+            field_p_type: "poet",
+            require_image: {
+              condition: {
+                path: "field_image.id",
+                operator: "<>",
+                value: ""
+              }
+            }
+          },
+          page: {
+            limit: 3
+          },
+          sort: "-field_featured",
+          include: "field_image"
+        }
+      })
+      .then(res => {
+        return {
+          rows: _.map(_.get(res, "data.data"), row => {
+            return {
+              row,
+              name: _.get(row, "attributes.title", null),
+              bio:
+                _.get(row, "attributes.body.summary", null) ||
+                _.get(row, "attributes.body.processed", null),
+              img: app.$buildImg(res.data, row, "field_image", "portrait")
+            };
+          })
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    return {
+      schoolInput: msh.schoolInput,
+      stateInput: msh.stateInput,
+      searchInput: msh.searchInput,
+      results: msh.results,
+      currentPage: msh.currentPage,
+      totalPages: msh.totalPages,
+      pageNum: msh.pageNum,
+      Next: msh.Next,
+      Prev: msh.Prev,
+      preparedState: msh.preparedState,
+      preparedSchool: msh.preparedSchool,
+      preparedCombine: msh.preparedCombine,
+      featuredPoets: poets.rows
+    };
   },
   async fetch({ app, store, params, query }) {
     const schools = await filterHelpers.getFilterOptions(
@@ -244,7 +308,7 @@ export default {
         myQuery.school = this.schoolInput;
       }
       this.$router.push({
-        name: "vertical-poet",
+        name: "vertical-poets",
         query: myQuery
       });
     }
@@ -349,5 +413,9 @@ export default {
       height: 100%;
     }
   }
+}
+div /deep/ .card-deck__cards {
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 </style>

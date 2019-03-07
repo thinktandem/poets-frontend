@@ -229,7 +229,7 @@ export default {
         };
       });
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, params, route, menu }) {
     // Set the current hero
     store.commit("updateHero", {
       variant: "default",
