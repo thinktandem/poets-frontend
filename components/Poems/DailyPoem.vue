@@ -103,11 +103,11 @@
                   <h2><b-link
                     :to="poem.alias"
                     class="text-dark">{{ poem.title }}</b-link></h2>
-                  <div class="d-flex flex-column align-items-center">
+                  <div class="d-flex col-md-4 col-lg-3 flex-column align-items-center">
                     <b-link
                       @click="showSoundCloud = true"
                       v-if="showSoundCloud === false && null !== poem.soundCloud">
-                      <speaker-icon class="daily-poem__soundcloud-link mb-2"/>
+                      <speaker-icon class="daily-poem__soundcloud-link mb-3"/>
                     </b-link>
                     <b-link
                       @click="showSoundCloud = false"
@@ -115,8 +115,9 @@
                       <span class="daily-poem__soundcloud-link">&#10005;</span>
                     </b-link>
                     <b-link
+                      class="border-top"
                       v-if="showAbout == false && null !== poem.about"
-                      @click="showAbout = true">more <i class="fancy-chevron"/></b-link>
+                      @click="showAbout = true">about <i class="fancy-chevron"/></b-link>
                   </div>
                 </div>
                 <div
