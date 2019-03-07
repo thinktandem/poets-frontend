@@ -112,9 +112,9 @@ export default {
                 include.id === poem.relationships.field_author.data[0].id
             ).attributes.title
           },
-          year: _.get(poem, "attributes.field_date_published", "-").split(
-            "-"
-          )[0]
+          year: _.get(poem, "attributes/field_date_published")
+            ? _.get(poem, "attributes.field_date_published", "-").split("-")[0]
+            : null
         };
       })
     });

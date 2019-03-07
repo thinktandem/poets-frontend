@@ -16,16 +16,19 @@
         </b-link>
       </h3>
       <div class="card-footer">
-        <p
+        <app-teaser-text
           class="card--lesson-plan__meta"
-          v-html="meta"/>
+          :text="meta"
+          :length="100"/>
         <p class="card--lesson-plan__level">{{ level }}</p>
       </div>
     </b-card-body>
   </b-card>
 </template>
 <script>
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
+  components: { AppTeaserText },
   props: {
     title: {
       type: String,

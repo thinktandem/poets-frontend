@@ -132,4 +132,21 @@ export default ({ app }, inject) => {
 
     store.commit("updateSubMenu", buildSubMenu(midMenu, currentSubPage));
   });
+  /**
+   * Abstract away the ugliness of pulling a related entity
+   */
+  inject(
+    "getRelated",
+    (topLevelResponse = {}, entity = null, relationship = "") => {
+      return _.find(
+        _.get(topLevelResponse, "included"),
+        include =>
+          _.get(include, "id") ===
+          _.get(
+            _.first(_.get(entity, `relationships.${relationship}.data`)),
+            "id"
+          )
+      );
+    }
+  );
 };
