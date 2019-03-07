@@ -83,7 +83,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/books?page=${Prev}${preparedCombine}`"
+              :href="`/books?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -96,7 +96,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/books?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/books?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -110,7 +110,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/books?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -124,7 +124,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/books?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -144,7 +144,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/books?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/books?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -156,7 +156,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/books?page=${Next}${preparedCombine}`"
+              :href="`/books?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >

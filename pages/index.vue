@@ -57,7 +57,7 @@ export default {
   async fetch({ app, store, params, route, menu }) {
     // @todo: We're counting on this path in Drupal, which might be something we want
     // to change.
-    app.$buildBasicPage(app, store, "/poetsorg/home");
+    app.$buildBasicPage(app, store, "/home");
 
     // Override the hero with a quote on the homepage, this will overwrite
     // Drupal.
@@ -165,7 +165,7 @@ export default {
         })),
         link: {
           text: `${featuredPoets.meta.count} Poets`,
-          to: "/poetsorg/poet"
+          to: "/poet"
         }
       });
     }

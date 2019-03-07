@@ -3,13 +3,13 @@
     "to": "/",
     "children": {
       "find poems": {
-        "to": "/poetsorg/poems"
+        "to": "/poems"
       },
       "find poets": {
-        "to": "/poetsorg/poets"
+        "to": "/poets"
       },
       "poem-a-day": {
-        "to": "/poetsorg/poem-day"
+        "to": "/poem-day"
       },
       "library (texts, books & more)": {
         "to": "/libraries",
@@ -18,50 +18,50 @@
             "to": "/libraries"
           },
           "Poems": {
-            "to": "/poetsorg/poems"
+            "to": "/poems"
           },
           "Poets": {
-            "to": "/poetsorg/poets"
+            "to": "/poets"
           },
           "Texts": {
-            "to": "/poetsorg/texts"
+            "to": "/texts"
           },
           "Books": {
-            "to": "/poetsorg/books"
+            "to": "/books"
           },
           "Audio": {
-            "to": "/poetsorg/audio"
+            "to": "/audio"
           },
           "Video": {
-            "to": "poetsorg/videos"
+            "to": "/videos"
           }
         }
       },
       "materials for teachers": {
-        "to": "/poetsorg/materials-teachers",
+        "to": "/materials-teachers",
         "children": {
           "Poems for Kids": {
-            "to": "/poetsorg/poems-kids"
+            "to": "/poems-kids"
           },
           "Poems for Teens": {
-            "to": "/poetsorg/poems-teens"
+            "to": "/poems-teens"
           },
           "Lesson Plans": {
-            "to": "/poetsorg/lesson-plans"
+            "to": "/lesson-plans"
           },
           "Essays": {
-            "to": "/poetsorg/essays"
+            "to": "/essays"
           },
           "Teach this Poem": {
-            "to": "/poetsorg/teach-poem"
+            "to": "/teach-poem"
           },
           "Resources": {
-            "to": "/poetsorg/resources"
+            "to": "/resources"
           }
         }
       },
       "poetry near you": {
-        "to": "/poetsorg/poetry-near-you"
+        "to": "/poetry-near-you"
       }
     }
   },
