@@ -60,6 +60,7 @@
 import CalloutCard from "~/components/CalloutCard";
 import CardDeck from "~/components/CardDeck";
 import FeatureStack from "~/components/FeatureStack";
+import LessonPlanCard from "~/components/LessonPlanCard";
 import ResourceCard from "~/components/ResourceCard";
 import VideoBlock from "~/components/VideoBlock";
 import SignupBlock from "~/components/SignupBlock";
@@ -75,6 +76,7 @@ export default {
     CardDeck,
     FeatureStack,
     ImageBlock,
+    LessonPlanCard,
     ResourceCard,
     SignupBlock,
     SidebarTextImage,
