@@ -31,8 +31,13 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-item
+          v-show="!this.$auth.loggedIn"
           :href="loginUrl"
           class="navbar__login">Membership / Login</b-nav-item>
+        <b-nav-item
+          v-show="this.$auth.loggedIn"
+          @click="logout"
+          class="navbar__login">Logout</b-nav-item>
 
         <b-button
           class="d-block d-md-none"
@@ -58,6 +63,11 @@ export default {
     return {
       loginUrl: `${process.env.baseURL}/user/login?redirect=frontend`
     };
+  },
+  methods: {
+    logout() {
+      this.$auth.logout();
+    }
   }
 };
 </script>

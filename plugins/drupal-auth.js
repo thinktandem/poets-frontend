@@ -91,6 +91,10 @@ export default class DrupalScheme {
         this.$auth.setUser(user);
       });
     }
+    // If we cant fetch a user then lets clean the slate
+    else {
+      this.$auth.logout();
+    }
   }
 
   /**
@@ -118,6 +122,8 @@ export default class DrupalScheme {
    */
   async logout() {
     this._clearToken();
+    this.$auth.$storage.setUniversal('user', Boolean(false));
+    this.$auth.$storage.setUniversal('loggedIn', Boolean(false));
     return this.$auth.reset();
   }
 
@@ -168,7 +174,7 @@ export default class DrupalScheme {
     }
 
     // Get the user data
-    const userURL = process.env.baseURL + '/api/user/user/' + this.$auth.$state.user.id;
+    const userURL = process.env.baseURL + '/api/user/user/' + this.$auth.user.id;
     const raw = await this.$auth.requestWith(this.name, { url: userURL });
     const destination = this.$auth.user.destination;
 
