@@ -34,10 +34,16 @@
           v-show="!this.$auth.loggedIn"
           :href="loginUrl"
           class="navbar__login">Membership / Login</b-nav-item>
-        <b-nav-item
+        <b-nav-item-dropdown
           v-show="this.$auth.loggedIn"
-          @click="logout"
-          class="navbar__login">Logout</b-nav-item>
+          id="nav_ddown_loggedin"
+          :text="name"
+          extra-toggle-classes="nav-link-loggedin"
+          right>
+          <b-dropdown-item :href="dashboardURL">Dashboard</b-dropdown-item>
+          <b-dropdown-divider />
+          <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+        </b-nav-item-dropdown>
 
         <b-button
           class="d-block d-md-none"
@@ -58,11 +64,36 @@
 </template>
 
 <script>
+import { get } from "lodash";
+
+/*
+ * Helper to get name
+ */
+const getName = (first = "My", last = "Account") => `${first} ${last}`;
+
+/*
+ * Helper to get dashboard url
+ */
+const getDashboardURL = (id = "") => {
+  return `${process.env.baseURL}/user/${id}`;
+};
+
 export default {
   data() {
     return {
       loginUrl: `${process.env.baseURL}/user/login?redirect=frontend`
     };
+  },
+  computed: {
+    name() {
+      return getName(
+        get(this.$auth, "user.field_first_name"),
+        get(this.$auth, "user.field_last_name")
+      );
+    },
+    dashboardURL() {
+      return getDashboardURL(get(this.$auth, "user.drupal_internal__uid"));
+    }
   },
   methods: {
     logout() {

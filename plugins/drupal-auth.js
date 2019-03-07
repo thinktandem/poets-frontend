@@ -1,9 +1,9 @@
-import { has, isEmpty, isNil, isObject, forEach, merge, pick, random } from "lodash";
+import _ from "lodash";
 
 /*
  * Helper to build token
  */
-const buildToken = (token, type = 'Bearer') => type + ' ' + token;
+const buildToken = (token, type = "Bearer") => type + " " + token;
 
 /*
  * Helper to parse base64 datas
@@ -11,11 +11,10 @@ const buildToken = (token, type = 'Bearer') => type + ' ' + token;
 const base64decode = data => {
   try {
     return JSON.parse(new Buffer(data, "base64").toString());
-  }
-  catch(error) {
+  } catch (error) {
     return undefined;
   }
-}
+};
 
 /*
  * Helper to validate auth
@@ -32,20 +31,21 @@ const validateAuth = auth => {
   }
 
   // Make sure we have all the required properties and they are set to something
-  _.forEach(['access_token', 'expires_in', 'token_type', 'user'], key => {
-    if (!has(auth, key) || isNil(auth[key])) {
+  _.forEach(["access_token", "expires_in", "token_type", "user"], key => {
+    if (!_.has(auth, key) || _.isNil(auth[key])) {
       return false;
     }
   });
 
   // I guess we are good!
   return true;
-}
+};
 
 /*
  * Helper to validate whether user is fetchable
  */
-const validateFetchable = (user, env = process.env) => has(user, 'id') && has(env, 'baseURL');
+const validateFetchable = (user, env = process.env) =>
+  _.has(user, "id") && _.has(env, "baseURL");
 
 /**
  * A Drupal login scheme for nuxt auth module
@@ -79,7 +79,7 @@ export default class DrupalScheme {
   async mounted() {
     // Sync token and user if applicable
     const token = this.$auth.syncToken(this.name);
-    const user = this.$auth.$storage.syncUniversal('user', {}, true);
+    const user = this.$auth.$storage.syncUniversal("user", {}, true);
     // Set axios token
     if (token) {
       this._setToken(token);
@@ -122,13 +122,14 @@ export default class DrupalScheme {
    */
   async logout() {
     this._clearToken();
-    this.$auth.$storage.setUniversal('user', Boolean(false));
-    this.$auth.$storage.setUniversal('loggedIn', Boolean(false));
+    this.$auth.$storage.setUniversal("user", Boolean(false));
+    this.$auth.$storage.setUniversal("loggedIn", Boolean(false));
     return this.$auth.reset();
   }
 
   /**
    * Accept the Drupal stuff and login
+   * @param {String} raw
    */
   async login(raw) {
     // Let's validate the data
@@ -139,12 +140,15 @@ export default class DrupalScheme {
     }
 
     // Get our things
-    const destination = (!isNil(auth.destination)) ? auth.destination : 'home';
+    const destination = !_.isNil(auth.destination) ? auth.destination : "home";
     const token = buildToken(auth.access_token, auth.token_type);
 
     // Note: The primary reason for using the state parameter is to mitigate CSRF attacks.
     // @see: https://auth0.com/docs/protocols/oauth2/oauth-state
-    this.$auth.$storage.setLocalStorage(this.name + '.state', random(7, 47000));
+    this.$auth.$storage.setLocalStorage(
+      this.name + ".state",
+      _.random(7, 47000)
+    );
     // Set the user, we need to augment this in fetch user
     this.$auth.setUser({ id: auth.user, destination });
     // Store token
@@ -153,7 +157,10 @@ export default class DrupalScheme {
     this._setToken(token);
     // Store refresh token if we can
     if (auth.refresh_token && auth.refresh_token.length) {
-      this.$auth.setRefreshToken(this.name, buildToken(auth.refresh_token, auth.token_type));
+      this.$auth.setRefreshToken(
+        this.name,
+        buildToken(auth.refresh_token, auth.token_type)
+      );
     }
     // Redirect to destination parameter
     return true;
@@ -174,36 +181,40 @@ export default class DrupalScheme {
     }
 
     // Get the user data
-    const userURL = process.env.baseURL + '/api/user/user/' + this.$auth.user.id;
+    const userURL =
+      process.env.baseURL + "/api/user/user/" + this.$auth.user.id;
     const raw = await this.$auth.requestWith(this.name, { url: userURL });
     const destination = this.$auth.user.destination;
 
     // Validate the user data
-    if (!has(raw, 'data.id') || !has(raw, 'data.attributes.name')) {
+    if (!_.has(raw, "data.id") || !_.has(raw, "data.attributes.name")) {
       return;
     }
 
     // Mege things together and get dat user
-    const user = merge({}, raw.data.attributes, { id: raw.data.id, destination })
+    const user = _.merge({}, raw.data.attributes, {
+      id: raw.data.id,
+      destination
+    });
     // Persist "core" user data for performance reasons, on a page load we will
     // lazy load the rest of the properties
     // NOTE: this should be the set of properties we need to be able to
     // 1. render a page quickly with "profile" info, eg a picture or name
     // 2. handle any biz/controller logic without having to make an http request first
     const corePropz = _.pick(user, [
-      'destination',
-      'drupal_internal__uid',
-      'field_first_name',
-      'field_last_name',
-      'field_membership_status',
-      'id',
-      'langcode',
-      'mail',
-      'name',
-      'timezone',
+      "destination",
+      "drupal_internal__uid",
+      "field_first_name",
+      "field_last_name",
+      "field_membership_status",
+      "id",
+      "langcode",
+      "mail",
+      "name",
+      "timezone"
     ]);
-    this.$auth.$storage.setUniversal('user', corePropz, true);
-    this.$auth.$storage.setUniversal('loggedIn', Boolean(user));
+    this.$auth.$storage.setUniversal("user", corePropz, true);
+    this.$auth.$storage.setUniversal("loggedIn", Boolean(user));
 
     // Generate the new user object and set it universally
     return user;
