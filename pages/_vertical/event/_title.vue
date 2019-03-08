@@ -24,7 +24,8 @@
           offset-md="1">
           <div class="event-date-time my-5">
             <h3>Date and Time</h3>
-            {{ eventDate }}
+            <p>{{ eventDate }}<br>
+              {{ eventStartTime }} - {{ eventEndTime }}</p>
           </div>
           <div class="event-location my-5">
             <h3>Location</h3>
@@ -78,7 +79,9 @@ export default {
         title: _.get(event, "data.attributes.title"),
         body: _.get(event, "data.attributes.body.processed"),
         eventDate: _.get(event, "data.attributes.field_event_date"),
-        image: app.$buildImg(event, null, "field_image", "media_aside_lg"),
+        eventStartTime: _.get(event, "data.attributes.event_start_time"),
+        eventEndTime: _.get(event, "data.attributes.event_end_time"),
+        image: app.$buildImg(event, null, "field_image", "event"),
         contact: _.get(event, "data.attributes.field_event_contact"),
         eventFee: _.get(event, "data.attributes.field_event_fee"),
         registerLink: _.get(event, "data.attributes.register_link"),
