@@ -22,7 +22,7 @@ export default {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: `${params.vertical}/book/${params.title}`
+          path: `/book/${params.title}`
         }
       })
       .then(res => {
