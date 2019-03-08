@@ -1,42 +1,53 @@
 <template>
   <div>
-    <b-container class="books-list__filters filters">
-      <b-row class="books-list__filters-row">
+    <basic-page
+      :body="$store.state.pageData.data.attributes.body"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <card-deck
+      cardtype="BookCard"
+      :cards="featuredBooks.cards"/>
+    <b-container class="poems-list__filters filters">
+      <b-row class="poems-list__filters-row">
         <b-col md="12">
           <b-form
-            class="books-list__search"
+            class="poems-list__search"
             @submit.stop.prevent="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
-                <div class="books-list__filters__legend">
+                <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
               </div>
-              <div class="books-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn
-                  class="btn-primary"
-                  @submit.stop.prevent="applyFilters"
-                >
-                  <iconSearch />
-                </b-btn>
+              <div class="poems-list__input--search">
+                <b-input-group>
+                  <b-form-input
+                    v-model="combinedInput"
+                    type="text"
+                    size="22"
+                    placeholder="Search title or text ..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    @click.stop.prevent="applyFilters"
+                  >
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
+                  </b-input-group-append>
+                </b-input-group>
               </div>
             </b-form-group>
           </b-form>
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="books-list tabular-list">
+    <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          md="3">
-          Date
+        <b-col md="3">
+          Year
         </b-col>
         <b-col md="6">
           Title
@@ -46,27 +57,23 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="book in results"
-        class="tabular-list__row books-list__books"
-        :key="book.title"
+        v-for="poem in results"
+        class="tabular-list__row poems-list__poems"
+        :key="poem.id"
       >
-        <b-col
-          class="date"
-          md="3"
-        >
-          {{ book.field_date_published }}
+        <b-col md="3">
+          {{ poem.field_date_published }}
         </b-col>
-        <b-col
-          class="books-list__books-title"
-          md="6">
-          <a
-            :href="book.view_node"
-            v-html="book.title"
+        <b-col md="6">
+          <b-link
+            class="poem__link"
+            :to="poem.view_node_1"
+            v-html="poem.title"
           />
         </b-col>
-        <b-col md="3">
-          {{ book.field_author }}
-        </b-col>
+        <b-col
+          v-html="poem.field_author"
+          md="2"/>
       </b-row>
       <div class="pager">
         <ul
@@ -82,7 +89,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/book?page=${Prev}${preparedCombine}`"
+              :href="`/books?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -95,7 +102,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/books?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -109,7 +116,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -123,7 +130,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -143,7 +150,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/book?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/books?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -155,7 +162,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/book?page=${Next}${preparedCombine}`"
+              :href="`/books?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -171,16 +178,22 @@
 </template>
 
 <script>
+import _ from "lodash";
+import qs from "qs";
+import BasicPage from "~/components/BasicPage";
+import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 
 export default {
   components: {
+    BasicPage,
+    CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    MagnifyingGlassIcon
   },
   data() {
     return {
@@ -192,8 +205,46 @@ export default {
     };
   },
   async asyncData({ app, params, query }) {
-    const url = "/api/books_list";
-    return searchHelpers.getSearchResults(url, app, query);
+    const url = "/api/books";
+    const results = await searchHelpers.getSearchResults(url, app, query);
+    const featureParams = qs.stringify({
+      filter: {
+        field_featured: 1
+      },
+      page: {
+        limit: 3
+      },
+      include: "field_author,field_image"
+    });
+    const featured = await app.$axios.$get(`/api/node/books?${featureParams}`);
+    return _.merge(results, {
+      featuredBooks: {
+        response: featured,
+        cards: _.map(featured.data, book => ({
+          title: _.get(book, "attributes.title"),
+          body:
+            _.get(book, "attributes.body.summary") ||
+            _.get(book, "attributes.body.processed"),
+          field_image: app.$buildImg(featured, book, "field_image", "book"),
+          field_author: _.get(
+            _.find(
+              featured.included,
+              include =>
+                _.get(include, "id") ===
+                _.get(
+                  _.first(_.get(book, "relationships.field_author.data")),
+                  "id"
+                )
+            ),
+            "attributes.title"
+          ),
+          view_node_1: _.get(book, "attributes.path.alias")
+        }))
+      }
+    });
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {
     applyFilters() {
@@ -202,7 +253,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-book",
+        name: "books",
         query: myQuery
       });
     }
@@ -212,7 +263,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.books-list__books {
+.poems-list__poems {
   font-weight: 400;
   a {
     color: $body-color;
@@ -229,25 +280,16 @@ export default {
   text-transform: uppercase;
   font-weight: 560;
 }
-.date {
-  color: var(--red-dark);
-}
-.books-list__books-title {
-  min-height: 88px;
-}
-.books-list__books-title a {
-  color: var(--gray-800);
-  font-weight: 560;
-}
-.books-list {
+.poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-
-.books-list__search {
+.poems-list__search {
   margin-top: 2rem;
 }
-
+.poem__link {
+  font-weight: 560;
+}
 .legend-selects {
   display: flex;
   flex-basis: 100%;
@@ -261,7 +303,7 @@ export default {
   }
 }
 
-.books-list__filters__legend {
+.poems-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -272,7 +314,7 @@ export default {
   }
 }
 
-.books-list__input--search {
+.poems-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;
@@ -321,5 +363,15 @@ export default {
       height: 100%;
     }
   }
+}
+.icon {
+  display: inline;
+  fill: $blue;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.input-group-text {
+  background: transparent;
+  border: none;
 }
 </style>

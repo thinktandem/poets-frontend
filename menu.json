@@ -3,10 +3,10 @@
     "to": "/",
     "children": {
       "find poems": {
-        "to": "/poetsorg/poems"
+        "to": "/poems"
       },
       "find poets": {
-        "to": "/poetsorg/poets"
+        "to": "/poets"
       },
       "poem-a-day": {
         "to": "/poetsorg/poem-day"
@@ -18,22 +18,22 @@
             "to": "/libraries"
           },
           "Poems": {
-            "to": "/poetsorg/poems"
+            "to": "/poems"
           },
           "Poets": {
-            "to": "/poetsorg/poets"
+            "to": "/poets"
           },
           "Texts": {
-            "to": "/poetsorg/texts"
+            "to": "/texts"
           },
           "Books": {
-            "to": "/poetsorg/books"
+            "to": "/books"
           },
           "Audio": {
-            "to": "/poetsorg/audio"
+            "to": "/audio"
           },
           "Video": {
-            "to": "poetsorg/videos"
+            "to": "/videos"
           }
         }
       },
