@@ -142,7 +142,7 @@ export default {
   async asyncData({ app, params, env }) {
     return app.$axios
       .$get(
-        `/router/translate-path?path=${params.vertical}/poem/${params.title}`
+        `/router/translate-path?path=/poem/${params.title}`
       )
       .then(async res =>
         app.$axios.$get(
