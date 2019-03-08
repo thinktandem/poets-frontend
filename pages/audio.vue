@@ -1,54 +1,35 @@
 <template>
   <div>
-    <CardDeck
-      title=""
-      cardtype="Poet"
-      :cards="featuredPoets"
-    />
-    <b-container class="poets-list__filters filters">
-      <b-row class="poets-list__filters-row">
+    <basic-page
+      :body="$store.state.pageData.data.attributes.body"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <card-deck
+      cardtype="PoemCard"
+      :cards="featuredPoems.cards"/>
+    <b-container class="poems-list__filters filters">
+      <b-row class="poems-list__filters-row">
         <b-col md="12">
           <b-form
-            class="poets-list__search"
+            class="poems-list__search"
             @submit.stop.prevent="applyFilters"
           >
-            <b-form-group @submit.stop.prevent="applyFilters">
+            <b-form-group>
               <div class="legend-selects">
-
-                <div class="poets-list__filters__legend">
+                <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
-                <b-form-select
-                  inline
-                  v-model="stateInput"
-                >
-                  <option :value="null">State</option>
-                  <option
-                    v-for="(opt, i) in $store.state.states"
-                    :key="`opt-${i}`"
-                    :value="i"
-                  >{{ opt }}</option>
-                </b-form-select>
-                <b-form-select
-                  v-model="schoolInput"
-                  inline
-                >
-                  <option :value="null">Schools & Movements</option>
-                  <option
-                    v-for="(opt, i) in $store.state.filterOptions"
-                    :key="`opt-${i}`"
-                    :value="opt"
-                  >{{ i }}</option>
-                </b-form-select>
               </div>
-
-              <div class="poets-list__input--search">
+              <div class="poems-list__input--search">
                 <b-input-group>
                   <b-form-input
-                    v-model="searchInput"
+                    v-model="combinedInput"
                     type="text"
                     size="22"
-                    placeholder="Search by poet, movement, etc..."/>
+                    placeholder="Search title or text ..."
+                  />
                   <b-input-group-append
                     is-text
                     @click.stop.prevent="applyFilters"
@@ -63,35 +44,36 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="poets-list tabular-list">
+    <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
-          Name
+        <b-col md="3">
+          Year
         </b-col>
-        <b-col md="4">
-          Years
+        <b-col md="6">
+          Title
         </b-col>
-        <b-col md="4">
-          Schools and Movements
+        <b-col md="3">
+          Author
         </b-col>
       </b-row>
       <b-row
-        v-for="poet in results"
-        class="tabular-list__row poets-list__poems"
-        :key="poet.id"
+        v-for="poem in results"
+        class="tabular-list__row poems-list__poems"
+        :key="poem.id"
       >
-        <b-col md="4">
-          <a
-            :href="poet.view_node"
-            v-html="poet.poets"
+        <b-col md="3">
+          {{ poem.field_date_published }}
+        </b-col>
+        <b-col md="6">
+          <b-link
+            class="poem__link"
+            :to="poem.view_node"
+            v-html="poem.title"
           />
         </b-col>
-        <b-col md="4">
-          {{ poet.field_dob }} - {{ poet.field_dod }}
-        </b-col>
-        <b-col md="4">
-          {{ poet.field_school_movement }}
-        </b-col>
+        <b-col
+          v-html="poem.field_author"
+          md="2"/>
       </b-row>
       <div class="pager">
         <ul
@@ -107,7 +89,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poets?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/audio?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -120,7 +102,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poets?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -134,7 +116,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poets?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -148,7 +130,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poets?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -168,7 +150,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poets?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -180,7 +162,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poets?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              :href="`/audio?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -197,123 +179,88 @@
 
 <script>
 import _ from "lodash";
-import filterHelpers from "~/plugins/filter-helpers";
+import qs from "qs";
+import BasicPage from "~/components/BasicPage";
+import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
-import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
+    BasicPage,
+    CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    CardDeck,
     MagnifyingGlassIcon
   },
   data() {
     return {
-      schoolInput: null,
-      stateInput: null,
-      searchInput: null,
+      combinedInput: null,
       results: null,
       Next: null,
       Prev: null,
-      preparedState: null,
-      preparedSchool: null,
-      preparedCombine: null,
-      featuredPoets: null
+      preparedCombine: null
     };
   },
-  async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/poetsorg/poets");
-    const url = "/api/poets";
-    const msh = await searchHelpers.getSearchResults(url, app, query);
-    let poets = await app.$axios
-      .get("/api/node/person", {
-        params: {
-          filter: {
-            status: 1,
-            field_p_type: "poet",
-            require_image: {
-              condition: {
-                path: "field_image.id",
-                operator: "<>",
-                value: ""
-              }
-            }
+  async asyncData({ app, params, query }) {
+    const url = "/api/audio_poems";
+    const results = await searchHelpers.getSearchResults(url, app, query);
+    const featureParams = qs.stringify({
+      filter: {
+        soundcloud: {
+          path: "field_soundcloud_embed_code",
+          operator: "<>",
+          value: ""
+        },
+        field_featured: 1
+      },
+      page: {
+        limit: 3
+      },
+      include: "field_author"
+    });
+    const featured = await app.$axios.$get(`/api/node/poems?${featureParams}`);
+    return _.merge(results, {
+      featuredPoems: {
+        response: featured,
+        cards: _.map(featured.data, poem => ({
+          title: _.get(poem, "attributes.title"),
+          text:
+            _.get(poem, "attributes.body.summary") ||
+            _.get(poem, "attributes.body.processed"),
+          poet: {
+            name: _.get(
+              _.find(
+                featured.included,
+                include =>
+                  _.get(include, "id") ===
+                  _.get(
+                    _.first(_.get(poem, "relationships.field_author.data")),
+                    "id"
+                  )
+              ),
+              "attributes.title"
+            )
           },
-          page: {
-            limit: 3
-          },
-          sort: "-field_featured",
-          include: "field_image"
-        }
-      })
-      .then(res => {
-        return {
-          rows: _.map(_.get(res, "data.data"), row => {
-            return {
-              row,
-              name: _.get(row, "attributes.title", null),
-              bio:
-                _.get(row, "attributes.body.summary", null) ||
-                _.get(row, "attributes.body.processed", null),
-              img: app.$buildImg(res.data, row, "field_image", "portrait")
-            };
-          })
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    return {
-      schoolInput: msh.schoolInput,
-      stateInput: msh.stateInput,
-      searchInput: msh.searchInput,
-      results: msh.results,
-      currentPage: msh.currentPage,
-      totalPages: msh.totalPages,
-      pageNum: msh.pageNum,
-      Next: msh.Next,
-      Prev: msh.Prev,
-      preparedState: msh.preparedState,
-      preparedSchool: msh.preparedSchool,
-      preparedCombine: msh.preparedCombine,
-      featuredPoets: poets.rows
-    };
+          year: _.get(poem, "attributes.field_date_published").split("-")[0],
+          link: _.get(poem, "attributes.path.alias")
+        }))
+      }
+    });
   },
-  async fetch({ app, store, params, query }) {
-    const schools = await filterHelpers.getFilterOptions(
-      app,
-      "/api/taxonomy_term/school_movement",
-      "'fields[taxonomy_term--school_movement]': 'drupal_internal__tid,name'",
-      "taxonomy"
-    );
-    const states = await filterHelpers.getFilterOptions(
-      app,
-      "/api/node/state",
-      "'fields[node--state]': 'drupal_internal__nid,title'",
-      "node"
-    );
-    store.commit("updateStates", states.options);
-    store.commit("updateFilterOptions", schools.options);
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {
     applyFilters() {
       let myQuery = {};
-      if (this.stateInput) {
-        myQuery.state = this.stateInput;
-      }
-      if (this.searchInput) {
-        myQuery.combine = this.searchInput;
-      }
-      if (this.schoolInput) {
-        myQuery.school = this.schoolInput;
+      if (this.combinedInput) {
+        myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-poets",
+        name: "audio",
         query: myQuery
       });
     }
@@ -323,7 +270,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poets-list__poems {
+.poems-list__poems {
   font-weight: 400;
   a {
     color: $body-color;
@@ -335,16 +282,21 @@ export default {
     }
   }
 }
-
-.poets-list {
+.tabular-list__header {
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-weight: 560;
+}
+.poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-
-.poets-list__search {
+.poems-list__search {
   margin-top: 2rem;
 }
-
+.poem__link {
+  font-weight: 560;
+}
 .legend-selects {
   display: flex;
   flex-basis: 100%;
@@ -358,7 +310,7 @@ export default {
   }
 }
 
-.poets-list__filters__legend {
+.poems-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -369,7 +321,7 @@ export default {
   }
 }
 
-.poets-list__input--search {
+.poems-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;
@@ -418,10 +370,6 @@ export default {
       height: 100%;
     }
   }
-}
-div /deep/ .card-deck__cards {
-  margin-top: 1rem;
-  margin-bottom: 0;
 }
 .icon {
   display: inline;
