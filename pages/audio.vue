@@ -23,15 +23,21 @@
                 </div>
               </div>
               <div class="poems-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn class="btn-primary">
-                  <iconSearch />
-                </b-btn>
+                <b-input-group>
+                  <b-form-input
+                    v-model="combinedInput"
+                    type="text"
+                    size="22"
+                    placeholder="Search title or text ..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    @click.stop.prevent="applyFilters"
+                  >
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
+                  </b-input-group-append>
+                </b-input-group>
               </div>
             </b-form-group>
           </b-form>
@@ -83,7 +89,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/audio?page=${Prev}${preparedCombine}`"
+              :href="`/audio?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -96,7 +102,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -110,7 +116,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -124,7 +130,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -144,7 +150,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/audio?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -156,7 +162,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/audio?page=${Next}${preparedCombine}`"
+              :href="`/audio?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -179,7 +185,7 @@ import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 
 export default {
   components: {
@@ -187,7 +193,7 @@ export default {
     CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    MagnifyingGlassIcon
   },
   data() {
     return {
@@ -254,7 +260,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-audio",
+        name: "audio",
         query: myQuery
       });
     }
@@ -364,5 +370,15 @@ export default {
       height: 100%;
     }
   }
+}
+.icon {
+  display: inline;
+  fill: $blue;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.input-group-text {
+  background: transparent;
+  border: none;
 }
 </style>
