@@ -14,7 +14,7 @@
       </b-row>
       <b-row>
         <b-col xl="8">
-          <b-link href="job.attributes.link_to_job.uri">
+          <b-link :href="job.attributes.link_to_job.uri">
             {{ job.attributes.link_to_job.title }}
           </b-link>
         </b-col>
