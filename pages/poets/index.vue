@@ -107,7 +107,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poets?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poets?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -120,7 +120,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poets?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poets?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -134,7 +134,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poets?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poets?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -148,7 +148,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poets?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poets?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -168,7 +168,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poets?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poets?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -180,7 +180,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poets?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              :href="`/poets?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -226,7 +226,7 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/poetsorg/poets");
+    app.$buildBasicPage(app, store, "/poets");
     const url = "/api/poets";
     const msh = await searchHelpers.getSearchResults(url, app, query);
     let poets = await app.$axios
@@ -313,7 +313,7 @@ export default {
         myQuery.school = this.schoolInput;
       }
       this.$router.push({
-        name: "vertical-poets",
+        name: "poets",
         query: myQuery
       });
     }
