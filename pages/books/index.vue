@@ -67,7 +67,7 @@
         <b-col md="6">
           <b-link
             class="poem__link"
-            :to="poem.view_node"
+            :to="poem.view_node_1"
             v-html="poem.title"
           />
         </b-col>
