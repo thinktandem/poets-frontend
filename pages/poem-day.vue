@@ -154,7 +154,7 @@ import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import SignupBlock from "~/components/SignupBlock";
 import * as _ from "lodash";
-import AppTable from "../../components/AppTable";
+import AppTable from "~/components/AppTable";
 
 export default {
   components: {
