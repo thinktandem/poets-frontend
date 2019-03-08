@@ -79,7 +79,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poems?page=${Prev}${preparedCombine}`"
+              :href="`/poems?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -92,7 +92,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poems?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/poems?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -106,7 +106,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poems?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/poems?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -120,7 +120,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poems?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/poems?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -140,7 +140,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poems?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/poems?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -152,7 +152,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poems?page=${Next}${preparedCombine}`"
+              :href="`/poems?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -199,7 +199,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "poetsorg-poems",
+        name: "poems",
         query: myQuery
       });
     }
