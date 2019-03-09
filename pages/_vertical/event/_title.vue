@@ -13,12 +13,7 @@
           <div class="event__body">
             {{ body }}
           </div>
-
-
         </b-col>
-
-
-
         <b-col 
           md="4"
           offset-md="1">
@@ -51,11 +46,8 @@
               Contact: <a href="#">{{ contact }}</a><br>
               {{ eventDate }}</p>
           </div>
-
-
         </b-col>
       </b-row>
-        
     </b-container>
 
     <b-container class="events-list tabular-list">
