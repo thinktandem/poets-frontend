@@ -45,7 +45,7 @@ export default {
       type: Object,
       default() {
         return {
-          to: "/poetsorg/announcements",
+          to: "/announcements",
           text: "More Announcements"
         };
       }

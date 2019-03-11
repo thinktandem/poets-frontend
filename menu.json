@@ -9,7 +9,7 @@
         "to": "/poets"
       },
       "poem-a-day": {
-        "to": "/poetsorg/poem-day"
+        "to": "/poem-day"
       },
       "library (texts, books & more)": {
         "to": "/libraries",
@@ -38,30 +38,30 @@
         }
       },
       "materials for teachers": {
-        "to": "/poetsorg/materials-teachers",
+        "to": "/materials-teachers",
         "children": {
           "Poems for Kids": {
-            "to": "/poetsorg/poems-kids"
+            "to": "/poems-kids"
           },
           "Poems for Teens": {
-            "to": "/poetsorg/poems-teens"
+            "to": "/poems-teens"
           },
           "Lesson Plans": {
-            "to": "/poetsorg/lesson-plans"
+            "to": "/lesson-plans"
           },
           "Essays": {
-            "to": "/poetsorg/essays"
+            "to": "/essays"
           },
           "Teach this Poem": {
-            "to": "/poetsorg/teach-poem"
+            "to": "/teach-poem"
           },
           "Resources": {
-            "to": "/poetsorg/resources"
+            "to": "/resources"
           }
         }
       },
       "poetry near you": {
-        "to": "/poetsorg/poetry-near-you"
+        "to": "/poetry-near-you"
       }
     }
   },
