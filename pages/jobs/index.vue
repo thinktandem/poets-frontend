@@ -1,71 +1,30 @@
 <template>
   <div>
-    <b-container class="books-list__filters filters">
-      <b-row class="books-list__filters-row">
-        <b-col md="12">
-          <b-form
-            class="books-list__search"
-            @submit.stop.prevent="applyFilters"
-          >
-            <b-form-group>
-              <div class="legend-selects">
-                <div class="books-list__filters__legend">
-                  <legend>Filter by</legend>
-                </div>
-              </div>
-              <div class="books-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn
-                  class="btn-primary"
-                  @submit.stop.prevent="applyFilters"
-                >
-                  <iconSearch />
-                </b-btn>
-              </div>
-            </b-form-group>
-          </b-form>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="books-list tabular-list">
+    <b-container class="jobs-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
         <b-col
-          md="3">
-          Date
-        </b-col>
-        <b-col md="6">
+          xl="4">
           Title
         </b-col>
-        <b-col md="3">
-          Author
+        <b-col xl="8">
+          Description
         </b-col>
       </b-row>
       <b-row
-        v-for="book in results"
-        class="tabular-list__row books-list__books"
-        :key="book.title"
+        v-for="job in results"
+        class="tabular-list__row jobs-list__jobs"
+        :key="job.title"
       >
         <b-col
-          class="date"
-          md="3"
-        >
-          {{ book.field_date_published }}
-        </b-col>
-        <b-col
-          class="books-list__books-title"
-          md="6">
+          class="jobs-list__jobs-title"
+          xl="4">
           <a
-            :href="book.view_node"
-            v-html="book.title"
+            :href="job.path"
+            v-html="job.title"
           />
         </b-col>
-        <b-col md="3">
-          {{ book.field_author }}
+        <b-col xl="8">
+          <div v-html="job.body"/>
         </b-col>
       </b-row>
       <div class="pager">
@@ -174,26 +133,39 @@
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
     iconMediaSkipBackwards,
-    iconMediaSkipForwards,
-    iconSearch
+    iconMediaSkipForwards
   },
-  data() {
+  async asyncData({ app, store, params, query }) {
+    const url = "/api/jobs";
+    const mySearchHelpers = await searchHelpers.getSearchResults(
+      url,
+      app,
+      query
+    );
+    let jobs = await app.$axios
+      .get("/api/jobs", {})
+      .then(res => {
+        return {
+          rows: res.data.rows
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      results: mySearchHelpers.results,
+      Next: mySearchHelpers.Next,
+      Prev: mySearchHelpers.Prev,
+      jobs: jobs.rows
     };
   },
-  async asyncData({ app, params, query }) {
-    const url = "/api/books_list";
-    return searchHelpers.getSearchResults(url, app, query);
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {
     applyFilters() {
@@ -202,7 +174,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-book",
+        name: "vertical-text",
         query: myQuery
       });
     }
@@ -212,7 +184,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.books-list__books {
+.jobs-list__jobs {
   font-weight: 400;
   a {
     color: $body-color;
@@ -229,22 +201,26 @@ export default {
   text-transform: uppercase;
   font-weight: 560;
 }
+.tabular-list__row > div:last-child {
+  height: inherit;
+  text-align: left;
+}
 .date {
   color: var(--red-dark);
 }
-.books-list__books-title {
+.jobs-list__jobs-title {
   min-height: 88px;
 }
-.books-list__books-title a {
+.jobs-list__jobs-title a {
   color: var(--gray-800);
   font-weight: 560;
 }
-.books-list {
+.jobs-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-.books-list__search {
+.jobs-list__search {
   margin-top: 2rem;
 }
 
@@ -261,7 +237,7 @@ export default {
   }
 }
 
-.books-list__filters__legend {
+.jobs-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -272,7 +248,7 @@ export default {
   }
 }
 
-.books-list__input--search {
+.jobs-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;

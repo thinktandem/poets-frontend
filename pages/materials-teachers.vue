@@ -44,11 +44,12 @@ export default {
       }
     };
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, route }) {
     return (
       app
         // Start with the 'basic page' essentials
-        .$buildBasicPage(app, store, "/materials-teachers")
+        .$buildBasicPage(app, store, route.path)
+
         // Now add in our page specific magic.
         .then(async () => {
           const signupBlock = {

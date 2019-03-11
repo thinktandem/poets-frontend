@@ -1,14 +1,5 @@
 <template>
   <div>
-    <basic-page
-      :body="$store.state.pageData.data.attributes.body"
-      :highlighted="$store.state.highlightedData"
-      :more="$store.state.relatedContent"
-      :extended-content="$store.state.extendedContent"
-      :sidebar-data="$store.state.sidebarData"/>
-    <card-deck
-      cardtype="PoemCard"
-      :cards="featuredPoems.cards"/>
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
@@ -46,14 +37,14 @@
     </b-container>
     <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="3">
-          Year
+        <b-col md="4">
+          Name
         </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="3">
+        <b-col md="4">
           Author
+        </b-col>
+        <b-col md="4">
+          Year
         </b-col>
       </b-row>
       <b-row
@@ -61,19 +52,18 @@
         class="tabular-list__row poems-list__poems"
         :key="poem.id"
       >
-        <b-col md="3">
-          {{ poem.field_date_published }}
-        </b-col>
-        <b-col md="6">
-          <b-link
-            class="poem__link"
-            :to="poem.view_node"
+        <b-col md="4">
+          <a
+            :href="poem.view_node"
             v-html="poem.title"
           />
         </b-col>
-        <b-col
-          v-html="poem.field_author"
-          md="2"/>
+        <b-col md="4">
+          {{ poem.field_author }}
+        </b-col>
+        <b-col md="4">
+          {{ poem.field_date_published }}
+        </b-col>
       </b-row>
       <div class="pager">
         <ul
@@ -89,7 +79,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/audio?page=${Prev}${preparedCombine}`"
+              :href="`/poems?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -102,7 +92,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/poems?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -116,7 +106,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/poems?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -130,7 +120,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/poems?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -150,7 +140,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/poems?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -162,7 +152,7 @@
             class="page-item"
           >
             <a
-              :href="`/audio?page=${Next}${preparedCombine}`"
+              :href="`/poems?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -178,10 +168,6 @@
 </template>
 
 <script>
-import _ from "lodash";
-import qs from "qs";
-import BasicPage from "~/components/BasicPage";
-import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -189,8 +175,6 @@ import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass
 
 export default {
   components: {
-    BasicPage,
-    CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     MagnifyingGlassIcon
@@ -204,54 +188,9 @@ export default {
       preparedCombine: null
     };
   },
-  async asyncData({ app, params, query }) {
-    const url = "/api/audio_poems";
-    const results = await searchHelpers.getSearchResults(url, app, query);
-    const featureParams = qs.stringify({
-      filter: {
-        soundcloud: {
-          path: "field_soundcloud_embed_code",
-          operator: "<>",
-          value: ""
-        },
-        field_featured: 1
-      },
-      page: {
-        limit: 3
-      },
-      include: "field_author"
-    });
-    const featured = await app.$axios.$get(`/api/node/poems?${featureParams}`);
-    return _.merge(results, {
-      featuredPoems: {
-        response: featured,
-        cards: _.map(featured.data, poem => ({
-          title: _.get(poem, "attributes.title"),
-          text:
-            _.get(poem, "attributes.body.summary") ||
-            _.get(poem, "attributes.body.processed"),
-          poet: {
-            name: _.get(
-              _.find(
-                featured.included,
-                include =>
-                  _.get(include, "id") ===
-                  _.get(
-                    _.first(_.get(poem, "relationships.field_author.data")),
-                    "id"
-                  )
-              ),
-              "attributes.title"
-            )
-          },
-          year: _.get(poem, "attributes.field_date_published").split("-")[0],
-          link: _.get(poem, "attributes.path.alias")
-        }))
-      }
-    });
-  },
-  async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, route.path);
+  async asyncData({ app, params, query, route }) {
+    const url = "/api/poems";
+    return searchHelpers.getSearchResults(url, app, query);
   },
   methods: {
     applyFilters() {
@@ -260,7 +199,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "audio",
+        name: "poems",
         query: myQuery
       });
     }
@@ -282,21 +221,16 @@ export default {
     }
   }
 }
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
+
 .poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+
 .poems-list__search {
   margin-top: 2rem;
 }
-.poem__link {
-  font-weight: 560;
-}
+
 .legend-selects {
   display: flex;
   flex-basis: 100%;

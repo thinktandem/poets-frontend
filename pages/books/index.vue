@@ -7,8 +7,8 @@
       :extended-content="$store.state.extendedContent"
       :sidebar-data="$store.state.sidebarData"/>
     <card-deck
-      cardtype="PoemCard"
-      :cards="featuredPoems.cards"/>
+      cardtype="BookCard"
+      :cards="featuredBooks.cards"/>
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
@@ -67,7 +67,7 @@
         <b-col md="6">
           <b-link
             class="poem__link"
-            :to="poem.view_node"
+            :to="poem.view_node_1"
             v-html="poem.title"
           />
         </b-col>
@@ -89,7 +89,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/audio?page=${Prev}${preparedCombine}`"
+              :href="`/books?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -102,7 +102,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/books?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -116,7 +116,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -130,7 +130,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -150,7 +150,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/books?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -162,7 +162,7 @@
             class="page-item"
           >
             <a
-              :href="`/audio?page=${Next}${preparedCombine}`"
+              :href="`/books?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -205,47 +205,40 @@ export default {
     };
   },
   async asyncData({ app, params, query }) {
-    const url = "/api/audio_poems";
+    const url = "/api/books";
     const results = await searchHelpers.getSearchResults(url, app, query);
     const featureParams = qs.stringify({
       filter: {
-        soundcloud: {
-          path: "field_soundcloud_embed_code",
-          operator: "<>",
-          value: ""
-        },
         field_featured: 1
       },
       page: {
         limit: 3
       },
-      include: "field_author"
+      include: "field_author,field_image"
     });
-    const featured = await app.$axios.$get(`/api/node/poems?${featureParams}`);
+    const featured = await app.$axios.$get(`/api/node/books?${featureParams}`);
     return _.merge(results, {
-      featuredPoems: {
+      featuredBooks: {
         response: featured,
-        cards: _.map(featured.data, poem => ({
-          title: _.get(poem, "attributes.title"),
-          text:
-            _.get(poem, "attributes.body.summary") ||
-            _.get(poem, "attributes.body.processed"),
-          poet: {
-            name: _.get(
-              _.find(
-                featured.included,
-                include =>
-                  _.get(include, "id") ===
-                  _.get(
-                    _.first(_.get(poem, "relationships.field_author.data")),
-                    "id"
-                  )
-              ),
-              "attributes.title"
-            )
-          },
-          year: _.get(poem, "attributes.field_date_published").split("-")[0],
-          link: _.get(poem, "attributes.path.alias")
+        cards: _.map(featured.data, book => ({
+          title: _.get(book, "attributes.title"),
+          body:
+            _.get(book, "attributes.body.summary") ||
+            _.get(book, "attributes.body.processed"),
+          field_image: app.$buildImg(featured, book, "field_image", "book"),
+          field_author: _.get(
+            _.find(
+              featured.included,
+              include =>
+                _.get(include, "id") ===
+                _.get(
+                  _.first(_.get(book, "relationships.field_author.data")),
+                  "id"
+                )
+            ),
+            "attributes.title"
+          ),
+          view_node_1: _.get(book, "attributes.path.alias")
         }))
       }
     });
@@ -260,7 +253,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "audio",
+        name: "books",
         query: myQuery
       });
     }

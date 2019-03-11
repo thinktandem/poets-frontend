@@ -43,15 +43,20 @@
               </div>
 
               <div class="poets-list__input--search">
-                <b-form-input
-                  v-model="searchInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search by poet, movement, etc..."
-                />
-                <b-btn class="btn-primary">
-                  <iconSearch />
-                </b-btn>
+                <b-input-group>
+                  <b-form-input
+                    v-model="searchInput"
+                    type="text"
+                    size="22"
+                    placeholder="Search by poet, movement, etc..."/>
+                  <b-input-group-append
+                    is-text
+                    @click.stop.prevent="applyFilters"
+                  >
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
+                  </b-input-group-append>
+                </b-input-group>
               </div>
             </b-form-group>
           </b-form>
@@ -196,15 +201,15 @@ import filterHelpers from "~/plugins/filter-helpers";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch,
-    CardDeck
+    CardDeck,
+    MagnifyingGlassIcon
   },
   data() {
     return {
@@ -308,7 +313,7 @@ export default {
         myQuery.school = this.schoolInput;
       }
       this.$router.push({
-        name: "vertical-poets",
+        name: "poets",
         query: myQuery
       });
     }
@@ -417,5 +422,15 @@ export default {
 div /deep/ .card-deck__cards {
   margin-top: 1rem;
   margin-bottom: 0;
+}
+.icon {
+  display: inline;
+  fill: $blue;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.input-group-text {
+  background: transparent;
+  border: none;
 }
 </style>

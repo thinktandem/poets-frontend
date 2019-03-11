@@ -165,7 +165,7 @@ export default {
         })),
         link: {
           text: `${featuredPoets.meta.count} Poets`,
-          to: "/poet"
+          to: "/poets"
         }
       });
     }

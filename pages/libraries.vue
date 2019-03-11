@@ -56,7 +56,7 @@ export default {
     return {
       poets: {},
       poetsLink: {
-        to: "/poet",
+        to: "/poets",
         text: "0"
       },
       texts: {},
@@ -81,7 +81,7 @@ export default {
         return {
           rows: res.data.rows,
           poemsLink: {
-            to: "/poem",
+            to: "/poems",
             text: res.data.pager.total_items
           }
         };
@@ -122,7 +122,7 @@ export default {
             };
           }),
           poetsLink: {
-            to: "/poet",
+            to: "/poets",
             text: `${res.data.meta.count} Poets`
           }
         };
