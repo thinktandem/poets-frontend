@@ -48,7 +48,7 @@ export default {
         },
         {
           text: "Credits",
-          url: "/poetsorg/site-credits"
+          url: "/site-credits"
         },
         {
           text: "Privacy",

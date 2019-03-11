@@ -56,17 +56,17 @@ export default {
     return {
       poets: {},
       poetsLink: {
-        to: "/poetsorg/poet",
+        to: "/poets",
         text: "0"
       },
       texts: {},
       textsLink: {
-        to: "/poetsorg/text",
+        to: "/text",
         text: "0"
       },
       books: {},
       booksLink: {
-        to: "/poetsorg/book",
+        to: "/book",
         text: "0"
       }
     };
@@ -81,7 +81,7 @@ export default {
         return {
           rows: res.data.rows,
           poemsLink: {
-            to: "/poetsorg/poem",
+            to: "/poem",
             text: res.data.pager.total_items
           }
         };
@@ -122,7 +122,7 @@ export default {
             };
           }),
           poetsLink: {
-            to: "/poetsorg/poet",
+            to: "/poets",
             text: `${res.data.meta.count} Poets`
           }
         };
@@ -136,7 +136,7 @@ export default {
         return {
           rows: res.data.rows,
           textsLink: {
-            to: "/poetsorg/text",
+            to: "/text",
             text: res.data.pager.total_items
           }
         };
@@ -179,7 +179,7 @@ export default {
             view_node_1: _.get(book, "attributes.path.alias")
           })),
           booksLink: {
-            to: "/poetsorg/books",
+            to: "/books",
             text: res.meta.count + " books"
           }
         };

@@ -58,7 +58,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poem-day?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poem-day?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -71,7 +71,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poem-day?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poem-day?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -85,7 +85,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poem-day?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poem-day?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -99,7 +99,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poem-day?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poem-day?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -119,7 +119,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poem-day?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
+              :href="`/poem-day?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -131,7 +131,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poem-day?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
+              :href="`/poem-day?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -154,7 +154,7 @@ import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import SignupBlock from "~/components/SignupBlock";
 import * as _ from "lodash";
-import AppTable from "../../components/AppTable";
+import AppTable from "~/components/AppTable";
 
 export default {
   components: {
