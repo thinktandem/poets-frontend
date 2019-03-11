@@ -81,7 +81,7 @@ export default {
         return {
           rows: res.data.rows,
           poemsLink: {
-            to: "/poem",
+            to: "/poems",
             text: res.data.pager.total_items
           }
         };

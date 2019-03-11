@@ -39,7 +39,7 @@
           >
             <div class="npm__tweets-col-date">
               <a
-                :href="`https://twitter.com/status/${tweet.id_str}`"
+                :href="`https://twitter.com/POETSorg/status/${tweet.id_str}`"
                 target="_elBlanco"
               >
                 {{ niceDate(tweet.created_at) }}
