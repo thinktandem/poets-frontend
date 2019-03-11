@@ -64,7 +64,7 @@ export default {
           icon: "InstagramIcon"
         },
         {
-          url: "https://www.pinterest.com/",
+          url: "https://www.pinterest.com/poetsorg/",
           icon: "PinterestIcon"
         }
       ];
