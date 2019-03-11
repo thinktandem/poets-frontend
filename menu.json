@@ -41,7 +41,7 @@
         "to": "/materials-teachers",
         "children": {
           "Poems for Kids": {
-            "to": "/poems-kids"
+            "to": "/materials-teachers/poems-kids"
           },
           "Poems for Teens": {
             "to": "/poems-teens"

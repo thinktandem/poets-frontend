@@ -227,6 +227,7 @@ export default {
         };
       })
     });
+    store.commit("toggleSubMenu", false);
   }
 };
 </script>
