@@ -1,31 +1,73 @@
 <template>
   <div>
-    <b-container class="jobs-list tabular-list">
+    <basic-page
+      :body="$store.state.pageData.data.attributes.body"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <card-deck
+      cardtype="BookCard"
+      :cards="featuredBooks.cards"/>
+    <b-container class="poems-list__filters filters">
+      <b-row class="poems-list__filters-row">
+        <b-col md="12">
+          <b-form
+            class="poems-list__search"
+            @submit.stop.prevent="applyFilters"
+          >
+            <b-form-group>
+              <div class="legend-selects">
+                <div class="poems-list__filters__legend">
+                  <legend>Filter by</legend>
+                </div>
+              </div>
+              <div class="poems-list__input--search">
+                <b-form-input
+                  v-model="combinedInput"
+                  type="text"
+                  size="22"
+                  placeholder="Search title or text ..."
+                />
+                <b-btn class="btn-primary">
+                  <iconSearch />
+                </b-btn>
+              </div>
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          xl="4">
+        <b-col md="3">
+          Year
+        </b-col>
+        <b-col md="6">
           Title
         </b-col>
-        <b-col xl="8">
-          Description
+        <b-col md="3">
+          Author
         </b-col>
       </b-row>
       <b-row
-        v-for="job in results"
-        class="tabular-list__row jobs-list__jobs"
-        :key="job.title"
+        v-for="poem in results"
+        class="tabular-list__row poems-list__poems"
+        :key="poem.id"
       >
-        <b-col
-          class="jobs-list__jobs-title"
-          xl="4">
-          <a
-            :href="job.path"
-            v-html="job.title"
+        <b-col md="3">
+          {{ poem.field_date_published }}
+        </b-col>
+        <b-col md="6">
+          <b-link
+            class="poem__link"
+            :to="poem.view_node"
+            v-html="poem.title"
           />
         </b-col>
-        <b-col xl="8">
-          <div v-html="job.body"/>
-        </b-col>
+        <b-col
+          v-html="poem.field_author"
+          md="2"/>
       </b-row>
       <div class="pager">
         <ul
@@ -41,7 +83,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/book?page=${Prev}${preparedCombine}`"
+              :href="`/books?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -54,7 +96,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/book?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/books?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -68,7 +110,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/book?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -82,7 +124,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/book?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/books?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -102,7 +144,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/book?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/books?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -114,7 +156,7 @@
             class="page-item"
           >
             <a
-              :href="`/book?page=${Next}${preparedCombine}`"
+              :href="`/books?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -130,39 +172,70 @@
 </template>
 
 <script>
+import _ from "lodash";
+import qs from "qs";
+import BasicPage from "~/components/BasicPage";
+import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
+import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
+    BasicPage,
+    CardDeck,
     iconMediaSkipBackwards,
-    iconMediaSkipForwards
+    iconMediaSkipForwards,
+    iconSearch
   },
-  async asyncData({ app, store, params, query }) {
-    const url = "/api/jobs";
-    const mySearchHelpers = await searchHelpers.getSearchResults(
-      url,
-      app,
-      query
-    );
-    let jobs = await app.$axios
-      .get("/api/jobs", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
+  data() {
     return {
-      results: mySearchHelpers.results,
-      Next: mySearchHelpers.Next,
-      Prev: mySearchHelpers.Prev,
-      jobs: jobs.rows
+      combinedInput: null,
+      results: null,
+      Next: null,
+      Prev: null,
+      preparedCombine: null
     };
+  },
+  async asyncData({ app, params, query }) {
+    const url = "/api/books";
+    const results = await searchHelpers.getSearchResults(url, app, query);
+    const featureParams = qs.stringify({
+      filter: {
+        field_featured: 1
+      },
+      page: {
+        limit: 3
+      },
+      include: "field_author,field_image"
+    });
+    const featured = await app.$axios.$get(`/api/node/books?${featureParams}`);
+    return _.merge(results, {
+      featuredBooks: {
+        response: featured,
+        cards: _.map(featured.data, book => ({
+          title: _.get(book, "attributes.title"),
+          body:
+            _.get(book, "attributes.body.summary") ||
+            _.get(book, "attributes.body.processed"),
+          field_image: app.$buildImg(featured, book, "field_image", "book"),
+          field_author: _.get(
+            _.find(
+              featured.included,
+              include =>
+                _.get(include, "id") ===
+                _.get(
+                  _.first(_.get(book, "relationships.field_author.data")),
+                  "id"
+                )
+            ),
+            "attributes.title"
+          ),
+          view_node_1: _.get(book, "attributes.path.alias")
+        }))
+      }
+    });
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
@@ -174,7 +247,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-text",
+        name: "vertical-books",
         query: myQuery
       });
     }
@@ -184,7 +257,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.jobs-list__jobs {
+.poems-list__poems {
   font-weight: 400;
   a {
     color: $body-color;
@@ -201,29 +274,16 @@ export default {
   text-transform: uppercase;
   font-weight: 560;
 }
-.tabular-list__row > div:last-child {
-  height: inherit;
-  text-align: left;
-}
-.date {
-  color: var(--red-dark);
-}
-.jobs-list__jobs-title {
-  min-height: 88px;
-}
-.jobs-list__jobs-title a {
-  color: var(--gray-800);
-  font-weight: 560;
-}
-.jobs-list {
+.poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-
-.jobs-list__search {
+.poems-list__search {
   margin-top: 2rem;
 }
-
+.poem__link {
+  font-weight: 560;
+}
 .legend-selects {
   display: flex;
   flex-basis: 100%;
@@ -237,7 +297,7 @@ export default {
   }
 }
 
-.jobs-list__filters__legend {
+.poems-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -248,7 +308,7 @@ export default {
   }
 }
 
-.jobs-list__input--search {
+.poems-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;

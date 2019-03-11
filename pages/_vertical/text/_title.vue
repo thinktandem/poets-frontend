@@ -28,7 +28,7 @@ export default {
     const text = await app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: `${params.vertical}/text/${params.title}`
+          path: `/text/${params.title}`
         }
       })
       .then(res => {
