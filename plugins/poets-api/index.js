@@ -123,10 +123,10 @@ export default ({ app }, inject) => {
     const currentSubPage = path.length >= 3 ? path[1] + "/" + path[2] : path[1];
 
     const buildSubMenu = (midMenu, currentSubPage) => {
-      const subMenu = _.find(
-        midMenu.children,
-        link => link.to === "/" + currentSubPage
-      );
+      // If the current page is in the second level, check for children
+      const subMenu =
+        _.find(midMenu.children, link => link.to === "/" + currentSubPage) ||
+        _.find(midMenu.children, link => link.to === "/" + path[1]);
       return _.get(subMenu, "children") ? transformTree(subMenu.children) : [];
     };
 
