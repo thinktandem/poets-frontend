@@ -48,7 +48,7 @@ export default {
     return (
       app
         // Start with the 'basic page' essentials
-        .$buildBasicPage(app, store, "poetsorg/materials-teachers")
+        .$buildBasicPage(app, store, "/materials-teachers")
         // Now add in our page specific magic.
         .then(async () => {
           const signupBlock = {
