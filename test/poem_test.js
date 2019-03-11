@@ -1,6 +1,6 @@
 Feature("Poem").retry(20);
 Before(I => {
- I.amOnPage("/poetsorg/poem/disposed");
+ I.amOnPage("/poem/disposed");
 });
 Scenario("Poem is available on individual poem page", I => {
  I.see("Disposed");

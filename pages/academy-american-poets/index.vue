@@ -63,7 +63,7 @@ export default {
           data: {
             title: "Programs",
             moreLink: {
-              to: `/${params.vertical}/programs`,
+              to: `/programs`,
               text: `${response.meta.count} Programs`
             },
             programs: _.map(response.data, item => {
@@ -96,7 +96,7 @@ export default {
         return {
           response: response,
           moreLink: {
-            to: `/${params.vertical}/annoucements`,
+            to: `/annoucements`,
             text: "More Annoucements"
           },
           announcements: _.map(response.data, item => {
@@ -117,7 +117,7 @@ export default {
           data: {
             title: "Prizes",
             link: {
-              to: `/${params.vertical}/prizes`,
+              to: `/prizes`,
               text: `${response.meta.count} Prizes`
             },
             prizes: _.map(response.data, item => {

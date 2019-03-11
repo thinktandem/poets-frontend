@@ -50,7 +50,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/winner?page=${Prev}${preparedCombine}`"
+              :href="`/winner?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -63,7 +63,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/winner?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/winner?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -77,7 +77,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/winner?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/winner?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -91,7 +91,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/winner?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/winner?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -111,7 +111,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/winner?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/winner?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -123,7 +123,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/winner?page=${Next}${preparedCombine}`"
+              :href="`/winner?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >

@@ -31,8 +31,19 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-item
-          href="/login"
+          v-show="!this.$auth.loggedIn"
+          :href="loginUrl"
           class="navbar__login">Membership / Login</b-nav-item>
+        <b-nav-item-dropdown
+          v-show="this.$auth.loggedIn"
+          id="nav_ddown_loggedin"
+          :text="name"
+          extra-toggle-classes="nav-link-loggedin"
+          right>
+          <b-dropdown-item :href="dashboardURL">Dashboard</b-dropdown-item>
+          <b-dropdown-divider />
+          <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+        </b-nav-item-dropdown>
 
         <b-button
           class="d-block d-md-none"
@@ -53,7 +64,52 @@
 </template>
 
 <script>
-export default {};
+import { get, isNil } from "lodash";
+
+/*
+ * Helper to get name
+ */
+const getName = (first = "My", last = "Account") => {
+  // Alao handle the cases where first is null
+  if (isNil(first)) {
+    first = "My";
+  }
+  if (isNil(last)) {
+    last = "Account";
+  }
+  return `${first} ${last}`;
+};
+
+/*
+ * Helper to get dashboard url
+ */
+const getDashboardURL = (id = "") => {
+  return `${process.env.baseURL}/user/${id}`;
+};
+
+export default {
+  data() {
+    return {
+      loginUrl: `${process.env.baseURL}/user/login?redirect=frontend`
+    };
+  },
+  computed: {
+    name() {
+      return getName(
+        get(this.$auth, "user.field_first_name", undefined),
+        get(this.$auth, "user.field_last_name", undefined)
+      );
+    },
+    dashboardURL() {
+      return getDashboardURL(get(this.$auth, "user.drupal_internal__uid", ""));
+    }
+  },
+  methods: {
+    logout() {
+      this.$auth.logout();
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
