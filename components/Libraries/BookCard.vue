@@ -7,9 +7,11 @@
       :href="view_node_1"
       slot="header"
     >
-      <b-img
+      <b-img-lazy
+        v-if="field_image"
         fluid
-        :src="baseurl + field_image"
+        :src="field_image.src"
+        :alt="field_image.alt"
       />
     </b-link>
     <h3 class="card-title">
@@ -22,14 +24,17 @@
     <div class="card--book__author-year">
       {{ field_author }} <span v-if="field_date_published"> - {{ field_date_published }}</span>
     </div>
-    <p v-html="body"/>
+    <app-teaser-text :text="body"/>
   </b-card>
 </template>
 <script>
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
+  name: "BookCard",
+  components: { AppTeaserText },
   data() {
     return {
-      baseurl: process.env.baseURL
+      baseUrl: process.env.baseURL
     };
   },
   props: {
@@ -54,8 +59,8 @@ export default {
       default: "/"
     },
     field_image: {
-      type: String,
-      default: ""
+      type: Object,
+      default: null
     }
   }
 };

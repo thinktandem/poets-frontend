@@ -9,7 +9,7 @@
           <p
             v-if="count >= 1"
             class="d-flex justify-content-lg-end"><b-link
-              to="/poetsorg/poem"
+              to="/poems"
               class="text-dark more">{{ count }} poems <i class="fancy-chevron"/> </b-link></p>
         </header>
         <poem-card

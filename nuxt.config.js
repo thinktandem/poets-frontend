@@ -1,6 +1,7 @@
 module.exports = {
   modules: [
     "@nuxtjs/axios",
+    "@nuxtjs/auth",
     ["bootstrap-vue/nuxt", { css: false }],
     // 'vue-youtube-embed'
     "@nuxtjs/toast",
@@ -18,6 +19,21 @@ module.exports = {
   ],
   axios: {
     debug: process.env.APP_ENV !== "production"
+  },
+  auth: {
+    cookie: {
+      prefix: "auth.",
+      options: {
+        path: "/",
+        secure: true
+      }
+    },
+    strategies: {
+      drupal: {
+        _scheme: "~/plugins/drupal-auth.js"
+      }
+    },
+    watchLoggedIn: false
   },
   toast: {
     position: "top-left",
@@ -50,7 +66,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: "#3B8070" },
+  loading: { color: "#F53F5B", height: "5px" },
   /*
   ** Build configuration
   */
@@ -85,6 +101,7 @@ module.exports = {
   },
   env: {
     baseURL: process.env.API_URL || "https://poets.org",
-    CONSUMER_ID: process.env.CONSUMER_ID
+    CONSUMER_ID: process.env.CONSUMER_ID,
+    CONSUMER_SECRET: process.env.CONSUMER_SECRET
   }
 };

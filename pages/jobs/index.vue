@@ -1,62 +1,30 @@
 <template>
   <div>
-    <b-container class="poems-list__filters filters">
-      <b-row class="poems-list__filters-row">
-        <b-col md="12">
-          <b-form
-            class="poems-list__search"
-            @submit.stop.prevent="applyFilters"
-          >
-            <b-form-group>
-              <div class="legend-selects">
-                <div class="poems-list__filters__legend">
-                  <legend>Filter by</legend>
-                </div>
-              </div>
-              <div class="poems-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn class="btn-primary">
-                  <iconSearch />
-                </b-btn>
-              </div>
-            </b-form-group>
-          </b-form>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="poems-list tabular-list">
+    <b-container class="jobs-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
-          Name
+        <b-col
+          xl="4">
+          Title
         </b-col>
-        <b-col md="4">
-          Author
-        </b-col>
-        <b-col md="4">
-          Year
+        <b-col xl="8">
+          Description
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
-        class="tabular-list__row poems-list__poems"
-        :key="poem.id"
+        v-for="job in results"
+        class="tabular-list__row jobs-list__jobs"
+        :key="job.title"
       >
-        <b-col md="4">
+        <b-col
+          class="jobs-list__jobs-title"
+          xl="4">
           <a
-            :href="poem.view_node"
-            v-html="poem.title"
+            :href="job.path"
+            v-html="job.title"
           />
         </b-col>
-        <b-col md="4">
-          {{ poem.field_author }}
-        </b-col>
-        <b-col md="4">
-          {{ poem.field_date_published }}
+        <b-col xl="8">
+          <div v-html="job.body"/>
         </b-col>
       </b-row>
       <div class="pager">
@@ -73,7 +41,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/poem?page=${Prev}${preparedCombine}`"
+              :href="`/book?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -86,7 +54,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poem?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/book?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -100,7 +68,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/poem?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/book?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -114,7 +82,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/poem?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/book?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -134,7 +102,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/poem?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/book?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -146,7 +114,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/poem?page=${Next}${preparedCombine}`"
+              :href="`/book?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -165,26 +133,39 @@
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
     iconMediaSkipBackwards,
-    iconMediaSkipForwards,
-    iconSearch
+    iconMediaSkipForwards
   },
-  data() {
+  async asyncData({ app, store, params, query }) {
+    const url = "/api/jobs";
+    const mySearchHelpers = await searchHelpers.getSearchResults(
+      url,
+      app,
+      query
+    );
+    let jobs = await app.$axios
+      .get("/api/jobs", {})
+      .then(res => {
+        return {
+          rows: res.data.rows
+        };
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      results: mySearchHelpers.results,
+      Next: mySearchHelpers.Next,
+      Prev: mySearchHelpers.Prev,
+      jobs: jobs.rows
     };
   },
-  async asyncData({ app, params, query }) {
-    const url = "/api/poems";
-    return searchHelpers.getSearchResults(url, app, query);
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {
     applyFilters() {
@@ -193,7 +174,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-poem",
+        name: "vertical-text",
         query: myQuery
       });
     }
@@ -203,7 +184,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poems-list__poems {
+.jobs-list__jobs {
   font-weight: 400;
   a {
     color: $body-color;
@@ -215,13 +196,31 @@ export default {
     }
   }
 }
-
-.poems-list {
+.tabular-list__header {
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-weight: 560;
+}
+.tabular-list__row > div:last-child {
+  height: inherit;
+  text-align: left;
+}
+.date {
+  color: var(--red-dark);
+}
+.jobs-list__jobs-title {
+  min-height: 88px;
+}
+.jobs-list__jobs-title a {
+  color: var(--gray-800);
+  font-weight: 560;
+}
+.jobs-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-.poems-list__search {
+.jobs-list__search {
   margin-top: 2rem;
 }
 
@@ -238,7 +237,7 @@ export default {
   }
 }
 
-.poems-list__filters__legend {
+.jobs-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -249,7 +248,7 @@ export default {
   }
 }
 
-.poems-list__input--search {
+.jobs-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;

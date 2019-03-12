@@ -54,10 +54,10 @@ export default {
     FeatureStack,
     ProductFeature
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, params, route, menu }) {
     // @todo: We're counting on this path in Drupal, which might be something we want
     // to change.
-    app.$buildBasicPage(app, store, "/poetsorg/home");
+    app.$buildBasicPage(app, store, "/home");
 
     // Override the hero with a quote on the homepage, this will overwrite
     // Drupal.
@@ -112,16 +112,21 @@ export default {
                 include.id === poem.relationships.field_author.data[0].id
             ).attributes.title
           },
-          year: _.get(poem, "attributes.field_date_published", "-").split(
-            "-"
-          )[0]
+          year: _.get(poem, "attributes/field_date_published")
+            ? _.get(poem, "attributes.field_date_published", "-").split("-")[0]
+            : null
         };
       })
     });
     const featuredPoetsQuery = qs.stringify({
       filter: {
         status: 1,
-        field_p_type: "poet"
+        field_p_type: "poet",
+        image: {
+          path: "field_image.id",
+          operator: "<>",
+          value: ""
+        }
       },
       sort: "-promote",
       page: {
@@ -160,7 +165,7 @@ export default {
         })),
         link: {
           text: `${featuredPoets.meta.count} Poets`,
-          to: "/poetsorg/poet"
+          to: "/poets"
         }
       });
     }
@@ -222,6 +227,7 @@ export default {
         };
       })
     });
+    store.commit("toggleSubMenu", false);
   }
 };
 </script>

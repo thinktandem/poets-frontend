@@ -1,0 +1,137 @@
+{
+  "Poets.org": {
+    "to": "/",
+    "children": {
+      "find poems": {
+        "to": "/poems"
+      },
+      "find poets": {
+        "to": "/poets"
+      },
+      "poem-a-day": {
+        "to": "/poem-day"
+      },
+      "library (texts, books & more)": {
+        "to": "/libraries",
+        "children": {
+          "Library": {
+            "to": "/libraries"
+          },
+          "Poems": {
+            "to": "/poems"
+          },
+          "Poets": {
+            "to": "/poets"
+          },
+          "Texts": {
+            "to": "/texts"
+          },
+          "Books": {
+            "to": "/books"
+          },
+          "Audio": {
+            "to": "/audio"
+          },
+          "Video": {
+            "to": "/videos"
+          }
+        }
+      },
+      "materials for teachers": {
+        "to": "/materials-teachers",
+        "children": {
+          "Poems for Kids": {
+            "to": "/materials-teachers/poems-kids"
+          },
+          "Poems for Teens": {
+            "to": "/poems-teens"
+          },
+          "Lesson Plans": {
+            "to": "/lesson-plans"
+          },
+          "Essays": {
+            "to": "/essays"
+          },
+          "Teach this Poem": {
+            "to": "/teach-poem"
+          },
+          "Resources": {
+            "to": "/resources"
+          }
+        }
+      },
+      "poetry near you": {
+        "to": "/poetry-near-you"
+      }
+    }
+  },
+  "Academy of American Poets": {
+    "to": "/academy-american-poets",
+    "children": {
+      "programs": {
+        "to": "/academy-american-poets/programs"
+      },
+      "prizes": {
+        "to": "/academy-american-poets/prizes"
+      },
+      "leadership & staff": {
+        "to": "/academy-american-poets/staff",
+        "children": {
+          "Staff": {
+            "to": "/academy-american-poets/staff"
+          },
+          "Chancellors": {
+            "to": "/academy-american-poets/chancellors"
+          },
+          "Board of Directors": {
+            "to": "/academy-american-poets/board-directors"
+          },
+          "Education Advisory Council": {
+            "to": "/academy-american-poets/education-advisory-council"
+          }
+        }
+      },
+      "mission & history": {
+        "to": "/academy-american-poets/mission-history"
+      },
+      "poetry coalition": {
+        "to": "/american-academy-poets/poetry-coalition"
+      },
+      "about us": {
+        "to": "/american-academy-poets/about-us"
+      },
+      "annoucements": {
+        "to": "/american-academy-poets/annoucements"
+      }
+    }
+  },
+  "National Poetry Month": {
+    "to": "/national-poetry-month",
+    "children": {
+      "about the celebration": {
+        "to": "/national-poetry-month/about-celebration"
+      },
+      "national poetry month poster": {
+        "to": "/national-poetry-month/poster"
+      },
+      "poem in your pocket day": {
+        "to": "/national-poetry-month/poem-your-pocket-day"
+      },
+      "dear poet": {
+        "to": "/national-poetry-month/dear-poet"
+      },
+      "programming": {
+        "to": "/national-poetry-month/programming"
+      },
+      "sponsors": {
+        "to": "/national-poetry-month/sponsors"
+      },
+      "faq": {
+        "to": "/national-poetry-month/faq"
+      }
+    }
+  },
+  "American Poets Magazine": {
+    "to": "/american-poets-magazine"
+  }
+}

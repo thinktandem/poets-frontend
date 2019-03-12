@@ -1,19 +1,41 @@
 <template>
   <div>
-    <b-container class="poems-list__filters filters">
-      <b-row class="poems-list__filters-row">
+    <basic-page
+      :body="$store.state.pageData.data.attributes.body"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <div class="bg-white">
+      <b-container class="py-5">
+        <b-row>
+          <b-col md="12">
+            <h2 class="mb-5">Featured Lesson Plans</h2>
+            <lesson-plan-card
+              v-bind="latestPlan"
+            />
+          </b-col>
+        </b-row>
+      </b-container>
+      <card-deck
+        cols="6"
+        cardtype="LessonPlanCard"
+        :cards="featuredLessons.cards"/>
+    </div>
+    <b-container class="plans-list__filters filters">
+      <b-row class="plans-list__filters-row">
         <b-col md="12">
           <b-form
-            class="poems-list__search"
+            class="plans-list__search"
             @submit.stop.prevent="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
-                <div class="poems-list__filters__legend">
+                <div class="plans-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
               </div>
-              <div class="poems-list__input--search">
+              <div class="plans-list__input--search">
                 <b-form-input
                   v-model="combinedInput"
                   type="text"
@@ -29,35 +51,35 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="poems-list tabular-list">
+    <b-container class="plans-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
         <b-col md="3">
-          Year
+          Level
         </b-col>
         <b-col md="6">
           Title
         </b-col>
         <b-col md="3">
-          Author
+          Type
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
-        class="tabular-list__row poems-list__poems"
-        :key="poem.id"
+        v-for="plan in results"
+        class="tabular-list__row plans-list__plans"
+        :key="plan.id"
       >
         <b-col md="3">
-          {{ poem.field_date_published }}
+          {{ plan.field_level }}
         </b-col>
         <b-col md="6">
           <b-link
-            class="poem__link"
-            :to="poem.view_node"
-            v-html="poem.title"
+            class="plan__link"
+            :to="plan.view_node"
+            v-html="plan.title"
           />
         </b-col>
         <b-col
-          v-html="poem.field_author"
+          v-html="plan.field_type"
           md="2"/>
       </b-row>
       <div class="pager">
@@ -74,7 +96,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/audio?page=${Prev}${preparedCombine}`"
+              :href="`/audio?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -87,7 +109,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -101,7 +123,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -115,7 +137,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/audio?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -135,7 +157,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/audio?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -147,7 +169,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/audio?page=${Next}${preparedCombine}`"
+              :href="`/audio?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -163,16 +185,24 @@
 </template>
 
 <script>
+import _ from "lodash";
+import qs from "qs";
+import BasicPage from "~/components/BasicPage";
+import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
+import LessonPlanCard from "~/components/LessonPlanCard";
 
 export default {
   components: {
+    BasicPage,
+    CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    iconSearch,
+    LessonPlanCard
   },
   data() {
     return {
@@ -184,8 +214,72 @@ export default {
     };
   },
   async asyncData({ app, params, query }) {
-    const url = "/api/audio_poems";
-    return searchHelpers.getSearchResults(url, app, query);
+    const url = "/api/lesson_plans";
+    const results = await searchHelpers.getSearchResults(url, app, query);
+    // Get the latest lesson
+    const latestLessonParams = qs.stringify({
+      page: {
+        limit: 1
+      },
+      sort: "-changed",
+      include: "field_level,field_contributors"
+    });
+    const latestPlan = await app.$axios
+      .$get(`/api/node/lesson_plans?${latestLessonParams}`)
+      .then(res => {
+        const plan = _.first(_.get(res, "data"));
+        return {
+          res,
+          plan,
+          component: "LessonPlanCard",
+          title: _.get(plan, "attributes.title"),
+          level: _.get(
+            app.$getRelated(res, plan, "field_level"),
+            "attributes.name"
+          ),
+          meta: _.get(
+            app.$getRelated(res, plan, "field_contributors"),
+            "attributes.body.processed"
+          ),
+          link: _.get(plan, "attributes.path.alias")
+        };
+      });
+    const featureParams = qs.stringify({
+      filter: {
+        field_featured: 1
+      },
+      page: {
+        limit: 4
+      },
+      include: "field_contributors,field_level"
+    });
+    const featured = await app.$axios.$get(
+      `/api/node/lesson_plans?${featureParams}`
+    );
+    return _.merge(results, {
+      latestPlan,
+      featuredLessons: {
+        response: featured,
+        cards: _.map(featured.data, lesson => ({
+          title: _.get(lesson, "attributes.title"),
+          text:
+            _.get(lesson, "attributes.body.summary") ||
+            _.get(lesson, "attributes.body.processed"),
+          link: _.get(lesson, "attributes.path.alias"),
+          level: _.get(
+            app.$getRelated(featured, lesson, "field_level"),
+            "attributes.name"
+          ),
+          meta: _.get(
+            app.$getRelated(featured, lesson, "field_contributors"),
+            "attributes.body.processed"
+          )
+        }))
+      }
+    });
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path).then(async () => {});
   },
   methods: {
     applyFilters() {
@@ -204,7 +298,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poems-list__poems {
+.plans-list__plans {
   font-weight: 400;
   a {
     color: $body-color;
@@ -221,14 +315,14 @@ export default {
   text-transform: uppercase;
   font-weight: 560;
 }
-.poems-list {
+.plans-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-.poems-list__search {
+.plans-list__search {
   margin-top: 2rem;
 }
-.poem__link {
+.plan__link {
   font-weight: 560;
 }
 .legend-selects {
@@ -244,7 +338,7 @@ export default {
   }
 }
 
-.poems-list__filters__legend {
+.plans-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -255,7 +349,7 @@ export default {
   }
 }
 
-.poems-list__input--search {
+.plans-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;

@@ -3,14 +3,23 @@
     <b-container class="py-5">
       <b-row>
         <b-col xl="12">
-          <h1>{{ book.attributes.title }}</h1>
+          <h1>{{ job.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="book.attributes.body.value"
-          class="book__body"
-          xl="12"/>
+          v-html="job.attributes.body.value"
+          class="job__body"
+          xl="8"/>
+      </b-row>
+      <b-row>
+        <b-col xl="8">
+          <b-link
+            :href="job.attributes.link_to_job.uri"
+            target="__job">
+            {{ job.attributes.link_to_job.title }}
+          </b-link>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -18,19 +27,19 @@
 
 <script>
 export default {
-  async asyncData({ app, params }) {
+  async asyncData({ app, store, params }) {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: `${params.vertical}/book/${params.title}`
+          path: `/job/${params.title}`
         }
       })
       .then(res => {
         return app.$axios
-          .get(`/api/node/books/${res.data.entity.uuid}`)
+          .get(`/api/node/job/${res.data.entity.uuid}`)
           .then(res => {
             return {
-              book: res.data.data
+              job: res.data.data
             };
           })
           .catch(err => {
@@ -45,7 +54,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.book__body {
+.job__body {
   font-weight: 400;
   font-size: 1.2em;
 }

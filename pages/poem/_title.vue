@@ -141,9 +141,7 @@ export default {
   },
   async asyncData({ app, params, env }) {
     return app.$axios
-      .$get(
-        `/router/translate-path?path=${params.vertical}/poem/${params.title}`
-      )
+      .$get(`/router/translate-path?path=/poem/${params.title}`)
       .then(async res =>
         app.$axios.$get(
           `/api/node/poems/${
@@ -229,7 +227,7 @@ export default {
         };
       });
   },
-  async fetch({ app, store, params }) {
+  async fetch({ app, store, params, route, menu }) {
     // Set the current hero
     store.commit("updateHero", {
       variant: "default",

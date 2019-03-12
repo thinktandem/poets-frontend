@@ -1,71 +1,68 @@
 <template>
   <div>
-    <b-container class="books-list__filters filters">
-      <b-row class="books-list__filters-row">
+    <b-container class="poems-list__filters filters">
+      <b-row class="poems-list__filters-row">
         <b-col md="12">
           <b-form
-            class="books-list__search"
+            class="poems-list__search"
             @submit.stop.prevent="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
-                <div class="books-list__filters__legend">
+                <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
               </div>
-              <div class="books-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn
-                  class="btn-primary"
-                  @submit.stop.prevent="applyFilters"
-                >
-                  <iconSearch />
-                </b-btn>
+              <div class="poems-list__input--search">
+                <b-input-group>
+                  <b-form-input
+                    v-model="combinedInput"
+                    type="text"
+                    size="22"
+                    placeholder="Search title or text ..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    @click.stop.prevent="applyFilters"
+                  >
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
+                  </b-input-group-append>
+                </b-input-group>
               </div>
             </b-form-group>
           </b-form>
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="books-list tabular-list">
+    <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          md="3">
-          Date
+        <b-col md="4">
+          Name
         </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="3">
+        <b-col md="4">
           Author
+        </b-col>
+        <b-col md="4">
+          Year
         </b-col>
       </b-row>
       <b-row
-        v-for="book in results"
-        class="tabular-list__row books-list__books"
-        :key="book.title"
+        v-for="poem in results"
+        class="tabular-list__row poems-list__poems"
+        :key="poem.id"
       >
-        <b-col
-          class="date"
-          md="3"
-        >
-          {{ book.field_date_published }}
-        </b-col>
-        <b-col
-          class="books-list__books-title"
-          md="6">
+        <b-col md="4">
           <a
-            :href="book.view_node"
-            v-html="book.title"
+            :href="poem.view_node"
+            v-html="poem.title"
           />
         </b-col>
-        <b-col md="3">
-          {{ book.field_author }}
+        <b-col md="4">
+          {{ poem.field_author }}
+        </b-col>
+        <b-col md="4">
+          {{ poem.field_date_published }}
         </b-col>
       </b-row>
       <div class="pager">
@@ -82,7 +79,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/poetsorg/book?page=${Prev}${preparedCombine}`"
+              :href="`/poems?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -95,7 +92,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/poems?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -109,7 +106,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/poems?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -123,7 +120,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/poetsorg/book?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/poems?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -143,7 +140,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/poetsorg/book?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/poems?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -155,7 +152,7 @@
             class="page-item"
           >
             <a
-              :href="`/poetsorg/book?page=${Next}${preparedCombine}`"
+              :href="`/poems?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -174,13 +171,13 @@
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch
+    MagnifyingGlassIcon
   },
   data() {
     return {
@@ -191,8 +188,8 @@ export default {
       preparedCombine: null
     };
   },
-  async asyncData({ app, params, query }) {
-    const url = "/api/books_list";
+  async asyncData({ app, params, query, route }) {
+    const url = "/api/poems";
     return searchHelpers.getSearchResults(url, app, query);
   },
   methods: {
@@ -202,7 +199,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-book",
+        name: "poems",
         query: myQuery
       });
     }
@@ -212,7 +209,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.books-list__books {
+.poems-list__poems {
   font-weight: 400;
   a {
     color: $body-color;
@@ -224,27 +221,13 @@ export default {
     }
   }
 }
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
-.date {
-  color: var(--red-dark);
-}
-.books-list__books-title {
-  min-height: 88px;
-}
-.books-list__books-title a {
-  color: var(--gray-800);
-  font-weight: 560;
-}
-.books-list {
+
+.poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-.books-list__search {
+.poems-list__search {
   margin-top: 2rem;
 }
 
@@ -261,7 +244,7 @@ export default {
   }
 }
 
-.books-list__filters__legend {
+.poems-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -272,7 +255,7 @@ export default {
   }
 }
 
-.books-list__input--search {
+.poems-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;
@@ -321,5 +304,15 @@ export default {
       height: 100%;
     }
   }
+}
+.icon {
+  display: inline;
+  fill: $blue;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.input-group-text {
+  background: transparent;
+  border: none;
 }
 </style>

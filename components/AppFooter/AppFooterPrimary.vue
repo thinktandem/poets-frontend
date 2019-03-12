@@ -78,7 +78,7 @@ export default {
         },
         {
           text: "Audio",
-          url: "/poetsorg/audio"
+          url: "/audio"
         },
         {
           text: "Jobs for Poets",
@@ -86,7 +86,7 @@ export default {
         },
         {
           text: "Materials for Teachers",
-          url: "/poetsorg/materials-teachers"
+          url: "/materials-teachers"
         }
       ],
       linksAcademy: [

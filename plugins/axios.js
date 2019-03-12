@@ -1,4 +1,4 @@
-// import _ from "lodash";
+import _ from "lodash";
 import qs from "qs";
 
 /**
@@ -14,18 +14,22 @@ export default function({ $axios, redirect }) {
       qs.stringify(params, { arrayFormat: "brackets", encode: false });
     return config;
   });
-  // $axios.onResponse(response => {
-  // if (response.status === 207) {
-  // const routerCode = _.get(response, "data.router.headers.status", []);
-  // if (_.indexOf(routerCode, 404) !== -1) {
-  // console.log("Router response was", _.get(response, "data.router.body"));
-  // redirect("/sorry");
-  // }
-  // }
-  // return response;
-  // });
-  // $axios.onError(error => {
-  // console.log(error.response);
-  // redirect("/sorry");
-  // });
+  $axios.onResponse(response => {
+    // Handle decoupled router redirects.
+    if (_.get(response, "data.redirect")) {
+      redirect(_.get(_.first(_.get(response, "data.redirect")), "to"));
+    }
+    // if (response.status === 207) {
+    // const routerCode = _.get(response, "data.router.headers.status", []);
+    // if (_.indexOf(routerCode, 404) !== -1) {
+    // console.log("Router response was", _.get(response, "data.router.body"));
+    // redirect("/sorry");
+    // }
+    // }
+    // return response;
+    // });
+    // $axios.onError(error => {
+    // console.log(error.response);
+    // redirect("/sorry");
+  });
 }

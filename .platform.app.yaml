@@ -1,15 +1,24 @@
-
+# App and type
 name: app
 type: nodejs:10
+
+# Dependencies
 dependencies:
   nodejs:
     yarn: latest
+
+# Disk and mounts
+disk: 4000
+mounts:
+  '/tmp': 'shared:files/tmp'
+
+# Boot up
+web:
+  commands:
+    start: yarn start
+
+# Hooks
 hooks:
   build: |
     yarn install
     yarn build
-size: S
-disk: 256
-web:
-  commands:
-    start: yarn start

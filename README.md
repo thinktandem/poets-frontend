@@ -60,7 +60,7 @@ You can also do this via `lando yarn` but makes more sense to use `yarn` straigh
 Resources
 ---------
 
-For detailed explanation on how all the things work checkout
+For detailed explanation on how all the things work checkout:
 
 * [Nuxt.js docs](https://github.com/nuxt/nuxt.js)
 * [Vue.js docs](https://vuejs.org/v2/guide/)
