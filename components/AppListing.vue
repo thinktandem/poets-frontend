@@ -272,32 +272,6 @@ thead {
     text-transform: uppercase;
   }
 }
-.previous-poems__date {
-  font-weight: 400;
-  font-size: 0.9rem;
-}
-.previous-poems__title {
-  font-size: 1.15rem;
-}
-.previous-poems__poet {
-  font-weight: 400;
-}
-.poems-list__poems {
-  font-weight: 400;
-  a {
-    color: $body-color;
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline;
-    }
-  }
-}
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
 .list {
   padding-top: 3rem;
   padding-bottom: 3rem;
