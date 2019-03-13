@@ -94,6 +94,10 @@ export default ({ app }, inject) => {
         store.commit("updateExtendedContent", extendedContent);
         const featuredContent = sections.buildFeaturedContentSection(page);
         store.commit("updateFeaturedContent", featuredContent);
+        // Right now we don't have a field for related content, but pages
+        // May occasionally stick stuff there and we don't want it to bleed.
+        // Make sure you call the additional changes AFTER this function.
+        store.commit("updateRelatedContent", {});
       });
   });
   inject("buildMenu", ({ menu, route, store }) => {
