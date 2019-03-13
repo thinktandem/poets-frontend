@@ -1,7 +1,7 @@
 <template>
   <list-page
     resource-type="prize_or_program"
-    :default-params="params"
+    :default-params="defaultParams"
     :includes="includes"
     :fields="fields"
     :filters="filters"
@@ -12,9 +12,7 @@
 import ListPage from "~/components/ListPage";
 
 export default {
-  components: {
-    ListPage
-  },
+  components: { ListPage },
   data() {
     return {
       includes: {},
@@ -23,7 +21,7 @@ export default {
       },
       defaultParams: {
         filter: {
-          field_program: 0
+          field_program: 1
         }
       },
       filters: [],
@@ -36,6 +34,7 @@ export default {
       ]
     };
   },
+
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
   }
