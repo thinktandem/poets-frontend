@@ -130,13 +130,13 @@ export default {
   head() {
     return {
       title: `${this.poem.attributes.title} | Poets.org`,
-      meta: [
-        {
-          hid: "image",
-          name: "og:image",
-          content: this.socialImage
-        }
-      ]
+      meta: _.map(this.poem.attributes.metatag_normalized, value => {
+        return {
+          hid: value.attributes.name,
+          name: value.attributes.name,
+          content: value.attributes.content
+        };
+      })
     };
   },
   async asyncData({ app, params, env }) {
