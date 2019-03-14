@@ -44,7 +44,8 @@ export default ({ app }, inject) => {
       );
       return {
         src: _.get(file, `links.${imageStyle}.href`, null),
-        alt: _.get(related, "meta.alt", null)
+        alt: _.get(related, "meta.alt", null),
+        title: _.get(related, "meta.title", null)
       };
     }
   );
