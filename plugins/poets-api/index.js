@@ -110,10 +110,10 @@ export default ({ app }, inject) => {
 
         // Set the main page data
         store.commit("updatePageData", {});
-        store.commit("updateSidebarData", {});
-        store.commit("updateHighlightedData", {});
-        store.commit("updateExtendedContent", {});
-        store.commit("updateFeaturedContent", {});
+        store.commit("updateSidebarData", []);
+        store.commit("updateHighlightedData", []);
+        store.commit("updateExtendedContent", []);
+        store.commit("updateFeaturedContent", []);
         store.commit("updateRelatedContent", {});
       });
   });
