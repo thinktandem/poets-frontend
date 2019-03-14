@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import CalloutCard from "~/components/CalloutCard";
 import CardDeck from "~/components/CardDeck";
 import FeatureStack from "~/components/FeatureStack";
@@ -85,9 +86,9 @@ export default {
     VideoBlock
   },
   props: {
-    body: {
-      type: String,
-      default: ""
+    pageData: {
+      type: Object,
+      default: null
     },
     extendedContent: {
       type: Array,
@@ -114,6 +115,11 @@ export default {
       default: function() {
         return [];
       }
+    }
+  },
+  computed: {
+    body() {
+      return _.get(this.pageData, "data.attributes.body");
     }
   }
 };
