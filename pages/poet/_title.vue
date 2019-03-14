@@ -2,7 +2,7 @@
   <div>
     <b-container class="py-5">
       <b-row>
-        <b-col xl="8">
+        <b-col md="8">
           <h1 class="poet__name">
             {{ title }}
           </h1>
@@ -12,14 +12,14 @@
         </b-col>
       </b-row>
       <b-row class="poet__body">
-        <b-col xl="8">
+        <b-col md="8">
           <div
             class="poet__body-content"
             v-html="body.processed"/>
         </b-col>
         <b-col
           class="poet__sidebar"
-          xl="4">
+          md="4">
           <div class="poet__image">
             <figure>
               <b-img
@@ -248,8 +248,8 @@ export default {
   width: 311px;
   box-shadow: 0 6px 0 0 #32d17e;
 }
-@include media-breakpoint-up(xl) {
-  .col-xl-4.poet__sidebar {
+@include media-breakpoint-up(md) {
+  .col-md-4.poet__sidebar {
     position: relative;
     top: -94px;
   }
