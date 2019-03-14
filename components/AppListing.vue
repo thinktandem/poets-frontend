@@ -53,15 +53,14 @@
     <b-row>
       <b-col md="12">
         <b-table
-          selectable
+          hover
           :items="results"
           :sort-by="sort"
           :fields="fields"
           :stacked="stacked"
           :per-page="pageLimit"
           :current-page="currentPage"
-          select-mode="single"
-          @row-selected="rowSelected"/>
+          @row-clicked="rowClicked"/>
         <b-pagination
           align="center"
           :total-rows="resultTotal"
@@ -257,8 +256,9 @@ export default {
           this.resultTotal = _.get(response, "meta.count");
         });
     },
-    rowSelected(items) {
-      this.$router.push(_.get(_.first(items), "path.alias"));
+    rowClicked(items) {
+      console.log(items);
+      this.$router.push(_.get(items, "path.alias"));
     }
   }
 };
@@ -271,6 +271,9 @@ thead {
     font-weight: 600;
     text-transform: uppercase;
   }
+}
+td {
+  cursor: pointer;
 }
 .list {
   padding-top: 3rem;
