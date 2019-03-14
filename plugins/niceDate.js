@@ -5,10 +5,19 @@ export default {
    * @param {string} date
    *   The date to manipulate.
    *
+   * @param {string} format
+   *  Optionally provide format of "year" or "full" full is default.
+   *
    * @return {string}
    */
-  niceDate(date) {
+  niceDate(date, format = "full") {
+    if (date === null) {
+      return "";
+    }
     let niceDate = new Date(date);
+    if (format === "year") {
+      return niceDate.getFullYear();
+    }
     let months = [
       "January",
       "February",

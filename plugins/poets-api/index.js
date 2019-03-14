@@ -44,7 +44,8 @@ export default ({ app }, inject) => {
       );
       return {
         src: _.get(file, `links.${imageStyle}.href`, null),
-        alt: _.get(related, "meta.alt", null)
+        alt: _.get(related, "meta.alt", null),
+        title: _.get(related, "meta.title", null)
       };
     }
   );
@@ -109,10 +110,10 @@ export default ({ app }, inject) => {
 
         // Set the main page data
         store.commit("updatePageData", {});
-        store.commit("updateSidebarData", {});
-        store.commit("updateHighlightedData", {});
-        store.commit("updateExtendedContent", {});
-        store.commit("updateFeaturedContent", {});
+        store.commit("updateSidebarData", []);
+        store.commit("updateHighlightedData", []);
+        store.commit("updateExtendedContent", []);
+        store.commit("updateFeaturedContent", []);
         store.commit("updateRelatedContent", {});
       });
   });

@@ -5,15 +5,6 @@
   >
     <b-container class="mx-auto my-1">
       <p class="text-center text-uppercase promo__disclosure">Advertisment</p>
-      <!-- <b-img
-        class="mx-auto my-2 promo__image"
-        fluid
-        center
-        blank
-        blank-color="#F1E7D6"
-        width="975"
-        height="250"/> -->
-      <!-- <AdUnit :adunit="whichPromoSpace()"/> -->
       <div
         :id="divId"
         class="gpt-ad-unit"
@@ -34,8 +25,8 @@ export default {
       windowResizeListenerDebounce: null,
       ghostMode: false,
       adUnit: this.whichPromoSpace(),
-      size: [[728, 90], [300, 250], [180, 150]],
-      sizeMapping: [
+      size: this.mySize() || [[728, 90], [300, 250], [180, 150]],
+      sizeMapping: this.mySize() || [
         [[1024, 0], [728, 90]],
         [[375, 0], [300, 250]],
         [[0, 0], [180, 150]]
@@ -49,6 +40,10 @@ export default {
     variant: {
       type: String,
       default: "dark"
+    },
+    dimensions: {
+      type: String,
+      default: ""
     }
   },
   computed: {
@@ -89,6 +84,17 @@ export default {
     }
   },
   methods: {
+    mySize() {
+      if (this.dimensions === "square") {
+        return [
+          [[1024, 0], [300, 250]],
+          [[375, 0], [300, 250]],
+          [[0, 0], [300, 250]]
+        ];
+      } else {
+        return null;
+      }
+    },
     /*
      * Formats a given size to make it compatible with GPT
      *   If size is an Array, it is returned as is

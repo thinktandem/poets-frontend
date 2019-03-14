@@ -2,7 +2,7 @@
   <div>
     <b-container class="py-5">
       <b-row>
-        <b-col xl="8">
+        <b-col md="8">
           <span class="person__type">Contributor</span>
           <h1>{{ person.attributes.title }}</h1>
         </b-col>
@@ -11,8 +11,8 @@
         <b-col
           v-html="person.attributes.body.processed"
           class="book__body"
-          xl="8"/>
-        <b-col xl="4">
+          md="8"/>
+        <b-col md="4">
           <div class="person__image">
             <b-img
               :src="image.src"
@@ -22,22 +22,22 @@
       </b-row>
       <b-row
         class="person__related-texts-rows"
-        xl="8">
+        md="8">
         <b-container
           class="books-list tabular-list"
           v-if="relatedTexts.length !== 0">
           <b-row>
-            <b-col xl="12">
+            <b-col md="12">
               <h3 class="person__related-texts-title">Texts</h3>
             </b-col>
           </b-row>
           <b-row
             class="tabular-list__row tabular-list__header">
             <b-col
-              xl="4">
+              md="4">
               Date
             </b-col>
-            <b-col xl="8">
+            <b-col md="8">
               Title
             </b-col>
           </b-row>
@@ -48,13 +48,13 @@
           >
             <b-col
               class="date"
-              xl="4"
+              md="4"
             >
               {{ niceDate(text.attributes.field_date_published) }}
             </b-col>
             <b-col
               class="books-list__books-title"
-              xl="8">
+              md="8">
               <a
                 :href="text.attributes.path.alias"
                 v-html="text.attributes.title"
@@ -65,22 +65,22 @@
       </b-row>
       <b-row
         class="person__related-texts-rows"
-        xl="8">
+        md="8">
         <b-container
           class="books-list tabular-list"
           v-if="relatedLP.length !== 0">
           <b-row>
-            <b-col xl="12">
+            <b-col md="12">
               <h3 class="person__related-texts-title">Lesson Plans</h3>
             </b-col>
           </b-row>
           <b-row
             class="tabular-list__row tabular-list__header">
             <b-col
-              xl="4">
+              md="4">
               Date
             </b-col>
-            <b-col xl="8">
+            <b-col md="8">
               Title
             </b-col>
           </b-row>
@@ -91,13 +91,13 @@
           >
             <b-col
               class="date"
-              xl="4"
+              md="4"
             >
               {{ niceDate(lp.attributes.field_date_published) }}
             </b-col>
             <b-col
               class="books-list__books-title"
-              xl="8">
+              md="8">
               <a
                 :href="lp.attributes.path.alias"
                 v-html="lp.attributes.title"
@@ -109,17 +109,17 @@
           class="books-list tabular-list"
           v-if="relatedAnnouncements.length !== 0">
           <b-row>
-            <b-col xl="12">
+            <b-col md="12">
               <h3 class="person__related-texts-title">Announcements</h3>
             </b-col>
           </b-row>
           <b-row
             class="tabular-list__row tabular-list__header">
             <b-col
-              xl="4">
+              md="4">
               Date
             </b-col>
-            <b-col xl="8">
+            <b-col md="8">
               Title
             </b-col>
           </b-row>
@@ -130,13 +130,13 @@
           >
             <b-col
               class="date"
-              xl="4"
+              md="4"
             >
               {{ niceDate(ann.attributes.changed) }}
             </b-col>
             <b-col
               class="books-list__books-title"
-              xl="8">
+              md="8">
               <a
                 :href="ann.attributes.path.alias"
                 v-html="ann.attributes.title"
@@ -157,7 +157,7 @@ export default {
   async asyncData({ app, params }) {
     const attributes = await app.$axios
       .get(
-        `/router/translate-path?path=${params.vertical}/contributor/${
+        `/router/translate-path?path=/academy-american-poets/contributor/${
           params.title
         }`
       )
@@ -265,8 +265,8 @@ export default {
   box-shadow: 0 6px 0 0 #ffa02f;
 }
 
-@include media-breakpoint-up(xl) {
-  .col-xl-4 .person__image {
+@include media-breakpoint-up(md) {
+  .col-md-4 .person__image {
     position: relative;
     top: -94px;
   }
