@@ -83,8 +83,8 @@ export default {
     padding: 0;
   }
   .empty-div {
-    min-height: 384px;
-    min-width: 388px;
+    min-height: 284px;
+    min-width: 282px;
     background-color: var(--gray-900);
   }
   .poet__name {
