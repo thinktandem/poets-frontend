@@ -98,7 +98,23 @@ export default ({ app }, inject) => {
             store.commit("updateRelatedContent", {});
           });
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        store.commit("updateHero", {
+          variant: "quote",
+          lead:
+            "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
+          subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
+        });
+
+        // Set the main page data
+        store.commit("updatePageData", {});
+        store.commit("updateSidebarData", {});
+        store.commit("updateHighlightedData", {});
+        store.commit("updateExtendedContent", {});
+        store.commit("updateFeaturedContent", {});
+        store.commit("updateRelatedContent", {});
+      });
   });
   inject("buildMenu", ({ menu, route, store }) => {
     const transformTree = menu => {
