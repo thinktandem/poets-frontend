@@ -64,37 +64,57 @@ export default ({ app }, inject) => {
       "field_content_sections.side_image.field_image",
       "featured.featured_media.field_image"
     ].join(",");
-    const routerResponse = await app.$axios.$get(
-      `/router/translate-path?path=${path}`
-    );
     return app.$axios
-      .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)
-      .then(response => {
-        let page = response;
-        if (page.data.attributes.body !== null) {
-          page.data.attributes.body.processed = imgUrl.staticUrl(
-            page.data.attributes.body.processed
-          );
-        }
+      .$get(`/router/translate-path?path=${path}`)
+      .then(routerResponse => {
+        return app.$axios
+          .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)
+          .then(response => {
+            let page = response;
+            if (_.get(page, "data.attributes.body.processed")) {
+              page.data.attributes.body.processed = imgUrl.staticUrl(
+                page.data.attributes.body.processed
+              );
+            }
 
+            store.commit("updateHero", {
+              variant: "default",
+              heading: _.get(page, "data.attributes.title"),
+              lead: _.get(page, "data.attributes.lead_text")
+            });
+            // Set the main page data
+            store.commit("updatePageData", page);
+            const sidebarData = sections.buildSidebar(page);
+            store.commit("updateSidebarData", sidebarData);
+            // Handle the content in the 'highlighted' area.
+            const highlightedData = sections.buildHighlightedData(page);
+            store.commit("updateHighlightedData", highlightedData);
+            const extendedContent = sections.buildExtendedContentSection(page);
+            store.commit("updateExtendedContent", extendedContent);
+            const featuredContent = sections.buildFeaturedContentSection(page);
+            store.commit("updateFeaturedContent", featuredContent);
+            // Right now we don't have a field for related content, but pages
+            // May occasionally stick stuff there and we don't want it to bleed.
+            // Make sure you call the additional changes AFTER this function.
+            store.commit("updateRelatedContent", {});
+          });
+      })
+      .catch(error => {
+        console.log(error);
         store.commit("updateHero", {
-          variant: "default",
-          heading: page.data.attributes.title,
-          lead: page.data.attributes.hasOwnProperty("lead_text")
-            ? page.data.attributes.lead_text
-            : null
+          variant: "quote",
+          lead:
+            "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
+          subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
         });
+
         // Set the main page data
-        store.commit("updatePageData", page);
-        const sidebarData = sections.buildSidebar(page);
-        store.commit("updateSidebarData", sidebarData);
-        // Handle the content in the 'highlighted' area.
-        const highlightedData = sections.buildHighlightedData(page);
-        store.commit("updateHighlightedData", highlightedData);
-        const extendedContent = sections.buildExtendedContentSection(page);
-        store.commit("updateExtendedContent", extendedContent);
-        const featuredContent = sections.buildFeaturedContentSection(page);
-        store.commit("updateFeaturedContent", featuredContent);
+        store.commit("updatePageData", {});
+        store.commit("updateSidebarData", {});
+        store.commit("updateHighlightedData", {});
+        store.commit("updateExtendedContent", {});
+        store.commit("updateFeaturedContent", {});
+        store.commit("updateRelatedContent", {});
       });
   });
   inject("buildMenu", ({ menu, route, store }) => {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <BasicPage
-      :body="$store.state.pageData.data.attributes.body"
+      :page-data="$store.state.pageData"
       highlighted=""/>
     <b-container>
       <b-row>
