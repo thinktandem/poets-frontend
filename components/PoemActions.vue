@@ -36,8 +36,12 @@
           <img src="/social/embed.svg">
         </b-link>
       </li>
-      <li class="pr-2">
-        <b-link>
+      <li
+        v-show="loggedIn"
+        class="pr-2">
+        <b-link
+          @click="handleAnthologies"
+          v-b-modal.add2Anthology>
           <img src="/social/collection.svg">
         </b-link>
       </li>
@@ -62,15 +66,53 @@
           @click="copyEmbed">Copy to clipboard</b-btn>
       </template>
     </b-modal>
+
+    <b-modal
+      :busy="!anthologyIsSubmittable"
+      centered
+      header-border-variant="0"
+      id="add2Anthology"
+      lazy
+      ok-only
+      ok-title="Submit"
+      size="lg"
+      @shown="clearAnthologyForm"
+      title="add to an anthology">
+      <b-form>
+        <b-form-select
+          :disabled="anthologies.loading"
+          v-model="anthologies.selected"
+          v-show="!showNewAnthology"
+          :options="anthologies.options">
+          <template slot="first">
+            <option :value="null">select an anthology</option>
+          </template>
+          <option value="_new_">create new anthology</option>
+        </b-form-select>
+        <b-form-input
+          v-model="anthologies.custom"
+          v-show="showNewAnthology"
+          type="text"
+          placeholder="Name your new anthology" />
+      </b-form>
+    </b-modal>
   </div>
 </template>
 <script>
+import _ from "lodash";
+import qs from "qs";
 import FacebookIcon from "~/static/social/facebook.svg";
 import TwitterIcon from "~/static/social/twitter.svg";
 import TumblrIcon from "~/static/social/tumblr.svg";
 import PrintIcon from "~/static/social/print.svg";
 import EmbedIcon from "~/static/social/embed.svg";
 import CollectionIcon from "~/static/social/collection.svg";
+
+// Helper to validate anthologies
+const validateAnthology = (data = {}) => {
+  return _.has(data, "id") && _.has(data, "attributes.title");
+};
+
 export default {
   components: {
     FacebookIcon,
@@ -79,6 +121,18 @@ export default {
     PrintIcon,
     EmbedIcon,
     CollectionIcon
+  },
+  data() {
+    return {
+      siteUri: encodeURIComponent(`https://www.poets.org${this.poem.alias}`),
+      title: encodeURIComponent(this.poem.title),
+      anthologies: {
+        options: [],
+        selected: null,
+        custom: null,
+        loading: true
+      }
+    };
   },
   props: {
     orientation: {
@@ -114,16 +168,33 @@ export default {
       return `<iframe width='575' height='1100' src='${
         this.siteUri
       }?mbd=1' frameborder='0' scrolling='no' allowfullscreen></iframe>`;
+    },
+    // We use this to verify user is both logged in and has an ID
+    // @todo: show the button and present the login form when a user is not loggedin
+    // @todo: this requires some login redirection handling work
+    loggedIn() {
+      return this.$auth.loggedIn && !!_.get(this.$auth, "user.id", false);
+    },
+    showNewAnthology() {
+      return this.anthologies.selected === "_new_";
+    },
+    anthologyIsSubmittable() {
+      if (this.anthologies.selected === null) {
+        return false;
+      }
+      if (this.showNewAnthology && this.anthologies.custom === null) {
+        return false;
+      }
+      return true;
+    },
+    userId() {
+      return _.get(this.$auth, "user.id", null);
     }
   },
-  data() {
-    return {
-      siteUri: encodeURIComponent(`https://www.poets.org${this.poem.alias}`),
-      title: encodeURIComponent(this.poem.title),
-      email: ""
-    };
-  },
   methods: {
+    clearAnthologyForm() {
+      this.anthologies.selected = null;
+    },
     copyEmbed() {
       const copyTextarea = document.querySelector(".poem-a-day__embed-code");
       copyTextarea.focus();
@@ -135,8 +206,38 @@ export default {
         console.log("Oops, unable to copy");
       }
     },
+    getMyAnthologies() {
+      // If we already have options, lets just return those
+      if (!_.isEmpty(this.anthologies.options)) {
+        return Promise.resolve(this.anthologies.options);
+      }
+
+      // Otherwise let's grab the anthologies from the API
+      const query = { filter: { "uid.id": this.userId, status: 1 } };
+      const queryString = qs.stringify(query);
+      return this.$axios
+        .get(`/api/node/anthologies?${queryString}`)
+        .then(response => _.get(response, "data.data", []))
+        .catch(err => [])
+        .then(anthologies =>
+          _(anthologies)
+            .filter(anthology => validateAnthology(anthology))
+            .map(anthology => ({
+              text: _.get(anthology, "attributes.title"),
+              value: _.get(anthology, "id")
+            }))
+            .value()
+        );
+    },
     print() {
       window.print();
+    },
+    handleAnthologies() {
+      this.anthologies.loading = true;
+      this.getMyAnthologies().then(data => {
+        this.anthologies.options = data;
+        this.anthologies.loading = false;
+      });
     }
   }
 };

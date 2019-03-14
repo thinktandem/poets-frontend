@@ -104,7 +104,7 @@ export default class DrupalScheme {
    */
   _setToken(token) {
     // Set Authorization token for all axios requests
-    this.$auth.ctx.app.$axios.setHeader(this.options.tokenName, token);
+    this.$auth.ctx.app.$axios.setHeader("Authorization", token);
   }
 
   /**
@@ -114,7 +114,7 @@ export default class DrupalScheme {
    */
   _clearToken() {
     // Clear Authorization token for all axios requests
-    this.$auth.ctx.app.$axios.setHeader(this.options.tokenName, false);
+    this.$auth.ctx.app.$axios.setHeader("Authorization", false);
   }
 
   /**
