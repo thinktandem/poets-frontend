@@ -1,7 +1,7 @@
 <template>
   <list-page
     resource-type="prize_or_program"
-    :default-params="params"
+    :default-params="defaultParams"
     :includes="includes"
     :fields="fields"
     :filters="filters"

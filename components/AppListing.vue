@@ -253,7 +253,7 @@ export default {
         .then(response => {
           this.rawResponse = response;
           this.results = this.formatResults(response);
-          this.resultTotal = _.get(response, "meta.count");
+          this.resultTotal = parseInt(_.get(response, "meta.count", 0));
         });
     },
     rowClicked(items) {

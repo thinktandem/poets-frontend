@@ -24,7 +24,7 @@
             :title="callToAction.title"
             :action="callToAction.action"/>
           <card-deck
-            v-if="more !== null"
+            v-if="more.length >= 1"
             cols="6"
             class="pt-5"
             :cardtype="more.cardType"
@@ -48,6 +48,7 @@
       title="Featured"
       :features="features"/>
     <component
+      v-if="extendedContent.length >= 1"
       class="py-3"
       v-for="(item, index) in extendedContent"
       :key="index"

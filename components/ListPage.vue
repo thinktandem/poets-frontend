@@ -1,7 +1,7 @@
 <template>
   <div>
     <basic-page
-      :body="$store.state.pageData.data.attributes.body"
+      :page-data="$store.state.pageData"
       :extended-content="$store.state.extendedContent"
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
