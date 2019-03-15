@@ -296,7 +296,8 @@ export default {
           },
           page: {
             limit: this.pageLimit * 3
-          }
+          },
+          sort: "-created"
         },
         // Param overrides from props
         this.defaultParams
