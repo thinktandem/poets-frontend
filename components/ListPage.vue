@@ -8,6 +8,7 @@
       :sidebar-data="$store.state.sidebarData"/>
     <app-listing
       resource-type="prize_or_program"
+      :details="details"
       :default-params="defaultParams"
       :includes="includes"
       :filters="filters"
@@ -27,6 +28,10 @@ export default {
     BasicPage
   },
   props: {
+    details: {
+      type: Object,
+      default: () => {}
+    },
     includes: {
       type: Object,
       default: null
@@ -54,6 +59,3 @@ export default {
   }
 };
 </script>
-
-<style lang="css" scoped>
-</style>
