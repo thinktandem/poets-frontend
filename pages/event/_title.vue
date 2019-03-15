@@ -46,6 +46,8 @@
             <b-button
               v-if="registerLink"
               variant="primary-dark"
+              target="_blank"
+              class="external"
               size="lg"
               :href="registerLink.uri"
             >{{ registerLink.title }}</b-button>
