@@ -1,5 +1,6 @@
 <template>
   <list-page
+    :details="details"
     resource-type="prize_or_program"
     :default-params="defaultParams"
     :includes="includes"
@@ -21,6 +22,7 @@ export default {
       fields: {
         title: { label: "Name" }
       },
+      details: {},
       defaultParams: {
         filter: {
           field_program: 0
