@@ -2,7 +2,7 @@
   <div>
     <b-container class="py-5">
       <b-row>
-        <b-col md="7">
+        <b-col lg="7">
           <h1>{{ title }}</h1>
           <b-img-lazy
             right
@@ -17,9 +17,9 @@
         </b-col>
         <b-col
           tag="aside"
-          md="4"
+          lg="4"
           class="event__aside"
-          offset-md="1">
+          offset-lg="1">
           <div class="event-date-time mt-3 pb-3">
             <h3 class="event__field-header">Date and Time</h3>
             <div class="event__field-body">
@@ -69,14 +69,49 @@
 
     <b-container class="events-list tabular-list">
       <h2 class="font-serif">Poetry Near You</h2>
-      list goes here
+      <app-listing
+        resource-type="events"
+        :details="details"
+        :default-params="defaultParams"
+        :includes="includes"
+        :filters="filters"
+        :searchable="searchable"
+        :fields="fields"/>
     </b-container>
   </div>
 </template>
 
 <script>
 import _ from "lodash";
+import AppListing from "~/components/AppListing";
 export default {
+  layout: "default",
+  components: { AppListing },
+  data() {
+    return {
+      details: {
+        body: {},
+        event_start_time: {},
+        field_location: {},
+        register_link: {}
+      },
+      includes: {},
+      fields: {
+        field_event_date: { label: "Date" },
+        title: { label: "Name" },
+        field_location: { label: "Location" }
+      },
+      defaultParams: {},
+      filters: [],
+      searchable: [
+        { field: "title", label: "name" },
+        {
+          field: "body.value",
+          label: "text"
+        }
+      ]
+    };
+  },
   async asyncData({ app, route }) {
     const routerResponse = await app.$axios.$get(
       `/router/translate-path?path=${route.path}`
