@@ -63,6 +63,21 @@
           :current-page="currentPage"
           @row-clicked="rowClicked">
           <template
+            slot="title"
+            slot-scope="data">
+            <b-link
+              v-if="hasDetails"
+              :to="data.item.path.alias">{{ data.item.title }}</b-link>
+            <span v-else>{{ data.item.title }}</span>
+          </template>
+          <template
+            slot="field_location"
+            slot-scope="data">
+            <span v-if="data.item.field_location.locality">{{ data.item.field_location.locality
+            }},&nbsp;</span>
+            <span v-if="data.item.field_location.administrative_area">{{ data.item.field_location.administrative_area }}</span>
+          </template>
+          <template
             slot="show_details"
             slot-scope="row">
             <a @click="row.toggleDetails">
