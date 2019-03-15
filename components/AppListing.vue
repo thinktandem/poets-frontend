@@ -73,9 +73,8 @@
           <template
             slot="field_location"
             slot-scope="data">
-            <span v-if="data.item.field_location.locality">{{ data.item.field_location.locality
-            }},&nbsp;</span>
-            <span v-if="data.item.field_location.administrative_area">{{ data.item.field_location.administrative_area }}</span>
+            <span v-if="data.item.field_location">{{ data.item.field_location.locality }},&nbsp;</span>
+            <span v-if="data.item.field_location">{{ data.item.field_location.administrative_area }}</span>
           </template>
           <template
             slot="show_details"
