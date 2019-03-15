@@ -1,15 +1,6 @@
 <template>
   <div>
     <b-container class="jobs-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          xl="4">
-          Title
-        </b-col>
-        <b-col xl="8">
-          Description
-        </b-col>
-      </b-row>
       <b-row
         v-for="job in results"
         class="tabular-list__row jobs-list__jobs"
@@ -17,13 +8,14 @@
       >
         <b-col
           class="jobs-list__jobs-title"
-          xl="4">
-          <a
-            :href="job.path"
+          md="4">
+          <b-link
+            :href="job.link"
             v-html="job.title"
+            target="__poet_job"
           />
         </b-col>
-        <b-col xl="8">
+        <b-col md="8">
           <div v-html="job.body"/>
         </b-col>
       </b-row>
