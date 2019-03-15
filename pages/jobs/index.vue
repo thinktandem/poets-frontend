@@ -1,5 +1,11 @@
 <template>
   <div>
+    <BasicPage
+      :page-data="$store.state.pageData"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
     <b-container class="jobs-list tabular-list">
       <b-row
         v-for="job in results"
@@ -123,11 +129,13 @@
 
 <script>
 import searchHelpers from "~/plugins/search-helpers";
+import BasicPage from "~/components/BasicPage";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 
 export default {
   components: {
+    BasicPage,
     iconMediaSkipBackwards,
     iconMediaSkipForwards
   },
