@@ -154,13 +154,6 @@ export default {
                     operator: "<>",
                     value: res.data.data.id
                   },
-                  require_image: {
-                    condition: {
-                      path: "field_image.id",
-                      operator: "<>",
-                      value: ""
-                    }
-                  },
                   schools: {
                     condition: {
                       path: "field_school_movement.id",
