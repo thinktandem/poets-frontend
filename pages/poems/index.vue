@@ -201,14 +201,17 @@ export default {
     };
   },
   async asyncData({ app, params, query, route }) {
+    const url = "/api/poems";
+    return searchHelpers.getSearchResults(url, app, query);
+  },
+  async fetch({ app, store, params, query }) {
     const authors = await filterHelpers.getFilterOptions(
       app,
       "/api/node/poems",
-      "'fields[node--field_author]': 'drupal_internal__nid,name'",
+      "'fields[node--field_author]': 'drupal_internal__nid,title'",
       "node"
     );
-    const url = "/api/poems";
-    return searchHelpers.getSearchResults(url, app, query);
+    store.commit("updateAuthors", states.authors.options);
   },
   methods: {
     applyFilters() {
