@@ -259,7 +259,8 @@ export default {
               bio:
                 _.get(row, "attributes.body.summary", null) ||
                 _.get(row, "attributes.body.processed", null),
-              img: app.$buildImg(res.data, row, "field_image", "portrait")
+              img: app.$buildImg(res.data, row, "field_image", "portrait"),
+              link: _.get(row, "attributes.path.alias", null)
             };
           })
         };
