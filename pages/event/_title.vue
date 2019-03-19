@@ -86,6 +86,8 @@
 <script>
 import _ from "lodash";
 import AppListing from "~/components/AppListing";
+import MetaTags from "~/plugins/metatags";
+
 export default {
   layout: "default",
   components: { AppListing },
@@ -113,6 +115,9 @@ export default {
         }
       ]
     };
+  },
+  head() {
+    return MetaTags.renderTags(this.tags);
   },
   async asyncData({ app, route }) {
     const routerResponse = await app.$axios.$get(
@@ -148,7 +153,8 @@ export default {
           ),
           zip: _.get(event, "data.attributes.field_location.postal_code")
         },
-        mapLink: _.get(event, "data.attributes.link_google_map.uri")
+        mapLink: _.get(event, "data.attributes.link_google_map.uri"),
+        tags: _.get(event, "data.attributes.metatag_normalized")
       }));
   },
   async fetch({ store }) {

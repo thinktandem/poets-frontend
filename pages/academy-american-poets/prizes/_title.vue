@@ -165,8 +165,12 @@
 
 <script>
 import _ from "lodash";
+import MetaTags from "~/plugins/metatags";
 
 export default {
+  head() {
+    return MetaTags.renderTags(this.prize.tags);
+  },
   async asyncData({ app, route }) {
     const routerResponse = await app.$axios.$get(
       `/router/translate-path?path=${route.path}`
@@ -201,7 +205,8 @@ export default {
       prize: {
         title: _.get(prize, "data.attributes.title"),
         body: _.get(prize, "data.attributes.body.processed"),
-        image: app.$buildImg(prize, null, "field_image", "media_aside_lg")
+        image: app.$buildImg(prize, null, "field_image", "media_aside_lg"),
+        tags: _.get(prize, "data.attributes.metatag_normalized")
       }
     };
   },

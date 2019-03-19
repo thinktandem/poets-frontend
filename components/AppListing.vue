@@ -115,6 +115,8 @@
                 </address>
                 <b-button
                   v-if="row.item.register_link"
+                  target="_blank"
+                  class="external"
                   variant="primary-dark"
                   size="lg"
                   :href="row.item.register_link.uri"

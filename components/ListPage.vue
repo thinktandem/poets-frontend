@@ -7,7 +7,7 @@
       :more="$store.state.relatedContent"
       :sidebar-data="$store.state.sidebarData"/>
     <app-listing
-      resource-type="prize_or_program"
+      :resource-type="resourceType"
       :details="details"
       :default-params="defaultParams"
       :includes="includes"
