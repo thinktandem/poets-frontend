@@ -61,28 +61,36 @@ export default {
     return {
       linksPoets: [
         {
-          text: "Contact",
-          url: "/academy-american-poets/contact-us"
+          text: "Find Poems",
+          url: "/poems"
         },
         {
-          text: "About Us",
-          url: "/academy-american-poets/about-us"
+          text: "Find Poets",
+          url: "/poets"
         },
         {
-          text: "For Advertisers",
-          url: "/academy-american-poets/advertise-us"
+          text: "Poems for Kids",
+          url: "/materials-teachers/poems-kids"
         },
         {
-          text: "Press Center",
-          url: "/academy-american-poets/press-center"
+          text: "Poetry Near You",
+          url: "/poetry-near-you"
+        },
+        {
+          text: "Read Stanza",
+          url: "/stanza"
         },
         {
           text: "Audio",
           url: "/audio"
         },
         {
+          text: "Texts",
+          url: "/texts"
+        },
+        {
           text: "Jobs for Poets",
-          url: "#"
+          url: "/jobs"
         },
         {
           text: "Materials for Teachers",
@@ -91,56 +99,77 @@ export default {
       ],
       linksAcademy: [
         {
-          text: "Contact",
-          url: "/academy-american-poets/contact-us"
+          text: "Programs",
+          url: "/academy-american-poets/programs"
         },
         {
-          text: "About Us",
-          url: "/academy-american-poets/about-us"
+          text: "Prizes",
+          url: "/academy-american-poets/american-poets-prizes"
         },
         {
-          text: "For Advertisers",
-          url: "/academy-american-poets/advertise-us"
+          text: "The Walt Whitman Award",
+          url: "/academy-american-poets/prizes/walt-whitman-award"
         },
         {
-          text: "Press Center",
-          url: "/academy-american-poets/press-center"
+          text: "James Laughlin Award",
+          url: "/academy-american-poets/prizes/james-laughlin-award"
+        },
+        {
+          text: "Ambroggio Prize",
+          url: "/academy-american-poets/prizes/ambroggio-prize"
+        },
+        {
+          text: "Chancellors",
+          url: "/academy-american-poets/chancellors"
+        },
+        {
+          text: "Mission & History",
+          url: "/academy-american-poets/mission-history"
+        },
+        {
+          text: "Staff",
+          url: "/academy-american-poets/staff"
         }
       ],
       linksPoetryMonth: [
         {
-          text: "Contact",
-          url: "#"
+          text: "Poetry & the Creative Mind",
+          url: "/academy-american-poets/programs/poetry-creative-mind"
         },
         {
-          text: "About Us",
-          url: "/national-poetry-month/about-celebration"
+          text: "Dear Poet Project",
+          url: "/national-poetry-month/dear-poet-project-2019"
         },
         {
-          text: "For Advertisers",
-          url: "#"
+          text: "Poster",
+          url: "/national-poetry-month/form/poster-request-form"
         },
         {
-          text: "Press Center",
-          url: "#"
+          text: "30 Ways to Celebrate",
+          url: "/national-poetry-month/30-ways-celebrate-national-poetry-month"
+        },
+        {
+          text: "Sponsorship",
+          url: "/national-poetry-month/sponsors-partners"
         }
       ],
       linksAmericanPoets: [
         {
-          text: "Contact",
-          url: "#"
+          text: "Books Noted",
+          url: "/american-poets-magazine/books-noted"
         },
         {
-          text: "About Us",
-          url: "/american-poets-magazine"
+          text: "Essays",
+          url: "/american-poets-magazine/previous_magazines"
         },
         {
-          text: "For Advertisers",
+          text: "Back Issues",
+          url:
+            "https://poets.myshopify.com/collections/american-poets-backissues"
+        },
+        {
+          text: "Advertise",
           url: "/american-poets-magazine/advertising-american-poets"
-        },
-        {
-          text: "Press Center",
-          url: "#"
         }
       ]
     };

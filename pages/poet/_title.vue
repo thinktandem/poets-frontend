@@ -74,7 +74,8 @@
         </b-col>
       </b-row>
     </b-container>
-    <card-deck
+    <CardDeck
+      v-if="poemsBy"
       col-size="md"
       class="bg-primary py-5"
       title="By This Poet"
@@ -82,10 +83,10 @@
       :cards="poemsBy"
       :link="poemsByLink"/>
     <CardDeck
+      v-if="relatedPoets"
       title="Related Poets"
       cardtype="Poet"
-      :cards="relatedPoets"
-    />
+      :cards="relatedPoets"/>
   </div>
 </template>
 
@@ -141,55 +142,59 @@ export default {
         const poemsBy = await app.$axios.$get(
           `/api/node/poems?${poemsByParams}`
         );
-        const relatedPoets = await app.$axios
-          .get("/api/node/person", {
-            params: {
-              filter: {
-                status: 1,
-                field_p_type: "poet",
-                id: {
-                  operator: "<>",
-                  value: res.data.data.id
-                },
-                require_image: {
-                  condition: {
-                    path: "field_image.id",
+        let relatedPoets = null;
+        if (schoolsMovements.length > 0) {
+          relatedPoets = await app.$axios
+            .get("/api/node/person", {
+              params: {
+                filter: {
+                  status: 1,
+                  field_p_type: "poet",
+                  id: {
                     operator: "<>",
-                    value: ""
+                    value: res.data.data.id
+                  },
+                  schools: {
+                    condition: {
+                      path: "field_school_movement.id",
+                      operator: "=",
+                      value: schoolsMovements[0].id
+                    }
                   }
                 },
-                schools: {
-                  condition: {
-                    path: "field_school_movement.id",
-                    operator: "=",
-                    value: schoolsMovements[0].id
-                  }
-                }
-              },
-              page: {
-                limit: 6
-              },
-              sort: "-field_featured",
-              include: "field_image"
-            }
-          })
-          .then(res => {
-            return {
-              rows: _.map(_.get(res, "data.data"), row => {
-                return {
-                  row,
-                  name: _.get(row, "attributes.title", null),
-                  bio:
-                    _.get(row, "attributes.body.summary", null) ||
-                    _.get(row, "attributes.body.processed", null),
-                  img: app.$buildImg(res.data, row, "field_image", "portrait")
-                };
-              })
-            };
-          })
-          .catch(err => {
-            console.log(err);
-          });
+                page: {
+                  limit: 6
+                },
+                sort: "-field_featured",
+                include: "field_image"
+              }
+            })
+            .then(res => {
+              return {
+                res,
+                rows: _.map(_.get(res, "data.data"), row => {
+                  return {
+                    row,
+                    name: _.get(row, "attributes.title", null),
+                    bio:
+                      _.get(row, "attributes.body.summary", null) ||
+                      _.get(row, "attributes.body.processed", null) ||
+                      "",
+                    img: app.$buildImg(
+                      res.data,
+                      row,
+                      "field_image",
+                      "portrait"
+                    ),
+                    link: _.get(row, "attributes.path.alias")
+                  };
+                })
+              };
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
 
         return {
           dob: res.data.data.attributes.field_dob,
@@ -214,7 +219,8 @@ export default {
             to: "/poems",
             text: poemsBy.meta.count
           },
-          relatedPoets: relatedPoets.rows
+          relatedPoets:
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
         };
       })
       .catch(err => {

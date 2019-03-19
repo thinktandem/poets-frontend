@@ -17,27 +17,42 @@
           <img src="/social/twitter.svg">
         </b-link>
       </li>
-      <li class="pr-2">
+      <li
+        v-if="minimal">
         <b-link
           target="_blank"
           :href="tumblrUrl">
           <img src="/social/tumblr.svg">
         </b-link>
       </li>
-      <li class="pr-2">
+      <li
+        v-else
+        class="pr-2">
+        <b-link
+          target="_blank"
+          :href="tumblrUrl">
+          <img src="/social/tumblr.svg">
+        </b-link>
+      </li>
+      <li
+        v-if="!minimal"
+        class="pr-2">
         <b-link
           target="_blank"
           :to="`/print/poem/${poem.id}`">
           <img src="/social/print.svg">
         </b-link>
       </li>
-      <li class="pr-2">
+      <li
+        v-if="!minimal"
+        class="pr-2">
         <b-link v-b-modal.poemEmbedModal>
           <img src="/social/embed.svg">
         </b-link>
       </li>
       <li
         v-show="loggedIn"
+        v-if="!minimal"
         class="pr-2">
         <b-link
           @click="loadAnthologies"
@@ -159,6 +174,10 @@ export default {
     color: {
       type: String,
       default: "dark"
+    },
+    minimal: {
+      type: Boolean,
+      default: false
     },
     poem: {
       type: Object,

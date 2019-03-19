@@ -53,14 +53,84 @@
     <b-row>
       <b-col md="12">
         <b-table
-          hover
+          :class="{ selectable: !hasDetails }"
+          :hover="!hasDetails"
           :items="results"
           :sort-by="sort"
-          :fields="fields"
+          :fields="fullFields"
           :stacked="stacked"
           :per-page="pageLimit"
           :current-page="currentPage"
-          @row-clicked="rowClicked"/>
+          @row-clicked="rowClicked">
+          <template
+            slot="title"
+            slot-scope="data">
+            <b-link
+              v-if="hasDetails"
+              :to="data.item.path.alias">{{ data.item.title }}</b-link>
+            <span v-else>{{ data.item.title }}</span>
+          </template>
+          <template
+            slot="field_location"
+            slot-scope="data">
+            <span v-if="data.item.field_location">{{ data.item.field_location.locality }},&nbsp;</span>
+            <span v-if="data.item.field_location">{{ data.item.field_location.administrative_area }}</span>
+          </template>
+          <template
+            slot="show_details"
+            slot-scope="row">
+            <a @click="row.toggleDetails">
+              <plus-icon
+                size="sm"
+                class="expand-icon"/>
+            </a>
+          </template>
+
+          <template
+            slot="row-details"
+            slot-scope="row">
+            <b-row class="row-details">
+              <b-col lg="8">
+                <div
+                  v-if="row.item.body"
+                  v-html="row.item.body.processed"/>
+              </b-col>
+              <b-col
+                class="text-right"
+                lg="3"
+                lg-offset="1">
+                <strong
+                  v-if="row.item.event_start_time">{{ row.item.event_start_time
+                  }}<br></strong>
+                <address
+                  v-if="row.item.field_location"
+                  class="event__field-body">
+                  <strong v-if="row.item.field_location.organization">{{
+                  row.item.field_location.organization }}<br></strong>
+                  <span v-if="row.item.field_location.address_line1">{{ row.item.field_location.address_line1 }}<br></span>
+                  <span v-if="row.item.field_location.address_line2">{{ row.item.field_location.address_line2 }}<br></span>
+                  <span v-if="row.item.field_location.locality">{{ row.item.field_location.locality }},&nbsp;</span>
+                  <span v-if="row.item.field_location.administrative_area">{{ row.item.field_location.administrative_area }}</span>&nbsp;
+                  <span v-if="row.item.field_location.postal_code">{{ row.item.field_location.postal_code }}</span><br>
+                </address>
+                <b-button
+                  v-if="row.item.register_link"
+                  variant="primary-dark"
+                  size="lg"
+                  :href="row.item.register_link.uri"
+                >{{ row.item.register_link.title }}</b-button>
+                <div class="share-list py-5">
+                  <strong>share this event</strong>
+                  <poem-actions
+                    minimal
+                    :poem="{title: row.item.title, alias:
+                    row.item.path.alias }"
+                  />
+                </div>
+              </b-col>
+            </b-row>
+          </template>
+        </b-table>
         <b-pagination
           align="center"
           :total-rows="resultTotal"
@@ -81,18 +151,25 @@ import _ from "lodash";
 import IconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import IconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
-
+import PlusIcon from "~/node_modules/open-iconic/svg/plus.svg";
+import PoemActions from "~/components/PoemActions";
 export default {
   name: "AppListing",
   components: {
     IconMediaSkipBackwards,
     IconMediaSkipForwards,
-    MagnifyingGlassIcon
+    MagnifyingGlassIcon,
+    PlusIcon,
+    PoemActions
   },
   props: {
     resourceType: {
       type: String,
       default: "poems"
+    },
+    details: {
+      type: Object,
+      default: () => {}
     },
     pageLimit: {
       type: Number,
@@ -164,6 +241,14 @@ export default {
     searchableLabels() {
       return _.map(this.searchable, field => field.label).join(", ");
     },
+    fieldsToFetch() {
+      return _.merge(this.fields, this.details);
+    },
+    fullFields() {
+      return this.hasDetails
+        ? _.merge(this.fields, { show_details: { label: "" } })
+        : this.fields;
+    },
     searchFilters() {
       const searchText = this.searchText;
       return searchText.length >= 1
@@ -195,7 +280,7 @@ export default {
       let fields = {};
       fields[`node--${this.resourceType}`] = Object.keys(
         // Always include the path for linking.
-        _.merge({ path: null }, this.fields)
+        _.merge({ path: null }, this.fields, this.details)
       ).join(",");
 
       return _.merge(
@@ -211,11 +296,15 @@ export default {
           },
           page: {
             limit: this.pageLimit * 3
-          }
+          },
+          sort: "-created"
         },
         // Param overrides from props
         this.defaultParams
       );
+    },
+    hasDetails() {
+      return !_.isEmpty(this.details);
     },
     hasNext() {
       return _.get(this.rawResponse, "links.next") !== undefined;
@@ -257,8 +346,9 @@ export default {
         });
     },
     rowClicked(items) {
-      console.log(items);
-      this.$router.push(_.get(items, "path.alias"));
+      return !this.hasDetails
+        ? this.$router.push(_.get(items, "path.alias"))
+        : null;
     }
   }
 };
@@ -272,7 +362,7 @@ thead {
     text-transform: uppercase;
   }
 }
-td {
+.selectable td {
   cursor: pointer;
 }
 .list {
@@ -358,5 +448,29 @@ td {
 .input-group-text {
   background: transparent;
   border: none;
+}
+.expand-icon {
+  color: $blue-dark;
+  height: 20px;
+  width: 20px;
+  fill: $blue-dark;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.b-table-has-details .expand-icon {
+  fill: $blue-lightest;
+  transform: rotate(45deg);
+}
+.row-details {
+  font-weight: 400;
+  color: $indigo;
+}
+.share-list {
+  strong {
+    font-size: 0.9rem;
+  }
+}
+.poem__actions ul {
+  justify-content: flex-end;
 }
 </style>
