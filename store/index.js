@@ -26,6 +26,7 @@ const createStore = () => {
         options: []
       },
       states: {},
+      authors: {},
       productFeature: {},
       pageData: {},
       sidebarData: {},
@@ -70,6 +71,9 @@ const createStore = () => {
       },
       updateStates(state, payload) {
         state.states = payload;
+      },
+      updateAuthors(state, payload) {
+        state.authors = payload;
       },
       updateProductFeature(state, payload) {
         state.productFeature = payload;

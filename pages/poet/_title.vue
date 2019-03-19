@@ -216,7 +216,7 @@ export default {
             };
           }),
           poemsByLink: {
-            to: "/poems",
+            to: `/poems/${params.title}`,
             text: poemsBy.meta.count
           },
           relatedPoets:
