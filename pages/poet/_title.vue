@@ -55,7 +55,7 @@
           <div class="poet__read-poems">
             <b-button
               block
-              href="/poems"
+              :href="poemsByLink.to"
               variant="outline-info">
               Read poems by this poet
             </b-button>
@@ -63,9 +63,9 @@
           <div class="poet__read-texts">
             <b-button
               block
-              href="/texts"
+              :href="textsByLink"
               variant="outline-info">
-              Read text by or about this poet
+              Read texts about this poet
             </b-button>
           </div>
           <PromoSpace
@@ -220,7 +220,8 @@ export default {
             text: poemsBy.meta.count
           },
           relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
+          textsByLink: `/texts/${params.title}`
         };
       })
       .catch(err => {
