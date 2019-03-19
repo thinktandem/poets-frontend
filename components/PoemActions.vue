@@ -87,6 +87,7 @@
       centered
       header-border-variant="0"
       id="add2Anthology"
+      ref="add2Anthology"
       lazy
       ok-only
       ok-title="Submit"
@@ -116,34 +117,12 @@
 </template>
 <script>
 import _ from "lodash";
-import qs from "qs";
 import FacebookIcon from "~/static/social/facebook.svg";
 import TwitterIcon from "~/static/social/twitter.svg";
 import TumblrIcon from "~/static/social/tumblr.svg";
 import PrintIcon from "~/static/social/print.svg";
 import EmbedIcon from "~/static/social/embed.svg";
 import CollectionIcon from "~/static/social/collection.svg";
-
-// Post request config
-const postConfig = {
-  headers: {
-    "Content-Type": "application/vnd.api+json"
-  }
-};
-
-// Helper to validate anthologies
-const validateAnthology = (data = {}) => {
-  return _.has(data, "id") && _.has(data, "attributes.title");
-};
-
-// Helper to build a new anthology
-const buildAnthology = (title = "My Anthology") => ({
-  type: "node--anthologies",
-  attributes: {
-    title,
-    metatag_normalized: []
-  }
-});
 
 export default {
   components: {
@@ -222,9 +201,6 @@ export default {
         return false;
       }
       return true;
-    },
-    userId() {
-      return _.get(this.$auth, "user.id", null);
     }
   },
   methods: {
@@ -242,81 +218,60 @@ export default {
         console.log("Oops, unable to copy");
       }
     },
-    getAnthologies() {
-      // If we already have options, lets just return those
-      if (!_.isEmpty(this.anthologies.options)) {
-        return Promise.resolve(this.anthologies.options);
-      }
-
-      // Otherwise let's grab the anthologies from the API
-      const query = { filter: { "uid.id": this.userId, status: 1 } };
-      const queryString = qs.stringify(query);
-      return this.$axios
-        .get(`/api/node/anthologies?${queryString}`)
-        .then(response => _.get(response, "data.data", []))
-        .catch(err => []);
-    },
     print() {
       window.print();
     },
     loadAnthologies() {
       this.anthologies.loading = true;
-      this.getAnthologies().then(anthologies => {
-        console.log(anthologies);
+      this.$auth.$user.getAnthologies().then(anthologies => {
+        this.anthologies.loading = false;
         this.anthologies.options = _(anthologies)
-          .filter(anthology => validateAnthology(anthology))
           .map(anthology => ({
-            text: _.get(anthology, "attributes.title"),
-            value: _.get(anthology, "id")
+            text: anthology.title,
+            value: anthology.id
           }))
           .value();
-        this.anthologies.loading = false;
       });
     },
     submitAnthologies(evt) {
-      // Prevent the modal from auto-closing
+      // Prevent the modal from auto-closing and disable the submit
       evt.preventDefault();
-      // @TODO: put the form into some sort of "loading/busy state"
-      // and remove the form inputs
-
-      // Return the anthology UUID and create it if necessary
+      // Add the poem to an anthology
       return Promise.resolve()
         .then(() => {
           if (this.showNewAnthology && this.anthologies.custom !== null) {
-            const data = buildAnthology(this.anthologies.custom);
-            // @TODO: what happens if this fails?
-            // @TODO: some sort of error handling?
-            return this.$axios
-              .post("/api/node/anthologies", { data }, postConfig)
-              .then(response => _.get(response, "data.data.id"));
+            return this.$auth.$user
+              .createAnthologies([this.anthologies.custom])
+              .then(anthologies => _.map(anthologies, "id"));
           } else {
-            return Promise.resolve(this.anthologies.selected);
+            return Promise.resolve([this.anthologies.selected]);
           }
         })
-        .then(auuid => {
-          console.log(this.poem.id);
-          const data = {
-            type: "node--anthologies",
-            id: auuid,
-            attributes: {
-              metatag_normalized: []
-            },
-            relationships: {
-              field_poems: {
-                data: [
-                  {
-                    type: "node--poems",
-                    id: this.poem.id
-                  }
-                ]
-              }
-            }
-          };
-          return this.$axios
-            .patch(`/api/node/anthologies/${auuid}`, { data }, postConfig)
-            .then(response => {
-              console.log(response);
+        .then(auuids => {
+          this.$refs.add2Anthology.hide();
+          // Add the poems
+          _.forEach(auuids, auuid => {
+            this.$auth.$user.addPoem(auuid, this.poem.id);
+          });
+
+          // Update the anthologies
+          this.$auth.$user.updateAnthologies(auuids).then(() => {
+            _.forEach(auuids, auuid => {
+              const title = _.find(this.$auth.$user.anthologies, { id: auuid })
+                .title;
+              this.$toast
+                .success(`Added ${this.poem.title} to ${title}`)
+                .goAway(5000);
             });
+            // Force update our anthologies and reset the user
+            this.$auth.$user.getAnthologies(true).then(() => {
+              this.$auth.setUser(this.$auth.$user.getUser());
+            });
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          this.$toast.error("An error occurred!").goAway(3000);
         });
     }
   }

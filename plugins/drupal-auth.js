@@ -1,4 +1,6 @@
 import _ from "lodash";
+import PoetsApi from "~/plugins/poets-apiv2";
+import PoetsUser from "~/plugins/poets-user";
 
 /*
  * Helper to build token
@@ -60,6 +62,7 @@ export default class DrupalScheme {
    */
   constructor(auth, options, data) {
     this.$auth = auth;
+    this.api = new PoetsApi(this.$auth.ctx.$axios);
     this.name = options._name;
     this.options = options;
   }
@@ -86,9 +89,16 @@ export default class DrupalScheme {
     }
     // Set the user with the full data model
     if (validateFetchable(user, this.$auth.ctx.env)) {
-      this.$auth.setUser(user);
+      // Add a nice wrapper to help us with stuff
+      this.$auth.$user = new PoetsUser(user.id, this.api, user);
+      this.$auth.setUser(this.$auth.$user.getUser());
+      // Fetch additional metadata
+      // @TODO: do we want to fetch additional metdata?
       this.$auth.fetchUser().then(user => {
-        this.$auth.setUser(user);
+        this.$auth.$user.setMeta(user);
+        this.$auth.$user.getAnthologies().then(() => {
+          this.$auth.setUser(this.$auth.$user.getUser());
+        });
       });
     }
     // If we cant fetch a user then lets clean the slate
@@ -181,19 +191,20 @@ export default class DrupalScheme {
     }
 
     // Get the user data
-    const userURL =
-      process.env.baseURL + "/api/user/user/" + this.$auth.user.id;
-    const raw = await this.$auth.requestWith(this.name, { url: userURL });
+    const raw = await this.api.getUser(this.$auth.user.id);
     const destination = this.$auth.user.destination;
 
     // Validate the user data
-    if (!_.has(raw, "data.id") || !_.has(raw, "data.attributes.name")) {
+    if (
+      !_.has(raw, "data.data.id") ||
+      !_.has(raw, "data.data.attributes.name")
+    ) {
       return;
     }
 
     // Mege things together and get dat user
-    const user = _.merge({}, raw.data.attributes, {
-      id: raw.data.id,
+    const user = _.merge({}, raw.data.data.attributes, {
+      id: raw.data.data.id,
       destination
     });
     // Persist "core" user data for performance reasons, on a page load we will
