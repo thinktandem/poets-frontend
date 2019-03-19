@@ -36,6 +36,9 @@ export default {
       board: board.rows
     };
   },
+  async fetch({ app, store, params }) {
+    return app.$buildBasicPage(app, store, "/board-directors");
+  },
   methods: {},
   watchQuery: true
 };
