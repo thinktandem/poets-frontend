@@ -24,7 +24,7 @@
             :title="callToAction.title"
             :action="callToAction.action"/>
           <card-deck
-            v-if="more.length >= 1"
+            v-if="more"
             cols="6"
             class="pt-5"
             :cardtype="more.cardType"

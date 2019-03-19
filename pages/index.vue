@@ -3,8 +3,10 @@
     <daily-poem
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <featured-poems
-      :poems="$store.state.featuredPoems.poems"
+    <app-card-columns
+      promo
+      title="Poems"
+      :cards="$store.state.featuredPoems.cards"
       :count="$store.state.featuredPoems.count"/>
     <card-deck
       class="py-5"
@@ -38,7 +40,7 @@
 <script>
 import CardDeck from "~/components/CardDeck";
 import DailyPoem from "~/components/Poems/DailyPoem";
-import FeaturedPoems from "~/components/FeaturedPoems";
+import AppCardColumns from "~/components/AppCardColumns";
 import qs from "qs";
 import _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
@@ -48,9 +50,9 @@ export default {
   layout: "default",
   components: {
     AppAnnouncements,
+    AppCardColumns,
     CardDeck,
     DailyPoem,
-    FeaturedPoems,
     FeatureStack,
     ProductFeature
   },
@@ -100,21 +102,26 @@ export default {
     );
     store.commit("updateFeaturedPoems", {
       count: featuredPoems.meta.count,
-      poems: _.map(featuredPoems.data, poem => {
+      cards: _.map(featuredPoems.data, poem => {
         return {
-          title: _.get(poem, "attributes.title", null),
-          link: _.get(poem, "attributes.path.alias", null),
-          text: _.get(poem, "attributes.body.processed", null),
-          poet: {
-            name: _.find(
-              featuredPoems.included,
-              include =>
-                include.id === poem.relationships.field_author.data[0].id
-            ).attributes.title
-          },
-          year: _.get(poem, "attributes/field_date_published")
-            ? _.get(poem, "attributes.field_date_published", "-").split("-")[0]
-            : null
+          type: "PoemCard",
+          props: {
+            title: _.get(poem, "attributes.title", null),
+            link: _.get(poem, "attributes.path.alias", null),
+            text: _.get(poem, "attributes.body.processed", null),
+            poet: {
+              name: _.find(
+                featuredPoems.included,
+                include =>
+                  include.id === poem.relationships.field_author.data[0].id
+              ).attributes.title
+            },
+            year: _.get(poem, "attributes/field_date_published")
+              ? _.get(poem, "attributes.field_date_published", "-").split(
+                  "-"
+                )[0]
+              : null
+          }
         };
       })
     });

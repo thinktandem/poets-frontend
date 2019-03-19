@@ -41,7 +41,7 @@ export default {
     },
     footer: {
       type: Object,
-      default: function() {}
+      default: null
     },
     subFooter: {
       type: String,
@@ -50,6 +50,10 @@ export default {
     link: {
       type: String,
       default: "/"
+    },
+    title: {
+      type: String,
+      default: ""
     }
   }
 };
