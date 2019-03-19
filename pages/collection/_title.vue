@@ -3,7 +3,9 @@
     <b-container class="py-5">
       <b-row>
         <b-col xs="12">
-          <div v-html="body"/>
+          <div
+            class="collection"
+            v-html="body"/>
         </b-col>
       </b-row>
     </b-container>
@@ -86,3 +88,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.collection {
+  font-weight: 400;
+}
+</style>
