@@ -152,8 +152,12 @@
 <script>
 import qs from "qs";
 import niceDate from "~/plugins/niceDate";
+import MetaTags from "~/plugins/metatags";
 
 export default {
+  head() {
+    return MetaTags.renderTags(this.person.attributes.metatag_normalized);
+  },
   async asyncData({ app, params }) {
     const attributes = await app.$axios
       .get(
