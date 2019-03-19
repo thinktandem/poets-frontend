@@ -93,6 +93,7 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
 import PromoSpace from "~/components/PromoSpace";
@@ -106,6 +107,9 @@ export default {
     return {
       size: [[375, 0], [300, 250]]
     };
+  },
+  head() {
+    return MetaTags.renderTags(this.poet.attributes.metatag_normalized);
   },
   async asyncData({ app, params }) {
     return app.$axios
@@ -197,6 +201,7 @@ export default {
         }
 
         return {
+          poet: res.data.data,
           dob: res.data.data.attributes.field_dob,
           dod: res.data.data.attributes.field_dod,
           title: res.data.data.attributes.title,
