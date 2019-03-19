@@ -40,7 +40,7 @@
         v-show="loggedIn"
         class="pr-2">
         <b-link
-          @click="handleAnthologies"
+          @click="loadAnthologies"
           v-b-modal.add2Anthology>
           <img src="/social/collection.svg">
         </b-link>
@@ -76,6 +76,7 @@
       ok-only
       ok-title="Submit"
       size="lg"
+      @ok="submitAnthologies"
       @shown="clearAnthologyForm"
       title="add to an anthology">
       <b-form>
@@ -108,10 +109,26 @@ import PrintIcon from "~/static/social/print.svg";
 import EmbedIcon from "~/static/social/embed.svg";
 import CollectionIcon from "~/static/social/collection.svg";
 
+// Post request config
+const postConfig = {
+  headers: {
+    "Content-Type": "application/vnd.api+json"
+  }
+};
+
 // Helper to validate anthologies
 const validateAnthology = (data = {}) => {
   return _.has(data, "id") && _.has(data, "attributes.title");
 };
+
+// Helper to build a new anthology
+const buildAnthology = (title = "My Anthology") => ({
+  type: "node--anthologies",
+  attributes: {
+    title,
+    metatag_normalized: []
+  }
+});
 
 export default {
   components: {
@@ -206,7 +223,7 @@ export default {
         console.log("Oops, unable to copy");
       }
     },
-    getMyAnthologies() {
+    getAnthologies() {
       // If we already have options, lets just return those
       if (!_.isEmpty(this.anthologies.options)) {
         return Promise.resolve(this.anthologies.options);
@@ -218,26 +235,70 @@ export default {
       return this.$axios
         .get(`/api/node/anthologies?${queryString}`)
         .then(response => _.get(response, "data.data", []))
-        .catch(err => [])
-        .then(anthologies =>
-          _(anthologies)
-            .filter(anthology => validateAnthology(anthology))
-            .map(anthology => ({
-              text: _.get(anthology, "attributes.title"),
-              value: _.get(anthology, "id")
-            }))
-            .value()
-        );
+        .catch(err => []);
     },
     print() {
       window.print();
     },
-    handleAnthologies() {
+    loadAnthologies() {
       this.anthologies.loading = true;
-      this.getMyAnthologies().then(data => {
-        this.anthologies.options = data;
+      this.getAnthologies().then(anthologies => {
+        console.log(anthologies);
+        this.anthologies.options = _(anthologies)
+          .filter(anthology => validateAnthology(anthology))
+          .map(anthology => ({
+            text: _.get(anthology, "attributes.title"),
+            value: _.get(anthology, "id")
+          }))
+          .value();
         this.anthologies.loading = false;
       });
+    },
+    submitAnthologies(evt) {
+      // Prevent the modal from auto-closing
+      evt.preventDefault();
+      // @TODO: put the form into some sort of "loading/busy state"
+      // and remove the form inputs
+
+      // Return the anthology UUID and create it if necessary
+      return Promise.resolve()
+        .then(() => {
+          if (this.showNewAnthology && this.anthologies.custom !== null) {
+            const data = buildAnthology(this.anthologies.custom);
+            // @TODO: what happens if this fails?
+            // @TODO: some sort of error handling?
+            return this.$axios
+              .post("/api/node/anthologies", { data }, postConfig)
+              .then(response => _.get(response, "data.data.id"));
+          } else {
+            return Promise.resolve(this.anthologies.selected);
+          }
+        })
+        .then(auuid => {
+          console.log(this.poem.id);
+          const data = {
+            type: "node--anthologies",
+            id: auuid,
+            attributes: {
+              metatag_normalized: []
+            },
+            relationships: {
+              field_poems: {
+                data: [
+                  {
+                    type: "node--poems",
+                    id: this.poem.id
+                  }
+                ]
+              }
+            }
+          };
+          return this.$axios
+            .patch(`/api/node/anthologies/${auuid}`, { data }, postConfig)
+            .then(response => {
+              console.log(response);
+            });
+        });
     }
   }
 };
