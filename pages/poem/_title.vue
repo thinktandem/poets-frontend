@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import MetaTags from "~/plugins/metatags";
 import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 import CardDeck from "~/components/CardDeck";
 import SignupBlock from "~/components/SignupBlock";
@@ -128,16 +129,7 @@ export default {
     };
   },
   head() {
-    return {
-      title: `${this.poem.attributes.title} | Poets.org`,
-      meta: _.map(this.poem.attributes.metatag_normalized, value => {
-        return {
-          hid: value.attributes.name,
-          name: value.attributes.name,
-          content: value.attributes.content
-        };
-      })
-    };
+    return MetaTags.renderTags(this.poem.attributes.metatag_normalized);
   },
   async asyncData({ app, params, env }) {
     return app.$axios
