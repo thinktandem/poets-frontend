@@ -55,7 +55,7 @@
           <div class="poet__read-poems">
             <b-button
               block
-              href="/poems"
+              :href="poemsByLink.to"
               variant="outline-info">
               Read poems by this poet
             </b-button>
