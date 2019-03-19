@@ -21,6 +21,7 @@
           v-html="job"/>
       </div>
       <div class="poet__bio">
+        <div v-html="bio"/>
         <div
           class="orange-link-holder">
           <a
@@ -78,7 +79,7 @@ export default {
     padding: 0;
   }
   .empty-div {
-    min-height: 222px;
+    min-height: 300px;
     min-width: 388px;
     background-color: var(--gray-900);
   }
