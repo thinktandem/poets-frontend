@@ -13,17 +13,6 @@
                   <legend>Filter by</legend>
                 </div>
               </div>
-                <b-form-select
-                  inline
-                  v-model="author"
-                >
-                  <option :value="null">Author</option>
-                  <option
-                    v-for="(opt, i) in $store.state.authors"
-                    :key="`opt-${i}`"
-                    :value="i"
-                  >{{ opt }}</option>
-                </b-form-select>
               <div class="poems-list__input--search">
                 <b-input-group>
                   <b-form-input
@@ -196,22 +185,12 @@ export default {
       results: null,
       Next: null,
       Prev: null,
-      preparedCombine: null,
-      author: null
+      preparedCombine: null
     };
   },
   async asyncData({ app, params, query, route }) {
     const url = "/api/poems";
     return searchHelpers.getSearchResults(url, app, query);
-  },
-  async fetch({ app, store, params, query }) {
-    const authors = await filterHelpers.getFilterOptions(
-      app,
-      "/api/node/poems",
-      "'fields[node--field_author]': 'drupal_internal__nid,title'",
-      "node"
-    );
-    store.commit("updateAuthors", states.authors.options);
   },
   methods: {
     applyFilters() {
