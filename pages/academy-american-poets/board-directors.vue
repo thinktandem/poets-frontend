@@ -37,7 +37,11 @@ export default {
     };
   },
   async fetch({ app, store, params }) {
-    return app.$buildBasicPage(app, store, "/board-directors");
+    return app.$buildBasicPage(
+      app,
+      store,
+      "/academy-american-poets/board-directors"
+    );
   },
   methods: {},
   watchQuery: true
