@@ -62,7 +62,7 @@ module.exports = {
         content: "Nuxt front end for Poets"
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
   },
   /*
   ** Customize the progress bar color

@@ -39,6 +39,7 @@
 
 <script>
 // Import all the cards that might need to be used in a deck.
+import AppCard from "~/components/AppCard";
 import PoemCard from "~/components/Poems/PoemCard";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import Poet from "~/components/Libraries/Poet";
@@ -55,6 +56,7 @@ import PrizeCard from "~/components/PrizeCard";
 
 export default {
   components: {
+    AppCard,
     PoemCard,
     Poet,
     adCard,

@@ -89,7 +89,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/text?page=${Prev}${preparedCombine}`"
+              :href="`/texts?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -102,7 +102,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/text?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/texts?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -116,7 +116,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/text?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/texts?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -130,7 +130,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/text?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/texts?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -150,7 +150,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/text?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/texts?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -162,7 +162,7 @@
             class="page-item"
           >
             <a
-              :href="`/text?page=${Next}${preparedCombine}`"
+              :href="`/texts?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -236,7 +236,7 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "vertical-text",
+        name: "texts",
         query: myQuery
       });
     }

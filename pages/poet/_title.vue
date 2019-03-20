@@ -55,7 +55,7 @@
           <div class="poet__read-poems">
             <b-button
               block
-              href="/poems"
+              :href="poemsByLink.to"
               variant="outline-info">
               Read poems by this poet
             </b-button>
@@ -63,9 +63,9 @@
           <div class="poet__read-texts">
             <b-button
               block
-              href="/texts"
+              :href="textsByLink"
               variant="outline-info">
-              Read text by or about this poet
+              Read texts about this poet
             </b-button>
           </div>
           <PromoSpace
@@ -93,6 +93,7 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
 import PromoSpace from "~/components/PromoSpace";
@@ -106,6 +107,9 @@ export default {
     return {
       size: [[375, 0], [300, 250]]
     };
+  },
+  head() {
+    return MetaTags.renderTags(this.poet.attributes.metatag_normalized);
   },
   async asyncData({ app, params }) {
     return app.$axios
@@ -197,6 +201,7 @@ export default {
         }
 
         return {
+          poet: res.data.data,
           dob: res.data.data.attributes.field_dob,
           dod: res.data.data.attributes.field_dod,
           title: res.data.data.attributes.title,
@@ -216,11 +221,12 @@ export default {
             };
           }),
           poemsByLink: {
-            to: "/poems",
+            to: `/poems/${params.title}`,
             text: poemsBy.meta.count
           },
           relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
+          textsByLink: `/texts/${params.title}`
         };
       })
       .catch(err => {

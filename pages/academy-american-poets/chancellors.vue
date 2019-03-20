@@ -3,7 +3,7 @@
     <b-container>
       <CardDeck
         cardtype="Chancellors"
-        cols="4"
+        cols="3"
         :cards="chancellors"
       />
     </b-container>

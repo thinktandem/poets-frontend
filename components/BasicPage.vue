@@ -24,7 +24,7 @@
             :title="callToAction.title"
             :action="callToAction.action"/>
           <card-deck
-            v-if="more.length >= 1"
+            v-if="more"
             cols="6"
             class="pt-5"
             :cardtype="more.cardType"
@@ -59,6 +59,7 @@
 
 <script>
 import _ from "lodash";
+import ButtonBlock from "~/components/ButtonBlock";
 import CalloutCard from "~/components/CalloutCard";
 import CardDeck from "~/components/CardDeck";
 import FeatureStack from "~/components/FeatureStack";
@@ -74,6 +75,7 @@ import StandardTextBlock from "~/components/StandardTextBlock";
 export default {
   name: "BasicPage",
   components: {
+    ButtonBlock,
     CalloutCard,
     CardDeck,
     FeatureStack,

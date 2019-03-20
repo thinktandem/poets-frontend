@@ -37,8 +37,7 @@
                 <b-link :to="poet.path.alias">{{ poet.title }}</b-link>
                 <span
                   class="dates"
-                  v-if="poet.field_dob !== null"
-                > - {{ poet.field_dob.split("-", 1)[0] }}-{{ poet.field_dod.split("-", 1)[0] }}</span>
+                > - {{ niceDate(poet.field_dob) }}-{{ niceDate(poet.field_dod) }}</span>
               </span>
             </div>
             <poem-actions
@@ -108,12 +107,14 @@
 </template>
 
 <script>
+import * as qs from "qs";
+import _ from "lodash";
+import MetaTags from "~/plugins/metatags";
+import niceDate from "~/plugins/niceDate";
 import SpeakerIcon from "~/node_modules/open-iconic/svg/volume-high.svg";
 import CardDeck from "~/components/CardDeck";
 import SignupBlock from "~/components/SignupBlock";
 import PoemActions from "~/components/PoemActions";
-import * as qs from "qs";
-import _ from "lodash";
 
 export default {
   components: {
@@ -128,16 +129,7 @@ export default {
     };
   },
   head() {
-    return {
-      title: `${this.poem.attributes.title} | Poets.org`,
-      meta: [
-        {
-          hid: "image",
-          name: "og:image",
-          content: this.socialImage
-        }
-      ]
-    };
+    return MetaTags.renderTags(this.poem.attributes.metatag_normalized);
   },
   async asyncData({ app, params, env }) {
     return app.$axios
@@ -248,6 +240,9 @@ export default {
             text: `${response.meta.count} Poems`
           }
         : null;
+    },
+    niceDate(date) {
+      return niceDate.niceDate(date);
     }
   }
 };
