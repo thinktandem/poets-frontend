@@ -90,10 +90,16 @@ export default {
     background-color: var(--gray-900);
   }
   .poet__name {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.6rem;
+    h3 {
+      font-size: 1.4rem;
+    }
   }
   &__name-bio {
     position: absolute;
-    top: calc(100% - 4.88rem);
+    top: calc(100% - 3.4rem);
     bottom: 0;
     left: 0;
     right: 0;
@@ -107,13 +113,16 @@ export default {
       top: 0;
     }
   }
+  .poet__bio {
+    overflow: unset;
+  }
   .orange-link-holder {
     background-color: var(--orange);
     min-width: 282px;
     padding: 12px;
     position: relative;
     left: -16px;
-    bottom: -20px;
+    bottom: -78px;
     a {
       color: var(--gray-darkest);
     }
