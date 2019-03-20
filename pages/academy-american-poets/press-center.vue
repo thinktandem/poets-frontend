@@ -2,10 +2,7 @@
   <div>
     <BasicPage
       :page-data="$store.state.pageData"
-      :highlighted="$store.state.highlightedData"
-      :more="$store.state.relatedContent"
-      :extended-content="$store.state.extendedContent"
-      :sidebar-data="$store.state.sidebarData"/>
+      highlighted=""/>
     <b-container class="press-list__filters filters">
       <b-row class="press-list__filters-row">
         <b-col md="12">
@@ -168,7 +165,6 @@ import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
-import CardDeck from "~/components/CardDeck";
 import BasicPage from "~/components/BasicPage";
 
 export default {
@@ -176,7 +172,6 @@ export default {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     iconSearch,
-    CardDeck,
     BasicPage
   },
   data() {
