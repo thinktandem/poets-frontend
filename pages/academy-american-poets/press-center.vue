@@ -1,26 +1,25 @@
 <template>
   <div>
-    <CardDeck
-      title=""
-      class="pt-5 pb-3"
-      cardtype="TextCard"
-      cols="4"
-      :cards="texts"
-    />
-    <b-container class="texts-list__filters filters">
-      <b-row class="texts-list__filters-row">
+    <BasicPage
+      :page-data="$store.state.pageData"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <b-container class="press-list__filters filters">
+      <b-row class="press-list__filters-row">
         <b-col md="12">
           <b-form
-            class="texts-list__search"
+            class="press-list__search"
             @submit.stop.prevent="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
-                <div class="texts-list__filters__legend">
+                <div class="press-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
               </div>
-              <div class="texts-list__input--search">
+              <div class="press-list__input--search">
                 <b-form-input
                   v-model="combinedInput"
                   type="text"
@@ -39,42 +38,28 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="texts-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          md="3">
-          Date
-        </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="3">
-          Type
-        </b-col>
-      </b-row>
-      <b-row
+    <b-container class="texts-list press-list">
+      <b-col
+        md="12"
         v-for="text in results"
-        class="tabular-list__row texts-list__texts"
+        class="press-list__row press-list__texts"
         :key="text.title"
       >
-        <b-col
+        <div
           class="date"
-          md="3"
         >
-          {{ text.field_date_published }}
-        </b-col>
-        <b-col
-          class="texts-list__texts-title"
-          md="6">
+          {{ niceDate(text.field_date_published) }}
+        </div>
+        <div class="press-list__texts-title">
           <a
             :href="text.view_node"
             v-html="text.title"
           />
-        </b-col>
-        <b-col md="3">
-          {{ text.field_texttype }}
-        </b-col>
-      </b-row>
+        </div>
+        <div
+          class="press__body"
+          v-html="text.body"/>
+      </b-col>
       <div class="pager">
         <ul
           role="menubar"
@@ -89,7 +74,7 @@
             :class="{ disabled: !currentPage}"
           >
             <a
-              :href="`/texts?page=${Prev}${preparedCombine}`"
+              :href="`/academy-american-poets/press-center?page=${Prev}${preparedCombine}`"
               class="page-link"
             >
               <iconMediaSkipBackwards /> Prev
@@ -102,7 +87,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/texts?page=${pageNum + 1}{preparedCombine}`"
+              :href="`/academy-american-poets/press-center?page=${pageNum + 1}{preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 1 }}
@@ -116,7 +101,7 @@
           >
             <a
               v-if="pageNum + 2 < totalPages"
-              :href="`/texts?page=${pageNum + 2}${preparedCombine}`"
+              :href="`/academy-american-poets/press-center?page=${pageNum + 2}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 2 }}
@@ -130,7 +115,7 @@
           >
             <a
               v-if="pageNum + 3 < totalPages"
-              :href="`/texts?page=${pageNum + 3}${preparedCombine}`"
+              :href="`/academy-american-poets/press-center?page=${pageNum + 3}${preparedCombine}`"
               class="page-link"
             >
               {{ pageNum + 3 }}
@@ -150,7 +135,7 @@
           >
             <a
               v-if="pageNum + 1 < totalPages"
-              :href="`/texts?page=${totalPages - 1}${preparedCombine}`"
+              :href="`/academy-american-poets/press-center?page=${totalPages - 1}${preparedCombine}`"
               class="page-link"
             >
               {{ totalPages }}
@@ -162,7 +147,7 @@
             class="page-item"
           >
             <a
-              :href="`/texts?page=${Next}${preparedCombine}`"
+              :href="`/academy-american-poets/press-center?page=${Next}${preparedCombine}`"
               class="page-link"
               :class="{disabled: !Next}"
             >
@@ -178,18 +163,21 @@
 </template>
 
 <script>
+import niceDate from "~/plugins/niceDate";
 import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
+import BasicPage from "~/components/BasicPage";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     iconSearch,
-    CardDeck
+    CardDeck,
+    BasicPage
   },
   data() {
     return {
@@ -201,24 +189,12 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/texts");
-    const url = "/api/texts_list";
+    const url = "/api/aap_press_center";
     const mySearchHelpers = await searchHelpers.getSearchResults(
       url,
       app,
       query
     );
-
-    let texts = await app.$axios
-      .get("/api/texts", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
 
     return {
       combinedInput: mySearchHelpers.combinedInput,
@@ -226,8 +202,17 @@ export default {
       Next: mySearchHelpers.Next,
       Prev: mySearchHelpers.Prev,
       preparedCombine: mySearchHelpers.preparedCombine,
-      texts: texts.rows
+      totalPages: mySearchHelpers.totalPages,
+      pageNum: mySearchHelpers.pageNum,
+      currentPage: mySearchHelpers.currentPage
     };
+  },
+  async fetch({ app, store, params }) {
+    return app.$buildBasicPage(
+      app,
+      store,
+      "/academy-american-poets/press-center"
+    );
   },
   methods: {
     applyFilters() {
@@ -236,9 +221,12 @@ export default {
         myQuery.combine = this.combinedInput;
       }
       this.$router.push({
-        name: "texts",
+        name: "academy-american-poets-press-center",
         query: myQuery
       });
+    },
+    niceDate(date) {
+      return niceDate.niceDate(date);
     }
   },
   watchQuery: true
@@ -246,8 +234,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.texts-list__texts {
+.press-list__texts {
   font-weight: 400;
+  text-align: left;
   a {
     color: $body-color;
 
@@ -258,7 +247,7 @@ export default {
     }
   }
 }
-.tabular-list__header {
+.press-list__header {
   background-color: #f2f8fa;
   text-transform: uppercase;
   font-weight: 560;
@@ -266,10 +255,10 @@ export default {
 .date {
   color: var(--red-dark);
 }
-.texts-list__texts-title {
-  min-height: 88px;
+.press-list__texts-title {
+  margin-bottom: 1rem;
 }
-.texts-list__texts-title a {
+.press-list__texts-title a {
   color: var(--gray-800);
   font-weight: 560;
 }
@@ -278,7 +267,7 @@ export default {
   padding-bottom: 3rem;
 }
 
-.texts-list__search {
+.press-list__search {
   margin-top: 2rem;
 }
 
@@ -295,7 +284,7 @@ export default {
   }
 }
 
-.texts-list__filters__legend {
+.press-list__filters__legend {
   flex-basis: 50%;
 
   legend {
@@ -306,7 +295,7 @@ export default {
   }
 }
 
-.texts-list__input--search {
+.press-list__input--search {
   flex-basis: 100%;
   padding: 1rem;
   position: relative;
@@ -355,5 +344,9 @@ export default {
       height: 100%;
     }
   }
+}
+.press-list__row {
+  margin-top: 22px;
+  border-bottom: 1px solid var(--gray-600);
 }
 </style>
