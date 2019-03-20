@@ -1,7 +1,7 @@
 <template>
   <div>
     <basic-page
-      :body="$store.state.pageData.data.attributes.body.processed"
+      :page-data="$store.state.pageData"
       :highlighted="$store.state.highlightedData"
       :features="$store.state.featuredContent"
       :more="$store.state.relatedContent"
@@ -10,14 +10,33 @@
       <b-container>
         <b-row>
           <b-col lg="6">
-            <NpmEvents
-              :events="events"
-            />
+            <h3 class="npm__heading font-serif">Upcoming Events</h3>
+            <app-listing
+              class="border-bottom"
+              resource-type="events"
+              :paged="false"
+              :details="details"
+              :default-params="defaultParams"
+              :includes="includes"
+              :filters="filters"
+              :searchable="searchable"
+              :fields="fields"/>
+            <div class="p-3">
+              <b-link
+                class="more-link"
+                to="/poetry-near-you">More Events <i class="fancy-chevron"/></b-link>
+            </div>
           </b-col>
           <b-col lg="6">
+            <h3 class="npm__heading font-serif">News & Updates</h3>
             <NpmNews
               :news="news"
             />
+            <div class="p-3">
+              <b-link
+                class="more-link"
+                to="/national-poetry-month/news-updates">More News & Updates <i class="fancy-chevron"/></b-link>
+            </div>
           </b-col>
         </b-row>
       </b-container>
@@ -56,6 +75,7 @@
 </template>
 
 <script>
+import AppListing from "~/components/AppListing";
 import BasicPage from "~/components/BasicPage";
 import NpmEvents from "~/components/Npm/NpmEvents";
 import NpmNews from "~/components/Npm/NpmNews";
@@ -64,6 +84,7 @@ import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
+    AppListing,
     BasicPage,
     NpmEvents,
     NpmNews,
@@ -72,21 +93,28 @@ export default {
   data() {
     return {
       news: {},
-      tweets: {}
+      tweets: {},
+      details: {
+        body: {},
+        event_start_time: {},
+        field_location: {},
+        register_link: {}
+      },
+      includes: {},
+      fields: {
+        field_event_date: { label: "Date" },
+        title: { label: "Name" },
+        field_location: { label: "Location" }
+      },
+      defaultParams: { page: { limit: 8 } },
+      filters: [],
+      searchable: []
     };
   },
-  async fetch({ app, store }) {
-    return app.$buildBasicPage(app, store, "/national-poetry-month");
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   async asyncData({ app, store, params, query }) {
-    const events = await app.$axios
-      .get("/api/npm_events", {})
-      .then(res => {
-        return res.data.rows;
-      })
-      .catch(err => {
-        console.log(err);
-      });
     const news = await app.$axios
       .get("/api/npm_news", {})
       .then(res => {
@@ -119,7 +147,6 @@ export default {
     });
 
     return {
-      events,
       news,
       tweets
     };
@@ -134,6 +161,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.npm__heading {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2.625rem;
+  line-height: 1.05;
+  color: $indigo;
+  padding-bottom: $spacer;
+}
 .npm__news-and-events {
   margin-top: 64px;
 }
@@ -159,5 +194,12 @@ export default {
   a {
     font-weight: 600;
   }
+}
+.more-link {
+  font-size: 1.25rem;
+  line-height: 2rem;
+}
+.fancy-chevron {
+  @include chevron(0.7rem, 2px, 0px, $blue-dark);
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <b-container>
-    <b-row class="filters-row">
+    <b-row
+      v-if="searchable.length >= 1 || filters.length >=1"
+      class="filters-row">
       <b-col md="12">
         <b-form
           class="search"
@@ -134,6 +136,7 @@
           </template>
         </b-table>
         <b-pagination
+          v-if="paged"
           align="center"
           :total-rows="resultTotal"
           :per-page="pageLimit"
@@ -214,6 +217,10 @@ export default {
     perPage: {
       type: Number,
       default: 10
+    },
+    paged: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
