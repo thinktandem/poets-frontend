@@ -3,7 +3,7 @@
     <b-container>
       <CardDeck
         cardtype="Board"
-        cols="4"
+        cols="3"
         :cards="board"
       />
     </b-container>
@@ -35,6 +35,13 @@ export default {
     return {
       board: board.rows
     };
+  },
+  async fetch({ app, store, params }) {
+    return app.$buildBasicPage(
+      app,
+      store,
+      "/academy-american-poets/board-directors"
+    );
   },
   methods: {},
   watchQuery: true
