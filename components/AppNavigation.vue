@@ -32,7 +32,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item
           v-show="!this.$auth.loggedIn"
-          :href="loginUrl"
+          href="/login"
           class="navbar__login">Membership / Login</b-nav-item>
         <b-nav-item-dropdown
           v-show="this.$auth.loggedIn"
@@ -88,11 +88,6 @@ const getDashboardURL = (id = "") => {
 };
 
 export default {
-  data() {
-    return {
-      loginUrl: `${process.env.baseURL}/user/login?redirect=frontend`
-    };
-  },
   computed: {
     name() {
       return getName(
