@@ -3,7 +3,7 @@
     <b-container>
       <CardDeck
         cardtype="Board"
-        cols="4"
+        cols="3"
         :cards="board"
       />
     </b-container>
