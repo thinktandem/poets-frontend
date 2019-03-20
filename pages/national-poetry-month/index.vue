@@ -111,8 +111,8 @@ export default {
       searchable: []
     };
   },
-  async fetch({ app, store }) {
-    return app.$buildBasicPage(app, store, "/national-poetry-month");
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   async asyncData({ app, store, params, query }) {
     const news = await app.$axios
