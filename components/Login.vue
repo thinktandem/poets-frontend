@@ -3,6 +3,14 @@
     <b-form
       class="form-signin">
       <h2 class="form-signin-heading">Please sign in</h2>
+      <div id="oa_social_login_container" />
+      <script type="text/javascript">
+        /* Embeds the buttons into the container oa_social_login_container */
+        var _oneall = _oneall || [];
+        _oneall.push(['social_login', 'set_providers', ['facebook', 'google']]);
+        _oneall.push(['social_login', 'set_callback_uri', 'https://poetsd8.lndo.site/login']);
+        _oneall.push(['social_login', 'do_render_ui', 'oa_social_login_container']);
+      </script>
       <b-form-input
         v-model="username"
         size="lg"
@@ -58,6 +66,15 @@ export default {
     submittable() {
       return this.hasUsername && this.hasPassword && !this.busy;
     }
+  },
+  mounted() {
+    /* The library is loaded asynchronously */
+    const oa = document.createElement("script");
+    oa.type = "text/javascript";
+    oa.async = true;
+    oa.src = "//poets.api.oneall.com/socialize/library.js";
+    const s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(oa, s);
   },
   methods: {
     login() {
