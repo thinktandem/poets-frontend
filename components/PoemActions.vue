@@ -223,7 +223,7 @@ export default {
     },
     loadAnthologies() {
       this.anthologies.loading = true;
-      this.$auth.$user.getAnthologies().then(anthologies => {
+      this.$auth.user.pullAnthologies().then(anthologies => {
         this.anthologies.loading = false;
         this.anthologies.options = _(anthologies)
           .map(anthology => ({
@@ -240,7 +240,7 @@ export default {
       return Promise.resolve()
         .then(() => {
           if (this.showNewAnthology && this.anthologies.custom !== null) {
-            return this.$auth.$user
+            return this.$auth.user
               .createAnthologies([this.anthologies.custom])
               .then(anthologies => _.map(anthologies, "id"));
           } else {
@@ -251,21 +251,21 @@ export default {
           this.$refs.add2Anthology.hide();
           // Add the poems
           _.forEach(auuids, auuid => {
-            this.$auth.$user.addPoem(auuid, this.poem.id);
+            this.$auth.user.addPoem(auuid, this.poem.id);
           });
 
           // Update the anthologies
-          this.$auth.$user.updateAnthologies(auuids).then(() => {
+          this.$auth.user.pushAnthologies(auuids).then(() => {
             _.forEach(auuids, auuid => {
-              const title = _.find(this.$auth.$user.anthologies, { id: auuid })
+              const title = _.find(this.$auth.user.anthologies, { id: auuid })
                 .title;
               this.$toast
                 .success(`Added ${this.poem.title} to ${title}`)
                 .goAway(5000);
             });
             // Force update our anthologies and reset the user
-            this.$auth.$user.getAnthologies(true).then(() => {
-              this.$auth.setUser(this.$auth.$user.getUser());
+            this.$auth.user.pullAnthologies(true).then(() => {
+              this.$auth.setUser(this.$auth.user);
             });
           });
         })
