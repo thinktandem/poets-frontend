@@ -18,9 +18,7 @@
             {{ result.type }}
           </div>
           <div class="result-title">
-            <a
-              :href="`/${result.type}/${result.view_node}`"
-              v-html="result.title"/>
+            <b-link :to="result.view_node">{{ result.title }}</b-link>
           </div>
           <div
             class="result-body"

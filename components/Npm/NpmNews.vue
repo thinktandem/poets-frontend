@@ -1,8 +1,5 @@
 <template>
   <b-container>
-    <b-row>
-      <h3>News & Updates</h3>
-    </b-row>
     <b-row
       v-for="item in news"
       :key="`item-${item.title}`"
@@ -39,16 +36,6 @@
             </b-col>
           </b-row>
         </b-container>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col
-        lg="12"
-        class="npm__news-row-more-link">
-        <b-link
-          to="/national-poetry-month/news">
-          More News & Updates >
-        </b-link>
       </b-col>
     </b-row>
   </b-container>

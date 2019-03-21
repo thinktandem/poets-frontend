@@ -21,6 +21,7 @@
           v-html="job"/>
       </div>
       <div class="poet__bio">
+        <div v-html="bio"/>
         <div
           class="orange-link-holder">
           <a
@@ -78,15 +79,25 @@ export default {
     padding: 0;
   }
   .empty-div {
-    min-height: 222px;
+    min-height: 300px;
     min-width: 388px;
     background-color: var(--gray-900);
   }
   .poet__name {
+    padding-top: 0.5rem;
+    padding-right: 0;
+    padding-bottom: 0.5rem;
+    padding-left: 0.4rem;
+    h3 {
+      font-size: 1.1rem;
+    }
+  }
+  .poet__bio {
+    overflow: unset;
   }
   &__name-bio {
     position: absolute;
-    top: calc(100% - 6.7rem);
+    top: calc(100% - 4.97rem);
     bottom: 0;
     left: 0;
     right: 0;
@@ -102,6 +113,7 @@ export default {
   }
   .job-title {
     min-height: 30px;
+    font-size: 1rem;
   }
   .orange-link-holder {
     background-color: var(--orange);
