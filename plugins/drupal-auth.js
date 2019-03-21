@@ -3,16 +3,27 @@ import jwtDecode from "jwt-decode";
 import PoetsApi from "~/plugins/poets-apiv2";
 import PoetsUser from "~/plugins/poets-user";
 
-/*
- * Helper to build token
- */
+// List of error message
+const errorMessages = {
+  empty_token: "Couldn't find the token!",
+  empty_user: "Couldn't find the user id!",
+  no_id_or_env: "Invalid user"
+};
+
+// Helper to build token
 const buildToken = (token, type = "Bearer") => type + " " + token;
 
-/*
- * Helper to validate whether user is fetchable
- */
+// Helper to validate whether user is fetchable
 const validateFetchable = (user, env = process.env) =>
   _.has(user, "id") && _.has(env, "baseURL") && _.has(env, "CONSUMER_ID");
+
+// Helper to build an error message
+const getError = (type = "unknown") => ({
+  data: {
+    error: type,
+    message: errorMessages[type]
+  }
+});
 
 /**
  * A Drupal login scheme for nuxt auth module
@@ -129,11 +140,11 @@ export default class DrupalScheme {
       .then(data => {
         // Reject if we dont have the token, this should be impossible?
         if (!_.has(data, "access_token")) {
-          return Promise.reject({ error: "empty_token" });
+          return Promise.reject(getError("empty_token"));
         }
         // Decode the access token and validate
         if (!_.has(jwtDecode(data.access_token), "sub")) {
-          return Promise.reject({ error: "empty_user" });
+          return Promise.reject(getError("empty_user"));
         }
         // Build me, and store me a token worthy of drupal
         const token = buildToken(data.access_token, data.token_type);
@@ -163,11 +174,11 @@ export default class DrupalScheme {
   async fetchUser() {
     // Validate that we have a token\
     if (!this.$auth.getToken(this.name)) {
-      return Promise.reject({ error: "no_token" });
+      return Promise.reject(getError("empty_token"));
     }
     // Validate that we can fetch data
     if (!validateFetchable(this.$auth.user, this.$auth.ctx.env)) {
-      return Promise.reject({ error: "no_id_or_env" });
+      return Promise.reject(getError("no_id_or_env"));
     }
 
     // Get the user and then pull the data

@@ -73,16 +73,25 @@ export default {
       }
 
       // Attempt to login
-      this.$auth.loginWith("drupal", this.username, this.password).then(() => {
-        this.$auth
-          .fetchUser()
-          .then(user => {
-            this.$auth.setUser(user);
-          })
-          .then(() => {
-            this.$router.back();
-          });
-      });
+      this.$auth
+        .loginWith("drupal", this.username, this.password)
+        .then(() => {
+          this.$auth
+            .fetchUser()
+            .then(user => {
+              this.$auth.setUser(user);
+            })
+            .then(() => {
+              this.$router.back();
+            });
+        })
+        .catch(error => {
+          const defaultMessage = "Something went wrong!";
+          this.busy = false;
+          this.$toast
+            .error(_.get(error, "data.message", defaultMessage))
+            .goAway(3000);
+        });
     }
   }
 };
