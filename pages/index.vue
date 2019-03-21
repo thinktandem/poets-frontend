@@ -19,13 +19,7 @@
       v-if="$store.state.featuredContent && $store.state.featuredContent.length >= 1"
       :features="$store.state.featuredContent"
       title="Features"/>
-    <b-container class="py-5">
-      <b-row>
-        <b-col md="8">
-          <app-announcements v-bind="$store.state.announcements"/>
-        </b-col>
-      </b-row>
-    </b-container>
+    <app-announcements-awards />
     <product-feature
       v-if="$store.state.productFeature.title"
       :title="$store.state.productFeature.title"
@@ -45,11 +39,11 @@ import qs from "qs";
 import _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
 import ProductFeature from "~/components/ProductFeature";
-import AppAnnouncements from "~/components/AppAnnouncements";
+import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 export default {
   layout: "default",
   components: {
-    AppAnnouncements,
+    AppAnnouncementsAwards,
     AppCardColumns,
     CardDeck,
     DailyPoem,

@@ -5,18 +5,21 @@
         :is="titleTag"
         v-if="null !== title"
         class="font-serif media-list__title">{{ title }}</component>
-      <b-link :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
+      <b-link
+        v-if="moreLink"
+        :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
     </div>
     <ul class="list-unstyled pl-3">
       <app-media
-        v-for="(program, index) in programs.slice(0, 3)"
+        :img-right="imgRight"
+        v-for="(item, index) in items"
         :key="index"
         tag="li"
-        :img-id="program.imgId"
-        :title="program.title"
-        :title-link="program.titleLink"
-        :body="program.body"
-        :img="program.img"/>
+        :date="item.date"
+        :title="item.title"
+        :title-link="item.titleLink"
+        :body="item.body"
+        :img="item.img"/>
     </ul>
   </div>
 </template>
@@ -32,7 +35,7 @@ export default {
     ChevronRight
   },
   props: {
-    programs: {
+    items: {
       type: Array,
       default() {
         return [];
@@ -49,6 +52,14 @@ export default {
     titleTag: {
       type: String,
       default: "h3"
+    },
+    limit: {
+      type: Number,
+      default: 0
+    },
+    imgRight: {
+      type: Boolean,
+      default: false
     }
   }
 };

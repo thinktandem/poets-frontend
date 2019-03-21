@@ -1,6 +1,8 @@
 <template>
-  <div class="p-4 awards">
-    <h2 class="poets-electra">Awards</h2>
+  <div class="py-4 awards">
+    <component
+      :is="titleTag"
+      class="font-serif awards__title">Awards</component>
     <p
       v-for="award in awards"
       :key="award.img"
@@ -31,22 +33,39 @@ export default {
         }
       ]
     };
-  }
+  },
+  props: {
+    titleTag: {
+      type: String,
+      default: "h3"
+    }
+  },
+  components: {}
 };
 </script>
 <style scoped lang="scss">
 .awards {
   // text-align: center;
   background-color: var(--gray-100);
-  .poets-electra {
-    font-family: $font-family-serif;
-    font-style: italic;
+  .awards__title {
+    line-height: 2.75rem;
+    font-size: 2.65rem;
     text-align: center;
+  }
+  .awards__image {
+    img {
+      margin: auto;
+      display: block;
+      width: 100%;
+    }
   }
 }
 
-@include media-breakpoint-only(sm) {
+@include media-breakpoint-only(xs) {
   .awards {
+    .awards__title {
+      text-align: left;
+    }
     p {
       img {
         width: 87%;
