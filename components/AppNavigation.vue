@@ -91,8 +91,8 @@ export default {
   computed: {
     name() {
       return getName(
-        get(this.$auth, "user.field_first_name", undefined),
-        get(this.$auth, "user.field_last_name", undefined)
+        get(this.$auth, "user.meta.field_first_name", undefined),
+        get(this.$auth, "user.meta.field_last_name", undefined)
       );
     },
     dashboardURL() {
@@ -102,6 +102,7 @@ export default {
   methods: {
     logout() {
       this.$auth.logout();
+      this.$router.push(this.$route.path);
     }
   }
 };

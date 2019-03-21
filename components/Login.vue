@@ -61,6 +61,9 @@ export default {
   },
   methods: {
     login() {
+      // Set the entire form as busy
+      this.busy = true;
+
       // Make sure we have a username and password
       // @NOTE: this might be redundant
       if (!this.password || !this.username) {
@@ -69,50 +72,17 @@ export default {
           .goAway(3000);
       }
 
-      console.log("CLICKY");
-      this.busy = true;
-      // Get the raw data we need
-      /*
-      const raw = _(window.location.hash.substr(1).split("&"))
-        .map(prop => prop.split("="))
-        .fromPairs()
-        .value();
-
-      // Invoke our custom login method if we have raw data
-      if (!_.isEmpty(_.compact(_.values(raw)))) {
-        return this.$auth.loginWith("drupal", raw).then(() => {
-          return this.$auth.fetchUser().then(user => {
+      // Attempt to login
+      this.$auth.loginWith("drupal", this.username, this.password).then(() => {
+        this.$auth
+          .fetchUser()
+          .then(user => {
             this.$auth.setUser(user);
-            this.$auth.redirect(user.destination, true);
+          })
+          .then(() => {
+            this.$router.back();
           });
-        });
-      }
-      */
-      // this.$router.back()
-      /*
-      const password = this.password;
-      const username = this.username;
-      let bodyFormData = new FormData();
-      bodyFormData.set("username", username);
-      bodyFormData.set("password", password);
-      bodyFormData.set("grant_type", "password");
-      bodyFormData.set("client_id", "b2c84c2c-b241-4611-b86e-7cc51801d0a1");
-      bodyFormData.set("scope", "vue_consumer");
-      bodyFormData.set("response_type", "token");
-      bodyFormData.set("token_type", "Bearer");
-      // @TODO: Try using setToken() mock up.
-      // Old way with loginWith
-      this.$auth
-        .loginWith("drupal", {
-          data: bodyFormData
-        })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      */
+      });
     }
   }
 };

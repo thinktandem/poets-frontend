@@ -14,6 +14,20 @@ const getPoems = (poems = []) =>
 // Helper to build a new anthology
 const getAnthology = (id, title, poems = []) => ({ id, title, poems });
 
+// Helper to determine whether we have a serial ID or UUID
+const getIdType = id => {
+  if (_.size(id.split("-")) === 5) return "uuid";
+  else return "serial";
+};
+
+// Helper to get pullUser request data
+const getPullUserOpts = (id, type = "uuid") => ({
+  id: type === "uuid" ? id : null,
+  query: type === "uuid" ? {} : { query: { filter: { uid: id } } },
+  idPath: type === "uuid" ? "data.data.id" : "data.data[0].id",
+  attrPath: type === "uuid" ? "data.data.attributes" : "data.data[0].attributes"
+});
+
 /**
  * PoetsAPI
  */
@@ -30,6 +44,7 @@ export default class PoetsUser {
     this.api = api;
     this.meta = meta;
     this.anthologies = [];
+    this.idType = getIdType(this.id);
   }
 
   /**
@@ -40,16 +55,6 @@ export default class PoetsUser {
    */
   addPoem(anthology, poem) {
     _.find(this.anthologies, { id: anthology }).poems.push(poem);
-  }
-
-  /**
-   * Remove a poem frin an anthology
-   *
-   * @param {String} anthology UUID of the anthology
-   * @param {String} poem UUID of the poem
-   */
-  removePoem(anthology, poem) {
-    console("removing poem");
   }
 
   /**
@@ -83,12 +88,26 @@ export default class PoetsUser {
   }
 
   /**
-   * Get Anthologies
+   * Get the user metadata
+   *
+   * @return {Object} the response object
+   */
+  getUser() {
+    return _.merge(
+      {},
+      this.meta,
+      { anthologies: this.anthologies },
+      { id: this.id }
+    );
+  }
+
+  /**
+   * Pull udpated Anthologies from the API
    *
    * @param {Boolean} force Get the list from the API
    * @return {Object} the response object
    */
-  getAnthologies(force = false) {
+  pullAnthologies(force = false) {
     // Return cached list if we have it and we arent forcing a call
     if (!_.isEmpty(this.anthologies) && !force) {
       return Promise.resolve(this.anthologies);
@@ -98,7 +117,7 @@ export default class PoetsUser {
     return this.api
       .getAnthologies({ query: { filter: { "uid.id": this.id, status: 1 } } })
       .then(anthologies => {
-        this.setAnthologies(
+        this.updateAnthologies(
           _(_.get(anthologies, "data.data", []))
             .map(data =>
               getAnthology(
@@ -114,30 +133,12 @@ export default class PoetsUser {
   }
 
   /**
-   * Set Anthologies
-   *
-   * @param {Object} anthologies
-   */
-  setAnthologies(anthologies = []) {
-    this.anthologies = anthologies;
-  }
-
-  /**
-   * Set Metadata
-   *
-   * @param {Object} data User metadata
-   */
-  setMeta(data = {}) {
-    this.meta = data;
-  }
-
-  /**
-   * Update Anthologies
+   * Push local Anthologies to the API
    *
    * @param {Array} ids An array of UUIDS to update
    * @return {Object} the response object
    */
-  updateAnthologies(ids = []) {
+  pushAnthologies(ids = []) {
     const data = _.isEmpty(ids)
       ? this.anthologies
       : _.filter(this.anthologies, anthology => _.includes(ids, anthology.id));
@@ -145,17 +146,54 @@ export default class PoetsUser {
   }
 
   /**
-   * Get the user metadata
+   * Pull data about the user from the API and set it locally
    *
+   * @param {Array} ids An array of UUIDS to update
    * @return {Object} the response object
    */
-  getUser() {
-    return _.merge(
-      {},
-      this.meta,
-      { anthologies: this.anthologies },
-      { id: this.id },
-      { $user: this }
-    );
+  pullUser() {
+    const opts = getPullUserOpts(this.id, this.idType);
+    return this.api
+      .getUser(opts.id, opts.query)
+      .then(response =>
+        _.merge(
+          {},
+          { id: _.get(response, opts.idPath) },
+          _.get(response, opts.attrPath)
+        )
+      )
+      .then(user => {
+        this.updateUser(user);
+        this.id = user.id;
+        return this.getUser();
+      });
+  }
+
+  /**
+   * Remove a poem frin an anthology
+   *
+   * @param {String} anthology UUID of the anthology
+   * @param {String} poem UUID of the poem
+   */
+  removePoem(anthology, poem) {
+    console("removing poem");
+  }
+
+  /**
+   * Set Anthologies locally
+   *
+   * @param {Object} anthologies
+   */
+  updateAnthologies(anthologies = []) {
+    this.anthologies = anthologies;
+  }
+
+  /**
+   * Set user metadata locally
+   *
+   * @param {Object} data User metadata
+   */
+  updateUser(data = {}) {
+    this.meta = data;
   }
 }

@@ -14,8 +14,10 @@
  * @param {Object} options
  * @return {Object} the response object
  */
-export function get(request, id, options = {}) {
-  return request(`/api/user/user/${id}`, {}, options);
+export function get(request, id = null, options = {}) {
+  const base = "/api/user/user";
+  const url = id === null ? base : `${base}/${id}`;
+  return request(url, {}, options);
 }
 
 export default { get };
