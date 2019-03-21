@@ -1,5 +1,7 @@
 <template>
-  <p v-html="teaserText"/>
+  <div
+    v-show="text.length >= 1"
+    v-html="teaserText"/>
 </template>
 
 <script>
