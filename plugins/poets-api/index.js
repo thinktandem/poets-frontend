@@ -31,7 +31,8 @@ export default ({ app }, inject) => {
       topLevelResponse = {},
       entity = null,
       relationship = "field_image",
-      imageStyle = "thumbnail"
+      imageStyle = "thumbnail",
+      fallback = {}
     ) => {
       const prioritizedEntity = entity || topLevelResponse.data;
       const related = _.first(
@@ -42,11 +43,13 @@ export default ({ app }, inject) => {
         _.get(topLevelResponse, "included"),
         include => _.get(include, "id") === _.get(related, "id")
       );
-      return {
-        src: _.get(file, `links.${imageStyle}.href`, null),
-        alt: _.get(related, "meta.alt", null),
-        title: _.get(related, "meta.title", null)
-      };
+      return file !== undefined
+        ? {
+            src: _.get(file, `links.${imageStyle}.href`, null),
+            alt: _.get(related, "meta.alt", null),
+            title: _.get(related, "meta.title", null)
+          }
+        : fallback;
     }
   );
   /**

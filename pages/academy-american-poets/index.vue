@@ -28,6 +28,9 @@ export default {
       filter: {
         field_program: 1
       },
+      page: {
+        limit: 3
+      },
       include: "field_image"
     });
     const announcementRequestParams = qs.stringify({
@@ -63,7 +66,7 @@ export default {
           data: {
             title: "Programs",
             moreLink: {
-              to: `/programs`,
+              to: `/academy-american-poets/programs`,
               text: `${response.meta.count} Programs`
             },
             programs: _.map(response.data, item => {

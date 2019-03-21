@@ -7,7 +7,7 @@
             class="program-list"
             :title="programOptions.title"
             :more-link="programOptions.moreLink"
-            :programs="programOptions.programs"/>
+            :items="programOptions.programs"/>
         </b-col>
         <b-col lg="4">
           <app-announcements
