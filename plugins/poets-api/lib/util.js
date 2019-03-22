@@ -30,6 +30,25 @@ export default {
     }
   },
 
+  getRelated(topLevelResponse = {}, entity = null, relationship = "") {
+    return _.find(
+      _.get(topLevelResponse, "included"),
+      include =>
+        _.get(include, "id") ===
+        _.get(
+          _.first(_.get(entity, `relationships.${relationship}.data`)),
+          "id"
+        )
+    );
+  },
+
+  firstOrOnly(data) {
+    if (data.constructor === Array) {
+      return _.first(data);
+    } else {
+      return data;
+    }
+  },
   /**
    * Build an array of slides for slideshow components
    *

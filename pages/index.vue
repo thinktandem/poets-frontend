@@ -55,15 +55,6 @@ export default {
     // to change.
     app.$buildBasicPage(app, store, "/home");
 
-    // Override the hero with a quote on the homepage, this will overwrite
-    // Drupal.
-    store.commit("updateHero", {
-      variant: "quote",
-      lead:
-        "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
-      subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
-    });
-
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
     const theOnePoemOfTheDay = _.first(poemOftheDay);
     store.commit("updatePoemOfTheDay", {
