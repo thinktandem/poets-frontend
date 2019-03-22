@@ -3,9 +3,9 @@
  * Provide some helpers for interacting with the Poets API
  */
 
-import sections from "./lib/sections";
-import media from "./lib/media";
-import util from "./lib/util";
+import sections from "~/plugins/poets-api/lib/sections";
+import media from "~/plugins/poets-api/lib/media";
+import util from "~/plugins/poets-api/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
 
