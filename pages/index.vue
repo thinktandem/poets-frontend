@@ -53,7 +53,7 @@ export default {
   async fetch({ app, store, params, route, menu }) {
     // @todo: We're counting on this path in Drupal, which might be something we want
     // to change.
-    // app.$buildBasicPage(app, store, "/home");
+    app.$buildBasicPage(app, store, "/home");
 
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
     const theOnePoemOfTheDay = _.first(poemOftheDay);
