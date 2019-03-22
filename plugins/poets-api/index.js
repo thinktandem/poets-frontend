@@ -5,7 +5,7 @@
 
 import sections from "~/plugins/poets-api/lib/sections";
 import media from "~/plugins/poets-api/lib/media";
-import util from "~/plugins/poets-api/util";
+import util from "~/plugins/poets-api/lib/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
 
