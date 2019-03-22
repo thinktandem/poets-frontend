@@ -1,7 +1,7 @@
 <template>
   <b-jumbotron
     class="hero"
-    :style="this.bgStyles"
+    :style="bgStyles"
     bg-variant="primary"
     :class="variantStyle"
     fluid>
@@ -15,17 +15,17 @@
         class="mt-3 mt-md-5"
       >
         <h1
-          v-if="this.heading !== ''"
+          v-if="heading && variant === 'default'"
           class="hero__heading pb-3"
-        >{{ this.heading }}</h1>
+        >{{ heading }}</h1>
         <p
-          v-if="this.lead"
+          v-if="lead"
           class="lead mb-3 font-serif-2"
-        >{{ this.lead }}</p>
+        >{{ lead }}</p>
         <div
           class="hero__subtext"
-          v-if="this.subtext !== ''">
-          {{ this.subtext }}
+          v-if="subtext">
+          {{ subtext }}
         </div>
       </b-col>
       <b-col
@@ -59,8 +59,10 @@ export default {
       default: ""
     },
     background: {
-      type: String,
-      default: "/hero/bg.png"
+      type: Object,
+      default: () => ({
+        src: "/hero/bg0.jpg"
+      })
     },
     variant: {
       type: String,
@@ -70,7 +72,7 @@ export default {
   computed: {
     bgStyles() {
       return {
-        background: `url(${this.background}) no-repeat center center`,
+        background: `url(${this.background.src}) no-repeat center center`,
         backgroundSize: "cover"
       };
     },
