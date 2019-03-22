@@ -1,17 +1,14 @@
 <template>
-  <div
-    class="p-4 announcements-awards">
-    <b-container class="mx-auto my-1">
-      <div class="row">
-        <div class="col-8">
-          <AppAnnouncements />
-        </div>
-        <div class="col">
-          <AppAwards />
-        </div>
-      </div>
-    </b-container>
-  </div>
+  <b-container class="py-5">
+    <b-row>
+      <b-col md="8">
+        <app-announcements v-bind="$store.state.announcements"/>
+      </b-col>
+      <b-col md="4">
+        <AppAwards />
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
