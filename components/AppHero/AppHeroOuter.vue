@@ -61,7 +61,7 @@ export default {
     background: {
       type: Object,
       default: () => ({
-        src: "/hero/bg.png"
+        src: "/hero/bg0.jpg"
       })
     },
     variant: {
