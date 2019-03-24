@@ -1,5 +1,11 @@
 <template>
   <div>
+    <basic-page
+      :page-data="$store.state.pageData"
+      :extended-content="$store.state.extendedContent"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :sidebar-data="$store.state.sidebarData"/>
     <CardDeck
       title="Featured"
       class="pt-5 pb-3"
@@ -7,7 +13,7 @@
       cols="4"
       :featured="featured"
       :cards="texts"/>
-    <list-page
+    <app-listing
       resource-type="texts"
       :default-params="defaultParams"
       :includes="includes"
@@ -16,12 +22,14 @@
 </template>
 
 <script>
-import ListPage from "~/components/ListPage";
+import BasicPage from "~/components/BasicPage";
+import AppListing from "~/components/AppListing";
 import CardDeck from "~/components/CardDeck";
 
 export default {
   components: {
-    ListPage,
+    BasicPage,
+    AppListing,
     CardDeck
   },
   data() {
@@ -63,3 +71,6 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+</style>
