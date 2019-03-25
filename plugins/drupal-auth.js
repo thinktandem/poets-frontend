@@ -58,16 +58,16 @@ export default class DrupalScheme {
   async mounted() {
     // Get token and user if applicable
     const token = this.$auth.getToken(this.name);
-    const corePropz = this.$auth.$storage.getUniversal("usermin", {}, true);
-    // Set axios token
+    // Set axios token and user
     if (token) {
       this._setToken(token);
-    }
-    // Set the user with the full data model
-    if (validateFetchable(corePropz, this.$auth.ctx.env)) {
-      this.$auth.setUser(new PoetsUser(corePropz.id, this.api, corePropz));
-    } else {
-      this.$auth.logout();
+      const corePropz = this.$auth.$storage.getUniversal("usermin", true);
+      // Set the user with the full data model
+      if (validateFetchable(corePropz, this.$auth.ctx.env)) {
+        this.$auth.setUser(new PoetsUser(corePropz.id, this.api, corePropz));
+      } else {
+        this.$auth.logout();
+      }
     }
   }
 
@@ -107,8 +107,14 @@ export default class DrupalScheme {
    * @param {String} username
    * @param {String} password
    * @param {String} type
+   * @param {String} data
    */
-  async login(username, password = null, type = "password") {
+  async login(
+    username,
+    password = process.env.CONSUMER_SECRET,
+    type = "password",
+    data = {}
+  ) {
     // Build up our form dataz
     let bodyFormData = new FormData();
     bodyFormData.set("username", username);
@@ -117,6 +123,11 @@ export default class DrupalScheme {
     bodyFormData.set("client_id", process.env.CONSUMER_ID);
     bodyFormData.set("response_type", "token");
     bodyFormData.set("token_type", "Bearer");
+
+    // Add data if this is the correct type
+    if (type === "oneall") {
+      bodyFormData.set("data", JSON.stringify(data));
+    }
 
     // Try to get us a token!
     return this.$auth

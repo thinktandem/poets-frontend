@@ -42,39 +42,19 @@
 <script>
 import _ from "lodash";
 
-// List of oneall props
-const oneAllProps = [
-  "connection_token",
-  "identity_vault_key",
-  "oa_action",
-  "oa_social_login_token"
-];
-
 // Helper to return correct bootstrap form state
 const getState = (data = null) => {
   if (!_.isEmpty(data)) return true;
   else return null;
 };
 
-// Helper to validate oneall
+// Helper to validate oneall user data
 const validateOneAll = (data = {}) => {
-  // Make sure the data is full
-  if (_.isEmpty(data)) {
-    return false;
-  }
-
-  // Make sure we have all the props we need
-  _.forEach(oneAllProps, key => {
-    if (!_.has(data, "key")) return false;
-  });
-
-  // Make sure all the props are as they should be
-  // NOTE: we do a REALLY weak UUID check here, maybe @TODO upgrade in the future?
-  if (data.oa_action !== "social_login") return false;
-  if (_.size(data.connection_token.split("-") !== 5)) return false;
-  if (_.size(data.oa_social_login_token.split("-") !== 5)) return false;
-
-  // We are good!
+  if (_.isEmpty(data)) return false;
+  if (!_.has(data, "user_token")) return false;
+  if (_.isEmpty(data.user_token)) return false;
+  if (!_.has(data, "identity")) return false;
+  if (_.isEmpty(data.identity)) return false;
   return true;
 };
 
@@ -134,12 +114,13 @@ export default {
 
       // Get the username/pass to use based on mode
       const oneall = this.type === "oneall";
-      const user = oneall ? this.oneall.connection_token : this.username;
-      const pass = oneall ? process.env.CONSUMER_SECRET : this.password;
+      const user = oneall ? this.oneall.user_token : this.username;
+      const pass = oneall ? undefined : this.password;
+      const data = oneall ? this.oneall.identity : {};
 
       // Attempt to login
       this.$auth
-        .loginWith("drupal", user, pass, this.type)
+        .loginWith("drupal", user, pass, this.type, data)
         .then(() => {
           this.$auth.fetchUser().then(() => {
             // @TODO: have an option to redirect back to a particular place
