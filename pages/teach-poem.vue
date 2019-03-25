@@ -1,10 +1,11 @@
 <template>
   <div>
+    <BasicPage
+      :page-data="$store.state.pageData"/>
     <div class="bg-white">
       <b-container class="py-5">
         <b-row>
           <b-col md="8">
-            <h2 class="mb-5">Teach This Poem</h2>
             <div class="ttp__title">
               {{ title }}
             </div>
@@ -27,11 +28,12 @@
         </b-row>
       </b-container>
     </div>
-    <ListPage
+    <AppListing
       resource-type="teach_this_poem"
       :default-params="defaultParams"
       :includes="includes"
       :fields="fields"
+      :details="details"
       :filters="filters"
       :searchable="searchable"/>
   </div>
@@ -39,18 +41,16 @@
 
 <script>
 import _ from "lodash";
-// import qs from "qs";
 import BasicPage from "~/components/BasicPage";
-import ListPage from "~/components/ListPage";
+import AppListing from "~/components/AppListing";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 
 export default {
   components: {
     BasicPage,
-    ListPage,
+    AppListing,
     iconSearch
   },
-  components: { ListPage },
   data() {
     return {
       includes: {},
@@ -58,10 +58,11 @@ export default {
         title: {
           label: "Name"
         },
-        "body.value": {
+        body: {
           label: "Description"
         }
       },
+      details: {},
       defaultParams: {
         filter: {
           status: 1,
