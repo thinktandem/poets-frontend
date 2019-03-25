@@ -4,8 +4,6 @@
     type="dark"
     class="shadow-sm d-flex"
     variant="dark">
-
-
     <b-navbar-brand
       tag="div"
       class="btn btn-md d-flex flex-row">
@@ -40,7 +38,7 @@
           :text="name"
           extra-toggle-classes="nav-link-loggedin"
           right>
-          <b-dropdown-item :href="dashboardURL">Dashboard</b-dropdown-item>
+          <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
           <b-dropdown-divider />
           <b-dropdown-item @click="logout">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
@@ -80,13 +78,6 @@ const getName = (first = "My", last = "Account") => {
   return `${first} ${last}`;
 };
 
-/*
- * Helper to get dashboard url
- */
-const getDashboardURL = (id = "") => {
-  return `${process.env.baseURL}/user/${id}`;
-};
-
 export default {
   computed: {
     name() {
@@ -94,15 +85,13 @@ export default {
         get(this.$auth, "user.meta.field_first_name", undefined),
         get(this.$auth, "user.meta.field_last_name", undefined)
       );
-    },
-    dashboardURL() {
-      return getDashboardURL(get(this.$auth, "user.drupal_internal__uid", ""));
     }
   },
   methods: {
     logout() {
       this.$auth.logout();
-      this.$router.push(this.$route.path);
+      // Hard reload where we at
+      window.location.reload(true);
     }
   }
 };

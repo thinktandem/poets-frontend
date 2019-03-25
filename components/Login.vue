@@ -81,9 +81,9 @@ export default {
     }
   },
   mounted() {
-    // If we are already logged in then lets redirect back whence we came
+    // If we are already logged in then lets redirect to dashboard
     if (this.$auth.loggedIn) {
-      // @TODO: push to dashboard if already logged in
+      this.$router.push("/dashboard");
     }
     /* The library is loaded asynchronously */
     // @NOTE: there has to be a better way to load this right?
