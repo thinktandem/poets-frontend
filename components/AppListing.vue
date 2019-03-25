@@ -70,6 +70,10 @@
             slot="body"
             slot-scope="data">
             <div
+              v-if="data.item.body.summary !== null"
+              v-html="data.item.body.summary"/>
+            <div
+              v-else
               v-html="teaserText(data.item.body.value, 100)"/>
           </template>
           <template
