@@ -168,22 +168,28 @@ export default {
     PoemActions
   },
   props: {
+    // Drupal content type we're fetching.
     resourceType: {
       type: String,
       default: "poems"
     },
+    // Expandable list item; specify fields that will show up. @todo: genericize
+    // for more content types and situations.
     details: {
       type: Object,
       default: () => {}
     },
+    // Limit the pager.
     pageLimit: {
       type: Number,
       default: 10
     },
+    // Allow sorting on a field.
     sort: {
       type: String,
       default: "Name"
     },
+    // Default params, for example, filtering results by a specific field.
     defaultParams: {
       type: Object,
       default: () => ({})
@@ -192,6 +198,7 @@ export default {
       type: Object,
       default: () => ({ field_author: "title" })
     },
+    // Fields define the data displayed, aka the columns of the list table.
     fields: {
       type: Object,
       default: () => {
@@ -206,6 +213,7 @@ export default {
       type: Array,
       default: () => []
     },
+    // What fields should be searchable. Leave blank for no search.
     searchable: {
       type: Array,
       default: () => []
@@ -327,7 +335,7 @@ export default {
           // Merge in the included items in the result set.
           _(this.includes)
             .mapValues((value, key, collection) =>
-              _.get(this.$getRelated(res, row, key), `attributes.${value}`)
+              _.get(this.$getRelated(response, row, key), `attributes.${value}`)
             )
             .value()
         );

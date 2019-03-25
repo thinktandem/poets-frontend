@@ -1,10 +1,10 @@
 <template>
   <div>
-    <b-container class="pt-5">
+    <b-container>
       <b-row class="basic_page__body">
         <b-col
           md="8"
-          class="pb-2">
+          class="pb-2 basic_page__main">
           <div
             v-if="!empty(body)"
             v-html="body.processed"
@@ -33,6 +33,7 @@
             :cards="more.cards"/>
         </b-col>
         <b-col
+          v-if="sidebarData.length >= 1"
           md="4"
           class="basic_page__sidebar pb-2">
           <component
@@ -141,11 +142,16 @@ export default {
 .basic_page__body {
   font-size: 1.25rem;
   font-weight: 400;
+  .basic_page__main {
+    div:first-child {
+      margin-top: 3.6rem;
+    }
+  }
 }
 
 .basic_page__sidebar {
   div:first-child {
-    margin-top: 0;
+    margin-top: 3.6rem;
     margin-bottom: $spacer * 2;
   }
   div:last-child:not(:first-child) {
