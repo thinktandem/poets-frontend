@@ -7,8 +7,9 @@
       <script type="text/javascript">
         /* Embeds the buttons into the container oa_social_login_container */
         var _oneall = _oneall || [];
+        var callbackURL = callbackURL || `${window.location.origin}/login`;
         _oneall.push(['social_login', 'set_providers', ['facebook', 'google']]);
-        _oneall.push(['social_login', 'set_callback_uri', 'https://poetsd8.lndo.site/login']);
+        _oneall.push(['social_login', 'set_callback_uri', callbackURL]);
         _oneall.push(['social_login', 'do_render_ui', 'oa_social_login_container']);
       </script>
       <b-form-input
@@ -41,19 +42,51 @@
 <script>
 import _ from "lodash";
 
+// List of oneall props
+const oneAllProps = [
+  "connection_token",
+  "identity_vault_key",
+  "oa_action",
+  "oa_social_login_token"
+];
+
 // Helper to return correct bootstrap form state
 const getState = (data = null) => {
   if (!_.isEmpty(data)) return true;
   else return null;
 };
 
+// Helper to validate oneall
+const validateOneAll = (data = {}) => {
+  // Make sure the data is full
+  if (_.isEmpty(data)) {
+    return false;
+  }
+
+  // Make sure we have all the props we need
+  _.forEach(oneAllProps, key => {
+    if (!_.has(data, "key")) return false;
+  });
+
+  // Make sure all the props are as they should be
+  // NOTE: we do a REALLY weak UUID check here, maybe @TODO upgrade in the future?
+  if (data.oa_action !== "social_login") return false;
+  if (_.size(data.connection_token.split("-") !== 5)) return false;
+  if (_.size(data.oa_social_login_token.split("-") !== 5)) return false;
+
+  // We are good!
+  return true;
+};
+
 export default {
   name: "Login",
   data() {
     return {
-      username: null,
+      busy: false,
+      oneall: this.$store.state.postData,
       password: null,
-      busy: false
+      type: "password",
+      username: null
     };
   },
   computed: {
@@ -69,45 +102,56 @@ export default {
   },
   mounted() {
     /* The library is loaded asynchronously */
+    // @NOTE: there has to be a better way to load this right?
     const oa = document.createElement("script");
     oa.type = "text/javascript";
     oa.async = true;
     oa.src = "//poets.api.oneall.com/socialize/library.js";
     const s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(oa, s);
+
+    // If we have post data let's set some things and start login automatically
+    if (validateOneAll(this.oneall)) {
+      this.type = "oneall";
+      this.login();
+    }
   },
   methods: {
     login() {
       // Set the entire form as busy
       this.busy = true;
 
-      // Make sure we have a username and password
-      // @NOTE: this might be redundant
-      if (!this.password || !this.username) {
+      // Make sure we have a username and password if this is password mode
+      if (this.type === "password" && (!this.password || !this.username)) {
         this.$toast
           .error("Make sure you enter a username AND password!")
           .goAway(3000);
       }
 
+      // Get the username/pass to use based on mode
+      const oneall = this.type === "oneall";
+      const user = oneall ? this.oneall.connection_token : this.username;
+      const pass = oneall ? process.env.CONSUMER_SECRET : this.password;
+
       // Attempt to login
       this.$auth
-        .loginWith("drupal", this.username, this.password)
+        .loginWith("drupal", user, pass, this.type)
         .then(() => {
-          this.$auth
-            .fetchUser()
-            .then(user => {
-              this.$auth.setUser(user);
-            })
-            .then(() => {
-              this.$router.back();
-            });
+          this.$auth.fetchUser().then(() => {
+            // @TODO: have an option to redirect back to a particular place
+            this.$router.back();
+          });
         })
         .catch(error => {
-          const defaultMessage = "Something went wrong!";
+          // Reset the form
           this.busy = false;
+          this.type = "password";
+          this.$store.commit("updatePostData", {});
+          // Show the problem
+          const defaultMessage = "Something went wrong!";
           this.$toast
             .error(_.get(error, "data.message", defaultMessage))
-            .goAway(3000);
+            .goAway(7777);
         });
     }
   }

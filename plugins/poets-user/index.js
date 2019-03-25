@@ -163,9 +163,8 @@ export default class PoetsUser {
         )
       )
       .then(user => {
-        this.updateUser(user);
-        this.id = user.id;
-        return this.getUser();
+        this.updateUser({ id: user.id, meta: user });
+        return this;
       });
   }
 
@@ -193,7 +192,9 @@ export default class PoetsUser {
    *
    * @param {Object} data User metadata
    */
-  updateUser(data = {}) {
-    this.meta = data;
+  updateUser({ id = this.id, meta = this.meta } = {}) {
+    this.id = id;
+    this.meta = meta;
+    this.idType = getIdType(this.id);
   }
 }

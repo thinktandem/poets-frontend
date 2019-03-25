@@ -56,27 +56,17 @@ export default class DrupalScheme {
    * Make sure we set the axios token when we can
    */
   async mounted() {
-    // Sync token and user if applicable
-    const token = this.$auth.syncToken(this.name);
-    const user = this.$auth.$storage.syncUniversal("user", {}, true);
+    // Get token and user if applicable
+    const token = this.$auth.getToken(this.name);
+    const corePropz = this.$auth.$storage.getUniversal("usermin", {}, true);
     // Set axios token
     if (token) {
       this._setToken(token);
     }
     // Set the user with the full data model
-    if (validateFetchable(user, this.$auth.ctx.env)) {
-      // Set thet basicz
-      const minUser = new PoetsUser(user.id, this.api, user);
-      this.$auth.setUser(minUser);
-      // Fetch additional metadata
-      // @TODO: do we want to fetch additional metdata eventually?
-      this.$auth.fetchUser().then(user => {
-        this.$auth.setUser(user);
-        this.$auth.user.pullAnthologies();
-      });
-    }
-    // If we cant fetch a user then lets clean the slate
-    else {
+    if (validateFetchable(corePropz, this.$auth.ctx.env)) {
+      this.$auth.setUser(new PoetsUser(corePropz.id, this.api, corePropz));
+    } else {
       this.$auth.logout();
     }
   }
@@ -107,6 +97,7 @@ export default class DrupalScheme {
   async logout() {
     this._clearToken();
     this.$auth.$storage.setUniversal("user", Boolean(false));
+    this.$auth.$storage.setUniversal("usermin", Boolean(false));
     this.$auth.$storage.setUniversal("loggedIn", Boolean(false));
     return this.$auth.reset();
   }
@@ -115,13 +106,14 @@ export default class DrupalScheme {
    * Accept the Drupal stuff and login
    * @param {String} username
    * @param {String} password
+   * @param {String} type
    */
-  async login(username, password) {
+  async login(username, password = null, type = "password") {
     // Build up our form dataz
     let bodyFormData = new FormData();
     bodyFormData.set("username", username);
     bodyFormData.set("password", password);
-    bodyFormData.set("grant_type", "password");
+    bodyFormData.set("grant_type", type);
     bodyFormData.set("client_id", process.env.CONSUMER_ID);
     bodyFormData.set("response_type", "token");
     bodyFormData.set("token_type", "Bearer");
@@ -183,15 +175,13 @@ export default class DrupalScheme {
 
     // Get the user and then pull the data
     const minUser = new PoetsUser(this.$auth.user.id, this.api);
-    return minUser.pullUser().then(data => {
-      // Set the full user
-      const user = new PoetsUser(data.id, this.api, data);
+    return minUser.pullUser().then(user => {
       // Persist "core" user data for performance reasons, on a page load we will
       // lazy load the rest of the properties
       // NOTE: this should be the set of properties we need to be able to
       // 1. render a page quickly with "profile" info, eg a picture or name
       // 2. handle any biz/controller logic without having to make an http request first
-      const corePropz = _.pick(user.getUser(), [
+      const corePropz = _.pick(user.meta, [
         "drupal_internal__uid",
         "field_first_name",
         "field_last_name",
@@ -202,9 +192,9 @@ export default class DrupalScheme {
         "name",
         "timezone"
       ]);
-      this.$auth.$storage.setUniversal("user", corePropz, true);
+      this.$auth.$storage.setUniversal("usermin", corePropz, true);
       this.$auth.$storage.setUniversal("loggedIn", true);
-      return user;
+      this.$auth.setUser(user);
     });
   }
 }

@@ -35,6 +35,9 @@ module.exports = {
     },
     watchLoggedIn: false
   },
+  router: {
+    middleware: ["post-data"]
+  },
   toast: {
     position: "top-left",
     className: "toast-success",
