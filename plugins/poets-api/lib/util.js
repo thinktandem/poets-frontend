@@ -98,11 +98,7 @@ export default {
    * @return {mixed} the field value or null
    */
   maybeField(entity, field) {
-    return entity.hasOwnProperty("attributes") &&
-      entity.attributes.hasOwnProperty(field) &&
-      !_.isEmpty(entity.attributes[field])
-      ? entity.attributes[field]
-      : false;
+    return this.firstOrOnly(_.get(entity, `attributes.${field}`));
   },
 
   buildProcessable(entity, field = "body", summary = false) {
