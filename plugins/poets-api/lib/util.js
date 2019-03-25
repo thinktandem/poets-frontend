@@ -43,7 +43,7 @@ export default {
   },
 
   firstOrOnly(data) {
-    if (data.constructor === Array) {
+    if (_.isArray(data)) {
       return _.first(data);
     } else {
       return data;
@@ -100,15 +100,22 @@ export default {
   maybeField(entity, field) {
     return entity.hasOwnProperty("attributes") &&
       entity.attributes.hasOwnProperty(field) &&
-      entity.attributes[field] !== null
+      !_.isEmpty(entity.attributes[field])
       ? entity.attributes[field]
-      : null;
+      : false;
   },
 
   buildProcessable(entity, field = "body", summary = false) {
-    return this.maybeField(entity, field) !== null
-      ? imgUrl.staticUrl(this.maybeField(entity, field).processed)
-      : null;
+    const maybeField = this.maybeField(entity, field);
+    if (maybeField) {
+      return _.isArray(maybeField) && maybeField.length > 0
+        ? _.map(maybeField, function(value) {
+            return imgUrl.staticUrl(value.processed);
+          })
+        : imgUrl.staticUrl(maybeField.processed);
+    } else {
+      return null;
+    }
   },
 
   buildFile(entity, page) {
