@@ -132,6 +132,7 @@ export default {
       _.get(topLevelResponse, "included"),
       include => _.get(include, "id") === _.get(related, "id")
     );
+    console.log("get the file", file);
     return file !== undefined
       ? {
           src: _.get(file, `links.${imageStyle}.href`, null),

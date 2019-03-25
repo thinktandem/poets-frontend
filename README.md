@@ -52,6 +52,13 @@ yarn lint
 yarn test --config=./codecept.local.json
 ```
 
+Essential Development .env Variables
+------------------------------------
+
+CONSUMER_ID: Use the UUID for the poets.org user in /admin/config/services/consumer.
+API_URL: You may want to replace the default yakbak URL with the DRUPAL_URL value.
+
+
 Building for Production
 -----------------------
 
