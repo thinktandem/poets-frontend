@@ -101,6 +101,10 @@ export default {
     }
   },
   mounted() {
+    // If we are already logged in then lets redirect back whence we came
+    if (this.$auth.loggedIn) {
+      // @TODO: push to dashboard if already logged in
+    }
     /* The library is loaded asynchronously */
     // @NOTE: there has to be a better way to load this right?
     const oa = document.createElement("script");
