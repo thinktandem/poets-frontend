@@ -30,6 +30,25 @@ export default {
     }
   },
 
+  getRelated(topLevelResponse = {}, entity = null, relationship = "") {
+    return _.find(
+      _.get(topLevelResponse, "included"),
+      include =>
+        _.get(include, "id") ===
+        _.get(
+          _.first(_.get(entity, `relationships.${relationship}.data`)),
+          "id"
+        )
+    );
+  },
+
+  firstOrOnly(data) {
+    if (_.isArray(data)) {
+      return _.first(data);
+    } else {
+      return data;
+    }
+  },
   /**
    * Build an array of slides for slideshow components
    *
@@ -81,15 +100,22 @@ export default {
   maybeField(entity, field) {
     return entity.hasOwnProperty("attributes") &&
       entity.attributes.hasOwnProperty(field) &&
-      entity.attributes[field] !== null
+      !_.isEmpty(entity.attributes[field])
       ? entity.attributes[field]
-      : null;
+      : false;
   },
 
   buildProcessable(entity, field = "body", summary = false) {
-    return this.maybeField(entity, field) !== null
-      ? imgUrl.staticUrl(this.maybeField(entity, field).processed)
-      : null;
+    const maybeField = this.maybeField(entity, field);
+    if (maybeField) {
+      return _.isArray(maybeField) && maybeField.length > 0
+        ? _.map(maybeField, function(value) {
+            return imgUrl.staticUrl(value.processed);
+          })
+        : imgUrl.staticUrl(maybeField.processed);
+    } else {
+      return null;
+    }
   },
 
   buildFile(entity, page) {

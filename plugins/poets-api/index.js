@@ -3,7 +3,9 @@
  * Provide some helpers for interacting with the Poets API
  */
 
-import sections from "./lib/sections";
+import sections from "~/plugins/poets-api/lib/sections";
+import media from "~/plugins/poets-api/lib/media";
+import util from "~/plugins/poets-api/lib/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
 
@@ -25,30 +27,8 @@ export default ({ app }, inject) => {
    * @return {Object}
    *   The scr URL of the image style and alt text.
    */
-  inject(
-    "buildImg",
-    (
-      topLevelResponse = {},
-      entity = null,
-      relationship = "field_image",
-      imageStyle = "thumbnail"
-    ) => {
-      const prioritizedEntity = entity || topLevelResponse.data;
-      const related = _.first(
-        _.get(prioritizedEntity, `relationships.${relationship}.data`)
-      );
+  inject("buildImg", media.buildImg);
 
-      const file = _.find(
-        _.get(topLevelResponse, "included"),
-        include => _.get(include, "id") === _.get(related, "id")
-      );
-      return {
-        src: _.get(file, `links.${imageStyle}.href`, null),
-        alt: _.get(related, "meta.alt", null),
-        title: _.get(related, "meta.title", null)
-      };
-    }
-  );
   /**
    * Inject a helper function to build out basic pages. this can be called within the 'fetch' function of any nuxt page
    * to automatically hydrate the store items needed to render a basic page.
@@ -56,6 +36,7 @@ export default ({ app }, inject) => {
   inject("buildBasicPage", async (app, store, path) => {
     // This is the list of items to include with the page request
     const includes = [
+      "hero_background.field_image",
       "sidebar_sections.image",
       "field_content_sections.image",
       "highlighted_content.field_image",
@@ -76,9 +57,10 @@ export default ({ app }, inject) => {
                 page.data.attributes.body.processed
               );
             }
-
             store.commit("updateHero", {
-              variant: "default",
+              background: media.buildHeroBg(page),
+              variant: _.get(page, "data.attributes.hero_type", "default"),
+              subtext: _.get(page, "data.attributes.hero_subtext"),
               heading: _.get(page, "data.attributes.title"),
               lead: _.get(page, "data.attributes.lead_text")
             });
@@ -156,18 +138,5 @@ export default ({ app }, inject) => {
   /**
    * Abstract away the ugliness of pulling a related entity
    */
-  inject(
-    "getRelated",
-    (topLevelResponse = {}, entity = null, relationship = "") => {
-      return _.find(
-        _.get(topLevelResponse, "included"),
-        include =>
-          _.get(include, "id") ===
-          _.get(
-            _.first(_.get(entity, `relationships.${relationship}.data`)),
-            "id"
-          )
-      );
-    }
-  );
+  inject("getRelated", util.getRelated);
 };

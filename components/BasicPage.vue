@@ -6,17 +6,17 @@
           md="8"
           class="pb-2 basic_page__main">
           <div
-            v-if="body"
+            v-if="!empty(body)"
             v-html="body.processed"
             class="pb-4"/>
           <card-deck
-            v-if="highlighted.length >= 1"
+            v-if="!empty(highlighted)"
             class="pt-3 pb-1"
             :cards="highlighted"
             cardtype="CalloutCard"
             cols="6"/>
           <callout-card
-            v-if="callToAction !== null"
+            v-if="hasCta"
             :img="callToAction.img"
             variant="bold"
             :teaser-length="callToAction.teaserLength"
@@ -24,7 +24,7 @@
             :title="callToAction.title"
             :action="callToAction.action"/>
           <card-deck
-            v-if="more.cards"
+            v-if="!empty(more)"
             cols="6"
             class="pt-5"
             :cardtype="more.cardType"
@@ -37,6 +37,7 @@
           md="4"
           class="basic_page__sidebar pb-2">
           <component
+            v-if="!empty(sidebarData)"
             v-for="(item, index) in sidebarData"
             :key="index"
             :is="item.component"
@@ -45,11 +46,11 @@
       </b-row>
     </b-container>
     <feature-stack
-      v-if="features.length >= 1"
+      v-if="!empty(features)"
       title="Featured"
       :features="features"/>
     <component
-      v-if="extendedContent.length >= 1"
+      v-if="!empty(extendedContent)"
       class="py-3"
       v-for="(item, index) in extendedContent"
       :key="index"
@@ -124,6 +125,14 @@ export default {
   computed: {
     body() {
       return _.get(this.pageData, "data.attributes.body");
+    },
+    hasCta() {
+      return !_.isEmpty(this.callToAction);
+    }
+  },
+  methods: {
+    empty(field) {
+      return _.isEmpty(field) || field === null || field === undefined;
     }
   }
 };
