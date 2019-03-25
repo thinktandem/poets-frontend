@@ -17,10 +17,7 @@ export default {
         _.get(page, "data.relationships.hero_background.data.id")
       );
     });
-    const randomFallbackNumber = Math.floor(Math.random() * 6);
-    return this.buildImg(page, mediaItem, "field_image", "hero_bg", {
-      src: `/hero/bg${randomFallbackNumber}.jpg`
-    });
+    return this.buildImg(page, mediaItem, "field_image", "hero_bg", undefined);
   },
   handleMultiImage(field) {
     return _.get(field, "data.constructor", {}) === Array &&
