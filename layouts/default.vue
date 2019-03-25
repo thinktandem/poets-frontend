@@ -41,7 +41,6 @@ export default {
     AppFooterUtility,
     SubNavigation
   },
-  middleware: "menu",
   head() {
     return {
       script: [
