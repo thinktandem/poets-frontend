@@ -10,8 +10,8 @@
     <div class="poem-a-day-sign-up__description text-white">
       <p>{{ text }}</p>
     </div>
-    <b-form
-      @submit.prevent="poemADaySignup">
+    <app-form
+      @submit="poemADaySignup">
       <label
         class="sr-only"
         for="poemADayEmail">Email Address</label>
@@ -28,7 +28,7 @@
             variant="primary-dark">Sign Up</b-btn>
         </b-input-group-append>
       </b-input-group>
-    </b-form>
+    </app-form>
   </div>
 </template>
 
