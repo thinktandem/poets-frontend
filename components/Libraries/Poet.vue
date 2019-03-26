@@ -68,6 +68,7 @@ export default {
   position: relative;
   overflow: hidden;
   border: none;
+  background-color: var(--gray-darkest);
 
   .card-body {
     padding: 0;
