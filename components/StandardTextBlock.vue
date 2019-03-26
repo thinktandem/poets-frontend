@@ -2,12 +2,12 @@
   <section class="standard-text py-3">
     <b-container>
       <component
-        v-if="title.length >= 1"
+        v-show="title"
         :is="titleTag">{{ title }}</component>
       <b-row>
         <b-col
           md="12"
-          v-if="body.length >= 1">
+          v-show="body">
           <div
             class="standard-text__body"
             v-html="body"/>
