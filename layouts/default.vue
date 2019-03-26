@@ -3,10 +3,12 @@
     <AppNavigation />
     <promo-space variant="dark" />
     <AppHeroOuter
-      :variant="this.$store.state.hero.variant"
-      :heading="this.$store.state.hero.heading"
-      :lead="this.$store.state.hero.lead"
-      :subtext="this.$store.state.hero.subtext"
+      v-if="$store.state.hero"
+      :background="$store.state.hero.background"
+      :variant="$store.state.hero.variant"
+      :heading="$store.state.hero.heading"
+      :lead="$store.state.hero.lead"
+      :subtext="$store.state.hero.subtext"
     />
     <sub-navigation
       v-if="$store.state.subMenu"
@@ -39,7 +41,6 @@ export default {
     AppFooterUtility,
     SubNavigation
   },
-  middleware: "menu",
   head() {
     return {
       script: [

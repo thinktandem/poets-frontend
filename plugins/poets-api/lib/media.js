@@ -1,4 +1,5 @@
 import _ from "lodash";
+import util from "./util";
 export default {
   // Map paragraph types to image styles
   imageStyles: {
@@ -7,6 +8,16 @@ export default {
     "paragraph--slideshow": "slide",
     "paragraph--image": "image_block",
     "media--image": "feature"
+  },
+
+  buildHeroBg(page) {
+    const mediaItem = _.find(page.included, include => {
+      return (
+        _.get(include, "id") ===
+        _.get(page, "data.relationships.hero_background.data.id")
+      );
+    });
+    return this.buildImg(page, mediaItem, "field_image", "hero_bg", undefined);
   },
   handleMultiImage(field) {
     return _.get(field, "data.constructor", {}) === Array &&
@@ -103,33 +114,38 @@ export default {
     }
   },
 
+  buildImg(
+    topLevelResponse = {},
+    entity = null,
+    relationship = "field_image",
+    imageStyle = "thumbnail",
+    fallback = {}
+  ) {
+    const prioritizedEntity = entity || topLevelResponse.data;
+    const related = util.firstOrOnly(
+      _.get(prioritizedEntity, `relationships.${relationship}.data`)
+    );
+    const file = _.find(
+      _.get(topLevelResponse, "included"),
+      include => _.get(include, "id") === _.get(related, "id")
+    );
+    return file !== undefined
+      ? {
+          src: _.get(file, `links.${imageStyle}.href`, null),
+          alt: _.get(related, "meta.alt", null),
+          title: _.get(related, "meta.title", null)
+        }
+      : fallback;
+  },
   /**
    * Build an image object
    *
-   * @param {Object} entity
+   * @param {Object} media
    *  Drupal entity from API
    * @param {Object} page
    *  Drupal page object from API
    * @return {Object} an object for vue to render an image
    */
-  buildImg(entity, page) {
-    // Try to get the right imagestyle, fallback to thumbnail.
-    const imageStyle = this.imageStyles[entity.type] || "thumbnail";
-    // Try to find the image object.
-    const img = _.find(
-      page.included,
-      include => include.id === this.getImgPath(entity, page)
-    );
-    return this.getImgPath(entity, page)
-      ? {
-          src:
-            img !== undefined && img.links.hasOwnProperty(imageStyle)
-              ? img.links[imageStyle].href
-              : "",
-          alt: this.buildAlt(entity, page)
-        }
-      : null;
-  },
   buildMedia(media, page) {
     if (media === undefined || media === null) {
       return null;
@@ -137,7 +153,12 @@ export default {
     switch (media.type) {
       case "media--image":
         return {
-          img: this.buildImg(media, page)
+          img: this.buildImg(
+            page,
+            media,
+            "field_image",
+            this.imageStyles[media.type]
+          )
         };
       case "media--video_embed":
         return {
