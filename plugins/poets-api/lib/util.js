@@ -98,11 +98,7 @@ export default {
    * @return {mixed} the field value or null
    */
   maybeField(entity, field) {
-    return entity.hasOwnProperty("attributes") &&
-      entity.attributes.hasOwnProperty(field) &&
-      !_.isEmpty(entity.attributes[field])
-      ? entity.attributes[field]
-      : false;
+    return this.firstOrOnly(_.get(entity, `attributes.${field}`));
   },
 
   buildProcessable(entity, field = "body", summary = false) {
@@ -138,15 +134,31 @@ export default {
    */
   buildComponent(item, page) {
     const entity = _.find(page.included, include => include.id === item.id);
-    if (entity.attributes.title === "Sponsors & Partners") {
-      console.log("entity is", entity.relationships.image);
+    let mediaItem = entity;
+    if (entity.type === "paragraph--sidebar_text_and_image") {
+      _.get(entity, "relationships.side_image.data");
+      mediaItem = _.find(
+        page.included,
+        include =>
+          include.id ===
+          _.get(
+            this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
+            "id"
+          )
+      );
     }
+
     return {
       component: components[entity.type] || "ResourceCard",
       props: {
         title: entity.attributes.title,
         body: this.buildProcessable(entity),
-        img: media.buildImg(entity, page),
+        img: media.buildImg(
+          page,
+          mediaItem,
+          "field_image",
+          media.imageStyles[entity.type]
+        ),
         file: this.buildFile(entity, page),
         sidebarTop: this.buildProcessable(entity, "side_text_1"),
         sidebarBottom: this.buildProcessable(entity, "side_text_2"),
