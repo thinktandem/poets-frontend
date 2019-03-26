@@ -74,8 +74,13 @@ export default {
   },
   computed: {
     bgStyles() {
+      const background = this.background;
       return {
-        background: `url(${this.background.src}) no-repeat center center`,
+        backgroundImage: `url(${background.src})`,
+        backgroundPositionX: "center",
+        backgroundPositionY: "center",
+        backgroundRepeatY: "no-repeat",
+        backgroundRepeatY: "no-repeat",
         backgroundSize: "cover"
       };
     },
