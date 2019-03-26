@@ -19,7 +19,7 @@
         <b-form-input
           id="poemADayEmail"
           v-model="email"
-          type="text"
+          type="email"
           class="border-0"
           placeholder="john@example.com"/>
         <b-input-group-append>

@@ -46,7 +46,8 @@ export default {
           .then(response => {
             store.commit("updateHero", {
               variant: "default",
-              heading: _.get(response, "data.attributes.title")
+              heading: _.get(response, "data.attributes.title"),
+              lead: _.get(response, "data.attributes.lead_text")
             });
             // Set the main page data
             store.commit("updatePageData", response);
