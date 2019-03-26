@@ -44,6 +44,7 @@ module.exports = {
     "~/plugins/axios",
     "~/plugins/vue2-filters",
     "~/plugins/asyncComputed",
+    "~/plugins/globalComponents",
     "~/plugins/poets-api"
   ],
   css: ["~assets/scss/app.scss"],

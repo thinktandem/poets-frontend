@@ -1,8 +1,8 @@
 <template>
   <div class="hero-search">
-    <b-form
+    <app-form
       class="hero-search__form"
-      @submit.stop.prevent="search">
+      @submit="search">
       <b-form-group
         label="search"
         label-sr-only
@@ -13,13 +13,13 @@
             v-model="searchInput"
             placeholder="search"
             class="hero-search__form-input"/>
-          <b-input-group-append
-            is-text
-            @click.stop.prevent="search"
-          >
-
-            <magnifying-glass-icon
-              class="icon mr-2"/>
+          <b-input-group-append>
+            <b-button
+              class="hero-search__form-button"
+              type="submit">
+              <magnifying-glass-icon
+                class="icon mr-2"/>
+            </b-button>
 
           </b-input-group-append>
         </b-input-group>
@@ -34,7 +34,7 @@
           {{ link.text }}
         </b-list-group-item>
       </b-list-group>
-    </b-form>
+    </app-form>
   </div>
 </template>
 
@@ -92,6 +92,10 @@ export default {
   border-radius: 0;
 }
 
+.hero-search__form-button {
+  background-color: rgba($gray-800, 0.9) !important;
+  border: none;
+}
 .hero-search__form-input {
   // gray-800
   background-color: rgba($gray-800, 0.9);

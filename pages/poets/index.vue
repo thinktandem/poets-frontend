@@ -8,9 +8,9 @@
     <b-container class="poets-list__filters filters">
       <b-row class="poets-list__filters-row">
         <b-col md="12">
-          <b-form
+          <app-form
             class="poets-list__search"
-            @submit.stop.prevent="applyFilters"
+            @submit="applyFilters"
           >
             <b-form-group @submit.stop.prevent="applyFilters">
               <div class="legend-selects">
@@ -49,17 +49,16 @@
                     type="text"
                     size="22"
                     placeholder="Search by poet, movement, etc..."/>
-                  <b-input-group-append
-                    is-text
-                    @click.stop.prevent="applyFilters"
-                  >
-                    <magnifying-glass-icon
-                      class="icon mr-2"/>
+                  <b-input-group-append>
+                    <b-btn type="submit">
+                      <magnifying-glass-icon
+                        class="icon mr-2"/>
+                    </b-btn>
                   </b-input-group-append>
                 </b-input-group>
               </div>
             </b-form-group>
-          </b-form>
+          </app-form>
         </b-col>
       </b-row>
     </b-container>
