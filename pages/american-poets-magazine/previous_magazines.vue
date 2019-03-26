@@ -22,9 +22,15 @@ export default {
       fields: {
         title: { label: "Name" }
       },
-      details: {},
+      details: {
+        body: {}
+      },
       defaultParams: {
-        filter: {}
+        filter: {
+          status: 1,
+          "field_texttype.tid": 661
+        },
+        sort: "-changed"
       },
       filters: [],
       searchable: [
