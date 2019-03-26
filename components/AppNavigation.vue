@@ -67,8 +67,11 @@ import { get, isNil } from "lodash";
 /*
  * Helper to get name
  */
-const getName = (first = "My", last = "Account") => {
-  // Alao handle the cases where first is null
+const getName = (first = "My", last = "Account", name = "My Account") => {
+  // Use the username if we dont have first/last
+  if (isNil(first) && isNil(last)) {
+    return name;
+  }
   if (isNil(first)) {
     first = "My";
   }
@@ -83,7 +86,8 @@ export default {
     name() {
       return getName(
         get(this.$auth, "user.meta.field_first_name", undefined),
-        get(this.$auth, "user.meta.field_last_name", undefined)
+        get(this.$auth, "user.meta.field_last_name", undefined),
+        get(this.$auth, "user.meta.name", undefined)
       );
     }
   },

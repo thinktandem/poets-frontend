@@ -121,23 +121,23 @@ export default {
       // Attempt to login
       this.$auth
         .loginWith("drupal", user, pass, this.type, data)
-        .then(() => {
-          this.$auth.fetchUser().then(() => {
-            // @TODO: have an option to redirect back to a particular place
-            this.$router.back();
-          });
-        })
+        .then(() => this.$auth.fetchUser())
         .catch(error => {
-          // Reset the form
-          this.busy = false;
-          this.type = "password";
-          this.$store.commit("updatePostData", {});
-          // Show the problem
           const defaultMessage = "Something went wrong!";
           this.$toast
             .error(_.get(error, "data.message", defaultMessage))
             .goAway(7777);
+        })
+        .finally(() => {
+          this.reset();
+          // @TODO: need to be able to handle other destinations?
+          this.$router.push("/dashboard");
         });
+    },
+    reset() {
+      this.busy = false;
+      this.type = "password";
+      this.$store.commit("updatePostData", {});
     }
   }
 };

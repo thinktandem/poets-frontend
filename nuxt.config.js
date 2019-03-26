@@ -32,8 +32,7 @@ module.exports = {
       drupal: {
         _scheme: "~/plugins/drupal-auth.js"
       }
-    },
-    watchLoggedIn: false
+    }
   },
   router: {
     middleware: ["post-data"]
