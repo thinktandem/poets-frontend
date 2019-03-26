@@ -8,6 +8,7 @@ import media from "~/plugins/poets-api/lib/media";
 import util from "~/plugins/poets-api/lib/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
+import qs from "qs";
 
 export default ({ app }, inject) => {
   /**
@@ -35,6 +36,7 @@ export default ({ app }, inject) => {
    */
   inject("buildBasicPage", async (app, store, path) => {
     // This is the list of items to include with the page request
+
     const includes = [
       "hero_background.field_image",
       "sidebar_sections.image",
@@ -139,4 +141,34 @@ export default ({ app }, inject) => {
    * Abstract away the ugliness of pulling a related entity
    */
   inject("getRelated", util.getRelated);
+
+  inject("latestMagazine", async ({ app }) => {
+    const magazineQuery = qs.stringify({
+      filter: {
+        status: 1
+      },
+      sort: "-changed",
+      page: {
+        limit: 1
+      },
+      include: "field_image,field_content_sections"
+    });
+    const magazine = await app.$axios.$get(
+      `/api/node/magazine?${magazineQuery}`
+    );
+    const topProduct = _.first(magazine.data);
+    return {
+      response: magazine,
+      entity: topProduct,
+      title: _.get(topProduct, "attributes.title", null),
+      intro: _.get(topProduct, "attributes.magazine_intro.processed", null),
+      subTitle: _.get(topProduct, "attributes.subtitle", null),
+      contents: _.get(topProduct, "attributes.contents", null),
+      img: app.$buildImg(magazine, topProduct, "field_image", "magazine_cover"),
+      link: {
+        to: `/academy-american-poets/become-member`,
+        text: "Become a member"
+      }
+    };
+  });
 };

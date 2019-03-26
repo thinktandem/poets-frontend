@@ -6,18 +6,18 @@
           class="product-feature__info pb-4 pb-lg-5">
           <h2
             class="font-serif pb-3"
-            v-if="title">{{ title }}</h2>
+            v-show="title">{{ title }}</h2>
           <div class="pl-lg-4 pr-md-3">
-            <p
+            <div
+              v-show="intro"
               class="pb-4 product-feature__intro"
-              v-if="intro"
               v-html="intro"/>
             <h3
               class="text-primary-lightest pb-2"
-              v-if="subTitle">{{ subTitle }}</h3>
+              v-show="subTitle">{{ subTitle }}</h3>
             <ul
               class="list-unstyled product-feature__list"
-              v-if="contents">
+              v-show="contents">
               <li
                 v-for="(item, index) in contents"
                 :key="index" >{{ item }}</li>
@@ -30,7 +30,7 @@
         </div>
         <div
           class="product-feature__image"
-          v-if="img">
+          v-show="img">
           <b-img-lazy
             fluid
             :alt="img.alt"
