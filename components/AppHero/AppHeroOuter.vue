@@ -60,12 +60,9 @@ export default {
     },
     background: {
       type: Object,
-      default: () => {
-        const randomFallbackNumber = Math.floor(Math.random() * 6);
-        return {
-          src: `/hero/bg${randomFallbackNumber}.jpg`
-        };
-      }
+      default: () => ({
+        src: "/hero/bg0.jpg"
+      })
     },
     variant: {
       type: String,
