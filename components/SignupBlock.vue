@@ -24,7 +24,7 @@
           placeholder="john@example.com"/>
         <b-input-group-append>
           <b-btn
-            @click.stop.prevent="poemADaySignup"
+            type="submit"
             variant="primary-dark">Sign Up</b-btn>
         </b-input-group-append>
       </b-input-group>
