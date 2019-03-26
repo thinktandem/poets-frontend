@@ -25,8 +25,8 @@
     <div
       slot="footer"
       v-if="null !== action.to">
-      <b-form
-        @submit.stop.prevent="signUp"
+      <app-form
+        @submit="signUp"
         inline
       >
         <b-form-input
@@ -36,11 +36,11 @@
         />
         <b-btn
           class="border-primary bg-white text-primary"
-          @click.stop.prevent="signUp"
+          type="submit" 
         >
           {{ action.text }}
         </b-btn>
-      </b-form>
+      </app-form>
     </div>
   </b-card>
 </template>

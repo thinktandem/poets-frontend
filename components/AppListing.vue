@@ -4,11 +4,11 @@
       v-if="searchable.length >= 1 || filters.length >=1"
       class="filters-row">
       <b-col md="12">
-        <b-form
+        <app-form
           class="search"
-          @submit.stop.prevent="refreshQuery"
+          @submit="refreshQuery"
         >
-          <b-form-group>
+          <b-form-group class="border">
             <div
               class="legend-selects"
               v-if="filters.length >= 1">
@@ -40,17 +40,16 @@
                   size="22"
                   :placeholder="`Search ${searchableLabels} ...`"
                 />
-                <b-input-group-append
-                  is-text
-                  @click.stop.prevent="refreshQuery"
-                >
-                  <magnifying-glass-icon
-                    class="icon mr-2"/>
+                <b-input-group-append>
+                  <b-btn type="submit">
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
+                  </b-btn>
                 </b-input-group-append>
               </b-input-group>
             </div>
           </b-form-group>
-        </b-form>
+        </app-form>
       </b-col>
     </b-row>
     <b-row>

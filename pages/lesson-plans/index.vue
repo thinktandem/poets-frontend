@@ -25,9 +25,9 @@
     <b-container class="plans-list__filters filters">
       <b-row class="plans-list__filters-row">
         <b-col md="12">
-          <b-form
+          <app-form
             class="plans-list__search"
-            @submit.stop.prevent="applyFilters"
+            @submit="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
@@ -42,12 +42,14 @@
                   size="22"
                   placeholder="Search title or text ..."
                 />
-                <b-btn class="btn-primary">
+                <b-btn
+                  type="submit"
+                  class="btn-primary">
                   <iconSearch />
                 </b-btn>
               </div>
             </b-form-group>
-          </b-form>
+          </app-form>
         </b-col>
       </b-row>
     </b-container>

@@ -110,7 +110,7 @@ export default {
           })
         : imgUrl.staticUrl(maybeField.processed);
     } else {
-      return null;
+      return "";
     }
   },
 
@@ -134,8 +134,12 @@ export default {
    */
   buildComponent(item, page) {
     const entity = _.find(page.included, include => include.id === item.id);
+    if (entity === undefined) {
+      return {};
+    }
     let mediaItem = entity;
-    if (entity.type === "paragraph--sidebar_text_and_image") {
+    const entityType = _.get(entity, "type");
+    if (entityType === "paragraph--sidebar_text_and_image") {
       _.get(entity, "relationships.side_image.data");
       mediaItem = _.find(
         page.included,
@@ -149,15 +153,15 @@ export default {
     }
 
     return {
-      component: components[entity.type] || "ResourceCard",
+      component: components[entityType] || "ResourceCard",
       props: {
-        title: entity.attributes.title,
+        title: _.get(entity, "attributes.title", ""),
         body: this.buildProcessable(entity),
         img: media.buildImg(
           page,
           mediaItem,
           "field_image",
-          media.imageStyles[entity.type]
+          media.imageStyles[entityType]
         ),
         file: this.buildFile(entity, page),
         sidebarTop: this.buildProcessable(entity, "side_text_1"),
