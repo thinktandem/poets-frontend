@@ -134,7 +134,9 @@
                   size="lg"
                   :href="row.item.register_link.uri"
                 >{{ row.item.register_link.title }}</b-button>
-                <div class="share-list py-5">
+                <div
+                  v-show="resource-type === 'event'"
+                  class="share-list py-5">
                   <strong>share this event</strong>
                   <poem-actions
                     minimal
