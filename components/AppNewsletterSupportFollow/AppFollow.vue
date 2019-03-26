@@ -8,7 +8,9 @@
           v-for="i in social"
           :key="i.id"
         >
-          <b-link :href="i.url">
+          <b-link
+            :target="`${i.id}__networks`"
+            :href="i.url">
             <component :is="i.icon" />
           </b-link>
         </li>
