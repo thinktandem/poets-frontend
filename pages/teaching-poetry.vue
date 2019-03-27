@@ -25,12 +25,16 @@
 import BasicPage from "~/components/BasicPage";
 import AppListing from "~/components/AppListing";
 import CardDeck from "~/components/CardDeck";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     BasicPage,
     AppListing,
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

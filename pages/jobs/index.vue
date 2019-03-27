@@ -132,12 +132,16 @@ import searchHelpers from "~/plugins/search-helpers";
 import BasicPage from "~/components/BasicPage";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     BasicPage,
     iconMediaSkipBackwards,
     iconMediaSkipForwards
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   async asyncData({ app, store, params, query }) {
     const url = "/api/jobs";

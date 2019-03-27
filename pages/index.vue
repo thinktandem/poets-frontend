@@ -40,6 +40,7 @@ import _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
 import ProductFeature from "~/components/ProductFeature";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import MetaTags from "~/plugins/metatags";
 export default {
   layout: "default",
   components: {
@@ -50,9 +51,10 @@ export default {
     FeatureStack,
     ProductFeature
   },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
+  },
   async fetch({ app, store, params, route, menu }) {
-    // @todo: We're counting on this path in Drupal, which might be something we want
-    // to change.
     app.$buildBasicPage(app, store, "/home");
 
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);

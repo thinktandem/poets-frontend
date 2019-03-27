@@ -59,6 +59,8 @@ export default ({ app }, inject) => {
                 page.data.attributes.body.processed
               );
             }
+            const metatags = page.data.attributes.metatag_normalized;
+            store.commit("updateMetatags", metatags);
             store.commit("updateHero", {
               background: media.buildHeroBg(page),
               variant: _.get(page, "data.attributes.hero_type", "default"),

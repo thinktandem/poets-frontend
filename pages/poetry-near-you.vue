@@ -29,10 +29,14 @@
 import _ from "lodash";
 import CardDeck from "~/components/CardDeck";
 import ListPage from "~/components/ListPage";
+import MetaTags from "~/plugins/metatags";
 export default {
   components: {
     CardDeck,
     ListPage
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {
