@@ -74,11 +74,17 @@
       "poetry coalition": {
         "to": "/american-academy-poets/poetry-coalition"
       },
+      "poetry & democracy": {
+        "to": "/academy-american-poets/what-it-then-between-us"
+      },
+      "poetry & the body": {
+        "to": "/academy-american-poets/where-my-dreaming-and-my-loving-live"
+      },
       "poetry & migration": {
         "to": "/academy-american-poets/because-we-come-everything"
       },
-      "poetry & democracy": {
-        "to": "/academy-american-poets/what-it-then-between-us"
+      "faq": {
+        "to": "/academy-american-poets/poetry-coalition-frequently-asked-questions"
       }
     }
   }
