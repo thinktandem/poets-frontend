@@ -154,8 +154,7 @@ export default ({ app }, inject) => {
 
       return value;
     };
-    let mySubMenu = findChildren(route.path, subMenu);
-    store.commit("updateSubMenu", mySubMenu);
+    store.commit("updateSubMenu", findChildren(route.path, subMenu));
   });
   /**
    * Abstract away the ugliness of pulling a related entity
