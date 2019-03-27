@@ -70,8 +70,8 @@ const getEmail = (emails = []) =>
 // Helper to parse identity data
 const parseIdentity = (data = {}) =>
   _.merge({}, _.pick(data, ["identity_token", "provider"]), {
-    first: _.get(data, "name.familyName"),
-    last: _.get(data, "name.givenName"),
+    last: _.get(data, "name.familyName"),
+    first: _.get(data, "name.givenName"),
     email: getEmail(data.emails)
   });
 
@@ -144,7 +144,6 @@ export default {
       const user = oneall ? this.oneall.user_token : this.username;
       const pass = oneall ? undefined : this.password;
       const data = oneall ? parseIdentity(this.oneall.identity) : {};
-      console.log(JSON.stringify(data));
 
       // Attempt to login
       this.$auth
