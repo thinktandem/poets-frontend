@@ -4,11 +4,11 @@
       v-if="searchable.length >= 1 || filters.length >=1"
       class="filters-row">
       <b-col md="12">
-        <b-form
+        <app-form
           class="search"
-          @submit.stop.prevent="refreshQuery"
+          @submit="refreshQuery"
         >
-          <b-form-group>
+          <b-form-group class="border">
             <div
               class="legend-selects"
               v-if="filters.length >= 1">
@@ -20,13 +20,14 @@
                 :key="index"
                 inline
                 v-model="activeFilters[filter.id]"
+                @change="refreshQuery"
               >
                 <option :value="null">{{ filter.name }}</option>
                 <option
                   v-for="(option, index) in filter.options"
                   :key="index"
-                  :value="option.value"
-                >{{ option.label }}</option>
+                  :value="option"
+                >{{ index }}</option>
               </b-form-select>
             </div>
             <div
@@ -39,17 +40,16 @@
                   size="22"
                   :placeholder="`Search ${searchableLabels} ...`"
                 />
-                <b-input-group-append
-                  is-text
-                  @click.stop.prevent="refreshQuery"
-                >
-                  <magnifying-glass-icon
-                    class="icon mr-2"/>
+                <b-input-group-append>
+                  <b-btn type="submit">
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
+                  </b-btn>
                 </b-input-group-append>
               </b-input-group>
             </div>
           </b-form-group>
-        </b-form>
+        </app-form>
       </b-col>
     </b-row>
     <b-row>
@@ -64,6 +64,17 @@
           :per-page="pageLimit"
           :current-page="currentPage"
           @row-clicked="rowClicked">
+          <template
+            v-if="resourceType === 'teach_this_poem'"
+            slot="body"
+            slot-scope="data">
+            <div
+              v-if="data.item.body.summary !== null"
+              v-html="data.item.body.summary"/>
+            <div
+              v-else
+              v-html="teaserText(data.item.body.value, 100)"/>
+          </template>
           <template
             slot="title"
             slot-scope="data">
@@ -123,7 +134,9 @@
                   size="lg"
                   :href="row.item.register_link.uri"
                 >{{ row.item.register_link.title }}</b-button>
-                <div class="share-list py-5">
+                <div
+                  v-show="resource-type === 'event'"
+                  class="share-list py-5">
                   <strong>share this event</strong>
                   <poem-actions
                     minimal
@@ -168,22 +181,28 @@ export default {
     PoemActions
   },
   props: {
+    // Drupal content type we're fetching.
     resourceType: {
       type: String,
       default: "poems"
     },
+    // Expandable list item; specify fields that will show up. @todo: genericize
+    // for more content types and situations.
     details: {
       type: Object,
       default: () => {}
     },
+    // Limit the pager.
     pageLimit: {
       type: Number,
       default: 10
     },
+    // Allow sorting on a field.
     sort: {
       type: String,
       default: "Name"
     },
+    // Default params, for example, filtering results by a specific field.
     defaultParams: {
       type: Object,
       default: () => ({})
@@ -192,6 +211,7 @@ export default {
       type: Object,
       default: () => ({ field_author: "title" })
     },
+    // Fields define the data displayed, aka the columns of the list table.
     fields: {
       type: Object,
       default: () => {
@@ -206,6 +226,7 @@ export default {
       type: Array,
       default: () => []
     },
+    // What fields should be searchable. Leave blank for no search.
     searchable: {
       type: Array,
       default: () => []
@@ -287,10 +308,14 @@ export default {
     },
     query() {
       let fields = {};
-      fields[`node--${this.resourceType}`] = Object.keys(
-        // Always include the path for linking.
+      fields[`node--${this.resourceType}`] = _(
         _.merge({ path: null }, this.fields, this.details)
-      ).join(",");
+      )
+        .keys()
+        .map(field => {
+          return _.first(field.split("."));
+        })
+        .join(",");
 
       return _.merge(
         {},
@@ -309,7 +334,10 @@ export default {
           sort: "-created"
         },
         // Param overrides from props
-        this.defaultParams
+        this.defaultParams,
+        {
+          filter: this.activeFilters
+        }
       );
     },
     hasDetails() {
@@ -320,6 +348,14 @@ export default {
     }
   },
   methods: {
+    teaserText(text, len) {
+      const truncText = _.truncate(text, {
+        length: len,
+        separator: " "
+      });
+
+      return truncText;
+    },
     formatResults(response) {
       return _.map(response.data, row => {
         return _.merge(
@@ -327,7 +363,7 @@ export default {
           // Merge in the included items in the result set.
           _(this.includes)
             .mapValues((value, key, collection) =>
-              _.get(this.$getRelated(res, row, key), `attributes.${value}`)
+              _.get(this.$getRelated(response, row, key), `attributes.${value}`)
             )
             .value()
         );
@@ -352,6 +388,9 @@ export default {
           this.rawResponse = response;
           this.results = this.formatResults(response);
           this.resultTotal = parseInt(_.get(response, "meta.count", 0));
+          this.$router.push({
+            query: this.activeFilters // _.merge(this.activeFilters, this.searchFilters.filter)
+          });
         });
     },
     rowClicked(items) {

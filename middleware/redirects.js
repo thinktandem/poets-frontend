@@ -1,20 +1,19 @@
 import redirects from "~/redirects.json";
 /**
- * Middleware to perform predefined redirects
- * @param {Object} req
- *  request object
- * @param {Object} res
- *  response object
- * @param {function} next
- *  the next middleware to load
+ * @param {Object} context
+ *  the nuxt context, see https://nuxtjs.org/api/context
+ * @return {mixed}.
  */
-export default function(req, res, next) {
-  const redirect = redirects.find(r => r.from === req.url);
-  if (redirect) {
+export default function({ redirect, route }) {
+  const thisRedirect = redirects.find(r => r.from === req.url);
+  const poetsorgPattern = RegExp("/poetsorg/");
+  const homePattern = RegExp("/home");
+  if (thisRedirect) {
     console.log(`redirect: ${redirect.from} => ${redirect.to}`);
-    res.writeHead(301, { Location: redirect.to });
-    res.end();
-  } else {
-    next();
+    return redirect(thisRedirect.to);
+  } else if (poetsorgPattern.test(route.path)) {
+    return redirect(route.path.replace("/poetsorg/", "/"));
+  } else if (homePattern.test(route.path)) {
+    return redirect(route.path.replace("/home", "/"));
   }
 }
