@@ -123,18 +123,25 @@ export default ({ app }, inject) => {
       _.find(menu, (link, key) => key === "Poets.org");
     store.commit("updateMidMenu", transformTree(midMenu.children));
   });
+  // Given the subMenu.json object, find the sub menu items for the provided
+  // route.
   inject("buildSubMenu", ({ subMenu, route, store }) => {
-    // SubMenu Stuff.
+    // Function to recurse through subMenu.json.
     const findChildren = (uri, menu) => {
       let value = {};
+
+      // We've reached a dead end; bail.
       if (_.isEmpty(menu)) return;
 
+      // Go through each menu item; if it's a match with route, we've found our
+      // subMenu.
       _.each(menu, function(item) {
         if (item.to === uri && _.isEmpty(item.children)) {
           value = menu;
         }
       });
 
+      // If we haven't found our item, recurse until we do.
       if (_.isEmpty(value)) {
         _.each(menu, function(item) {
           if (!_.isEmpty(findChildren(uri, item.children))) {
