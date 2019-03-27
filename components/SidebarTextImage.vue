@@ -6,14 +6,6 @@
           <b-media
             no-body
             class="d-flex flex-column flex-md-row">
-            <b-media-aside
-              v-if="img !== null"
-              class="mr-3">
-              <b-img-lazy
-                fluid
-                :src="img.src"
-                :alt="img.alt"/>
-            </b-media-aside>
             <b-media-body
               class="d-flex flex-column">
               <component
@@ -33,6 +25,14 @@
           </b-media>
         </b-col>
         <b-col lg="4">
+          <b-media-aside
+            v-if="img !== null"
+            class="mr-3">
+            <b-img-lazy
+              fluid
+              :src="img.src"
+              :alt="img.alt"/>
+          </b-media-aside>
           <div
             v-html="sidebarTop"
             v-if="sidebarTop !== null"/>

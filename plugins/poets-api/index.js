@@ -114,7 +114,6 @@ export default ({ app }, inject) => {
     };
     const path = route.path.split("/");
     const top = transformTree(menu);
-
     store.commit(
       "updateTopMenu",
       _.reject(top, link => link.text == "Poets.org")
@@ -125,17 +124,37 @@ export default ({ app }, inject) => {
       _.find(menu, link => link.to === "/" + currentVertical) ||
       _.find(menu, (link, key) => key === "Poets.org");
     store.commit("updateMidMenu", transformTree(midMenu.children));
-    const currentSubPage = path.length >= 3 ? path[1] + "/" + path[2] : path[1];
+  });
+  // Given the subMenu.json object, find the sub menu items for the provided
+  // route.
+  inject("buildSubMenu", ({ subMenu, route, store }) => {
+    // Function to recurse through subMenu.json.
+    const findChildren = (uri, menu) => {
+      let value = {};
 
-    const buildSubMenu = (midMenu, currentSubPage) => {
-      // If the current page is in the second level, check for children
-      const subMenu =
-        _.find(midMenu.children, link => link.to === "/" + currentSubPage) ||
-        _.find(midMenu.children, link => link.to === "/" + path[1]);
-      return _.get(subMenu, "children") ? transformTree(subMenu.children) : [];
+      // We've reached a dead end; bail.
+      if (_.isEmpty(menu)) return;
+
+      // Go through each menu item; if it's a match with route, we've found our
+      // subMenu.
+      _.each(menu, function(item) {
+        if (item.to === uri && _.isEmpty(item.children)) {
+          value = menu;
+        }
+      });
+
+      // If we haven't found our item, recurse until we do.
+      if (_.isEmpty(value)) {
+        _.each(menu, function(item) {
+          if (!_.isEmpty(findChildren(uri, item.children))) {
+            value = findChildren(uri, item.children);
+          }
+        });
+      }
+
+      return value;
     };
-
-    store.commit("updateSubMenu", buildSubMenu(midMenu, currentSubPage));
+    store.commit("updateSubMenu", findChildren(route.path, subMenu));
   });
   /**
    * Abstract away the ugliness of pulling a related entity
