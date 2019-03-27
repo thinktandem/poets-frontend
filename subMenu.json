@@ -87,5 +87,16 @@
         "to": "/academy-american-poets/poetry-coalition-frequently-asked-questions"
       }
     }
+  },
+  "about us": {
+    "to": "/academy-american-poets/about-us",
+    "children": {
+      "about us": {
+        "to": "/academy-american-poets/about-us"
+      },
+      "partners": {
+        "to": "/academy-american-poets/partners"
+      }
+    }
   }
 }
