@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppNavigation />
-    <Login />
+    <nuxt/>
     <AppFooterPrimary />
     <AppFooterUtility />
   </div>
@@ -11,11 +11,9 @@
 import AppNavigation from "~/components/AppNavigation";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
-import Login from "~/components/Login";
 export default {
   components: {
     AppNavigation,
-    Login,
     AppFooterPrimary,
     AppFooterUtility
   }
@@ -39,5 +37,50 @@ html {
 *:after {
   box-sizing: border-box;
   margin: 0;
+}
+body {
+  background: #605b56;
+}
+.login-wrapper {
+  background: #fff;
+  width: 70%;
+  margin: 12% auto;
+  .create-account {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+}
+.form-signin {
+  max-width: 330px;
+  padding: 10% 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 </style>

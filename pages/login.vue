@@ -1,7 +1,6 @@
 <template>
   <div>
     <Login />
-    <nuxt />
   </div>
 </template>
 
@@ -14,6 +13,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

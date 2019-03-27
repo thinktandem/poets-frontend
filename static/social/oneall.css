@@ -1,0 +1,9 @@
+.plugin #providers .provider .button {
+  width: 401px !important;
+}
+.plugin #providers .provider .name {
+  font-size: 14px;
+}
+.plugin .footer {
+  bottom: -2px;
+}
