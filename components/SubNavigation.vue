@@ -14,12 +14,13 @@
       id="nav_collapse"
     >
       <b-navbar-nav class="ml-auto">
+        {{ links }}
         <b-nav-item
           v-for="(link, index) in links"
           :key="index"
           :to="link.to"
         >
-          {{ link.text }}
+          {{ index }}
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>

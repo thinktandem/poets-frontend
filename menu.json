@@ -40,6 +40,9 @@
       "materials for teachers": {
         "to": "/materials-teachers",
         "children": {
+          "Materials for Teachers": {
+            "to": "/materials-teachers"
+          },
           "Poems for Kids": {
             "to": "/materials-teachers/poems-kids"
           },
@@ -95,7 +98,18 @@
         "to": "/academy-american-poets/mission-history"
       },
       "poetry coalition": {
-        "to": "/american-academy-poets/poetry-coalition"
+        "to": "/american-academy-poets/poetry-coalition",
+        "children": {
+          "poetry coalition": {
+            "to": "/american-academy-poets/poetry-coalition"
+          },
+          "poetry & migration": {
+            "to": "/academy-american-poets/because-we-come-everything"
+          },
+          "poetry & democracy": {
+            "to": "/academy-american-poets/what-it-then-between-us"
+          }
+        }
       },
       "about us": {
         "to": "/american-academy-poets/about-us"

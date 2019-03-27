@@ -1,4 +1,5 @@
 import menu from "~/menu.json";
+
 /**
  * @param {Object} context
  *   NuxtJS context
