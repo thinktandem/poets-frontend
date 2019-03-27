@@ -68,7 +68,20 @@
       }
     }
   },
-
+  "prizes": {
+    "to": "/academy-american-poets/american-poets-prizes",
+    "children": {
+      "prizes": {
+        "to": "/academy-american-poets/american-poets-prizes"
+      },
+      "Lenore Marshall Poetry Prize": {
+        "to": "/academy-american-poets/prizes/lenore-marshall-poetry-prize"
+      },
+      "past prizes": {
+        "to": "/academy-american-poets/past-awards-grants"
+      }
+    }
+  },
   "leadership & staff": {
     "to": "/academy-american-poets/staff",
     "children": {
@@ -114,6 +127,34 @@
       },
       "partners": {
         "to": "/academy-american-poets/partners"
+      }
+    }
+  },
+  "about the celebration": {
+    "to": "/national-poetry-month/about-celebration",
+    "children": {
+      "about the celebration": {
+        "to": "/national-poetry-month/about-celebration"
+      },
+      "30 ways to celebrate": {
+        "to": "/national-poetry-month/30-ways-celebrate-national-poetry-month"
+      }
+    }
+  },
+  "American Poets Magazine": {
+    "to": "/american-poets-magazine",
+    "children": {
+      "about": {
+        "to": "/american-poets-magazine"
+      },
+      "table of contents": {
+        "to": "/american-poets-magazine/table-contents-fall-winter-2018"
+      },
+      "books noted": {
+        "to": "/american-poets-magazine/books-noted-fall-winter-2018"
+      },
+      "advertise": {
+        "to": "/american-poets-magazine/advertising-american-poets"
       }
     }
   }

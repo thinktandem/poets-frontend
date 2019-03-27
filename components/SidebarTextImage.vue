@@ -34,10 +34,14 @@
               :alt="img.alt"/>
           </b-media-aside>
           <div
-            v-html="sidebarTop"
+            v-for="(sect, i) in sidebarTop"
+            :key="i"
+            v-html="sect"
             v-if="sidebarTop !== null"/>
           <div
-            v-html="sidebarBottom"
+            v-for="(sect, i) in sidebarBottom"
+            :key="i"
+            v-html="sect"
             v-if="sidebarBottom !== null"/>
         </b-col>
       </b-row>

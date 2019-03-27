@@ -102,7 +102,7 @@ export default {
   },
 
   buildProcessable(entity, field = "body", summary = false) {
-    const maybeField = this.maybeField(entity, field);
+    const maybeField = _.get(entity, `attributes.${field}`);
     if (maybeField) {
       return _.isArray(maybeField) && maybeField.length > 0
         ? _.map(maybeField, function(value) {
@@ -151,6 +151,8 @@ export default {
           )
       );
     }
+    const sidebarTop = this.buildProcessable(entity, "side_text_1");
+    const sidebarBottom = this.buildProcessable(entity, "side_text_2");
 
     return {
       component: components[entityType] || "ResourceCard",
@@ -164,8 +166,10 @@ export default {
           media.imageStyles[entityType]
         ),
         file: this.buildFile(entity, page),
-        sidebarTop: this.buildProcessable(entity, "side_text_1"),
-        sidebarBottom: this.buildProcessable(entity, "side_text_2"),
+        sidebarTop: _.isArray(sidebarTop) ? sidebarTop : [sidebarTop],
+        sidebarBottom: _.isArray(sidebarBottom)
+          ? sidebarBottom
+          : [sidebarBottom],
         slides: this.buildSlides(item, page),
         youtubeId: this.maybeField(entity, "youtube_id"),
         vimeoId: this.maybeField(entity, "vimeo_id"),
