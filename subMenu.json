@@ -1,0 +1,59 @@
+{
+  "library (texts, books & more)": {
+    "to": "/libraries",
+    "children": {
+      "Library": {
+        "to": "/libraries"
+      },
+      "Poems": {
+        "to": "/poems"
+      },
+      "Poets": {
+        "to": "/poets"
+      },
+      "Texts": {
+        "to": "/texts"
+      },
+      "Books": {
+        "to": "/books"
+      },
+      "Audio": {
+        "to": "/audio"
+      },
+      "Video": {
+        "to": "/videos"
+      }
+    }
+  },
+  "leadership & staff": {
+    "to": "/academy-american-poets/staff",
+    "children": {
+      "Staff": {
+        "to": "/academy-american-poets/staff"
+      },
+      "Chancellors": {
+        "to": "/academy-american-poets/chancellors"
+      },
+      "Board of Directors": {
+        "to": "/academy-american-poets/board-directors"
+      },
+      "Education Advisory Council": {
+        "to": "/academy-american-poets/education-advisory-council"
+      }
+    }
+  },
+  "poetry coalition": {
+    "to": "/american-academy-poets/poetry-coalition",
+    "children": {
+      "poetry coalition": {
+        "to": "/american-academy-poets/poetry-coalition"
+      },
+      "poetry & migration": {
+        "to": "/academy-american-poets/because-we-come-everything"
+      },
+      "poetry & democracy": {
+        "to": "/academy-american-poets/what-it-then-between-us"
+      }
+    }
+  }
+}

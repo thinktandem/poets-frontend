@@ -14,7 +14,6 @@
       id="nav_collapse"
     >
       <b-navbar-nav class="ml-auto">
-        {{ links }}
         <b-nav-item
           v-for="(link, index) in links"
           :key="index"

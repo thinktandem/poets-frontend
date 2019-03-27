@@ -122,6 +122,8 @@ export default ({ app }, inject) => {
       _.find(menu, link => link.to === "/" + currentVertical) ||
       _.find(menu, (link, key) => key === "Poets.org");
     store.commit("updateMidMenu", transformTree(midMenu.children));
+  });
+  inject("buildSubMenu", ({ subMenu, route, store }) => {
     // SubMenu Stuff.
     const findChildren = (uri, menu) => {
       let value = {};
@@ -143,7 +145,7 @@ export default ({ app }, inject) => {
 
       return value;
     };
-    let mySubMenu = findChildren(route.path, menu);
+    let mySubMenu = findChildren(route.path, subMenu);
     store.commit("updateSubMenu", mySubMenu);
   });
   /**
