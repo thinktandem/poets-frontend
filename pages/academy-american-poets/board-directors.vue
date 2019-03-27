@@ -12,10 +12,14 @@
 
 <script>
 import CardDeck from "~/components/CardDeck";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {};

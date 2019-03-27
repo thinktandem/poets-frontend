@@ -18,10 +18,15 @@ import ProgramsAnnouncements from "~/components/ProgramsAnnouncements";
 import CardDeck from "~/components/CardDeck";
 import * as qs from "qs";
 import * as _ from "lodash";
+import MetaTags from "~/plugins/metatags";
+
 export default {
   components: {
     ProgramsAnnouncements,
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   async asyncData({ app, params, query }) {
     const programRequestParams = qs.stringify({
@@ -144,6 +149,8 @@ export default {
       lead:
         "The Academy of American Poets was founded in 1934 to support American poets at all stages of their careers and to foster the appreciation of contemporary poetry."
     });
+
+    return app.$buildBasicPage(app, store, route.path);
   }
 };
 </script>

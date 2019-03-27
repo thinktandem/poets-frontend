@@ -12,10 +12,14 @@
 
 <script>
 import CardDeck from "~/components/CardDeck";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {};
@@ -35,6 +39,9 @@ export default {
     return {
       eac: eac.rows
     };
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {},
   watchQuery: true

@@ -166,6 +166,7 @@ import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 import BasicPage from "~/components/BasicPage";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -173,6 +174,9 @@ export default {
     iconMediaSkipForwards,
     iconSearch,
     BasicPage
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {
