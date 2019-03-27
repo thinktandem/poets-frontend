@@ -51,6 +51,24 @@
       }
     }
   },
+  "programs": {
+    "to": "/academy-american-poets/programs",
+    "children": {
+      "programs": {
+        "to": "/academy-american-poets/programs"
+      },
+      "prizes": {
+        "to": "/academy-american-poets/american-poets-prizes"
+      },
+      "poem-a-day": {
+        "to": "/academy-american-poets/programs/poem-day"
+      },
+      "blaney lecture": {
+        "to": "/academy-american-poets/programs/blaney-lecture"
+      }
+    }
+  },
+
   "leadership & staff": {
     "to": "/academy-american-poets/staff",
     "children": {
@@ -69,10 +87,10 @@
     }
   },
   "poetry coalition": {
-    "to": "/american-academy-poets/poetry-coalition",
+    "to": "/academy-american-poets/poetry-coalition",
     "children": {
       "poetry coalition": {
-        "to": "/american-academy-poets/poetry-coalition"
+        "to": "/academy-american-poets/poetry-coalition"
       },
       "poetry & democracy": {
         "to": "/academy-american-poets/what-it-then-between-us"
