@@ -46,8 +46,9 @@ module.exports = {
     "~/plugins/axios",
     "~/plugins/vue2-filters",
     "~/plugins/asyncComputed",
-    "~/plugins/poets-api",
     "~/plugins/apiv2"
+    "~/plugins/globalComponents",
+    "~/plugins/poets-api"
   ],
   css: ["~assets/scss/app.scss"],
   /*
@@ -66,9 +67,12 @@ module.exports = {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
   },
+  router: {
+    middleware: ["menu", "redirects"]
+  },
   /*
-  ** Customize the progress bar color
-  */
+   * Customize the progress bar color
+   */
   loading: { color: "#F53F5B", height: "5px" },
   /*
   ** Build configuration

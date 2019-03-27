@@ -3,7 +3,7 @@
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
-          <b-form
+          <app-form
             class="poems-list__search"
             @submit.stop.prevent="applyFilters"
           >
@@ -31,7 +31,7 @@
                 </b-input-group>
               </div>
             </b-form-group>
-          </b-form>
+          </app-form>
         </b-col>
       </b-row>
     </b-container>
