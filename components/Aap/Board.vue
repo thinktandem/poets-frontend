@@ -5,7 +5,15 @@
     itemscope
     itemtype="http://schema.org/Person"
   >
+
+    <b-img-lazy
+      v-if="img"
+      :src="img.src"
+      :alt="img.alt"
+      fluid-grow
+    />
     <div
+      v-else
       class="empty-div"
     />
     <div class="poet__name-bio">
@@ -21,7 +29,9 @@
           v-html="job"/>
       </div>
       <div class="poet__bio">
-        <div v-html="bio"/>
+        <app-teaser-text
+          :text="bio"
+          :length="82"/>
         <div
           class="orange-link-holder">
           <a
@@ -37,12 +47,9 @@
 </template>
 
 <script>
+import AppTeaserText from "~/components/AppTeaserText";
 export default {
-  data() {
-    return {
-      baseurl: process.env.baseURL
-    };
-  },
+  components: { AppTeaserText },
   props: {
     title: {
       type: String,
@@ -52,9 +59,9 @@ export default {
       type: String,
       default: ""
     },
-    field_image: {
-      type: String,
-      default: ""
+    img: {
+      type: Object,
+      default: () => ({})
     },
     job: {
       type: String,

@@ -98,13 +98,7 @@ export default {
         params: {
           filter: {
             status: 1,
-            field_p_type: "poet",
-
-            image: {
-              path: "field_image.id",
-              operator: "<>",
-              value: ""
-            }
+            field_p_type: "poet"
           },
           page: {
             limit: 6
@@ -118,11 +112,14 @@ export default {
           rows: _.map(_.get(res, "data.data"), row => {
             return {
               row,
-              name: _.get(row, "attributes.title", null),
+              name: _.get(row, "attributes.title", ""),
               bio:
-                _.get(row, "attributes.body.summary", null) ||
-                _.get(row, "attributes.body.processed", null),
-              img: app.$buildImg(res.data, row, "field_image", "portrait")
+                _.get(row, "attributes.body.summary", "") ||
+                _.get(row, "attributes.body.processed", ""),
+              img: app.$buildImg(res.data, row, "field_image", "portrait", {
+                src: "/images/default-person.png",
+                alt: _.get(row, "attributes.title") + " portrait"
+              })
             };
           }),
           poetsLink: {
