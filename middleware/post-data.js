@@ -49,6 +49,7 @@ export default function({ req, res, store }) {
       req.on("error", error => reject({ oneall: error }));
     })
       .then(data => {
+        console.log(data);
         // Do some special handling for oneall usertoken so that this all runs server side
         if (validateOneAll(data)) {
           return new Promise((resolve, reject) => {

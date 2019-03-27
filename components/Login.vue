@@ -56,12 +56,24 @@
 
 <script>
 import _ from "lodash";
+import utils from "~/plugins/auth-utils";
 
-// Helper to return correct bootstrap form state
-const getState = (data = null) => {
-  if (!_.isEmpty(data)) return true;
-  else return null;
-};
+// Helper to get email from identity data
+const getEmail = (emails = []) =>
+  _.first(
+    _(emails)
+      .filter(email => email.is_verified)
+      .map(email => email.value)
+      .value()
+  );
+
+// Helper to parse identity data
+const parseIdentity = (data = {}) =>
+  _.merge({}, _.pick(data, ["identity_token", "provider"]), {
+    first: _.get(data, "name.familyName"),
+    last: _.get(data, "name.givenName"),
+    email: getEmail(data.emails)
+  });
 
 // Helper to validate oneall user data
 const validateOneAll = (data = {}) => {
@@ -86,10 +98,10 @@ export default {
   },
   computed: {
     hasPassword() {
-      return getState(this.password);
+      return utils.getState(this.password);
     },
     hasUsername() {
-      return getState(this.username);
+      return utils.getState(this.username);
     },
     submittable() {
       return this.hasUsername && this.hasPassword && !this.busy;
@@ -131,7 +143,8 @@ export default {
       const oneall = this.type === "oneall";
       const user = oneall ? this.oneall.user_token : this.username;
       const pass = oneall ? undefined : this.password;
-      const data = oneall ? this.oneall.identity : {};
+      const data = oneall ? parseIdentity(this.oneall.identity) : {};
+      console.log(JSON.stringify(data));
 
       // Attempt to login
       this.$auth

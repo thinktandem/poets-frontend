@@ -35,7 +35,7 @@ module.exports = {
     }
   },
   router: {
-    middleware: ["post-data"]
+    middleware: ["menu", "post-data", "redirects"]
   },
   toast: {
     position: "top-left",
@@ -46,7 +46,7 @@ module.exports = {
     "~/plugins/axios",
     "~/plugins/vue2-filters",
     "~/plugins/asyncComputed",
-    "~/plugins/apiv2"
+    "~/plugins/apiv2",
     "~/plugins/globalComponents",
     "~/plugins/poets-api"
   ],
@@ -66,9 +66,6 @@ module.exports = {
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
-  },
-  router: {
-    middleware: ["menu", "redirects"]
   },
   /*
    * Customize the progress bar color
