@@ -12,56 +12,10 @@
         "to": "/poem-day"
       },
       "library (texts, books & more)": {
-        "to": "/libraries",
-        "children": {
-          "Library": {
-            "to": "/libraries"
-          },
-          "Poems": {
-            "to": "/poems"
-          },
-          "Poets": {
-            "to": "/poets"
-          },
-          "Texts": {
-            "to": "/texts"
-          },
-          "Books": {
-            "to": "/books"
-          },
-          "Audio": {
-            "to": "/audio"
-          },
-          "Video": {
-            "to": "/videos"
-          }
-        }
+        "to": "/libraries"
       },
       "materials for teachers": {
-        "to": "/materials-teachers",
-        "children": {
-          "Materials for Teachers": {
-            "to": "/materials-teachers"
-          },
-          "Poems for Kids": {
-            "to": "/materials-teachers/poems-kids"
-          },
-          "Poems for Teens": {
-            "to": "/poems-teens"
-          },
-          "Lesson Plans": {
-            "to": "/lesson-plans"
-          },
-          "Essays": {
-            "to": "/essays"
-          },
-          "Teach this Poem": {
-            "to": "/teach-poem"
-          },
-          "Resources": {
-            "to": "/resources"
-          }
-        }
+        "to": "/materials-teachers"
       },
       "poetry near you": {
         "to": "/poetry-near-you"
@@ -78,38 +32,13 @@
         "to": "/academy-american-poets/american-poets-prizes"
       },
       "leadership & staff": {
-        "to": "/academy-american-poets/staff",
-        "children": {
-          "Staff": {
-            "to": "/academy-american-poets/staff"
-          },
-          "Chancellors": {
-            "to": "/academy-american-poets/chancellors"
-          },
-          "Board of Directors": {
-            "to": "/academy-american-poets/board-directors"
-          },
-          "Education Advisory Council": {
-            "to": "/academy-american-poets/education-advisory-council"
-          }
-        }
+        "to": "/academy-american-poets/staff"
       },
       "mission & history": {
         "to": "/academy-american-poets/mission-history"
       },
       "poetry coalition": {
-        "to": "/american-academy-poets/poetry-coalition",
-        "children": {
-          "poetry coalition": {
-            "to": "/american-academy-poets/poetry-coalition"
-          },
-          "poetry & migration": {
-            "to": "/academy-american-poets/because-we-come-everything"
-          },
-          "poetry & democracy": {
-            "to": "/academy-american-poets/what-it-then-between-us"
-          }
-        }
+        "to": "/american-academy-poets/poetry-coalition"
       },
       "about us": {
         "to": "/american-academy-poets/about-us"

@@ -25,6 +25,32 @@
       }
     }
   },
+  "materials for teachers": {
+    "to": "/materials-teachers",
+    "children": {
+      "Materials for Teachers": {
+        "to": "/materials-teachers"
+      },
+      "Poems for Kids": {
+        "to": "/materials-teachers/poems-kids"
+      },
+      "Poems for Teens": {
+        "to": "/poems-teens"
+      },
+      "Lesson Plans": {
+        "to": "/lesson-plans"
+      },
+      "Essays": {
+        "to": "/essays"
+      },
+      "Teach this Poem": {
+        "to": "/teach-poem"
+      },
+      "Resources": {
+        "to": "/resources"
+      }
+    }
+  },
   "leadership & staff": {
     "to": "/academy-american-poets/staff",
     "children": {
