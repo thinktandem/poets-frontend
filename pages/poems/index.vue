@@ -12,23 +12,56 @@
                 <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
-              </div>
-              <div class="poems-list__input--search">
-                <b-input-group>
-                  <b-form-input
-                    v-model="combinedInput"
-                    type="text"
-                    size="22"
-                    placeholder="Search title or text ..."
-                  />
-                  <b-input-group-append
-                    is-text
-                    @click.stop.prevent="applyFilters"
-                  >
-                    <magnifying-glass-icon
-                      class="icon mr-2"/>
-                  </b-input-group-append>
-                </b-input-group>
+                <b-form-select
+                  inline
+                  v-model="occasionsInput"
+                >
+                  <option :value="null">Occasions</option>
+                  <option
+                    v-for="(opt, i) in $store.state.occasions"
+                    :key="`opt-${i}`"
+                    :value="opt"
+                  >{{ i }}</option>
+                </b-form-select>
+                <b-form-select
+                  inline
+                  v-model="themesInput"
+                >
+                  <option :value="null">Themes</option>
+                  <option
+                    v-for="(opt, i) in $store.state.themes"
+                    :key="`opt-${i}`"
+                    :value="opt"
+                  >{{ i }}</option>
+                </b-form-select>
+                <b-form-select
+                  inline
+                  v-model="formInput"
+                >
+                  <option :value="null">Forms</option>
+                  <option
+                    v-for="(opt, i) in $store.state.form"
+                    :key="`opt-${i}`"
+                    :value="opt"
+                  >{{ i }}</option>
+                </b-form-select>
+                <div class="poems-list__input--search">
+                  <b-input-group>
+                    <b-form-input
+                      v-model="combinedInput"
+                      type="text"
+                      size="22"
+                      placeholder="Search title or text ..."
+                    />
+                    <b-input-group-append
+                      is-text
+                      @click.stop.prevent="applyFilters"
+                    >
+                      <magnifying-glass-icon
+                        class="icon mr-2"/>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
               </div>
             </b-form-group>
           </app-form>
@@ -58,9 +91,9 @@
             v-html="poem.title"
           />
         </b-col>
-        <b-col md="4">
-          {{ poem.field_author }}
-        </b-col>
+        <b-col
+          md="4"
+          v-html="poem.field_author"/>
         <b-col md="4">
           {{ poem.field_date_published }}
         </b-col>
@@ -169,6 +202,7 @@
 
 <script>
 import searchHelpers from "~/plugins/search-helpers";
+import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
@@ -181,16 +215,40 @@ export default {
   },
   data() {
     return {
+      occasionsInput: null,
+      themesInput: null,
+      formInput: null,
       combinedInput: null,
       results: null,
+      currentPage: null,
+      totalPages: null,
+      pageNum: null,
       Next: null,
       Prev: null,
+      preparedThemes: null,
+      preparedForm: null,
       preparedCombine: null
     };
   },
   async asyncData({ app, params, query, route }) {
     const url = "/api/poems";
-    return searchHelpers.getSearchResults(url, app, query);
+    const msh = await searchHelpers.getSearchResults(url, app, query);
+
+    return {
+      occasionsInput: msh.occasionsInput,
+      themesInput: msh.themesInput,
+      searchInput: msh.searchInput,
+      results: msh.results,
+      currentPaage: msh.currentPage,
+      totalPages: msh.totalPages,
+      pageNum: msh.pageNum,
+      Next: msh.Next,
+      Prev: msh.Prev,
+      preparedOccasions: msh.preparedOccasions,
+      preparedThemes: msh.preparedThemes,
+      preparedForm: msh.preparedForm,
+      preparedCombine: msh.preparedCombine
+    };
   },
   methods: {
     applyFilters() {
@@ -198,11 +256,44 @@ export default {
       if (this.combinedInput) {
         myQuery.combine = this.combinedInput;
       }
+      if (this.themesInput) {
+        myQuery.field_poem_themes_target_id = this.themesInput;
+      }
+      if (this.occasionsInput) {
+        myQuery.field_occasion_target_id = this.occasionsInput;
+      }
+      if (this.formInput) {
+        myQuery.field_form_target_id = this.formInput;
+      }
       this.$router.push({
         name: "poems",
         query: myQuery
       });
     }
+  },
+  async fetch({ app, store, query, route }) {
+    app.$buildBasicPage(app, store, "/poems");
+    const occasions = await filterHelpers.getFilterOptions(
+      app,
+      "/api/taxonomy_term/occasions",
+      "'fields[taxonomy_term--occasions]': 'drupal_internal__tid,name",
+      "taxonomy"
+    );
+    const themes = await filterHelpers.getFilterOptions(
+      app,
+      "/api/taxonomy_term/themes",
+      "'fields[taxonomy_term--themes]': 'drupal_internal__tid,name",
+      "taxonomy"
+    );
+    const forms = await filterHelpers.getFilterOptions(
+      app,
+      "/api/taxonomy_term/form",
+      "'fields[taxonomy_term--form]': 'drupal_internal__tid,name",
+      "taxonomy"
+    );
+    store.commit("updateForm", forms.options);
+    store.commit("updateOccasions", occasions.options);
+    store.commit("updateThemes", themes.options);
   },
   watchQuery: true
 };

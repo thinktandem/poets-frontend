@@ -29,6 +29,12 @@ export default {
         if (query.state) preparedState = "&state=" + query.state;
         if (query.school) preparedSchool = "&school=" + query.school;
         if (query.combine) preparedCombine = "&combine=" + query.combine;
+        if (query.theme)
+          preparedTheme = "&field_poem_themes_target_id=" + query.theme;
+        if (query.occasions)
+          preparedOccasions = "&field_occasion_target_id=" + query.occasions;
+        if (query.form)
+          preparedForm = "&field_form_target_id=" + query.occasions;
 
         return {
           results: res.data.rows,

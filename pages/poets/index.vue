@@ -225,7 +225,6 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/poets");
     const url = "/api/poets";
     const msh = await searchHelpers.getSearchResults(url, app, query);
     let poets = await app.$axios
@@ -299,6 +298,8 @@ export default {
     );
     store.commit("updateStates", states.options);
     store.commit("updateFilterOptions", schools.options);
+
+    return app.$buildBasicPage(app, store, "/poets");
   },
   methods: {
     applyFilters() {
