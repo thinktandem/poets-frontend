@@ -205,7 +205,6 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/texts");
     const url = "/api/texts_list";
     const mySearchHelpers = await searchHelpers.getSearchResults(
       url,
@@ -232,6 +231,9 @@ export default {
       preparedCombine: mySearchHelpers.preparedCombine,
       texts: texts.rows
     };
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, "/texts");
   },
   methods: {
     applyFilters() {
