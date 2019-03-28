@@ -21,30 +21,55 @@ export default {
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
-  data() {
-    return {};
-  },
   async asyncData({ app, store, params }) {
-    let chancellors = await app.$axios
-      .get("/api/aap_chancellors", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
+    return app.$axios
+      .$get("/api/node/person", {
+        params: {
+          filter: {
+            chancellorGroup: {
+              group: {
+                conjunction: "AND"
+              }
+            },
+            chancellor: {
+              condition: {
+                path: "field_chancellor",
+                operator: "IS NOT NULL",
+                memberOf: "chancellorGroup"
+              }
+            },
+            chancellorEnd: {
+              condition: {
+                path: "field_chancellor_end",
+                operator: "IS NULL",
+                memberOf: "chancellorGroup"
+              }
+            }
+          },
+          sort: "title",
+          include: "field_image"
+        }
       })
-      .catch(err => {
-        console.log(err);
+      .then(response => {
+        return {
+          chancellors: _.map(response.data, person => ({
+            title: _.get(person, "attributes.title"),
+            img: app.$buildImg(response, person, "field_image", "portrait", {
+              src: "/images/default-person.png",
+              alt: _.get(person, "attributes.title") + " portrait"
+            }),
+            job: _.get(person, "attributes.field_job_title"),
+            bio:
+              _.get(person, "attributes.body.summary") ||
+              _.get(person, "attributes.body.processed"),
+            link: _.get(person, "attributes.path.alias")
+          }))
+        };
       });
-
-    return {
-      chancellors: chancellors.rows
-    };
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
-  },
-  methods: {},
-  watchQuery: true
+  }
 };
 </script>
 

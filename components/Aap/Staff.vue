@@ -5,9 +5,10 @@
     itemscope
     itemtype="http://schema.org/Person"
   >
-    <b-img
-      v-if="field_image"
-      :src="baseurl + field_image"
+    <b-img-lazy
+      v-if="img"
+      :src="img.src"
+      :alt="img.alt"
       fluid-grow
     />
     <div
@@ -43,11 +44,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      baseurl: process.env.baseURL
-    };
-  },
   props: {
     title: {
       type: String,
@@ -57,9 +53,9 @@ export default {
       type: String,
       default: ""
     },
-    field_image: {
-      type: String,
-      default: ""
+    img: {
+      type: Object,
+      default: () => ({})
     },
     job: {
       type: String,

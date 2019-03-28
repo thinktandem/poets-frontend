@@ -2,9 +2,9 @@
   <div>
     <b-container>
       <CardDeck
-        cardtype="EAC"
-        cols="4"
-        :cards="eac"
+        cardtype="Board"
+        cols="3"
+        :cards="teacher"
       />
     </b-container>
   </div>
@@ -25,20 +25,53 @@ export default {
     return {};
   },
   async asyncData({ app, store, params }) {
-    let eac = await app.$axios
-      .get("/api/aap_eac", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
+    return app.$axios
+      .$get("/api/node/person", {
+        params: {
+          filter: {
+            teacherGroup: {
+              group: {
+                conjunction: "AND"
+              }
+            },
+            teacher: {
+              condition: {
+                path: "field_teacher",
+                operator: "IS NOT NULL",
+                memberOf: "teacherGroup"
+              }
+            },
+            teacherEnd: {
+              condition: {
+                path: "field_teacher_end",
+                operator: "IS NULL",
+                memberOf: "teacherGroup"
+              }
+            }
+          },
+          sort: "title",
+          include: "field_image"
+        }
       })
-      .catch(err => {
-        console.log(err);
+      .then(response => {
+        return {
+          teacher: _.map(response.data, person => ({
+            title: _.get(person, "attributes.title"),
+            img: app.$buildImg(response, person, "field_image", "portrait", {
+              src: "/images/default-person.png",
+              alt: _.get(person, "attributes.title") + " portrait"
+            }),
+            job: _.get(person, "attributes.field_job_title"),
+            bio:
+              _.get(person, "attributes.body.summary") ||
+              _.get(person, "attributes.body.processed"),
+            link: _.get(person, "attributes.path.alias")
+          }))
+        };
       });
-
-    return {
-      eac: eac.rows
-    };
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
