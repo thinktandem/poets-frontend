@@ -21,24 +21,16 @@
                 <b-form-select
                   inline
                   v-model="stateInput"
+                  :options="$store.state.states"
                 >
                   <option :value="null">State</option>
-                  <option
-                    v-for="(opt, i) in $store.state.states"
-                    :key="`opt-${i}`"
-                    :value="i"
-                  >{{ opt }}</option>
                 </b-form-select>
                 <b-form-select
                   v-model="schoolInput"
                   inline
+                  :options="$store.state.filterOptions"
                 >
                   <option :value="null">Schools & Movements</option>
-                  <option
-                    v-for="(opt, i) in $store.state.filterOptions"
-                    :key="`opt-${i}`"
-                    :value="opt"
-                  >{{ i }}</option>
                 </b-form-select>
               </div>
 
@@ -229,7 +221,6 @@ export default {
     };
   },
   async asyncData({ app, store, params, query }) {
-    app.$buildBasicPage(app, store, "/poets");
     const url = "/api/poets";
     const msh = await searchHelpers.getSearchResults(url, app, query);
     let poets = await app.$axios

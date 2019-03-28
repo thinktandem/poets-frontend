@@ -27,6 +27,9 @@ const createStore = () => {
       },
       states: {},
       authors: {},
+      occasions: {},
+      themes: {},
+      form: {},
       productFeature: {},
       pageData: {},
       sidebarData: {},
@@ -75,6 +78,15 @@ const createStore = () => {
       },
       updateAuthors(state, payload) {
         state.authors = payload;
+      },
+      updateOccasions(state, payload) {
+        state.occasions = payload;
+      },
+      updateThemes(state, payload) {
+        state.themes = payload;
+      },
+      updateForm(state, payload) {
+        state.form = payload;
       },
       updateProductFeature(state, payload) {
         state.productFeature = payload;
