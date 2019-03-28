@@ -4,40 +4,19 @@ import qs from "qs";
 export default {
   async getFilterOptions(app, url, fieldName, dataType) {
     const fields = qs.stringify(fieldName);
-    // return app.$axios
     let allOpts = {};
-    let opts = await app.$axios
-      .get(url, {
-        params: {
-          fields
-        }
-      })
-      .then(res => {
-        return {
-          options: this.getFilterSet(res.data.data, fieldName, dataType),
-          links: _.get(res, "data.links.next")
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    console.log("\n\n my links --\n\n", opts.links);
-    allOpts = _.merge(allOpts, opts.options);
-    while (opts.links) {
+    let opts = {};
+    do {
       opts = await app.$axios
-        .get(qs.stringify(opts.links.href), {
+        .get(url, {
           params: {
             fields
           }
         })
         .then(res => {
-          console.log(
-            "\n\nnext 50?\n",
-            this.getFilterSet(res.data.data, fieldName, dataType)
-          );
           return {
             options: this.getFilterSet(res.data.data, fieldName, dataType),
-            links: _.get(res, "data.links.next")
+            links: _.get(res, "data.links.next", null)
           };
         })
         .catch(err => {
@@ -45,7 +24,8 @@ export default {
         });
 
       allOpts = _.merge(allOpts, opts.options);
-    }
+      url = _.get(opts, "links.href", null);
+    } while (url);
 
     return {
       options: allOpts
@@ -56,7 +36,6 @@ export default {
    */
   getFilterSet(data, fieldName, dataType) {
     let nextOpts = {};
-    // _.each(res.data.data, i => {
     _.each(data, i => {
       if (dataType == "taxonomy") {
         nextOpts[i.attributes.name] = i.attributes.drupal_internal__tid;
@@ -64,6 +43,7 @@ export default {
         nextOpts[i.attributes.drupal_internal__nid] = i.attributes.title;
       }
     });
+
     return nextOpts;
   }
 };
