@@ -4,8 +4,6 @@
     type="dark"
     class="shadow-sm d-flex"
     variant="dark">
-
-
     <b-navbar-brand
       tag="div"
       class="btn btn-md d-flex flex-row">
@@ -32,7 +30,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item
           v-show="!this.$auth.loggedIn"
-          :href="loginUrl"
+          to="/login"
           class="navbar__login">Membership / Login</b-nav-item>
         <b-nav-item-dropdown
           v-show="this.$auth.loggedIn"
@@ -40,7 +38,7 @@
           :text="name"
           extra-toggle-classes="nav-link-loggedin"
           right>
-          <b-dropdown-item :href="dashboardURL">Dashboard</b-dropdown-item>
+          <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
           <b-dropdown-divider />
           <b-dropdown-item @click="logout">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
@@ -69,8 +67,11 @@ import { get, isNil } from "lodash";
 /*
  * Helper to get name
  */
-const getName = (first = "My", last = "Account") => {
-  // Alao handle the cases where first is null
+const getName = (first = "My", last = "Account", name = "My Account") => {
+  // Use the username if we dont have first/last
+  if (isNil(first) && isNil(last)) {
+    return name;
+  }
   if (isNil(first)) {
     first = "My";
   }
@@ -80,33 +81,21 @@ const getName = (first = "My", last = "Account") => {
   return `${first} ${last}`;
 };
 
-/*
- * Helper to get dashboard url
- */
-const getDashboardURL = (id = "") => {
-  return `${process.env.baseURL}/user/${id}`;
-};
-
 export default {
-  data() {
-    return {
-      loginUrl: `${process.env.baseURL}/user/login?redirect=frontend`
-    };
-  },
   computed: {
     name() {
       return getName(
-        get(this.$auth, "user.field_first_name", undefined),
-        get(this.$auth, "user.field_last_name", undefined)
+        get(this.$auth, "user.meta.field_first_name", undefined),
+        get(this.$auth, "user.meta.field_last_name", undefined),
+        get(this.$auth, "user.meta.name", undefined)
       );
-    },
-    dashboardURL() {
-      return getDashboardURL(get(this.$auth, "user.drupal_internal__uid", ""));
     }
   },
   methods: {
     logout() {
       this.$auth.logout();
+      // Hard reload where we at
+      window.location.reload(true);
     }
   }
 };

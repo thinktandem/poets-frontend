@@ -82,6 +82,9 @@ const createStore = () => {
       updatePageData(state, payload) {
         state.pageData = payload;
       },
+      updatePostData(state, payload) {
+        state.postData = payload;
+      },
       updateSidebarData(state, payload) {
         state.sidebarData = payload;
       },

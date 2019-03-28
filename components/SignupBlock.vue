@@ -53,7 +53,7 @@ export default {
         .post(`/api/cm/${this.list}`, body)
         .then(() => {
           this.$toast
-            .show("Thanks! You are subscribed.", {
+            .error("Thanks! You are subscribed.", {
               theme: "toasted-primary",
               position: "top-left"
             })
@@ -61,7 +61,7 @@ export default {
         })
         .catch(err => {
           this.$toast
-            .show(
+            .error(
               "Sorry, there was an error subscribing you, please try again :(",
               {
                 theme: "toasted-danger",
