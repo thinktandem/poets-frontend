@@ -343,7 +343,6 @@ export default {
 
 .poems-list__input--search {
   flex-basis: 100%;
-  padding: 1rem;
   position: relative;
 
   input {
