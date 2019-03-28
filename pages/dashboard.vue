@@ -121,6 +121,9 @@
 import _ from "lodash";
 import utils from "~/plugins/auth-utils.js";
 
+// Selected defaults
+const selectedAnthologyDefaults = { title: null };
+
 // Helper to update an anthology's display data
 // @NOTE: we do this because we need to trigger a "change" in this.anthologies
 // eg its not sufficient to just find an anthology and set it
@@ -144,7 +147,7 @@ export default {
       userData: utils.parseUser(this.$auth.user.getUser()),
       membershipData: utils.parseMembership(this.$auth.user.getUser()),
       anthologies: [],
-      selectedAnthology: {}
+      selectedAnthology: selectedAnthologyDefaults
     };
   },
   computed: {
@@ -197,7 +200,7 @@ export default {
       this.$auth.user.api
         .deleteAnthologies(anthology)
         .then(() => {
-          this.selectedAnthology = {};
+          this.selectedAnthology = selectedAnthologyDefaults;
           _.remove(this.anthologies, { id: anthology.id });
         })
         .catch(error => {

@@ -6,7 +6,7 @@ const getAddress = (one = "", two = "") => `${one} ${two}`;
 
 // Helper to build teh city line
 // eslint-disable-next-line camelcase
-const getCity = ({ locality, administrative_area, postal_code }) => {
+const getCity = ({ locality, administrative_area, postal_code } = {}) => {
   let line = "";
   if (locality) {
     line = locality;
