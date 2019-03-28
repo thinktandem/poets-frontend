@@ -108,7 +108,10 @@ export default {
         },
         cards: _.map(response.data, poet => ({
           name: _.get(poet, "attributes.title"),
-          img: app.$buildImg(response, poet, "field_image", "portrait"),
+          img: app.$buildImg(response, poet, "field_image", "portrait", {
+            src: "/images/default-person.png",
+            alt: _.get(poet, "attributes.title") + " portrait"
+          }),
           bio:
             _.get(poet, "attributes.body.summary") ||
             _.get(poet, "attributes.body.processed"),

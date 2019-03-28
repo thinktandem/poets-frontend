@@ -115,12 +115,7 @@ export default {
     const featuredPoetsQuery = qs.stringify({
       filter: {
         status: 1,
-        field_p_type: "poet",
-        image: {
-          path: "field_image.id",
-          operator: "<>",
-          value: ""
-        }
+        field_p_type: "poet"
       },
       sort: "-promote",
       page: {
@@ -135,23 +130,10 @@ export default {
       store.commit("updateFeaturedPoets", {
         poets: _.map(featuredPoets.data, poet => ({
           name: _.get(poet, "attributes.title", null),
-          img: {
-            src: _.get(
-              _.find(
-                featuredPoets.included,
-                include =>
-                  include.id ===
-                  _.get(
-                    _.first(poet.relationships.field_image.data),
-                    "id",
-                    null
-                  )
-              ),
-              "links.portrait.href",
-              ""
-            ),
-            alt: _.get(_.first(poet.relationships.field_image.data), "meta.alt")
-          },
+          img: app.$buildImg(featuredPoets, poet, "field_image", "portrait", {
+            src: "/images/default-person.png",
+            alt: _.get(poet, "attributes.title") + " portrait"
+          }),
           bio:
             _.get(poet, "attributes.body.summary") ||
             _.get(poet, "attributes.body.processed"),
