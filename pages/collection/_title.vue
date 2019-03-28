@@ -17,6 +17,8 @@
 <script>
 import _ from "lodash";
 import AppCardColumns from "~/components/AppCardColumns";
+import MetaTags from "~/plugins/metatags";
+
 export default {
   layout: "default",
   components: {
@@ -27,6 +29,9 @@ export default {
       body: "",
       related: []
     };
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   mounted() {
     this.body = _.get(
@@ -53,6 +58,8 @@ export default {
             store.commit("updatePageData", response);
             store.commit("updateSidebarData", []);
             store.commit("updateHighlightedData", []);
+            const metatags = response.data.attributes.metatag_normalized;
+            store.commit("updateMetatags", metatags);
             const relatedContent = _.map(
               _.get(response, "data.relationships.field_linked_content.data"),
               item => {

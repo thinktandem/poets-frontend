@@ -11,10 +11,14 @@
 
 <script>
 import BasicPage from "~/components/BasicPage";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     BasicPage
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
