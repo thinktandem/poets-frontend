@@ -38,7 +38,7 @@ export default {
     let nextOpts = {};
     _.each(data, i => {
       if (dataType == "taxonomy") {
-        nextOpts[i.attributes.name] = i.attributes.drupal_internal__tid;
+        nextOpts[i.attributes.drupal_internal__tid] = i.attributes.name;
       } else if (dataType == "node") {
         nextOpts[i.attributes.drupal_internal__nid] = i.attributes.title;
       }

@@ -15,35 +15,23 @@
                 <b-form-select
                   inline
                   v-model="occasionsInput"
+                  :options="$store.state.occasions"
                 >
                   <option :value="null">Occasions</option>
-                  <option
-                    v-for="(opt, i) in $store.state.occasions"
-                    :key="`opt-${i}`"
-                    :value="opt"
-                  >{{ i }}</option>
                 </b-form-select>
                 <b-form-select
                   inline
                   v-model="themesInput"
+                  :options="$store.state.themes"
                 >
                   <option :value="null">Themes</option>
-                  <option
-                    v-for="(opt, i) in $store.state.themes"
-                    :key="`opt-${i}`"
-                    :value="opt"
-                  >{{ i }}</option>
                 </b-form-select>
                 <b-form-select
                   inline
                   v-model="formInput"
+                  :options="$store.state.form"
                 >
                   <option :value="null">Forms</option>
-                  <option
-                    v-for="(opt, i) in $store.state.form"
-                    :key="`opt-${i}`"
-                    :value="opt"
-                  >{{ i }}</option>
                 </b-form-select>
                 <div class="poems-list__input--search">
                   <b-input-group>
