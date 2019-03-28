@@ -6,7 +6,9 @@
     :class="variantStyle"
     fluid>
     <div class="hero__logo-container">
-      <main-logo class="hero__logo"/>
+      <main-logo
+        class="hero__logo"
+        :logo="pickLogo"/>
     </div>
     <b-row>
       <b-col
@@ -40,7 +42,7 @@
 
 <script>
 import AppHeroSearch from "~/components/AppHero/AppHeroSearch";
-import MainLogo from "~/static/hero/main.svg";
+import MainLogo from "~/components/AppHero/MainLogo";
 
 export default {
   components: { AppHeroSearch, MainLogo },
@@ -90,6 +92,25 @@ export default {
         quote: "hero--quote"
       };
       return classes[this.variant];
+    },
+    pickLogo() {
+      const path = this.$route.path;
+      let src = "/hero/main.svg";
+      let alt = "Poets.org Logo";
+      if (path.includes("/national-poetry-month")) {
+        src = "/hero/NPM.svg";
+        alt = "National Poetry Month Logo";
+      } else if (
+        path.includes("/academy-american-poets") ||
+        path.includes("/american-poets-magazine")
+      ) {
+        src = "/hero/AAP.svg";
+        alt = "Academy of American Poets Logo";
+      }
+      return {
+        src,
+        alt
+      };
     }
   }
 };
