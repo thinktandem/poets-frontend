@@ -12,6 +12,7 @@
 
 <script>
 import CardDeck from "~/components/CardDeck";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -19,6 +20,9 @@ export default {
   },
   data() {
     return {};
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   async asyncData({ app, store, params }) {
     let staff = await app.$axios
@@ -36,8 +40,8 @@ export default {
       staff: staff.rows
     };
   },
-  async fetch({ app, store, params }) {
-    return app.$buildBasicPage(app, store, "/leadership-staff");
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   },
   methods: {},
   watchQuery: true

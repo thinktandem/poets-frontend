@@ -42,7 +42,8 @@ const createStore = () => {
       topMenu: [],
       midMenu: [],
       subMenu: [],
-      showSubMenu: true
+      showSubMenu: true,
+      metatags: []
     },
     mutations: {
       updateBottomContent(state, payload) {
@@ -116,6 +117,9 @@ const createStore = () => {
       },
       toggleSubMenu(state, payload) {
         state.showSubMenu = payload;
+      },
+      updateMetatags(state, payload) {
+        state.metatags = payload;
       }
     }
   });

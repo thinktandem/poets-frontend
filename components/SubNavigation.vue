@@ -19,7 +19,7 @@
           :key="index"
           :to="link.to"
         >
-          {{ link.text }}
+          {{ index }}
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>

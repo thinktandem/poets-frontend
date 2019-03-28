@@ -128,11 +128,15 @@
 
 <script>
 import BasicPage from "~/components/BasicPage";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   layout: "default",
   components: {
     BasicPage
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {
