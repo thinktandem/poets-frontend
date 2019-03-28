@@ -12,7 +12,6 @@
 <script>
 import ListPage from "~/components/ListPage";
 import MetaTags from "~/plugins/metatags";
-
 export default {
   components: {
     ListPage
