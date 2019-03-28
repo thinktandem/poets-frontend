@@ -67,6 +67,33 @@ export function create(request, data, options = {}) {
 }
 
 /**
+ * Delete Anthologies
+ * @TODO: would be better to get this more robust eg delete any anths fitting
+ * some filter but im not sure we need it
+ *
+ * @param {Object} request The axios library
+ * @param {Object|Array} data An object or array of objects
+ * @param {Object} options
+ * @return {Object} the response object
+ */
+export function remove(request, data, options = {}) {
+  // Normalize to array if needed
+  if (!_.isArray(data)) data = [data];
+  // Make all the requestz
+  return Promise.all(
+    _(data)
+      .map(anthology =>
+        request(
+          `/api/node/anthologies/${anthology.id}`,
+          {},
+          _.merge({}, options, { method: "delete" })
+        )
+      )
+      .value()
+  );
+}
+
+/**
  * Get Anthologies
  *
  * @param {Object} request The axios library
@@ -75,6 +102,18 @@ export function create(request, data, options = {}) {
  */
 export function get(request, options = {}) {
   return request("/api/node/anthologies", {}, options);
+}
+
+/**
+ * Get gull metadata of poems attached to anthologies
+ *
+ * @param {Object} request The axios library
+ * @param {String} id Anthology id
+ * @param {Object} options
+ * @return {Object} the response object
+ */
+export function getPoemMeta(request, id, options = {}) {
+  return request(`/api/node/anthologies/${id}/field_poems`, {}, options);
 }
 
 /**
@@ -106,4 +145,4 @@ export function update(request, data = {}, options = {}) {
   );
 }
 
-export default { create, get, update };
+export default { create, get, getPoemMeta, remove, update };

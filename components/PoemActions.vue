@@ -206,6 +206,7 @@ export default {
   methods: {
     clearAnthologyForm() {
       this.anthologies.selected = null;
+      this.anthologies.custom = null;
     },
     copyEmbed() {
       const copyTextarea = document.querySelector(".poem-a-day__embed-code");

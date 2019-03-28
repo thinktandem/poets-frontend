@@ -66,6 +66,17 @@ export default class PoetsApi {
   }
 
   /**
+   * Create Anthologies
+   *
+   * @param {Object|Array} data An object or array of objects
+   * @param {Object} options Options
+   * @return {Object} the response object
+   */
+  deleteAnthologies(data, options = {}) {
+    return anthologies.remove(this.request, data, options);
+  }
+
+  /**
    * Get Anthologies
    *
    * @param {Object} options
@@ -73,6 +84,17 @@ export default class PoetsApi {
    */
   getAnthologies(options = {}) {
     return anthologies.get(this.request, options);
+  }
+
+  /**
+   * Get poem metadata for a given anythology
+   *
+   * @param {String} id
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getAnthologyPoems(id, options = {}) {
+    return anthologies.getPoemMeta(this.request, id, options);
   }
 
   /**
