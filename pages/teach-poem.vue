@@ -44,12 +44,16 @@ import _ from "lodash";
 import BasicPage from "~/components/BasicPage";
 import AppListing from "~/components/AppListing";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     BasicPage,
     AppListing,
     iconSearch
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

@@ -22,10 +22,14 @@ import BasicPage from "~/components/BasicPage";
 import CardDeck from "~/components/CardDeck";
 import qs from "qs";
 import * as _ from "lodash";
+import MetaTags from "~/plugins/metatags";
 export default {
   components: {
     BasicPage,
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

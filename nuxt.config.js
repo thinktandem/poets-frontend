@@ -32,8 +32,10 @@ module.exports = {
       drupal: {
         _scheme: "~/plugins/drupal-auth.js"
       }
-    },
-    watchLoggedIn: false
+    }
+  },
+  router: {
+    middleware: ["menu", "post-data", "redirects"]
   },
   toast: {
     position: "top-left",
@@ -44,6 +46,7 @@ module.exports = {
     "~/plugins/axios",
     "~/plugins/vue2-filters",
     "~/plugins/asyncComputed",
+    "~/plugins/apiv2",
     "~/plugins/globalComponents",
     "~/plugins/poets-api"
   ],
@@ -63,9 +66,6 @@ module.exports = {
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
-  },
-  router: {
-    middleware: ["menu", "redirects"]
   },
   /*
    * Customize the progress bar color
@@ -107,6 +107,9 @@ module.exports = {
     baseURL: process.env.API_URL || "https://poets.org",
     CONSUMER_ID: process.env.CONSUMER_ID,
     CONSUMER_SECRET: process.env.CONSUMER_SECRET,
+    ONEALL_SUBDOMAIN: process.env.ONEALL_SUBDOMAIN,
+    ONEALL_PRIVATE_KEY: process.env.ONEALL_PRIVATE_KEY,
+    ONEALL_PUBLIC_KEY: process.env.ONEALL_PUBLIC_KEY,
     TWIT_CONSUMER_KEY: process.env.TWIT_CONSUMER_KEY,
     TWIT_CONSUMER_SECRET: process.env.TWIT_CONSUMER_SECRET,
     TWIT_ACCESS_TOKEN: process.env.TWIT_ACCESS_TOKEN,

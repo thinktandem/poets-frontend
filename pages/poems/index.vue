@@ -206,12 +206,16 @@ import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     MagnifyingGlassIcon
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {
@@ -249,6 +253,9 @@ export default {
       preparedForm: msh.preparedForm,
       preparedCombine: msh.preparedCombine
     };
+  },
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path).then(async () => {});
   },
   methods: {
     applyFilters() {

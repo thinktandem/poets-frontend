@@ -51,9 +51,12 @@
         </b-link>
       </li>
       <li
+        v-show="loggedIn"
         v-if="!minimal"
         class="pr-2">
-        <b-link>
+        <b-link
+          @click="loadAnthologies"
+          v-b-modal.add2Anthology>
           <img src="/social/collection.svg">
         </b-link>
       </li>
@@ -78,15 +81,49 @@
           @click="copyEmbed">Copy to clipboard</b-btn>
       </template>
     </b-modal>
+
+    <b-modal
+      :busy="!anthologyIsSubmittable"
+      centered
+      header-border-variant="0"
+      id="add2Anthology"
+      ref="add2Anthology"
+      lazy
+      ok-only
+      ok-title="Submit"
+      size="lg"
+      @ok="submitAnthologies"
+      @shown="clearAnthologyForm"
+      title="add to an anthology">
+      <b-form>
+        <b-form-select
+          :disabled="anthologies.loading"
+          v-model="anthologies.selected"
+          v-show="!showNewAnthology"
+          :options="anthologies.options">
+          <template slot="first">
+            <option :value="null">select an anthology</option>
+          </template>
+          <option value="_new_">create new anthology</option>
+        </b-form-select>
+        <b-form-input
+          v-model="anthologies.custom"
+          v-show="showNewAnthology"
+          type="text"
+          placeholder="Name your new anthology" />
+      </b-form>
+    </b-modal>
   </div>
 </template>
 <script>
+import _ from "lodash";
 import FacebookIcon from "~/static/social/facebook.svg";
 import TwitterIcon from "~/static/social/twitter.svg";
 import TumblrIcon from "~/static/social/tumblr.svg";
 import PrintIcon from "~/static/social/print.svg";
 import EmbedIcon from "~/static/social/embed.svg";
 import CollectionIcon from "~/static/social/collection.svg";
+
 export default {
   components: {
     FacebookIcon,
@@ -95,6 +132,18 @@ export default {
     PrintIcon,
     EmbedIcon,
     CollectionIcon
+  },
+  data() {
+    return {
+      siteUri: encodeURIComponent(`https://www.poets.org${this.poem.alias}`),
+      title: encodeURIComponent(this.poem.title),
+      anthologies: {
+        options: [],
+        selected: null,
+        custom: null,
+        loading: true
+      }
+    };
   },
   props: {
     orientation: {
@@ -134,16 +183,31 @@ export default {
       return `<iframe width='575' height='1100' src='${
         this.siteUri
       }?mbd=1' frameborder='0' scrolling='no' allowfullscreen></iframe>`;
+    },
+    // We use this to verify user is both logged in and has an ID
+    // @todo: show the button and present the login form when a user is not loggedin
+    // @todo: this requires some login redirection handling work
+    loggedIn() {
+      return this.$auth.loggedIn && !!_.get(this.$auth, "user.id", false);
+    },
+    showNewAnthology() {
+      return this.anthologies.selected === "_new_";
+    },
+    anthologyIsSubmittable() {
+      if (this.anthologies.selected === null) {
+        return false;
+      }
+      if (this.showNewAnthology && this.anthologies.custom === null) {
+        return false;
+      }
+      return true;
     }
   },
-  data() {
-    return {
-      siteUri: encodeURIComponent(`https://www.poets.org${this.poem.alias}`),
-      title: encodeURIComponent(this.poem.title),
-      email: ""
-    };
-  },
   methods: {
+    clearAnthologyForm() {
+      this.anthologies.selected = null;
+      this.anthologies.custom = null;
+    },
     copyEmbed() {
       const copyTextarea = document.querySelector(".poem-a-day__embed-code");
       copyTextarea.focus();
@@ -157,6 +221,59 @@ export default {
     },
     print() {
       window.print();
+    },
+    loadAnthologies() {
+      this.anthologies.loading = true;
+      this.$auth.user.pullAnthologies().then(anthologies => {
+        this.anthologies.loading = false;
+        this.anthologies.options = _(anthologies)
+          .map(anthology => ({
+            text: anthology.title,
+            value: anthology.id
+          }))
+          .value();
+      });
+    },
+    submitAnthologies(evt) {
+      // Prevent the modal from auto-closing and disable the submit
+      evt.preventDefault();
+      // Add the poem to an anthology
+      return Promise.resolve()
+        .then(() => {
+          if (this.showNewAnthology && this.anthologies.custom !== null) {
+            return this.$auth.user
+              .createAnthologies([this.anthologies.custom])
+              .then(anthologies => _.map(anthologies, "id"));
+          } else {
+            return Promise.resolve([this.anthologies.selected]);
+          }
+        })
+        .then(auuids => {
+          this.$refs.add2Anthology.hide();
+          // Add the poems
+          _.forEach(auuids, auuid => {
+            this.$auth.user.addPoem(auuid, this.poem.id);
+          });
+
+          // Update the anthologies
+          this.$auth.user.pushAnthologies(auuids).then(() => {
+            _.forEach(auuids, auuid => {
+              const title = _.find(this.$auth.user.anthologies, { id: auuid })
+                .title;
+              this.$toast
+                .success(`Added ${this.poem.title} to ${title}`)
+                .goAway(5000);
+            });
+            // Force update our anthologies and reset the user
+            this.$auth.user.pullAnthologies(true).then(() => {
+              this.$auth.setUser(this.$auth.user);
+            });
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          this.$toast.error("An error occurred!").goAway(3000);
+        });
     }
   }
 };

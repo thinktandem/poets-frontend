@@ -45,7 +45,8 @@ const createStore = () => {
       topMenu: [],
       midMenu: [],
       subMenu: [],
-      showSubMenu: true
+      showSubMenu: true,
+      metatags: []
     },
     mutations: {
       updateBottomContent(state, payload) {
@@ -93,6 +94,9 @@ const createStore = () => {
       updatePageData(state, payload) {
         state.pageData = payload;
       },
+      updatePostData(state, payload) {
+        state.postData = payload;
+      },
       updateSidebarData(state, payload) {
         state.sidebarData = payload;
       },
@@ -125,6 +129,9 @@ const createStore = () => {
       },
       toggleSubMenu(state, payload) {
         state.showSubMenu = payload;
+      },
+      updateMetatags(state, payload) {
+        state.metatags = payload;
       }
     }
   });

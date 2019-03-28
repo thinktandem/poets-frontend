@@ -19,10 +19,14 @@
 <script>
 import BasicPage from "~/components/BasicPage";
 import ProductFeature from "~/components/ProductFeature";
+import MetaTags from "~/plugins/metatags";
 export default {
   components: {
     BasicPage,
     ProductFeature
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   async asyncData({ app }) {
     const latest = await app.$latestMagazine({ app });

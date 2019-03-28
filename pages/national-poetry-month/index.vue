@@ -81,6 +81,7 @@ import NpmEvents from "~/components/Npm/NpmEvents";
 import NpmNews from "~/components/Npm/NpmNews";
 import TwitterIcon from "~/static/social/twitter-just-bird.svg";
 import niceDate from "~/plugins/niceDate";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -89,6 +90,9 @@ export default {
     NpmEvents,
     NpmNews,
     TwitterIcon
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

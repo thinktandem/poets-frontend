@@ -202,6 +202,7 @@ import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -209,6 +210,9 @@ export default {
     iconMediaSkipForwards,
     CardDeck,
     MagnifyingGlassIcon
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

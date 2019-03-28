@@ -36,6 +36,8 @@ import AppMediaList from "~/components/AppMediaList";
 import BasicPage from "~/components/BasicPage";
 import IconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import IconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
+import MetaTags from "~/plugins/metatags";
+
 // import qs from "qs";
 import * as _ from "lodash";
 export default {
@@ -44,6 +46,9 @@ export default {
     BasicPage,
     IconMediaSkipBackwards,
     IconMediaSkipForwards
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {
