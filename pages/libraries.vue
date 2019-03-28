@@ -46,11 +46,15 @@ import _ from "lodash";
 import qs from "qs";
 import CardDeck from "~/components/CardDeck";
 import BasicPage from "~/components/BasicPage";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     BasicPage,
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

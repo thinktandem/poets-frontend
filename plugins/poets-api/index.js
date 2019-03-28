@@ -8,6 +8,7 @@ import media from "~/plugins/poets-api/lib/media";
 import util from "~/plugins/poets-api/lib/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
+import qs from "qs";
 
 export default ({ app }, inject) => {
   /**
@@ -35,6 +36,7 @@ export default ({ app }, inject) => {
    */
   inject("buildBasicPage", async (app, store, path) => {
     // This is the list of items to include with the page request
+
     const includes = [
       "hero_background.field_image",
       "sidebar_sections.image",
@@ -57,6 +59,8 @@ export default ({ app }, inject) => {
                 page.data.attributes.body.processed
               );
             }
+            const metatags = page.data.attributes.metatag_normalized;
+            store.commit("updateMetatags", metatags);
             store.commit("updateHero", {
               background: media.buildHeroBg(page),
               variant: _.get(page, "data.attributes.hero_type", "default"),
@@ -112,7 +116,6 @@ export default ({ app }, inject) => {
     };
     const path = route.path.split("/");
     const top = transformTree(menu);
-
     store.commit(
       "updateTopMenu",
       _.reject(top, link => link.text == "Poets.org")
@@ -123,20 +126,70 @@ export default ({ app }, inject) => {
       _.find(menu, link => link.to === "/" + currentVertical) ||
       _.find(menu, (link, key) => key === "Poets.org");
     store.commit("updateMidMenu", transformTree(midMenu.children));
-    const currentSubPage = path.length >= 3 ? path[1] + "/" + path[2] : path[1];
+  });
+  // Given the subMenu.json object, find the sub menu items for the provided
+  // route.
+  inject("buildSubMenu", ({ subMenu, route, store }) => {
+    // Function to recurse through subMenu.json.
+    const findChildren = (uri, menu) => {
+      let value = {};
 
-    const buildSubMenu = (midMenu, currentSubPage) => {
-      // If the current page is in the second level, check for children
-      const subMenu =
-        _.find(midMenu.children, link => link.to === "/" + currentSubPage) ||
-        _.find(midMenu.children, link => link.to === "/" + path[1]);
-      return _.get(subMenu, "children") ? transformTree(subMenu.children) : [];
+      // We've reached a dead end; bail.
+      if (_.isEmpty(menu)) return;
+
+      // Go through each menu item; if it's a match with route, we've found our
+      // subMenu.
+      _.each(menu, function(item) {
+        if (item.to === uri && _.isEmpty(item.children)) {
+          value = menu;
+        }
+      });
+
+      // If we haven't found our item, recurse until we do.
+      if (_.isEmpty(value)) {
+        _.each(menu, function(item) {
+          if (!_.isEmpty(findChildren(uri, item.children))) {
+            value = findChildren(uri, item.children);
+          }
+        });
+      }
+
+      return value;
     };
-
-    store.commit("updateSubMenu", buildSubMenu(midMenu, currentSubPage));
+    store.commit("updateSubMenu", findChildren(route.path, subMenu));
   });
   /**
    * Abstract away the ugliness of pulling a related entity
    */
   inject("getRelated", util.getRelated);
+
+  inject("latestMagazine", async ({ app }) => {
+    const magazineQuery = qs.stringify({
+      filter: {
+        status: 1
+      },
+      sort: "-changed",
+      page: {
+        limit: 1
+      },
+      include: "field_image,field_content_sections"
+    });
+    const magazine = await app.$axios.$get(
+      `/api/node/magazine?${magazineQuery}`
+    );
+    const topProduct = _.first(magazine.data);
+    return {
+      response: magazine,
+      entity: topProduct,
+      title: _.get(topProduct, "attributes.title", null),
+      intro: _.get(topProduct, "attributes.magazine_intro.processed", null),
+      subTitle: _.get(topProduct, "attributes.subtitle", null),
+      contents: _.get(topProduct, "attributes.contents", null),
+      img: app.$buildImg(magazine, topProduct, "field_image", "magazine_cover"),
+      link: {
+        to: `/academy-american-poets/become-member`,
+        text: "Become a member"
+      }
+    };
+  });
 };

@@ -10,9 +10,9 @@
     <b-container class="texts-list__filters filters">
       <b-row class="texts-list__filters-row">
         <b-col md="12">
-          <b-form
+          <app-form
             class="texts-list__search"
-            @submit.stop.prevent="applyFilters"
+            @submit="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
@@ -29,13 +29,13 @@
                 />
                 <b-btn
                   class="btn-primary"
-                  @submit.stop.prevent="applyFilters"
+                  type="submit"
                 >
                   <iconSearch />
                 </b-btn>
               </div>
             </b-form-group>
-          </b-form>
+          </app-form>
         </b-col>
       </b-row>
     </b-container>
@@ -183,6 +183,7 @@ import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -190,6 +191,9 @@ export default {
     iconMediaSkipForwards,
     iconSearch,
     CardDeck
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

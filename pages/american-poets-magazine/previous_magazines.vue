@@ -1,7 +1,7 @@
 <template>
   <list-page
     :details="details"
-    resource-type="prize_or_program"
+    resource-type="texts"
     :default-params="defaultParams"
     :includes="includes"
     :fields="fields"
@@ -25,11 +25,15 @@ export default {
       fields: {
         title: { label: "Name" }
       },
-      details: {},
+      details: {
+        body: {}
+      },
       defaultParams: {
         filter: {
-          field_program: 0
-        }
+          status: 1,
+          "field_texttype.tid": 661
+        },
+        sort: "-changed"
       },
       filters: [],
       searchable: [

@@ -6,7 +6,7 @@
     <b-container>
       <b-row>
         <b-col xl="8">
-          <form @submit="posterSubmit">
+          <app-form @submit="posterSubmit">
             <div
               class="poster__req-field poster__field">
               {{ res.first_name["#title"] }}
@@ -119,7 +119,7 @@
               variant="primary">
               Send Request
             </b-button>
-          </form>
+          </app-form>
         </b-col>
       </b-row>
     </b-container>
@@ -128,11 +128,15 @@
 
 <script>
 import BasicPage from "~/components/BasicPage";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   layout: "default",
   components: {
     BasicPage
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

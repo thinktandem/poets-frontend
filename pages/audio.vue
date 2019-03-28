@@ -12,9 +12,9 @@
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
-          <b-form
+          <app-form
             class="poems-list__search"
-            @submit.stop.prevent="applyFilters"
+            @submit="applyFilters"
           >
             <b-form-group>
               <div class="legend-selects">
@@ -30,17 +30,15 @@
                     size="22"
                     placeholder="Search title or text ..."
                   />
-                  <b-input-group-append
-                    is-text
-                    @click.stop.prevent="applyFilters"
-                  >
-                    <magnifying-glass-icon
-                      class="icon mr-2"/>
-                  </b-input-group-append>
+                  <b-input-group-append>
+                    <b-btn type="submit">
+                      <magnifying-glass-icon
+                        class="icon mr-2"/>
+                  <b-btn/></b-btn></b-input-group-append>
                 </b-input-group>
               </div>
             </b-form-group>
-          </b-form>
+          </app-form>
         </b-col>
       </b-row>
     </b-container>
@@ -186,6 +184,7 @@ import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -194,6 +193,9 @@ export default {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     MagnifyingGlassIcon
+  },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {

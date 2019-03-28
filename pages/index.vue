@@ -40,6 +40,7 @@ import _ from "lodash";
 import FeatureStack from "~/components/FeatureStack";
 import ProductFeature from "~/components/ProductFeature";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import MetaTags from "~/plugins/metatags";
 export default {
   layout: "default",
   components: {
@@ -50,9 +51,10 @@ export default {
     FeatureStack,
     ProductFeature
   },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
+  },
   async fetch({ app, store, params, route, menu }) {
-    // @todo: We're counting on this path in Drupal, which might be something we want
-    // to change.
     app.$buildBasicPage(app, store, "/home");
 
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
@@ -161,38 +163,8 @@ export default {
         }
       });
     }
-    const magazineQuery = qs.stringify({
-      filter: {
-        status: 1,
-        promote: 1
-      },
-      page: {
-        limit: 1
-      },
-      include: "field_image"
-    });
-    const magazine = await app.$axios.$get(
-      `/api/node/magazine?${magazineQuery}`
-    );
-    let img = _(magazine.included)
-      .filter(include => include.type === "file--file")
-      .first();
-    const topProduct = _.first(magazine.data);
-    store.commit("updateProductFeature", {
-      title: _.get(topProduct, "attributes.title", null),
-      intro: _.get(topProduct, "attributes.body.processed", null),
-      subTitle: _.get(topProduct, "attributes.subtitle", null),
-      contents: _.get(topProduct, "attributes.contents", null),
-      img: {
-        src: _.get(img, "links.magazine_cover.href"),
-        alt: "Magazine Cover"
-      },
-      link: {
-        to: `/academy-american-poets/become-member`,
-        text: "Become a member"
-      }
-    });
-
+    const latestMag = await app.$latestMagazine({ app });
+    store.commit("updateProductFeature", latestMag);
     const announcementRequestParams = qs.stringify({
       filter: {
         // Hard coded ID for announcement story type

@@ -2,16 +2,25 @@
   <div class="login-wrapper border border-light">
     <b-form
       class="form-signin">
-      <h2 class="form-signin-heading">Please sign in</h2>
+      <h2 class="form-signin-heading">Sign in with</h2>
+      <span class="create-account">
+        Don't have an account?
+        <b-link
+          class="float-right"
+          to="/register">Create one >>
+        </b-link>
+      </span>
       <div id="oa_social_login_container" />
       <script type="text/javascript">
         /* Embeds the buttons into the container oa_social_login_container */
         var _oneall = _oneall || [];
         var callbackURL = callbackURL || `${window.location.origin}/login`;
         _oneall.push(['social_login', 'set_providers', ['facebook', 'google']]);
+        _oneall.push(['social_login', 'set_custom_css_uri', `${window.location.origin}/social/oneall.css`]);
         _oneall.push(['social_login', 'set_callback_uri', callbackURL]);
         _oneall.push(['social_login', 'do_render_ui', 'oa_social_login_container']);
       </script>
+      <div class="or-lines">OR</div>
       <b-form-input
         v-model="username"
         size="lg"
@@ -35,18 +44,36 @@
         type="button">
         Sign in
       </b-button>
+      <small>
+        <b-link
+          class="float-right"
+          to="/reset">Reset password
+        </b-link>
+      </small>
     </b-form>
   </div>
 </template>
 
 <script>
 import _ from "lodash";
+import utils from "~/plugins/auth-utils";
 
-// Helper to return correct bootstrap form state
-const getState = (data = null) => {
-  if (!_.isEmpty(data)) return true;
-  else return null;
-};
+// Helper to get email from identity data
+const getEmail = (emails = []) =>
+  _.first(
+    _(emails)
+      .filter(email => email.is_verified)
+      .map(email => email.value)
+      .value()
+  );
+
+// Helper to parse identity data
+const parseIdentity = (data = {}) =>
+  _.merge({}, _.pick(data, ["identity_token", "provider"]), {
+    last: _.get(data, "name.familyName"),
+    first: _.get(data, "name.givenName"),
+    email: getEmail(data.emails)
+  });
 
 // Helper to validate oneall user data
 const validateOneAll = (data = {}) => {
@@ -71,10 +98,10 @@ export default {
   },
   computed: {
     hasPassword() {
-      return getState(this.password);
+      return utils.getState(this.password);
     },
     hasUsername() {
-      return getState(this.username);
+      return utils.getState(this.username);
     },
     submittable() {
       return this.hasUsername && this.hasPassword && !this.busy;
@@ -116,16 +143,15 @@ export default {
       const oneall = this.type === "oneall";
       const user = oneall ? this.oneall.user_token : this.username;
       const pass = oneall ? undefined : this.password;
-      const data = oneall ? this.oneall.identity : {};
+      const data = oneall ? parseIdentity(this.oneall.identity) : {};
 
       // Attempt to login
       this.$auth
         .loginWith("drupal", user, pass, this.type, data)
         .then(() => this.$auth.fetchUser())
         .catch(error => {
-          const defaultMessage = "Something went wrong!";
           this.$toast
-            .error(_.get(error, "data.message", defaultMessage))
+            .error(_.get(error, "data.message", "Something went wrong!"))
             .goAway(7777);
         })
         .finally(() => {
@@ -143,46 +169,32 @@ export default {
 };
 </script>
 
-<style lang="css">
-body {
-  background: #605B56;
+<style lang="scss">
+#oa_social_login_container {
+  margin-top: 25px;
 }
-.login-wrapper {
-  background: #fff;
-  width: 70%;
-  margin: 12% auto;
-}
-.form-signin {
-  max-width: 330px;
-  padding: 10% 15px;
-  margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="text"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.or-lines {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 1em 0;
+  font-size: 0.8125em;
+  font-weight: 700;
+
+  &:before,
+  &:after {
+    display: inline-block;
+    content: "";
+    background-color: #ccc;
+    width: 50%;
+    height: 1px;
+  }
 }
 </style>

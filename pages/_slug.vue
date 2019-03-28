@@ -17,7 +17,7 @@ export default {
     BasicPage
   },
   async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, `/${route.path}`);
+    return app.$buildBasicPage(app, store, route.path);
   }
 };
 </script>

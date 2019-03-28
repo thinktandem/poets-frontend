@@ -43,7 +43,7 @@ export default {
   },
 
   firstOrOnly(data) {
-    if (data.constructor === Array) {
+    if (_.isArray(data)) {
       return _.first(data);
     } else {
       return data;
@@ -98,17 +98,20 @@ export default {
    * @return {mixed} the field value or null
    */
   maybeField(entity, field) {
-    return entity.hasOwnProperty("attributes") &&
-      entity.attributes.hasOwnProperty(field) &&
-      entity.attributes[field] !== null
-      ? entity.attributes[field]
-      : null;
+    return this.firstOrOnly(_.get(entity, `attributes.${field}`));
   },
 
   buildProcessable(entity, field = "body", summary = false) {
-    return this.maybeField(entity, field) !== null
-      ? imgUrl.staticUrl(this.maybeField(entity, field).processed)
-      : null;
+    const maybeField = _.get(entity, `attributes.${field}`);
+    if (maybeField) {
+      return _.isArray(maybeField) && maybeField.length > 0
+        ? _.map(maybeField, function(value) {
+            return imgUrl.staticUrl(value.processed);
+          })
+        : imgUrl.staticUrl(maybeField.processed);
+    } else {
+      return "";
+    }
   },
 
   buildFile(entity, page) {
@@ -131,18 +134,42 @@ export default {
    */
   buildComponent(item, page) {
     const entity = _.find(page.included, include => include.id === item.id);
-    if (entity.attributes.title === "Sponsors & Partners") {
-      console.log("entity is", entity.relationships.image);
+    if (entity === undefined) {
+      return {};
     }
+    let mediaItem = entity;
+    const entityType = _.get(entity, "type");
+    if (entityType === "paragraph--sidebar_text_and_image") {
+      _.get(entity, "relationships.side_image.data");
+      mediaItem = _.find(
+        page.included,
+        include =>
+          include.id ===
+          _.get(
+            this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
+            "id"
+          )
+      );
+    }
+    const sidebarTop = this.buildProcessable(entity, "side_text_1");
+    const sidebarBottom = this.buildProcessable(entity, "side_text_2");
+
     return {
-      component: components[entity.type] || "ResourceCard",
+      component: components[entityType] || "ResourceCard",
       props: {
-        title: entity.attributes.title,
+        title: _.get(entity, "attributes.title", ""),
         body: this.buildProcessable(entity),
-        img: media.buildImg(entity, page),
+        img: media.buildImg(
+          page,
+          mediaItem,
+          "field_image",
+          media.imageStyles[entityType]
+        ),
         file: this.buildFile(entity, page),
-        sidebarTop: this.buildProcessable(entity, "side_text_1"),
-        sidebarBottom: this.buildProcessable(entity, "side_text_2"),
+        sidebarTop: _.isArray(sidebarTop) ? sidebarTop : [sidebarTop],
+        sidebarBottom: _.isArray(sidebarBottom)
+          ? sidebarBottom
+          : [sidebarBottom],
         slides: this.buildSlides(item, page),
         youtubeId: this.maybeField(entity, "youtube_id"),
         vimeoId: this.maybeField(entity, "vimeo_id"),

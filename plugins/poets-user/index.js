@@ -93,11 +93,8 @@ export default class PoetsUser {
    * @return {Object} the response object
    */
   getUser() {
-    return _.merge(
-      {},
-      this.meta,
-      { anthologies: this.anthologies },
-      { id: this.id }
+    return _.pickBy(
+      _.merge({}, this.meta, { anthologies: this.anthologies }, { id: this.id })
     );
   }
 
