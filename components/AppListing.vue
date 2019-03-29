@@ -41,7 +41,9 @@
                   :placeholder="`Search ${searchableLabels} ...`"
                 />
                 <b-input-group-append>
-                  <b-btn type="submit">
+                  <b-btn
+                    type="submit"
+                    variant="transparent">
                     <magnifying-glass-icon
                       class="icon mr-2"/>
                   </b-btn>
@@ -460,35 +462,8 @@ thead {
       color: $gray-700;
     }
   }
-  button {
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    padding: 0;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-    &:hover,
-    &:focus,
-    &:active,
-    &:active:focus {
-      // Some really sticky rules getting applied from BS that need a bit of
-      // force.
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
 }
 .icon {
-  display: inline;
   fill: $blue;
   width: 1.4rem;
   height: 1.4rem;
