@@ -93,12 +93,6 @@ export default {
             store.commit("updateMetatags", metatags);
             const included = res.included;
             store.commit("updateRelatedContent", included);
-            console.log(
-              "\n\n---included????--\n",
-              included,
-              "\n\n count\n",
-              _.size(included)
-            );
             return {
               props: {
                 title: _.get(res, "attributes.title"),
