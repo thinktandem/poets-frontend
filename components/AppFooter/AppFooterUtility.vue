@@ -15,7 +15,7 @@
         </div>
         <div class="col-sm-12 col-md-2">
           <span class="utility__links_poets">
-            <a href="https://poets.org">
+            <a href="/">
               <span class="poets-utility-link-1">poets</span><span class="poets-utility-link-2">.org</span>
             </a>
           </span>
