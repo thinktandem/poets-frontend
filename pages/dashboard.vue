@@ -55,7 +55,10 @@
               v-for="anthology in anthologies"
               border-variant="info"
               :key="anthology.id"
-              :title="anthology.title">
+            >
+              <b-link
+                class="card-title"
+                :to="anthology.link">{{ anthology.title }}</b-link>
               <b-list-group
                 flush
                 class="text-dark">
