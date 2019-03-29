@@ -104,7 +104,8 @@ module.exports = {
     }
   },
   env: {
-    baseURL: process.env.API_URL || "https://poets.org",
+    baseURL: process.env.API_URL || "https://api.poets.org",
+    APP_URL: process.env.APP_URL || "https://poets.org",
     CONSUMER_ID: process.env.CONSUMER_ID,
     CONSUMER_SECRET: process.env.CONSUMER_SECRET,
     ONEALL_SUBDOMAIN: process.env.ONEALL_SUBDOMAIN,
