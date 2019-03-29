@@ -18,7 +18,16 @@
             <div
               slot="header">
               <div class="d-flex poem__title mb-1">
-                <h1 class="card-title">{{ poem.attributes.title }}</h1>
+                <h1
+                  v-if="embedded"
+                  class="card-title">
+                  <b-link
+                    class="text-dark"
+                    :to="poem.attributes.path.alias">{{
+                    poem.attributes.title }}</b-link></h1>
+                <h1
+                  v-else
+                  class="card-title">{{ poem.attributes.title }}</h1>
                 <b-link
                   @click="showSoundCloud = true"
                   v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"

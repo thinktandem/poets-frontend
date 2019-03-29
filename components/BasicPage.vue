@@ -33,7 +33,7 @@
             :cards="more.cards"/>
         </b-col>
         <b-col
-          v-if="sidebarData.length >= 1"
+          v-if="!empty(sidebarData)"
           md="4"
           class="basic_page__sidebar pb-2">
           <component
