@@ -8,10 +8,10 @@
   >
     <b-navbar-toggle
       class="border-0 bg-dark-gray"
-      target="nav_collapse"/>
+      target="subnav_collapse"/>
     <b-collapse
       is-nav
-      id="nav_collapse"
+      id="subnav_collapse"
     >
       <b-navbar-nav class="ml-auto">
         <b-nav-item
@@ -31,8 +31,8 @@ export default {
   name: "SubNavigation",
   props: {
     links: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     }
   }
 };
