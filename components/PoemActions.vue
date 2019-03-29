@@ -135,7 +135,7 @@ export default {
   },
   data() {
     return {
-      siteUri: encodeURIComponent(`https://www.poets.org${this.poem.alias}`),
+      siteUri: `${process.env.APP_URL}${this.poem.alias}`,
       title: encodeURIComponent(this.poem.title),
       anthologies: {
         options: [],
@@ -166,23 +166,28 @@ export default {
     }
   },
   computed: {
+    encodedUri() {
+      return encodeURIComponent(this.siteUri);
+    },
     facebookUrl() {
-      return `https://facebook.com/sharer.php?u=${this.siteUri}&t=${
+      return `https://facebook.com/sharer.php?u=${this.encodedUri}&t=${
         this.title
       }`;
     },
     twitterUrl() {
-      return `https://twitter.com/share?text=${this.title}&url=${this.siteUri}`;
+      return `https://twitter.com/share?text=${this.title}&url=${
+        this.encodedUri
+      }`;
     },
     tumblrUrl() {
-      return `https://tumblr.com/share/link?url=${this.siteUri}&name=${
+      return `https://tumblr.com/share/link?url=${this.encodedUri}&name=${
         this.title
       }`;
     },
     embedTag() {
       return `<iframe width='575' height='1100' src='${
         this.siteUri
-      }?mbd=1' frameborder='0' scrolling='no' allowfullscreen></iframe>`;
+      }?mbd=1' frameborder='0' scrolling='yes' allowfullscreen></iframe>`;
     },
     // We use this to verify user is both logged in and has an ID
     // @todo: show the button and present the login form when a user is not loggedin
@@ -283,6 +288,7 @@ export default {
   position: relative;
   width: 100%;
   flex-grow: 1;
+  margin-bottom: $spacer * 2;
 }
 ul {
   margin: 0;
