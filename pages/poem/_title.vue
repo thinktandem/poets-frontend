@@ -4,8 +4,8 @@
       <b-row>
         <b-col
           class="pb-5"
-          offset-md="1"
-          md="7">
+          :offset-md="embedded ? null : 1"
+          :md="embedded ? 12 : 7">
           <b-card
             tag="main"
             header-class="pb-2 pt-3 bg-white"
@@ -18,7 +18,16 @@
             <div
               slot="header">
               <div class="d-flex poem__title mb-1">
-                <h1 class="card-title">{{ poem.attributes.title }}</h1>
+                <h1
+                  v-if="embedded"
+                  class="card-title">
+                  <b-link
+                    class="text-dark"
+                    :to="poem.attributes.path.alias">{{
+                    poem.attributes.title }}</b-link></h1>
+                <h1
+                  v-else
+                  class="card-title">{{ poem.attributes.title }}</h1>
                 <b-link
                   @click="showSoundCloud = true"
                   v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"
@@ -56,6 +65,7 @@
           </b-card>
         </b-col>
         <b-col
+          v-if="!embedded"
           md="4"
           tag="aside">
           <div
@@ -87,7 +97,7 @@
       </b-row>
     </b-container>
     <card-deck
-      v-if="morePoems.poems.length >= 1"
+      v-if="morePoems.poems.length >= 1 && !embedded"
       col-size="md"
       :title="`More by ${poet.title}`"
       cardtype="PoemCard"
@@ -97,7 +107,7 @@
     />
     <card-deck
       col-size="md"
-      v-if="relatedPoems.poems.length >= 1"
+      v-if="relatedPoems.poems.length >= 1 && !embedded"
       class="bg-primary py-5"
       title="Related Poems"
       cardtype="PoemCard"
@@ -122,6 +132,9 @@ export default {
     CardDeck,
     PoemActions,
     SpeakerIcon
+  },
+  layout({ route }) {
+    return _.get(route.query, "mbd") === "1" ? "embed" : "default";
   },
   data() {
     return {
@@ -228,6 +241,11 @@ export default {
         "Find the perfect poems, save them, and share them to your heart’s content.",
       links: [{ to: { name: "vertical-poem" }, text: "find poems" }]
     });
+  },
+  computed: {
+    embedded() {
+      return _.get(this.$route.query, "mbd") === "1";
+    }
   },
   methods: {
     buildSectionLink(response, query = {}) {

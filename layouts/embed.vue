@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Minimal"
+  name: "Embed"
 };
 </script>
 
