@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <Login />
-  </div>
+  <b-container class="py-5">
+    <b-card class="shadow">
+      <Login />
+    </b-card>
+  </b-container>
 </template>
 
 <script>
 import Login from "~/components/Login";
 export default {
-  layout: "login",
   components: {
     Login
   }

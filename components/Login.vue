@@ -21,16 +21,26 @@
         _oneall.push(['social_login', 'do_render_ui', 'oa_social_login_container']);
       </script>
       <div class="or-lines">OR</div>
+      <label
+        class="sr-only"
+        for="username">Username</label>
       <b-form-input
         v-model="username"
+        name="username"
         size="lg"
+        class="my-2"
         :disabled="busy"
         type="text"
         placeholder="Username"
         :state="hasUsername" />
+      <label
+        class="sr-only"
+        for="password">Password</label>
       <b-form-input
         v-model="password"
         size="lg"
+        name="password"
+        class="my-2"
         :disabled="busy"
         type="password"
         placeholder="Password"
@@ -38,7 +48,7 @@
       <b-button
         variant="primary"
         size="lg"
-        class="btn-block"
+        class="btn-block my-2"
         :disabled="!submittable"
         @click="login"
         type="button">
