@@ -12,7 +12,12 @@ const getPoems = (poems = []) =>
     .value();
 
 // Helper to build a new anthology
-const getAnthology = (id, title, poems = []) => ({ id, title, poems });
+const getAnthology = (id, title, link, poems = []) => ({
+  id,
+  title,
+  link,
+  poems
+});
 
 // Helper to determine whether we have a serial ID or UUID
 const getIdType = id => {
@@ -74,6 +79,7 @@ export default class PoetsUser {
             getAnthology(
               _.get(anthology, "id"),
               _.get(anthology, "attributes.title"),
+              _.get(anthology, "attributes.path.alias"),
               getPoems(_.get(anthology, "relationships.field_poems.data", []))
             )
           )
@@ -120,6 +126,7 @@ export default class PoetsUser {
               getAnthology(
                 _.get(data, "id"),
                 _.get(data, "attributes.title"),
+                _.get(data, "attributes.path.alias"),
                 getPoems(_.get(data, "relationships.field_poems.data", []))
               )
             )

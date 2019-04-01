@@ -36,6 +36,7 @@ const createStore = () => {
       highlightedData: {},
       extendedContent: {},
       bottomContent: {},
+      relatedContent: {},
       featuredPoems: {},
       featuredPoets: {
         link: ""
