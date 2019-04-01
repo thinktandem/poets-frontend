@@ -103,12 +103,6 @@ export default {
             }
           })
           .then(async response => {
-            console.log(
-              "\n\n second response --i-----------------------------\n",
-              response,
-              "\n\n --- size : ---\n",
-              _.size(response.included[0])
-            );
             store.commit("updateHero", {
               variant: "default",
               heading: _.get(response, "data.attributes.title"),
