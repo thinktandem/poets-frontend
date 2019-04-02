@@ -12,8 +12,10 @@
         class="d-inline-flex flex-row">Poets.org</b-link>
       <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row"/>
     </b-navbar-brand>
+
     <b-navbar-toggle
-      class="border-0 bg-dark-gray"
+      label="Menu"
+      class="border-0"
       target="nav_collapse"/>
     <b-collapse
       is-nav
