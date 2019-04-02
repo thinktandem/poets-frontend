@@ -34,6 +34,9 @@ module.exports = {
       }
     }
   },
+  serverMiddleware: [
+    { path: "/tweets", handler: "~/serverMiddleware/tweets.js" }
+  ],
   router: {
     middleware: ["menu", "post-data", "redirects"]
   },

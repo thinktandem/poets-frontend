@@ -51,15 +51,15 @@
         </b-row>
         <b-row class="npm__tweets-row-tweets">
           <b-col
-            v-for="tweet in tweets"
-            :key="`--${tweet}`"
+            v-for="(tweet, index) in tweets"
+            :key="index"
             md="3"
             class="npm__tweets-col"
           >
             <div class="npm__tweets-col-date">
               <a
                 :href="`https://twitter.com/POETSorg/status/${tweet.id_str}`"
-                target="_elBlanco"
+                target="_blank"
               >
                 {{ niceDate(tweet.created_at) }}
               </a>
@@ -128,28 +128,13 @@ export default {
         console.log(err);
       });
 
-    const Twit = require("twit");
-    const config = {
-      consumer_key: process.env.TWIT_CONSUMER_KEY,
-      consumer_secret: process.env.TWIT_CONSUMER_SECRET,
-      access_token: process.env.TWIT_ACCESS_TOKEN,
-      access_token_secret: process.env.TWIT_TOKEN_SECRET
-    };
-    const T = new Twit(config);
-
-    /*
-     * To use promises API w/ T do not use a callback to T.get.
-     *
-     * https://api.twitter.com/1.1/statuses/user_timeline.json
-     */
-    let tweets = await T.get("statuses/user_timeline", {
-      screen_name: "POETSorg",
-      count: 4
-    }).then(res => {
-      console.log(res.data);
-      return res.data;
-    });
-
+    const tweets = await app
+      .$axios({
+        url: "tweets",
+        baseURL: process.env.APP_URL
+      })
+      .then(res => res.data.tweets)
+      .catch(e => console.log(e));
     return {
       news,
       tweets
