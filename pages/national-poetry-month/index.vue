@@ -128,6 +128,7 @@ export default {
         console.log(err);
       });
 
+    // Proxy call to our own API so we can get around twitter server-only limitation
     const tweets = await app
       .$axios({
         url: "tweets",
