@@ -28,7 +28,7 @@
           v-html="$store.state.pageData.data.attributes.field_side_text_2.value"/>
         <div
           class="teach_this_poem_more_link-container"
-          v-if="$store.state.highlightedData.link">
+          v-if="$store.state.highlightedData">
           <b-link
             class="more-link"
             :href="$store.state.highlightedData.link">
