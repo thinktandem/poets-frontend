@@ -1,6 +1,8 @@
 <template>
   <b-container class="dashboard-wrapper">
+    <h1>Dashboard</h1>
     <b-card
+      class="shadow-lg"
       title="user information"
       sub-title="Information about my poets account">
       <b-row>
@@ -24,6 +26,7 @@
     </b-card>
 
     <b-card
+      class="shadow-lg"
       :title="membershipCardData.title"
       :sub-title="membershipCardData.sub">
       <b-row>
@@ -46,6 +49,7 @@
     </b-card>
 
     <b-card
+      class="shadow-lg"
       title="anthologies"
       sub-title="anthologies i've created">
       <b-row>
@@ -142,8 +146,6 @@ const setAnthologyBusy = (anthologies, anthology, busy = true) => {
 };
 
 export default {
-  components: {},
-  layout: "user",
   middleware: "auth",
   data() {
     return {
