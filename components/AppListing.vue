@@ -78,6 +78,11 @@
               v-html="teaserText(data.item.body.value, 100)"/>
           </template>
           <template
+            slot="field_event_date"
+            slot-scope="data"><span
+              class="text-secondary"
+              style="font-weight: 400;">{{ shortDate(data.item.field_event_date) }}</span></template>
+          <template
             slot="title"
             slot-scope="data">
             <b-link
@@ -137,7 +142,7 @@
                   :href="row.item.register_link.uri"
                 >{{ row.item.register_link.title }}</b-button>
                 <div
-                  v-show="resource-type === 'event'"
+                  v-show="resourceType === 'events'"
                   class="share-list py-5">
                   <strong>share this event</strong>
                   <poem-actions
@@ -173,6 +178,7 @@ import IconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import PlusIcon from "~/node_modules/open-iconic/svg/plus.svg";
 import PoemActions from "~/components/PoemActions";
+import moment from "moment";
 export default {
   name: "AppListing",
   components: {
@@ -350,6 +356,9 @@ export default {
     }
   },
   methods: {
+    shortDate(date) {
+      return moment(date).format("M/D/YYYY");
+    },
     teaserText(text, len) {
       const truncText = _.truncate(text, {
         length: len,
