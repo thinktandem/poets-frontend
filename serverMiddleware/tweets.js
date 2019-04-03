@@ -34,7 +34,7 @@ module.exports = async function(req, res) {
       // Response should always be JSON.
       res.setHeader("Content-Type", "application/json");
       // Only allow the app itself to call this route in a browser
-      res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
+      res.setHeader("Access-Control-Allow-Origin", process.env.appURL);
       res.writeHead(200);
       res.end(JSON.stringify({ tweets }));
     })

@@ -132,7 +132,7 @@ export default {
     const tweets = await app
       .$axios({
         url: "tweets",
-        baseURL: process.env.APP_URL
+        baseURL: process.env.appURL
       })
       .then(res => res.data.tweets)
       .catch(e => console.log(e));
