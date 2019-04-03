@@ -118,7 +118,7 @@ export default {
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
   },
-  async asyncData({ app, store, params, query }) {
+  async asyncData({ app, store, params, query, req }) {
     const news = await app.$axios
       .get("/api/npm_news", {})
       .then(res => {
@@ -127,12 +127,15 @@ export default {
       .catch(err => {
         console.log(err);
       });
+    const tweetsBase = process.server
+      ? `${req.headers["x-forwarded-proto"]}://${req.headers.host}`
+      : window.location.href;
 
     // Proxy call to our own API so we can get around twitter server-only limitation
     const tweets = await app
       .$axios({
         url: "tweets",
-        baseURL: process.env.appURL
+        baseURL: tweetsBase
       })
       .then(res => res.data.tweets)
       .catch(e => console.log(e));
