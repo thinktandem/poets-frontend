@@ -129,7 +129,7 @@ export default {
       });
     const tweetsBase = process.server
       ? `${req.headers["x-forwarded-proto"]}://${req.headers.host}`
-      : window.location.href;
+      : `${window.location.protocol}//${window.location.host}`;
 
     // Proxy call to our own API so we can get around twitter server-only limitation
     const tweets = await app
