@@ -108,7 +108,8 @@
     <card-deck
       col-size="md"
       v-if="relatedPoems.poems.length >= 1 && !embedded"
-      class="bg-primary py-5"
+      title-class="text-white"
+      class="bg-dark py-5"
       title="Related Poems"
       cardtype="PoemCard"
       :cards="relatedPoems.poems"
