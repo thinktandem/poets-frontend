@@ -51,7 +51,6 @@
         </b-link>
       </li>
       <li
-        v-show="loggedIn"
         v-if="!minimal"
         class="pr-2">
         <b-link
@@ -95,7 +94,8 @@
       @ok="submitAnthologies"
       @shown="clearAnthologyForm"
       title="add to an anthology">
-      <b-form>
+      <Login v-show="!loggedIn" />
+      <b-form v-show="loggedIn">
         <b-form-select
           :disabled="anthologies.loading"
           v-model="anthologies.selected"
@@ -117,6 +117,7 @@
 </template>
 <script>
 import _ from "lodash";
+import Login from "~/components/Login";
 import FacebookIcon from "~/static/social/facebook.svg";
 import TwitterIcon from "~/static/social/twitter.svg";
 import TumblrIcon from "~/static/social/tumblr.svg";
@@ -127,6 +128,7 @@ import CollectionIcon from "~/static/social/collection.svg";
 export default {
   components: {
     FacebookIcon,
+    Login,
     TwitterIcon,
     TumblrIcon,
     PrintIcon,

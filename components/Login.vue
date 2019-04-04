@@ -1,13 +1,19 @@
 <template>
   <div class="login-wrapper border border-light">
+    <Register
+      :redirect="redirect"
+      v-show="showRegistrationForm" />
     <b-form
+      v-show="!showRegistrationForm"
       class="form-signin">
-      <h2 class="form-signin-heading">Sign in with</h2>
-      <span class="create-account">
+      <h2 class="form-signin-heading">{{ title }}</h2>
+      <span
+        v-show="showRegisterLink"
+        class="create-account">
         Don't have an account?
         <b-link
           class="float-right"
-          to="/register">Create one >>
+          @click="register">Create one >>
         </b-link>
       </span>
       <div id="oa_social_login_container" />
@@ -54,7 +60,7 @@
         type="button">
         Sign in
       </b-button>
-      <small>
+      <small v-show="showResetLink">
         <b-link
           class="float-right"
           to="/reset">Reset password
@@ -67,6 +73,7 @@
 <script>
 import _ from "lodash";
 import utils from "~/plugins/auth-utils";
+import Register from "~/components/Register";
 
 // Helper to get email from identity data
 const getEmail = (emails = []) =>
@@ -97,14 +104,36 @@ const validateOneAll = (data = {}) => {
 
 export default {
   name: "Login",
+  components: {
+    Register
+  },
   data() {
     return {
       busy: false,
       oneall: this.$store.state.postData,
       password: null,
       type: "password",
-      username: null
+      username: null,
+      showRegistrationForm: false
     };
+  },
+  props: {
+    redirect: {
+      type: String,
+      default: "/dashboard"
+    },
+    showRegisterLink: {
+      type: Boolean,
+      default: false
+    },
+    showResetLink: {
+      type: Boolean,
+      default: false
+    },
+    title: {
+      type: String,
+      default: "Sign in with"
+    }
   },
   computed: {
     hasPassword() {
@@ -118,10 +147,6 @@ export default {
     }
   },
   mounted() {
-    // If we are already logged in then lets redirect to dashboard
-    if (this.$auth.loggedIn) {
-      this.$router.push("/dashboard");
-    }
     /* The library is loaded asynchronously */
     // @NOTE: there has to be a better way to load this right?
     const oa = document.createElement("script");
@@ -166,9 +191,11 @@ export default {
         })
         .finally(() => {
           this.reset();
-          // @TODO: need to be able to handle other destinations?
-          this.$router.push("/dashboard");
+          this.$router.push(this.redirect);
         });
+    },
+    register() {
+      this.showRegistrationForm = true;
     },
     reset() {
       this.busy = false;
