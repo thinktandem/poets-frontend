@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import PoemActions from "~/components/PoemActions";
 export default {
   components: { PoemActions },
