@@ -1,9 +1,11 @@
+const _ = require("lodash");
+const sitemapHelpers = require("./plugins/sitemap-helpers");
+
 module.exports = {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
     ["bootstrap-vue/nuxt", { css: false }],
-    // 'vue-youtube-embed'
     "@nuxtjs/toast",
     [
       "nuxt-sass-resources-loader",
@@ -15,7 +17,8 @@ module.exports = {
         "bootstrap/scss/_mixins.scss",
         "~/assets/scss/base/_mixins.scss"
       ]
-    ]
+    ],
+    "@nuxtjs/sitemap"
   ],
   axios: {
     debug: process.env.APP_ENV !== "production"
@@ -32,6 +35,15 @@ module.exports = {
       drupal: {
         _scheme: "~/plugins/drupal-auth.js"
       }
+    }
+  },
+  sitemap: {
+    path: "/sitemap.xml",
+    hostname: "https://www.poets.org",
+    cacheTime: 1000 * 60 * 15,
+    gzip: true,
+    async routes () {
+      return sitemapHelpers.allTheUrls();
     }
   },
   router: {
@@ -115,5 +127,5 @@ module.exports = {
     TWIT_CONSUMER_SECRET: process.env.TWIT_CONSUMER_SECRET,
     TWIT_ACCESS_TOKEN: process.env.TWIT_ACCESS_TOKEN,
     TWIT_TOKEN_SECRET: process.env.TWIT_TOKEN_SECRET
-  }
+  },
 };
