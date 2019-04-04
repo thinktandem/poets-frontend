@@ -1,4 +1,5 @@
 module.exports = function(req, res, next) {
-  res.setHeader("Cache-Control", `max-age=${process.env.CACHE_TTL}`);
+  const ttl = parseInt(process.env.CACHE_TTL);
+  res.setHeader("Cache-Control", `max-age=${ttl}`);
   next();
 };
