@@ -16,17 +16,19 @@
           @click="register">Create one >>
         </b-link>
       </span>
-      <div id="oa_social_login_container" />
-      <script type="text/javascript">
-        /* Embeds the buttons into the container oa_social_login_container */
-        var _oneall = _oneall || [];
-        var callbackURL = callbackURL || `${window.location.origin}/login`;
-        _oneall.push(['social_login', 'set_providers', ['facebook', 'google']]);
-        _oneall.push(['social_login', 'set_custom_css_uri', `${window.location.origin}/social/oneall.css`]);
-        _oneall.push(['social_login', 'set_callback_uri', callbackURL]);
-        _oneall.push(['social_login', 'do_render_ui', 'oa_social_login_container']);
-      </script>
-      <div class="or-lines">OR</div>
+      <div v-show="showSocialLogin">
+        <div id="oa_social_login_container" />
+        <script type="text/javascript">
+          /* Embeds the buttons into the container oa_social_login_container */
+          var _oneall = _oneall || [];
+          var callbackURL = callbackURL || window.location.href;
+          _oneall.push(['social_login', 'set_providers', ['facebook', 'google']]);
+          _oneall.push(['social_login', 'set_custom_css_uri', `${window.location.origin}/social/oneall.css`]);
+          _oneall.push(['social_login', 'set_callback_uri', callbackURL]);
+          _oneall.push(['social_login', 'do_render_ui', 'oa_social_login_container']);
+        </script>
+        <div class="or-lines">OR</div>
+      </div>
       <label
         class="sr-only"
         for="username">Username</label>
@@ -127,6 +129,10 @@ export default {
       default: false
     },
     showResetLink: {
+      type: Boolean,
+      default: false
+    },
+    showSocialLogin: {
       type: Boolean,
       default: false
     },

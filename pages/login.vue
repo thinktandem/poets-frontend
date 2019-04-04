@@ -2,6 +2,7 @@
   <b-container class="py-5">
     <b-card class="shadow">
       <Login
+        show-social-login
         show-register-link
         show-reset-link />
     </b-card>

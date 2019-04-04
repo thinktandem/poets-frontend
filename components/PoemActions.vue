@@ -90,11 +90,18 @@
       lazy
       ok-only
       ok-title="Submit"
+      :hide-header="!loggedIn"
+      :hide-footer="!loggedIn"
       size="lg"
       @ok="submitAnthologies"
       @shown="clearAnthologyForm"
       title="add to an anthology">
-      <Login v-show="!loggedIn" />
+      <Login
+        v-show="!loggedIn"
+        redirect="#"
+        show-register-link
+        title="Sign in or register to add"
+      />
       <b-form v-show="loggedIn">
         <b-form-select
           :disabled="anthologies.loading"
@@ -192,8 +199,6 @@ export default {
       }?mbd=1' frameborder='0' scrolling='yes' allowfullscreen></iframe>`;
     },
     // We use this to verify user is both logged in and has an ID
-    // @todo: show the button and present the login form when a user is not loggedin
-    // @todo: this requires some login redirection handling work
     loggedIn() {
       return this.$auth.loggedIn && !!_.get(this.$auth, "user.id", false);
     },
@@ -230,16 +235,18 @@ export default {
       window.print();
     },
     loadAnthologies() {
-      this.anthologies.loading = true;
-      this.$auth.user.pullAnthologies().then(anthologies => {
-        this.anthologies.loading = false;
-        this.anthologies.options = _(anthologies)
-          .map(anthology => ({
-            text: anthology.title,
-            value: anthology.id
-          }))
-          .value();
-      });
+      if (this.loggedIn) {
+        this.anthologies.loading = true;
+        this.$auth.user.pullAnthologies().then(anthologies => {
+          this.anthologies.loading = false;
+          this.anthologies.options = _(anthologies)
+            .map(anthology => ({
+              text: anthology.title,
+              value: anthology.id
+            }))
+            .value();
+        });
+      }
     },
     submitAnthologies(evt) {
       // Prevent the modal from auto-closing and disable the submit
@@ -281,6 +288,13 @@ export default {
           console.error(error);
           this.$toast.error("An error occurred!").goAway(3000);
         });
+    }
+  },
+  watch: {
+    "$auth.loggedIn": function() {
+      this.$auth.fetchUser().then(() => {
+        this.loadAnthologies();
+      });
     }
   }
 };
