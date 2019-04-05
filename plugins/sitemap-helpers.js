@@ -1,7 +1,11 @@
 const axios = require("axios");
 const _ = require("lodash");
+const urljoin = require('url-join');
+const base = "https://master-7rqtwti-iw4bgahutfk2y.us-2.platformsh.site";
 
 module.exports = {
+  base: base,
+
   /*
    * Get paginated data /node/TYPE endpoints and gather up url
    * aliases for the sitemap.
@@ -21,42 +25,44 @@ module.exports = {
           }
         })
         .then(async res => {
-          const poems = await res.data.data.map(
-            poem => {
+          const things = await res.data.data.map(
+            thing => {
               return {
-                alias: _.get(poem, "attributes.path.alias", null),
-                type: _.get(poem, "type", null)
+                alias: _.get(thing, "attributes.path.alias", null),
+                type: _.get(thing, "type", null)
               };
             }
           );
           // type is for logging.
           let type = "";
-          _.each(poems, (poem, i) => {
-            if (poem) {
-              type = poem.type;
+          _.each(things, (thing, i) => {
+            if (thing) {
+              type = thing.type;
               if (type === "node--person") {
                 priority = (_.get(res, "data.data.attributes.field_p_type") === "poet")
                   ? 0.9
                   : 0.8;
               }
-              const path = _.get(poem, "alias", "");
-              if (path !== "") {
+              const path = _.get(thing, "alias", "");
+              if (path !== "" && typeof path === 'string') {
                 urls[urlsIndex] = {
                   url: path,
                   priority: priority,
                   changedfreq: "always",
                   lastmodISO: date
                 };
-                if (_.isEmpty(urls[urlsIndex])) { console.log("last: ", urls[urlsIndex]); }
                 urlsIndex = urlsIndex + 1;
+              } else {
+                // log it.
+                console.log("ERROR - sitemap-helpers: Data of type ",
+                  typeof path,
+                  " expected string; from ",
+                  _.get(thing, "attributes.drupal_internal__nid", "DNE"),
+                  "."
+                )
               }
             }
           });
-          console.log(
-            "INFO - sitemap-helper: ",
-            _.size(urls),
-            " of " + type + " recorded to the sitemap."
-          );
           next = _.get(res, "data.links.next.href", null);
         })
         .catch(err => console.log(err));
@@ -65,106 +71,109 @@ module.exports = {
     return urls;
   },
   async allTheUrls() {
-    const base = "https://api-poetsd8.lndo.site";
     let allUrls = [];
 
     const poems = await this.getUrlAliases(
-      base + "/api/node/poems",
+      this.base + "/api/node/poems",
       0.9
     );
     allUrls = allUrls.concat(poems);
 
     const people = await this.getUrlAliases(
-      base + "/api/node/person",
+      this.base + "/api/node/person",
       0.9
     );
     allUrls = allUrls.concat(people);
 
-    // const anthologies = await this.getUrlAliases(
-    //   base + "/api/node/anthologies",
-    //   0.7
-    // );
-    // allUrls = allUrls.concat(anthologies);
+    const anthologies = await this.getUrlAliases(
+      this.base + "/api/node/anthologies",
+      0.7
+    );
+    allUrls = allUrls.concat(anthologies);
 
-    // const basic_pages = await this.getUrlAliases(
-    //   base + "/api/node/basic_page",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(basic_pages);
+    const basic_pages = await this.getUrlAliases(
+      this.base + "/api/node/basic_page",
+      0.5
+    );
+    allUrls = allUrls.concat(basic_pages);
 
-    // @TODO: There is a problem w/ books import somewhere above 400th book.
     const books = await this.getUrlAliases(
-      base + "/api/node/books",
+      this.base + "/api/node/books",
       0.8
     );
     allUrls = allUrls.concat(books);
-    //const collections = await this.getUrlAliases(
-    //  base + "/api/node/collections",
-    //  0.8
-    // );
-    // allUrls = allUrls.concat(collections);
 
-    // const events = await this.getUrlAliases(
-    //   base + "/api/node/events",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(events);
+    const collections = await this.getUrlAliases(
+     this.base + "/api/node/collections",
+     0.8
+    );
+    allUrls = allUrls.concat(collections);
 
-    // const institution = await this.getUrlAliases(
-    //   base + "/api/node/institution",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(institution);
+    const events = await this.getUrlAliases(
+      this.base + "/api/node/events",
+      0.5
+    );
+    allUrls = allUrls.concat(events);
 
-    // const lesson_plans = await this.getUrlAliases(
-    //   base + "/api/node/lesson_plans",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(lesson_plans);
+    const institution = await this.getUrlAliases(
+      this.base + "/api/node/institution",
+      0.5
+    );
+    allUrls = allUrls.concat(institution);
 
-    // const listing = await this.getUrlAliases(
-    //   base + "/api/node/listing",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(listing);
+    const lesson_plans = await this.getUrlAliases(
+      this.base + "/api/node/lesson_plans",
+      0.5
+    );
+    allUrls = allUrls.concat(lesson_plans);
 
-    // const magazine = await this.getUrlAliases(
-    //   base + "/api/node/magazine",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(magazine);
+    const listing = await this.getUrlAliases(
+      this.base + "/api/node/listing",
+      0.5
+    );
+    allUrls = allUrls.concat(listing);
 
-    // const prize_or_program = await this.getUrlAliases(
-    //   base + "/api/node/prize_or_program",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(prize_or_program);
+    const magazine = await this.getUrlAliases(
+      this.base + "/api/node/magazine",
+      0.5
+    );
+    allUrls = allUrls.concat(magazine);
 
-    // const state = await this.getUrlAliases(
-    //   base + "/api/node/state",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(state);
+    const prize_or_program = await this.getUrlAliases(
+      this.base + "/api/node/prize_or_program",
+      0.5
+    );
+    allUrls = allUrls.concat(prize_or_program);
 
-    // const sub_prize_or_program = await this.getUrlAliases(
-    //   base + "/api/node/sub_prize_or_program",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(sub_prize_or_program);
+    const state = await this.getUrlAliases(
+      this.base + "/api/node/state",
+      0.5
+    );
+    allUrls = allUrls.concat(state);
 
-    // const teach_this_poem = await this.getUrlAliases(
-    //   base + "/api/node/teach_this_poem",
-    //   0.5
-    // );
-    // allUrls = allUrls.concat(teach_this_poem);
+    const sub_prize_or_program = await this.getUrlAliases(
+      this.base + "/api/node/sub_prize_or_program",
+      0.5
+    );
+    allUrls = allUrls.concat(sub_prize_or_program);
 
-    //const texts = await this.getUrlAliases(
-    //  base + "/api/node/texts",
-    //  0.5
-    //);
-    //allUrls = allUrls.concat(texts);
+    const teach_this_poem = await this.getUrlAliases(
+      this.base + "/api/node/teach_this_poem",
+      0.5
+    );
+    allUrls = allUrls.concat(teach_this_poem);
 
-    console.log("Recorded ", _.size(allUrls), " total URLs to the sitemap.");
+    const texts = await this.getUrlAliases(
+      this.base + "/api/node/texts",
+      0.5
+    );
+    allUrls = allUrls.concat(texts);
+
+    console.log(
+      "INFO - sitemap-helpers: Recorded ",
+      _.size(allUrls),
+      " total URLs to the sitemap."
+    );
 
     return allUrls;
   }
