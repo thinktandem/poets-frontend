@@ -21,7 +21,7 @@
           v-model="email"
           type="email"
           class="border-0"
-          placeholder="john@example.com"/>
+          :placeholder="placeholderEmail"/>
         <b-input-group-append>
           <b-btn
             type="submit"
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import PoemActions from "~/components/PoemActions";
 export default {
   components: { PoemActions },
@@ -40,6 +41,11 @@ export default {
     return {
       email: ""
     };
+  },
+  computed: {
+    placeholderEmail() {
+      return _.get(this.$auth, "user.meta.mail", "john@example.com");
+    }
   },
   methods: {
     poemADaySignup() {
