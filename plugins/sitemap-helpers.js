@@ -1,5 +1,6 @@
 const axios = require("axios");
 const _ = require("lodash");
+const qs = require("qs");
 const base = "https://master-7rqtwti-iw4bgahutfk2y.us-2.platformsh.site";
 
 module.exports = {
@@ -15,14 +16,18 @@ module.exports = {
     let urls = [];
     const date = new Date().toISOString().substr(0, 19);
     let urlsIndex = 0;
-
+    let checkForErrors = "safe";
+    const params = qs.stringify({
+      filter: {
+        status: 1
+      },
+      page: {
+        limit: 25
+      }
+    });
     do {
       await axios
-        .get(next, {
-          filter: {
-            status: 1
-          }
-        })
+        .get(next + "?" + params)
         .then(async res => {
           const things = await res.data.data.map(thing => {
             return {
@@ -72,8 +77,12 @@ module.exports = {
           );
           next = _.get(res, "data.links.next.href", null);
         })
-        .catch(err => console.log(err));
-    } while (next !== null);
+        .catch(err => {
+          checkForErrors = _.get(err, "Error", "safe");
+          next = null;
+          console.log(err);
+        });
+    } while (next !== null && checkForErrors === "safe");
 
     return urls;
   },
