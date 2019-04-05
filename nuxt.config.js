@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const sitemapHelpers = require("./plugins/sitemap-helpers");
 
 module.exports = {
@@ -42,7 +41,7 @@ module.exports = {
     hostname: "https://www.poets.org",
     cacheTime: 1000 * 60 * 15,
     gzip: true,
-    async routes () {
+    async routes() {
       return sitemapHelpers.allTheUrls();
     }
   },
@@ -63,7 +62,8 @@ module.exports = {
     "~/plugins/asyncComputed",
     "~/plugins/apiv2",
     "~/plugins/globalComponents",
-    "~/plugins/poets-api"
+    "~/plugins/poets-api",
+    "~/plugins/sitemap-helpers.js"
   ],
   css: ["~assets/scss/app.scss"],
   /*
@@ -130,5 +130,5 @@ module.exports = {
     TWIT_CONSUMER_SECRET: process.env.TWIT_CONSUMER_SECRET,
     TWIT_ACCESS_TOKEN: process.env.TWIT_ACCESS_TOKEN,
     TWIT_TOKEN_SECRET: process.env.TWIT_TOKEN_SECRET
-  },
+  }
 };

@@ -1,6 +1,5 @@
 const axios = require("axios");
 const _ = require("lodash");
-const urljoin = require('url-join');
 const base = "https://master-7rqtwti-iw4bgahutfk2y.us-2.platformsh.site";
 
 module.exports = {
@@ -13,38 +12,41 @@ module.exports = {
    * @TODO: changefreq
    */
   async getUrlAliases(next, priority = 0.9) {
-      let urls = [];
-      let routes = {};
-      const date = new Date().toISOString().substr(0, 19);
-      let urlsIndex = 0;
+    let urls = [];
+    const date = new Date().toISOString().substr(0, 19);
+    let urlsIndex = 0;
+
     do {
-      routes = await axios
+      await axios
         .get(next, {
           filter: {
             status: 1
           }
         })
         .then(async res => {
-          const things = await res.data.data.map(
-            thing => {
-              return {
-                alias: _.get(thing, "attributes.path.alias", null),
-                type: _.get(thing, "type", null)
-              };
-            }
-          );
+          const things = await res.data.data.map(thing => {
+            return {
+              alias: _.get(thing, "attributes.path.alias", null),
+              type: _.get(thing, "type", null),
+              nid: _.get(thing, "attributes.drupal_internal__nid", "DNE")
+            };
+          });
           // type is for logging.
           let type = "";
+          let path = "";
+          let nid = "";
           _.each(things, (thing, i) => {
             if (thing) {
               type = thing.type;
+              path = _.get(thing, "alias", "");
+              nid = _.get(thing, "nid", "DNE");
               if (type === "node--person") {
-                priority = (_.get(res, "data.data.attributes.field_p_type") === "poet")
-                  ? 0.9
-                  : 0.8;
+                priority =
+                  _.get(res, "data.data.attributes.field_p_type") === "poet"
+                    ? 0.9
+                    : 0.8;
               }
-              const path = _.get(thing, "alias", "");
-              if (path !== "" && typeof path === 'string') {
+              if (path !== "" && typeof path === "string") {
                 urls[urlsIndex] = {
                   url: path,
                   priority: priority,
@@ -54,15 +56,20 @@ module.exports = {
                 urlsIndex = urlsIndex + 1;
               } else {
                 // log it.
-                console.log("ERROR - sitemap-helpers: Data of type ",
+                console.log(
+                  "ERROR - sitemap-helpers: Data of type",
                   typeof path,
-                  " expected string; from ",
-                  _.get(thing, "attributes.drupal_internal__nid", "DNE"),
-                  "."
-                )
+                  "expected string; from",
+                  nid + "."
+                );
               }
             }
           });
+          console.log(
+            "INFO - sitemap-helpers: Recorded",
+            _.size(urls),
+            "of " + type + " to the sitemap."
+          );
           next = _.get(res, "data.links.next.href", null);
         })
         .catch(err => console.log(err));
@@ -73,10 +80,7 @@ module.exports = {
   async allTheUrls() {
     let allUrls = [];
 
-    const poems = await this.getUrlAliases(
-      this.base + "/api/node/poems",
-      0.9
-    );
+    const poems = await this.getUrlAliases(this.base + "/api/node/poems", 0.9);
     allUrls = allUrls.concat(poems);
 
     const people = await this.getUrlAliases(
@@ -91,21 +95,18 @@ module.exports = {
     );
     allUrls = allUrls.concat(anthologies);
 
-    const basic_pages = await this.getUrlAliases(
+    const basicPages = await this.getUrlAliases(
       this.base + "/api/node/basic_page",
       0.5
     );
-    allUrls = allUrls.concat(basic_pages);
+    allUrls = allUrls.concat(basicPages);
 
-    const books = await this.getUrlAliases(
-      this.base + "/api/node/books",
-      0.8
-    );
+    const books = await this.getUrlAliases(this.base + "/api/node/books", 0.8);
     allUrls = allUrls.concat(books);
 
     const collections = await this.getUrlAliases(
-     this.base + "/api/node/collections",
-     0.8
+      this.base + "/api/node/collections",
+      0.8
     );
     allUrls = allUrls.concat(collections);
 
@@ -121,11 +122,11 @@ module.exports = {
     );
     allUrls = allUrls.concat(institution);
 
-    const lesson_plans = await this.getUrlAliases(
+    const lessonPlans = await this.getUrlAliases(
       this.base + "/api/node/lesson_plans",
       0.5
     );
-    allUrls = allUrls.concat(lesson_plans);
+    allUrls = allUrls.concat(lessonPlans);
 
     const listing = await this.getUrlAliases(
       this.base + "/api/node/listing",
@@ -139,34 +140,28 @@ module.exports = {
     );
     allUrls = allUrls.concat(magazine);
 
-    const prize_or_program = await this.getUrlAliases(
+    const prizeOrProgram = await this.getUrlAliases(
       this.base + "/api/node/prize_or_program",
       0.5
     );
-    allUrls = allUrls.concat(prize_or_program);
+    allUrls = allUrls.concat(prizeOrProgram);
 
-    const state = await this.getUrlAliases(
-      this.base + "/api/node/state",
-      0.5
-    );
+    const state = await this.getUrlAliases(this.base + "/api/node/state", 0.5);
     allUrls = allUrls.concat(state);
 
-    const sub_prize_or_program = await this.getUrlAliases(
+    const subPrizeOrProgram = await this.getUrlAliases(
       this.base + "/api/node/sub_prize_or_program",
       0.5
     );
-    allUrls = allUrls.concat(sub_prize_or_program);
+    allUrls = allUrls.concat(subPrizeOrProgram);
 
-    const teach_this_poem = await this.getUrlAliases(
+    const teachThisPoem = await this.getUrlAliases(
       this.base + "/api/node/teach_this_poem",
       0.5
     );
-    allUrls = allUrls.concat(teach_this_poem);
+    allUrls = allUrls.concat(teachThisPoem);
 
-    const texts = await this.getUrlAliases(
-      this.base + "/api/node/texts",
-      0.5
-    );
+    const texts = await this.getUrlAliases(this.base + "/api/node/texts", 0.5);
     allUrls = allUrls.concat(texts);
 
     console.log(
