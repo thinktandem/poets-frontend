@@ -24,7 +24,21 @@ export default {
           name: metatag.attributes.name,
           content: metatag.attributes.content
         }))
-        .value()
+        .value(),
+      __dangerouslyDisableSanitizers: ["script"],
+      script: [
+        {
+          innerHTML: this.structuredData(data),
+          type: "application/ld+json"
+        }
+      ]
     };
+  },
+
+  structuredData(data) {
+    return _.get(
+      _.find(data, metatag => _.get(metatag, "tag") === "rendered_schema"),
+      "attributes"
+    );
   }
 };

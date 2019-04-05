@@ -46,6 +46,9 @@ module.exports = {
       return sitemapHelpers.allTheUrls();
     }
   },
+  serverMiddleware: [
+    { path: "/tweets", handler: "~/serverMiddleware/tweets.js" }
+  ],
   router: {
     middleware: ["menu", "post-data", "redirects"]
   },
@@ -117,7 +120,7 @@ module.exports = {
   },
   env: {
     baseURL: process.env.API_URL || "https://api.poets.org",
-    APP_URL: process.env.APP_URL || "https://poets.org",
+    appURL: process.env.appURL || "https://poets.org",
     CONSUMER_ID: process.env.CONSUMER_ID,
     CONSUMER_SECRET: process.env.CONSUMER_SECRET,
     ONEALL_SUBDOMAIN: process.env.ONEALL_SUBDOMAIN,

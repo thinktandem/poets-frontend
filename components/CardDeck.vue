@@ -10,7 +10,9 @@
           tag="header"
           class="d-flex flex-lg-row flex-column"
         >
-          <h2 class="card-deck__title">{{ title }}</h2>
+          <h2
+            :class="titleClass"
+            class="card-deck__title">{{ title }}</h2>
           <b-link
             class="card-deck__link text-color"
             v-if="link"
@@ -77,6 +79,10 @@ export default {
       default: false
     },
     title: {
+      type: String,
+      default: ""
+    },
+    titleClass: {
       type: String,
       default: ""
     },

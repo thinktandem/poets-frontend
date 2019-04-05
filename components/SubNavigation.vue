@@ -18,7 +18,7 @@
           v-for="(link, index) in links"
           :key="index"
           :to="link.to"
-        >
+          exact>
           {{ index }}
         </b-nav-item>
       </b-navbar-nav>

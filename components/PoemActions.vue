@@ -135,7 +135,7 @@ export default {
   },
   data() {
     return {
-      siteUri: `${process.env.APP_URL}${this.poem.alias}`,
+      siteUri: `${process.env.appURL}${this.poem.alias}`,
       title: encodeURIComponent(this.poem.title),
       anthologies: {
         options: [],

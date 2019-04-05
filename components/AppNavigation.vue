@@ -26,6 +26,14 @@
           v-for="(link, index) in $store.state.topMenu"
           :key="index"
           :to="link.to">{{ link.text }}</b-nav-item>
+        <b-nav-item
+          v-show="this.$auth.loggedIn"
+          class="d-md-none"
+          to="/dashboard">Dashboard</b-nav-item>
+        <b-nav-item
+          v-show="this.$auth.loggedIn"
+          class="d-md-none"
+          @click="logout">Logout</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -36,6 +44,8 @@
           class="navbar__login">Membership / Login</b-nav-item>
         <b-nav-item-dropdown
           v-show="this.$auth.loggedIn"
+          class="d-none"
+          :class="dropdownClass"
           id="nav_ddown_loggedin"
           :text="name"
           extra-toggle-classes="nav-link-loggedin"
@@ -91,6 +101,9 @@ export default {
         get(this.$auth, "user.meta.field_last_name", undefined),
         get(this.$auth, "user.meta.name", undefined)
       );
+    },
+    dropdownClass() {
+      return this.$auth.loggedIn ? "d-md-flex" : "";
     }
   },
   methods: {
