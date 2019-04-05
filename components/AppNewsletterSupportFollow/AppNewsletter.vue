@@ -44,7 +44,7 @@
             id="newsletterEmail"
             size="9"
             type="email"
-            placeholder="john@example.com"
+            :placeholder="placeholderEmail"
           />
           <b-btn
             class="btn btn-primary"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   components: {},
   data() {
@@ -69,6 +70,11 @@ export default {
       aappad: false,
       newsletterEmail: ""
     };
+  },
+  computed: {
+    placeholderEmail() {
+      return _.get(this.$auth, "user.meta.mail", "john@example.com");
+    }
   },
   methods: {
     newsletterSignup() {
