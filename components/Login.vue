@@ -1,5 +1,7 @@
 <template>
-  <div class="login-wrapper border border-light">
+  <div
+    id="loginForm"
+    class="login-wrapper border border-light">
     <Register
       :redirect="redirect"
       v-show="showRegistrationForm" />
