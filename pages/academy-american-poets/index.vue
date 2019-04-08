@@ -104,8 +104,8 @@ export default {
         return {
           response: response,
           moreLink: {
-            to: `/annoucements`,
-            text: "More Annoucements"
+            to: `/announcements`,
+            text: "More announcements"
           },
           announcements: _.map(response.data, item => {
             return {
