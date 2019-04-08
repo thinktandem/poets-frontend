@@ -4,8 +4,8 @@ import redirects from "~/redirects.json";
  *  the nuxt context, see https://nuxtjs.org/api/context
  * @return {mixed}.
  */
-export default function({ redirect, req, route }) {
-  const thisRedirect = redirects.find(r => r.from === req.url);
+export default function({ redirect, route }) {
+  const thisRedirect = redirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
   const homePattern = RegExp("/home");
   if (thisRedirect) {
