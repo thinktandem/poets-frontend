@@ -54,7 +54,6 @@ export default {
   mounted() {
     // Make all Youtube embeds responsive.
     this.$el.querySelectorAll("iframe").forEach(el => {
-      console.log(el.getAttribute("src"));
       const youtubeRegex = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
       if (youtubeRegex.test(el.getAttribute("src"))) {
         el.classList.add("embed-responsive-item");
