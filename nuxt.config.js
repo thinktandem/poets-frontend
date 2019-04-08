@@ -39,7 +39,7 @@ module.exports = {
   sitemap: {
     path: "/sitemap.xml",
     hostname: "https://www.poets.org",
-    cacheTime: 15 * 24 * 60 * 60,
+    cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
     async routes() {
       return sitemapHelpers.allTheUrls();
