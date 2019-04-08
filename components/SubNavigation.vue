@@ -7,6 +7,7 @@
     variant="dark"
   >
     <b-navbar-toggle
+      v-show="hasLinks"
       class="border-0 bg-dark-gray"
       target="subnav_collapse"/>
     <b-collapse
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import { isEmpty } from "lodash";
 export default {
   name: "SubNavigation",
   props: {
@@ -34,20 +36,16 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  computed: {
+    hasLinks() {
+      return !isEmpty(this.links);
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-// So we can access breakpoints / spacer
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-.lib-nav-container {
-  margin-top: -2px;
-  background-color: var(--gray-900);
-  min-height: 42px;
-}
 .nav-tabs {
   border-bottom: none;
 }
