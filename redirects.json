@@ -1,2 +1,10 @@
 [
+  {
+    "from": "/national-poetry-month/form/poster-request-form",
+    "to": "/national-poetry-month/poster-request-form"
+  },
+  {
+    "from": "/national-poetry-month/poster",
+    "to": "/national-poetry-month/poster-request-form"
+  }
 ]
