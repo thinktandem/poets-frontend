@@ -147,6 +147,7 @@ const setAnthologyBusy = (anthologies, anthology, busy = true) => {
 
 export default {
   middleware: "auth",
+  layout: "bannerless",
   data() {
     return {
       userData: utils.parseUser(this.$auth.user.getUser()),
