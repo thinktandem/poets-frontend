@@ -50,6 +50,20 @@ export default {
         GptAds.gatherMeData().gptInitScript
       ]
     };
+  },
+  mounted() {
+    // Make all Youtube embeds responsive.
+    this.$el.querySelectorAll("iframe").forEach(el => {
+      console.log(el.getAttribute("src"));
+      const youtubeRegex = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+      if (youtubeRegex.test(el.getAttribute("src"))) {
+        el.classList.add("embed-responsive-item");
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("embed-responsive", "embed-responsive-16by9");
+        el.parentNode.insertBefore(wrapper, el);
+        wrapper.appendChild(el);
+      }
+    });
   }
 };
 </script>
