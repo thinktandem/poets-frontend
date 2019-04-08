@@ -59,7 +59,8 @@
           class="d-block d-md-none"
           variant="secondary-dark"
           size="md"
-          type="submit">Donate</b-button>
+          to="/academy-american-poets/help-champion-poets-and-poetry"
+        >Donate</b-button>
 
       </b-navbar-nav>
 
@@ -68,7 +69,8 @@
       class="d-none d-md-flex"
       variant="secondary-dark"
       size="md"
-      type="submit">Donate</b-button>
+      to="/academy-american-poets/help-champion-poets-and-poetry"
+    >Donate</b-button>
   </b-navbar>
 
 </template>
