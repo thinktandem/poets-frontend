@@ -97,7 +97,7 @@ export default {
             title: "Lesson Plans",
             cardType: "LessonPlanCard",
             link: {
-              to: "/poetorg/lesson-plans",
+              to: "/lesson-plans",
               text: `${lessons.meta.count} Lesson Plans`
             },
             cards: _.map(lessons.data, item => {
@@ -122,7 +122,7 @@ export default {
             title: "Essays on Teaching Poetry",
             cardType: "EssayCard",
             link: {
-              to: "/poetorg/texts/teaching-poetry",
+              to: "/essays",
               text: `${essays.meta.count} Essays`
             },
             cards: _.map(essays.data, item => {
