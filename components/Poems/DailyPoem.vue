@@ -31,7 +31,7 @@
             sm="12"
             tag="aside"
             class="daily-poem__aside px-0 order-2 order-md-1">
-            <h3 class="pr-3 d-flex flex-row-reverse">
+            <h3 class="pr-3 d-none d-md-flex flex-row-reverse">
               <b-link
                 :to="poet.alias"
                 class="text-white">{{ poet.name }}</b-link>
@@ -159,7 +159,7 @@
                 v-html="poem.title"/>
               <b-link
                 :to="poet.alias"
-                class="pb-4 font-sans text-dark" 
+                class="pb-4 font-sans text-dark"
                 style="display: block">{{ poet.name }}</b-link>
             </b-col>
           </b-row>
