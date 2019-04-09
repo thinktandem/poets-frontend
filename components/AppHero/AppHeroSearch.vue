@@ -1,5 +1,5 @@
 <template>
-  <div class="hero-search">
+  <div class="hero-search d-flex flex-column flex-fill">
     <app-form
       class="hero-search__form"
       @submit="search">
@@ -24,17 +24,17 @@
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
-      <b-list-group
-        class="hero__search__links">
-        <b-list-group-item
-          v-for="(link, index) in $store.state.midMenu"
-          :key="index"
-          :to="link.to"
-          class="hero__search__link">
-          {{ link.text }}
-        </b-list-group-item>
-      </b-list-group>
     </app-form>
+    <b-list-group
+      class="hero__search__links flex-fill">
+      <b-list-group-item
+        v-for="(link, index) in $store.state.midMenu"
+        :key="index"
+        :to="link.to"
+        class="hero__search__link">
+        {{ link.text }}
+      </b-list-group-item>
+    </b-list-group>
   </div>
 </template>
 

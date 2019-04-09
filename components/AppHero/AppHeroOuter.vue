@@ -31,7 +31,7 @@
         </div>
       </b-col>
       <b-col
-        class="pr-md-0 pl-md-3"
+        class="pr-md-0 pl-md-3 d-flex flex-column"
         sm=12
         md=4>
         <AppHeroSearch />
