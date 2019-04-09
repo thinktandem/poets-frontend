@@ -168,6 +168,12 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  .poet__bio /deep/ p {
+    a {
+      color: var(--white);
+      font-weight: 600;
+    }
+  }
 }
 
 .card-deck--prizecard {
