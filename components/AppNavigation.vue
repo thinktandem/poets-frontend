@@ -40,7 +40,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item
           v-show="!this.$auth.loggedIn"
-          to="/login#loginForm"
+          to="/login"
           class="navbar__login">Membership / Login</b-nav-item>
         <b-nav-item-dropdown
           v-show="this.$auth.loggedIn"
