@@ -1,7 +1,9 @@
 <template>
-  <b-img
-    :src="logo.src"
-    :alt="logo.alt"/>
+  <b-link :to="logo.link">
+    <b-img
+      :src="logo.src"
+      :alt="logo.alt"/>
+  </b-link>
 </template>
 <script>
 export default {
