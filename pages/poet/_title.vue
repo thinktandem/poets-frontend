@@ -16,6 +16,88 @@
           <div
             class="poet__body-content"
             v-html="body.processed"/>
+          <b-row
+            class="person__related-texts-rows"
+            md="8">
+            <b-container
+              class="books-list tabular-list"
+              v-if="relatedLP.length !== 0">
+              <b-row>
+                <b-col md="12">
+                  <h3 class="person__related-texts-title">Lesson Plans</h3>
+                </b-col>
+              </b-row>
+              <b-row
+                class="tabular-list__row tabular-list__header">
+                <b-col
+                  md="4">
+                  Date
+                </b-col>
+                <b-col md="8">
+                  Title
+                </b-col>
+              </b-row>
+              <b-row
+                v-for="lp in relatedLP"
+                class="tabular-list__row books-list__books"
+                :key="lp.attributes.id"
+              >
+                <b-col
+                  class="date"
+                  md="4"
+                >
+                  {{ niceDate(lp.attributes.field_date_published) }}
+                </b-col>
+                <b-col
+                  class="books-list__books-title"
+                  md="8">
+                  <a
+                    :href="lp.attributes.path.alias"
+                    v-html="lp.attributes.title"
+                  />
+                </b-col>
+              </b-row>
+            </b-container>
+            <b-container
+              class="books-list tabular-list"
+              v-if="relatedAnnouncements.length !== 0">
+              <b-row>
+                <b-col md="12">
+                  <h3 class="person__related-texts-title">Announcements</h3>
+                </b-col>
+              </b-row>
+              <b-row
+                class="tabular-list__row tabular-list__header">
+                <b-col
+                  md="4">
+                  Date
+                </b-col>
+                <b-col md="8">
+                  Title
+                </b-col>
+              </b-row>
+              <b-row
+                v-for="ann in relatedAnnouncements"
+                class="tabular-list__row books-list__books"
+                :key="ann.attributes.id"
+              >
+                <b-col
+                  class="date"
+                  md="4"
+                >
+                  {{ niceDate(ann.attributes.changed) }}
+                </b-col>
+                <b-col
+                  class="books-list__books-title"
+                  md="8">
+                  <a
+                    :href="ann.attributes.path.alias"
+                    v-html="ann.attributes.title"
+                  />
+                </b-col>
+              </b-row>
+            </b-container>
+          </b-row>
         </b-col>
         <b-col
           class="poet__sidebar"
@@ -87,90 +169,6 @@
       title="Related Poets"
       cardtype="Poet"
       :cards="relatedPoets"/>
-    <b-container>
-      <b-row
-        class="person__related-texts-rows"
-        md="8">
-        <b-container
-          class="books-list tabular-list"
-          v-if="relatedLP.length !== 0">
-          <b-row>
-            <b-col md="12">
-              <h3 class="person__related-texts-title">Lesson Plans</h3>
-            </b-col>
-          </b-row>
-          <b-row
-            class="tabular-list__row tabular-list__header">
-            <b-col
-              md="4">
-              Date
-            </b-col>
-            <b-col md="8">
-              Title
-            </b-col>
-          </b-row>
-          <b-row
-            v-for="lp in relatedLP"
-            class="tabular-list__row books-list__books"
-            :key="lp.attributes.id"
-          >
-            <b-col
-              class="date"
-              md="4"
-            >
-              {{ niceDate(lp.attributes.field_date_published) }}
-            </b-col>
-            <b-col
-              class="books-list__books-title"
-              md="8">
-              <a
-                :href="lp.attributes.path.alias"
-                v-html="lp.attributes.title"
-              />
-            </b-col>
-          </b-row>
-        </b-container>
-        <b-container
-          class="books-list tabular-list"
-          v-if="relatedAnnouncements.length !== 0">
-          <b-row>
-            <b-col md="12">
-              <h3 class="person__related-texts-title">Announcements</h3>
-            </b-col>
-          </b-row>
-          <b-row
-            class="tabular-list__row tabular-list__header">
-            <b-col
-              md="4">
-              Date
-            </b-col>
-            <b-col md="8">
-              Title
-            </b-col>
-          </b-row>
-          <b-row
-            v-for="ann in relatedAnnouncements"
-            class="tabular-list__row books-list__books"
-            :key="ann.attributes.id"
-          >
-            <b-col
-              class="date"
-              md="4"
-            >
-              {{ niceDate(ann.attributes.changed) }}
-            </b-col>
-            <b-col
-              class="books-list__books-title"
-              md="8">
-              <a
-                :href="ann.attributes.path.alias"
-                v-html="ann.attributes.title"
-              />
-            </b-col>
-          </b-row>
-        </b-container>
-      </b-row>
-    </b-container>
   </div>
 </template>
 
