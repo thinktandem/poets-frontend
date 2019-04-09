@@ -1,10 +1,10 @@
 <template>
   <div>
     <b-container class="poems-list__filters filters">
-      <b-row class="poems-list__filters-row">
+      <b-row class="poems-list__filters-row mt-4">
         <b-col md="12">
           <app-form
-            class="poems-list__search"
+            class="poems-list__search p-3"
             @submit.stop.prevent="applyFilters"
           >
             <b-form-group>
@@ -33,25 +33,30 @@
                 >
                   <option :value="null">Forms</option>
                 </b-form-select>
-                <div class="poems-list__input--search">
-                  <b-input-group>
-                    <b-form-input
-                      v-model="combinedInput"
-                      type="text"
-                      size="22"
-                      placeholder="Search title or text ..."
-                    />
-                    <b-input-group-append
-                      is-text
-                      @click.stop.prevent="applyFilters"
-                    >
-                      <magnifying-glass-icon
-                        class="icon mr-2"/>
-                    </b-input-group-append>
-                  </b-input-group>
-                </div>
               </div>
             </b-form-group>
+            <div class="poems-list__input--search my-3">
+              <b-input-group>
+                <b-form-input
+                  v-model="combinedInput"
+                  type="text"
+                  size="22"
+                  placeholder="Search title or text ..."
+                />
+                <b-input-group-append
+                  is-text
+                  @click.stop.prevent="applyFilters"
+                >
+                  <magnifying-glass-icon
+                    class="icon mr-2"/>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+            <div class="d-flex">
+              <b-button
+                @click="applyFilters"
+                variant="primary">Apply</b-button>
+            </div>
           </app-form>
         </b-col>
       </b-row>
@@ -313,15 +318,9 @@ export default {
   padding-bottom: 3rem;
 }
 
-.poems-list__search {
-  margin-top: 2rem;
-}
-
 .legend-selects {
   display: flex;
   flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
 
   select {
     &:not(:last-child) {
