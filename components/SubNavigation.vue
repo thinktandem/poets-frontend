@@ -7,6 +7,7 @@
     variant="dark"
   >
     <b-navbar-toggle
+      v-show="hasLinks"
       class="border-0 bg-dark-gray"
       target="subnav_collapse"/>
     <b-collapse
@@ -27,12 +28,18 @@
 </template>
 
 <script>
+import { isEmpty } from "lodash";
 export default {
   name: "SubNavigation",
   props: {
     links: {
       type: Object,
       default: () => {}
+    }
+  },
+  computed: {
+    hasLinks() {
+      return !isEmpty(this.links);
     }
   }
 };
