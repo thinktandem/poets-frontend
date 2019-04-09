@@ -243,16 +243,19 @@ export default {
             app.$getRelated(res, plan, "field_level"),
             "attributes.name"
           ),
-          meta: _.get(
-            app.$getRelated(res, plan, "field_contributors"),
-            "attributes.body.processed"
-          ),
-          link: _.get(plan, "attributes.path.alias")
+          meta: _.get(res, "data[0].attributes.body.summary"),
+          link: _.get(plan, "attributes.path.alias"),
+          id: _.get(res, "data[0].id")
         };
       });
     const featureParams = qs.stringify({
       filter: {
-        field_featured: 1
+        field_featured: 1,
+        status: 1,
+        id: {
+          operator: "<>",
+          value: latestPlan.id
+        }
       },
       page: {
         limit: 4
@@ -276,10 +279,7 @@ export default {
             app.$getRelated(featured, lesson, "field_level"),
             "attributes.name"
           ),
-          meta: _.get(
-            app.$getRelated(featured, lesson, "field_contributors"),
-            "attributes.body.processed"
-          )
+          meta: _.get(featured, "data[0].attributes.body.summary")
         }))
       }
     });
