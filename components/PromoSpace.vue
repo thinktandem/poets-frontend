@@ -4,7 +4,6 @@
     :class="variant"
   >
     <b-container class="mx-auto my-1">
-      <p class="text-center text-uppercase promo__disclosure">Advertisment</p>
       <div
         :id="divId"
         class="gpt-ad-unit"
@@ -265,18 +264,11 @@ export default {
 };
 </script>
 <style scoped>
-.promo__disclosure {
-  color: var(--dark-muted);
-  font-weight: 400;
-}
 .promo.dark {
   background-color: var(--black);
 }
 .promo.transparent {
   background-color: transparent;
-  .promo__disclosure {
-    color: var(--dark);
-  }
 }
 .gpt-ad-unit {
   text-align: center;

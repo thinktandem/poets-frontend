@@ -62,7 +62,7 @@ export default {
           icon: "YoutubeIcon"
         },
         {
-          url: "#",
+          url: "https://www.instagram.com/poetsorg/?hl=en",
           icon: "InstagramIcon"
         },
         {

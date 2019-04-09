@@ -4,8 +4,8 @@
     <div class="support__content">
       <ul>
         <li
-          v-for="item in supportMenu"
-          :key="item.href"
+          v-for="(item, key) in supportMenu"
+          :key="key"
         >
           <a :href="item.href">{{ item.title }}</a>
         </li>
@@ -29,11 +29,11 @@ export default {
         },
         {
           title: "Get Involved",
-          href: "blah/blah"
+          href: "/academy-american-poets/get-involved"
         },
         {
           title: "Make a Bequest",
-          href: "blah/blah"
+          href: "/academy-american-poets/make-bequest"
         },
         {
           title: "Advertise with Us",
@@ -41,7 +41,7 @@ export default {
         },
         {
           title: "Poets Shop",
-          href: "blah/blah"
+          href: "https://poets.myshopify.com/"
         }
       ]
     };
