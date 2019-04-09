@@ -6,7 +6,9 @@
           <h1 class="poet__name">
             {{ title }}
           </h1>
-          <div class="poet__dob-dod">
+          <div
+            class="poet__dob-dod"
+            v-if="dob">
             {{ niceDate(dob, "year") }}&#8211;{{ niceDate(dod, "year") }}
           </div>
         </b-col>
