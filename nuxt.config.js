@@ -1,4 +1,4 @@
-const sitemapHelpers = require("./plugins/sitemap-helpers");
+// const sitemapHelpers = require("./plugins/sitemap-helpers");
 
 module.exports = {
   modules: [
@@ -42,7 +42,8 @@ module.exports = {
     cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
     async routes() {
-      return sitemapHelpers.allTheUrls();
+      // return sitemapHelpers.allTheUrls();
+      return [];
     }
   },
   serverMiddleware: [
