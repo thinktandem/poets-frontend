@@ -46,6 +46,7 @@
                 <b-link :to="poet.path.alias">{{ poet.title }}</b-link>
                 <span
                   class="dates"
+                  v-if="poet.field_dob"
                 > - {{ niceDate(poet.field_dob) }}-{{ niceDate(poet.field_dod) }}</span>
               </span>
             </div>
