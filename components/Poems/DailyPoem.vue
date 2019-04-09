@@ -236,7 +236,7 @@ export default {
   @include chevron(0.5rem, 3px, 0px, $blue-dark);
 }
 .daily-poem {
-  background: linear-gradient($gray-900), linear-gradient(#c9cacb);
+  background: linear-gradient($gray-900), linear-gradient($gray-900);
   background-size: auto 38rem, auto;
   background-repeat: no-repeat;
   aside {
@@ -300,8 +300,8 @@ export default {
     content: "";
     background: linear-gradient(
       0.25turn,
-      transparent 0%,
-      transparent 50%,
+      rgba(var(--gray-900), 0) 0%,
+      rgba(var(--gray-900), 0) 50%,
       rgba(0, 0, 0, 1) 100%
     );
     pointer-events: none;
