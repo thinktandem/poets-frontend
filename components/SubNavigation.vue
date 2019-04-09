@@ -46,6 +46,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// So we can access breakpoints / spacer
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+.lib-nav-container {
+  margin-top: -2px;
+  background-color: var(--gray-900);
+  min-height: 42px;
+}
 .nav-tabs {
   border-bottom: none;
 }
