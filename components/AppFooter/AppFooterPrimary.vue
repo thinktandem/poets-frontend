@@ -4,46 +4,62 @@
       <div class="row">
         <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
-            poets.org
+            <b-link
+              class="text-primary"
+              to="/">
+              poets.org
+            </b-link>
           </h3>
           <div
             v-for="link in linksPoets"
             :key="link.url"
             class="footer__primary__links p-1">
-            <a :href="link.url">{{ link.text }}</a>
+            <b-link :to="link.url">{{ link.text }}</b-link>
           </div>
         </div>
         <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
-            academy of american poets
+            <b-link
+              class="text-primary"
+              to="/academy-american-poets">
+              academy of american poets
+            </b-link>
           </h3>
           <div
             v-for="link in linksAcademy"
             :key="link.url"
             class="footer__primary__links p-1">
-            <a :href="link.url">{{ link.text }}</a>
+            <b-link :to="link.url">{{ link.text }}</b-link>
           </div>
         </div>
         <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
-            national poetry month
+            <b-link
+              class="text-primary"
+              to="/national-poetry-month">
+              national poetry month
+            </b-link>
           </h3>
           <div
             v-for="link in linksPoetryMonth"
             :key="link.url"
             class="footer__primary__links p-1">
-            <a :href="link.url">{{ link.text }}</a>
+            <b-link :to="link.url">{{ link.text }}</b-link>
           </div>
         </div>
         <div class="col-sm-12 col-md-3">
           <h3 class="footer__primary__links__header">
-            american poets
+            <b-link
+              class="text-primary"
+              to="/american-poets-magazine">
+              american poets
+            </b-link>
           </h3>
           <div
             v-for="link in linksAmericanPoets"
             :key="link.url"
             class="footer__primary__links p-1">
-            <a :href="link.url">{{ link.text }}</a>
+            <b-link :to="link.url">{{ link.text }}</b-link>
           </div>
         </div>
       </div>
