@@ -263,7 +263,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .promo.dark {
   background-color: var(--black);
 }
@@ -272,5 +272,11 @@ export default {
 }
 .gpt-ad-unit {
   text-align: center;
+}
+@include media-breakpoint-down(md) {
+  .promo.dark,
+  .promo.transparent {
+    display: none;
+  }
 }
 </style>
