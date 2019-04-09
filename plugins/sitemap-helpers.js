@@ -1,11 +1,11 @@
-import _ from "lodash";
-import axios from "axios";
-import qs from "qs";
+const axios = require("axios");
+const _ = require("lodash");
+const qs = require("qs");
 
 // Base constant
 const base = "https://master-7rqtwti-iw4bgahutfk2y.us-2.platformsh.site";
 
-export default {
+module.exports = {
   base: base,
 
   /*

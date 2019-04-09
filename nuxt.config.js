@@ -1,5 +1,3 @@
-// const sitemapHelpers = require("./plugins/sitemap-helpers");
-
 module.exports = {
   modules: [
     "@nuxtjs/axios",
@@ -42,8 +40,8 @@ module.exports = {
     cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
     async routes() {
-      // return sitemapHelpers.allTheUrls();
-      return [];
+      const sitemapHelpers = require("./plugins/sitemap-helpers");
+      return sitemapHelpers.allTheUrls();
     }
   },
   serverMiddleware: [
@@ -63,8 +61,7 @@ module.exports = {
     "~/plugins/asyncComputed",
     "~/plugins/apiv2",
     "~/plugins/globalComponents",
-    "~/plugins/poets-api",
-    "~/plugins/sitemap-helpers.js"
+    "~/plugins/poets-api"
   ],
   css: ["~assets/scss/app.scss"],
   /*
