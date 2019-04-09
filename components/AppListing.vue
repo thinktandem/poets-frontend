@@ -83,6 +83,12 @@
               class="text-secondary"
               style="font-weight: 400;">{{ shortDate(data.item.field_event_date) }}</span></template>
           <template
+            slot="created"
+            slot-scope="data"><span
+              class="text-secondary"
+              style="font-weight: 400;">{{ shortDate(data.item.created) }}</span>
+          </template>
+          <template
             slot="title"
             slot-scope="data">
             <b-link

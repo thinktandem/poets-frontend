@@ -6,15 +6,8 @@
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
       :sidebar-data="$store.state.sidebarData"/>
-    <CardDeck
-      title="Featured"
-      class="pt-5 pb-3"
-      cardtype="TextCard"
-      cols="4"
-      :featured="featured"
-      :cards="texts"/>
     <app-listing
-      resource-type="texts"
+      resource-type="basic_page"
       :default-params="defaultParams"
       :includes="includes"
       :fields="fields"/>
@@ -24,14 +17,12 @@
 <script>
 import BasicPage from "~/components/BasicPage";
 import AppListing from "~/components/AppListing";
-import CardDeck from "~/components/CardDeck";
 import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
     BasicPage,
-    AppListing,
-    CardDeck
+    AppListing
   },
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
@@ -39,15 +30,15 @@ export default {
   data() {
     return {
       includes: {
-        field_contributors: "title"
+        field_story_type: "tid"
       },
       fields: {
-        field_contributors: { label: "Name" },
+        created: { label: "Date" },
         title: { label: "Title" }
       },
       defaultParams: {
         filter: {
-          "field_texttype.name": "on Teaching Poetry"
+          "field_story_type.tid": 8
         }
       },
       featured: true
@@ -55,22 +46,6 @@ export default {
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
-  },
-  async asyncData({ app, store, params, query }) {
-    let texts = await app.$axios
-      .get("/api/texts/1461", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    return {
-      texts: texts.rows
-    };
   }
 };
 </script>
