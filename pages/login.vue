@@ -15,6 +15,7 @@ export default {
   components: {
     Login
   },
+  layout: "bannerless",
   mounted() {
     // If we are already logged in then lets redirect to dashboard
     if (this.$auth.loggedIn) {
