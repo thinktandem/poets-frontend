@@ -97,19 +97,25 @@ export default {
       const path = this.$route.path;
       let src = "/hero/main.svg";
       let alt = "Poets.org Logo";
+      let link = "/";
       if (path.includes("/national-poetry-month")) {
         src = "/hero/NPM.svg";
         alt = "National Poetry Month Logo";
+        link = "/national-poetry-month";
       } else if (
         path.includes("/academy-american-poets") ||
         path.includes("/american-poets-magazine")
       ) {
         src = "/hero/AAP.svg";
         alt = "Academy of American Poets Logo";
+        link = path.includes("/academy-american-poets")
+          ? "/academy-american-poets"
+          : "/american-poets-magazine";
       }
       return {
         src,
-        alt
+        alt,
+        link
       };
     }
   }

@@ -14,6 +14,7 @@
             <app-listing
               class="border-bottom"
               resource-type="events"
+              stacked="md"
               :paged="false"
               :details="details"
               :default-params="defaultParams"

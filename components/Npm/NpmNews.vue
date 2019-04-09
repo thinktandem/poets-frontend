@@ -17,7 +17,9 @@
               <div
                 v-else
                 class="npm__news-row-image">
-                <b-img :src="baseURL + item.field_image"/>
+                <b-img-lazy
+                  fluid
+                  :src="baseURL + item.field_image"/>
               </div>
             </b-col>
             <b-col lg="7">

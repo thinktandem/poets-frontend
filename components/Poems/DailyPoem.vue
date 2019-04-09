@@ -31,7 +31,7 @@
             sm="12"
             tag="aside"
             class="daily-poem__aside px-0 order-2 order-md-1">
-            <h3 class="pr-3 d-flex flex-row-reverse">
+            <h3 class="pr-3 d-none d-md-flex flex-row-reverse">
               <b-link
                 :to="poet.alias"
                 class="text-white">{{ poet.name }}</b-link>
@@ -159,7 +159,7 @@
                 v-html="poem.title"/>
               <b-link
                 :to="poet.alias"
-                class="pb-4 font-sans text-dark" 
+                class="pb-4 font-sans text-dark"
                 style="display: block">{{ poet.name }}</b-link>
             </b-col>
           </b-row>
@@ -236,7 +236,7 @@ export default {
   @include chevron(0.5rem, 3px, 0px, $blue-dark);
 }
 .daily-poem {
-  background: linear-gradient($gray-900), linear-gradient(#c9cacb);
+  background: linear-gradient($gray-900), linear-gradient($gray-900);
   background-size: auto 38rem, auto;
   background-repeat: no-repeat;
   aside {
@@ -265,8 +265,8 @@ export default {
     content: "";
     overflow: hidden;
     background: linear-gradient(
-      transparent 0%,
-      transparent 70%,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 70%,
       rgba(255, 255, 255, 0.8) 80%,
       rgba(255, 255, 255, 1) 90%
     );
@@ -300,8 +300,8 @@ export default {
     content: "";
     background: linear-gradient(
       0.25turn,
-      transparent 0%,
-      transparent 50%,
+      rgba(var(--gray-900), 0) 0%,
+      rgba(var(--gray-900), 0) 50%,
       rgba(0, 0, 0, 1) 100%
     );
     pointer-events: none;
