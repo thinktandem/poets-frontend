@@ -43,8 +43,8 @@
       "about us": {
         "to": "/academy-american-poets/about-us"
       },
-      "annoucements": {
-        "to": "/academy-american-poets/annoucements"
+      "announcements": {
+        "to": "/academy-american-poets/announcements"
       }
     }
   },
@@ -67,7 +67,7 @@
         "to": "/national-poetry-month/programming"
       },
       "sponsors": {
-        "to": "/national-poetry-month/sponsors"
+        "to": "/national-poetry-month/sponsors-partners"
       },
       "faq": {
         "to": "/national-poetry-month/faq"
@@ -75,6 +75,20 @@
     }
   },
   "American Poets Magazine": {
-    "to": "/american-poets-magazine"
+    "to": "/american-poets-magazine",
+    "children": {
+      "about": {
+        "to": "/american-poets-magazine"
+      },
+      "table of contents": {
+        "to": "/american-poets-magazine/table-contents-fall-winter-2018"
+      },
+      "books noted": {
+        "to": "/american-poets-magazine/books-noted-fall-winter-2018"
+      },
+      "advertise": {
+        "to": "/american-poets-magazine/advertising-american-poets"
+      }
+    }
   }
 }

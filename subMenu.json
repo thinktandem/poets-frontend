@@ -140,22 +140,5 @@
         "to": "/national-poetry-month/30-ways-celebrate-national-poetry-month"
       }
     }
-  },
-  "American Poets Magazine": {
-    "to": "/american-poets-magazine",
-    "children": {
-      "about": {
-        "to": "/american-poets-magazine"
-      },
-      "table of contents": {
-        "to": "/american-poets-magazine/table-contents-fall-winter-2018"
-      },
-      "books noted": {
-        "to": "/american-poets-magazine/books-noted-fall-winter-2018"
-      },
-      "advertise": {
-        "to": "/american-poets-magazine/advertising-american-poets"
-      }
-    }
   }
 }

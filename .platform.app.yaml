@@ -20,9 +20,15 @@ web:
 # Hooks
 hooks:
   build: |
-      yarn install
-      yarn build
-      # We need to do the below manually for now
-      # See: https://github.com/yarnpkg/yarn/issues/6685
-      yarn cache clean
-      rm -rf /tmp/yarn--*
+    yarn install
+    yarn build
+    # We need to do the below manually for now
+    # See: https://github.com/yarnpkg/yarn/issues/6685
+    yarn cache clean
+    rm -rf /tmp/yarn--*
+
+# crons
+crons:
+  sitemap:
+    spec: '22 2 1,15 * *'
+    cmd: 'curl -I https://www.poets.org/sitemap.xml'

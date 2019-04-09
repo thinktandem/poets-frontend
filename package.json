@@ -17,6 +17,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.5.3",
     "@nuxtjs/axios": "^5.4.1",
+    "@nuxtjs/sitemap": "^0.2.2",
     "@nuxtjs/toast": "^3.0.2",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.11",
