@@ -159,7 +159,7 @@
                 v-html="poem.title"/>
               <b-link
                 :to="poet.alias"
-                class="pb-4 font-sans text-dark" 
+                class="pb-4 font-sans text-dark"
                 style="display: block">{{ poet.name }}</b-link>
             </b-col>
           </b-row>
@@ -265,8 +265,8 @@ export default {
     content: "";
     overflow: hidden;
     background: linear-gradient(
-      transparent 0%,
-      transparent 70%,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 70%,
       rgba(255, 255, 255, 0.8) 80%,
       rgba(255, 255, 255, 1) 90%
     );
