@@ -18,7 +18,9 @@
               v-html="body"/>
           </b-col>
           <b-col md="4">
-            <div class="ttp__image-container">
+            <div
+              class="ttp__image-container"
+              v-if="imageUrl && imageMeta">
               <b-img
                 class="ttp__image"
                 :src="imageUrl"
@@ -109,7 +111,7 @@ export default {
           )
           .then(async res => {
             return {
-              imageUrl: res.data.links.portrait.href
+              imageUrl: _.get(res, "data.links.portrait.href", null)
             };
           })
           .catch(err => {
@@ -119,7 +121,11 @@ export default {
         return {
           res,
           image,
-          imageMeta: res.included[0].relationships.field_image.data.meta
+          imageMeta: _.get(
+            res,
+            "included[0].relationships.field_image.data.meta",
+            null
+          )
         };
       })
       .catch(err => {
@@ -127,16 +133,16 @@ export default {
       });
 
     return {
-      title: _.get(featuredTTP.res.data[0], "attributes.title", ""),
-      body: _.get(featuredTTP.res.data[0], "attributes.body.value", ""),
-      imageUrl: featuredTTP.image.imageUrl,
-      imageMeta: featuredTTP.imageMeta,
+      title: _.get(featuredTTP, "res.data[0].attributes.title", ""),
+      body: _.get(featuredTTP, "res.data[0].attributes.body.value", ""),
+      imageUrl: _.get(featuredTTP, "image.imageUrl", null),
+      imageMeta: _.get(featuredTTP, "imageMeta", null),
       defaultParams: {
         filter: {
           status: 1,
           id: {
             operator: "<>",
-            value: featuredTTP.res.data[0].id
+            value: _.get(featuredTTP, "res.data[0].id", null)
           }
         }
       }
