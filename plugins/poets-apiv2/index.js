@@ -1,6 +1,7 @@
 import _ from "lodash";
 import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
+import events from "~/plugins/poets-apiv2/lib/events";
 import user from "~/plugins/poets-apiv2/lib/user";
 
 /**
@@ -63,6 +64,17 @@ export default class PoetsApi {
    */
   createAnthologies(data, options = {}) {
     return anthologies.create(this.request, data, options);
+  }
+
+  /**
+   * Create Events
+   *
+   * @param {Object|Array} data An object or array of objects
+   * @param {Object} options Options
+   * @return {Object} the response object
+   */
+  createEvents(data, options = {}) {
+    return events.create(this.request, data, options);
   }
 
   /**

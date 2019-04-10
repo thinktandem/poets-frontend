@@ -27,7 +27,7 @@
       :hide-footer="!loggedIn"
       size="lg"
       @ok="submitEventStuff"
-      title="add to an anthology">
+      title="submit an event">
       <Login
         v-show="!loggedIn"
         redirect="#"
@@ -36,7 +36,7 @@
       <b-form v-show="loggedIn">
         <b-form-input
           type="text"
-          placeholder="FUCK OFF!" />
+          placeholder="name" />
       </b-form>
     </b-modal>
   </div>
@@ -78,8 +78,13 @@ export default {
   },
   methods: {
     submitEventStuff(evt) {
+      // Prevent the modal from auto-closing and disable the submit
       evt.preventDefault();
-      this.$refs.submitEvent.hide();
+      // Add the poem to an anthology
+      return this.$auth.user.createEvents(["FUCCCCCC"]).then(data => {
+        console.log(data);
+        this.$refs.submitEvent.hide();
+      });
     }
   }
 };

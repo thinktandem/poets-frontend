@@ -49,6 +49,7 @@ export default class PoetsUser {
     this.api = api;
     this.meta = meta;
     this.anthologies = [];
+    this.events = [];
     this.idType = getIdType(this.id);
   }
 
@@ -90,6 +91,36 @@ export default class PoetsUser {
         });
         // Return
         return newAnths;
+      });
+  }
+
+  /**
+   * create events
+   *
+   * @param {Array} titles Create new events
+   * @return {Object} the response object
+   */
+  createEvents(titles = []) {
+    return this.api
+      .createEvents(_.map(titles, title => ({ title })))
+      .then(events => {
+        // Map to more useful data
+        const newEvents = _(events)
+          .map(event => _.get(event, "data.data", {}))
+          .map(event =>
+            getAnthology(
+              _.get(event, "id"),
+              _.get(event, "attributes.title"),
+              _.get(event, "attributes.path.alias")
+            )
+          )
+          .value();
+        // Update our events with new stuff
+        _.forEach(newEvents, newEvent => {
+          this.events.push(newEvent);
+        });
+        // Return
+        return newEvents;
       });
   }
 
