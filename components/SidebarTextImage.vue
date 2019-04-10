@@ -6,6 +6,14 @@
           <b-media
             no-body
             class="d-flex flex-column flex-md-row">
+            <b-media-aside
+              v-show="!empty(leftImg)"
+              class="mr-3">
+              <b-img-lazy
+                fluid
+                :src="leftImg.src"
+                :alt="leftImg.alt"/>
+            </b-media-aside>
             <b-media-body
               class="d-flex flex-column">
               <component
@@ -14,41 +22,42 @@
                 :is="titleTag">{{ title }}</component>
               <div
                 class="pr-4 mb-3"
-                v-if="body"
+                v-show="body"
                 v-html="body"/>
               <b-link
                 class="more-link mt-auto mb-3"
-                v-if="moreLink"
+                v-if="!empty(moreLink)"
                 :to="moreLink.uri">{{ moreLink.title }} <i
                   class="fancy-chevron"/></b-link>
             </b-media-body>
           </b-media>
         </b-col>
         <b-col lg="4">
-          <b-media-aside
-            v-if="img !== null"
-            class="mr-3">
-            <b-img-lazy
-              fluid
-              :src="img.src"
-              :alt="img.alt"/>
-          </b-media-aside>
           <div
+            class="py-3"
             v-for="(sect, i) in sidebarTop"
             :key="i"
             v-html="sect"
-            v-if="sidebarTop !== null"/>
+            v-show="!empty(sidebarTop)"/>
+          <b-img-lazy
+            v-if="!empty(img)"
+            class="py-3"
+            fluid
+            :src="img.src"
+            :alt="img.alt"/>
           <div
+            class="py-3"
             v-for="(sect, i) in sidebarBottom"
             :key="i"
             v-html="sect"
-            v-if="sidebarBottom !== null"/>
+            v-show="!empty(sidebarBottom)"/>
         </b-col>
       </b-row>
     </b-container>
   </section>
 </template>
 <script>
+import { isEmpty } from "lodash";
 export default {
   name: "SidebarTextImage",
   props: {
@@ -65,20 +74,29 @@ export default {
       default: ""
     },
     sidebarTop: {
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     },
     sidebarBottom: {
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     },
     img: {
+      type: Object,
+      default: null
+    },
+    leftImg: {
       type: Object,
       default: null
     },
     moreLink: {
       type: Object,
       default: null
+    }
+  },
+  methods: {
+    empty(thing) {
+      return isEmpty(thing);
     }
   }
 };
