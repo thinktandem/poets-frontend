@@ -1,5 +1,12 @@
 <template>
   <div>
+    <CardDeck
+      v-if="featuredPoems"
+      col-size="md"
+      class="bg-primary py-5"
+      title="Featured Poems"
+      cardtype="PoemCard"
+      :cards="featuredPoems"/>
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
@@ -189,6 +196,9 @@
 </template>
 
 <script>
+import _ from "lodash";
+import qs from "qs";
+import CardDeck from "~/components/CardDeck";
 import searchHelpers from "~/plugins/search-helpers";
 import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
@@ -198,6 +208,7 @@ import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
+    CardDeck,
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     MagnifyingGlassIcon
@@ -226,6 +237,18 @@ export default {
     const url = "/api/poems";
     const msh = await searchHelpers.getSearchResults(url, app, query);
 
+    const featuredPoemsParams = qs.stringify({
+      page: {
+        limit: 3
+      },
+      filter: {
+        status: 1
+      },
+      sort: "-field_featured"
+    });
+    const featuredPoems = await app.$axios.$get(
+      `/api/node/poems?${featuredPoemsParams}&include=field_author`
+    );
     return {
       occasionsInput: msh.occasionsInput,
       themesInput: msh.themesInput,
@@ -239,7 +262,28 @@ export default {
       preparedOccasions: msh.preparedOccasions,
       preparedThemes: msh.preparedThemes,
       preparedForm: msh.preparedForm,
-      preparedCombine: msh.preparedCombine
+      preparedCombine: msh.preparedCombine,
+      featuredPoems: _.map(featuredPoems.data, poem => {
+        const poemAuthorId = _.get(
+          poem,
+          "relationships.field_author.data[0].id"
+        );
+        let author = "";
+        _.each(featuredPoems.included, (inc, i) => {
+          if (inc.id === poemAuthorId) {
+            author = inc.attributes.title;
+          }
+        });
+        return {
+          link: poem.attributes.path.alias,
+          title: poem.attributes.title,
+          text: poem.attributes.body.processed,
+          year: poem.attributes.field_copyright_date.split("-")[0],
+          poet: {
+            name: author
+          }
+        };
+      })
     };
   },
   async fetch({ app, store, route }) {
