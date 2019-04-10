@@ -153,7 +153,7 @@ export default {
         app.$axios.$get(
           `/api/node/poems/${
             res.entity.uuid
-          }?include=field_author.field_image,field_related_poems`
+          }?include=field_author.field_image,field_related_poems,field_related_poems.field_author`
         )
       )
       .then(async response => {
@@ -170,6 +170,10 @@ export default {
           response.included,
           include => include.type === "node--poems"
         );
+        // console.log(
+        //   "\n------------------------ rp----------------------------------\n\n",
+        //   relatedPoems
+        // );
         const morePoemParams = qs.stringify({
           page: {
             limit: 3
@@ -219,16 +223,30 @@ export default {
             })
           },
           relatedPoems: {
-            poems: _.map(relatedPoems, poem => {
-              return {
-                link: poem.attributes.path.alias,
-                title: poem.attributes.title,
-                text: poem.attributes.body.processed,
-                year: poem.attributes.field_copyright_date.split("-")[0],
-                poet: {
-                  name: poet.attributes.title
-                }
-              };
+            poems: _.map(relatedPoems, async poem => {
+              return app.$axios
+                .$get(
+                  `/api/node/person/${
+                    poem.relationships.field_author.data[0].id
+                  }`
+                )
+                .then(async res => {
+                  const rpName = _.get(res, "data.attributes.title", "");
+                  console.log(
+                    "\n ----------------- name :::::::::::::::::::::::::::::::\n",
+                    rpName
+                  );
+                  return {
+                    link: poem.attributes.path.alias,
+                    title: poem.attributes.title,
+                    text: poem.attributes.body.processed,
+                    year: poem.attributes.field_copyright_date.split("-")[0],
+                    poet: {
+                      name: rpName
+                    }
+                  };
+                })
+                .catch(err => console.log(err));
             })
           }
         };
