@@ -127,7 +127,8 @@ export default {
           component: "ButtonBlock",
           props: {
             text: "Submit an Event",
-            to: "/event/new"
+            type: "modal",
+            modal: "submitEvent"
           }
         }
       ]);
