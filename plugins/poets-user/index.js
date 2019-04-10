@@ -97,28 +97,21 @@ export default class PoetsUser {
   /**
    * create events
    *
-   * @param {Array} titles Create new events
+   * @param {Array} events Create new events
    * @return {Object} the response object
    */
-  createEvents(titles = []) {
+  createEvents(events = []) {
     return this.api
-      .createEvents(_.map(titles, title => ({ title })))
+      .createEvents(
+        _.map(events, event => ({
+          title: event.title,
+          field_event_contact: event.email,
+          field_event_fee: event.fee
+        }))
+      )
       .then(events => {
         // Map to more useful data
-        const newEvents = _(events)
-          .map(event => _.get(event, "data.data", {}))
-          .map(event =>
-            getAnthology(
-              _.get(event, "id"),
-              _.get(event, "attributes.title"),
-              _.get(event, "attributes.path.alias")
-            )
-          )
-          .value();
-        // Update our events with new stuff
-        _.forEach(newEvents, newEvent => {
-          this.events.push(newEvent);
-        });
+        const newEvents = _(events).map(event => _.get(event, "data.data", {}));
         // Return
         return newEvents;
       });

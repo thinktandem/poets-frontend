@@ -22,11 +22,13 @@
       ref="submitEvent"
       lazy
       ok-only
+      :ok-disabled="!eventSubmittable"
       ok-title="Submit"
       :hide-header="!loggedIn"
       :hide-footer="!loggedIn"
       size="lg"
       @ok="submitEventStuff"
+      @shown="clearEventStuff"
       title="submit an event">
       <Login
         v-show="!loggedIn"
@@ -35,8 +37,26 @@
         title="Sign in or register to submit an event"/>
       <b-form v-show="loggedIn">
         <b-form-input
+          v-model="eventName"
+          size="lg"
+          :disabled="eventBusy"
           type="text"
-          placeholder="name" />
+          placeholder="Event name"
+          :state="hasEventName" />
+        <b-form-input
+          v-model="eventEmail"
+          size="lg"
+          :disabled="eventBusy"
+          type="email"
+          placeholder="Contact email"
+          :state="isEventEmail" />
+        <b-form-input
+          v-model="eventFee"
+          size="lg"
+          :disabled="eventBusy"
+          type="text"
+          placeholder="Fee"
+          :state="isEventFee" />
       </b-form>
     </b-modal>
   </div>
@@ -44,6 +64,7 @@
 <script>
 import _ from "lodash";
 import Login from "~/components/Login";
+import utils from "~/plugins/auth-utils";
 export default {
   components: {
     Login
@@ -71,20 +92,56 @@ export default {
       default: "primary-dark"
     }
   },
+  data() {
+    return {
+      eventBusy: false,
+      eventEmail: null,
+      eventFee: null,
+      eventName: null
+    };
+  },
   computed: {
+    eventSubmittable() {
+      return this.hasEventName && this.isEventEmail && this.isEventFee;
+    },
+    hasEventName() {
+      return utils.getState(this.eventName);
+    },
+    isEventEmail() {
+      return utils.isEmail(this.eventEmail) ? true : null;
+    },
+    isEventFee() {
+      return utils.getState(this.eventFee);
+    },
     loggedIn() {
       return this.$auth.loggedIn && !!_.get(this.$auth, "user.id", false);
     }
   },
   methods: {
+    clearEventStuff() {
+      this.eventName = null;
+      this.eventEmail = null;
+      this.eventFee = null;
+      this.eventBusy = false;
+    },
     submitEventStuff(evt) {
       // Prevent the modal from auto-closing and disable the submit
+      this.eventBusy = true;
       evt.preventDefault();
       // Add the poem to an anthology
-      return this.$auth.user.createEvents(["FUCCCCCC"]).then(data => {
-        console.log(data);
-        this.$refs.submitEvent.hide();
-      });
+      return this.$auth.user
+        .createEvents([
+          { title: this.eventName, email: this.eventEmail, fee: this.eventFee }
+        ])
+        .then(data => {
+          this.$toast.success(`Submitted ${this.eventName}!`).goAway(5000);
+          this.$refs.submitEvent.hide();
+        })
+        .catch(error => {
+          console.error(error);
+          this.$toast.error("An error occurred!").goAway(3000);
+          this.clearEventStuff();
+        });
     }
   }
 };
