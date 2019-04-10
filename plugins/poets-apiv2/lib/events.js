@@ -12,6 +12,8 @@ const eventCreateDefaults = (title = "My Event") => ({
   type: "node--events",
   attributes: {
     title,
+    field_event_fee: "10",
+    field_event_contact: "mike.pirog@gmail.com",
     metatag_normalized: []
   }
 });
