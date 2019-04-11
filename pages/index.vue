@@ -56,7 +56,7 @@ export default {
   },
   async fetch({ app, store, params, route, menu }) {
     app.$buildBasicPage(app, store, "/home");
-
+    // This is a comment
     const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
     const theOnePoemOfTheDay = _.first(poemOftheDay);
     store.commit("updatePoemOfTheDay", {
