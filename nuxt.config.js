@@ -117,6 +117,12 @@ module.exports = {
       }
     }
   },
+  // Tell Browsers to cache static assets
+  render: {
+    static: {
+      maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+  },
   env: {
     baseURL: process.env.API_URL || "https://api.poets.org",
     appURL: process.env.appURL || "https://poets.org",
