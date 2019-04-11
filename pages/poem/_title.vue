@@ -153,7 +153,7 @@ export default {
         app.$axios.$get(
           `/api/node/poems/${
             res.entity.uuid
-          }?include=field_author.field_image,field_related_poems`
+          }?include=field_author.field_image,field_related_poems,field_related_poems.field_author`
         )
       )
       .then(async response => {
@@ -170,6 +170,8 @@ export default {
           response.included,
           include => include.type === "node--poems"
         );
+        // We need a var to store the Author.
+        let relatedAuthor = "";
         const morePoemParams = qs.stringify({
           page: {
             limit: 3
@@ -220,13 +222,23 @@ export default {
           },
           relatedPoems: {
             poems: _.map(relatedPoems, poem => {
+              const poemAuthorId = _.get(
+                poem,
+                "relationships.field_author.data[0].id"
+              );
+              _.each(response.included, (inc, i) => {
+                if (inc.id === poemAuthorId) {
+                  relatedAuthor = inc.attributes.title;
+                }
+              });
               return {
+                relatedAuthor,
                 link: poem.attributes.path.alias,
                 title: poem.attributes.title,
                 text: poem.attributes.body.processed,
                 year: poem.attributes.field_copyright_date.split("-")[0],
                 poet: {
-                  name: poet.attributes.title
+                  name: relatedAuthor // poet.attributes.title
                 }
               };
             })
