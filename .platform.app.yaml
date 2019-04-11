@@ -20,7 +20,6 @@ web:
 # Hooks
 hooks:
   build: |
-    rm -rf /app/.nuxt
     yarn install
     yarn build
     # We need to do the below manually for now
