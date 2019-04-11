@@ -38,10 +38,12 @@ export default {
             return res.data.data;
           })
           .catch(err => {
+            this.$sentry.captureException(err);
             console.log(err);
           });
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
     const body = await imgUrl.staticUrl(text.attributes.body.value, app);

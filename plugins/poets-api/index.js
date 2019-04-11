@@ -86,6 +86,7 @@ export default ({ app }, inject) => {
           });
       })
       .catch(error => {
+        app.$sentry.captureException(error);
         console.log(error);
         store.commit("updateHero", {
           variant: "quote",

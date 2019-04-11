@@ -166,6 +166,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
   },
@@ -192,14 +193,10 @@ export default {
         approximately_how_many_students_see_the_poster_: this.how_many,
         feedback: this.feedback
       };
-      this.$axios
-        .$post("/webform_rest/submit", body)
-        .then(res => {
-          console.log("Post webform_rest req sent.");
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.$axios.$post("/webform_rest/submit", body).catch(err => {
+        this.$sentry.captureException(err);
+        console.log(err);
+      });
       this.$toast
         .show("Thanks! Your request for a poster has been recieved", {
           theme: "toasted-primary",

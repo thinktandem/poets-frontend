@@ -36,7 +36,7 @@
         />
         <b-btn
           class="border-primary bg-white text-primary"
-          type="submit" 
+          type="submit"
         >
           {{ action.text }}
         </b-btn>
@@ -46,11 +46,10 @@
 </template>
 
 <script>
-import AppImage from "~/components/AppImage";
 import AppTeaserText from "~/components/AppTeaserText";
 export default {
   name: "CalloutCard",
-  components: { AppImage, AppTeaserText },
+  components: { AppTeaserText },
   data() {
     return {
       email: ""
@@ -128,6 +127,7 @@ export default {
               }
             )
             .goAway(1500);
+          this.$sentry.captureException(err);
           console.log(err);
         });
     }

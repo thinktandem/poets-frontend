@@ -53,6 +53,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(error);
         console.log(err);
       });
   }

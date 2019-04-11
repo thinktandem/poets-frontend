@@ -63,6 +63,7 @@ module.exports = {
                 urlsIndex = urlsIndex + 1;
               } else {
                 // log it.
+                this.$sentry.captureException(error);
                 console.log(
                   "ERROR - sitemap-helpers: Data of type",
                   typeof path,
@@ -82,6 +83,7 @@ module.exports = {
         .catch(err => {
           checkForErrors = _.get(err, "Error", "safe");
           next = null;
+          this.$sentry.captureException(error);
           console.log(err);
         });
     } while (next !== null && checkForErrors === "safe");

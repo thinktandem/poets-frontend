@@ -23,17 +23,5 @@ export default function({ $axios, redirect }) {
     if (_.get(response, "data.redirect")) {
       redirect(_.get(_.first(_.get(response, "data.redirect")), "to"));
     }
-    // if (response.status === 207) {
-    // const routerCode = _.get(response, "data.router.headers.status", []);
-    // if (_.indexOf(routerCode, 404) !== -1) {
-    // console.log("Router response was", _.get(response, "data.router.body"));
-    // redirect("/sorry");
-    // }
-    // }
-    // return response;
-    // });
-    // $axios.onError(error => {
-    // console.log(error.response);
-    // redirect("/sorry");
   });
 }

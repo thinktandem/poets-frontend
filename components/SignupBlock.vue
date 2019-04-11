@@ -75,6 +75,7 @@ export default {
               }
             )
             .goAway(1500);
+          this.$sentry.captureException(err);
           console.log(err);
         });
     },

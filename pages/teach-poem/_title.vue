@@ -79,6 +79,7 @@ export default {
                   };
                 })
                 .catch(err => {
+                  this.$sentry.captureException(err);
                   console.log(err);
                 });
               if (!_.isEmpty(response.data.attributes.field_more_link)) {
@@ -97,9 +98,15 @@ export default {
                       .then(res => {
                         return res.data.attributes.path.alias;
                       })
-                      .catch(err => console.log(err));
+                      .catch(err => {
+                        this.$sentry.captureException(err);
+                        console.log(err);
+                      });
                   })
-                  .catch(err => console.log(err));
+                  .catch(err => {
+                    this.$sentry.captureException(err);
+                    console.log(err);
+                  });
                 highlightedData.link = link ? link : null;
               }
             }

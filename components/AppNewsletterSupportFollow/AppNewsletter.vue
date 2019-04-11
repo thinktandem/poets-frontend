@@ -87,14 +87,10 @@ export default {
           AAPPAD: this.aappad || false
         }
       };
-      this.$axios
-        .post("/api/cm/poem-a-day", body)
-        .then(req => {
-          console.log("Post req sent");
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.$axios.post("/api/cm/poem-a-day", body).catch(err => {
+        this.$sentry.captureException(err);
+        console.log(err);
+      });
       this.$toast
         .show("Thanks! You are subscribed.", {
           theme: "toasted-primary",

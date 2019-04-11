@@ -117,7 +117,10 @@ export default {
             store.commit("updateExtendedContent", []);
           });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.$sentry.captureException(err);
+        console.log(err);
+      });
   },
   methods: {
     niceDate(date) {

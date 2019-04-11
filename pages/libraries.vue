@@ -91,6 +91,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
     let poets = await app.$axios
@@ -129,6 +130,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
     let texts = await app.$axios
@@ -143,6 +145,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
 
@@ -186,6 +189,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
 

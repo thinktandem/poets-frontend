@@ -60,6 +60,7 @@ export default {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
     const textsByParams = qs.stringify({

@@ -65,6 +65,7 @@ export default {
         };
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
 

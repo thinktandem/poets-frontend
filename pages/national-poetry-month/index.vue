@@ -126,6 +126,7 @@ export default {
         return res.data.rows;
       })
       .catch(err => {
+        this.$sentry.captureException(err);
         console.log(err);
       });
     const tweetsBase = process.server
@@ -139,7 +140,10 @@ export default {
         baseURL: tweetsBase
       })
       .then(res => res.data.tweets)
-      .catch(e => console.log(e));
+      .catch(err => {
+        this.$sentry.captureException(err);
+        console.log(err);
+      });
     return {
       news,
       tweets
