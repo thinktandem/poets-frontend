@@ -3,7 +3,7 @@ const _ = require("lodash");
 const qs = require("qs");
 
 // Base constant
-const base = "https://master-7rqtwti-iw4bgahutfk2y.us-2.platformsh.site";
+const base = "https://api.poets.org";
 
 module.exports = {
   base: base,
