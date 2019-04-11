@@ -13,7 +13,7 @@ The easiest way to get started developing the poets.org frontend magicks is by u
 
 ### 1. Using Lando
 
-**This requires you have Lando 3.0.0-rc.1 or higher**.
+**This requires you have Lando 3.0.0-rc.14 or higher**.
 
 Please note that because `nuxt` takes a bit to get going and `lando` only waits so long, your initial start *may* produce red URLs. If this happens we recommend you inspect the status of the start with `lando logs` or `docker logs poetsd8_[appserver|styleguide]_1` and then rerun `lando start` when both the `appserver` and `styleguide` have launched. This should result in green lights across the board.
 
