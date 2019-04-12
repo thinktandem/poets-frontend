@@ -38,6 +38,10 @@ export default {
 
         return {
           results: res.data.rows,
+          count:
+            typeof res.data.rows.length === "undefined"
+              ? 0
+              : res.data.rows.length,
           pageNum: res.data.pager.current_page || "",
           Prev: prevPageNum || "",
           Next: nextPageNum || "",
