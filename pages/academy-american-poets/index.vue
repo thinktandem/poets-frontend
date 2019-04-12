@@ -104,7 +104,7 @@ export default {
         return {
           response: response,
           moreLink: {
-            to: `/announcements`,
+            to: `/academy-american-poets/announcements`,
             text: "More Announcements"
           },
           announcements: _.map(response.data, item => {
@@ -112,7 +112,7 @@ export default {
               date: item.attributes.changed,
               body:
                 item.attributes.body.summary || item.attributes.body.processed,
-              link: ""
+              link: _.get(item, "attributes.path.alias", "")
             };
           })
         };

@@ -16,7 +16,7 @@
       <b-link
         class="announcements__more-link"
         v-if="announcements.length > 3"
-        :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
+        to="/academy-american-poets/announcements">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
       type: Object,
       default() {
         return {
-          to: "/announcements",
+          to: "/academy-american-poets/announcements",
           text: "More Announcements"
         };
       }
