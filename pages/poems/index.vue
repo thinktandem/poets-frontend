@@ -3,7 +3,7 @@
     <CardDeck
       v-if="featuredPoems"
       col-size="md"
-      class="bg-primary py-5"
+      class="pt-5"
       title="Featured Poems"
       cardtype="PoemCard"
       :cards="featuredPoems"/>
@@ -286,9 +286,6 @@ export default {
       })
     };
   },
-  async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, route.path).then(async () => {});
-  },
   methods: {
     applyFilters() {
       let myQuery = {};
@@ -311,7 +308,6 @@ export default {
     }
   },
   async fetch({ app, store, query, route }) {
-    app.$buildBasicPage(app, store, "/poems");
     const occasions = await filterHelpers.getFilterOptions(
       app,
       "/api/taxonomy_term/occasions",
@@ -333,6 +329,7 @@ export default {
     store.commit("updateForm", forms.options);
     store.commit("updateOccasions", occasions.options);
     store.commit("updateThemes", themes.options);
+    return app.$buildBasicPage(app, store, "/poems");
   },
   watchQuery: true
 };
