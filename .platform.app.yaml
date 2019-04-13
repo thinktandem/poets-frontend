@@ -21,12 +21,12 @@ web:
 # Hooks
 hooks:
   build: |
-    yarn install
-    yarn build
     # We need to do the below manually for now
     # See: https://github.com/yarnpkg/yarn/issues/6685
     yarn cache clean
-    rm -rf /tmp/yarn--*
+    rm -rf /tmp/yarn--* node_modules
+    yarn install
+    yarn build
 
 # crons
 crons:
