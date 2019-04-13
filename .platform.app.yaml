@@ -11,6 +11,7 @@ dependencies:
 disk: 4000
 mounts:
   '/tmp': 'shared:files/tmp'
+  '/app': 'shared:files/app'
 
 # Boot up
 web:
