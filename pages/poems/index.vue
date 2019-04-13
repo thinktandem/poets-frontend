@@ -11,60 +11,81 @@
       <b-row class="poems-list__filters-row">
         <b-col md="12">
           <app-form
-            class="poems-list__search"
-            @submit.stop.prevent="applyFilters"
-          >
+            class="poems-list__search">
             <b-form-group>
               <div class="legend-selects">
                 <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
                 <b-form-select
+                  :disabled="busy"
                   inline
-                  v-model="occasionsInput"
-                  :options="$store.state.occasions"
-                >
-                  <option :value="null">Occasions</option>
+                  @input="searchPoems(0)"
+                  v-model="filters.occasion"
+                  :options="options.occasions">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Occassions</option>
+                  </template>
                 </b-form-select>
                 <b-form-select
+                  :disabled="busy"
                   inline
-                  v-model="themesInput"
-                  :options="$store.state.themes"
-                >
-                  <option :value="null">Themes</option>
+                  @input="searchPoems(0)"
+                  v-model="filters.theme"
+                  :options="options.themes">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Themes</option>
+                  </template>
                 </b-form-select>
                 <b-form-select
+                  :disabled="busy"
                   inline
-                  v-model="formInput"
-                  :options="$store.state.form"
-                >
-                  <option :value="null">Forms</option>
+                  @input="searchPoems(0)"
+                  v-model="filters.form"
+                  :options="options.form">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Forms</option>
+                  </template>
                 </b-form-select>
+
                 <div class="poems-list__input--search">
                   <b-input-group>
                     <b-form-input
-                      v-model="combinedInput"
+                      :disabled="busy"
+                      v-model="filters.combine"
                       type="text"
                       size="22"
                       placeholder="Search title or text ..."
                     />
                     <b-input-group-append
                       is-text
-                      @click.stop.prevent="applyFilters"
-                    >
+                      @click.stop.prevent="applyFilters">
                       <magnifying-glass-icon
                         class="icon mr-2"/>
                     </b-input-group-append>
                   </b-input-group>
                 </div>
+
               </div>
             </b-form-group>
           </app-form>
         </b-col>
       </b-row>
     </b-container>
+
     <b-container class="poems-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
+      <b-row
+        id="poems"
+        class="tabular-list__row tabular-list__header">
         <b-col md="4">
           Name
         </b-col>
@@ -76,10 +97,9 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
+        v-for="poem in poems"
         class="tabular-list__row poems-list__poems"
-        :key="poem.id"
-      >
+        :key="poem.id">
         <b-col md="4">
           <a
             :href="poem.view_node"
@@ -93,103 +113,26 @@
           {{ poem.field_date_published }}
         </b-col>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="poems"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/poems?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/poems?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/poems?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/poems?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/poems?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/poems?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -199,12 +142,19 @@
 import _ from "lodash";
 import qs from "qs";
 import CardDeck from "~/components/CardDeck";
-import searchHelpers from "~/plugins/search-helpers";
-import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine,
+    field_form_target_id: filters.form,
+    field_occasion_target_id: filters.occasion,
+    field_poem_themes_target_id: filters.theme
+  });
 
 export default {
   components: {
@@ -218,25 +168,75 @@ export default {
   },
   data() {
     return {
-      occasionsInput: null,
-      themesInput: null,
-      formInput: null,
-      combinedInput: null,
-      results: null,
-      currentPage: null,
-      totalPages: null,
-      pageNum: null,
-      Next: null,
-      Prev: null,
-      preparedThemes: null,
-      preparedForm: null,
-      preparedCombine: null
+      busy: true,
+      filters: {
+        combine: null,
+        form: null,
+        occasion: null,
+        theme: null
+      },
+      options: {
+        occasions: [],
+        themes: [],
+        form: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      poems: [],
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([
+      this.searchPoems(),
+      this.getFilter("occasions"),
+      this.getFilter("themes"),
+      this.getFilter("form")
+    ]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchPoems = _.debounce(this.searchPoems, 700);
+  },
+  methods: {
+    searchPoems(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchPoems({ query }).then(response => {
+        this.poems = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    getFilter(filter) {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, `fields[taxonomy_term--${filter}]`, fields);
+      this.$api.getTerm(filter, { query }).then(response => {
+        this.options[filter] = _(_.get(response, "data.data", []))
+          .map(term => ({
+            text: _.get(term, "attributes.name"),
+            value: _.get(term, "attributes.drupal_internal__tid")
+          }))
+          .sortBy("text")
+          .value();
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchPoems(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchPoems();
+    }
+  },
   async asyncData({ app, params, query, route }) {
-    const url = "/api/poems";
-    const msh = await searchHelpers.getSearchResults(url, app, query);
-
+    // @TODO: get this into API v2 plugin
     const featuredPoemsParams = qs.stringify({
       page: {
         limit: 3
@@ -250,19 +250,6 @@ export default {
       `/api/node/poems?${featuredPoemsParams}&include=field_author`
     );
     return {
-      occasionsInput: msh.occasionsInput,
-      themesInput: msh.themesInput,
-      searchInput: msh.searchInput,
-      results: msh.results,
-      currentPaage: msh.currentPage,
-      totalPages: msh.totalPages,
-      pageNum: msh.pageNum,
-      Next: msh.Next,
-      Prev: msh.Prev,
-      preparedOccasions: msh.preparedOccasions,
-      preparedThemes: msh.preparedThemes,
-      preparedForm: msh.preparedForm,
-      preparedCombine: msh.preparedCombine,
       featuredPoems: _.map(featuredPoems.data, poem => {
         const poemAuthorId = _.get(
           poem,
@@ -286,52 +273,9 @@ export default {
       })
     };
   },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      if (this.themesInput) {
-        myQuery.field_poem_themes_target_id = this.themesInput;
-      }
-      if (this.occasionsInput) {
-        myQuery.field_occasion_target_id = this.occasionsInput;
-      }
-      if (this.formInput) {
-        myQuery.field_form_target_id = this.formInput;
-      }
-      this.$router.push({
-        name: "poems",
-        query: myQuery
-      });
-    }
-  },
   async fetch({ app, store, query, route }) {
-    const occasions = await filterHelpers.getFilterOptions(
-      app,
-      "/api/taxonomy_term/occasions",
-      "'fields[taxonomy_term--occasions]': 'drupal_internal__tid,name",
-      "taxonomy"
-    );
-    const themes = await filterHelpers.getFilterOptions(
-      app,
-      "/api/taxonomy_term/themes",
-      "'fields[taxonomy_term--themes]': 'drupal_internal__tid,name",
-      "taxonomy"
-    );
-    const forms = await filterHelpers.getFilterOptions(
-      app,
-      "/api/taxonomy_term/form",
-      "'fields[taxonomy_term--form]': 'drupal_internal__tid,name",
-      "taxonomy"
-    );
-    store.commit("updateForm", forms.options);
-    store.commit("updateOccasions", occasions.options);
-    store.commit("updateThemes", themes.options);
     return app.$buildBasicPage(app, store, "/poems");
-  },
-  watchQuery: true
+  }
 };
 </script>
 

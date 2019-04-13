@@ -1,6 +1,8 @@
 import _ from "lodash";
 import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
+import search from "~/plugins/poets-apiv2/lib/search";
+import taxonomies from "~/plugins/poets-apiv2/lib/taxonomies";
 import user from "~/plugins/poets-apiv2/lib/user";
 
 /**
@@ -29,12 +31,12 @@ const request = axios => {
   return (
     url,
     data = {},
-    { method = "get", query = {}, options = {} } = {}
+    { method = "get", query = {}, options = {}, params = {} } = {}
   ) => {
     return axios[method](
       buildUrl(url, query),
       { data },
-      _.merge({}, defaultRequestOptions, options)
+      _.merge({}, defaultRequestOptions, options, { params })
     );
   };
 };
@@ -95,6 +97,27 @@ export default class PoetsApi {
    */
   getAnthologyPoems(id, options = {}) {
     return anthologies.getPoemMeta(this.request, id, options);
+  }
+
+  /**
+   * Get terms
+   *
+   * @param {String} term
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getTerm(term, options = {}) {
+    return taxonomies.getTerm(this.request, term, options);
+  }
+
+  /**
+   * Search poems by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPoems(options = {}) {
+    return search.poems(this.request, options);
   }
 
   /**

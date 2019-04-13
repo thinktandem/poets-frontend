@@ -9,6 +9,8 @@ export default {
    * @return {Object} The search results.
    */
   getSearchResults(url, app, query) {
+    console.log(url);
+    console.log(query);
     return app.$axios
       .get(url, {
         params: query
@@ -35,7 +37,6 @@ export default {
           preparedOccasions = "&field_occasion_target_id=" + query.occasions;
         if (query.form)
           preparedForm = "&field_form_target_id=" + query.occasions;
-
         return {
           results: res.data.rows,
           count:
