@@ -9,8 +9,6 @@ export default {
    * @return {Object} The search results.
    */
   getSearchResults(url, app, query) {
-    console.log(url);
-    console.log(query);
     return app.$axios
       .get(url, {
         params: query

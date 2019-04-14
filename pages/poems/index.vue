@@ -66,9 +66,7 @@
                       size="22"
                       placeholder="Search title or text ..."
                     />
-                    <b-input-group-append
-                      is-text
-                      @click.stop.prevent="applyFilters">
+                    <b-input-group-append is-text>
                       <magnifying-glass-icon
                         class="icon mr-2"/>
                     </b-input-group-append>
