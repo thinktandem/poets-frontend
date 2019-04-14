@@ -9,26 +9,96 @@
     <card-deck
       cardtype="PoemCard"
       :cards="featuredAudio"/>
+    <b-container class="poems-list__filters filters">
+      <b-row class="poems-list__filters-row">
+        <b-col md="12">
+          <app-form
+            class="poems-list__search">
+            <b-form-group>
+              <div class="legend-selects">
+                <div class="poems-list__filters__legend">
+                  <legend>Filter by</legend>
+                </div>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchAudio(0)"
+                  v-model="filters.occasion"
+                  :options="options.occasions">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Occassions</option>
+                  </template>
+                </b-form-select>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchAudio(0)"
+                  v-model="filters.theme"
+                  :options="options.themes">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Themes</option>
+                  </template>
+                </b-form-select>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchAudio(0)"
+                  v-model="filters.form"
+                  :options="options.form">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Forms</option>
+                  </template>
+                </b-form-select>
+
+                <div class="poems-list__input--search">
+                  <b-input-group>
+                    <b-form-input
+                      :disabled="busy"
+                      v-model="filters.combine"
+                      type="text"
+                      size="22"
+                      placeholder="Search title or text ..."
+                    />
+                    <b-input-group-append is-text>
+                      <magnifying-glass-icon
+                        class="icon mr-2"/>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
+
+              </div>
+            </b-form-group>
+          </app-form>
+        </b-col>
+      </b-row>
+    </b-container>
+
     <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="3">
-          Year
+        <b-col md="4">
+          Name
         </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="3">
+        <b-col md="4">
           Author
+        </b-col>
+        <b-col md="4">
+          Year
         </b-col>
       </b-row>
       <b-row
         v-for="audio in audios"
         class="tabular-list__row poems-list__poems"
         :key="audio.id">
-        <b-col md="3">
-          {{ audio.field_date_published }}
-        </b-col>
-        <b-col md="6">
+        <b-col md="4">
           <b-link
             class="poem__link"
             :to="audio.view_node"
@@ -36,7 +106,10 @@
         </b-col>
         <b-col
           v-html="audio.field_author"
-          md="2"/>
+          md="4"/>
+        <b-col md="4">
+          {{ audio.field_date_published }}
+        </b-col>
       </b-row>
 
       <div class="pager">
@@ -66,6 +139,7 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import filterHelpers from "~/plugins/filter-helpers";
 import BasicPage from "~/components/BasicPage";
 import CardDeck from "~/components/CardDeck";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
@@ -76,7 +150,10 @@ import MetaTags from "~/plugins/metatags";
 // Helper to build out query
 const buildQuery = (filters = {}) =>
   _.pickBy({
-    combine: filters.combine
+    combine: filters.combine,
+    field_form_target_id: filters.form,
+    field_occasion_target_id: filters.occasion,
+    field_poem_themes_target_id: filters.theme
   });
 
 export default {
@@ -96,10 +173,14 @@ export default {
       busy: true,
       filters: {
         combine: null,
-        type: null
+        form: null,
+        occasion: null,
+        theme: null
       },
       options: {
-        types: []
+        occasions: [],
+        themes: [],
+        form: []
       },
       page: 1,
       pageCache: [],
@@ -109,11 +190,25 @@ export default {
   },
   mounted() {
     // Get all the data we need for search
-    Promise.all([this.searchAudio()]);
+    Promise.all([
+      this.searchAudio(),
+      this.getFilter("occasions"),
+      this.getFilter("themes"),
+      this.getFilter("form")
+    ]);
     // Spin up a debouncing func for text input
     this.debouncedSearchAudio = _.debounce(this.searchAudio, 700);
   },
   methods: {
+    getFilter(filter) {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, `fields[taxonomy_term--${filter}]`, fields);
+      this.$api.getTerm(filter, { query }).then(response => {
+        this.options[filter] = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
     searchAudio(page = 0) {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
@@ -135,7 +230,7 @@ export default {
   },
   watch: {
     "filters.combine": function() {
-      this.debouncedSearchBooks();
+      this.debouncedSearchAudio();
     }
   },
   async asyncData({ app, params, query }) {
@@ -186,6 +281,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tabular-list__header {
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-weight: 560;
+}
 .poems-list__poems {
   font-weight: 400;
   a {
@@ -198,21 +298,16 @@ export default {
     }
   }
 }
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
+
 .poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+
 .poems-list__search {
   margin-top: 2rem;
 }
-.poem__link {
-  font-weight: 560;
-}
+
 .legend-selects {
   display: flex;
   flex-basis: 100%;
@@ -239,7 +334,6 @@ export default {
 
 .poems-list__input--search {
   flex-basis: 100%;
-  padding: 1rem;
   position: relative;
 
   input {
