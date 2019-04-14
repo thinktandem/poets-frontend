@@ -275,6 +275,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tabular-list__header {
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-weight: 560;
+}
 .poems-list__poems {
   font-weight: 400;
   a {

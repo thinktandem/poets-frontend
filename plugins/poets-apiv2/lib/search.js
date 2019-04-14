@@ -6,6 +6,17 @@
  */
 
 /**
+ * Get audio searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function audio(request, options = {}) {
+  return request("/api/audio_poems", {}, options);
+}
+
+/**
  * Get books searchable by options
  *
  * @param {Object} request The axios library
@@ -49,4 +60,4 @@ export function texts(request, options = {}) {
   return request("/api/texts_list", {}, options);
 }
 
-export default { books, poems, poets, texts };
+export default { audio, books, poems, poets, texts };
