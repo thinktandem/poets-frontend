@@ -132,6 +132,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search texts by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchTexts(options = {}) {
+    return search.texts(this.request, options);
+  }
+
+  /**
    * Update Anthologies
    *
    * @param {Object|Array} data An object or array of objects

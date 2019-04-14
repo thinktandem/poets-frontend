@@ -27,4 +27,15 @@ export function poets(request, options = {}) {
   return request("/api/poets", {}, options);
 }
 
-export default { poems, poets };
+/**
+ * Get texts searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function texts(request, options = {}) {
+  return request("/api/texts_list", {}, options);
+}
+
+export default { poems, poets, texts };
