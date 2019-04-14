@@ -8,40 +8,7 @@
       :sidebar-data="$store.state.sidebarData"/>
     <card-deck
       cardtype="PoemCard"
-      :cards="featuredPoems.cards"/>
-    <b-container class="poems-list__filters filters">
-      <b-row class="poems-list__filters-row">
-        <b-col md="12">
-          <app-form
-            class="poems-list__search"
-            @submit="applyFilters"
-          >
-            <b-form-group>
-              <div class="legend-selects">
-                <div class="poems-list__filters__legend">
-                  <legend>Filter by</legend>
-                </div>
-              </div>
-              <div class="poems-list__input--search">
-                <b-input-group>
-                  <b-form-input
-                    v-model="combinedInput"
-                    type="text"
-                    size="22"
-                    placeholder="Search title or text ..."
-                  />
-                  <b-input-group-append>
-                    <b-btn type="submit">
-                      <magnifying-glass-icon
-                        class="icon mr-2"/>
-                  <b-btn/></b-btn></b-input-group-append>
-                </b-input-group>
-              </div>
-            </b-form-group>
-          </app-form>
-        </b-col>
-      </b-row>
-    </b-container>
+      :cards="featuredAudio"/>
     <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
         <b-col md="3">
@@ -55,121 +22,42 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
+        v-for="audio in audios"
         class="tabular-list__row poems-list__poems"
-        :key="poem.id"
-      >
+        :key="audio.id">
         <b-col md="3">
-          {{ poem.field_date_published }}
+          {{ audio.field_date_published }}
         </b-col>
         <b-col md="6">
           <b-link
             class="poem__link"
-            :to="poem.view_node"
-            v-html="poem.title"
-          />
+            :to="audio.view_node"
+            v-html="audio.title"/>
         </b-col>
         <b-col
-          v-html="poem.field_author"
+          v-html="audio.field_author"
           md="2"/>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="texts"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/audio?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/audio?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -180,11 +68,16 @@ import _ from "lodash";
 import qs from "qs";
 import BasicPage from "~/components/BasicPage";
 import CardDeck from "~/components/CardDeck";
-import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine
+  });
 
 export default {
   components: {
@@ -199,16 +92,53 @@ export default {
   },
   data() {
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      audios: [],
+      busy: true,
+      filters: {
+        combine: null,
+        type: null
+      },
+      options: {
+        types: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([this.searchAudio()]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchAudio = _.debounce(this.searchAudio, 700);
+  },
+  methods: {
+    searchAudio(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchAudio({ query }).then(response => {
+        console.log(response);
+        this.audios = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchAudio(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchBooks();
+    }
+  },
   async asyncData({ app, params, query }) {
-    const url = "/api/audio_poems";
-    const results = await searchHelpers.getSearchResults(url, app, query);
     const featureParams = qs.stringify({
       filter: {
         soundcloud: {
@@ -224,50 +154,34 @@ export default {
       include: "field_author"
     });
     const featured = await app.$axios.$get(`/api/node/poems?${featureParams}`);
-    return _.merge(results, {
-      featuredPoems: {
-        response: featured,
-        cards: _.map(featured.data, poem => ({
-          title: _.get(poem, "attributes.title"),
-          text:
-            _.get(poem, "attributes.body.summary") ||
-            _.get(poem, "attributes.body.processed"),
-          poet: {
-            name: _.get(
-              _.find(
-                featured.included,
-                include =>
-                  _.get(include, "id") ===
-                  _.get(
-                    _.first(_.get(poem, "relationships.field_author.data")),
-                    "id"
-                  )
-              ),
-              "attributes.title"
-            )
-          },
-          year: _.get(poem, "attributes.field_date_published").split("-")[0],
-          link: _.get(poem, "attributes.path.alias")
-        }))
-      }
-    });
+    return {
+      featuredAudio: _.map(featured.data, poem => ({
+        title: _.get(poem, "attributes.title"),
+        text:
+          _.get(poem, "attributes.body.summary") ||
+          _.get(poem, "attributes.body.processed"),
+        poet: {
+          name: _.get(
+            _.find(
+              featured.included,
+              include =>
+                _.get(include, "id") ===
+                _.get(
+                  _.first(_.get(poem, "relationships.field_author.data")),
+                  "id"
+                )
+            ),
+            "attributes.title"
+          )
+        },
+        year: _.get(poem, "attributes.field_date_published").split("-")[0],
+        link: _.get(poem, "attributes.path.alias")
+      }))
+    };
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "audio",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+  }
 };
 </script>
 
