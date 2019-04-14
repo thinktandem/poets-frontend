@@ -2,6 +2,11 @@ import _ from "lodash";
 import qs from "qs";
 
 export default {
+  /*
+   * @DEPRECATED
+   * Use map2Options instead
+   * @NOTE: Do not delete this until all invocations are gone
+   */
   async getFilterOptions(app, url, fieldName, dataType) {
     const fields = qs.stringify(fieldName);
     let allOpts = {};
@@ -45,5 +50,21 @@ export default {
     });
 
     return nextOpts;
+  },
+  /*
+   * Helper to maps data to vue bootstrap options
+   */
+  map2Options(
+    data,
+    text = "attributes.name",
+    value = "attributes.drupal_internal__tid"
+  ) {
+    return _(data)
+      .map(datum => ({
+        text: _.get(datum, text),
+        value: _.get(datum, value)
+      }))
+      .sortBy("text")
+      .value();
   }
 };

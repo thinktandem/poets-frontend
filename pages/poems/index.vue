@@ -141,6 +141,7 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import filterHelpers from "~/plugins/filter-helpers";
 import CardDeck from "~/components/CardDeck";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -213,13 +214,9 @@ export default {
       const fields = "name,drupal_internal__tid";
       const query = _.set({}, `fields[taxonomy_term--${filter}]`, fields);
       this.$api.getTerm(filter, { query }).then(response => {
-        this.options[filter] = _(_.get(response, "data.data", []))
-          .map(term => ({
-            text: _.get(term, "attributes.name"),
-            value: _.get(term, "attributes.drupal_internal__tid")
-          }))
-          .sortBy("text")
-          .value();
+        this.options[filter] = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
       });
     },
     paginate() {
