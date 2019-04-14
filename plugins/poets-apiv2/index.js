@@ -104,10 +104,21 @@ export default class PoetsApi {
    *
    * @param {String} term
    * @param {Object} options
+   * @param {String} type
    * @return {Object} the response object
    */
-  getTerm(term, options = {}) {
-    return taxonomies.getTerm(this.request, term, options);
+  getTerm(term, options = {}, type = "taxonomy_term") {
+    return taxonomies.getTerm(this.request, term, options, type);
+  }
+
+  /**
+   * Search books by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchBooks(options = {}) {
+    return search.books(this.request, options);
   }
 
   /**
@@ -118,6 +129,26 @@ export default class PoetsApi {
    */
   searchPoems(options = {}) {
     return search.poems(this.request, options);
+  }
+
+  /**
+   * Search poets by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPoets(options = {}) {
+    return search.poets(this.request, options);
+  }
+
+  /**
+   * Search texts by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchTexts(options = {}) {
+    return search.texts(this.request, options);
   }
 
   /**
