@@ -162,6 +162,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search previous poems a day by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPreviousPoemsADay(options = {}) {
+    return search.previousPoemsADay(this.request, options);
+  }
+
+  /**
    * Search texts by query
    *
    * @param {Object} options

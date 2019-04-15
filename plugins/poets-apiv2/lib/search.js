@@ -61,6 +61,17 @@ export function poets(request, options = {}) {
 }
 
 /**
+ * Get previous poem-a-days searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function previousPoemsADay(request, options = {}) {
+  return request("/api/previous-poems", {}, options);
+}
+
+/**
  * Get texts searchable by options
  *
  * @param {Object} request The axios library
@@ -71,4 +82,12 @@ export function texts(request, options = {}) {
   return request("/api/texts_list", {}, options);
 }
 
-export default { audio, books, lessonPlans, poems, poets, texts };
+export default {
+  audio,
+  books,
+  lessonPlans,
+  poems,
+  poets,
+  previousPoemsADay,
+  texts
+};
