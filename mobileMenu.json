@@ -12,7 +12,7 @@
     "text": "Poem-a-Day"
   },
   {
-    "to": "/library",
+    "to": "/libraries",
     "text": "Library (texts, books & more)",
     "children": [
       {

@@ -56,6 +56,7 @@
         </b-nav-item-dropdown>
 
         <b-button
+          v-b-toggle.nav_collapse
           class="d-block py-2 d-md-none"
           variant="secondary-dark"
           size="md"
@@ -66,6 +67,7 @@
 
     </b-collapse>
     <b-button
+      v-b-toggle.nav_collapse
       class="d-none d-md-flex"
       variant="secondary-dark"
       size="md"
