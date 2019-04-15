@@ -20,8 +20,8 @@
     <b-collapse
       is-nav
       id="nav_collapse">
-
-      <b-navbar-nav>
+      <app-mobile-menu class="d-flex d-md-none"/>
+      <b-navbar-nav class="menu--desktop d-none d-md-flex">
         <b-nav-item
           v-for="(link, index) in $store.state.topMenu"
           :key="index"
@@ -56,7 +56,7 @@
         </b-nav-item-dropdown>
 
         <b-button
-          class="d-block d-md-none"
+          class="d-block py-2 d-md-none"
           variant="secondary-dark"
           size="md"
           to="/academy-american-poets/help-champion-poets-and-poetry"
@@ -77,7 +77,7 @@
 
 <script>
 import { get, isNil } from "lodash";
-
+import AppMobileMenu from "~/components/AppMobileMenu";
 /*
  * Helper to get name
  */
@@ -94,8 +94,8 @@ const getName = (first = "My", last = "Account", name = "My Account") => {
   }
   return `${first} ${last}`;
 };
-
 export default {
+  components: { AppMobileMenu },
   computed: {
     name() {
       return getName(
