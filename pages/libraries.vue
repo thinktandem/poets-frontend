@@ -137,7 +137,7 @@ export default {
         return {
           rows: res.data.rows,
           textsLink: {
-            to: "/text",
+            to: "/texts",
             text: res.data.pager.total_items
           }
         };
