@@ -28,6 +28,17 @@ export function books(request, options = {}) {
 }
 
 /**
+ * Get plans searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function lessonPlans(request, options = {}) {
+  return request("/api/lesson_plans", {}, options);
+}
+
+/**
  * Get poems searchable by options
  *
  * @param {Object} request The axios library
@@ -60,4 +71,4 @@ export function texts(request, options = {}) {
   return request("/api/texts_list", {}, options);
 }
 
-export default { audio, books, poems, poets, texts };
+export default { audio, books, lessonPlans, poems, poets, texts };

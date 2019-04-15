@@ -132,6 +132,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search plans by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchLessonPlans(options = {}) {
+    return search.lessonPlans(this.request, options);
+  }
+
+  /**
    * Search poems by query
    *
    * @param {Object} options
