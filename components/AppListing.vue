@@ -6,8 +6,7 @@
       <b-col md="12">
         <app-form
           class="search"
-          @submit="refreshQuery"
-        >
+          @submit="refreshQuery">
           <b-form-group class="border">
             <div
               class="legend-selects"
@@ -16,18 +15,19 @@
                 <legend>Filter by</legend>
               </div>
               <b-form-select
+                :disabled="busy"
                 v-for="(filter, index) in filters"
                 :key="index"
                 inline
+                :options="filter.options"
                 v-model="activeFilters[filter.id]"
-                @change="refreshQuery"
-              >
-                <option :value="null">{{ filter.name }}</option>
-                <option
-                  v-for="(option, index) in filter.options"
-                  :key="index"
-                  :value="option"
-                >{{ index }}</option>
+                @change="refreshQuery">
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled>
+                    {{ filter.name }}</option>
+                </template>
               </b-form-select>
             </div>
             <div
@@ -35,6 +35,7 @@
               v-if="searchable.length >= 1">
               <b-input-group>
                 <b-form-input
+                  :disabled="busy"
                   v-model="searchText"
                   type="text"
                   size="22"
@@ -42,6 +43,7 @@
                 />
                 <b-input-group-append>
                   <b-btn
+                    :disabled="busy"
                     type="submit"
                     variant="transparent">
                     <magnifying-glass-icon
@@ -161,17 +163,25 @@
             </b-row>
           </template>
         </b-table>
-        <b-pagination
-          v-if="paged"
-          align="center"
-          :total-rows="resultTotal"
-          :per-page="pageLimit"
-          :hide-goto-end-buttons="true"
-          @change="fetchNext"
-          v-model="currentPage">
-          <span slot="prev-text"><IconMediaSkipBackwards/> Prev</span>
-          <span slot="next-text">Next <IconMediaSkipForwards/></span>
-        </b-pagination>
+        <div class="pager">
+          <b-pagination
+            :disabled="busy"
+            v-if="paged"
+            @change="fetchNext"
+            hide-goto-end-buttons
+            :per-page="pageLimit"
+            size="lg"
+            :total-rows="resultTotal"
+            v-model="currentPage"
+            align="fill">
+            <span slot="prev-text">
+              <iconMediaSkipBackwards /> Prev
+            </span>
+            <span slot="next-text">
+              Next <iconMediaSkipForwards />
+            </span>
+          </b-pagination>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -260,6 +270,7 @@ export default {
   },
   data() {
     return {
+      busy: true,
       results: [],
       currentPage: 1,
       rawResponse: {},
@@ -280,6 +291,13 @@ export default {
     );
     // Perform the inital query to populate the listing
     this.refreshQuery();
+    // Spin up a debouncing func for text input
+    this.debouncedRefreshQuery = _.debounce(this.refreshQuery, 700);
+  },
+  watch: {
+    searchText: function() {
+      this.debouncedRefreshQuery();
+    }
   },
   computed: {
     searchableLabels() {
@@ -326,6 +344,7 @@ export default {
         _.merge({ path: null }, this.fields, this.details)
       )
         .keys()
+        .pickBy()
         .map(field => {
           return _.first(field.split("."));
         })
@@ -350,7 +369,7 @@ export default {
         // Param overrides from props
         this.defaultParams,
         {
-          filter: this.activeFilters
+          filter: _.pickBy(this.activeFilters)
         }
       );
     },
@@ -397,6 +416,7 @@ export default {
         : null;
     },
     async refreshQuery() {
+      this.busy = true;
       this.$axios
         .$get(`/api/node/${this.resourceType}?`, {
           params: this.query
@@ -405,9 +425,7 @@ export default {
           this.rawResponse = response;
           this.results = this.formatResults(response);
           this.resultTotal = parseInt(_.get(response, "meta.count", 0));
-          this.$router.push({
-            query: this.activeFilters // _.merge(this.activeFilters, this.searchFilters.filter)
-          });
+          this.busy = false;
         });
     },
     rowClicked(items) {
