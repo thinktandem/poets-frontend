@@ -132,6 +132,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search plans by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchLessonPlans(options = {}) {
+    return search.lessonPlans(this.request, options);
+  }
+
+  /**
    * Search poems by query
    *
    * @param {Object} options
@@ -149,6 +159,16 @@ export default class PoetsApi {
    */
   searchPoets(options = {}) {
     return search.poets(this.request, options);
+  }
+
+  /**
+   * Search previous poems a day by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPreviousPoemsADay(options = {}) {
+    return search.previousPoemsADay(this.request, options);
   }
 
   /**
