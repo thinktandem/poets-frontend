@@ -45,6 +45,7 @@ module.exports = {
     }
   },
   serverMiddleware: [
+    "~/serverMiddleware/headers.js",
     { path: "/tweets", handler: "~/serverMiddleware/tweets.js" }
   ],
   router: {
@@ -116,9 +117,16 @@ module.exports = {
       }
     }
   },
+  // Tell Browsers to cache static assets
+  render: {
+    static: {
+      maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+  },
   env: {
     baseURL: process.env.API_URL || "https://api.poets.org",
     appURL: process.env.appURL || "https://poets.org",
+    CACHE_TTL: process.env.CACHE_TTL || 300,
     CONSUMER_ID: process.env.CONSUMER_ID,
     CONSUMER_SECRET: process.env.CONSUMER_SECRET,
     ONEALL_SUBDOMAIN: process.env.ONEALL_SUBDOMAIN,

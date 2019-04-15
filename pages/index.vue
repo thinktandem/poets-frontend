@@ -7,7 +7,7 @@
       promo
       title="Poems"
       :cards="$store.state.featuredPoems.cards"
-      :count="$store.state.featuredPoems.count"/>
+      :count="parseInt($store.state.featuredPoems.count)"/>
     <card-deck
       class="py-5"
       title="Poets"

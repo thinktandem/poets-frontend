@@ -8,24 +8,35 @@
       :sidebar-data="$store.state.sidebarData"/>
     <card-deck
       cardtype="BookCard"
-      :cards="featuredBooks.cards"/>
+      :cards="featuredBooks"/>
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
           <app-form
-            class="poems-list__search"
-            @submit="applyFilters"
-          >
+            class="poems-list__search">
             <b-form-group>
               <div class="legend-selects">
                 <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchBooks(0)"
+                  v-model="filters.type"
+                  :options="options.types">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Type</option>
+                  </template>
+                </b-form-select>
               </div>
               <div class="poems-list__input--search">
                 <b-input-group>
                   <b-form-input
-                    v-model="combinedInput"
+                    v-model="filters.combine"
                     type="text"
                     size="22"
                     placeholder="Search title or text ..."
@@ -53,125 +64,46 @@
           Title
         </b-col>
         <b-col md="3">
-          Author
+          Type
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
+        v-for="book in books"
         class="tabular-list__row poems-list__poems"
-        :key="poem.id"
-      >
+        :key="book.id">
         <b-col md="3">
-          {{ poem.field_date_published }}
+          {{ book.field_date_published }}
         </b-col>
         <b-col md="6">
           <b-link
             class="poem__link"
-            :to="poem.view_node_1"
-            v-html="poem.title"
-          />
+            :to="book.view_node_1"
+            v-html="book.title"/>
         </b-col>
         <b-col
-          v-html="poem.field_author"
+          v-html="book.field_booktype"
           md="2"/>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="texts"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/books?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/books?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/books?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/books?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/books?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/books?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -180,13 +112,20 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import filterHelpers from "~/plugins/filter-helpers";
 import BasicPage from "~/components/BasicPage";
 import CardDeck from "~/components/CardDeck";
-import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    type: filters.type,
+    combine: filters.combine
+  });
 
 export default {
   components: {
@@ -201,16 +140,63 @@ export default {
   },
   data() {
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      books: [],
+      busy: true,
+      filters: {
+        combine: null,
+        type: null
+      },
+      options: {
+        types: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([this.searchBooks(), this.getTypes()]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchBooks = _.debounce(this.searchBooks, 700);
+  },
+  methods: {
+    getTypes() {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, "fields[taxonomy_term--book_type]", fields);
+      this.$api.getTerm("book_type", { query }).then(response => {
+        this.options.types = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
+    searchBooks(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchBooks({ query }).then(response => {
+        console.log(response);
+        this.books = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchBooks(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchBooks();
+    }
+  },
   async asyncData({ app, params, query }) {
-    const url = "/api/books";
-    const results = await searchHelpers.getSearchResults(url, app, query);
+    // @TODO: get featured books into the v2 of the api
     const featureParams = qs.stringify({
       filter: {
         field_featured: 1
@@ -221,48 +207,32 @@ export default {
       include: "field_author,field_image"
     });
     const featured = await app.$axios.$get(`/api/node/books?${featureParams}`);
-    return _.merge(results, {
-      featuredBooks: {
-        response: featured,
-        cards: _.map(featured.data, book => ({
-          title: _.get(book, "attributes.title"),
-          body:
-            _.get(book, "attributes.body.summary") ||
-            _.get(book, "attributes.body.processed"),
-          field_image: app.$buildImg(featured, book, "field_image", "book"),
-          field_author: _.get(
-            _.find(
-              featured.included,
-              include =>
-                _.get(include, "id") ===
-                _.get(
-                  _.first(_.get(book, "relationships.field_author.data")),
-                  "id"
-                )
-            ),
-            "attributes.title"
+    return {
+      featuredBooks: _.map(featured.data, book => ({
+        title: _.get(book, "attributes.title"),
+        body:
+          _.get(book, "attributes.body.summary") ||
+          _.get(book, "attributes.body.processed"),
+        field_image: app.$buildImg(featured, book, "field_image", "book"),
+        field_author: _.get(
+          _.find(
+            featured.included,
+            include =>
+              _.get(include, "id") ===
+              _.get(
+                _.first(_.get(book, "relationships.field_author.data")),
+                "id"
+              )
           ),
-          view_node_1: _.get(book, "attributes.path.alias")
-        }))
-      }
-    });
+          "attributes.title"
+        ),
+        view_node_1: _.get(book, "attributes.path.alias")
+      }))
+    };
   },
   async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, route.path);
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "books",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+    return app.$buildBasicPage(app, store, "/books");
+  }
 };
 </script>
 

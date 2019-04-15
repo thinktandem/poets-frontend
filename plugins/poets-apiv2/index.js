@@ -2,6 +2,8 @@ import _ from "lodash";
 import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
 import events from "~/plugins/poets-apiv2/lib/events";
+import search from "~/plugins/poets-apiv2/lib/search";
+import taxonomies from "~/plugins/poets-apiv2/lib/taxonomies";
 import user from "~/plugins/poets-apiv2/lib/user";
 
 /**
@@ -30,12 +32,12 @@ const request = axios => {
   return (
     url,
     data = {},
-    { method = "get", query = {}, options = {} } = {}
+    { method = "get", query = {}, options = {}, params = {} } = {}
   ) => {
     return axios[method](
       buildUrl(url, query),
       { data },
-      _.merge({}, defaultRequestOptions, options)
+      _.merge({}, defaultRequestOptions, options, { params })
     );
   };
 };
@@ -107,6 +109,88 @@ export default class PoetsApi {
    */
   getAnthologyPoems(id, options = {}) {
     return anthologies.getPoemMeta(this.request, id, options);
+  }
+
+  /**
+   * Get terms
+   *
+   * @param {String} term
+   * @param {Object} options
+   * @param {String} type
+   * @return {Object} the response object
+   */
+  getTerm(term, options = {}, type = "taxonomy_term") {
+    return taxonomies.getTerm(this.request, term, options, type);
+  }
+
+  /**
+   * Search audio by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchAudio(options = {}) {
+    return search.audio(this.request, options);
+  }
+
+  /**
+   * Search books by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchBooks(options = {}) {
+    return search.books(this.request, options);
+  }
+
+  /**
+   * Search plans by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchLessonPlans(options = {}) {
+    return search.lessonPlans(this.request, options);
+  }
+
+  /**
+   * Search poems by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPoems(options = {}) {
+    return search.poems(this.request, options);
+  }
+
+  /**
+   * Search poets by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPoets(options = {}) {
+    return search.poets(this.request, options);
+  }
+
+  /**
+   * Search previous poems a day by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPreviousPoemsADay(options = {}) {
+    return search.previousPoemsADay(this.request, options);
+  }
+
+  /**
+   * Search texts by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchTexts(options = {}) {
+    return search.texts(this.request, options);
   }
 
   /**
