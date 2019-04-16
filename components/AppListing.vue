@@ -65,7 +65,7 @@
     <b-row>
       <b-col md="12">
         <b-table
-          :class="{ selectable: !hasDetails }"
+          :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
           :hover="!hasDetails"
           :items="results"
           :sort-by="sort"
