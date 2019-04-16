@@ -1,7 +1,8 @@
 <template>
   <app-full-lesson-plan
     :data="$store.state.pageData.data"
-    :includes="$store.state.sidebarData"/>
+    :includes="$store.state.sidebarData"
+    :path="path"/>
 </template>
 <script>
 import _ from "lodash";

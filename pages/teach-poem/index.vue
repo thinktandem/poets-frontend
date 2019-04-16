@@ -11,7 +11,8 @@
     </b-container>
     <app-full-lesson-plan
       :data="data"
-      :includes="included"/>
+      :includes="included"
+      :show-sidebar="false"/>
     <AppListing
       resource-type="lesson_plans"
       :default-params="defaultParams"

@@ -8,7 +8,8 @@
           v-html="data.attributes.body.processed"/>
         <div
           v-for="(plan, i) in includes"
-          :key="`plan-${i}`">
+          :key="`plan-${i}`"
+          :id="`plan-${i}`">
           <div
             v-if="plan.type === 'paragraph--standard_text'"
             class="plan__container">
@@ -22,12 +23,23 @@
         </div>
       </b-col>
       <b-col
+        v-if="showSidebar"
         md="4"
         tag="aside">
-        <div v-if="data.attributes.field_table_of_contents">
+        <div v-if="sidebarExists">
           <h3>Table of Contents</h3>
-          <div
-            v-html="data.attributes.field_table_of_contents.processed"/>
+          <div class="item-list">
+            <ul>
+              <li
+                v-if="plan.type === 'paragraph--standard_text'"
+                v-for="(plan, i) in includes"
+                :key="`plan-${i}`">
+                <b-link :href="`${$route.path}#plan-${i}`">
+                  {{ plan.attributes.title }}
+                </b-link>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="submitted__container">
           <div class="person__submitted">
@@ -88,6 +100,7 @@
 
 <script>
 import niceDate from "~/plugins/niceDate";
+import _ from "lodash";
 export default {
   name: "AppFullLessonPlan",
   props: {
@@ -98,11 +111,20 @@ export default {
     includes: {
       type: Array,
       default: () => []
+    },
+    showSidebar: {
+      type: Boolean,
+      default: () => true
     }
   },
   methods: {
     niceDate(date) {
       return niceDate.niceDate(date);
+    }
+  },
+  computed: {
+    sidebarExists() {
+      return _.isArrayLike(this.includes);
     }
   }
 };
