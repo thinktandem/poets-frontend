@@ -193,6 +193,7 @@ export default {
         .loginWith("drupal", user, pass, this.type, data)
         .then(() => this.$auth.fetchUser())
         .catch(error => {
+          this.$sentry.captureException(error);
           this.$toast
             .error(_.get(error, "data.message", "Something went wrong!"))
             .goAway(7777);
