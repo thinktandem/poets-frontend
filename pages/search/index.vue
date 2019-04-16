@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="search-results__header">Search Results</h1>
     <b-container>
+      <h1>Search Results</h1>
       <b-row>
         <b-col md="12">
           <app-form>
