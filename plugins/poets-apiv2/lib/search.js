@@ -28,6 +28,17 @@ export function books(request, options = {}) {
 }
 
 /**
+ * Get jobs searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function jobs(request, options = {}) {
+  return request("/api/jobs", {}, options);
+}
+
+/**
  * Get plans searchable by options
  *
  * @param {Object} request The axios library
@@ -96,6 +107,7 @@ export function texts(request, options = {}) {
 export default {
   audio,
   books,
+  jobs,
   lessonPlans,
   poems,
   poets,

@@ -232,6 +232,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search jobs by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchJobs(options = {}) {
+    return search.jobs(this.request, options);
+  }
+
+  /**
    * Search plans by query
    *
    * @param {Object} options
