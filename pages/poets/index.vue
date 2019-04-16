@@ -3,56 +3,61 @@
     <CardDeck
       title=""
       cardtype="Poet"
-      :cards="featuredPoets"/>
-    <b-container class="poets-list__filters filters">
-      <b-row class="poets-list__filters-row">
+      :cards="featuredPoets"
+    />
+    <b-container>
+      <b-row>
         <b-col md="12">
-          <app-form
-            class="poets-list__search">
-            <b-form-group>
-              <div class="legend-selects">
-                <div class="poets-list__filters__legend">
-                  <legend>Filter by</legend>
-                </div>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoets(0)"
-                  v-model="filters.state"
-                  :options="options.states">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      State</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoets(0)"
-                  v-model="filters.school"
-                  :options="options.schools">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Schools & Movements</option>
-                  </template>
-                </b-form-select>
+          <app-form>
+            <b-form-group class="table-filters">
+              <div>
+                <legend>Filter by</legend>
               </div>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoets(0)"
+                v-model="filters.state"
+                :options="options.states"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    State</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoets(0)"
+                v-model="filters.school"
+                :options="options.schools"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Schools & Movements</option>
+                </template>
+              </b-form-select>
 
-              <div class="poets-list__input--search">
+              <div class="table-filters__search">
                 <b-input-group>
                   <b-form-input
                     :disabled="busy"
                     v-model="filters.combine"
                     type="text"
                     size="22"
-                    placeholder="Search by poet, movement, etc..."/>
-                  <b-input-group-append is-text>
-                    <magnifying-glass-icon
-                      class="icon mr-2"/>
+                    placeholder="Search by poet, movement, etc..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    class="icon--search"
+                  >
+                    <magnifying-glass-icon class="icon" />
                   </b-input-group-append>
                 </b-input-group>
               </div>
@@ -62,37 +67,31 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="poets-list tabular-list">
-      <b-row
-        id="poets"
-        class="tabular-list__row tabular-list__header">
-        <b-col md="4">
-          Name
-        </b-col>
-        <b-col md="4">
-          Years
-        </b-col>
-        <b-col md="4">
-          Schools and Movements
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="poet in poets"
-        class="tabular-list__row poets-list__poems"
-        :key="poet.id">
-        <b-col md="4">
+    <b-container>
+      <b-table
+        id="
+                      poets"
+        :items="poets"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage"
+      >
+        <template
+          slot="poets"
+          slot-scope="data"
+        >
           <a
-            :href="poet.view_node"
-            v-html="poet.poets"/>
-        </b-col>
-        <b-col md="4">
-          {{ poet.field_dob }} - {{ poet.field_dod }}
-        </b-col>
-        <b-col md="4">
-          {{ poet.field_school_movement }}
-        </b-col>
-      </b-row>
-
+            :href="data.item.view_node"
+            v-html="data.item.poets"
+          />
+        </template>
+        <template
+          slot="years"
+          slot-scope="data"
+        >
+          {{ data.item.field_dob }} - {{ data.item.field_dod }}
+        </template>
+      </b-table>
       <div class="pager">
         <b-pagination
           @input="paginate"
@@ -104,12 +103,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>
@@ -147,6 +148,20 @@ export default {
   data() {
     return {
       busy: true,
+      fields: [
+        {
+          key: "poets",
+          label: "Poet"
+        },
+        {
+          key: "field_school_movement",
+          label: "Schools and Movements"
+        },
+        {
+          key: "years",
+          label: "Years"
+        }
+      ],
       filters: {
         combine: null,
         school: null,
@@ -270,119 +285,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
-.poets-list__poems {
-  font-weight: 400;
-  a {
-    color: $body-color;
+.table-filters {
+  .table-filters__search {
+    min-width: 19rem;
 
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline;
+    @include media-breakpoint-up(lg) {
+      min-width: 21rem;
     }
   }
-}
-
-.poets-list {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-.poets-list__search {
-  margin-top: 2rem;
-}
-
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-}
-
-.poets-list__filters__legend {
-  flex-basis: 50%;
-
-  legend {
-    margin: 0;
-    line-height: 2;
-    font-size: $font-size-base;
-    color: $gray-700;
-  }
-}
-
-.poets-list__input--search {
-  flex-basis: 100%;
-  padding: 1rem;
-  position: relative;
-
-  input {
-    border: none;
-    background-color: transparent;
-
-    &:hover,
-    &:focus,
-    &:active {
-      border: none;
-      background-color: transparent;
-    }
-
-    &::placeholder {
-      color: $gray-700;
-    }
-  }
-
-  button {
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    padding: 0;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &:active:focus {
-      // Some really sticky rules getting applied from BS that need a bit of
-      // force.
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-div /deep/ .card-deck__cards {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-.icon {
-  display: inline;
-  fill: $blue;
-  width: 1.4rem;
-  height: 1.4rem;
-}
-.input-group-text {
-  background: transparent;
-  border: none;
 }
 </style>

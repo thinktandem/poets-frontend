@@ -44,6 +44,7 @@ export default ({ app }, inject) => {
       "sidebar_sections.resource_file",
       "sidebar_sections.media.field_image",
       "field_content_sections.side_image.field_image",
+      "field_content_sections.left_image.field_image",
       "featured.featured_media.field_image"
     ].join(",");
     return app.$axios

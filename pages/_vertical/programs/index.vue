@@ -2,8 +2,7 @@
   <div>
     <b-container class="programs-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          md="3">
+        <b-col md="3">
           Date
         </b-col>
         <b-col md="6">
@@ -26,7 +25,8 @@
         </b-col>
         <b-col
           class="books-list__books-title"
-          md="6">
+          md="6"
+        >
           <a
             :href="programs.view_node"
             v-html="programs.title"
@@ -214,19 +214,6 @@ export default {
 
 .books-list__search {
   margin-top: 2rem;
-}
-
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
 }
 
 .books-list__filters__legend {

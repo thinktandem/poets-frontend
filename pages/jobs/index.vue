@@ -6,129 +6,51 @@
       :more="$store.state.relatedContent"
       :extended-content="$store.state.extendedContent"
       :sidebar-data="$store.state.sidebarData"/>
-    <b-container class="jobs-list tabular-list">
-      <b-row
-        v-for="job in results"
-        class="tabular-list__row jobs-list__jobs"
-        :key="job.title"
-      >
-        <b-col
-          class="jobs-list__jobs-title"
-          md="4">
-          <b-link
-            :href="job.link"
-            v-html="job.title"
-            target="__poet_job"
-          />
-        </b-col>
-        <b-col md="8">
-          <div v-html="job.body"/>
-        </b-col>
-      </b-row>
+    <b-container>
+      <b-table
+        id="jobs"
+        :items="jobs"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage">
+        <template
+          slot="title"
+          slot-scope="data">
+          <a
+            :href="data.item.link"
+            v-html="data.item.title"/>
+        </template>
+        <template
+          slot="body"
+          slot-scope="data">
+          <div v-html="data.item.body"/>
+        </template>
+      </b-table>
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="jobs"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/book?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/book?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/book?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/book?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/book?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/book?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
 </template>
 
 <script>
-import searchHelpers from "~/plugins/search-helpers";
 import BasicPage from "~/components/BasicPage";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -143,164 +65,61 @@ export default {
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
-  async asyncData({ app, store, params, query }) {
-    const url = "/api/jobs";
-    const mySearchHelpers = await searchHelpers.getSearchResults(
-      url,
-      app,
-      query
-    );
-    let jobs = await app.$axios
-      .get("/api/jobs", {})
-      .then(res => {
-        return {
-          rows: res.data.rows
-        };
-      })
-      .catch(error => {
-        console.error(error);
-        this.$sentry.captureException(error);
-      });
-
+  data() {
     return {
-      results: mySearchHelpers.results,
-      Next: mySearchHelpers.Next,
-      Prev: mySearchHelpers.Prev,
-      jobs: jobs.rows
+      busy: true,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "body",
+          label: "Description"
+        }
+      ],
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      jobs: [],
+      rows: 0
     };
+  },
+  mounted() {
+    Promise.all([this.searchJobs()]);
+  },
+  methods: {
+    searchJobs(page = 0) {
+      this.busy = true;
+      this.$api.searchJobs({ query: { page } }).then(response => {
+        this.jobs = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    getFilter(filter) {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, `fields[taxonomy_term--${filter}]`, fields);
+      this.$api.getTerm(filter, { query }).then(response => {
+        this.options[filter] = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchJobs(queryPage);
+    }
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "vertical-text",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+  }
 };
 </script>
 
 <style scoped lang="scss">
-.jobs-list__jobs {
-  font-weight: 400;
-  a {
-    color: $body-color;
-
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline;
-    }
-  }
-}
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
-.tabular-list__row > div:last-child {
-  height: inherit;
-  text-align: left;
-}
-.date {
-  color: var(--red-dark);
-}
-.jobs-list__jobs-title {
-  min-height: 88px;
-}
-.jobs-list__jobs-title a {
-  color: var(--gray-800);
-  font-weight: 560;
-}
-.jobs-list {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-.jobs-list__search {
-  margin-top: 2rem;
-}
-
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-}
-
-.jobs-list__filters__legend {
-  flex-basis: 50%;
-
-  legend {
-    margin: 0;
-    line-height: 2;
-    font-size: $font-size-base;
-    color: $gray-700;
-  }
-}
-
-.jobs-list__input--search {
-  flex-basis: 100%;
-  padding: 1rem;
-  position: relative;
-
-  input {
-    border: none;
-    background-color: transparent;
-
-    &:hover,
-    &:focus,
-    &:active {
-      border: none;
-      background-color: transparent;
-    }
-
-    &::placeholder {
-      color: $gray-700;
-    }
-  }
-
-  button {
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    padding: 0;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &:active:focus {
-      // Some really sticky rules getting applied from BS that need a bit of
-      // force.
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
 </style>
