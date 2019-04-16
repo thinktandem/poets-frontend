@@ -191,12 +191,12 @@ export default {
       // Attempt to login
       this.$auth
         .loginWith("drupal", user, pass, this.type, data)
-        .then(() => this.$auth.fetchUser())
         .catch(error => {
           const message = _.get(error, "data.message", "Something went wrong!");
           this.$sentry.captureException(new Error(message));
           this.$toast.error(message).goAway(7777);
         })
+        .then(() => this.$auth.fetchUser())
         .then(() => {
           this.reset();
           if (this.redirect !== "false") {
