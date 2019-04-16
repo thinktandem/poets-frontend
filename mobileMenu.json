@@ -16,6 +16,10 @@
     "text": "Library (texts, books & more)",
     "children": [
       {
+        "to": "/libraries",
+        "text": "Library Home"
+      },
+      {
         "to": "/poems",
         "text": "Poems"
       },
@@ -45,6 +49,10 @@
     "to": "/materials-teachers",
     "text": "Materials for Teachers",
     "children": [
+      {
+        "to": "/materials-teachers",
+        "text": "Materials for Teachers Home"
+      },
       {
         "to": "/poems-kids",
         "text": "Poems for Kids"
