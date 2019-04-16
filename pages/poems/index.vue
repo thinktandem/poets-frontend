@@ -12,76 +12,71 @@
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
+            <b-form-group class="table-filters">
               <div>
-                <div>
-                  <legend>Filter by</legend>
-                </div>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoems(0)"
-                  v-model="filters.occasion"
-                  :options="options.occasions"
-                >
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled
-                    >
-                      Occassions</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoems(0)"
-                  v-model="filters.theme"
-                  :options="options.themes"
-                >
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled
-                    >
-                      Themes</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoems(0)"
-                  v-model="filters.form"
-                  :options="options.form"
-                >
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled
-                    >
-                      Forms</option>
-                  </template>
-                </b-form-select>
-
-                <div>
-                  <b-input-group>
-                    <b-form-input
-                      :disabled="busy"
-                      v-model="filters.combine"
-                      type="text"
-                      size="22"
-                      placeholder="Search title or text ..."
-                    />
-                    <b-input-group-append
-                      is-text
-                      class="icon--search"
-                    >
-                      <magnifying-glass-icon class="icon" />
-                    </b-input-group-append>
-                  </b-input-group>
-                </div>
-
+                <legend>Filter by</legend>
               </div>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoems(0)"
+                v-model="filters.occasion"
+                :options="options.occasions"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Occassions</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoems(0)"
+                v-model="filters.theme"
+                :options="options.themes"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Themes</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoems(0)"
+                v-model="filters.form"
+                :options="options.form"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Forms</option>
+                </template>
+              </b-form-select>
+
+              <b-input-group class="table-filters__search">
+                <b-form-input
+                  :disabled="busy"
+                  v-model="filters.combine"
+                  type="text"
+                  size="22"
+                  placeholder="Search title or text ..."
+                />
+                <b-input-group-append
+                  is-text
+                  class="icon--search"
+                >
+                  <magnifying-glass-icon class="icon" />
+                </b-input-group-append>
+              </b-input-group>
             </b-form-group>
           </app-form>
         </b-col>
