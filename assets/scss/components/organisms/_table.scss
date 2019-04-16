@@ -71,6 +71,12 @@
   }
 }
 
+// I tried to use b-table's responsive feature but it was breaking our other
+// styling so when a table is too wide just add this class to it's container.
+.table-container {
+  overflow-x: scroll;
+}
+
 .table {
   @extend %table;
 }

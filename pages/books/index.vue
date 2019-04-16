@@ -57,7 +57,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container>
+    <b-container class="table-container">
       <b-table
         id="books"
         :items="books"
