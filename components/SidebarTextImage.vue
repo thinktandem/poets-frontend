@@ -133,4 +133,8 @@ export default {
   margin-bottom: 15px;
   min-height: 116px;
 }
+/* video toc links */
+.sidebar-text-image .container .row .col-lg-4 {
+  padding-top: 5.4rem;
+}
 </style>
