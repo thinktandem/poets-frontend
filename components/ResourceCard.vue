@@ -1,7 +1,7 @@
 <template>
   <div class="resource pt-4 px-3 bg-white">
     <b-img-lazy
-      v-if="img !== null"
+      v-if="!empty(img)"
       center
       fluid
       width="277"
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { isEmpty } from "lodash";
 import AppImage from "~/components/AppImage";
 export default {
   name: "ResourceCard",
@@ -68,6 +69,9 @@ export default {
       return this.file !== null
         ? `${process.env.baseURL}${this.file.attributes.uri.url}`
         : null;
+    },
+    empty(thing) {
+      return isEmpty(thing);
     }
   }
 };

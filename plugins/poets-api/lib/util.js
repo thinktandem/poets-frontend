@@ -151,7 +151,10 @@ export default {
           )
       );
     }
-    if (entityType === "paragraph--image") {
+    if (
+      entityType === "paragraph--image" ||
+      entityType === "paragraph--resource"
+    ) {
       _.get(entity, "relationships.media.data");
       mediaItem = _.find(
         page.included,
@@ -170,7 +173,9 @@ export default {
       component: components[entityType] || "ResourceCard",
       props: {
         title: _.get(entity, "attributes.title", ""),
-        body: this.buildProcessable(entity),
+        body:
+          _.get(entity, "attributes.body.summary") ||
+          _.get(entity, "attributes.body.processed"),
         img: media.buildImg(
           page,
           mediaItem,
