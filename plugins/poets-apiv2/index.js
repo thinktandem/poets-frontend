@@ -202,6 +202,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search search by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  search(options = {}) {
+    return search.search(this.request, options);
+  }
+
+  /**
    * Search audio by query
    *
    * @param {Object} options
