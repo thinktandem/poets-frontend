@@ -78,11 +78,10 @@ module.exports = {
           );
           next = _.get(res, "data.links.next.href", null);
         })
-        .catch(err => {
-          checkForErrors = _.get(err, "Error", "safe");
+        .catch(error => {
+          checkForErrors = _.get(error, "Error", "safe");
           next = null;
-          this.$sentry.captureException(error);
-          console.log(err);
+          console.error(error);
         });
     } while (next !== null && checkForErrors === "safe");
 

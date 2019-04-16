@@ -168,7 +168,7 @@ export default class DrupalScheme {
         // Return all good
         return true;
       })
-      .catch(err => Promise.reject(err));
+      .catch(error => Promise.reject(error));
   }
 
   /**

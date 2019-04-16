@@ -101,16 +101,16 @@ export default {
               }
             };
           })
-          .catch(err => {
-            this.$sentry.captureException(err);
-            console.log(err);
+          .catch(error => {
+            console.log(error);
+            this.$sentry.captureException(error);
           });
         store.commit("updateFeaturedContent", []);
         store.commit("updateExtendedContent", []);
       })
-      .catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      .catch(error => {
+        console.log(error);
+        this.$sentry.captureException(error);
       });
   },
   methods: {

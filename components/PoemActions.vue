@@ -227,9 +227,9 @@ export default {
 
       try {
         document.execCommand("copy");
-      } catch (err) {
-        this.$sentry.captureException(err);
-        console.log("Oops, unable to copy");
+      } catch (error) {
+        console.error("Oops, unable to copy");
+        this.$sentry.captureException(error);
       }
     },
     print() {

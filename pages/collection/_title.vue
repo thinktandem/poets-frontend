@@ -92,9 +92,9 @@ export default {
             store.commit("updateExtendedContent", []);
           });
       })
-      .catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
   }
 };

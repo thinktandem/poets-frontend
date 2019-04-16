@@ -87,9 +87,9 @@ export default {
           AAPPAD: this.aappad || false
         }
       };
-      this.$axios.post("/api/cm/poem-a-day", body).catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      this.$axios.post("/api/cm/poem-a-day", body).catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
       this.$toast
         .show("Thanks! You are subscribed.", {

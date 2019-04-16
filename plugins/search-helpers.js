@@ -55,9 +55,8 @@ export default {
           preparedCombine: preparedCombine || ""
         };
       })
-      .catch(err => {
-        this.$sentry.captureException(error);
-        console.log(err);
+      .catch(error => {
+        console.error(err);
       });
   }
 };

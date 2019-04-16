@@ -138,14 +138,12 @@ export default {
             this.$refs[`${this._uid}-modal`].hide();
           });
         })
-        .catch(err => {
-          this.$toast
-            .error(
-              "Sorry, there was an error subscribing you, please try again :("
-            )
-            .goAway(1500);
-          this.$sentry.captureException(err);
-          console.log(err);
+        .catch(error => {
+          console.log(error);
+          const message =
+            "Sorry, there was an error subscribing you, please try again :(";
+          this.$toast.error(message).goAway(1500);
+          this.$sentry.captureException(error);
         });
     }
   }

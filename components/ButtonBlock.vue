@@ -233,13 +233,14 @@ export default {
           this.$refs.submitEvent.hide();
         })
         .catch(error => {
-          this.$sentry.captureException(error);
-          this.$toast
-            .error(
-              _.get(error, "data.errors[0].detail", "Something went wrong!")
-            )
-            .goAway(7777);
           console.error(error);
+          const message = _.get(
+            error,
+            "data.errors[0].detail",
+            "Something went wrong!"
+          );
+          this.$sentry.captureException(new Error(message));
+          this.$toast.error(message).goAway(7777);
           this.clearEventStuff();
         });
     }

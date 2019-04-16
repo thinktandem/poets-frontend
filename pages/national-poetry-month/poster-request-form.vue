@@ -165,9 +165,9 @@ export default {
           res
         };
       })
-      .catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
   },
   async fetch({ app, store, route }) {
@@ -193,9 +193,9 @@ export default {
         approximately_how_many_students_see_the_poster_: this.how_many,
         feedback: this.feedback
       };
-      this.$axios.$post("/webform_rest/submit", body).catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      this.$axios.$post("/webform_rest/submit", body).catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
       this.$toast
         .show("Thanks! Your request for a poster has been recieved", {

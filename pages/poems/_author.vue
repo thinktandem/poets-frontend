@@ -66,9 +66,9 @@ export default {
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })
-      .catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
     const poemsByParams = qs.stringify({
       filter: {

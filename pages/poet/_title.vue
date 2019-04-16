@@ -279,9 +279,9 @@ export default {
                 })
               };
             })
-            .catch(err => {
-              this.$sentry.captureException(err);
-              console.log(err);
+            .catch(error => {
+              console.error(error);
+              this.$sentry.captureException(error);
             });
         }
 
@@ -364,9 +364,9 @@ export default {
           relatedAnnouncements: relatedAnnouncements.data
         };
       })
-      .catch(err => {
-        this.$sentry.captureException(err);
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
   },
   async fetch({ app, store, params, route, menu }) {
