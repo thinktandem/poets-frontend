@@ -3,54 +3,61 @@
     <CardDeck
       title=""
       cardtype="Poet"
-      :cards="featuredPoets"/>
+      :cards="featuredPoets"
+    />
     <b-container>
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
+            <b-form-group class="table-filters">
               <div>
-                <div>
-                  <legend>Filter by</legend>
-                </div>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoets(0)"
-                  v-model="filters.state"
-                  :options="options.states">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      State</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoets(0)"
-                  v-model="filters.school"
-                  :options="options.schools">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Schools & Movements</option>
-                  </template>
-                </b-form-select>
+                <legend>Filter by</legend>
               </div>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoets(0)"
+                v-model="filters.state"
+                :options="options.states"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    State</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoets(0)"
+                v-model="filters.school"
+                :options="options.schools"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Schools & Movements</option>
+                </template>
+              </b-form-select>
 
-              <div>
+              <div class="table-filters__search">
                 <b-input-group>
                   <b-form-input
                     :disabled="busy"
                     v-model="filters.combine"
                     type="text"
                     size="22"
-                    placeholder="Search by poet, movement, etc..."/>
-                  <b-input-group-append is-text>
-                    <magnifying-glass-icon class="icon mr-2"/>
+                    placeholder="Search by poet, movement, etc..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    class="icon--search"
+                  >
+                    <magnifying-glass-icon class="icon" />
                   </b-input-group-append>
                 </b-input-group>
               </div>
@@ -62,21 +69,26 @@
     </b-container>
     <b-container>
       <b-table
-        id="poets"
+        id="
+                      poets"
         :items="poets"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template
           slot="poets"
-          slot-scope="data">
+          slot-scope="data"
+        >
           <a
             :href="data.item.view_node"
-            v-html="data.item.poets"/>
+            v-html="data.item.poets"
+          />
         </template>
         <template
           slot="years"
-          slot-scope="data">
+          slot-scope="data"
+        >
           {{ data.item.field_dob }} - {{ data.item.field_dod }}
         </template>
       </b-table>
@@ -91,12 +103,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>
@@ -270,4 +284,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.table-filters {
+  .table-filters__search {
+    min-width: 19rem;
+
+    @include media-breakpoint-up(lg) {
+      min-width: 21rem;
+    }
+  }
+}
 </style>

@@ -1,4 +1,6 @@
 %table-filters {
+  margin-top: 2rem;
+
   >div {
     display: flex;
     flex-wrap: wrap;
@@ -84,8 +86,13 @@
         border: none;
       }
 
+      button {
+        padding: 0;
+      }
+
       .icon {
         display: inline-block;
+        margin-left: 1rem;
         fill: var(--blue);
         width: 1.4rem;
         height: 1.4rem;
