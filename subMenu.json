@@ -28,6 +28,9 @@
   "materials for teachers": {
     "to": "/materials-teachers",
     "children": {
+      "Materials for Teachers": {
+        "to": "/materials-teachers"
+      },
       "Poems for Kids": {
         "to": "/poems-kids"
       },
