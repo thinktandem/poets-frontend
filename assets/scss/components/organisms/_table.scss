@@ -56,7 +56,8 @@
       cursor: pointer;
     }
 
-    &[data-label=Name] {
+    &[data-label=Name],
+    &[data-label=Title] {
       font-weight: 400;
       font-style: italic;
       font-family: $font-family-serif;
