@@ -117,7 +117,14 @@ export default {
     const featuredPoetsQuery = qs.stringify({
       filter: {
         status: 1,
-        field_p_type: "poet"
+        field_p_type: "poet",
+        img: {
+          condition: {
+            path: "field_image.id",
+            operator: "<>",
+            value: null
+          }
+        }
       },
       sort: "-promote",
       page: {

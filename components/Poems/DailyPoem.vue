@@ -168,14 +168,6 @@
               <div v-html="poem.text"/>
             </b-col>
           </b-row>
-          <b-row>
-            <b-col sm="12">
-              <b-link
-                :to="poet.alias"
-                class="pb-3 font-sans text-dark">{{ poet.name }}</b-link>
-              <div v-html="poem.text"/>
-            </b-col>
-          </b-row>
         </b-container>
         <template
           slot="modal-footer"
@@ -415,6 +407,12 @@ export default {
   }
   .poem-a-day__attribution {
     font-weight: 400;
+  }
+}
+// Md and down
+@include media-breakpoint-down(sm) {
+  .daily-poem__poem-text {
+    font-size: 0.9rem;
   }
 }
 </style>

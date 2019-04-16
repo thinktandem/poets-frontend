@@ -129,7 +129,7 @@ import _ from "lodash";
 import utils from "~/plugins/auth-utils.js";
 
 // Selected defaults
-const selectedAnthologyDefaults = { title: null };
+const selectedAnthologyDefaults = { title: "" };
 
 // Helper to update an anthology's display data
 // @NOTE: we do this because we need to trigger a "change" in this.anthologies

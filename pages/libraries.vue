@@ -98,7 +98,14 @@ export default {
         params: {
           filter: {
             status: 1,
-            field_p_type: "poet"
+            field_p_type: "poet",
+            img: {
+              condition: {
+                path: "field_image.id",
+                operator: "<>",
+                value: null
+              }
+            }
           },
           page: {
             limit: 6
@@ -137,7 +144,7 @@ export default {
         return {
           rows: res.data.rows,
           textsLink: {
-            to: "/text",
+            to: "/texts",
             text: res.data.pager.total_items
           }
         };
