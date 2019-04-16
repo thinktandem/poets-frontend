@@ -127,12 +127,14 @@ export default {
     // Get all the data we need for search
     Promise.all([this.search()]);
     // Spin up a debouncing func for text input
-    this.debouncedSearch = _.debounce(this.search, 700);
+    this.debouncedSearch = _.debounce(() => {
+      this.results = [];
+      this.search();
+    }, 700);
   },
   methods: {
     search(page = 0) {
       this.busy = true;
-      this.results = [];
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.search({ query }).then(response => {
         this.results = _.get(response, "data.data", []);
