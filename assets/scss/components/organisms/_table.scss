@@ -1,0 +1,41 @@
+%table {
+  thead {
+    th {
+      background-color: $gray-200;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+
+
+  td {
+    padding: 0.5rem;
+    font-weight: 700;
+    word-break: break-all;
+
+    @include media-breakpoint-up(sm) {
+      padding: 1rem;
+      word-break: keep-all;
+    }
+
+    .selectable & {
+      cursor: pointer;
+    }
+
+    &[data-label=Name] {
+      font-weight: 400;
+      font-style: italic;
+      font-family: $font-family-serif;
+      word-break: keep-all;
+
+      a {
+        color: $body-color;
+      }
+    }
+  }
+}
+
+.table {
+  @extend %table;
+}
