@@ -6,72 +6,77 @@
       class="pt-5"
       title="Featured Poems"
       cardtype="PoemCard"
-      :cards="featuredPoems"/>
+      :cards="featuredPoems"
+    />
     <b-container>
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
+            <b-form-group class="table-filters">
               <div>
-                <div>
-                  <legend>Filter by</legend>
-                </div>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoems(0)"
-                  v-model="filters.occasion"
-                  :options="options.occasions">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Occassions</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoems(0)"
-                  v-model="filters.theme"
-                  :options="options.themes">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Themes</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchPoems(0)"
-                  v-model="filters.form"
-                  :options="options.form">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Forms</option>
-                  </template>
-                </b-form-select>
-
-                <div>
-                  <b-input-group>
-                    <b-form-input
-                      :disabled="busy"
-                      v-model="filters.combine"
-                      type="text"
-                      size="22"
-                      placeholder="Search title or text ..."
-                    />
-                    <b-input-group-append is-text>
-                      <magnifying-glass-icon class="icon mr-2"/>
-                    </b-input-group-append>
-                  </b-input-group>
-                </div>
-
+                <legend>Filter by</legend>
               </div>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoems(0)"
+                v-model="filters.occasion"
+                :options="options.occasions"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Occassions</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoems(0)"
+                v-model="filters.theme"
+                :options="options.themes"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Themes</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchPoems(0)"
+                v-model="filters.form"
+                :options="options.form"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Forms</option>
+                </template>
+              </b-form-select>
+
+              <b-input-group class="table-filters__search">
+                <b-form-input
+                  :disabled="busy"
+                  v-model="filters.combine"
+                  type="text"
+                  size="22"
+                  placeholder="Search title or text ..."
+                />
+                <b-input-group-append
+                  is-text
+                  class="icon--search"
+                >
+                  <magnifying-glass-icon class="icon" />
+                </b-input-group-append>
+              </b-input-group>
             </b-form-group>
           </app-form>
         </b-col>
@@ -84,13 +89,16 @@
         :items="poems"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template
           slot="title"
-          slot-scope="data">
+          slot-scope="data"
+        >
           <a
             :href="data.item.view_node"
-            v-html="data.item.title"/>
+            v-html="data.item.title"
+          />
         </template>
       </b-table>
       <div class="pager">
@@ -104,12 +112,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>

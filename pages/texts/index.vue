@@ -5,42 +5,48 @@
       class="pt-5 pb-3"
       cardtype="TextCard"
       cols="4"
-      :cards="featuredTexts"/>
+      :cards="featuredTexts"
+    />
     <b-container>
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
+            <b-form-group class="table-filters">
               <div>
-                <div>
-                  <legend>Filter by</legend>
-                </div>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchTexts(0)"
-                  v-model="filters.type"
-                  :options="options.types">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Type</option>
-                  </template>
-                </b-form-select>
+                <legend>Filter by</legend>
               </div>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchTexts(0)"
+                v-model="filters.type"
+                :options="options.types"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Type</option>
+                </template>
+              </b-form-select>
 
-              <div>
-                <b-form-input
-                  v-model="filters.combine"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."/>
-                <b-btn
-                  class="btn-primary"
-                  type="submit">
-                  <iconSearch />
-                </b-btn>
+              <div class="table-filters__search">
+                <b-input-group-append class="icon--search">
+
+                  <b-form-input
+                    v-model="filters.combine"
+                    type="text"
+                    size="22"
+                    placeholder="Search title or text ..."
+                  />
+                  <b-btn
+                    type="submit"
+                    variant="transparent"
+                  >
+                    <magnifying-glass-icon class="icon" />
+                  </b-btn>
+                </b-input-group-append>
               </div>
 
             </b-form-group>
@@ -54,13 +60,16 @@
         :items="texts"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template
           slot="title"
-          slot-scope="data">
+          slot-scope="data"
+        >
           <a
             :href="data.item.view_node"
-            v-html="data.item.title"/>
+            v-html="data.item.title"
+          />
         </template>
       </b-table>
       <div class="pager">
@@ -74,12 +83,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>
@@ -92,7 +103,7 @@ import _ from "lodash";
 import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
-import iconSearch from "~/static/icons/magnifying-glass.svg";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
 import MetaTags from "~/plugins/metatags";
 
@@ -107,7 +118,7 @@ export default {
   components: {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
-    iconSearch,
+    MagnifyingGlassIcon,
     CardDeck
   },
   head() {

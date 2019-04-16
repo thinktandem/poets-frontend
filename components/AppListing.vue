@@ -5,16 +5,10 @@
       class="filters-row"
     >
       <b-col md="12">
-        <app-form
-          class="search"
-          @submit="refreshQuery"
-        >
-          <b-form-group class="border">
-            <div
-              class="legend-selects"
-              v-if="filters.length >= 1"
-            >
-              <div class="filters__legend">
+        <app-form @submit="refreshQuery">
+          <b-form-group class="table-filters">
+            <template v-if="filters.length >= 1">
+              <div>
                 <legend>Filter by</legend>
               </div>
               <b-form-select
@@ -34,9 +28,9 @@
                     {{ filter.name }}</option>
                 </template>
               </b-form-select>
-            </div>
+            </template>
             <div
-              class="input--search"
+              class="table-filters__search"
               v-if="searchable.length >= 1"
             >
               <b-input-group>
@@ -47,14 +41,14 @@
                   size="22"
                   :placeholder="`Search ${searchableLabels} ...`"
                 />
-                <b-input-group-append>
+                <b-input-group-append class="icon--search">
                   <b-btn
                     :disabled="busy"
                     type="button"
                     @click="refreshQuery"
                     variant="transparent"
                   >
-                    <magnifying-glass-icon class="icon mr-2" />
+                    <magnifying-glass-icon class="icon" />
                   </b-btn>
                 </b-input-group-append>
               </b-input-group>
@@ -119,7 +113,6 @@
           <template
             slot="show_details"
             slot-scope="row"
-            slot-class="josh"
           >
             <a @click="row.toggleDetails">
               <plus-icon
@@ -468,53 +461,13 @@ export default {
 .link {
   font-weight: 560;
 }
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
+
+.table-filters {
+  .table-filters__search {
+    min-width: 26rem;
   }
 }
-.filters__legend {
-  flex-basis: 50%;
-  legend {
-    margin: 0;
-    line-height: 2;
-    font-size: $font-size-base;
-    color: $gray-700;
-  }
-}
-.input--search {
-  flex-basis: 100%;
-  padding: 1rem;
-  position: relative;
-  input {
-    border: none;
-    background-color: transparent;
-    &:hover,
-    &:focus,
-    &:active {
-      border: none;
-      background-color: transparent;
-    }
-    &::placeholder {
-      color: $gray-700;
-    }
-  }
-}
-.icon {
-  fill: $blue;
-  width: 1.4rem;
-  height: 1.4rem;
-}
-.input-group-text {
-  background: transparent;
-  border: none;
-}
+
 .expand-icon {
   color: $blue-dark;
   height: 20px;
