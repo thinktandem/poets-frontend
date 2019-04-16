@@ -50,7 +50,8 @@
                 <b-input-group-append>
                   <b-btn
                     :disabled="busy"
-                    type="submit"
+                    type="button"
+                    @click="refreshQuery"
                     variant="transparent"
                   >
                     <magnifying-glass-icon class="icon mr-2" />
@@ -145,13 +146,13 @@
                 lg-offset="1"
               >
                 <strong v-if="row.item.event_start_time">{{ row.item.event_start_time
-                }}<br></strong>
+                  }}<br></strong>
                 <address
                   v-if="row.item.field_location"
                   class="event__field-body"
                 >
                   <strong v-if="row.item.field_location.organization">{{
-                  row.item.field_location.organization }}<br></strong>
+                    row.item.field_location.organization }}<br></strong>
                   <span v-if="row.item.field_location.address_line1">{{ row.item.field_location.address_line1 }}<br></span>
                   <span v-if="row.item.field_location.address_line2">{{ row.item.field_location.address_line2 }}<br></span>
                   <span v-if="row.item.field_location.locality">{{ row.item.field_location.locality }},&nbsp;</span>
