@@ -14,9 +14,10 @@
                       v-model="filters.combine"
                       type="text"
                       size="22"
-                      placeholder="Search title or text ..."/>
+                      placeholder="Search title or text ..."
+                    />
                     <b-input-group-append is-text>
-                      <magnifying-glass-icon class="icon mr-2"/>
+                      <magnifying-glass-icon class="icon mr-2" />
                     </b-input-group-append>
                   </b-input-group>
                 </div>
@@ -36,13 +37,22 @@
         :items="results"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template
           slot="title"
-          slot-scope="data">
+          slot-scope="data"
+        >
           <a
             :href="data.item.link"
-            v-html="data.item.title"/>
+            v-html="data.item.title"
+          />
+        </template>
+        <template
+          slot="body"
+          slot-scope="data"
+        >
+          <div v-html="data.item.body" />
         </template>
       </b-table>
       <div class="pager">
@@ -56,12 +66,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>
@@ -122,10 +134,11 @@ export default {
     search(page = 0) {
       this.busy = true;
       this.results = [];
-      const query = _.merge({}, buildQuery(this.filters));
+      const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.search({ query }).then(response => {
         this.results = _.get(response, "data.data", []);
         this.count = _.size(this.results);
+        this.rows = _.get(response, "data.total_rows", 0);
         this.busy = false;
       });
     },
