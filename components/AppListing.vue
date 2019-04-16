@@ -34,30 +34,30 @@
                     {{ filter.name }}</option>
                 </template>
               </b-form-select>
-              <div
-                class="input--search"
-                v-if="searchable.length >= 1"
-              >
-                <b-input-group>
-                  <b-form-input
+            </div>
+            <div
+              class="input--search"
+              v-if="searchable.length >= 1"
+            >
+              <b-input-group>
+                <b-form-input
+                  :disabled="busy"
+                  v-model="searchText"
+                  type="text"
+                  size="22"
+                  :placeholder="`Search ${searchableLabels} ...`"
+                />
+                <b-input-group-append>
+                  <b-btn
                     :disabled="busy"
-                    v-model="searchText"
-                    type="text"
-                    size="22"
-                    :placeholder="`Search ${searchableLabels} ...`"
-                  />
-                  <b-input-group-append>
-                    <b-btn
-                      :disabled="busy"
-                      type="button"
-                      @click="refreshQuery"
-                      variant="transparent"
-                    >
-                      <magnifying-glass-icon class="icon mr-2" />
-                    </b-btn>
-                  </b-input-group-append>
-                </b-input-group>
-              </div>
+                    type="button"
+                    @click="refreshQuery"
+                    variant="transparent"
+                  >
+                    <magnifying-glass-icon class="icon mr-2" />
+                  </b-btn>
+                </b-input-group-append>
+              </b-input-group>
             </div>
           </b-form-group>
         </app-form>
@@ -66,7 +66,7 @@
     <b-row>
       <b-col md="12">
         <b-table
-          :class="{ selectable: !hasDetails }"
+          :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
           :hover="!hasDetails"
           :items="results"
           :sort-by="sort"
@@ -463,17 +463,6 @@ export default {
 };
 </script>
 <style lang="scss">
-thead {
-  th {
-    background-color: $gray-200;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-}
-.selectable td {
-  cursor: pointer;
-}
 .list {
   padding-top: 3rem;
   padding-bottom: 3rem;

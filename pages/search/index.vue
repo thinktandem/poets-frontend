@@ -1,123 +1,152 @@
 <template>
   <div>
-    <h1 class="search-results__header">Search Results</h1>
-    <b-container v-if="!count">
+    <b-container>
+      <h1>Search Results</h1>
+      <b-row>
+        <b-col md="12">
+          <app-form>
+            <b-form-group>
+              <div>
+                <div>
+                  <b-input-group>
+                    <b-form-input
+                      :disabled="busy"
+                      v-model="filters.combine"
+                      type="text"
+                      size="22"
+                      placeholder="Search title or text ..."/>
+                    <b-input-group-append is-text>
+                      <magnifying-glass-icon class="icon mr-2"/>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
+              </div>
+            </b-form-group>
+          </app-form>
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <b-container v-if="count === 0">
       Your search didn't turn up any results.
     </b-container>
-    <b-container
-      v-else
-      class="results-list py-5"
-    >
-      <b-row
-        v-for="(result, i) in results"
-        class="results-list__row"
-        :key="`${i}`"
-      >
-        <b-col md="12">
-          <div class="result-type">
-            {{ result.type }}
-          </div>
-          <div class="result-title">
-            <span v-html="result.title" />
-          </div>
-          <div
-            class="result-body"
-            v-html="result.body"
-          />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="4">
-          <div
-            v-if="currentPage"
-            class="prev-button"
-          >
-            <a :href="`/search?page=${Prev}&combine=${combine}`">
-              &lt;&lt; Prev
-            </a>
-          </div>
-          <div v-else>
-            <a :href="`/search?page=0&combine=${combine}`">
-              &lt;&lt; First page
-            </a>
-          </div>
-        </b-col>
-        <b-col md="4">
+    <b-container v-else>
+      <b-table
+        id="results"
+        :items="results"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage">
+        <template
+          slot="title"
+          slot-scope="data">
           <a
-            v-if="pageNum + 1 < totalPages"
-            :href="`/search?page=${pageNum + 1}&combine=${combine}`"
-          >
-            {{ pageNum + 1 }}
-          </a>
-          <a
-            v-if="pageNum + 2 < totalPages"
-            :href="`/search?page=${pageNum + 2}&combine=${combine}`"
-          >
-            {{ pageNum + 2 }}
-          </a>
-          <a
-            v-if="pageNum + 3 < totalPages"
-            :href="`/search?page=${pageNum + 3}&combine=${combine}`"
-          >
-            {{ pageNum + 3 }}
-          </a>
-          . . .
-          <a
-            v-if="pageNum + 1 < totalPages"
-            :href="`/search?page=${totalPages - 1}&combine=${combine}`"
-          >
-            {{ totalPages }}
-          </a>
-        </b-col>
-        <b-col md="4">
-          <a
-            v-if="Next"
-            :href="`/search?page=${Next}&combine=${combine}`"
-          >
-            Next &gt;&gt;
-          </a>
-        </b-col>
-      </b-row>
+            :href="data.item.link"
+            v-html="data.item.title"/>
+        </template>
+      </b-table>
+      <div class="pager">
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="poems"
+          class="pagination"
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
+      </div>
     </b-container>
   </div>
 </template>
 
 <script>
-import searchHelpers from "~/plugins/search-helpers";
+import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
+import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
+import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine
+  });
+
 export default {
-  components: {},
+  components: {
+    iconMediaSkipBackwards,
+    iconMediaSkipForwards,
+    MagnifyingGlassIcon
+  },
   data() {
     return {
-      query: {
-        combine: ""
-      }
+      busy: true,
+      count: 0,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "body",
+          label: "Summary"
+        }
+      ],
+      filters: {
+        combine: null
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 10,
+      results: [],
+      rows: 0
     };
   },
-  async asyncData({ app, query }) {
-    const url = "/api/search";
-    return searchHelpers.getSearchResults(url, app, query);
+  mounted() {
+    // Merge in any queries
+    this.filters = this.$route.query;
+    // Get all the data we need for search
+    Promise.all([this.search()]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearch = _.debounce(this.search, 700);
   },
-  methods: {},
-  watchQuery: ["combine"]
+  methods: {
+    search(page = 0) {
+      this.busy = true;
+      this.results = [];
+      const query = _.merge({}, buildQuery(this.filters));
+      this.$api.search({ query }).then(response => {
+        this.results = _.get(response, "data.data", []);
+        this.count = _.size(this.results);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.search(queryPage);
+    }
+  },
+  watch: {
+    "$route.query": function() {
+      this.filters = this.$route.query;
+    },
+    "filters.combine": function() {
+      this.debouncedSearch();
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
-.search-results__header {
-  margin-left: 8%;
-}
-.results-list__row {
-  padding-top: 12px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid var(--gray-600);
-}
-.result-type {
-  font-weight: 100;
-}
-.result-title {
-  font-size: 1.3em;
-}
-.result-body {
-  font-weight: 300;
-}
 </style>

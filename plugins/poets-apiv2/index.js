@@ -202,6 +202,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search search by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  search(options = {}) {
+    return search.search(this.request, options);
+  }
+
+  /**
    * Search audio by query
    *
    * @param {Object} options
@@ -219,6 +229,16 @@ export default class PoetsApi {
    */
   searchBooks(options = {}) {
     return search.books(this.request, options);
+  }
+
+  /**
+   * Search jobs by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchJobs(options = {}) {
+    return search.jobs(this.request, options);
   }
 
   /**

@@ -8,13 +8,13 @@
       cardtype="PoemCard"
       :cards="featuredPoems"
     />
-    <b-container class="poems-list__filters filters">
-      <b-row class="poems-list__filters-row">
+    <b-container>
+      <b-row>
         <b-col md="12">
-          <app-form class="poems-list__search">
+          <app-form>
             <b-form-group>
-              <div class="legend-selects">
-                <div class="poems-list__filters__legend">
+              <div>
+                <div>
                   <legend>Filter by</legend>
                 </div>
                 <b-form-select
@@ -63,7 +63,7 @@
                   </template>
                 </b-form-select>
 
-                <div class="poems-list__input--search">
+                <div>
                   <b-input-group>
                     <b-form-input
                       :disabled="busy"
@@ -88,41 +88,24 @@
       </b-row>
     </b-container>
 
-    <b-container class="poems-list tabular-list">
-      <b-row
+    <b-container>
+      <b-table
         id="poems"
-        class="tabular-list__row tabular-list__header"
+        :items="poems"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage"
       >
-        <b-col md="4">
-          Name
-        </b-col>
-        <b-col md="4">
-          Author
-        </b-col>
-        <b-col md="4">
-          Year
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="poem in poems"
-        class="tabular-list__row poems-list__poems"
-        :key="poem.id"
-      >
-        <b-col md="4">
+        <template
+          slot="title"
+          slot-scope="data"
+        >
           <a
-            :href="poem.view_node"
-            v-html="poem.title"
+            :href="data.item.view_node"
+            v-html="data.item.title"
           />
-        </b-col>
-        <b-col
-          md="4"
-          v-html="poem.field_author"
-        />
-        <b-col md="4">
-          {{ poem.field_date_published }}
-        </b-col>
-      </b-row>
-
+        </template>
+      </b-table>
       <div class="pager">
         <b-pagination
           @input="paginate"
@@ -181,6 +164,20 @@ export default {
   data() {
     return {
       busy: true,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "field_author",
+          label: "Author"
+        },
+        {
+          key: "field_date_published",
+          label: "Year"
+        }
+      ],
       filters: {
         combine: null,
         form: null,
@@ -288,101 +285,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
-.poems-list__poems {
-  font-weight: 400;
-  a {
-    color: $body-color;
-
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline;
-    }
-  }
-}
-
-.poems-list {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-.poems-list__search {
-  margin-top: 2rem;
-}
-
-.poems-list__filters__legend {
-  flex-basis: 50%;
-
-  legend {
-    margin: 0;
-    line-height: 2;
-    font-size: $font-size-base;
-    color: $gray-700;
-  }
-}
-
-.poems-list__input--search {
-  flex-basis: 100%;
-  position: relative;
-
-  input {
-    border: none;
-    background-color: transparent;
-
-    &:hover,
-    &:focus,
-    &:active {
-      border: none;
-      background-color: transparent;
-    }
-
-    &::placeholder {
-      color: $gray-700;
-    }
-  }
-
-  button {
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    padding: 0;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &:active:focus {
-      // Some really sticky rules getting applied from BS that need a bit of
-      // force.
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-.icon {
-  display: inline;
-  fill: $blue;
-  width: 1.4rem;
-  height: 1.4rem;
-}
-.input-group-text {
-  background: transparent;
-  border: none;
-}
 </style>

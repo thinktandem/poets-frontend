@@ -151,6 +151,18 @@ export default {
           )
       );
     }
+    if (entityType === "paragraph--image") {
+      _.get(entity, "relationships.media.data");
+      mediaItem = _.find(
+        page.included,
+        include =>
+          include.id ===
+          _.get(
+            this.firstOrOnly(_.get(entity, "relationships.media.data")),
+            "id"
+          )
+      );
+    }
     const sidebarTop = this.buildProcessable(entity, "side_text_1");
     const sidebarBottom = this.buildProcessable(entity, "side_text_2");
 

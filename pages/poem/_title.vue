@@ -5,44 +5,51 @@
         <b-col
           class="pb-5"
           :offset-md="embedded ? null : 1"
-          :md="embedded ? 12 : 7">
+          :md="embedded ? 12 : 7"
+        >
           <b-card
             tag="main"
             header-class="pb-2 pt-3 bg-white"
             footer-class="bg-white"
-            class="card--main">
+            class="card--main"
+          >
             <div
               class="px-0 mx-0"
               v-if="showSoundCloud"
-              v-html="poem.attributes.field_soundcloud_embed_code"/>
-            <div
-              slot="header">
+              v-html="poem.attributes.field_soundcloud_embed_code"
+            />
+            <div slot="header">
               <div class="d-flex poem__title mb-1">
                 <h1
                   v-if="embedded"
-                  class="card-title">
+                  class="card-title"
+                >
                   <b-link
                     class="text-dark"
-                    :to="poem.attributes.path.alias">{{
-                    poem.attributes.title }}</b-link></h1>
+                    :to="poem.attributes.path.alias"
+                  >{{ poem.attributes.title }}</b-link>
+                </h1>
                 <h1
                   v-else
-                  class="card-title">{{ poem.attributes.title }}</h1>
+                  :class="['card-title', {'card-title--long': longTitle}]"
+                >{{ poem.attributes.title }}</h1>
                 <b-link
                   @click="showSoundCloud = true"
                   v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"
                 >
-                  <speaker-icon class="poem__soundcloud-link"/>
+                  <speaker-icon class="poem__soundcloud-link" />
                 </b-link>
                 <b-link
                   @click="showSoundCloud = false"
-                  v-if="showSoundCloud == true">
+                  v-if="showSoundCloud == true"
+                >
                   <span class="poem__soundcloud-link">&#10005;</span>
                 </b-link>
               </div>
               <span
                 class="card-subtitle"
-                v-if="poet !== null">
+                v-if="poet !== null"
+              >
                 <b-link :to="poet.path.alias">{{ poet.title }}</b-link>
                 <span
                   class="dates"
@@ -52,11 +59,13 @@
             </div>
             <poem-actions
               orientation="vertical"
-              :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"/>
+              :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"
+            />
             <div
               class="px-md-4 font-serif-2"
               v-if="poem.attributes.body !== null"
-              v-html="poem.attributes.body.processed"/>
+              v-html="poem.attributes.body.processed"
+            />
             <div
               slot="footer"
               v-if="poem.attributes.field_credit !== null"
@@ -68,31 +77,37 @@
         <b-col
           v-if="!embedded"
           md="4"
-          tag="aside">
+          tag="aside"
+        >
           <div
             class="poet--aside px-4"
-            v-if="poet !== null">
+            v-if="poet !== null"
+          >
             <div
               v-if="image"
-              class="poet--aside__image">
+              class="poet--aside__image"
+            >
               <b-img
                 fluid
                 :src="image.src"
-                :alt="image.alt"/>
+                :alt="image.alt"
+              />
             </div>
             <div
               v-html="poet.body.summary"
-              class="poet--aside__bio text-dark-muted my-3"/>
+              class="poet--aside__bio text-dark-muted my-3"
+            />
             <div class="mb-4">
               <b-link :to="poet.path.alias">More {{ poet.title }} ></b-link>
             </div>
           </div>
-          <signup-block/>
+          <signup-block />
           <section
             class="py-4 about-poem text-dark-muted"
-            v-if="poem.attributes.field_about_this_poem">
+            v-if="poem.attributes.field_about_this_poem"
+          >
             <h4>About This Poem</h4>
-            <div v-html="poem.attributes.field_about_this_poem.processed"/>
+            <div v-html="poem.attributes.field_about_this_poem.processed" />
           </section>
         </b-col>
       </b-row>
@@ -259,6 +274,9 @@ export default {
   computed: {
     embedded() {
       return _.get(this.$route.query, "mbd") === "1";
+    },
+    longTitle() {
+      return this.$data.poem.attributes.title.length > 75;
     }
   },
   methods: {
@@ -288,6 +306,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
+
 .poem__soundcloud-link {
   color: var(--blue-dark);
   fill: var(--blue-dark);
@@ -298,8 +317,13 @@ export default {
 
 .card--main {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 4px 0 0 #32d17e;
+
   .card-title {
     font-size: 2.5rem;
+
+    &.card-title--long {
+      font-size: 2rem;
+    }
   }
 
   .card-subtitle {

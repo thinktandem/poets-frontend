@@ -6,14 +6,13 @@
       cardtype="TextCard"
       cols="4"
       :cards="featuredTexts"/>
-    <b-container class="texts-list__filters filters">
-      <b-row class="texts-list__filters-row">
+    <b-container>
+      <b-row>
         <b-col md="12">
-          <app-form
-            class="texts-list__search">
+          <app-form>
             <b-form-group>
-              <div class="legend-selects">
-                <div class="texts-list__filters__legend">
+              <div>
+                <div>
                   <legend>Filter by</legend>
                 </div>
                 <b-form-select
@@ -31,7 +30,7 @@
                 </b-form-select>
               </div>
 
-              <div class="texts-list__input--search">
+              <div>
                 <b-form-input
                   v-model="filters.combine"
                   type="text"
@@ -49,42 +48,21 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="texts-list tabular-list">
-      <b-row
-        class="tabular-list__row tabular-list__header"
-        id="texts">
-        <b-col
-          md="3">
-          Date
-        </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="3">
-          Type
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="text in texts"
-        class="tabular-list__row texts-list__texts"
-        :key="text.title">
-        <b-col
-          class="date"
-          md="3">
-          {{ text.field_date_published }}
-        </b-col>
-        <b-col
-          class="texts-list__texts-title"
-          md="6">
+    <b-container>
+      <b-table
+        id="text"
+        :items="texts"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage">
+        <template
+          slot="title"
+          slot-scope="data">
           <a
-            :href="text.view_node"
-            v-html="text.title"/>
-        </b-col>
-        <b-col md="3">
-          {{ text.field_texttype }}
-        </b-col>
-      </b-row>
-
+            :href="data.item.view_node"
+            v-html="data.item.title"/>
+        </template>
+      </b-table>
       <div class="pager">
         <b-pagination
           @input="paginate"
@@ -138,6 +116,20 @@ export default {
   data() {
     return {
       busy: true,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "field_texttype",
+          label: "Type"
+        },
+        {
+          key: "field_date_published",
+          label: "Date"
+        }
+      ],
       filters: {
         combine: null,
         type: null
@@ -215,114 +207,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.texts-list__texts {
-  font-weight: 400;
-  a {
-    color: $body-color;
-
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline;
-    }
-  }
-}
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
-.date {
-  color: var(--red-dark);
-}
-.texts-list__texts-title {
-  min-height: 88px;
-}
-.texts-list__texts-title a {
-  color: var(--gray-800);
-  font-weight: 560;
-}
-.texts-list {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-.texts-list__search {
-  margin-top: 2rem;
-}
-
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-}
-
-.texts-list__filters__legend {
-  flex-basis: 50%;
-
-  legend {
-    margin: 0;
-    line-height: 2;
-    font-size: $font-size-base;
-    color: $gray-700;
-  }
-}
-
-.texts-list__input--search {
-  flex-basis: 100%;
-  padding: 1rem;
-  position: relative;
-
-  input {
-    border: none;
-    background-color: transparent;
-
-    &:hover,
-    &:focus,
-    &:active {
-      border: none;
-      background-color: transparent;
-    }
-
-    &::placeholder {
-      color: $gray-700;
-    }
-  }
-
-  button {
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    padding: 0;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &:active:focus {
-      // Some really sticky rules getting applied from BS that need a bit of
-      // force.
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
 </style>

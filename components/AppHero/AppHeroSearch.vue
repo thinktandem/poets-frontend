@@ -26,7 +26,7 @@
       </b-form-group>
     </app-form>
     <b-list-group
-      class="hero__search__links flex-fill">
+      class="hero__search__links d-none d-md-flex flex-fill">
       <b-list-group-item
         v-for="(link, index) in $store.state.midMenu"
         :key="index"
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-// import searchHelpers from "~/plugins/search-helpers";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 export default {
   components: {
