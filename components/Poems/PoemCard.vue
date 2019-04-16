@@ -66,4 +66,9 @@ export default {
     font-size: 1.25rem;
   }
 }
+@include media-breakpoint-down(sm) {
+  .card__body {
+    font-size: 0.9rem;
+  }
+}
 </style>

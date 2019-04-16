@@ -22,14 +22,12 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="(poem, i) in results"
+        v-for="(poem, i) in poems"
         :key="`poem-${i}`"
-        class="tabular-list__row"
-      >
+        class="tabular-list__row">
         <b-col
           md="2"
-          class="date"
-        >
+          class="date">
           {{ poem.field_poem_of_the_day_date }}
         </b-col>
         <b-col
@@ -44,103 +42,26 @@
           {{ poem.field_author }}
         </b-col>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="poems"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/poem-day?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/poem-day?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/poem-day?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/poem-day?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/poem-day?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/poem-day?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -149,7 +70,6 @@
 <script>
 import DailyPoem from "~/components/Poems/DailyPoem";
 import AppPoems from "~/components/AppPoemADayPoems/AppPoems";
-import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import SignupBlock from "~/components/SignupBlock";
@@ -167,44 +87,35 @@ export default {
   },
   data() {
     return {
-      results: null,
-      // fields: [
-      //   {
-      //     key: "date",
-      //     label: "date",
-      //     sortable: true,
-      //     sortDirection: "desc",
-      //     tdClass: "text-secondary previous-poems__date"
-      //   },
-      //   {
-      //     key: "title",
-      //     label: "title",
-      //     tdClass: "font-serif previous-poems__title"
-      //   },
-      //   {
-      //     key: "poet",
-      //     label: "poet",
-      //     tdClass: "previous-poems__poet"
-      //   }
-      // ],
-      Prev: null,
-      Next: null
+      busy: true,
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      poems: [],
+      rows: 0
     };
   },
-  async asyncData({ app, params, query }) {
-    const url = "/api/previous-poems";
-    return searchHelpers.getSearchResults(url, app, query);
-    // .then(response => {
-    //  return Object.assign(response, {
-    //    results: _.map(response.results, result => {
-    //      return {
-    //        date: result.field_poem_of_the_day_date,
-    //        title: result.title,
-    //        poet: result.field_author
-    //      };
-    //    })
-    //  });
-    //  });
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([this.searchPoems()]);
+  },
+  methods: {
+    searchPoems(page = 0) {
+      this.busy = true;
+      this.$api.searchPreviousPoemsADay({ query: { page } }).then(response => {
+        this.poems = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchPoems(queryPage);
+    }
   },
   async fetch({ app, store, params }) {
     // Fetch all poems with poem a day date somewhere today.

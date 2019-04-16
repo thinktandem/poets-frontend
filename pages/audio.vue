@@ -8,168 +8,129 @@
       :sidebar-data="$store.state.sidebarData"/>
     <card-deck
       cardtype="PoemCard"
-      :cards="featuredPoems.cards"/>
+      :cards="featuredAudio"/>
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
           <app-form
-            class="poems-list__search"
-            @submit="applyFilters"
-          >
+            class="poems-list__search">
             <b-form-group>
               <div class="legend-selects">
                 <div class="poems-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
-              </div>
-              <div class="poems-list__input--search">
-                <b-input-group>
-                  <b-form-input
-                    v-model="combinedInput"
-                    type="text"
-                    size="22"
-                    placeholder="Search title or text ..."
-                  />
-                  <b-input-group-append>
-                    <b-btn type="submit">
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchAudio(0)"
+                  v-model="filters.occasion"
+                  :options="options.occasions">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Occassions</option>
+                  </template>
+                </b-form-select>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchAudio(0)"
+                  v-model="filters.theme"
+                  :options="options.themes">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Themes</option>
+                  </template>
+                </b-form-select>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchAudio(0)"
+                  v-model="filters.form"
+                  :options="options.form">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Forms</option>
+                  </template>
+                </b-form-select>
+
+                <div class="poems-list__input--search">
+                  <b-input-group>
+                    <b-form-input
+                      :disabled="busy"
+                      v-model="filters.combine"
+                      type="text"
+                      size="22"
+                      placeholder="Search title or text ..."
+                    />
+                    <b-input-group-append is-text>
                       <magnifying-glass-icon
                         class="icon mr-2"/>
-                  <b-btn/></b-btn></b-input-group-append>
-                </b-input-group>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
+
               </div>
             </b-form-group>
           </app-form>
         </b-col>
       </b-row>
     </b-container>
+
     <b-container class="poems-list tabular-list">
       <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="3">
-          Year
+        <b-col md="4">
+          Name
         </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="3">
+        <b-col md="4">
           Author
+        </b-col>
+        <b-col md="4">
+          Year
         </b-col>
       </b-row>
       <b-row
-        v-for="poem in results"
+        v-for="audio in audios"
         class="tabular-list__row poems-list__poems"
-        :key="poem.id"
-      >
-        <b-col md="3">
-          {{ poem.field_date_published }}
-        </b-col>
-        <b-col md="6">
+        :key="audio.id">
+        <b-col md="4">
           <b-link
             class="poem__link"
-            :to="poem.view_node"
-            v-html="poem.title"
-          />
+            :to="audio.view_node"
+            v-html="audio.title"/>
         </b-col>
         <b-col
-          v-html="poem.field_author"
-          md="2"/>
+          v-html="audio.field_author"
+          md="4"/>
+        <b-col md="4">
+          {{ audio.field_date_published }}
+        </b-col>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="texts"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/audio?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/audio?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -178,13 +139,22 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import filterHelpers from "~/plugins/filter-helpers";
 import BasicPage from "~/components/BasicPage";
 import CardDeck from "~/components/CardDeck";
-import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine,
+    field_form_target_id: filters.form,
+    field_occasion_target_id: filters.occasion,
+    field_poem_themes_target_id: filters.theme
+  });
 
 export default {
   components: {
@@ -199,16 +169,71 @@ export default {
   },
   data() {
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      audios: [],
+      busy: true,
+      filters: {
+        combine: null,
+        form: null,
+        occasion: null,
+        theme: null
+      },
+      options: {
+        occasions: [],
+        themes: [],
+        form: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([
+      this.searchAudio(),
+      this.getFilter("occasions"),
+      this.getFilter("themes"),
+      this.getFilter("form")
+    ]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchAudio = _.debounce(this.searchAudio, 700);
+  },
+  methods: {
+    getFilter(filter) {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, `fields[taxonomy_term--${filter}]`, fields);
+      this.$api.getTerm(filter, { query }).then(response => {
+        this.options[filter] = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
+    searchAudio(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchAudio({ query }).then(response => {
+        console.log(response);
+        this.audios = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchAudio(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchAudio();
+    }
+  },
   async asyncData({ app, params, query }) {
-    const url = "/api/audio_poems";
-    const results = await searchHelpers.getSearchResults(url, app, query);
     const featureParams = qs.stringify({
       filter: {
         soundcloud: {
@@ -224,54 +249,43 @@ export default {
       include: "field_author"
     });
     const featured = await app.$axios.$get(`/api/node/poems?${featureParams}`);
-    return _.merge(results, {
-      featuredPoems: {
-        response: featured,
-        cards: _.map(featured.data, poem => ({
-          title: _.get(poem, "attributes.title"),
-          text:
-            _.get(poem, "attributes.body.summary") ||
-            _.get(poem, "attributes.body.processed"),
-          poet: {
-            name: _.get(
-              _.find(
-                featured.included,
-                include =>
-                  _.get(include, "id") ===
-                  _.get(
-                    _.first(_.get(poem, "relationships.field_author.data")),
-                    "id"
-                  )
-              ),
-              "attributes.title"
-            )
-          },
-          year: _.get(poem, "attributes.field_date_published").split("-")[0],
-          link: _.get(poem, "attributes.path.alias")
-        }))
-      }
-    });
+    return {
+      featuredAudio: _.map(featured.data, poem => ({
+        title: _.get(poem, "attributes.title"),
+        text:
+          _.get(poem, "attributes.body.summary") ||
+          _.get(poem, "attributes.body.processed"),
+        poet: {
+          name: _.get(
+            _.find(
+              featured.included,
+              include =>
+                _.get(include, "id") ===
+                _.get(
+                  _.first(_.get(poem, "relationships.field_author.data")),
+                  "id"
+                )
+            ),
+            "attributes.title"
+          )
+        },
+        year: _.get(poem, "attributes.field_date_published").split("-")[0],
+        link: _.get(poem, "attributes.path.alias")
+      }))
+    };
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "audio",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+  }
 };
 </script>
 
 <style scoped lang="scss">
+.tabular-list__header {
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-weight: 560;
+}
 .poems-list__poems {
   font-weight: 400;
   a {
@@ -284,21 +298,16 @@ export default {
     }
   }
 }
-.tabular-list__header {
-  background-color: #f2f8fa;
-  text-transform: uppercase;
-  font-weight: 560;
-}
+
 .poems-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+
 .poems-list__search {
   margin-top: 2rem;
 }
-.poem__link {
-  font-weight: 560;
-}
+
 .legend-selects {
   display: flex;
   flex-basis: 100%;
@@ -325,7 +334,6 @@ export default {
 
 .poems-list__input--search {
   flex-basis: 100%;
-  padding: 1rem;
   position: relative;
 
   input {

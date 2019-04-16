@@ -7,7 +7,7 @@
       promo
       title="Poems"
       :cards="$store.state.featuredPoems.cards"
-      :count="$store.state.featuredPoems.count"/>
+      :count="parseInt($store.state.featuredPoems.count)"/>
     <card-deck
       class="py-5"
       title="Poets"
@@ -115,7 +115,14 @@ export default {
     const featuredPoetsQuery = qs.stringify({
       filter: {
         status: 1,
-        field_p_type: "poet"
+        field_p_type: "poet",
+        img: {
+          condition: {
+            path: "field_image.id",
+            operator: "<>",
+            value: null
+          }
+        }
       },
       sort: "-promote",
       page: {

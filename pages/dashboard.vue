@@ -129,7 +129,7 @@ import _ from "lodash";
 import utils from "~/plugins/auth-utils.js";
 
 // Selected defaults
-const selectedAnthologyDefaults = { title: null };
+const selectedAnthologyDefaults = { title: "" };
 
 // Helper to update an anthology's display data
 // @NOTE: we do this because we need to trigger a "change" in this.anthologies
@@ -150,17 +150,22 @@ export default {
   layout: "bannerless",
   data() {
     return {
-      userData: utils.parseUser(this.$auth.user.getUser()),
-      membershipData: utils.parseMembership(this.$auth.user.getUser()),
+      userData: {},
+      membershipData: {},
       anthologies: [],
       selectedAnthology: selectedAnthologyDefaults
     };
   },
   computed: {
     isActiveMember() {
-      return (
-        _.get(this.$auth.user.getUser(), "field_membership_status") === "Active"
-      );
+      if (_.has(this.$auth, "user")) {
+        return (
+          _.get(this.$auth.user.getUser(), "field_membership_status") ===
+          "Active"
+        );
+      } else {
+        return false;
+      }
     },
     membershipCardData() {
       if (this.isActiveMember) {
@@ -181,6 +186,15 @@ export default {
     }
   },
   mounted() {
+    if (!this.$auth.loggedIn) {
+      this.$router.push("/login");
+    }
+    // Get basic stuff if we can
+    if (_.has(this.$auth, "user")) {
+      this.userData = utils.parseUser(this.$auth.user.getUser());
+      this.membershipData = utils.parseMembership(this.$auth.user.getUser());
+    }
+    // Get the other stuff
     Promise.all([
       this.$auth.user.pullUser(),
       this.$auth.user.pullAnthologies()

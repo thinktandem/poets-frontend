@@ -22,39 +22,42 @@
         cardtype="LessonPlanCard"
         :cards="featuredLessons.cards"/>
     </div>
+
     <b-container class="plans-list__filters filters">
       <b-row class="plans-list__filters-row">
         <b-col md="12">
           <app-form
-            class="plans-list__search"
-            @submit="applyFilters"
-          >
+            class="plans-list__search">
             <b-form-group>
               <div class="legend-selects">
-                <div class="plans-list__filters__legend">
-                  <legend>Filter by</legend>
+
+                <div class="plans-list__input--search">
+                  <b-input-group>
+                    <b-form-input
+                      :disabled="busy"
+                      v-model="filters.combine"
+                      type="text"
+                      size="22"
+                      placeholder="Search title or text ..."
+                    />
+                    <b-input-group-append is-text>
+                      <iconSearch
+                        class="icon mr-2"/>
+                    </b-input-group-append>
+                  </b-input-group>
                 </div>
-              </div>
-              <div class="plans-list__input--search">
-                <b-form-input
-                  v-model="combinedInput"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-btn
-                  type="submit"
-                  class="btn-primary">
-                  <iconSearch />
-                </b-btn>
+
               </div>
             </b-form-group>
           </app-form>
         </b-col>
       </b-row>
     </b-container>
+
     <b-container class="plans-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
+      <b-row
+        id="lesson-plans"
+        class="tabular-list__row tabular-list__header">
         <b-col md="3">
           Level
         </b-col>
@@ -66,10 +69,9 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="plan in results"
+        v-for="plan in plans"
         class="tabular-list__row plans-list__plans"
-        :key="plan.id"
-      >
+        :key="plan.id">
         <b-col md="3">
           {{ plan.field_level }}
         </b-col>
@@ -84,104 +86,28 @@
           v-html="plan.field_type"
           md="2"/>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="lesson-plans"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/audio?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/audio?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/audio?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/audio?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/audio?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
+
     </b-container>
   </div>
 </template>
@@ -191,12 +117,17 @@ import _ from "lodash";
 import qs from "qs";
 import BasicPage from "~/components/BasicPage";
 import CardDeck from "~/components/CardDeck";
-import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 import LessonPlanCard from "~/components/LessonPlanCard";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine
+  });
 
 export default {
   components: {
@@ -212,16 +143,56 @@ export default {
   },
   data() {
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      busy: true,
+      filters: {
+        combine: null,
+        form: null,
+        occasion: null,
+        theme: null
+      },
+      options: {
+        occasions: [],
+        themes: [],
+        form: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      plans: [],
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([this.searchLessonPlans()]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchLessonPlans = _.debounce(this.searchLessonPlans, 700);
+  },
+  methods: {
+    searchLessonPlans(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchLessonPlans({ query }).then(response => {
+        this.plans = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchLessonPlans(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchLessonPlans();
+    }
+  },
   async asyncData({ app, params, query }) {
-    const url = "/api/lesson_plans";
-    const results = await searchHelpers.getSearchResults(url, app, query);
     // Get the latest lesson
     const latestLessonParams = qs.stringify({
       page: {
@@ -265,41 +236,31 @@ export default {
     const featured = await app.$axios.$get(
       `/api/node/lesson_plans?${featureParams}`
     );
-    return _.merge(results, {
-      latestPlan,
-      featuredLessons: {
-        response: featured,
-        cards: _.map(featured.data, lesson => ({
-          title: _.get(lesson, "attributes.title"),
-          text:
-            _.get(lesson, "attributes.body.summary") ||
-            _.get(lesson, "attributes.body.processed"),
-          link: _.get(lesson, "attributes.path.alias"),
-          level: _.get(
-            app.$getRelated(featured, lesson, "field_level"),
-            "attributes.name"
-          ),
-          meta: _.get(featured, "data[0].attributes.body.summary")
-        }))
+    return _.merge(
+      {},
+      {
+        latestPlan,
+        featuredLessons: {
+          response: featured,
+          cards: _.map(featured.data, lesson => ({
+            title: _.get(lesson, "attributes.title"),
+            text:
+              _.get(lesson, "attributes.body.summary") ||
+              _.get(lesson, "attributes.body.processed"),
+            link: _.get(lesson, "attributes.path.alias"),
+            level: _.get(
+              app.$getRelated(featured, lesson, "field_level"),
+              "attributes.name"
+            ),
+            meta: _.get(featured, "data[0].attributes.body.summary")
+          }))
+        }
       }
-    });
+    );
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path).then(async () => {});
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "vertical-audio",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+  }
 };
 </script>
 

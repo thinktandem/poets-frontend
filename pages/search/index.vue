@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="search-results__header">Search Results</h1>
-    <b-container v-if="!totalPages">
+    <b-container v-if="!count">
       Your search didn't turn up any results.
     </b-container>
     <b-container
@@ -11,14 +11,14 @@
       <b-row
         v-for="(result, i) in results"
         class="results-list__row"
-        :key="`result.view_node-${i}`"
+        :key="`${i}`"
       >
         <b-col md="12">
           <div class="result-type">
             {{ result.type }}
           </div>
           <div class="result-title">
-            <b-link :to="result.view_node">{{ result.title }}</b-link>
+            <span v-html="result.title" />
           </div>
           <div
             class="result-body"

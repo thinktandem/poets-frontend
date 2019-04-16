@@ -53,8 +53,20 @@ export default {
         field_location: { label: "Location" }
       },
       defaultParams: {},
-      filters: [],
-      searchable: [{ field: "field_location.postal_code", label: "zip code" }]
+      filters: [
+        {
+          id: "field_location.administrative_area",
+          name: "State",
+          options: this.$api.getStates()
+        }
+      ],
+      searchable: [
+        { field: "title", label: "title" },
+        { field: "field_location.administrative_area", label: "state" },
+        { field: "field_location.locality", label: "city" },
+        { field: "field_location.postal_code", label: "zip code" },
+        { field: "field_event_date", label: "date" }
+      ]
     };
   },
   async asyncData({ app }) {
@@ -127,7 +139,8 @@ export default {
           component: "ButtonBlock",
           props: {
             text: "Submit an Event",
-            to: "/event/new"
+            type: "modal",
+            modal: "submitEvent"
           }
         }
       ]);

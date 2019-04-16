@@ -15,13 +15,14 @@
     "test": "codeceptjs run"
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "@nuxtjs/auth": "^4.5.3",
     "@nuxtjs/axios": "^5.4.1",
     "@nuxtjs/sentry": "^2.3.2",
     "@nuxtjs/sitemap": "^0.2.2",
     "@nuxtjs/toast": "^3.0.2",
     "bootstrap": "^4.3.1",
-    "bootstrap-vue": "^2.0.0-rc.11",
+    "bootstrap-vue": "2.0.0-rc.12",
     "cryptiles": "^4.1.2",
     "fs": "^0.0.1-security",
     "hoek": "^4.2.1",
