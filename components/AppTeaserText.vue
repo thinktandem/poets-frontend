@@ -1,27 +1,27 @@
 <template>
   <div
-    v-show="text.length >= 1"
+    v-show="teaserTextExists"
     v-html="teaserText"/>
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   name: "AppTeaserText",
   props: {
     text: {
       type: String,
       default: ""
-    },
-    length: {
-      type: Number,
-      default: 364
     }
   },
   computed: {
     teaserText() {
-      return this.text !== null && this.text.length > this.length
+      return !_.isEmpty(this.text) && this.text.length > this.length
         ? `${this.text.substr(0, this.text.lastIndexOf(" ", this.length))}...`
         : this.text;
+    },
+    teaserTextExists() {
+      return !_.isEmpty(this.text);
     }
   }
 };
