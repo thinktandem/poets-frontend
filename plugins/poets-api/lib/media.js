@@ -3,6 +3,7 @@ import util from "./util";
 export default {
   // Map paragraph types to image styles
   imageStyles: {
+    "node--basic_page": "media_aside",
     "paragraph--resource": "resource_image",
     "paragraph--sidebar_text_and_image": "media_aside_lg",
     "paragraph--slideshow": "slide",

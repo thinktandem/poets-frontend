@@ -33,6 +33,14 @@
           </b-media>
         </b-col>
         <b-col lg="4">
+          <b-media-aside
+            v-if="!empty(img)"
+            class="mr-3">
+            <b-img-lazy
+              fluid
+              :src="img.src"
+              :alt="img.alt"/>
+          </b-media-aside>
           <div
             class="py-3"
             v-for="(sect, i) in sidebarTop"
