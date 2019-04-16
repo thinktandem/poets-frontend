@@ -2,7 +2,6 @@
   >div {
     display: flex;
     flex-wrap: wrap;
-    flex-basis: 100%;
     padding: 1rem;
     border: $form__border;
 
@@ -11,7 +10,7 @@
     }
 
     >* {
-      width: 100%;
+      flex-basis: auto;
 
       &:not(:last-child) {
         margin-bottom: 1rem;
@@ -48,6 +47,10 @@
 
   .table-filters__search {
     min-width: 12rem;
+    flex-grow: 1;
+    flex-basis: 100%;
+    position: relative;
+
 
     @include media-breakpoint-up(md) {
       &::before {
@@ -60,15 +63,18 @@
       }
     }
 
-
     @include media-breakpoint-up(lg) {
       padding: 0 1rem;
       min-width: 15rem;
     }
 
     input {
-      border: none;
-      background-color: transparent;
+      border-color: $gray-400;
+
+      @include media-breakpoint-up(md) {
+        border: none;
+        background-color: transparent;
+      }
     }
 
     .icon--search {
