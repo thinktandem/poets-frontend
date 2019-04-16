@@ -49,6 +49,7 @@ export default class PoetsUser {
     this.api = api;
     this.meta = meta;
     this.anthologies = [];
+    this.events = [];
     this.idType = getIdType(this.id);
   }
 
@@ -91,6 +92,21 @@ export default class PoetsUser {
         // Return
         return newAnths;
       });
+  }
+
+  /**
+   * create events
+   *
+   * @param {Array} events Create new events
+   * @return {Object} the response object
+   */
+  createEvents(events = []) {
+    return this.api.createEvents(events).then(events => {
+      // Map to more useful data
+      const newEvents = _(events).map(event => _.get(event, "data.data", {}));
+      // Return
+      return newEvents;
+    });
   }
 
   /**
@@ -179,7 +195,7 @@ export default class PoetsUser {
    * @param {String} poem UUID of the poem
    */
   removePoem(anthology, poem) {
-    console("removing poem");
+    console.log("removing poem");
   }
 
   /**
