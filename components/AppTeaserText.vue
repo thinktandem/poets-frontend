@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     teaserText() {
-      return !_.isEmpty(this.text) && this.text.length > this.length
+      return !_.isNil(this.text) && this.text.length > this.length
         ? `${this.text.substr(0, this.text.lastIndexOf(" ", this.length))}...`
         : this.text;
     },
