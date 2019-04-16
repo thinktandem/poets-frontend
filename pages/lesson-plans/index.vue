@@ -5,46 +5,45 @@
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
       :extended-content="$store.state.extendedContent"
-      :sidebar-data="$store.state.sidebarData"/>
+      :sidebar-data="$store.state.sidebarData"
+    />
     <div class="bg-white">
       <b-container class="py-5">
         <b-row>
           <b-col md="12">
             <h2 class="mb-5">Featured Lesson Plans</h2>
-            <lesson-plan-card
-              v-bind="latestPlan"
-            />
+            <lesson-plan-card v-bind="latestPlan" />
           </b-col>
         </b-row>
       </b-container>
       <card-deck
         cols="6"
         cardtype="LessonPlanCard"
-        :cards="featuredLessons.cards"/>
+        :cards="featuredLessons.cards"
+      />
     </div>
 
     <b-container>
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
-              <div>
-                <div>
-                  <b-input-group>
-                    <b-form-input
-                      :disabled="busy"
-                      v-model="filters.combine"
-                      type="text"
-                      size="22"
-                      placeholder="Search title or text ..."
-                    />
-                    <b-input-group-append is-text>
-                      <iconSearch
-                        class="icon mr-2"/>
-                    </b-input-group-append>
-                  </b-input-group>
-                </div>
-
+            <b-form-group class="table-filters table-filters--search-only">
+              <div class="table-filters__search">
+                <b-input-group>
+                  <b-form-input
+                    :disabled="busy"
+                    v-model="filters.combine"
+                    type="text"
+                    size="22"
+                    placeholder="Search title or text ..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    class="icon--search"
+                  >
+                    <iconSearch class="icon" />
+                  </b-input-group-append>
+                </b-input-group>
               </div>
             </b-form-group>
           </app-form>
@@ -58,13 +57,16 @@
         :items="plans"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template
           slot="title"
-          slot-scope="data">
+          slot-scope="data"
+        >
           <a
             :href="data.item.view_node"
-            v-html="data.item.title"/>
+            v-html="data.item.title"
+          />
         </template>
       </b-table>
       <div class="pager">
@@ -78,12 +80,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>

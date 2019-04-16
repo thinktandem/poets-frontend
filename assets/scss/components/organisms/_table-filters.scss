@@ -1,6 +1,16 @@
 %table-filters {
   margin-top: 2rem;
 
+  &.table-filters--search-only {
+    .table-filters__search {
+      padding-left: 0;
+
+      &::before {
+        border: none;
+      }
+    }
+  }
+
   >div {
     display: flex;
     flex-wrap: wrap;
