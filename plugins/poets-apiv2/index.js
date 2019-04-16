@@ -272,6 +272,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search press center by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchPressCenter(options = {}) {
+    return search.pressCenter(this.request, options);
+  }
+
+  /**
    * Search previous poems a day by query
    *
    * @param {Object} options

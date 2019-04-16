@@ -72,6 +72,17 @@ export function poets(request, options = {}) {
 }
 
 /**
+ * Get press center searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function pressCenter(request, options = {}) {
+  return request("/api/aap_press_center", {}, options);
+}
+
+/**
  * Get previous poem-a-days searchable by options
  *
  * @param {Object} request The axios library
@@ -111,6 +122,7 @@ export default {
   lessonPlans,
   poems,
   poets,
+  pressCenter,
   previousPoemsADay,
   search,
   texts
