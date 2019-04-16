@@ -30,10 +30,12 @@
           <div class="item-list">
             <ul>
               <li
+                v-if="plan.type === 'paragraph--standard_text'"
                 v-for="(plan, i) in $store.state.sidebarData"
                 :key="`plan-${i}`">
-                <a :href="`${path}#plan-${i}`">{{ plan.attributes.title }}
-                </a>
+                <b-link :href="`${path}#plan-${i}`">
+                  {{ plan.attributes.title }}
+                </b-link>
               </li>
             </ul>
           </div>
@@ -100,7 +102,7 @@ import niceDate from "~/plugins/niceDate";
 
 export default {
   layout: "default",
-  async asyncData({ app, route }) {
+  async asyncData({ app, store, route }) {
     return {
       path: route.path
     };
