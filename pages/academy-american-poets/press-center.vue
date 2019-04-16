@@ -19,7 +19,7 @@
                       placeholder="Search title or text ..."
                     />
                     <b-input-group-append is-text>
-                      <magnifying-glass-icon class="icon mr-2"/>
+                      <iconSearch class="icon mr-2"/>
                     </b-input-group-append>
                   </b-input-group>
                 </div>
