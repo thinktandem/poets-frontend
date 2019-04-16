@@ -4,5 +4,5 @@ export default ({ app }, inject) => {
   /**
    * Inject the API class
    */
-  inject("api", PoetsApi);
+  inject("api", new PoetsApi(app.$axios));
 };

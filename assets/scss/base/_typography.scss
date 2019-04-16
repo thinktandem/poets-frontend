@@ -19,4 +19,8 @@ pre {
   font-family: $font-family-sans-serif;
 }
 
-
+.long-line {
+  text-indent: -32px;
+  margin-left: 32px;
+  display: inline-block;
+}

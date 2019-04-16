@@ -5,23 +5,26 @@
     itemscope
     itemtype="http://schema.org/Person"
   >
-    <b-img-lazy
-      v-if="img"
-      :src="img.src"
-      :alt="img.alt"
-      blank-color="#000"
-      fluid-grow
-    />
+    <a
+      @click="toggleDetails"
+    >
+      <b-img-lazy
+        :src="img.src"
+        :alt="img.alt"
+        blank-color="#000"
+        fluid-grow
+      />
+    </a>
     <div
-      v-else
-      class="empty-div"
-    />
-    <div class="poet__name-bio">
+      :class="detailClass"
+      class="poet__name-bio">
       <h3
         class="poet__name"
         itemprop="name"
       >
-        {{ name }}
+        <a
+          class="text-white"
+          @click="toggleDetails">{{ name }}</a>
       </h3>
       <div class="poet__bio">
         <app-teaser-text
@@ -41,6 +44,21 @@ import AppTeaserText from "~/components/AppTeaserText";
 export default {
   name: "Poet",
   components: { AppTeaserText },
+  data() {
+    return {
+      showDetails: false
+    };
+  },
+  methods: {
+    toggleDetails() {
+      this.showDetails = !this.showDetails;
+    }
+  },
+  computed: {
+    detailClass() {
+      return this.showDetails ? "show-details" : "";
+    }
+  },
   props: {
     name: {
       type: String,
@@ -63,13 +81,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.poet__name-bio:hover,
+.poet__name-bio:active,
+.poet__name-bio:focus,
+.show-details.poet__name-bio {
+  top: 0;
+}
 .poet {
   margin: 0;
   position: relative;
   overflow: hidden;
   border: none;
   background-color: var(--gray-darkest);
-
   .card-body {
     padding: 0;
   }
@@ -87,12 +110,6 @@ export default {
     transition: top 0.25s ease-in-out;
     display: flex;
     flex-direction: column;
-
-    &:hover,
-    &:focus,
-    &:active {
-      top: 0;
-    }
   }
 
   &__name {
@@ -111,7 +128,6 @@ export default {
     color: var(--white);
     background-color: var(--gray-800);
     font-weight: 400;
-    overflow: scroll;
   }
 
   &__link {

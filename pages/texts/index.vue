@@ -5,42 +5,54 @@
       class="pt-5 pb-3"
       cardtype="TextCard"
       cols="4"
-      :cards="texts"
-    />
+      :cards="featuredTexts"/>
     <b-container class="texts-list__filters filters">
       <b-row class="texts-list__filters-row">
         <b-col md="12">
           <app-form
-            class="texts-list__search"
-            @submit="applyFilters"
-          >
+            class="texts-list__search">
             <b-form-group>
               <div class="legend-selects">
                 <div class="texts-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
+                <b-form-select
+                  :disabled="busy"
+                  inline
+                  @input="searchTexts(0)"
+                  v-model="filters.type"
+                  :options="options.types">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Type</option>
+                  </template>
+                </b-form-select>
               </div>
+
               <div class="texts-list__input--search">
                 <b-form-input
-                  v-model="combinedInput"
+                  v-model="filters.combine"
                   type="text"
                   size="22"
-                  placeholder="Search title or text ..."
-                />
+                  placeholder="Search title or text ..."/>
                 <b-btn
                   class="btn-primary"
-                  type="submit"
-                >
+                  type="submit">
                   <iconSearch />
                 </b-btn>
               </div>
+
             </b-form-group>
           </app-form>
         </b-col>
       </b-row>
     </b-container>
     <b-container class="texts-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
+      <b-row
+        class="tabular-list__row tabular-list__header"
+        id="texts">
         <b-col
           md="3">
           Date
@@ -53,14 +65,12 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="text in results"
+        v-for="text in texts"
         class="tabular-list__row texts-list__texts"
-        :key="text.title"
-      >
+        :key="text.title">
         <b-col
           class="date"
-          md="3"
-        >
+          md="3">
           {{ text.field_date_published }}
         </b-col>
         <b-col
@@ -68,122 +78,52 @@
           md="6">
           <a
             :href="text.view_node"
-            v-html="text.title"
-          />
+            v-html="text.title"/>
         </b-col>
         <b-col md="3">
           {{ text.field_texttype }}
         </b-col>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="texts"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/texts?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/texts?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/texts?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/texts?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/texts?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/texts?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
 </template>
 
 <script>
-import searchHelpers from "~/plugins/search-helpers";
+import _ from "lodash";
+import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine,
+    type: filters.type
+  });
 
 export default {
   components: {
@@ -197,22 +137,63 @@ export default {
   },
   data() {
     return {
-      combinedInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedCombine: null
+      busy: true,
+      filters: {
+        combine: null,
+        type: null
+      },
+      options: {
+        types: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      texts: [],
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([this.searchTexts(), this.getTypes()]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchTexts = _.debounce(this.searchTexts, 700);
+  },
+  methods: {
+    getTypes() {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, "fields[taxonomy_term--text_type]", fields);
+      this.$api.getTerm("text_type", { query }).then(response => {
+        this.options.types = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
+    searchTexts(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchTexts({ query }).then(response => {
+        this.texts = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchTexts(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchTexts();
+    }
+  },
   async asyncData({ app, store, params, query }) {
-    const url = "/api/texts_list";
-    const mySearchHelpers = await searchHelpers.getSearchResults(
-      url,
-      app,
-      query
-    );
-
-    let texts = await app.$axios
+    // @NOTE: this does not fit with the "featured" pattern in /poems or /poets
+    const featured = await app.$axios
       .get("/api/texts", {})
       .then(res => {
         return {
@@ -224,30 +205,12 @@ export default {
       });
 
     return {
-      combinedInput: mySearchHelpers.combinedInput,
-      results: mySearchHelpers.results,
-      Next: mySearchHelpers.Next,
-      Prev: mySearchHelpers.Prev,
-      preparedCombine: mySearchHelpers.preparedCombine,
-      texts: texts.rows
+      featuredTexts: featured.rows
     };
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, "/texts");
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "texts",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+  }
 };
 </script>
 

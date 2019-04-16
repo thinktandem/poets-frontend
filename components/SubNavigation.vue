@@ -1,7 +1,7 @@
 <template>
   <b-navbar
     v-if="$store.state.showSubMenu"
-    class="shadow-none d-flex"
+    class="lib-nav-container shadow-sm d-none d-md-flex"
     toggleable="md"
     type="dark"
     variant="dark"

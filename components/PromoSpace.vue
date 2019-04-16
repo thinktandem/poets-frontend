@@ -197,6 +197,8 @@ export default {
       isResponsive,
       collapseEmptyDiv
     } = this;
+    // https://support.google.com/admanager/answer/183282
+    googletag.pubads().enableSingleRequest();
 
     // Init Ad slot
     googletag.cmd.push(() => {

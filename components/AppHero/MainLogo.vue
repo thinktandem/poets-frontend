@@ -2,7 +2,8 @@
   <b-link :to="logo.link">
     <b-img
       :src="logo.src"
-      :alt="logo.alt"/>
+      :alt="logo.alt"
+      fluid/>
   </b-link>
 </template>
 <script>

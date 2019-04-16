@@ -3,59 +3,69 @@
     <CardDeck
       title=""
       cardtype="Poet"
-      :cards="featuredPoets"
-    />
+      :cards="featuredPoets"/>
     <b-container class="poets-list__filters filters">
       <b-row class="poets-list__filters-row">
         <b-col md="12">
           <app-form
-            class="poets-list__search"
-            @submit="applyFilters"
-          >
-            <b-form-group @submit.stop.prevent="applyFilters">
+            class="poets-list__search">
+            <b-form-group>
               <div class="legend-selects">
-
                 <div class="poets-list__filters__legend">
                   <legend>Filter by</legend>
                 </div>
                 <b-form-select
+                  :disabled="busy"
                   inline
-                  v-model="stateInput"
-                  :options="$store.state.states"
-                >
-                  <option :value="null">State</option>
+                  @input="searchPoets(0)"
+                  v-model="filters.state"
+                  :options="options.states">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      State</option>
+                  </template>
                 </b-form-select>
                 <b-form-select
-                  v-model="schoolInput"
+                  :disabled="busy"
                   inline
-                  :options="$store.state.filterOptions"
-                >
-                  <option :value="null">Schools & Movements</option>
+                  @input="searchPoets(0)"
+                  v-model="filters.school"
+                  :options="options.schools">
+                  <template slot="first">
+                    <option
+                      :value="null"
+                      disabled>
+                      Schools & Movements</option>
+                  </template>
                 </b-form-select>
               </div>
 
               <div class="poets-list__input--search">
                 <b-input-group>
                   <b-form-input
-                    v-model="searchInput"
+                    :disabled="busy"
+                    v-model="filters.combine"
                     type="text"
                     size="22"
                     placeholder="Search by poet, movement, etc..."/>
-                  <b-input-group-append>
-                    <b-btn type="submit">
-                      <magnifying-glass-icon
-                        class="icon mr-2"/>
-                    </b-btn>
+                  <b-input-group-append is-text>
+                    <magnifying-glass-icon
+                      class="icon mr-2"/>
                   </b-input-group-append>
                 </b-input-group>
               </div>
+
             </b-form-group>
           </app-form>
         </b-col>
       </b-row>
     </b-container>
     <b-container class="poets-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
+      <b-row
+        id="poets"
+        class="tabular-list__row tabular-list__header">
         <b-col md="4">
           Name
         </b-col>
@@ -67,15 +77,13 @@
         </b-col>
       </b-row>
       <b-row
-        v-for="poet in results"
+        v-for="poet in poets"
         class="tabular-list__row poets-list__poems"
-        :key="poet.id"
-      >
+        :key="poet.id">
         <b-col md="4">
           <a
             :href="poet.view_node"
-            v-html="poet.poets"
-          />
+            v-html="poet.poets"/>
         </b-col>
         <b-col md="4">
           {{ poet.field_dob }} - {{ poet.field_dod }}
@@ -84,103 +92,26 @@
           {{ poet.field_school_movement }}
         </b-col>
       </b-row>
+
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="poets"
           class="pagination"
-        >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/poets?page=${Prev}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/poets?page=${pageNum + 1}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/poets?page=${pageNum + 2}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/poets?page=${pageNum + 3}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/poets?page=${totalPages - 1}${preparedState}${preparedSchool}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/poets?page=${Next}${preparedCombine}${preparedSchool}${preparedState}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill">
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -189,12 +120,19 @@
 <script>
 import _ from "lodash";
 import filterHelpers from "~/plugins/filter-helpers";
-import searchHelpers from "~/plugins/search-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 import CardDeck from "~/components/CardDeck";
 import MetaTags from "~/plugins/metatags";
+
+// Helper to build out query
+const buildQuery = (filters = {}) =>
+  _.pickBy({
+    combine: filters.combine,
+    school: filters.school,
+    state: filters.state
+  });
 
 export default {
   components: {
@@ -208,27 +146,88 @@ export default {
   },
   data() {
     return {
-      schoolInput: null,
-      stateInput: null,
-      searchInput: null,
-      results: null,
-      Next: null,
-      Prev: null,
-      preparedState: null,
-      preparedSchool: null,
-      preparedCombine: null,
-      featuredPoets: null
+      busy: true,
+      filters: {
+        combine: null,
+        school: null,
+        state: null
+      },
+      options: {
+        schools: [],
+        states: []
+      },
+      page: 1,
+      pageCache: [],
+      perPage: 20,
+      poets: [],
+      rows: 0
     };
   },
+  mounted() {
+    // Get all the data we need for search
+    Promise.all([this.searchPoets(), this.getSchools(), this.getStates()]);
+    // Spin up a debouncing func for text input
+    this.debouncedSearchPoets = _.debounce(this.searchPoets, 700);
+  },
+  methods: {
+    searchPoets(page = 0) {
+      this.busy = true;
+      const query = _.merge({}, buildQuery(this.filters), { page });
+      this.$api.searchPoets({ query }).then(response => {
+        this.poets = _.get(response, "data.rows", []);
+        this.page = _.get(response, "data.pager.current_page", 1) + 1;
+        this.rows = _.get(response, "data.pager.total_items", 0);
+        this.busy = false;
+      });
+    },
+    getSchools() {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, "fields[taxonomy_term--school_movement]", fields);
+      this.$api.getTerm("school_movement", { query }).then(response => {
+        this.options.schools = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
+    getStates() {
+      const fields = "title,drupal_internal__nid";
+      const query = _.set({}, "fields[node--state]", fields);
+      this.$api.getTerm("state", { query }, "node").then(response => {
+        this.options.states = filterHelpers.map2Options(
+          _.get(response, "data.data", []),
+          "attributes.title",
+          "attributes.drupal_internal__nid"
+        );
+      });
+    },
+    paginate() {
+      this.busy = true;
+      // @NOTE: drupal starts at page 0, bPagination starts at 1
+      // https://en.wikipedia.org/wiki/Off-by-one_error
+      const queryPage = this.page - 1;
+      this.searchPoets(queryPage);
+    }
+  },
+  watch: {
+    "filters.combine": function() {
+      this.debouncedSearchPoets();
+    }
+  },
   async asyncData({ app, store, params, query }) {
-    const url = "/api/poets";
-    const msh = await searchHelpers.getSearchResults(url, app, query);
+    // @TODO: add this to api v2
     let poets = await app.$axios
       .get("/api/node/person", {
         params: {
           filter: {
             status: 1,
-            field_p_type: "poet"
+            field_p_type: "poet",
+            img: {
+              condition: {
+                path: "field_image.id",
+                operator: "<>",
+                value: null
+              }
+            }
           },
           page: {
             limit: 3
@@ -260,62 +259,21 @@ export default {
       });
 
     return {
-      schoolInput: msh.schoolInput,
-      stateInput: msh.stateInput,
-      searchInput: msh.searchInput,
-      results: msh.results,
-      currentPage: msh.currentPage,
-      totalPages: msh.totalPages,
-      pageNum: msh.pageNum,
-      Next: msh.Next,
-      Prev: msh.Prev,
-      preparedState: msh.preparedState,
-      preparedSchool: msh.preparedSchool,
-      preparedCombine: msh.preparedCombine,
       featuredPoets: poets.rows
     };
   },
   async fetch({ app, store, params, query }) {
-    const schools = await filterHelpers.getFilterOptions(
-      app,
-      "/api/taxonomy_term/school_movement",
-      "'fields[taxonomy_term--school_movement]': 'drupal_internal__tid,name'",
-      "taxonomy"
-    );
-    const states = await filterHelpers.getFilterOptions(
-      app,
-      "/api/node/state",
-      "'fields[node--state]': 'drupal_internal__nid,title'",
-      "node"
-    );
-    store.commit("updateStates", states.options);
-    store.commit("updateFilterOptions", schools.options);
-
     return app.$buildBasicPage(app, store, "/poets");
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.stateInput) {
-        myQuery.state = this.stateInput;
-      }
-      if (this.searchInput) {
-        myQuery.combine = this.searchInput;
-      }
-      if (this.schoolInput) {
-        myQuery.school = this.schoolInput;
-      }
-      this.$router.push({
-        name: "poets",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+  }
 };
 </script>
 
 <style scoped lang="scss">
+.tabular-list__header {
+  background-color: #f2f8fa;
+  text-transform: uppercase;
+  font-weight: 560;
+}
 .poets-list__poems {
   font-weight: 400;
   a {
