@@ -62,7 +62,7 @@
     </b-container>
     <b-container>
       <b-table
-        id="poems"
+        id="poets"
         :items="poets"
         :fields="fields"
         stacked="md"
