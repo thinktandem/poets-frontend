@@ -5,76 +5,84 @@
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
       :extended-content="$store.state.extendedContent"
-      :sidebar-data="$store.state.sidebarData"/>
+      :sidebar-data="$store.state.sidebarData"
+    />
     <card-deck
       cardtype="PoemCard"
-      :cards="featuredAudio"/>
+      :cards="featuredAudio"
+    />
     <b-container>
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
+            <b-form-group class="table-filters">
               <div>
-                <div>
-                  <legend>Filter by</legend>
-                </div>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchAudio(0)"
-                  v-model="filters.occasion"
-                  :options="options.occasions">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Occassions</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchAudio(0)"
-                  v-model="filters.theme"
-                  :options="options.themes">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Themes</option>
-                  </template>
-                </b-form-select>
-                <b-form-select
-                  :disabled="busy"
-                  inline
-                  @input="searchAudio(0)"
-                  v-model="filters.form"
-                  :options="options.form">
-                  <template slot="first">
-                    <option
-                      :value="null"
-                      disabled>
-                      Forms</option>
-                  </template>
-                </b-form-select>
-
-                <div>
-                  <b-input-group>
-                    <b-form-input
-                      :disabled="busy"
-                      v-model="filters.combine"
-                      type="text"
-                      size="22"
-                      placeholder="Search title or text ..."
-                    />
-                    <b-input-group-append is-text>
-                      <magnifying-glass-icon
-                        class="icon mr-2"/>
-                    </b-input-group-append>
-                  </b-input-group>
-                </div>
-
+                <legend>Filter by</legend>
               </div>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchAudio(0)"
+                v-model="filters.occasion"
+                :options="options.occasions"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Occassions</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchAudio(0)"
+                v-model="filters.theme"
+                :options="options.themes"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Themes</option>
+                </template>
+              </b-form-select>
+              <b-form-select
+                :disabled="busy"
+                inline
+                @input="searchAudio(0)"
+                v-model="filters.form"
+                :options="options.form"
+              >
+                <template slot="first">
+                  <option
+                    :value="null"
+                    disabled
+                  >
+                    Forms</option>
+                </template>
+              </b-form-select>
+
+              <div class="table-filters__search">
+                <b-input-group>
+                  <b-form-input
+                    :disabled="busy"
+                    v-model="filters.combine"
+                    type="text"
+                    size="22"
+                    placeholder="Search title or text ..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    class="icon--search"
+                  >
+                    <magnifying-glass-icon class="icon mr-2" />
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+
             </b-form-group>
           </app-form>
         </b-col>
@@ -87,13 +95,16 @@
         :items="audios"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+      >
         <template
           slot="title"
-          slot-scope="data">
+          slot-scope="data"
+        >
           <a
             :href="data.item.view_node"
-            v-html="data.item.title"/>
+            v-html="data.item.title"
+          />
         </template>
       </b-table>
       <div class="pager">
@@ -107,12 +118,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>
@@ -279,4 +292,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.table-filters {
+  .table-filters__search {
+    min-width: 15rem;
+
+    @include media-breakpoint-up(lg) {
+      min-width: 17rem;
+    }
+  }
+}
 </style>
