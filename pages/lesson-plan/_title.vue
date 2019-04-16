@@ -8,7 +8,8 @@
           v-html="$store.state.pageData.data.attributes.body.processed"/>
         <div
           v-for="(plan, i) in $store.state.sidebarData"
-          :key="`plan-${i}`">
+          :key="`plan-${i}`"
+          :id="`plan-${i}`">
           <div
             v-if="plan.type === 'paragraph--standard_text'"
             class="plan__container">
@@ -24,10 +25,18 @@
       <b-col
         md="4"
         tag="aside">
-        <div v-if="$store.state.pageData.data.attributes.field_table_of_contents">
+        <div>
           <h3>Table of Contents</h3>
-          <div
-            v-html="$store.state.pageData.data.attributes.field_table_of_contents.processed"/>
+          <div class="item-list">
+            <ul>
+              <li
+                v-for="(plan, i) in $store.state.sidebarData"
+                :key="`plan-${i}`">
+                <a :href="`${path}#plan-${i}`">{{ plan.attributes.title }}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="submitted__container">
           <div class="person__submitted">
@@ -91,6 +100,11 @@ import niceDate from "~/plugins/niceDate";
 
 export default {
   layout: "default",
+  async asyncData({ app, route }) {
+    return {
+      path: route.path
+    };
+  },
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
