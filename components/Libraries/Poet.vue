@@ -128,7 +128,6 @@ export default {
     color: var(--white);
     background-color: var(--gray-800);
     font-weight: 400;
-    overflow: scroll;
   }
 
   &__link {
