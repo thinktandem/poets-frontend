@@ -1,0 +1,112 @@
+<template lang="html">
+  <b-container class="lesson_plan__container">
+    <b-row class="py-5">
+      <b-col md="8">
+        <div
+          class="lesson_plan__body"
+          v-if="data.attributes.body"
+          v-html="data.attributes.body.processed"/>
+        <div
+          v-for="(plan, i) in includes"
+          :key="`plan-${i}`">
+          <div
+            v-if="plan.type === 'paragraph--standard_text'"
+            class="plan__container">
+            <div class="plan__title">
+              {{ plan.attributes.title }}
+            </div>
+            <div
+              class="plan__body"
+              v-html="plan.attributes.body.processed"/>
+          </div>
+        </div>
+      </b-col>
+      <b-col
+        md="4"
+        tag="aside">
+        <div v-if="data.attributes.field_table_of_contents">
+          <h3>Table of Contents</h3>
+          <div
+            v-html="data.attributes.field_table_of_contents.processed"/>
+        </div>
+        <div class="submitted__container">
+          <div class="person__submitted">
+            <h3>Submitted</h3>
+          </div>
+          <div class="sidebar__published">
+            {{
+              niceDate(
+                data.attributes.field_date_published
+              )
+            }}
+          </div>
+          <div
+            v-for="(person, i) in includes"
+            :key="`person-${i}`">
+            <div
+              class="sidebar__contributor"
+              v-if="person.type == 'node--person'">
+              <b-link
+                :to="person.attributes.path.alias">
+                {{ person.attributes.title }}
+              </b-link>
+            </div>
+          </div>
+        </div>
+        <div class="level__container">
+          <div class="level__header">
+            <h3>Level</h3>
+          </div>
+          <div
+            v-for="(level, i) in includes"
+            :key="`level-${i}`">
+            <div
+              class="level__level"
+              v-if="level.type == 'taxonomy_term--level'">
+              {{ level.attributes.name }}
+            </div>
+          </div>
+        </div>
+        <div class="type__container">
+          <div class="type__header">
+            <h3>Type</h3>
+          </div>
+          <div
+            v-for="(type, i) in includes"
+            :key="`type-${i}`">
+            <div
+              class="type__type"
+              v-if="type.type == 'taxonomy_term--lesson_plan_practice_and_pedagog'">
+              {{ type.attributes.name }}
+            </div>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+  </b-container>
+</template>
+
+<script>
+import niceDate from "~/plugins/niceDate";
+export default {
+  name: "AppFullLessonPlan",
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    },
+    includes: {
+      type: Array,
+      default: () => []
+    }
+  },
+  methods: {
+    niceDate(date) {
+      return niceDate.niceDate(date);
+    }
+  }
+};
+</script>
+
+<style lang="css" scoped>
+</style>

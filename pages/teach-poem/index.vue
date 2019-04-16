@@ -1,37 +1,19 @@
 <template>
   <div>
-    <BasicPage
-      :page-data="$store.state.pageData"/>
-    <div class="bg-white">
-      <b-container class="py-5">
-        <b-row>
-          <b-col md="8">
-            <div class="ttp__title">
-              {{ title }}
-            </div>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="8">
-            <div
-              class="ttp__body"
-              v-html="body"/>
-          </b-col>
-          <b-col md="4">
-            <div
-              class="ttp__image-container"
-              v-if="imageUrl && imageMeta">
-              <b-img
-                class="ttp__image"
-                :src="imageUrl"
-                :alt="imageMeta.alt"/>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </div>
+    <basic-page
+      :page-data="$store.state.pageData"
+      :highlighted="$store.state.highlightedData"
+      :more="$store.state.relatedContent"
+      :extended-content="$store.state.extendedContent"
+      :sidebar-data="$store.state.sidebarData"/>
+    <b-container class="pt-5">
+      <h2>Latest Teach This Poem Lesson Plan</h2>
+    </b-container>
+    <app-full-lesson-plan
+      :data="data"
+      :includes="included"/>
     <AppListing
-      resource-type="teach_this_poem"
+      resource-type="lesson_plans"
       :default-params="defaultParams"
       :includes="includes"
       :fields="fields"
@@ -43,15 +25,17 @@
 
 <script>
 import _ from "lodash";
-import BasicPage from "~/components/BasicPage";
 import AppListing from "~/components/AppListing";
+import AppFullLessonPlan from "~/components/AppFullLessonPlan";
+import BasicPage from "~/components/BasicPage";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
 import MetaTags from "~/plugins/metatags";
-
+import { stringify } from "qs";
 export default {
   components: {
-    BasicPage,
     AppListing,
+    AppFullLessonPlan,
+    BasicPage,
     iconSearch
   },
   head() {
@@ -59,23 +43,21 @@ export default {
   },
   data() {
     return {
-      includes: {},
+      includes: { field_level: "name" },
       fields: {
+        field_level: {
+          label: "Level"
+        },
         title: {
           label: "Name"
-        },
-        body: {
-          label: "Description"
         }
       },
       details: {},
       defaultParams: {
         filter: {
           status: 1,
-          id: {
-            operator: "<>",
-            value: ""
-          }
+          // Teach this poem uuid
+          "field_type.id": "fc355e48-c064-42fc-8d89-ad98ec3bb2fb"
         }
       },
       filters: [],
@@ -88,82 +70,29 @@ export default {
       ]
     };
   },
-  async asyncData({ app, params, query }) {
-    const featuredTTP = await app.$axios
-      .$get(`/api/node/teach_this_poem`, {
-        params: {
-          page: {
-            limit: 1
-          },
-          filter: {
-            status: 1,
-            promote: 1
-          },
-          include: "field_side_image"
-        }
-      })
-      .then(async res => {
-        const image = await app.$axios
-          .$get(
-            `/api/file/file/${
-              res.included[0].relationships.field_image.data.id
-            }`
-          )
-          .then(async res => {
-            return {
-              imageUrl: _.get(res, "data.links.portrait.href", null)
-            };
-          })
-          .catch(err => {
-            console.log(err);
-          });
-
-        return {
-          res,
-          image,
-          imageMeta: _.get(
-            res,
-            "included[0].relationships.field_image.data.meta",
-            null
-          )
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    return {
-      title: _.get(featuredTTP, "res.data[0].attributes.title", ""),
-      body: _.get(featuredTTP, "res.data[0].attributes.body.value", ""),
-      imageUrl: _.get(featuredTTP, "image.imageUrl", null),
-      imageMeta: _.get(featuredTTP, "imageMeta", null),
-      defaultParams: {
-        filter: {
-          status: 1,
-          id: {
-            operator: "<>",
-            value: _.get(featuredTTP, "res.data[0].id", null)
-          }
-        }
-      }
-    };
+  async asyncData({ app }) {
+    const params = stringify({
+      filter: {
+        status: 1,
+        // Teach this poem uuid
+        "field_type.id": "fc355e48-c064-42fc-8d89-ad98ec3bb2fb"
+      },
+      include:
+        "field_lesson_plan_content,field_contributors,field_level,field_type",
+      page: {
+        limit: 1
+      },
+      sort: "-created"
+    });
+    return app.$axios.$get(`/api/node/lesson_plans?${params}`).then(res => {
+      const data = _.first(_.get(res, "data"));
+      const included = _.get(res, "included");
+      return { res, data, included };
+    });
   },
   async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, "/teach-poem").then(async () => {});
-  },
-  methods: {
-    applyFilters() {
-      let myQuery = {};
-      if (this.combinedInput) {
-        myQuery.combine = this.combinedInput;
-      }
-      this.$router.push({
-        name: "teach-poem",
-        query: myQuery
-      });
-    }
-  },
-  watchQuery: true
+    return app.$buildBasicPage(app, store, route.path);
+  }
 };
 </script>
 
