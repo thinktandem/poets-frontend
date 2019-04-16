@@ -65,6 +65,7 @@ export default {
           });
         })
         .catch(error => {
+          this.$sentry.captureException(error);
           this.$toast
             .error(_.get(error, "data.message", "Something went wrong!"))
             .goAway(7777);

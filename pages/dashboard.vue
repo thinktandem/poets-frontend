@@ -225,6 +225,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
+          this.$sentry.captureException(error);
           this.$toast.error("An error occurred!").goAway(3000);
         });
     },
@@ -256,6 +257,7 @@ export default {
           setAnthologyBusy(this.anthologies, anthology, false);
         })
         .catch(error => {
+          this.$sentry.captureException(error);
           console.error(error);
           this.$toast.error("An error occurred!").goAway(3000);
         });

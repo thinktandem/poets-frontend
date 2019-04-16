@@ -287,6 +287,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
+          this.$sentry.captureException(error);
           this.$toast.error("An error occurred!").goAway(3000);
         });
     }

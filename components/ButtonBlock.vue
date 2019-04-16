@@ -233,6 +233,7 @@ export default {
           this.$refs.submitEvent.hide();
         })
         .catch(error => {
+          this.$sentry.captureException(error);
           this.$toast
             .error(
               _.get(error, "data.errors[0].detail", "Something went wrong!")
