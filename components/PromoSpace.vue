@@ -1,14 +1,13 @@
 <template>
   <section
-    class="promo p-4"
+    class="promo"
     :class="variant"
   >
-    <b-container class="mx-auto my-1">
-      <div
-        :id="divId"
-        class="gpt-ad-unit"
-        :style="style"/>
-    </b-container>
+    <div
+      :id="divId"
+      class="gpt-ad-unit"
+      :style="style"
+    />
   </section>
 </template>
 <script>
@@ -268,19 +267,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.promo.dark {
-  background-color: var(--black);
+iframe {
+  width: 100%;
 }
-.promo.transparent {
-  background-color: transparent;
+
+.promo {
+  .dark {
+    background-color: var(--black);
+  }
+  .transparent {
+    background-color: transparent;
+  }
+  @include media-breakpoint-down(md) {
+    .dark,
+    .transparent {
+      display: none;
+    }
+  }
 }
 .gpt-ad-unit {
   text-align: center;
-}
-@include media-breakpoint-down(md) {
-  .promo.dark,
-  .promo.transparent {
-    display: none;
-  }
 }
 </style>

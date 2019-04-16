@@ -12,12 +12,13 @@
         >
           <h2
             :class="titleClass"
-            class="card-deck__title">{{ title }}</h2>
+            class="card-deck__title"
+          >{{ title }}</h2>
           <b-link
             class="card-deck__link text-color"
             v-if="link"
             :href="link.to"
-          >{{ link.text }} <i class="fancy-chevron"/></b-link>
+          >{{ link.text }} <i class="fancy-chevron" /></b-link>
         </b-col>
       </b-row>
       <b-row class="card-deck__cards d-flex">
@@ -31,7 +32,8 @@
           <PromoSpace
             v-if="ad ==='true' && Number(position) === index"
             variant="fpoet"
-            dimensions="square"/>
+            dimensions="square"
+          />
           <component
             v-else
             :class="{'h-100': featured !== true }"
@@ -165,24 +167,51 @@ export default {
 
   .card-deck__card {
     margin-bottom: 2rem;
+    flex-basis: 50%;
+
+    .poet__name-bio {
+      top: calc(100% - 1.86rem);
+    }
+
+    .poet__name {
+      font-size: 0.75rem;
+      padding: 0.5rem;
+    }
+
+    &:first-child,
+    &:last-child {
+      flex-basis: 100%;
+
+      .poet__name-bio {
+        top: calc(100% - 3.65rem);
+      }
+
+      .poet__name {
+        font-size: 1.25rem;
+        padding: 1rem;
+      }
+    }
 
     .card {
       margin-left: 0 !important;
       margin-right: 0 !important;
     }
   }
+
   .card-deck__link {
     font-size: 1.25rem;
     line-height: 2;
     font-weight: 500;
   }
 }
+
 .card-deck--poet {
   background: url(/poets-mystery-man.png),
     linear-gradient(90deg, $green, $green);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+
   .poet__bio /deep/ p {
     a {
       color: var(--white);
