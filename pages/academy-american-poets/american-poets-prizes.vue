@@ -6,7 +6,8 @@
     :includes="includes"
     :fields="fields"
     :filters="filters"
-    :searchable="searchable"/>
+    :searchable="searchable"
+  />
 </template>
 
 <script>

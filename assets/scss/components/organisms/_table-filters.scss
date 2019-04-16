@@ -58,11 +58,13 @@
   $poems-list__input--search__input__width: 1rem;
 
   .table-filters__search {
-    min-width: 12rem;
     flex-grow: 1;
     flex-basis: 100%;
     position: relative;
 
+    @include media-breakpoint-up(sm) {
+      min-width: 12rem;
+    }
 
     @include media-breakpoint-up(md) {
       &::before {

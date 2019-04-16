@@ -6,7 +6,7 @@
     >
       <b-col md="12">
         <app-form @submit="refreshQuery">
-          <b-form-group class="table-filters">
+          <b-form-group :class="['table-filters', {'table-filters--search-only': filters.length < 1}]">
             <template v-if="filters.length >= 1">
               <div>
                 <legend>Filter by</legend>
@@ -464,7 +464,9 @@ export default {
 
 .table-filters {
   .table-filters__search {
-    min-width: 26rem;
+    @include media-breakpoint-up(sm) {
+      min-width: 26rem;
+    }
   }
 }
 
