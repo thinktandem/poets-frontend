@@ -6,12 +6,12 @@
       class="pt-5"
       title="Featured Poems"
       cardtype="PoemCard"
-      :cards="featuredPoems"/>
+      :cards="featuredPoems"
+    />
     <b-container class="poems-list__filters filters">
       <b-row class="poems-list__filters-row">
         <b-col md="12">
-          <app-form
-            class="poems-list__search">
+          <app-form class="poems-list__search">
             <b-form-group>
               <div class="legend-selects">
                 <div class="poems-list__filters__legend">
@@ -22,11 +22,13 @@
                   inline
                   @input="searchPoems(0)"
                   v-model="filters.occasion"
-                  :options="options.occasions">
+                  :options="options.occasions"
+                >
                   <template slot="first">
                     <option
                       :value="null"
-                      disabled>
+                      disabled
+                    >
                       Occassions</option>
                   </template>
                 </b-form-select>
@@ -35,11 +37,13 @@
                   inline
                   @input="searchPoems(0)"
                   v-model="filters.theme"
-                  :options="options.themes">
+                  :options="options.themes"
+                >
                   <template slot="first">
                     <option
                       :value="null"
-                      disabled>
+                      disabled
+                    >
                       Themes</option>
                   </template>
                 </b-form-select>
@@ -48,11 +52,13 @@
                   inline
                   @input="searchPoems(0)"
                   v-model="filters.form"
-                  :options="options.form">
+                  :options="options.form"
+                >
                   <template slot="first">
                     <option
                       :value="null"
-                      disabled>
+                      disabled
+                    >
                       Forms</option>
                   </template>
                 </b-form-select>
@@ -66,9 +72,11 @@
                       size="22"
                       placeholder="Search title or text ..."
                     />
-                    <b-input-group-append is-text>
-                      <magnifying-glass-icon
-                        class="icon mr-2"/>
+                    <b-input-group-append
+                      is-text
+                      class="icon--search"
+                    >
+                      <magnifying-glass-icon class="icon" />
                     </b-input-group-append>
                   </b-input-group>
                 </div>
@@ -83,7 +91,8 @@
     <b-container class="poems-list tabular-list">
       <b-row
         id="poems"
-        class="tabular-list__row tabular-list__header">
+        class="tabular-list__row tabular-list__header"
+      >
         <b-col md="4">
           Name
         </b-col>
@@ -97,7 +106,8 @@
       <b-row
         v-for="poem in poems"
         class="tabular-list__row poems-list__poems"
-        :key="poem.id">
+        :key="poem.id"
+      >
         <b-col md="4">
           <a
             :href="poem.view_node"
@@ -106,7 +116,8 @@
         </b-col>
         <b-col
           md="4"
-          v-html="poem.field_author"/>
+          v-html="poem.field_author"
+        />
         <b-col md="4">
           {{ poem.field_date_published }}
         </b-col>
@@ -123,12 +134,14 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill">
+          align="fill"
+        >
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
           <span slot="next-text">
-            Next <iconMediaSkipForwards />
+            Next
+            <iconMediaSkipForwards />
           </span>
         </b-pagination>
       </div>
@@ -300,19 +313,6 @@ export default {
 
 .poems-list__search {
   margin-top: 2rem;
-}
-
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
 }
 
 .poems-list__filters__legend {
