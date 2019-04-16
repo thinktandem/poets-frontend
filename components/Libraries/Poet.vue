@@ -5,9 +5,7 @@
     itemscope
     itemtype="http://schema.org/Person"
   >
-    <a
-      @click="toggleDetails"
-    >
+    <a @click="toggleDetails">
       <b-img-lazy
         :src="img.src"
         :alt="img.alt"
@@ -17,19 +15,19 @@
     </a>
     <div
       :class="detailClass"
-      class="poet__name-bio">
+      class="poet__name-bio"
+    >
       <h3
         class="poet__name"
         itemprop="name"
       >
         <a
           class="text-white"
-          @click="toggleDetails">{{ name }}</a>
+          @click="toggleDetails"
+        >{{ name }}</a>
       </h3>
       <div class="poet__bio">
-        <app-teaser-text
-          :text="bio"
-        />
+        <app-teaser-text :text="bio" />
         <a
           :href="link"
           class="poet__link"
@@ -93,14 +91,17 @@ export default {
   overflow: hidden;
   border: none;
   background-color: var(--gray-darkest);
+
   .card-body {
     padding: 0;
   }
+
   .empty-div {
     min-height: 384px;
     min-width: 388px;
     background-color: var(--gray-900);
   }
+
   &__name-bio {
     position: absolute;
     top: calc(100% - 3.65rem);
