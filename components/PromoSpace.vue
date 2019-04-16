@@ -178,6 +178,8 @@ export default {
       let adunit = "";
       if (this.variant == "dark") {
         adunit = "dfp-ad-aap_desktop_leaderboard_ad_large";
+      } else if (this.variant === "fpoet") {
+        adunit = "dfp-ad-standard";
       } else {
         adunit = "AAP-Mobile-TeachersPage-Bottom-AD";
       }

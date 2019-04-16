@@ -14,7 +14,9 @@
       col-size="md"
       :link="$store.state.featuredPoets.link"
       cardtype="Poet"
-      :cards="$store.state.featuredPoets.poets"/>
+      :cards="$store.state.featuredPoets.poets"
+      ad="true"
+      position="5"/>
     <feature-stack
       v-if="$store.state.featuredContent && $store.state.featuredContent.length >= 1"
       :features="$store.state.featuredContent"

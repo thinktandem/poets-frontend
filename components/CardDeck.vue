@@ -28,7 +28,12 @@
           :key="index"
           class="card-deck__card"
         >
+          <PromoSpace
+            v-if="ad ==='true' && Number(position) === index"
+            variant="fpoet"
+            dimensions="square"/>
           <component
+            v-else
             :class="{'h-100': featured !== true }"
             :is="card.cardType ? card.cardType : cardtype"
             v-bind="card"
@@ -55,6 +60,7 @@ import Chancellors from "~/components/Aap/Chancellors";
 import Board from "~/components/Aap/Board";
 import EAC from "~/components/Aap/EducationAdvisoryCouncil";
 import PrizeCard from "~/components/PrizeCard";
+import PromoSpace from "~/components/PromoSpace";
 
 export default {
   components: {
@@ -71,7 +77,8 @@ export default {
     Chancellors,
     Board,
     EAC,
-    PrizeCard
+    PrizeCard,
+    PromoSpace
   },
   props: {
     featured: {
@@ -93,6 +100,14 @@ export default {
     cards: {
       type: Array,
       default: () => []
+    },
+    ad: {
+      type: String,
+      default: "false"
+    },
+    position: {
+      type: String,
+      default: "5"
     },
     link: {
       type: Object,
