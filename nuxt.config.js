@@ -21,6 +21,7 @@ module.exports = {
     debug: process.env.APP_ENV !== "production"
   },
   auth: {
+    redirect: false,
     cookie: {
       prefix: "auth.",
       options: {

@@ -44,7 +44,8 @@
                 <b-input-group-append>
                   <b-btn
                     :disabled="busy"
-                    type="submit"
+                    type="button"
+                    @click="refreshQuery"
                     variant="transparent">
                     <magnifying-glass-icon
                       class="icon mr-2"/>

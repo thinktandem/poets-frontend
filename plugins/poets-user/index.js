@@ -101,20 +101,12 @@ export default class PoetsUser {
    * @return {Object} the response object
    */
   createEvents(events = []) {
-    return this.api
-      .createEvents(
-        _.map(events, event => ({
-          title: event.title,
-          field_event_contact: event.email,
-          field_event_fee: event.fee
-        }))
-      )
-      .then(events => {
-        // Map to more useful data
-        const newEvents = _(events).map(event => _.get(event, "data.data", {}));
-        // Return
-        return newEvents;
-      });
+    return this.api.createEvents(events).then(events => {
+      // Map to more useful data
+      const newEvents = _(events).map(event => _.get(event, "data.data", {}));
+      // Return
+      return newEvents;
+    });
   }
 
   /**
@@ -203,7 +195,7 @@ export default class PoetsUser {
    * @param {String} poem UUID of the poem
    */
   removePoem(anthology, poem) {
-    console("removing poem");
+    console.log("removing poem");
   }
 
   /**

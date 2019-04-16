@@ -32,7 +32,7 @@
       title="submit an event">
       <Login
         v-show="!loggedIn"
-        redirect="#"
+        redirect="false"
         show-register-link
         title="Sign in or register to submit an event"/>
       <b-form v-show="loggedIn">
@@ -57,6 +57,54 @@
           type="text"
           placeholder="Fee"
           :state="isEventFee" />
+        <b-form-input
+          v-model="eventDate"
+          size="lg"
+          :disabled="eventBusy"
+          type="date"
+          placeholder="Date"
+          :state="hasEventDate"/>
+        <b-form-input
+          v-model="eventStreet"
+          size="lg"
+          :disabled="eventBusy"
+          type="text"
+          placeholder="Street"
+          :state="hasEventStreet"/>
+        <b-form-input
+          v-model="eventCity"
+          size="lg"
+          :disabled="eventBusy"
+          type="text"
+          placeholder="City"
+          :state="hasEventCity"/>
+        <b-form-select
+          v-model="eventState"
+          size="lg"
+          :disabled="eventBusy"
+          :options="states"
+          :state="hasEventState"
+          class="mb-3">
+          <template slot="first">
+            <option
+              :value="null"
+              disabled>State</option>
+          </template>
+        </b-form-select>
+        <b-form-input
+          v-model="eventZip"
+          size="lg"
+          :disabled="eventBusy"
+          type="number"
+          placeholder="Zip Code"
+          :state="hasEventZip"/>
+        <b-form-textarea
+          v-model="eventSummary"
+          size="lg"
+          :disabled="eventBusy"
+          placeholder="Briefly describe your event..."
+          rows="3"
+          max-rows="6"/>
       </b-form>
     </b-modal>
   </div>
@@ -95,17 +143,36 @@ export default {
   data() {
     return {
       eventBusy: false,
+      eventDate: null,
+      eventCity: null,
       eventEmail: null,
       eventFee: null,
-      eventName: null
+      eventName: null,
+      eventState: null,
+      eventStreet: null,
+      eventSummary: "",
+      eventZip: null,
+      states: this.$api.getStates()
     };
   },
   computed: {
     eventSubmittable() {
-      return this.hasEventName && this.isEventEmail && this.isEventFee;
+      return (
+        this.hasEventName &&
+        this.hasEventCity &&
+        this.hasEventDate &&
+        this.hasEventState &&
+        this.hasEventStreet &&
+        this.hasEventZip &&
+        this.isEventEmail &&
+        this.isEventFee
+      );
     },
-    hasEventName() {
-      return utils.getState(this.eventName);
+    hasEventCity() {
+      return utils.getState(this.eventCity);
+    },
+    hasEventDate() {
+      return utils.getState(this.eventDate);
     },
     isEventEmail() {
       return utils.isEmail(this.eventEmail) ? true : null;
@@ -113,16 +180,34 @@ export default {
     isEventFee() {
       return utils.getState(this.eventFee);
     },
+    hasEventName() {
+      return utils.getState(this.eventName);
+    },
+    hasEventStreet() {
+      return utils.getState(this.eventStreet);
+    },
+    hasEventState() {
+      return utils.getState(this.eventState);
+    },
+    hasEventZip() {
+      return utils.getState(this.eventZip) && this.eventZip.length === 5;
+    },
     loggedIn() {
       return this.$auth.loggedIn && !!_.get(this.$auth, "user.id", false);
     }
   },
   methods: {
     clearEventStuff() {
-      this.eventName = null;
+      this.eventBusy = false;
+      this.eventCity = null;
+      this.eventDate = null;
       this.eventEmail = null;
       this.eventFee = null;
-      this.eventBusy = false;
+      this.eventName = null;
+      this.eventState = null;
+      this.eventStreet = null;
+      this.eventSummary = "";
+      this.eventZip = null;
     },
     submitEventStuff(evt) {
       // Prevent the modal from auto-closing and disable the submit
@@ -131,15 +216,29 @@ export default {
       // Add the poem to an anthology
       return this.$auth.user
         .createEvents([
-          { title: this.eventName, email: this.eventEmail, fee: this.eventFee }
+          {
+            city: this.eventCity,
+            date: this.eventDate,
+            title: this.eventName,
+            email: this.eventEmail,
+            fee: this.eventFee,
+            state: this.eventState,
+            street: this.eventStreet,
+            summary: this.eventSummary,
+            zip: this.eventZip
+          }
         ])
         .then(data => {
           this.$toast.success(`Submitted ${this.eventName}!`).goAway(5000);
           this.$refs.submitEvent.hide();
         })
         .catch(error => {
+          this.$toast
+            .error(
+              _.get(error, "data.errors[0].detail", "Something went wrong!")
+            )
+            .goAway(7777);
           console.error(error);
-          this.$toast.error("An error occurred!").goAway(3000);
           this.clearEventStuff();
         });
     }

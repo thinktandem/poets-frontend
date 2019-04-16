@@ -8,13 +8,34 @@ import _ from "lodash";
  */
 
 // Event creation defaults
-const eventCreateDefaults = (title, fee, contact) => ({
+const eventCreateDefaults = ({
+  title,
+  email,
+  fee,
+  date,
+  street,
+  city,
+  state,
+  zip,
+  summary = ""
+} = {}) => ({
   type: "node--events",
   attributes: {
-    title,
+    body: {
+      value: summary
+    },
+    field_event_contact: email,
+    field_event_date: date,
     field_event_fee: fee,
-    field_event_contact: contact,
-    metatag_normalized: []
+    field_location: {
+      country_code: "US",
+      administrative_area: state,
+      locality: city,
+      postal_code: zip,
+      address_line1: street
+    },
+    metatag_normalized: [],
+    title
   }
 });
 
@@ -35,15 +56,7 @@ export function create(request, data, options = {}) {
       .map(event =>
         request(
           "/api/node/events",
-          _.merge(
-            {},
-            eventCreateDefaults(
-              event.title,
-              event.field_event_fee,
-              event.field_event_contact
-            ),
-            event
-          ),
+          _.merge({}, eventCreateDefaults(event), event),
           _.merge({}, options, { method: "post" })
         )
       )

@@ -197,9 +197,11 @@ export default {
             .error(_.get(error, "data.message", "Something went wrong!"))
             .goAway(7777);
         })
-        .finally(() => {
+        .then(() => {
           this.reset();
-          this.$router.push(this.redirect);
+          if (this.redirect !== "false") {
+            this.$router.push(this.redirect);
+          }
         });
     },
     register() {
