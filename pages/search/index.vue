@@ -5,23 +5,22 @@
       <b-row>
         <b-col md="12">
           <app-form>
-            <b-form-group>
-              <div>
-                <div>
-                  <b-input-group>
-                    <b-form-input
-                      :disabled="busy"
-                      v-model="filters.combine"
-                      type="text"
-                      size="22"
-                      placeholder="Search title or text ..."
-                    />
-                    <b-input-group-append is-text>
-                      <magnifying-glass-icon class="icon mr-2" />
-                    </b-input-group-append>
-                  </b-input-group>
-                </div>
-              </div>
+            <b-form-group class="table-filters table-filters--search-only">
+              <b-input-group class="table-filters__search">
+                <b-form-input
+                  :disabled="busy"
+                  v-model="filters.combine"
+                  type="text"
+                  size="22"
+                  placeholder="Search title or text ..."
+                />
+                <b-input-group-append
+                  is-text
+                  class="icon--search"
+                >
+                  <magnifying-glass-icon class="icon" />
+                </b-input-group-append>
+              </b-input-group>
             </b-form-group>
           </app-form>
         </b-col>
