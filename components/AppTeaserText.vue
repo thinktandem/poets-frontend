@@ -12,13 +12,21 @@ export default {
     text: {
       type: String,
       default: ""
+    },
+    length: {
+      type: Number,
+      default: 100
     }
   },
   computed: {
     teaserText() {
-      return !_.isNil(this.text) && this.text.length > this.length
-        ? `${this.text.substr(0, this.text.lastIndexOf(" ", this.length))}...`
-        : this.text;
+      if (this.teaserTextExists) {
+        return this.text.length > this.length
+          ? `${this.text.substr(0, this.text.lastIndexOf(" ", this.length))}...`
+          : this.text;
+      } else {
+        return "";
+      }
     },
     teaserTextExists() {
       return !_.isEmpty(this.text);

@@ -41,15 +41,7 @@ export default {
           );
           return {
             title: entity.attributes.title,
-            img: media.getImgPath(entity, page)
-              ? {
-                  src: _.find(
-                    page.included,
-                    include => include.id === media.getImgPath(entity, page)
-                  ).links.thumbnail.href,
-                  alt: _.first(entity.relationships.field_image.data).meta.alt
-                }
-              : null,
+            img: media.buildImg(page, entity, "field_image"),
             text:
               entity.attributes.hasOwnProperty("body") &&
               entity.attributes.body !== null

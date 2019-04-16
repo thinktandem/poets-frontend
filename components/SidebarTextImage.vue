@@ -26,7 +26,7 @@
         </b-col>
         <b-col lg="4">
           <b-media-aside
-            v-if="img !== null"
+            v-if="!empty(img)"
             class="mr-3">
             <b-img-lazy
               fluid
@@ -49,6 +49,7 @@
   </section>
 </template>
 <script>
+import { isEmpty } from "lodash";
 export default {
   name: "SidebarTextImage",
   props: {
@@ -65,12 +66,12 @@ export default {
       default: ""
     },
     sidebarTop: {
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     },
     sidebarBottom: {
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     },
     img: {
       type: Object,
@@ -79,6 +80,11 @@ export default {
     moreLink: {
       type: Object,
       default: null
+    }
+  },
+  methods: {
+    empty(thing) {
+      return isEmpty(thing);
     }
   }
 };
