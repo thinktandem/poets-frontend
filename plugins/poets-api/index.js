@@ -39,8 +39,6 @@ export default ({ app }, inject) => {
 
     const includes = [
       "hero_background.field_image",
-      "sidebar_sections.image",
-      "field_content_sections.image",
       "highlighted_content.field_image",
       "field_content_sections.resource_file",
       "sidebar_sections.resource_file",
