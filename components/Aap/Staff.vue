@@ -5,23 +5,26 @@
     itemscope
     itemtype="http://schema.org/Person"
   >
-    <b-img-lazy
-      v-if="img"
-      :src="img.src"
-      :alt="img.alt"
-      fluid-grow
-    />
+    <a @click="toggleDetails">
+      <b-img-lazy
+        :src="img.src"
+        :alt="img.alt"
+        fluid-grow
+      />
+    </a>
     <div
-      v-else
-      class="empty-div"
-    />
-    <div class="poet__name-bio">
+      :class="detailClass"
+      class="poet__name-bio">
       <div
         class="poet__name"
         itemprop="title"
       >
         <h3>
-          {{ title }}
+          <a
+            class="text-white"
+            @click="toggleDetails">
+            {{ title }}
+          </a>
         </h3>
         <div
           class="job-title"
@@ -44,6 +47,21 @@
 
 <script>
 export default {
+  data() {
+    return {
+      showDetails: false
+    };
+  },
+  methods: {
+    toggleDetails() {
+      this.showDetails = !this.showDetails;
+    }
+  },
+  computed: {
+    detailClass() {
+      return this.showDetails ? "show-details" : "";
+    }
+  },
   props: {
     title: {
       type: String,
@@ -70,6 +88,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.poet__name-bio:hover,
+.poet__name-bio:active,
+.poet__name-bio:focus,
+.show-details.poet__name-bio {
+  top: 154px;
+}
 .poet {
   margin: 0;
   position: relative;
@@ -106,12 +130,6 @@ export default {
     transition: top 0.25s ease-in-out;
     display: flex;
     flex-direction: column;
-
-    &:hover,
-    &:focus,
-    &:active {
-      top: 154px;
-    }
   }
   .poet__bio {
     overflow: hidden;
