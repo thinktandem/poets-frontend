@@ -44,6 +44,11 @@
             :href="data.item.link"
             v-html="data.item.title"/>
         </template>
+        <template
+          slot="body"
+          slot-scope="data">
+          <div v-html="data.item.body"/>
+        </template>
       </b-table>
       <div class="pager">
         <b-pagination
@@ -122,10 +127,11 @@ export default {
     search(page = 0) {
       this.busy = true;
       this.results = [];
-      const query = _.merge({}, buildQuery(this.filters));
+      const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.search({ query }).then(response => {
         this.results = _.get(response, "data.data", []);
         this.count = _.size(this.results);
+        this.rows = _.get(response, "data.total_rows", 0);
         this.busy = false;
       });
     },
