@@ -167,30 +167,6 @@ export default {
 
   .card-deck__card {
     margin-bottom: 2rem;
-    flex-basis: 50%;
-
-    .poet__name-bio {
-      top: calc(100% - 1.86rem);
-    }
-
-    .poet__name {
-      font-size: 0.75rem;
-      padding: 0.5rem;
-    }
-
-    &:first-child,
-    &:last-child {
-      flex-basis: 100%;
-
-      .poet__name-bio {
-        top: calc(100% - 3.65rem);
-      }
-
-      .poet__name {
-        font-size: 1.25rem;
-        padding: 1rem;
-      }
-    }
 
     .card {
       margin-left: 0 !important;
@@ -216,6 +192,47 @@ export default {
     a {
       color: var(--white);
       font-weight: 600;
+    }
+  }
+
+  .card-deck__card {
+    @include media-breakpoint-down(sm) {
+      flex-basis: 50%;
+
+      .poet__name-bio {
+        top: calc(100% - 1.86rem);
+      }
+
+      .poet__bio {
+        p {
+          font-size: 0.75rem;
+        }
+      }
+
+      .poet__name {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
+
+      &:first-child,
+      &:last-child {
+        flex-basis: 100%;
+
+        .poet__name-bio {
+          top: calc(100% - 3.65rem);
+        }
+
+        .poet__name {
+          font-size: 1.25rem;
+          padding: 1rem;
+        }
+
+        .poet__bio {
+          p {
+            font-size: inherit;
+          }
+        }
+      }
     }
   }
 }
