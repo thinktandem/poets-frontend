@@ -212,7 +212,9 @@ export default {
             app.$getRelated(res, plan, "field_level"),
             "attributes.name"
           ),
-          meta: _.get(res, "data[0].attributes.body.summary"),
+          body:
+            _.get(plan, "attributes.body.summary") ||
+            _.get(plan, "attributes.body.processed"),
           link: _.get(plan, "attributes.path.alias"),
           id: _.get(res, "data[0].id")
         };
@@ -242,15 +244,14 @@ export default {
           response: featured,
           cards: _.map(featured.data, lesson => ({
             title: _.get(lesson, "attributes.title"),
-            text:
+            body:
               _.get(lesson, "attributes.body.summary") ||
               _.get(lesson, "attributes.body.processed"),
             link: _.get(lesson, "attributes.path.alias"),
             level: _.get(
               app.$getRelated(featured, lesson, "field_level"),
               "attributes.name"
-            ),
-            meta: _.get(featured, "data[0].attributes.body.summary")
+            )
           }))
         }
       }
