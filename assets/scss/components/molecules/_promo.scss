@@ -1,0 +1,55 @@
+%promo {
+  padding: 1.8rem;
+  height: 100%;
+
+  .container {
+    margin: 0.3rem auto;
+    height: 100%;
+  }
+
+  // Ad that appears in the card deck needs to be treated differently.
+  .card-deck__card & {
+    padding: 0;
+    margin: 0;
+
+    .container {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &.dark {
+    background-color: var(--black);
+  }
+
+  &.transparent {
+    background-color: transparent;
+  }
+
+  @include media-breakpoint-down(md) {
+
+    &.dark,
+    &.transparent {
+      display: none;
+    }
+  }
+
+  .gpt-ad-unit {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+
+    @include media-breakpoint-only(md) {
+      justify-content: flex-start;
+    }
+
+    >div {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.promo {
+  @extend %promo;
+}

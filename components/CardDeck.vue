@@ -12,12 +12,13 @@
         >
           <h2
             :class="titleClass"
-            class="card-deck__title">{{ title }}</h2>
+            class="card-deck__title"
+          >{{ title }}</h2>
           <b-link
             class="card-deck__link text-color"
             v-if="link"
             :href="link.to"
-          >{{ link.text }} <i class="fancy-chevron"/></b-link>
+          >{{ link.text }} <i class="fancy-chevron" /></b-link>
         </b-col>
       </b-row>
       <b-row class="card-deck__cards d-flex">
@@ -28,7 +29,13 @@
           :key="index"
           class="card-deck__card"
         >
+          <PromoSpace
+            v-if="ad ==='true' && Number(position) === index"
+            variant="fpoet"
+            dimensions="square"
+          />
           <component
+            v-else
             :class="{'h-100': featured !== true }"
             :is="card.cardType ? card.cardType : cardtype"
             v-bind="card"
@@ -55,6 +62,7 @@ import Chancellors from "~/components/Aap/Chancellors";
 import Board from "~/components/Aap/Board";
 import EAC from "~/components/Aap/EducationAdvisoryCouncil";
 import PrizeCard from "~/components/PrizeCard";
+import PromoSpace from "~/components/PromoSpace";
 
 export default {
   components: {
@@ -71,7 +79,8 @@ export default {
     Chancellors,
     Board,
     EAC,
-    PrizeCard
+    PrizeCard,
+    PromoSpace
   },
   props: {
     featured: {
@@ -93,6 +102,14 @@ export default {
     cards: {
       type: Array,
       default: () => []
+    },
+    ad: {
+      type: String,
+      default: "false"
+    },
+    position: {
+      type: String,
+      default: "5"
     },
     link: {
       type: Object,
@@ -156,22 +173,66 @@ export default {
       margin-right: 0 !important;
     }
   }
+
   .card-deck__link {
     font-size: 1.25rem;
     line-height: 2;
     font-weight: 500;
   }
 }
+
 .card-deck--poet {
   background: url(/poets-mystery-man.png),
     linear-gradient(90deg, $green, $green);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+
   .poet__bio /deep/ p {
     a {
       color: var(--white);
       font-weight: 600;
+    }
+  }
+
+  .card-deck__card {
+    @include media-breakpoint-down(sm) {
+      flex-basis: 50%;
+
+      .poet__name-bio {
+        top: calc(100% - 1.86rem);
+      }
+
+      .poet__bio {
+        p {
+          font-size: 0.75rem;
+        }
+      }
+
+      .poet__name {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
+
+      &:first-child,
+      &:last-child {
+        flex-basis: 100%;
+
+        .poet__name-bio {
+          top: calc(100% - 3.65rem);
+        }
+
+        .poet__name {
+          font-size: 1.25rem;
+          padding: 1rem;
+        }
+
+        .poet__bio {
+          p {
+            font-size: inherit;
+          }
+        }
+      }
     }
   }
 }
