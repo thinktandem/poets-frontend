@@ -15,7 +15,9 @@
         :items="poems"
         :fields="fields"
         stacked="md"
-        :per-page="perPage">
+        :per-page="perPage"
+        sort-by="field_poem_of_the_day_date"
+        sort-desc="true">
         <template
           slot="title"
           slot-scope="data">
@@ -99,6 +101,14 @@ export default {
       this.busy = true;
       this.$api.searchPreviousPoemsADay({ query: { page } }).then(response => {
         this.poems = _.get(response, "data.rows", []);
+        // Order past poem of days descending date.
+        if (this.poems.length > 0) {
+          this.poems = _.orderBy(
+            this.poems,
+            ["field_poem_of_the_day_date"],
+            ["desc"]
+          );
+        }
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.busy = false;
