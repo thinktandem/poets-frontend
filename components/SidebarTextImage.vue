@@ -48,7 +48,9 @@
             v-html="sect"
             v-show="!empty(sidebarTop)"/>
           <b-img-lazy
-            v-if="!empty(img)"
+            v-if="!empty(imgs)"
+            v-for="(img, i) in imgs"
+            :key="i"
             class="py-3"
             fluid
             :src="img.src"
@@ -89,9 +91,9 @@ export default {
       type: Array,
       default: () => []
     },
-    img: {
-      type: Object,
-      default: null
+    imgs: {
+      type: Array,
+      default: () => []
     },
     leftImg: {
       type: Object,

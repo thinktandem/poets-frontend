@@ -137,66 +137,29 @@ export default {
     if (entity === undefined) {
       return {};
     }
-    // let mediaItem = entity;
+    let mediaItems = [];
     const entityType = _.get(entity, "type");
     if (entityType === "paragraph--sidebar_text_and_image") {
-      console.log(
-        "---- what be side_image.data ?????????????????????????????????????",
-        _.get(entity, "relationships.side_image.data")
-      );
       const mediaItemsMeta = _.get(entity, "relationships.side_image.data");
-      let imgs = {};
-      // let myImg = {};
-      console.log(
-        "\n--------------- sise mediaItemsMeta ----------------\n",
-        _.size(mediaItemsMeta)
-      );
       if (_.size(mediaItemsMeta) > 1) {
-        let mediaItems = [];
-        _.each(mediaItemsMeta, (mediaItem, i) => {
-          mediaItems[mediaItem.id] = _.find(
-            page.included,
-            include => include.id === mediaItem.id
-            // _.get(entity, "relationships.side_image.data")
-          );
-        });
-        imgs = _.each(mediaItems, (mediaItem, i) => {
-          media.buildImg(
-            page,
-            mediaItem,
-            "field_image",
-            media.imageStyles[entityType]
-          );
+        mediaItems = _.map(mediaItemsMeta, (mediaItem, i) => {
+          return _.find(page.included, include => include.id === mediaItem.id);
         });
       } else {
-        imgs = _.find(
-          page.included,
-          include =>
-            include.id ===
-            _.get(
-              this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
-              "id"
-            )
-        );
-        imgs = media.buildImg(
-          page,
-          mediaItem,
-          "field_image",
-          media.imageStyles[entityType]
-        );
+        mediaItems = [
+          _.find(
+            page.included,
+            include =>
+              include.id ===
+              _.get(
+                this.firstOrOnly(
+                  _.get(entity, "relationships.side_image.data")
+                ),
+                "id"
+              )
+          )
+        ];
       }
-      console.log(
-        "\n- -------------------- imgs ------------------------------\n",
-        imgs
-      );
-      // mediaItem = _.find(
-      //   page.included,
-      //   include => include.id === _.get(entity, "relationships.side_image.data")
-      //   // _.get(
-      //   //   this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
-      //   //   "id"
-      //   // )
-      // );
     }
 
     const leftImgItem = _.find(
@@ -208,22 +171,23 @@ export default {
           "id"
         )
     );
-    console.log("left Image is", leftImgItem);
 
     if (
       entityType === "paragraph--image" ||
       entityType === "paragraph--resource"
     ) {
       _.get(entity, "relationships.media.data");
-      mediaItem = _.find(
-        page.included,
-        include =>
-          include.id ===
-          _.get(
-            this.firstOrOnly(_.get(entity, "relationships.media.data")),
-            "id"
-          )
-      );
+      mediaItems = [
+        _.find(
+          page.included,
+          include =>
+            include.id ===
+            _.get(
+              this.firstOrOnly(_.get(entity, "relationships.media.data")),
+              "id"
+            )
+        )
+      ];
     }
 
     const sidebarTop = this.buildProcessable(entity, "side_text_1");
@@ -236,13 +200,14 @@ export default {
         body:
           _.get(entity, "attributes.body.summary") ||
           _.get(entity, "attributes.body.processed"),
-        // img: media.buildImg(
-        //   page,
-        //   mediaItem,
-        //   "field_image",
-        //   media.imageStyles[entityType]
-        // ),
-        img: imgs ? imgs : null,
+        imgs: _.map(mediaItems, (mediaItem, i) => {
+          return media.buildImg(
+            page,
+            mediaItem,
+            "field_image",
+            media.imageStyles[entityType]
+          );
+        }),
         // special case for sidebar text and image (used on poems for kids)
         leftImg: media.buildImg(
           page,
