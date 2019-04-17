@@ -1,30 +1,36 @@
 <template>
   <b-card
     class="card--callout"
-    :bg-variant="bg">
+    :bg-variant="bg"
+  >
     <b-img-lazy
       v-if="!empty(img)"
       class="card--callout__image"
       :src="img.src"
       :alt="img.alt"
-      width="110"/>
+      width="110"
+    />
     <h4
       class="card-title"
-      v-if="null !== titleLink">
+      v-if="null !== titleLink"
+    >
       <b-link :to="titleLink">{{ title }}</b-link>
     </h4>
     <h4
       class="card-title"
-      v-else>
+      v-else
+    >
       {{ title }}
     </h4>
     <app-teaser-text
       class="card-text"
       :length="teaserLength"
-      :text="text"/>
+      :text="text"
+    />
     <div
       slot="footer"
-      v-if="null !== action.to">
+      v-if="null !== action.to"
+    >
       <b-btn
         class="border-primary bg-white text-primary"
         @click="showModal"
@@ -37,7 +43,8 @@
       @ok="signUp"
       ok-title="Sign Up"
       v-if="null !== action.text"
-      :ref="`${this._uid}-modal`">
+      :ref="`${this._uid}-modal`"
+    >
       Sign up to receive our weekly series for teachers, featuring a poem for K-12 students, accompanied by related interdisciplinary resources and classroom activities
       <app-form @submit.stop.prevent="signUp">
         <b-form-group
@@ -46,12 +53,14 @@
           description="Enter your email to sign up"
           label-sr-only
           label-for
-          label="Email">
+          label="Email"
+        >
           <b-form-input
             name="teachPoemEmail"
             v-model="email"
             type="email"
-            placeholder="you@example.com"/>
+            placeholder="you@example.com"
+          />
         </b-form-group>
       </app-form>
     </b-modal>
@@ -153,8 +162,9 @@ export default {
 <style scoped lang="scss">
 .card--callout {
   padding-top: $spacer * 3;
-  padding-bottom: $spacer / 2;
+  padding-bottom: 1rem;
   border: none;
+
   .card-title {
     font-size: 1.15rem;
     line-height: 1.75rem;
@@ -162,31 +172,47 @@ export default {
     font-weight: bold;
     font-style: normal;
   }
+
   .card-text {
     padding: 0;
     font-size: 0.9rem;
     font-weight: 400;
   }
+
   .card-header,
   .card-footer {
     padding-top: $spacer / 2;
     background-color: $orange;
   }
+
+  .card-footer {
+    padding: 0 1rem;
+
+    @include media-breakpoint-up(md) {
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
   &__image {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: -55px;
   }
+
   @include media-breakpoint-up(md) {
     padding-left: $spacer * 5.75;
     padding-top: initial;
+
     .card-body {
       padding: ($spacer * 1.25) ($spacer * 3) 0 0;
     }
+
     .card-footer {
       padding-left: 0;
     }
+
     &__image {
       position: absolute;
       left: -13px;
