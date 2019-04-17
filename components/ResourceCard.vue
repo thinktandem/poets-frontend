@@ -27,10 +27,8 @@
 
 <script>
 import { isEmpty } from "lodash";
-import AppImage from "~/components/AppImage";
 export default {
   name: "ResourceCard",
-  components: { AppImage },
   props: {
     title: {
       type: String,

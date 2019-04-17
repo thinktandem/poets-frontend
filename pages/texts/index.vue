@@ -203,8 +203,9 @@ export default {
           rows: res.data.rows
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
 
     return {

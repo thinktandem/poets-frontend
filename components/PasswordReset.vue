@@ -65,9 +65,9 @@ export default {
           });
         })
         .catch(error => {
-          this.$toast
-            .error(_.get(error, "data.message", "Something went wrong!"))
-            .goAway(7777);
+          const message = _.get(error, "data.message", "Something went wrong!");
+          this.$sentry.captureException(new Error(message));
+          this.$toast.error(message).goAway(7777);
         })
         .finally(() => {
           this.busy = false;

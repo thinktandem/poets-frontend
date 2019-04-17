@@ -86,7 +86,6 @@ export default ({ app }, inject) => {
           });
       })
       .catch(error => {
-        console.log(error);
         store.commit("updateHero", {
           variant: "quote",
           lead:

@@ -37,12 +37,14 @@ export default {
           .then(res => {
             return res.data.data;
           })
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.log(error);
+            this.$sentry.captureException(error);
           });
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
     const body = await imgUrl.staticUrl(text.attributes.body.value, app);
 

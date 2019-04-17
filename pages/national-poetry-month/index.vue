@@ -125,8 +125,9 @@ export default {
       .then(res => {
         return res.data.rows;
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
     const tweetsBase = process.server
       ? `${req.headers["x-forwarded-proto"]}://${req.headers.host}`
@@ -139,7 +140,10 @@ export default {
         baseURL: tweetsBase
       })
       .then(res => res.data.tweets)
-      .catch(e => console.log(e));
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
+      });
     return {
       news,
       tweets

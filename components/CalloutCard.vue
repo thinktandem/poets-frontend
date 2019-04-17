@@ -39,9 +39,7 @@
       v-if="null !== action.text"
       :ref="`${this._uid}-modal`">
       Sign up to receive our weekly series for teachers, featuring a poem for K-12 students, accompanied by related interdisciplinary resources and classroom activities
-      <app-form
-        @submit.stop.prevent="signUp"
-      >
+      <app-form @submit.stop.prevent="signUp">
         <b-form-group
           class="my-2"
           id="teachPoemEmailGroup"
@@ -53,8 +51,7 @@
             name="teachPoemEmail"
             v-model="email"
             type="email"
-            placeholder="you@example.com"
-          />
+            placeholder="you@example.com"/>
         </b-form-group>
       </app-form>
     </b-modal>
@@ -141,13 +138,12 @@ export default {
             this.$refs[`${this._uid}-modal`].hide();
           });
         })
-        .catch(err => {
-          this.$toast
-            .error(
-              "Sorry, there was an error subscribing you, please try again :("
-            )
-            .goAway(1500);
-          console.log(err);
+        .catch(error => {
+          console.log(error);
+          const message =
+            "Sorry, there was an error subscribing you, please try again :(";
+          this.$toast.error(message).goAway(1500);
+          this.$sentry.captureException(error);
         });
     }
   }

@@ -101,11 +101,17 @@ export default {
               }
             };
           })
-          .catch(err => console.log(err));
+          .catch(error => {
+            console.log(error);
+            this.$sentry.captureException(error);
+          });
         store.commit("updateFeaturedContent", []);
         store.commit("updateExtendedContent", []);
       })
-      .catch(err => console.log(err));
+      .catch(error => {
+        console.log(error);
+        this.$sentry.captureException(error);
+      });
   },
   methods: {
     niceDate(date, format) {
