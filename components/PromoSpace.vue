@@ -3,11 +3,13 @@
     class="promo"
     :class="variant"
   >
-    <div
-      :id="divId"
-      class="gpt-ad-unit"
-      :style="style"
-    />
+    <b-container>
+      <div
+        :id="divId"
+        class="gpt-ad-unit"
+        :style="style"
+      />
+    </b-container>
   </section>
 </template>
 <script>
@@ -267,25 +269,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-iframe {
-  width: 100%;
-}
-
-.promo {
-  .dark {
-    background-color: var(--black);
-  }
-  .transparent {
-    background-color: transparent;
-  }
-  @include media-breakpoint-down(md) {
-    .dark,
-    .transparent {
-      display: none;
-    }
-  }
-}
-.gpt-ad-unit {
-  text-align: center;
-}
 </style>
