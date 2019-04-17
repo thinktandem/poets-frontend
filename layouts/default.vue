@@ -12,8 +12,9 @@
     />
     <sub-navigation
       v-if="$store.state.subMenu"
-      :links="$store.state.subMenu"/>
-    <nuxt/>
+      :links="$store.state.subMenu"
+    />
+    <nuxt />
     <AppNewsletterSupportFollow />
     <AppFooterPrimary />
     <AppFooterUtility />
@@ -71,5 +72,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+#__layout {
+  margin-top: $header-height--xs;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 0;
+  }
+}
 </style>
