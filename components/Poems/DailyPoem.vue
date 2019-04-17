@@ -2,7 +2,8 @@
   <div>
     <div
       class="daily-poem"
-      :class="{summary: (extended !== true)}">
+      :class="{summary: (extended !== true)}"
+    >
       <b-container class="px-0">
         <div class="daily-poem__header d-flex d-md-none">
           <span class="daily-poem__label p-2 my-auto">
@@ -10,7 +11,8 @@
           </span>
           <h3
             class="daily-poem__poet-name my-auto px-0"
-            v-if="null !== poet.name">
+            v-if="null !== poet.name"
+          >
             {{ poet.name }}
           </h3>
           <div class="daily-poem__poet-image">
@@ -23,22 +25,22 @@
       </b-container>
       <b-container class="daily-poem__poem-container">
         <b-row class="d-none d-md-block py-4">
-          <b-col offset-md="3"/>
+          <b-col offset-md="3" />
         </b-row>
         <b-row class="d-flex flex-wrap flex-md-nowrap">
           <b-col
             md="4"
             sm="12"
             tag="aside"
-            class="daily-poem__aside px-0 order-2 order-md-1">
+            class="daily-poem__aside px-0 order-2 order-md-1"
+          >
             <h3 class="pr-3 d-none d-md-flex flex-row-reverse">
               <b-link
                 :to="poet.alias"
-                class="text-white">{{ poet.name }}</b-link>
+                class="text-white"
+              >{{ poet.name }}</b-link>
             </h3>
-            <div
-              class="daily-poem__poet-image d-md-flex flex-column
-              align-items-end d-none">
+            <div class="daily-poem__poet-image d-md-flex flex-column align-items-end d-none">
               <b-link :to="poet.alias">
                 <b-img-lazy
                   :src="poet.image"
@@ -50,11 +52,13 @@
             <div class="mt-md-5">
               <signup-block
                 :show-actions="true"
-                :poem="poem"/>
+                :poem="poem"
+              />
             </div>
             <div
               v-if="extended === true"
-              class="daily-poem__about pl-3 pr-4">
+              class="daily-poem__about pl-3 pr-4"
+            >
               <h3 class="font-serif">About Poem-a-Day</h3>
               <p class="poem-a-day__about-content">
                 Poem-a-day is the original and only daily digital poetry series featuring
@@ -71,71 +75,85 @@
           <b-col
             sm="12"
             md="8"
-            class="daily-poem__poem order-1 order-md-2 d-flex flex-column justify-content-between">
+            class="daily-poem__poem order-1 order-md-2 d-flex flex-column justify-content-between"
+          >
             <div>
               <div>
                 <span class="daily-poem__label p-3 d-none d-md-inline">
                   poem-a-day
                 </span>
               </div>
-              <article
-                class="pb-2 mr-3 pr-3">
+              <article class="pb-2 mr-3 pr-3">
                 <div
                   v-if="poem.about && showAbout"
-                  class="p-4 mb-4 border-left border-primary bg-light">
+                  class="p-4 mb-4 border-left border-primary bg-light"
+                >
                   <button
                     @click="showAbout = false"
                     type="button"
                     class="close"
-                    aria-label="Close">
+                    aria-label="Close"
+                  >
                     <span aria-hidden="true">&times;</span>
                   </button>
                   <h3>About this Poem</h3>
                   <div
                     class="text-gray"
-                    v-html="poem.about"/>
+                    v-html="poem.about"
+                  />
                 </div>
                 <div
                   class="px-0 mx-0"
                   v-if="showSoundCloud"
-                  v-html="poem.soundCloud"/>
+                  v-html="poem.soundCloud"
+                />
                 <div class="d-flex pt-3 pb-3 daily-poem__poem-title">
-                  <h2><b-link
-                    :to="poem.alias"
-                    class="text-dark">{{ poem.title }}</b-link></h2>
+                  <h2>
+                    <b-link
+                      :to="poem.alias"
+                      class="text-dark"
+                    >{{ poem.title }}</b-link>
+                  </h2>
                   <div class="d-flex col-md-4 col-lg-3 flex-column align-items-center">
                     <b-link
                       @click="showSoundCloud = true"
-                      v-if="showSoundCloud === false && null !== poem.soundCloud">
-                      <speaker-icon class="daily-poem__soundcloud-link mb-3"/>
+                      v-if="showSoundCloud === false && null !== poem.soundCloud"
+                    >
+                      <speaker-icon class="daily-poem__soundcloud-link mb-3" />
                     </b-link>
                     <b-link
                       @click="showSoundCloud = false"
-                      v-if="showSoundCloud == true">
+                      v-if="showSoundCloud == true"
+                    >
                       <span class="daily-poem__soundcloud-link">&#10005;</span>
                     </b-link>
                     <b-link
                       class="border-top border-dark-muted pt-2"
                       v-if="showAbout == false && null !== poem.about"
-                      @click="showAbout = true">about <i class="fancy-chevron"/></b-link>
+                      @click="showAbout = true"
+                    >about <i class="fancy-chevron" /></b-link>
                   </div>
                 </div>
                 <div
                   v-html="poem.text"
-                  class="daily-poem__poem-text font-serif-2"/>
+                  class="daily-poem__poem-text font-serif-2"
+                />
                 <div
                   class="daily-poem__read-the-rest pb-4"
-                  v-if="extended === false">
+                  v-if="extended === false"
+                >
                   <b-btn
                     variant="primary-dark"
-                    v-b-modal.poemADayModal>read the rest</b-btn>
+                    v-b-modal.poemADayModal
+                  >read the rest</b-btn>
                 </div>
               </article>
             </div>
             <div
               class="poem-a-day__attribution text-muted-dark p-2"
               v-if="poem.attribution"
-              v-html="poem.attribution"/>
+              v-html="poem.attribution"
+            />
           </b-col>
         </b-row>
       </b-container>
@@ -149,29 +167,33 @@
         header-border-variant="0"
         body-class="font-serif-2"
         footer-bg-variant="black"
-        id="poemADayModal">
+        id="poemADayModal"
+      >
         <b-container>
           <b-row>
             <b-col sm="12">
               <h5
                 class="font-serif h3"
                 style="margin-bottom: 0"
-                v-html="poem.title"/>
+                v-html="poem.title"
+              />
               <b-link
                 :to="poet.alias"
                 class="pb-4 font-sans text-dark"
-                style="display: block">{{ poet.name }}</b-link>
+                style="display: block"
+              >{{ poet.name }}</b-link>
             </b-col>
           </b-row>
           <b-row>
             <b-col sm="12">
-              <div v-html="poem.text"/>
+              <div v-html="poem.text" />
             </b-col>
           </b-row>
         </b-container>
         <template
           slot="modal-footer"
-          class="p-0">
+          class="p-0"
+        >
           <signup-block :poem="poem" />
         </template>
       </b-modal>
@@ -269,10 +291,13 @@ export default {
 .daily-poem__header {
   max-height: 66px;
   justify-content: space-between;
+
   .daily-poem__poet-image {
-    flex-basis: 66px;
+    width: 66px;
+
     img {
       height: 100%;
+      width: 100%;
     }
   }
   .daily-poem__poet-name {
