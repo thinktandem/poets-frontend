@@ -137,19 +137,66 @@ export default {
     if (entity === undefined) {
       return {};
     }
-    let mediaItem = entity;
+    // let mediaItem = entity;
     const entityType = _.get(entity, "type");
     if (entityType === "paragraph--sidebar_text_and_image") {
-      _.get(entity, "relationships.side_image.data");
-      mediaItem = _.find(
-        page.included,
-        include =>
-          include.id ===
-          _.get(
-            this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
-            "id"
-          )
+      console.log(
+        "---- what be side_image.data ?????????????????????????????????????",
+        _.get(entity, "relationships.side_image.data")
       );
+      const mediaItemsMeta = _.get(entity, "relationships.side_image.data");
+      let imgs = {};
+      // let myImg = {};
+      console.log(
+        "\n--------------- sise mediaItemsMeta ----------------\n",
+        _.size(mediaItemsMeta)
+      );
+      if (_.size(mediaItemsMeta) > 1) {
+        let mediaItems = [];
+        _.each(mediaItemsMeta, (mediaItem, i) => {
+          mediaItems[mediaItem.id] = _.find(
+            page.included,
+            include => include.id === mediaItem.id
+            // _.get(entity, "relationships.side_image.data")
+          );
+        });
+        imgs = _.each(mediaItems, (mediaItem, i) => {
+          media.buildImg(
+            page,
+            mediaItem,
+            "field_image",
+            media.imageStyles[entityType]
+          );
+        });
+      } else {
+        imgs = _.find(
+          page.included,
+          include =>
+            include.id ===
+            _.get(
+              this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
+              "id"
+            )
+        );
+        imgs = media.buildImg(
+          page,
+          mediaItem,
+          "field_image",
+          media.imageStyles[entityType]
+        );
+      }
+      console.log(
+        "\n- -------------------- imgs ------------------------------\n",
+        imgs
+      );
+      // mediaItem = _.find(
+      //   page.included,
+      //   include => include.id === _.get(entity, "relationships.side_image.data")
+      //   // _.get(
+      //   //   this.firstOrOnly(_.get(entity, "relationships.side_image.data")),
+      //   //   "id"
+      //   // )
+      // );
     }
 
     const leftImgItem = _.find(
@@ -189,12 +236,13 @@ export default {
         body:
           _.get(entity, "attributes.body.summary") ||
           _.get(entity, "attributes.body.processed"),
-        img: media.buildImg(
-          page,
-          mediaItem,
-          "field_image",
-          media.imageStyles[entityType]
-        ),
+        // img: media.buildImg(
+        //   page,
+        //   mediaItem,
+        //   "field_image",
+        //   media.imageStyles[entityType]
+        // ),
+        img: imgs ? imgs : null,
         // special case for sidebar text and image (used on poems for kids)
         leftImg: media.buildImg(
           page,
