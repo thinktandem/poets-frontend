@@ -100,6 +100,11 @@
             v-html="data.item.title"
           />
         </template>
+        <template
+          slot="field_author"
+          slot-scope="data">
+          <span v-html="data.item.field_author"/>
+        </template>
       </b-table>
       <div class="pager">
         <b-pagination
