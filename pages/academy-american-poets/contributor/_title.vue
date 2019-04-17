@@ -9,7 +9,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="person.attributes.body.processed"
+          v-html="replaceFileUrl(person.attributes.body.processed)"
           class="book__body"
           md="8"/>
         <b-col md="4">
@@ -57,7 +57,7 @@
               md="8">
               <a
                 :href="text.attributes.path.alias"
-                v-html="text.attributes.title"
+                v-html="replaceFileUrl(text.attributes.title)"
               />
             </b-col>
           </b-row>
@@ -100,7 +100,7 @@
               md="8">
               <a
                 :href="lp.attributes.path.alias"
-                v-html="lp.attributes.title"
+                v-html="replaceFileUrl(lp.attributes.title)"
               />
             </b-col>
           </b-row>
@@ -139,7 +139,7 @@
               md="8">
               <a
                 :href="ann.attributes.path.alias"
-                v-html="ann.attributes.title"
+                v-html="replaceFileUrl(ann.attributes.title)"
               />
             </b-col>
           </b-row>

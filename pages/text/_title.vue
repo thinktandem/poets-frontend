@@ -13,7 +13,7 @@
         >
           <div
             class="text__body-preface"
-            v-html="body"/>
+            v-html="replaceFileUrl(body)"/>
         </b-col>
       </b-row>
     </b-container>

@@ -5,7 +5,7 @@
         <b-col xs="12">
           <div
             class="collection"
-            v-html="body"/>
+            v-html="replaceFileUrl(body)"/>
         </b-col>
       </b-row>
     </b-container>

@@ -45,7 +45,7 @@
               xl="6"
               lg="12">
               <div
-                v-html="event.title"
+                v-html="replaceFileUrl(event.title)"
                 class="npm__news-row-title"
                 block
                 href="#"
@@ -73,7 +73,7 @@
                 lg="12"
               >
                 <div
-                  v-html="event.body"
+                  v-html="replaceFileUrl(event.body)"
                   class="npm__event-row-body card-text"/>
               </b-col>
               <b-col

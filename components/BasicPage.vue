@@ -7,7 +7,7 @@
           class="pb-2 basic_page__main">
           <div
             v-if="!empty(body)"
-            v-html="body.processed"
+            v-html="replaceFileUrl(body.processed)"
             class="pb-4"/>
           <card-deck
             v-if="!empty(highlighted)"

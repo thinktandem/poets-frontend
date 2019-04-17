@@ -13,7 +13,7 @@
     <h3 class="resource__title">{{ title }}</h3>
     <div
       class="resource__body mb-4"
-      v-html="body"/>
+      v-html="replaceFileUrl(body)"/>
     <div
       class="text-center mb-4"
       v-if="fileUrl">

@@ -77,11 +77,11 @@
           >
             <div
               v-if="data.item.body.summary !== null"
-              v-html="data.item.body.summary"
+              v-html="replaceFileUrl(data.item.body.summary)"
             />
             <div
               v-else
-              v-html="teaserText(data.item.body.value, 100)"
+              v-html="replaceFileUrl(teaserText(data.item.body.value, 100))"
             />
           </template>
           <template
@@ -130,7 +130,7 @@
               <b-col lg="8">
                 <div
                   v-if="row.item.body"
-                  v-html="row.item.body.processed"
+                  v-html="replaceFileUrl(row.item.body.processed)"
                 />
               </b-col>
               <b-col
