@@ -64,7 +64,8 @@ module.exports = {
     "~/plugins/asyncComputed",
     "~/plugins/apiv2",
     "~/plugins/globalComponents",
-    "~/plugins/poets-api"
+    "~/plugins/poets-api",
+    "~/plugins/mixins"
   ],
   css: ["~assets/scss/app.scss"],
   /*
