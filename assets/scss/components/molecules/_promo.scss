@@ -1,8 +1,10 @@
 %promo {
   padding: 1.8rem;
+  height: 100%;
 
   .container {
     margin: 0.3rem auto;
+    height: 100%;
   }
 
   // Ad that appears in the card deck needs to be treated differently.
@@ -35,12 +37,15 @@
   .gpt-ad-unit {
     display: flex;
     justify-content: center;
+    height: 100%;
 
-    // Ad that appears in the card deck needs to be treated differently.
-    .card-deck__card & {
-      @include media-breakpoint-up(md) {
-        justify-content: flex-start;
-      }
+    @include media-breakpoint-only(md) {
+      justify-content: flex-start;
+    }
+
+    >div {
+      display: flex;
+      align-items: center;
     }
   }
 }
