@@ -142,11 +142,12 @@ export default {
   background-color: var(--black);
   flex-grow: 1;
   justify-content: space-between;
+  border: none;
+
   a {
-    padding-top: $spacer / 2;
-    padding-left: $spacer / 2;
     color: var(--blue-lightest);
   }
+
   // caret
   .oi {
     color: var(--blue-lightest);
