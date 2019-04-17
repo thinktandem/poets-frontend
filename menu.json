@@ -9,7 +9,7 @@
         "to": "/poets"
       },
       "poem-a-day": {
-        "to": "/poem-day"
+        "to": "/poem-a-day"
       },
       "library (texts, books & more)": {
         "to": "/libraries"
