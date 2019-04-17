@@ -3,37 +3,45 @@
     toggleable="md"
     type="dark"
     class="shadow-sm d-flex"
-    variant="dark">
+    variant="dark"
+  >
     <b-navbar-brand
       tag="div"
-      class="btn btn-md d-flex flex-row">
+      class="btn btn-md d-flex flex-row"
+    >
       <b-link
         to="/"
-        class="d-inline-flex flex-row">Poets.org</b-link>
-      <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row"/>
+        class="d-inline-flex flex-row"
+      >Poets.org</b-link>
+      <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
     </b-navbar-brand>
 
     <b-navbar-toggle
       label="Menu"
       class="border-0"
-      target="nav_collapse"/>
+      target="nav_collapse"
+    />
     <b-collapse
       is-nav
-      id="nav_collapse">
-      <app-mobile-menu class="d-flex d-md-none"/>
+      id="nav_collapse"
+    >
+      <app-mobile-menu class="d-flex d-md-none" />
       <b-navbar-nav class="menu--desktop d-none d-md-flex">
         <b-nav-item
           v-for="(link, index) in $store.state.topMenu"
           :key="index"
-          :to="link.to">{{ link.text }}</b-nav-item>
+          :to="link.to"
+        >{{ link.text }}</b-nav-item>
         <b-nav-item
           v-show="this.$auth.loggedIn"
           class="d-md-none"
-          to="/dashboard">Dashboard</b-nav-item>
+          to="/dashboard"
+        >Dashboard</b-nav-item>
         <b-nav-item
           v-show="this.$auth.loggedIn"
           class="d-md-none"
-          @click="logout">Logout</b-nav-item>
+          @click="logout"
+        >Logout</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -41,7 +49,8 @@
         <b-nav-item
           v-show="!this.$auth.loggedIn"
           to="/login"
-          class="navbar__login">Membership / Login</b-nav-item>
+          class="navbar__login"
+        >Membership / Login</b-nav-item>
         <b-nav-item-dropdown
           v-show="this.$auth.loggedIn"
           class="d-none"
@@ -49,7 +58,8 @@
           id="nav_ddown_loggedin"
           :text="name"
           extra-toggle-classes="nav-link-loggedin"
-          right>
+          right
+        >
           <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
           <b-dropdown-divider />
           <b-dropdown-item @click="logout">Logout</b-dropdown-item>
@@ -145,9 +155,17 @@ export default {
 }
 
 .navbar {
-  // Makes things full height when text wraps
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1020;
   align-items: stretch;
   text-align: center;
+
+  @include media-breakpoint-up(md) {
+    position: static;
+  }
 
   .btn {
     border-radius: 0;
