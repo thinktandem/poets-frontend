@@ -349,6 +349,7 @@ export default {
   p {
     font-weight: 400;
   }
+  color: var(--white);
   padding-top: 3rem;
 }
 // sm and up

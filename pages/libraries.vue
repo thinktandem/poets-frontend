@@ -90,8 +90,9 @@ export default {
           }
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
     let poets = await app.$axios
       .get("/api/node/person", {
@@ -135,8 +136,9 @@ export default {
           }
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
     let texts = await app.$axios
       .get("/api/texts", {})
@@ -149,8 +151,9 @@ export default {
           }
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
 
     const bookParams = qs.stringify({
@@ -192,8 +195,9 @@ export default {
           }
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
 
     return {

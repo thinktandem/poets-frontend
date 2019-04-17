@@ -2,7 +2,8 @@ module.exports = {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
-    ["bootstrap-vue/nuxt", { css: false }],
+    "@nuxtjs/sentry",
+    "@nuxtjs/sitemap",
     "@nuxtjs/toast",
     [
       "nuxt-sass-resources-loader",
@@ -15,7 +16,7 @@ module.exports = {
         "~/assets/scss/base/_mixins.scss"
       ]
     ],
-    "@nuxtjs/sitemap"
+    ["bootstrap-vue/nuxt", { css: false }]
   ],
   axios: {
     debug: process.env.APP_ENV !== "production"

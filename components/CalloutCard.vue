@@ -3,7 +3,7 @@
     class="card--callout"
     :bg-variant="bg">
     <b-img-lazy
-      v-if="img !== null"
+      v-if="!empty(img)"
       class="card--callout__image"
       :src="img.src"
       :alt="img.alt"
@@ -25,32 +25,45 @@
     <div
       slot="footer"
       v-if="null !== action.to">
-      <app-form
-        @submit="signUp"
-        inline
+      <b-btn
+        class="border-primary bg-white text-primary"
+        @click="showModal"
       >
-        <b-form-input
-          v-model="email"
-          type="email"
-          placeholder="you@example.com"
-        />
-        <b-btn
-          class="border-primary bg-white text-primary"
-          type="submit" 
-        >
-          {{ action.text }}
-        </b-btn>
-      </app-form>
+        {{ action.text }}
+      </b-btn>
     </div>
+    <b-modal
+      :title="title"
+      @ok="signUp"
+      ok-title="Sign Up"
+      v-if="null !== action.text"
+      :ref="`${this._uid}-modal`">
+      Sign up to receive our weekly series for teachers, featuring a poem for K-12 students, accompanied by related interdisciplinary resources and classroom activities
+      <app-form @submit.stop.prevent="signUp">
+        <b-form-group
+          class="my-2"
+          id="teachPoemEmailGroup"
+          description="Enter your email to sign up"
+          label-sr-only
+          label-for
+          label="Email">
+          <b-form-input
+            name="teachPoemEmail"
+            v-model="email"
+            type="email"
+            placeholder="you@example.com"/>
+        </b-form-group>
+      </app-form>
+    </b-modal>
   </b-card>
 </template>
 
 <script>
-import AppImage from "~/components/AppImage";
 import AppTeaserText from "~/components/AppTeaserText";
+import { isEmpty } from "lodash";
 export default {
   name: "CalloutCard",
-  components: { AppImage, AppTeaserText },
+  components: { AppTeaserText },
   data() {
     return {
       email: ""
@@ -101,7 +114,15 @@ export default {
     }
   },
   methods: {
-    signUp() {
+    empty(thing) {
+      return isEmpty(thing);
+    },
+    showModal() {
+      this.$refs[`${this._uid}-modal`].show();
+    },
+    signUp(bvModalEvt) {
+      bvModalEvt.preventDefault();
+
       const body = {
         email: this.email,
         forms: {
@@ -111,24 +132,18 @@ export default {
       this.$axios
         .post(`/api/cm/poem-a-day`, body)
         .then(() => {
-          this.$toast
-            .show("Thanks! You are subscribed.", {
-              theme: "toasted-primary",
-              position: "top-left"
-            })
-            .goAway(1500);
+          this.$toast.success("Thanks! You are subscribed.").goAway(1500);
+          this.$nextTick(() => {
+            // Wrapped in $nextTick to ensure DOM is rendered before closing
+            this.$refs[`${this._uid}-modal`].hide();
+          });
         })
-        .catch(err => {
-          this.$toast
-            .show(
-              "Sorry, there was an error subscribing you, please try again :(",
-              {
-                theme: "toasted-danger",
-                position: "top-left"
-              }
-            )
-            .goAway(1500);
-          console.log(err);
+        .catch(error => {
+          console.log(error);
+          const message =
+            "Sorry, there was an error subscribing you, please try again :(";
+          this.$toast.error(message).goAway(1500);
+          this.$sentry.captureException(error);
         });
     }
   }

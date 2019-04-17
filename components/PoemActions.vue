@@ -227,8 +227,9 @@ export default {
 
       try {
         document.execCommand("copy");
-      } catch (err) {
-        console.log("Oops, unable to copy");
+      } catch (error) {
+        console.error("Oops, unable to copy");
+        this.$sentry.captureException(error);
       }
     },
     print() {
@@ -286,6 +287,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
+          this.$sentry.captureException(error);
           this.$toast.error("An error occurred!").goAway(3000);
         });
     }

@@ -151,7 +151,22 @@ export default {
           )
       );
     }
-    if (entityType === "paragraph--image") {
+
+    const leftImgItem = _.find(
+      page.included,
+      include =>
+        include.id ===
+        _.get(
+          this.firstOrOnly(_.get(entity, "relationships.left_image.data")),
+          "id"
+        )
+    );
+    console.log("left Image is", leftImgItem);
+
+    if (
+      entityType === "paragraph--image" ||
+      entityType === "paragraph--resource"
+    ) {
       _.get(entity, "relationships.media.data");
       mediaItem = _.find(
         page.included,
@@ -163,6 +178,7 @@ export default {
           )
       );
     }
+
     const sidebarTop = this.buildProcessable(entity, "side_text_1");
     const sidebarBottom = this.buildProcessable(entity, "side_text_2");
 
@@ -170,12 +186,21 @@ export default {
       component: components[entityType] || "ResourceCard",
       props: {
         title: _.get(entity, "attributes.title", ""),
-        body: this.buildProcessable(entity),
+        body:
+          _.get(entity, "attributes.body.summary") ||
+          _.get(entity, "attributes.body.processed"),
         img: media.buildImg(
           page,
           mediaItem,
           "field_image",
           media.imageStyles[entityType]
+        ),
+        // special case for sidebar text and image (used on poems for kids)
+        leftImg: media.buildImg(
+          page,
+          leftImgItem,
+          "field_image",
+          "media_aside_lg"
         ),
         file: this.buildFile(entity, page),
         sidebarTop: _.isArray(sidebarTop) ? sidebarTop : [sidebarTop],

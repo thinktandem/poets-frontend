@@ -46,12 +46,14 @@ export default {
               )
             };
           })
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.error(error);
+            this.$sentry.captureException(error);
           });
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
       });
   }
 };

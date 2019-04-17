@@ -9,7 +9,7 @@ import redirects from "~/redirects.json";
 export default function({ redirect, route, query }) {
   const thisRedirect = redirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
-  const homePattern = RegExp("/home");
+  const homePattern = RegExp("/home$");
   // Handle query params so they don't get stripped
   const paramString = isEmpty(query) ? "" : `?${qs.stringify(query)}`;
 

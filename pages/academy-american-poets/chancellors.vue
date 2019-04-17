@@ -68,8 +68,9 @@ export default {
           }))
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.log(error);
+        this.$sentry.captureException(error);
         return {
           chancellors: null
         };

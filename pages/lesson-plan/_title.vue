@@ -1,96 +1,17 @@
 <template>
-  <b-container class="lesson_plan__container">
-    <b-row class="py-5">
-      <b-col md="8">
-        <div
-          class="lesson_plan__body"
-          v-if="$store.state.pageData.data.attributes.body"
-          v-html="$store.state.pageData.data.attributes.body.processed"/>
-        <div
-          v-for="(plan, i) in $store.state.sidebarData"
-          :key="`plan-${i}`">
-          <div
-            v-if="plan.type === 'paragraph--standard_text'"
-            class="plan__container">
-            <div class="plan__title">
-              {{ plan.attributes.title }}
-            </div>
-            <div
-              class="plan__body"
-              v-html="plan.attributes.body.processed"/>
-          </div>
-        </div>
-      </b-col>
-      <b-col
-        md="4"
-        tag="aside">
-        <div v-if="$store.state.pageData.data.attributes.field_table_of_contents">
-          <h3>Table of Contents</h3>
-          <div
-            v-html="$store.state.pageData.data.attributes.field_table_of_contents.processed"/>
-        </div>
-        <div class="submitted__container">
-          <div class="person__submitted">
-            <h3>Submitted</h3>
-          </div>
-          <div class="sidebar__published">
-            {{
-              niceDate(
-                $store.state.pageData.data.attributes.field_date_published
-              )
-            }}
-          </div>
-          <div
-            v-for="(person, i) in $store.state.sidebarData"
-            :key="`person-${i}`">
-            <div
-              class="sidebar__contributor"
-              v-if="person.type == 'node--person'">
-              <b-link
-                :to="person.attributes.path.alias">
-                {{ person.attributes.title }}
-              </b-link>
-            </div>
-          </div>
-        </div>
-        <div class="level__container">
-          <div class="level__header">
-            <h3>Level</h3>
-          </div>
-          <div
-            v-for="(level, i) in $store.state.sidebarData"
-            :key="`level-${i}`">
-            <div
-              class="level__level"
-              v-if="level.type == 'taxonomy_term--level'">
-              {{ level.attributes.name }}
-            </div>
-          </div>
-        </div>
-        <div class="type__container">
-          <div class="type__header">
-            <h3>Type</h3>
-          </div>
-          <div
-            v-for="(type, i) in $store.state.sidebarData"
-            :key="`type-${i}`">
-            <div
-              class="type__type"
-              v-if="type.type == 'taxonomy_term--lesson_plan_practice_and_pedagog'">
-              {{ type.attributes.name }}
-            </div>
-          </div>
-        </div>
-      </b-col>
-    </b-row>
-  </b-container>
+  <app-full-lesson-plan
+    :data="$store.state.pageData.data"
+    :includes="$store.state.sidebarData"
+    :path="path"/>
 </template>
 <script>
 import _ from "lodash";
 import niceDate from "~/plugins/niceDate";
+import AppFullLessonPlan from "~/components/AppFullLessonPlan";
 
 export default {
   layout: "default",
+  components: { AppFullLessonPlan },
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
@@ -117,7 +38,10 @@ export default {
             store.commit("updateExtendedContent", []);
           });
       })
-      .catch(err => console.log(err));
+      .catch(error => {
+        console.error(error);
+        this.$sentry.captureException(error);
+      });
   },
   methods: {
     niceDate(date) {

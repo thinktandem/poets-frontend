@@ -55,8 +55,8 @@ export default {
           preparedCombine: preparedCombine || ""
         };
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.error(err);
       });
   }
 };

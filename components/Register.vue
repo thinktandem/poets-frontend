@@ -146,7 +146,9 @@ export default {
             });
         })
         .catch(error => {
-          this.$toast.error(parseError(error)).goAway(7777);
+          const message = parseError(error);
+          this.$sentry.captureException(new Error(message));
+          this.$toast.error(message).goAway(7777);
         })
         .finally(() => {
           this.busy = false;

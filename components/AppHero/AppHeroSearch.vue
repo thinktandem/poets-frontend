@@ -39,7 +39,6 @@
 </template>
 
 <script>
-// import searchHelpers from "~/plugins/search-helpers";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
 export default {
   components: {

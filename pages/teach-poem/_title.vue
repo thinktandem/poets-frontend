@@ -78,8 +78,9 @@ export default {
                     )
                   };
                 })
-                .catch(err => {
-                  console.log(err);
+                .catch(error => {
+                  console.log(error);
+                  this.$sentry.captureException(error);
                 });
               if (!_.isEmpty(response.data.attributes.field_more_link)) {
                 const link = await app.$axios
@@ -97,9 +98,15 @@ export default {
                       .then(res => {
                         return res.data.attributes.path.alias;
                       })
-                      .catch(err => console.log(err));
+                      .catch(error => {
+                        console.log(error);
+                        this.$sentry.captureException(error);
+                      });
                   })
-                  .catch(err => console.log(err));
+                  .catch(error => {
+                    console.log(error);
+                    this.$sentry.captureException(error);
+                  });
                 highlightedData.link = link ? link : null;
               }
             }
@@ -113,7 +120,7 @@ export default {
             store.commit("updateExtendedContent", []);
           });
       })
-      .catch(err => console.log(err));
+      .catch(error => console.error(error));
   }
 };
 </script>

@@ -2,16 +2,13 @@
   <b-container>
     <b-row
       v-if="searchable.length >= 1 || filters.length >=1"
-      class="filters-row">
+      class="filters-row"
+    >
       <b-col md="12">
-        <app-form
-          class="search"
-          @submit="refreshQuery">
-          <b-form-group class="border">
-            <div
-              class="legend-selects"
-              v-if="filters.length >= 1">
-              <div class="filters__legend">
+        <app-form @submit="refreshQuery">
+          <b-form-group :class="['table-filters', {'table-filters--search-only': filters.length < 1}]">
+            <template v-if="filters.length >= 1">
+              <div>
                 <legend>Filter by</legend>
               </div>
               <b-form-select
@@ -21,18 +18,21 @@
                 inline
                 :options="filter.options"
                 v-model="activeFilters[filter.id]"
-                @change="refreshQuery">
+                @change="refreshQuery"
+              >
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled>
+                    disabled
+                  >
                     {{ filter.name }}</option>
                 </template>
               </b-form-select>
-            </div>
+            </template>
             <div
-              class="input--search"
-              v-if="searchable.length >= 1">
+              class="table-filters__search"
+              v-if="searchable.length >= 1"
+            >
               <b-input-group>
                 <b-form-input
                   :disabled="busy"
@@ -41,14 +41,14 @@
                   size="22"
                   :placeholder="`Search ${searchableLabels} ...`"
                 />
-                <b-input-group-append>
+                <b-input-group-append class="icon--search">
                   <b-btn
                     :disabled="busy"
                     type="button"
                     @click="refreshQuery"
-                    variant="transparent">
-                    <magnifying-glass-icon
-                      class="icon mr-2"/>
+                    variant="transparent"
+                  >
+                    <magnifying-glass-icon class="icon" />
                   </b-btn>
                 </b-input-group-append>
               </b-input-group>
@@ -60,7 +60,7 @@
     <b-row>
       <b-col md="12">
         <b-table
-          :class="{ selectable: !hasDetails }"
+          :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
           :hover="!hasDetails"
           :items="results"
           :sort-by="sort"
@@ -68,72 +68,82 @@
           :stacked="stacked"
           :per-page="pageLimit"
           :current-page="currentPage"
-          @row-clicked="rowClicked">
+          @row-clicked="rowClicked"
+        >
           <template
             v-if="resourceType === 'teach_this_poem'"
             slot="body"
-            slot-scope="data">
+            slot-scope="data"
+          >
             <div
               v-if="data.item.body.summary !== null"
-              v-html="data.item.body.summary"/>
+              v-html="data.item.body.summary"
+            />
             <div
               v-else
-              v-html="teaserText(data.item.body.value, 100)"/>
+              v-html="teaserText(data.item.body.value, 100)"
+            />
           </template>
           <template
             slot="field_event_date"
-            slot-scope="data"><span
-              class="text-secondary"
-              style="font-weight: 400;">{{ shortDate(data.item.field_event_date) }}</span></template>
+            slot-scope="data"
+          ><span>{{ shortDate(data.item.field_event_date) }}</span></template>
           <template
             slot="created"
-            slot-scope="data"><span
-              class="text-secondary"
-              style="font-weight: 400;">{{ shortDate(data.item.created) }}</span>
+            slot-scope="data"
+          ><span>{{ shortDate(data.item.created) }}</span>
           </template>
           <template
             slot="title"
-            slot-scope="data">
+            slot-scope="data"
+          >
             <b-link
               v-if="hasDetails"
-              :to="data.item.path.alias">{{ data.item.title }}</b-link>
+              :to="data.item.path.alias"
+            >{{ data.item.title }}</b-link>
             <span v-else>{{ data.item.title }}</span>
           </template>
           <template
             slot="field_location"
-            slot-scope="data">
+            slot-scope="data"
+          >
             <span v-if="data.item.field_location">{{ data.item.field_location.locality }},&nbsp;</span>
             <span v-if="data.item.field_location">{{ data.item.field_location.administrative_area }}</span>
           </template>
           <template
             slot="show_details"
-            slot-scope="row">
+            slot-scope="row"
+          >
             <a @click="row.toggleDetails">
               <plus-icon
                 size="sm"
-                class="expand-icon"/>
+                class="expand-icon"
+              />
             </a>
           </template>
 
           <template
             slot="row-details"
-            slot-scope="row">
+            slot-scope="row"
+          >
             <b-row class="row-details">
               <b-col lg="8">
                 <div
                   v-if="row.item.body"
-                  v-html="row.item.body.processed"/>
+                  v-html="row.item.body.processed"
+                />
               </b-col>
               <b-col
                 class="text-right"
                 lg="3"
-                lg-offset="1">
-                <strong
-                  v-if="row.item.event_start_time">{{ row.item.event_start_time
-                  }}<br></strong>
+                lg-offset="1"
+              >
+                <strong v-if="row.item.event_start_time">{{ row.item.event_start_time
+                }}<br></strong>
                 <address
                   v-if="row.item.field_location"
-                  class="event__field-body">
+                  class="event__field-body"
+                >
                   <strong v-if="row.item.field_location.organization">{{
                   row.item.field_location.organization }}<br></strong>
                   <span v-if="row.item.field_location.address_line1">{{ row.item.field_location.address_line1 }}<br></span>
@@ -152,7 +162,8 @@
                 >{{ row.item.register_link.title }}</b-button>
                 <div
                   v-show="resourceType === 'events'"
-                  class="share-list py-5">
+                  class="share-list py-5"
+                >
                   <strong>share this event</strong>
                   <poem-actions
                     minimal
@@ -174,12 +185,14 @@
             size="lg"
             :total-rows="resultTotal"
             v-model="currentPage"
-            align="fill">
+            align="fill"
+          >
             <span slot="prev-text">
               <iconMediaSkipBackwards /> Prev
             </span>
             <span slot="next-text">
-              Next <iconMediaSkipForwards />
+              Next
+              <iconMediaSkipForwards />
             </span>
           </b-pagination>
         </div>
@@ -438,17 +451,6 @@ export default {
 };
 </script>
 <style lang="scss">
-thead {
-  th {
-    background-color: $gray-200;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-}
-.selectable td {
-  cursor: pointer;
-}
 .list {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -459,53 +461,15 @@ thead {
 .link {
   font-weight: 560;
 }
-.legend-selects {
-  display: flex;
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 2rem;
-  border-right: $form__border;
-  select {
-    &:not(:last-child) {
-      margin-right: 1rem;
+
+.table-filters {
+  .table-filters__search {
+    @include media-breakpoint-up(sm) {
+      min-width: 26rem;
     }
   }
 }
-.filters__legend {
-  flex-basis: 50%;
-  legend {
-    margin: 0;
-    line-height: 2;
-    font-size: $font-size-base;
-    color: $gray-700;
-  }
-}
-.input--search {
-  flex-basis: 100%;
-  padding: 1rem;
-  position: relative;
-  input {
-    border: none;
-    background-color: transparent;
-    &:hover,
-    &:focus,
-    &:active {
-      border: none;
-      background-color: transparent;
-    }
-    &::placeholder {
-      color: $gray-700;
-    }
-  }
-}
-.icon {
-  fill: $blue;
-  width: 1.4rem;
-  height: 1.4rem;
-}
-.input-group-text {
-  background: transparent;
-  border: none;
-}
+
 .expand-icon {
   color: $blue-dark;
   height: 20px;

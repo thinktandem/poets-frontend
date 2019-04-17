@@ -5,7 +5,8 @@
       :extended-content="$store.state.extendedContent"
       :highlighted="$store.state.highlightedData"
       :more="$store.state.relatedContent"
-      :sidebar-data="$store.state.sidebarData"/>
+      :sidebar-data="$store.state.sidebarData"
+    />
     <app-listing
       :resource-type="resourceType"
       :details="details"
@@ -13,7 +14,8 @@
       :includes="includes"
       :filters="filters"
       :searchable="searchable"
-      :fields="fields"/>
+      :fields="fields"
+    />
   </div>
 </template>
 

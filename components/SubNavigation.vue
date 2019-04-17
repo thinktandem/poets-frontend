@@ -6,24 +6,26 @@
     type="dark"
     variant="dark"
   >
-    <b-navbar-toggle
-      v-show="hasLinks"
-      class="border-0 bg-dark-gray"
-      target="subnav_collapse"/>
-    <b-collapse
-      is-nav
-      id="subnav_collapse"
-    >
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item
-          v-for="(link, index) in links"
-          :key="index"
-          :to="link.to"
-          exact>
-          {{ index }}
-        </b-nav-item>
-      </b-navbar-nav>
-    </b-collapse>
+    <b-container>
+      <b-navbar-toggle
+        v-show="hasLinks"
+        class="border-0 bg-dark-gray"
+        target="subnav_collapse"/>
+      <b-collapse
+        is-nav
+        id="subnav_collapse"
+      >
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item
+            v-for="(link, index) in links"
+            :key="index"
+            :to="link.to"
+            exact>
+            {{ index }}
+          </b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-container>
   </b-navbar>
 </template>
 
@@ -46,28 +48,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// So we can access breakpoints / spacer
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-.lib-nav-container {
-  margin-top: -2px;
-  background-color: var(--gray-900);
-  min-height: 42px;
-}
 .nav-tabs {
   border-bottom: none;
 }
 .navbar-nav {
+  padding-top: $spacer / 2;
   .nav-item {
-    padding-left: 12px;
-    padding-right: 12px;
     border-bottom: none;
     a.nav-link {
       color: var(--white);
     }
     a.active {
-      background-color: var(--white);
+      background-color: var(--light);
       color: var(--blue) !important;
       padding-bottom: 10px;
       @include media-breakpoint-down(md) {

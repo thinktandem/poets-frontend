@@ -39,13 +39,12 @@ export default ({ app }, inject) => {
 
     const includes = [
       "hero_background.field_image",
-      "sidebar_sections.image",
-      "field_content_sections.image",
       "highlighted_content.field_image",
       "field_content_sections.resource_file",
       "sidebar_sections.resource_file",
       "sidebar_sections.media.field_image",
       "field_content_sections.side_image.field_image",
+      "field_content_sections.left_image.field_image",
       "featured.featured_media.field_image"
     ].join(",");
     return app.$axios
@@ -87,7 +86,6 @@ export default ({ app }, inject) => {
           });
       })
       .catch(error => {
-        console.log(error);
         store.commit("updateHero", {
           variant: "quote",
           lead:

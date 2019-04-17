@@ -182,8 +182,9 @@ export default {
               image
             };
           })
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.log(error);
+            this.$sentry.captureException(error);
           });
       });
 

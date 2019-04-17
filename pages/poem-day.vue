@@ -4,45 +4,26 @@
       :extended="true"
       :poem="$store.state.poemOfTheDay.poem"
       :poet="$store.state.poemOfTheDay.poet"/>
-    <b-container class="poem-day__previous-poems tabular-list">
+    <b-container>
       <b-row>
-        <h3 class="poem-day__previous-poems-title font-serif pb-3">
+        <h3 class="font-serif pb-3">
           Previous Poems
         </h3>
       </b-row>
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="2">
-          Date
-        </b-col>
-        <b-col md="6">
-          Title
-        </b-col>
-        <b-col md="4">
-          Poet
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="(poem, i) in poems"
-        :key="`poem-${i}`"
-        class="tabular-list__row">
-        <b-col
-          md="2"
-          class="date">
-          {{ poem.field_poem_of_the_day_date }}
-        </b-col>
-        <b-col
-          md="6"
-          class="poem-title"
-        >
+      <b-table
+        id="poems"
+        :items="poems"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage">
+        <template
+          slot="title"
+          slot-scope="data">
           <a
-            v-html="poem.title"
-            :href="poem.view_node"/>
-        </b-col>
-        <b-col md="4">
-          {{ poem.field_author }}
-        </b-col>
-      </b-row>
-
+            :href="data.item.view_node"
+            v-html="data.item.title"/>
+        </template>
+      </b-table>
       <div class="pager">
         <b-pagination
           @input="paginate"
@@ -88,6 +69,20 @@ export default {
   data() {
     return {
       busy: true,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "field_author",
+          label: "Author"
+        },
+        {
+          key: "field_poem_of_the_day_date",
+          label: "Date"
+        }
+      ],
       page: 1,
       pageCache: [],
       perPage: 20,
@@ -153,22 +148,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poem-day__previous-poems {
-  padding-top: $spacer * 5;
-  h3 {
-    font-size: 1.9rem;
-    line-height: 1.9rem;
-  }
-  .tabular-list__header {
-    background-color: #f2f8fa;
-    text-transform: uppercase;
-    font-weight: 560;
-  }
-  .date {
-    color: var(--red-dark);
-  }
-  .poem-title a {
-    color: var(--gray-800);
-  }
-}
 </style>

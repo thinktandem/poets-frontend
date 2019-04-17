@@ -65,7 +65,9 @@ export default {
             })
             .goAway(1500);
         })
-        .catch(err => {
+        .catch(error => {
+          console.log(error);
+          this.$sentry.captureException(error);
           this.$toast
             .error(
               "Sorry, there was an error subscribing you, please try again :(",
@@ -75,7 +77,6 @@ export default {
               }
             )
             .goAway(1500);
-          console.log(err);
         });
     },
     print() {

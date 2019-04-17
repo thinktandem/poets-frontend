@@ -1,0 +1,118 @@
+%table-filters {
+  margin-top: 2rem;
+
+  &.table-filters--search-only {
+    .table-filters__search {
+      padding-left: 0;
+
+      &::before {
+        border: none;
+      }
+    }
+  }
+
+  >div {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    border: $form__border;
+
+    @include media-breakpoint-up(md) {
+      flex-wrap: nowrap;
+    }
+
+    >* {
+      flex-basis: auto;
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+
+        @include media-breakpoint-up(md) {
+          margin-right: 1rem;
+          margin-bottom: 0;
+        }
+      }
+
+    }
+
+    select:last-of-type {
+      @include media-breakpoint-up(lg) {
+        margin-right: 2rem;
+      }
+    }
+  }
+
+  legend {
+    margin: 0;
+    min-width: 4rem;
+    line-height: 2;
+    font-size: 1rem;
+    color: #637381;
+
+    @include media-breakpoint-up(lg) {
+      margin-left: 1rem;
+    }
+  }
+
+  $poems-list__input--search__width: 12rem;
+  $poems-list__input--search__input__width: 1rem;
+
+  .table-filters__search {
+    flex-grow: 1;
+    flex-basis: 100%;
+    position: relative;
+
+    @include media-breakpoint-up(sm) {
+      min-width: 12rem;
+    }
+
+    @include media-breakpoint-up(md) {
+      &::before {
+        content: '';
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        bottom: -1rem;
+        border-left: $form__border;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding: 0 1rem;
+      min-width: 15rem;
+    }
+
+    input {
+      border-color: $gray-400;
+
+      @include media-breakpoint-up(md) {
+        border: none;
+        background-color: transparent;
+      }
+    }
+
+    .icon--search {
+      .input-group-text {
+        padding: 0;
+        background-color: transparent;
+        border: none;
+      }
+
+      button {
+        padding: 0;
+      }
+
+      .icon {
+        display: inline-block;
+        margin-left: 1rem;
+        fill: var(--blue);
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
+  }
+}
+
+.table-filters {
+  @extend %table-filters;
+}
