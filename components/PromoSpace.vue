@@ -1,13 +1,14 @@
 <template>
   <section
-    class="promo p-4"
+    class="promo"
     :class="variant"
   >
-    <b-container class="mx-auto my-1">
+    <b-container>
       <div
         :id="divId"
         class="gpt-ad-unit"
-        :style="style"/>
+        :style="style"
+      />
     </b-container>
   </section>
 </template>
@@ -178,6 +179,8 @@ export default {
       let adunit = "";
       if (this.variant == "dark") {
         adunit = "dfp-ad-aap_desktop_leaderboard_ad_large";
+      } else if (this.variant === "fpoet") {
+        adunit = "AAP-Desktop-Homepage-MedRectangle-AD";
       } else {
         adunit = "AAP-Mobile-TeachersPage-Bottom-AD";
       }
@@ -266,19 +269,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.promo.dark {
-  background-color: var(--black);
-}
-.promo.transparent {
-  background-color: transparent;
-}
-.gpt-ad-unit {
-  text-align: center;
-}
-@include media-breakpoint-down(md) {
-  .promo.dark,
-  .promo.transparent {
-    display: none;
-  }
-}
 </style>
