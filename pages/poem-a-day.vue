@@ -17,7 +17,7 @@
         stacked="md"
         :per-page="perPage"
         sort-by="field_poem_of_the_day_date"
-        sort-desc="true">
+        :sort-desc="true">
         <template
           slot="title"
           slot-scope="data">
@@ -124,28 +124,26 @@ export default {
   },
   async fetch({ app, store, params }) {
     // Fetch all poems with poem a day date somewhere today.
-    const response = await app.$axios.$get("/poem-a-day", {
-      params: {
-        _format: "json"
-      }
-    });
-    const theOne = _.first(response);
-    store.commit("updatePoemOfTheDay", {
-      poet: {
-        name: theOne.poet.name,
-        image: theOne.poet.image ? theOne.poet.image : "",
-        alias: theOne.poet.alias
-      },
-      poem: {
-        attribution: theOne.poem.attribution,
-        title: theOne.poem.title,
-        text: theOne.poem.text,
-        soundCloud: theOne.poem.soundcloud,
-        alias: theOne.poem.alias,
-        id: _.get(theOne, "poem.uuid"),
-        about: _.get(theOne, "poem.about")
-      }
-    });
+    app.$api
+      .getPoemADay()
+      .then(response => _.get(response, "data[0]", []))
+      .then(pad => {
+        store.commit("updatePoemOfTheDay", {
+          poet: {
+            name: pad.poet.name,
+            image: pad.poet.image ? pad.poet.image : "",
+            alias: pad.poet.alias
+          },
+          poem: {
+            title: pad.poem.title,
+            text: pad.poem.text,
+            soundCloud: pad.poem.soundcloud,
+            alias: pad.poem.alias,
+            id: _.get(pad, "poem.uuid", null),
+            about: _.get(pad, "poem.about", null)
+          }
+        });
+      });
     // Set the current hero
     store.commit("updateHero", {
       variant: "quote",

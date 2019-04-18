@@ -2,6 +2,7 @@ import _ from "lodash";
 import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
 import events from "~/plugins/poets-apiv2/lib/events";
+import poems from "~/plugins/poets-apiv2/lib/poems";
 import search from "~/plugins/poets-apiv2/lib/search";
 import taxonomies from "~/plugins/poets-apiv2/lib/taxonomies";
 import user from "~/plugins/poets-apiv2/lib/user";
@@ -109,6 +110,16 @@ export default class PoetsApi {
    */
   getAnthologyPoems(id, options = {}) {
     return anthologies.getPoemMeta(this.request, id, options);
+  }
+
+  /**
+   * Get poem a day
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getPoemADay(options = {}) {
+    return poems.getPoemADay(this.request, options);
   }
 
   /**

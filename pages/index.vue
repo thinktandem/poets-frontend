@@ -58,26 +58,26 @@ export default {
   },
   async fetch({ app, store, params, route, menu }) {
     app.$buildBasicPage(app, store, "/home");
-    // This is a comment
-    const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
-    const theOnePoemOfTheDay = _.first(poemOftheDay);
-    store.commit("updatePoemOfTheDay", {
-      poet: {
-        name: theOnePoemOfTheDay.poet.name,
-        image: theOnePoemOfTheDay.poet.image
-          ? theOnePoemOfTheDay.poet.image
-          : "",
-        alias: theOnePoemOfTheDay.poet.alias
-      },
-      poem: {
-        title: theOnePoemOfTheDay.poem.title,
-        text: theOnePoemOfTheDay.poem.text,
-        soundCloud: theOnePoemOfTheDay.poem.soundcloud,
-        alias: theOnePoemOfTheDay.poem.alias,
-        id: _.get(theOnePoemOfTheDay, "poem.uuid", null),
-        about: _.get(theOnePoemOfTheDay, "poem.about", null)
-      }
-    });
+    app.$api
+      .getPoemADay()
+      .then(response => _.get(response, "data[0]", []))
+      .then(pad => {
+        store.commit("updatePoemOfTheDay", {
+          poet: {
+            name: pad.poet.name,
+            image: pad.poet.image ? pad.poet.image : "",
+            alias: pad.poet.alias
+          },
+          poem: {
+            title: pad.poem.title,
+            text: pad.poem.text,
+            soundCloud: pad.poem.soundcloud,
+            alias: pad.poem.alias,
+            id: _.get(pad, "poem.uuid", null),
+            about: _.get(pad, "poem.about", null)
+          }
+        });
+      });
 
     const featuredPoemsQuery = qs.stringify({
       page: {
