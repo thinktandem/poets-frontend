@@ -1,5 +1,11 @@
 <template>
   <div>
+    <b-container
+      class="py-5"
+      v-if="movement">
+      <h2 class="h3">{{ movement.title }}</h2>
+      <div v-html="movement.body"/>
+    </b-container>
     <CardDeck
       title=""
       cardtype="Poet"
@@ -120,6 +126,7 @@
 
 <script>
 import _ from "lodash";
+import { parse, stringify } from "qs";
 import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -180,6 +187,11 @@ export default {
   },
   mounted() {
     // Get all the data we need for search
+    const rawQuery = parse(window.location.search, { ignoreQueryPrefix: true });
+    this.filters.combine = _.get(rawQuery, "combine");
+    this.filters.school = _.get(rawQuery, "school");
+    this.filters.state = _.get(rawQuery, "state");
+
     Promise.all([this.searchPoets(), this.getSchools(), this.getStates()]);
     // Spin up a debouncing func for text input
     this.debouncedSearchPoets = _.debounce(this.searchPoets, 700);
@@ -192,6 +204,8 @@ export default {
         this.poets = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
+        // Update the url so the search can be shared.
+        window.history.pushState({}, "", `?${stringify(query)}`);
         this.busy = false;
       });
     },
@@ -226,6 +240,34 @@ export default {
   watch: {
     "filters.combine": function() {
       this.debouncedSearchPoets();
+    }
+  },
+  asyncComputed: {
+    async movement() {
+      const school = this.filters.school;
+      if (school !== null) {
+        const params = stringify({
+          filter: {
+            drupal_internal__tid: school,
+            status: 1
+          },
+          page: {
+            limit: 1
+          }
+        });
+        return this.$axios
+          .$get(`/api/taxonomy_term/school_movement?${params}`)
+          .then(res => {
+            const term = _.first(res.data);
+            return {
+              title: _.get(term, "attributes.name"),
+              body:
+                _.get(term, "attributes.description.summary") ||
+                _.get(term, "attributes.description.processed")
+            };
+          });
+      }
+      return null;
     }
   },
   async asyncData({ app, store, params, query }) {
