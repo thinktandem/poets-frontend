@@ -6,5 +6,9 @@
   {
     "from": "/national-poetry-month/poster",
     "to": "/national-poetry-month/poster-request-form"
+  },
+  {
+    "from": "/poem-day",
+    "to": "/poem-a-day"
   }
 ]

@@ -281,7 +281,6 @@ export default {
             })
             .catch(error => {
               console.error(error);
-              this.$sentry.captureException(error);
             });
         }
 
@@ -366,7 +365,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
   },
   async fetch({ app, store, params, route, menu }) {
