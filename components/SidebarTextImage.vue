@@ -42,11 +42,11 @@
               :alt="img.alt"/>
           </b-media-aside>
           <div
-            class="py-3"
+            class="py-3 sidebar-top"
             v-for="(sect, i) in sidebarTop"
             :key="i"
             v-html="sect"
-            v-show="!empty(sidebarTop)"/>
+            v-if="!empty(sect)"/>
           <b-img-lazy
             v-if="!empty(imgs)"
             v-for="(img, i) in imgs"
@@ -136,7 +136,7 @@ export default {
   min-height: 116px;
 }
 /* video toc links */
-.sidebar-text-image .container .row .col-lg-4 {
+.sidebar-text-image .container .row .py-3.sidebar-top {
   padding-top: 5.4rem;
 }
 </style>
