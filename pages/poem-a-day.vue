@@ -2,8 +2,8 @@
   <div>
     <daily-poem
       :extended="true"
-      :poem="$store.state.poemOfTheDay.poem"
-      :poet="$store.state.poemOfTheDay.poet"/>
+      :poem="pad.poem"
+      :poet="pad.poet"/>
     <b-container>
       <b-row>
         <h3 class="font-serif pb-3">
@@ -85,6 +85,10 @@ export default {
           label: "Date"
         }
       ],
+      pad: {
+        poem: {},
+        poet: {}
+      },
       page: 1,
       pageCache: [],
       perPage: 20,
@@ -93,6 +97,13 @@ export default {
     };
   },
   mounted() {
+    // Get the PAD
+    this.$api
+      .getPoemADay()
+      .then(response => _.get(response, "data[0]", []))
+      .then(pad => {
+        this.pad = pad;
+      });
     // Get all the data we need for search
     Promise.all([this.searchPoems()]);
   },
@@ -123,27 +134,6 @@ export default {
     }
   },
   async fetch({ app, store, params }) {
-    // Fetch all poems with poem a day date somewhere today.
-    app.$api
-      .getPoemADay()
-      .then(response => _.get(response, "data[0]", []))
-      .then(pad => {
-        store.commit("updatePoemOfTheDay", {
-          poet: {
-            name: pad.poet.name,
-            image: pad.poet.image ? pad.poet.image : "",
-            alias: pad.poet.alias
-          },
-          poem: {
-            title: pad.poem.title,
-            text: pad.poem.text,
-            soundCloud: pad.poem.soundcloud,
-            alias: pad.poem.alias,
-            id: _.get(pad, "poem.uuid", null),
-            about: _.get(pad, "poem.about", null)
-          }
-        });
-      });
     // Set the current hero
     store.commit("updateHero", {
       variant: "quote",

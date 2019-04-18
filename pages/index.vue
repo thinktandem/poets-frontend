@@ -1,8 +1,8 @@
 <template>
   <div>
     <daily-poem
-      :poem="$store.state.poemOfTheDay.poem"
-      :poet="$store.state.poemOfTheDay.poet"/>
+      :poem="pad.poem"
+      :poet="pad.poet"/>
     <app-card-columns
       promo
       title="Poems"
@@ -56,29 +56,24 @@ export default {
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
-  async fetch({ app, store, params, route, menu }) {
-    app.$buildBasicPage(app, store, "/home");
-    app.$api
+  data() {
+    return {
+      pad: {
+        poem: {},
+        poet: {}
+      }
+    };
+  },
+  mounted() {
+    this.$api
       .getPoemADay()
       .then(response => _.get(response, "data[0]", []))
       .then(pad => {
-        store.commit("updatePoemOfTheDay", {
-          poet: {
-            name: pad.poet.name,
-            image: pad.poet.image ? pad.poet.image : "",
-            alias: pad.poet.alias
-          },
-          poem: {
-            title: pad.poem.title,
-            text: pad.poem.text,
-            soundCloud: pad.poem.soundcloud,
-            alias: pad.poem.alias,
-            id: _.get(pad, "poem.uuid", null),
-            about: _.get(pad, "poem.about", null)
-          }
-        });
+        this.pad = pad;
       });
-
+  },
+  async fetch({ app, store, params, route, menu }) {
+    app.$buildBasicPage(app, store, "/home");
     const featuredPoemsQuery = qs.stringify({
       page: {
         limit: 4
