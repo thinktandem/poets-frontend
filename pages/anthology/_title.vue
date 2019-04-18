@@ -102,15 +102,13 @@ export default {
             };
           })
           .catch(error => {
-            console.log(error);
-            this.$sentry.captureException(error);
+            console.error(error);
           });
         store.commit("updateFeaturedContent", []);
         store.commit("updateExtendedContent", []);
       })
       .catch(error => {
-        console.log(error);
-        this.$sentry.captureException(error);
+        console.error(error);
       });
   },
   methods: {

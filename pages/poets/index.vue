@@ -271,7 +271,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
 
     return {
