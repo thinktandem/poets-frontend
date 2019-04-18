@@ -16,6 +16,7 @@
       <b-row class="poet__body">
         <b-col md="8">
           <div
+            v-if="body"
             class="poet__body-content"
             v-html="body.processed"/>
           <b-row
