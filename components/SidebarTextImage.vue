@@ -137,6 +137,6 @@ export default {
 }
 /* video toc links */
 .sidebar-text-image .container .row .py-3.sidebar-top {
-  padding-top: 5.4rem;
+  padding-top: 5.4rem !important;
 }
 </style>
