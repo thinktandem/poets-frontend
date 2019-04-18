@@ -84,12 +84,12 @@ module.exports = {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
   },
   /*
-   * Customize the progress bar color
+   * Custom loader
    */
-  loading: { color: "#F53F5B", height: "5px" },
+  loading: "~/components/loading.vue",
   /*
-  ** Build configuration
-  */
+   * Build configuration
+   */
   build: {
     /*
     ** Run ESLint on save
