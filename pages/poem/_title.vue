@@ -94,6 +94,7 @@
               />
             </div>
             <div
+              v-if="poet.body"
               v-html="poet.body.summary"
               class="poet--aside__bio text-dark-muted my-3"
             />
