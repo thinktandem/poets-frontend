@@ -87,7 +87,9 @@ export default {
       ],
       pad: {
         poem: {},
-        poet: {}
+        poet: {
+          image: ""
+        }
       },
       page: 1,
       pageCache: [],

@@ -60,7 +60,9 @@ export default {
     return {
       pad: {
         poem: {},
-        poet: {}
+        poet: {
+          image: ""
+        }
       }
     };
   },
