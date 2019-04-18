@@ -80,7 +80,6 @@ export default {
                 })
                 .catch(error => {
                   console.log(error);
-                  this.$sentry.captureException(error);
                 });
               if (!_.isEmpty(response.data.attributes.field_more_link)) {
                 const link = await app.$axios
@@ -100,12 +99,10 @@ export default {
                       })
                       .catch(error => {
                         console.log(error);
-                        this.$sentry.captureException(error);
                       });
                   })
                   .catch(error => {
                     console.log(error);
-                    this.$sentry.captureException(error);
                   });
                 highlightedData.link = link ? link : null;
               }

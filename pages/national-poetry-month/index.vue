@@ -127,7 +127,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
     const tweetsBase = process.server
       ? `${req.headers["x-forwarded-proto"]}://${req.headers.host}`
@@ -142,7 +141,6 @@ export default {
       .then(res => res.data.tweets)
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
     return {
       news,
