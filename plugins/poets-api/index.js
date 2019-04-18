@@ -34,7 +34,7 @@ export default ({ app }, inject) => {
    * Inject a helper function to build out basic pages. this can be called within the 'fetch' function of any nuxt page
    * to automatically hydrate the store items needed to render a basic page.
    */
-  inject("buildBasicPage", async (app, store, path) => {
+  inject("buildBasicPage", async (app, store, path, strict = false) => {
     // This is the list of items to include with the page request
 
     const includes = [
@@ -49,6 +49,13 @@ export default ({ app }, inject) => {
     ].join(",");
     return app.$axios
       .$get(`/router/translate-path?path=${path}`)
+      .catch(err => {
+        if (strict) {
+          app.handleError(err);
+        } else {
+          return err;
+        }
+      })
       .then(routerResponse => {
         return app.$axios
           .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)

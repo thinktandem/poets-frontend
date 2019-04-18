@@ -198,6 +198,9 @@ export default {
   async asyncData({ app, params }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poet/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res => {
         return app.$axios.get(
           `/api/node/person/${

@@ -32,6 +32,9 @@ export default {
   async asyncData({ app, params }) {
     return app.$axios
       .get(`/router/translate-path?path=/book/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .get(`/api/node/books/${res.data.entity.uuid}?include=field_image`)

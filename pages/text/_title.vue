@@ -31,6 +31,9 @@ export default {
           path: `/text/${params.title}`
         }
       })
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .get(`/api/node/texts/${res.data.entity.uuid}`)
