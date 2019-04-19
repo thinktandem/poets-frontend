@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="teaserTextExists"
-    v-html="teaserText"/>
+    v-html="replaceFileUrl(teaserText)"/>
 </template>
 
 <script>

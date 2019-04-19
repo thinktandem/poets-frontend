@@ -12,7 +12,7 @@
 
           <div
             v-if="body"
-            v-html="body"
+            v-html="replaceFileUrl(body)"
             class="event__body"/>
         </b-col>
         <b-col
@@ -120,9 +120,11 @@ export default {
     return MetaTags.renderTags(this.tags);
   },
   async asyncData({ app, route }) {
-    const routerResponse = await app.$axios.$get(
-      `/router/translate-path?path=${route.path}`
-    );
+    const routerResponse = await app.$axios
+      .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      });
 
     return app.$axios
       .$get(routerResponse.jsonapi.individual + "?include=field_image")

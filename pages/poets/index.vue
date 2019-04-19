@@ -88,7 +88,7 @@
         >
           <a
             :href="data.item.view_node"
-            v-html="data.item.poets"
+            v-html="replaceFileUrl(data.item.poets)"
           />
         </template>
         <template

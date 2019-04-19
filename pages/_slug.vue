@@ -21,7 +21,7 @@ export default {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
   async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, route.path);
+    return app.$buildBasicPage(app, store, route.path, true);
   }
 };
 </script>

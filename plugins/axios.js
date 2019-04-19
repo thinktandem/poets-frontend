@@ -8,10 +8,6 @@ import qs from "qs";
  * @param {Object} store
  */
 export default function({ $axios, redirect }) {
-  $axios.onError(error => {
-    console.table(error);
-    throw error.response;
-  });
   $axios.onRequest(config => {
     config.headers.common["X-Consumer-ID"] = process.env.CONSUMER_ID;
     config.paramsSerializer = params =>

@@ -68,7 +68,7 @@
         >
           <a
             :href="data.item.view_node"
-            v-html="data.item.title"
+            v-html="replaceFileUrl(data.item.title)"
           />
         </template>
       </b-table>
