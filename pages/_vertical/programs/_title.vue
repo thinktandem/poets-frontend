@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="body"
+          v-html="replaceFileUrl(body)"
           class="program__body"
           md="8"/>
         <b-col md="4">
@@ -32,9 +32,11 @@ export default {
     return MetaTags.renderTags(this.tags);
   },
   async asyncData({ app, route }) {
-    const routerResponse = await app.$axios.$get(
-      `/router/translate-path?path=${route.path}`
-    );
+    const routerResponse = await app.$axios
+      .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      });
 
     return app.$axios
       .$get(routerResponse.jsonapi.individual + "?include=field_image")

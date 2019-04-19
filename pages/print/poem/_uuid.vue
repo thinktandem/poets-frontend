@@ -7,13 +7,13 @@
       <h1 v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
       <div
         v-if="poem.attributes.body"
-        v-html="poem.attributes.body.processed"/>
+        v-html="replaceFileUrl(poem.attributes.body.processed)"/>
       <section class="py-3">
         <p class="h4">Credit</p>
         <hr>
         <div
           v-if="poem.attributes.field_credit"
-          v-html="poem.attributes.field_credit.processed"/>
+          v-html="replaceFileUrl(poem.attributes.field_credit.processed)"/>
       </section>
       <section
         class="py-3"
@@ -22,7 +22,7 @@
           v-if="poem.attributes.field_about_this_poem"
           class="h4">About this Poem</h2>
         <hr>
-        <div v-html="poem.attributes.field_about_this_poem.processed"/>
+        <div v-html="replaceFileUrl(poem.attributes.field_about_this_poem.processed)"/>
       </section>
       <section
         class="py-3"
@@ -43,7 +43,7 @@
           <div
             class="py-3 pl-4 w-75"
             v-if="poet.attributes.body"
-            v-html="poet.attributes.body.summary || poet.attributes.body.processed"/>
+            v-html="replaceFileUrl(poet.attributes.body.summary || poet.attributes.body.processed)"/>
 
         </div>
       </section>
@@ -61,6 +61,9 @@ export default {
   async asyncData({ app, params, req, res }) {
     return app.$axios
       .$get(`/api/node/poems/${params.uuid}?include=field_author.field_image`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(response => {
         const poet = _.find(
           response.included,

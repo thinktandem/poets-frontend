@@ -11,7 +11,7 @@
             <div
               v-show="intro"
               class="pb-4 product-feature__intro"
-              v-html="intro"/>
+              v-html="replaceFileUrl(intro)"/>
             <h3
               class="text-primary-lightest pb-2"
               v-show="subTitle">{{ subTitle }}</h3>

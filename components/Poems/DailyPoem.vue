@@ -99,13 +99,13 @@
                   <h3>About this Poem</h3>
                   <div
                     class="text-gray"
-                    v-html="poem.about"
+                    v-html="replaceFileUrl(poem.about)"
                   />
                 </div>
                 <div
                   class="px-0 mx-0"
                   v-if="showSoundCloud"
-                  v-html="poem.soundCloud"
+                  v-html="replaceFileUrl(poem.soundCloud)"
                 />
                 <div class="d-flex pt-3 pb-3 daily-poem__poem-title">
                   <h2>
@@ -135,7 +135,7 @@
                   </div>
                 </div>
                 <div
-                  v-html="poem.text"
+                  v-html="replaceFileUrl(poem.text)"
                   class="daily-poem__poem-text font-serif-2"
                 />
                 <div
@@ -152,7 +152,7 @@
             <div
               class="poem-a-day__attribution text-muted-dark p-2"
               v-if="poem.attribution"
-              v-html="poem.attribution"
+              v-html="replaceFileUrl(poem.attribution)"
             />
           </b-col>
         </b-row>
@@ -175,7 +175,7 @@
               <h5
                 class="font-serif h3"
                 style="margin-bottom: 0"
-                v-html="poem.title"
+                v-html="replaceFileUrl(poem.title)"
               />
               <b-link
                 :to="poet.alias"
@@ -186,7 +186,7 @@
           </b-row>
           <b-row>
             <b-col sm="12">
-              <div v-html="poem.text" />
+              <div v-html="replaceFileUrl(poem.text)" />
             </b-col>
           </b-row>
         </b-container>

@@ -25,7 +25,7 @@
           <a
             v-if="text.attributes.path"
             :href="text.attributes.path.alias"
-            v-html="text.attributes.title"/>
+            v-html="replaceFileUrl(text.attributes.title)"/>
         </b-col>
         <b-col md="4">
           {{ poet.data.attributes.title }}
@@ -56,6 +56,9 @@ export default {
   async asyncData({ app, params, query, route }) {
     const poet = await app.$axios
       .$get(`/router/translate-path?path=/poet/${params.author}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })

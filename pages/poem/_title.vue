@@ -16,7 +16,7 @@
             <div
               class="px-0 mx-0"
               v-if="showSoundCloud"
-              v-html="poem.attributes.field_soundcloud_embed_code"
+              v-html="replaceFileUrl(poem.attributes.field_soundcloud_embed_code)"
             />
             <div slot="header">
               <div class="d-flex poem__title mb-1">
@@ -64,13 +64,13 @@
             <div
               class="px-md-4 font-serif-2"
               v-if="poem.attributes.body !== null"
-              v-html="poem.attributes.body.processed"
+              v-html="replaceFileUrl(poem.attributes.body.processed)"
             />
             <div
               slot="footer"
               v-if="poem.attributes.field_credit !== null"
               class="card--poem__attribution text-muted-dark font-sans p-3"
-              v-html="poem.attributes.field_credit.processed"
+              v-html="replaceFileUrl(poem.attributes.field_credit.processed)"
             />
           </b-card>
         </b-col>
@@ -94,7 +94,8 @@
               />
             </div>
             <div
-              v-html="poet.body.summary"
+              v-html="replaceFileUrl(poet.body.summary)"
+              v-if="poet.body"
               class="poet--aside__bio text-dark-muted my-3"
             />
             <div class="mb-4">
@@ -107,7 +108,7 @@
             v-if="poem.attributes.field_about_this_poem"
           >
             <h4>About This Poem</h4>
-            <div v-html="poem.attributes.field_about_this_poem.processed" />
+            <div v-html="replaceFileUrl(poem.attributes.field_about_this_poem.processed)" />
           </section>
         </b-col>
       </b-row>
@@ -134,7 +135,7 @@
 </template>
 
 <script>
-import * as qs from "qs";
+import qs from "qs";
 import _ from "lodash";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
@@ -164,6 +165,9 @@ export default {
   async asyncData({ app, params, env }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poem/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res =>
         app.$axios.$get(
           `/api/node/poems/${

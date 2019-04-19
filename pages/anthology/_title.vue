@@ -5,7 +5,7 @@
         <b-col xs="12">
           <div
             class="anthology"
-            v-html="body"/>
+            v-html="replaceFileUrl(body)"/>
         </b-col>
       </b-row>
     </b-container>
@@ -15,10 +15,10 @@
       <div
         class="anthology__first-poem"
         v-if="i === 0">
-        <h3 v-html="poem.attributes.title"/>
+        <h3 v-html="replaceFileUrl(poem.attributes.title)"/>
         <div
           class="anthology__poem-body"
-          v-html="poem.attributes.body.processed"/>
+          v-html="replaceFileUrl(poem.attributes.body.processed)"/>
       </div>
       <div
         class="anthology__poems-list"
@@ -37,12 +37,12 @@
           <b-col md="4">
             <b-link
               class="anthology__poem-link"
-              v-html="poem.attributes.title"
+              v-html="replaceFileUrl(poem.attributes.title)"
               :to="poem.attributes.path.alias"/>
           </b-col>
           <b-col
             md="4"
-            v-html="niceDate(poem.attributes.field_date_published, 'year')"/>
+            v-html="replaceFileUrl(niceDate(poem.attributes.field_date_published, 'year'))"/>
         </b-row>
       </div>
     </b-container>
@@ -76,6 +76,9 @@ export default {
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .$get(res.jsonapi.individual + "?include=field_poems")

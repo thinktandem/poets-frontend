@@ -5,7 +5,7 @@
         <div
           class="lesson_plan__body"
           v-if="data.attributes.body"
-          v-html="data.attributes.body.processed"/>
+          v-html="replaceFileUrl(data.attributes.body.processed)"/>
         <div
           v-for="(plan, i) in includes"
           :key="`plan-${i}`"
@@ -18,7 +18,7 @@
             </div>
             <div
               class="plan__body"
-              v-html="plan.attributes.body.processed"/>
+              v-html="replaceFileUrl(plan.attributes.body.processed)"/>
           </div>
         </div>
       </b-col>
