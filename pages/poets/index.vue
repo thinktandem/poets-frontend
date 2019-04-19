@@ -1,16 +1,16 @@
 <template>
   <div>
+    <CardDeck
+      title=""
+      cardtype="Poet"
+      :cards="featuredPoets"
+    />
     <b-container
       class="py-5"
       v-if="movement">
       <h2 class="h3">{{ movement.title }}</h2>
       <div v-html="movement.body"/>
     </b-container>
-    <CardDeck
-      title=""
-      cardtype="Poet"
-      :cards="featuredPoets"
-    />
     <b-container>
       <b-row>
         <b-col md="12">
@@ -126,7 +126,7 @@
 
 <script>
 import _ from "lodash";
-import { parse, stringify } from "qs";
+import { stringify } from "qs";
 import filterHelpers from "~/plugins/filter-helpers";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -141,6 +141,17 @@ const buildQuery = (filters = {}) =>
     school: filters.school,
     state: filters.state
   });
+
+// Helper to fetch a specific movement
+const buildMovementQuery = school => ({
+  filter: {
+    drupal_internal__tid: school,
+    status: 1
+  },
+  page: {
+    limit: 1
+  }
+});
 
 export default {
   components: {
@@ -174,6 +185,7 @@ export default {
         school: null,
         state: null
       },
+      movement: {},
       options: {
         schools: [],
         states: []
@@ -187,11 +199,10 @@ export default {
   },
   mounted() {
     // Get all the data we need for search
-    const rawQuery = parse(window.location.search, { ignoreQueryPrefix: true });
-    this.filters.combine = _.get(rawQuery, "combine");
-    this.filters.school = _.get(rawQuery, "school");
-    this.filters.state = _.get(rawQuery, "state");
-
+    // NOTE: We need to start with our "null" defualts to make sure
+    // the placeholders show up in the dropdowns
+    this.filters = _.merge(this.filters, this.$route.query);
+    // Run the initial search
     Promise.all([this.searchPoets(), this.getSchools(), this.getStates()]);
     // Spin up a debouncing func for text input
     this.debouncedSearchPoets = _.debounce(this.searchPoets, 700);
@@ -200,6 +211,7 @@ export default {
     searchPoets(page = 0) {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
+      // Get the updated list of poets
       this.$api.searchPoets({ query }).then(response => {
         this.poets = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
@@ -208,6 +220,26 @@ export default {
         window.history.pushState({}, "", `?${stringify(query)}`);
         this.busy = false;
       });
+      // Grab the movement as well
+      this.getMovement();
+    },
+    getMovement() {
+      if (!_.isNil(this.filters.school)) {
+        console.log("getMove");
+        this.$api
+          .getTerm("school_movement", {
+            query: buildMovementQuery(this.filters.school)
+          })
+          .then(response => {
+            const term = _.first(_.get(response, "data.data", []));
+            this.movement = {
+              title: _.get(term, "attributes.name"),
+              body:
+                _.get(term, "attributes.description.summary") ||
+                _.get(term, "attributes.description.processed")
+            };
+          });
+      }
     },
     getSchools() {
       const fields = "name,drupal_internal__tid";
@@ -240,34 +272,6 @@ export default {
   watch: {
     "filters.combine": function() {
       this.debouncedSearchPoets();
-    }
-  },
-  asyncComputed: {
-    async movement() {
-      const school = this.filters.school;
-      if (school !== null) {
-        const params = stringify({
-          filter: {
-            drupal_internal__tid: school,
-            status: 1
-          },
-          page: {
-            limit: 1
-          }
-        });
-        return this.$axios
-          .$get(`/api/taxonomy_term/school_movement?${params}`)
-          .then(res => {
-            const term = _.first(res.data);
-            return {
-              title: _.get(term, "attributes.name"),
-              body:
-                _.get(term, "attributes.description.summary") ||
-                _.get(term, "attributes.description.processed")
-            };
-          });
-      }
-      return null;
     }
   },
   async asyncData({ app, store, params, query }) {
