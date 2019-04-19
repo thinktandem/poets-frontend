@@ -11,9 +11,13 @@ env_file:
 services:
   appserver:
     type: node:10
-    command: cp -n /app/.env.example /app/.env && yarn dev --hostname 0.0.0.0 --port 80
+    command: cp -n /app/.env.example /app/.env && yarn dev
     build:
       - yarn install
+    overrides:
+      environment:
+        PORT: 80
+        HOST: "0.0.0.0"
   yakbak:
     type: node:10
     command: node /app/proxy.js
