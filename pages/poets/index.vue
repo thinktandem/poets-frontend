@@ -230,7 +230,7 @@ export default {
             query: buildMovementQuery(this.filters.school)
           })
           .then(response => {
-            const term = _.first(_.get(response, "data.data" []));
+            const term = _.first(_.get(response, "data.data", []));
             this.movement = {
               title: _.get(term, "attributes.name"),
               body:
