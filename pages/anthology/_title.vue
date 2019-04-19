@@ -76,6 +76,9 @@ export default {
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .$get(res.jsonapi.individual + "?include=field_poems")

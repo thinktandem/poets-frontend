@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import * as qs from "qs";
+import qs from "qs";
 import _ from "lodash";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
@@ -165,6 +165,9 @@ export default {
   async asyncData({ app, params, env }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poem/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res =>
         app.$axios.$get(
           `/api/node/poems/${

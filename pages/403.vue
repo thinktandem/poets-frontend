@@ -10,13 +10,12 @@
 </template>
 <script>
 export default {
-  name: "Sorry",
+  name: "403",
   fetch({ store }) {
     store.commit("updateHero", {
       variant: "default",
-      heading: "An Error Has Occurred",
-      lead:
-        "Unfortunately, we're unable to serve this resource, please try again later"
+      heading: "Access Denied",
+      lead: "Unfortunately, you don't have access to the requested resource"
     });
   }
 };
