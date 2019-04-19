@@ -65,7 +65,8 @@ module.exports = {
     "~/plugins/apiv2",
     "~/plugins/globalComponents",
     "~/plugins/poets-api",
-    "~/plugins/mixins"
+    "~/plugins/mixins",
+    "~/plugins/error-handler"
   ],
   css: ["~assets/scss/app.scss"],
   /*

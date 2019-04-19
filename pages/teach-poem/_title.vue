@@ -47,6 +47,9 @@ export default {
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(routerResponse => {
         return app.$axios
           .$get(routerResponse.jsonapi.individual, {
@@ -80,7 +83,6 @@ export default {
                 })
                 .catch(error => {
                   console.log(error);
-                  this.$sentry.captureException(error);
                 });
               if (!_.isEmpty(response.data.attributes.field_more_link)) {
                 const link = await app.$axios
@@ -100,12 +102,10 @@ export default {
                       })
                       .catch(error => {
                         console.log(error);
-                        this.$sentry.captureException(error);
                       });
                   })
                   .catch(error => {
                     console.log(error);
-                    this.$sentry.captureException(error);
                   });
                 highlightedData.link = link ? link : null;
               }

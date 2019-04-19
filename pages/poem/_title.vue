@@ -95,6 +95,7 @@
             </div>
             <div
               v-html="replaceFileUrl(poet.body.summary)"
+              v-if="poet.body"
               class="poet--aside__bio text-dark-muted my-3"
             />
             <div class="mb-4">
@@ -134,7 +135,7 @@
 </template>
 
 <script>
-import * as qs from "qs";
+import qs from "qs";
 import _ from "lodash";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
@@ -164,6 +165,9 @@ export default {
   async asyncData({ app, params, env }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poem/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res =>
         app.$axios.$get(
           `/api/node/poems/${

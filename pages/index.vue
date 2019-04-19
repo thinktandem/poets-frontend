@@ -1,8 +1,8 @@
 <template>
   <div>
     <daily-poem
-      :poem="$store.state.poemOfTheDay.poem"
-      :poet="$store.state.poemOfTheDay.poet"/>
+      :poem="pad.poem"
+      :poet="pad.poet"/>
     <app-card-columns
       promo
       title="Poems"
@@ -56,29 +56,26 @@ export default {
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
+  data() {
+    return {
+      pad: {
+        poem: {},
+        poet: {
+          image: ""
+        }
+      }
+    };
+  },
+  mounted() {
+    this.$api
+      .getPoemADay()
+      .then(response => _.get(response, "data[0]", []))
+      .then(pad => {
+        this.pad = pad;
+      });
+  },
   async fetch({ app, store, params, route, menu }) {
     app.$buildBasicPage(app, store, "/home");
-    // This is a comment
-    const poemOftheDay = await app.$axios.$get(`/poem-a-day`);
-    const theOnePoemOfTheDay = _.first(poemOftheDay);
-    store.commit("updatePoemOfTheDay", {
-      poet: {
-        name: theOnePoemOfTheDay.poet.name,
-        image: theOnePoemOfTheDay.poet.image
-          ? theOnePoemOfTheDay.poet.image
-          : "",
-        alias: theOnePoemOfTheDay.poet.alias
-      },
-      poem: {
-        title: theOnePoemOfTheDay.poem.title,
-        text: theOnePoemOfTheDay.poem.text,
-        soundCloud: theOnePoemOfTheDay.poem.soundcloud,
-        alias: theOnePoemOfTheDay.poem.alias,
-        id: _.get(theOnePoemOfTheDay, "poem.uuid", null),
-        about: _.get(theOnePoemOfTheDay, "poem.about", null)
-      }
-    });
-
     const featuredPoemsQuery = qs.stringify({
       page: {
         limit: 4

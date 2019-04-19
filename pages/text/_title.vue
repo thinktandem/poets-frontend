@@ -31,6 +31,9 @@ export default {
           path: `/text/${params.title}`
         }
       })
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .get(`/api/node/texts/${res.data.entity.uuid}`)
@@ -39,12 +42,10 @@ export default {
           })
           .catch(error => {
             console.log(error);
-            this.$sentry.captureException(error);
           });
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
     const body = await imgUrl.staticUrl(text.attributes.body.value, app);
 

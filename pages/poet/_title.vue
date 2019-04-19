@@ -16,6 +16,7 @@
       <b-row class="poet__body">
         <b-col md="8">
           <div
+            v-if="body"
             class="poet__body-content"
             v-html="replaceFileUrl(body.processed)"/>
           <b-row
@@ -198,6 +199,9 @@ export default {
   async asyncData({ app, params }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poet/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res => {
         return app.$axios.get(
           `/api/node/person/${
@@ -281,7 +285,6 @@ export default {
             })
             .catch(error => {
               console.error(error);
-              this.$sentry.captureException(error);
             });
         }
 
@@ -366,7 +369,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
   },
   async fetch({ app, store, params, route, menu }) {

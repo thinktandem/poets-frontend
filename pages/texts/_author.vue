@@ -56,12 +56,14 @@ export default {
   async asyncData({ app, params, query, route }) {
     const poet = await app.$axios
       .$get(`/router/translate-path?path=/poet/${params.author}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
     const textsByParams = qs.stringify({
       filter: {

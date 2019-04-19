@@ -68,7 +68,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
     const poemsByParams = qs.stringify({
       filter: {

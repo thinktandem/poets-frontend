@@ -76,6 +76,9 @@ export default {
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .$get(res.jsonapi.individual + "?include=field_poems")
@@ -102,15 +105,13 @@ export default {
             };
           })
           .catch(error => {
-            console.log(error);
-            this.$sentry.captureException(error);
+            console.error(error);
           });
         store.commit("updateFeaturedContent", []);
         store.commit("updateExtendedContent", []);
       })
       .catch(error => {
-        console.log(error);
-        this.$sentry.captureException(error);
+        console.error(error);
       });
   },
   methods: {

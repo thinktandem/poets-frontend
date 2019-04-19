@@ -2,8 +2,8 @@
   <div>
     <daily-poem
       :extended="true"
-      :poem="$store.state.poemOfTheDay.poem"
-      :poet="$store.state.poemOfTheDay.poet"/>
+      :poem="pad.poem"
+      :poet="pad.poet"/>
     <b-container>
       <b-row>
         <h3 class="font-serif pb-3">
@@ -17,7 +17,7 @@
         stacked="md"
         :per-page="perPage"
         sort-by="field_poem_of_the_day_date"
-        sort-desc="true">
+        :sort-desc="true">
         <template
           slot="title"
           slot-scope="data">
@@ -85,6 +85,12 @@ export default {
           label: "Date"
         }
       ],
+      pad: {
+        poem: {},
+        poet: {
+          image: ""
+        }
+      },
       page: 1,
       pageCache: [],
       perPage: 20,
@@ -93,6 +99,13 @@ export default {
     };
   },
   mounted() {
+    // Get the PAD
+    this.$api
+      .getPoemADay()
+      .then(response => _.get(response, "data[0]", []))
+      .then(pad => {
+        this.pad = pad;
+      });
     // Get all the data we need for search
     Promise.all([this.searchPoems()]);
   },
@@ -123,29 +136,6 @@ export default {
     }
   },
   async fetch({ app, store, params }) {
-    // Fetch all poems with poem a day date somewhere today.
-    const response = await app.$axios.$get("/poem-a-day", {
-      params: {
-        _format: "json"
-      }
-    });
-    const theOne = _.first(response);
-    store.commit("updatePoemOfTheDay", {
-      poet: {
-        name: theOne.poet.name,
-        image: theOne.poet.image ? theOne.poet.image : "",
-        alias: theOne.poet.alias
-      },
-      poem: {
-        attribution: theOne.poem.attribution,
-        title: theOne.poem.title,
-        text: theOne.poem.text,
-        soundCloud: theOne.poem.soundcloud,
-        alias: theOne.poem.alias,
-        id: _.get(theOne, "poem.uuid"),
-        about: _.get(theOne, "poem.about")
-      }
-    });
     // Set the current hero
     store.commit("updateHero", {
       variant: "quote",

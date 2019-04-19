@@ -10,13 +10,12 @@
 </template>
 <script>
 export default {
-  name: "Sorry",
+  name: "404",
   fetch({ store }) {
     store.commit("updateHero", {
       variant: "default",
-      heading: "An Error Has Occurred",
-      lead:
-        "Unfortunately, we're unable to serve this resource, please try again later"
+      heading: "Page not Found",
+      lead: "Unfortunately, we're unable to find the resource you requested"
     });
   }
 };

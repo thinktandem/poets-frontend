@@ -167,7 +167,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
   },
   async fetch({ app, store, route }) {

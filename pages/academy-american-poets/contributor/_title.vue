@@ -165,6 +165,9 @@ export default {
           params.title
         }`
       )
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .get(`/api/node/person/${res.data.entity.uuid}?include=field_image`)
@@ -184,7 +187,6 @@ export default {
           })
           .catch(error => {
             console.log(error);
-            this.$sentry.captureException(error);
           });
       });
 

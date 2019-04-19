@@ -68,9 +68,6 @@ const createStore = () => {
       updateNumPages(state, payload) {
         state.numPages = payload;
       },
-      updatePoemOfTheDay(state, payload) {
-        state.poemOfTheDay = payload;
-      },
       updateFilterOptions(state, payload) {
         state.filterOptions = payload;
       },

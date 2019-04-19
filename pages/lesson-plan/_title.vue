@@ -15,6 +15,9 @@ export default {
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(routerResponse => {
         return app.$axios
           .$get(routerResponse.jsonapi.individual, {
@@ -40,7 +43,6 @@ export default {
       })
       .catch(error => {
         console.error(error);
-        this.$sentry.captureException(error);
       });
   },
   methods: {
