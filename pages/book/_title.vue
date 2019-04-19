@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="book.attributes.body.value"
+          v-html="replaceFileUrl(book.attributes.body.value)"
           class="book__body"
           md="8"/>
         <b-col md="4">

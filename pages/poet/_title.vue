@@ -18,7 +18,7 @@
           <div
             v-if="body"
             class="poet__body-content"
-            v-html="body.processed"/>
+            v-html="replaceFileUrl(body.processed)"/>
           <b-row
             class="person__related-texts-rows"
             md="8">
@@ -56,7 +56,7 @@
                   md="8">
                   <a
                     :href="lp.attributes.path.alias"
-                    v-html="lp.attributes.title"
+                    v-html="replaceFileUrl(lp.attributes.title)"
                   />
                 </b-col>
               </b-row>
@@ -95,7 +95,7 @@
                   md="8">
                   <a
                     :href="ann.attributes.path.alias"
-                    v-html="ann.attributes.title"
+                    v-html="replaceFileUrl(ann.attributes.title)"
                   />
                 </b-col>
               </b-row>

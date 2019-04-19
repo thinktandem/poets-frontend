@@ -12,7 +12,7 @@
 
           <div
             v-if="body"
-            v-html="body"
+            v-html="replaceFileUrl(body)"
             class="event__body"/>
         </b-col>
         <b-col

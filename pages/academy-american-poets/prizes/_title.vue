@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="prize.body"
+          v-html="replaceFileUrl(prize.body)"
           class="prizes__body"
           md="8"/>
         <b-col md="4">

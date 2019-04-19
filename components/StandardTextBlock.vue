@@ -10,7 +10,7 @@
           v-show="body">
           <div
             class="standard-text__body"
-            v-html="body"/>
+            v-html="replaceFileUrl(body)"/>
         </b-col>
       </b-row>
     </b-container>

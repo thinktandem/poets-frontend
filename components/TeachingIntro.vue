@@ -1,6 +1,6 @@
 <template>
   <div class="teaching-intro">
-    <p v-html="text" />
+    <p v-html="replaceFileUrl(text)" />
     <card-deck
       cardtype="CalloutCard"
       :cards="cards"

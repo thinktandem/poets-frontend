@@ -8,13 +8,13 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="winner.prizeDetails"
+          v-html="replaceFileUrl(winner.prizeDetails)"
           class="program__body"
           xl="12"/>
       </b-row>
       <b-row>
         <b-col
-          v-html="winner.body"
+          v-html="replaceFileUrl(winner.body)"
           class="program__body"
           md="8"/>
         <b-col md="4">

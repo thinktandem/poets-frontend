@@ -9,7 +9,7 @@
     </div>
     <div 
       class="announcement__text" 
-      v-html="teaserText" />
+      v-html="replaceFileUrl(teaserText)" />
     <div
       class="announcement__read-more pt-1 pb-3" 
       v-if="null !== link && body.length > 300">

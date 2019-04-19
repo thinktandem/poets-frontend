@@ -18,12 +18,12 @@
           slot-scope="data">
           <a
             :href="data.item.link"
-            v-html="data.item.title"/>
+            v-html="replaceFileUrl(data.item.title)"/>
         </template>
         <template
           slot="body"
           slot-scope="data">
-          <div v-html="data.item.body"/>
+          <div v-html="replaceFileUrl(data.item.body)"/>
         </template>
       </b-table>
       <div class="pager">

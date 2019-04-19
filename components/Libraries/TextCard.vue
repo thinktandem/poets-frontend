@@ -6,12 +6,12 @@
     :link="numTexts"
   >
     <div
-      v-html="field_texttype"
+      v-html="replaceFileUrl(field_texttype)"
       class="card--lesson-plan__header"
     />
     <h3 class="card-title">
       <b-link
-        v-html="title"
+        v-html="replaceFileUrl(title)"
         :href="view_node"
         itemprop="title"
       />
