@@ -11,7 +11,11 @@ env_file:
 services:
   appserver:
     type: node:10
-    command: cp -n /app/.env.example /app/.env && yarn dev
+    globals:
+      pm2: 3.5.0
+    command: |
+      cp -n /app/.env.example /app/.env
+      pm2 start /app/node_modules/nuxt/bin/nuxt-dev --no-daemon
     build:
       - yarn install
     overrides:
