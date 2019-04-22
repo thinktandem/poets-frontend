@@ -1,15 +1,15 @@
 <template>
   <div>
-    <CardDeck
-      title=""
-      cardtype="Poet"
-      :cards="featuredPoets"
-    />
     <b-container
       class="py-5"
       v-if="movement">
       <h2 class="h3">{{ movement.title }}</h2>
       <div v-html="movement.body"/>
+      <CardDeck
+        title=""
+        cardtype="Poet"
+        :cards="featuredPoets"
+      />
     </b-container>
     <b-container>
       <b-row>
@@ -75,8 +75,7 @@
     </b-container>
     <b-container>
       <b-table
-        id="
-                      poets"
+        id="poets"
         :items="poets"
         :fields="fields"
         stacked="md"
@@ -153,6 +152,40 @@ const buildMovementQuery = school => ({
   }
 });
 
+// Helper to fetch featured poets
+const buildFeaturesPoetsQuery = (school = null) => {
+  // Spin up the basic query
+  const query = {
+    filter: {
+      img: {
+        condition: {
+          path: "field_image.id",
+          operator: "IS NOT NULL"
+        }
+      }
+    },
+    page: {
+      limit: 3
+    },
+    sort: "-field_featured",
+    include: "field_image"
+  };
+
+  // Add in the movement if we need it
+  if (!_.isNil(school)) {
+    query.filter.movement = {
+      condition: {
+        path: "field_school_movement.tid",
+        operator: "=",
+        value: school
+      }
+    };
+  }
+
+  // Return
+  return query;
+};
+
 export default {
   components: {
     iconMediaSkipBackwards,
@@ -180,6 +213,7 @@ export default {
           label: "Years"
         }
       ],
+      featuredPoets: [],
       filters: {
         combine: null,
         school: null,
@@ -213,15 +247,15 @@ export default {
       const query = _.merge({}, buildQuery(this.filters), { page });
       // Get the updated list of poets
       this.$api.searchPoets({ query }).then(response => {
-        this.poets = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
+        this.poets = this.rows > 0 ? _.get(response, "data.rows", []) : [];
         // Update the url so the search can be shared.
         window.history.pushState({}, "", `?${stringify(query)}`);
         this.busy = false;
       });
-      // Grab the movement as well
-      this.getMovement();
+      // Grab the movement and featured poets
+      Promise.all([this.getMovement(), this.getFeaturedPoets()]);
     },
     getMovement() {
       if (!_.isNil(this.filters.school)) {
@@ -239,6 +273,24 @@ export default {
             };
           });
       }
+    },
+    getFeaturedPoets() {
+      this.featuredPoets = [];
+      const query = buildFeaturesPoetsQuery(this.filters.school);
+      this.$api.getPoets({ query }).then(response => {
+        this.featuredPoets = _.map(_.get(response, "data.data"), row => ({
+          row,
+          name: _.get(row, "attributes.title", null),
+          bio:
+            _.get(row, "attributes.body.summary", null) ||
+            _.get(row, "attributes.body.processed", null),
+          img: this.$buildImg(response.data, row, "field_image", "portrait", {
+            src: "/images/default-person.png",
+            alt: _.get(row, "attributes.title") + " portrait"
+          }),
+          link: _.get(row, "attributes.path.alias", null)
+        }));
+      });
     },
     getSchools() {
       const fields = "name,drupal_internal__tid";
@@ -273,55 +325,6 @@ export default {
       this.debouncedSearchPoets();
     }
   },
-  async asyncData({ app, store, params, query }) {
-    // @TODO: add this to api v2
-    let poets = await app.$axios
-      .get("/api/node/person", {
-        params: {
-          filter: {
-            status: 1,
-            field_p_type: "poet",
-            img: {
-              condition: {
-                path: "field_image.id",
-                operator: "<>",
-                value: null
-              }
-            }
-          },
-          page: {
-            limit: 3
-          },
-          sort: "-field_featured",
-          include: "field_image"
-        }
-      })
-      .then(res => {
-        return {
-          rows: _.map(_.get(res, "data.data"), row => {
-            return {
-              row,
-              name: _.get(row, "attributes.title", null),
-              bio:
-                _.get(row, "attributes.body.summary", null) ||
-                _.get(row, "attributes.body.processed", null),
-              img: app.$buildImg(res.data, row, "field_image", "portrait", {
-                src: "/images/default-person.png",
-                alt: _.get(row, "attributes.title") + " portrait"
-              }),
-              link: _.get(row, "attributes.path.alias", null)
-            };
-          })
-        };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    return {
-      featuredPoets: poets.rows
-    };
-  },
   async fetch({ app, store, params, query }) {
     return app.$buildBasicPage(app, store, "/poets");
   }
@@ -329,6 +332,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.card-deck--poet {
+  background: transparent;
+}
 .table-filters {
   .table-filters__search {
     min-width: 19rem;
