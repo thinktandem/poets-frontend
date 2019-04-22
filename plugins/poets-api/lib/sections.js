@@ -6,6 +6,9 @@ export default {
     return (
       _(_.get(page, `data.relationships[${section}].data`))
         .map(item => util.buildComponent(item, page))
+        // We're defaulting to true here in case a paragraph doesn't implement
+        // the status field
+        .filter(item => _.get(item, "attributes.status", true))
         .value() || []
     );
   },
