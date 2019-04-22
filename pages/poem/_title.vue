@@ -62,7 +62,7 @@
               :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"
             />
             <div
-              class="px-md-4 font-serif-2"
+              class="poem__body px-md-4 font-serif-2"
               v-if="poem.attributes.body !== null"
               v-html="replaceFileUrl(poem.attributes.body.processed)"
             />
@@ -333,18 +333,18 @@ export default {
   .card-subtitle {
     font-family: $font-family-sans-serif;
     font-size: 1.25rem;
-    line-height: 1.75rem;
+    line-height: 1.75;
     color: var(--black);
   }
 
   .card-body {
     font-size: 1.25rem;
-    line-height: 1.87rem;
+    line-height: 1.87;
     font-family: $font-family-serif;
   }
   .card--poem__attribution {
     font-size: 0.8rem;
-    line-height: 1.25rem;
+    line-height: 1.25;
     font-weight: 400;
   }
 }
@@ -359,7 +359,7 @@ export default {
 .about-poem {
   font-size: 0.9rem;
   font-weight: 400;
-  line-height: 1.07rem;
+  line-height: 1.07;
 }
 @include media-breakpoint-up(md) {
   .poem__actions {

@@ -1,10 +1,23 @@
 body {
   font-size: 16px; // Set base REM size.
 }
-pre {
-  white-space: pre-wrap;
-  font-family: "Poets Electra";
+
+.poem__body {
+  pre {
+    white-space: pre-wrap;
+    font-family: "Poets Electra";
+    font-size: 0.75rem;
+
+    .poem__body--small-text & {
+      font-size: 0.69rem;
+    }
+
+    @include media-breakpoint-up(md) {
+      font-size: 1.25rem;
+    }
+  }
 }
+
 // @TODO Fonts should go here.
 
 .font-serif {
