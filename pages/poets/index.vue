@@ -156,21 +156,15 @@ const buildMovementQuery = school => ({
 const buildFeaturesPoetsQuery = (school = null) => {
   // Spin up the basic query
   const query = {
-    filter: {
-      img: {
-        condition: {
-          path: "field_image.id",
-          operator: "IS NOT NULL"
-        }
-      }
-    },
+    filter: {},
     page: {
       limit: 3
     },
-    sort: "-field_featured",
+    // @NOTE: this is an offhanded way to get results with images at the top
+    // because for some reason fitlering to check image existence takes FOREVER
+    sort: "-field_featured,-field_image.fid",
     include: "field_image"
   };
-
   // Add in the movement if we need it
   if (!_.isNil(school)) {
     query.filter.movement = {
@@ -181,7 +175,6 @@ const buildFeaturesPoetsQuery = (school = null) => {
       }
     };
   }
-
   // Return
   return query;
 };
@@ -275,21 +268,25 @@ export default {
       }
     },
     getFeaturedPoets() {
-      this.featuredPoets = [];
       const query = buildFeaturesPoetsQuery(this.filters.school);
       this.$api.getPoets({ query }).then(response => {
-        this.featuredPoets = _.map(_.get(response, "data.data"), row => ({
-          row,
-          name: _.get(row, "attributes.title", null),
-          bio:
-            _.get(row, "attributes.body.summary", null) ||
-            _.get(row, "attributes.body.processed", null),
-          img: this.$buildImg(response.data, row, "field_image", "portrait", {
-            src: "/images/default-person.png",
-            alt: _.get(row, "attributes.title") + " portrait"
-          }),
-          link: _.get(row, "attributes.path.alias", null)
-        }));
+        this.featuredPoets = _(_.get(response, "data.data"), [])
+          .filter(
+            row => !_.isEmpty(_.get(row, "relationships.field_image.data", []))
+          )
+          .map(row => ({
+            row,
+            name: _.get(row, "attributes.title", null),
+            bio:
+              _.get(row, "attributes.body.summary", null) ||
+              _.get(row, "attributes.body.processed", null),
+            img: this.$buildImg(response.data, row, "field_image", "portrait", {
+              src: "/images/default-person.png",
+              alt: _.get(row, "attributes.title") + " portrait"
+            }),
+            link: _.get(row, "attributes.path.alias", null)
+          }))
+          .value();
       });
     },
     getSchools() {
