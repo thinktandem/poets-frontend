@@ -277,6 +277,7 @@ export default {
       }
     },
     getFeaturedPoets() {
+      this.featuredPoets = [];
       const query = buildFeaturesPoetsQuery(this.filters.school);
       this.$api.getPoets({ query }).then(response => {
         this.featuredPoets = _.map(_.get(response, "data.data"), row => ({
