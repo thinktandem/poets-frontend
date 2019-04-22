@@ -75,8 +75,7 @@
     </b-container>
     <b-container>
       <b-table
-        id="
-                      poets"
+        id="poets"
         :items="poets"
         :fields="fields"
         stacked="md"
@@ -161,8 +160,7 @@ const buildFeaturesPoetsQuery = (school = null) => {
       img: {
         condition: {
           path: "field_image.id",
-          operator: "<>",
-          value: null
+          operator: "IS NOT NULL"
         }
       }
     },
@@ -249,9 +247,9 @@ export default {
       const query = _.merge({}, buildQuery(this.filters), { page });
       // Get the updated list of poets
       this.$api.searchPoets({ query }).then(response => {
-        this.poets = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
+        this.poets = this.rows > 0 ? _.get(response, "data.rows", []) : [];
         // Update the url so the search can be shared.
         window.history.pushState({}, "", `?${stringify(query)}`);
         this.busy = false;
