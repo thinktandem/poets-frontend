@@ -63,6 +63,7 @@
             />
             <div
               class="poem__body px-md-4 font-serif-2"
+              :class="{'poem__body--small-text': smalltext}"
               v-if="poem.attributes.body !== null"
               v-html="replaceFileUrl(poem.attributes.body.processed)"
             />
@@ -281,6 +282,9 @@ export default {
     },
     longTitle() {
       return this.$data.poem.attributes.title.length > 75;
+    },
+    smalltext() {
+      return _.get(this.$data, "poem.attributes.very_long_lines", false);
     }
   },
   methods: {

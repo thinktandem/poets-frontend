@@ -3,11 +3,7 @@ body {
 }
 
 .poem__body {
-  pre {
-    white-space: pre-wrap;
-    font-family: "Poets Electra";
     font-size: 3.8vw;
-
     .poem__body--small-text & {
       font-size: 3.2vw;
     }
@@ -15,6 +11,10 @@ body {
     @include media-breakpoint-up(sm) {
       font-size: 1.25rem;
     }
+  pre {
+    white-space: pre-wrap;
+    font-family: "Poets Electra";
+
   }
 }
 
