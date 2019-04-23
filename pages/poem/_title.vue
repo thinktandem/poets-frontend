@@ -333,18 +333,18 @@ export default {
   .card-subtitle {
     font-family: $font-family-sans-serif;
     font-size: 1.25rem;
-    line-height: 1.75;
+    line-height: 1.4;
     color: var(--black);
   }
 
   .card-body {
     font-size: 1.25rem;
-    line-height: 1.87;
+    line-height: 1.5;
     font-family: $font-family-serif;
   }
   .card--poem__attribution {
     font-size: 0.8rem;
-    line-height: 1.25;
+    line-height: 1.56;
     font-weight: 400;
   }
 }
@@ -359,7 +359,7 @@ export default {
 .about-poem {
   font-size: 0.9rem;
   font-weight: 400;
-  line-height: 1.07;
+  line-height: 1.18;
 }
 @include media-breakpoint-up(md) {
   .poem__actions {
