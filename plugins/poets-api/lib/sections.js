@@ -37,6 +37,7 @@ export default {
   buildHighlightedData(page) {
     return (
       _(page.data.relationships.highlighted_content.data)
+        .filter(item => _.get(item, "attributes.status", true))
         .map(item => {
           const entity = _.find(
             page.included,
@@ -72,6 +73,7 @@ export default {
   buildFeaturedContentSection(page) {
     return (
       _(page.data.relationships.featured.data)
+        .filter(item => _.get(item, "attributes.status", true))
         .map(item => {
           const referencedContent = _.find(
             page.included,
