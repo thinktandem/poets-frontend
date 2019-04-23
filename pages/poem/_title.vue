@@ -62,7 +62,8 @@
               :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"
             />
             <div
-              class="px-md-4 font-serif-2"
+              class="poem__body px-md-4 font-serif-2"
+              :class="{'poem__body--small-text': smalltext}"
               v-if="poem.attributes.body !== null"
               v-html="replaceFileUrl(poem.attributes.body.processed)"
             />
@@ -281,6 +282,9 @@ export default {
     },
     longTitle() {
       return this.$data.poem.attributes.title.length > 75;
+    },
+    smalltext() {
+      return _.get(this.$data, "poem.attributes.very_long_lines", false);
     }
   },
   methods: {
@@ -333,18 +337,18 @@ export default {
   .card-subtitle {
     font-family: $font-family-sans-serif;
     font-size: 1.25rem;
-    line-height: 1.75rem;
+    line-height: 1.4;
     color: var(--black);
   }
 
   .card-body {
     font-size: 1.25rem;
-    line-height: 1.87rem;
+    line-height: 1.5;
     font-family: $font-family-serif;
   }
   .card--poem__attribution {
     font-size: 0.8rem;
-    line-height: 1.25rem;
+    line-height: 1.56;
     font-weight: 400;
   }
 }
@@ -359,7 +363,7 @@ export default {
 .about-poem {
   font-size: 0.9rem;
   font-weight: 400;
-  line-height: 1.07rem;
+  line-height: 1.18;
 }
 @include media-breakpoint-up(md) {
   .poem__actions {
