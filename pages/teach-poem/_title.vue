@@ -5,7 +5,7 @@
         <div
           class="teach_this_poem__body"
           v-if="$store.state.pageData.data.attributes.body"
-          v-html="$store.state.pageData.data.attributes.body.value"/>
+          v-html="replaceFileUrl($store.state.pageData.data.attributes.body.value)"/>
       </b-col>
       <b-col
         md="4"
@@ -21,11 +21,11 @@
         <div
           class="teach_this_poem__side_text_1"
           v-if="$store.state.pageData.data.attributes.field_side_text_1"
-          v-html="$store.state.pageData.data.attributes.field_side_text_1.value"/>
+          v-html="replaceFileUrl($store.state.pageData.data.attributes.field_side_text_1.value)"/>
         <div
           class="teach_this_poem_side_text_2"
           v-if="$store.state.pageData.data.attributes.field_side_text_2"
-          v-html="$store.state.pageData.data.attributes.field_side_text_2.value"/>
+          v-html="replaceFileUrl($store.state.pageData.data.attributes.field_side_text_2.value)"/>
         <div
           class="teach_this_poem_more_link-container"
           v-if="$store.state.highlightedData">
@@ -47,6 +47,9 @@ export default {
   async fetch({ app, store, route }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(routerResponse => {
         return app.$axios
           .$get(routerResponse.jsonapi.individual, {

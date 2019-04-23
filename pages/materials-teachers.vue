@@ -104,12 +104,9 @@ export default {
               return {
                 title: item.attributes.title,
                 link: item.attributes.path.alias,
-                meta: _.find(
-                  lessons.included,
-                  include =>
-                    include.id ===
-                    item.relationships.field_contributors.data[0].id
-                ).attributes.body.processed,
+                body:
+                  _.get(item, "attributes.body.summary") ||
+                  _.get(item, "attributes.body.processed"),
                 level: _.find(
                   lessons.included,
                   include =>

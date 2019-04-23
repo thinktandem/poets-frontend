@@ -4,16 +4,19 @@
       <b-row>
         <b-col md="8">
           <span class="person__type">Contributor</span>
-          <h1>{{ person.attributes.title }}</h1>
+          <h1 v-if="person.attributes.title">{{ person.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="person.attributes.body.processed"
+          v-if="!empty(body)"
+          v-html="replaceFileUrl(body)"
           class="book__body"
           md="8"/>
         <b-col md="4">
-          <div class="person__image">
+          <div
+            v-if="!empty(image)"
+            class="person__image">
             <b-img
               :src="image.src"
               :alt="image.alt"/>
@@ -57,7 +60,7 @@
               md="8">
               <a
                 :href="text.attributes.path.alias"
-                v-html="text.attributes.title"
+                v-html="replaceFileUrl(text.attributes.title)"
               />
             </b-col>
           </b-row>
@@ -100,7 +103,7 @@
               md="8">
               <a
                 :href="lp.attributes.path.alias"
-                v-html="lp.attributes.title"
+                v-html="replaceFileUrl(lp.attributes.title)"
               />
             </b-col>
           </b-row>
@@ -139,7 +142,7 @@
               md="8">
               <a
                 :href="ann.attributes.path.alias"
-                v-html="ann.attributes.title"
+                v-html="replaceFileUrl(ann.attributes.title)"
               />
             </b-col>
           </b-row>
@@ -150,6 +153,7 @@
 </template>
 
 <script>
+import { get } from "lodash";
 import qs from "qs";
 import niceDate from "~/plugins/niceDate";
 import MetaTags from "~/plugins/metatags";
@@ -158,6 +162,11 @@ export default {
   head() {
     return MetaTags.renderTags(this.person.attributes.metatag_normalized);
   },
+  computed: {
+    body() {
+      return get(this.person, "attributes.body.processed");
+    }
+  },
   async asyncData({ app, params }) {
     const attributes = await app.$axios
       .get(
@@ -165,6 +174,9 @@ export default {
           params.title
         }`
       )
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .get(`/api/node/person/${res.data.entity.uuid}?include=field_image`)

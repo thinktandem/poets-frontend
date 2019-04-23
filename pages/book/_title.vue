@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="book.attributes.body.value"
+          v-html="replaceFileUrl(book.attributes.body.value)"
           class="book__body"
           md="8"/>
         <b-col md="4">
@@ -32,6 +32,9 @@ export default {
   async asyncData({ app, params }) {
     return app.$axios
       .get(`/router/translate-path?path=/book/${params.title}`)
+      .catch(err => {
+        app.handleError(err);
+      })
       .then(res => {
         return app.$axios
           .get(`/api/node/books/${res.data.entity.uuid}?include=field_image`)

@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="prize.body"
+          v-html="replaceFileUrl(prize.body)"
           class="prizes__body"
           md="8"/>
         <b-col md="4">
@@ -172,9 +172,11 @@ export default {
     return MetaTags.renderTags(this.prize.tags);
   },
   async asyncData({ app, route }) {
-    const routerResponse = await app.$axios.$get(
-      `/router/translate-path?path=${route.path}`
-    );
+    const routerResponse = await app.$axios
+      .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      });
     const prize = await app.$axios.$get(
       routerResponse.jsonapi.individual + "?include=field_image"
     );

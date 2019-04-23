@@ -43,6 +43,7 @@ import FeatureStack from "~/components/FeatureStack";
 import ProductFeature from "~/components/ProductFeature";
 import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
 import MetaTags from "~/plugins/metatags";
+import niceDate from "~/plugins/niceDate";
 export default {
   layout: "default",
   components: {
@@ -157,9 +158,10 @@ export default {
       filter: {
         // Hard coded ID for announcement story type
         // @todo do some magic to make this dynamic
-        "field_story_type.tid": 8
+        "field_story_type.tid": 8,
+        promote: 1
       },
-      sort: "-promote",
+      sort: "-created",
       page: {
         limit: 3
       }
@@ -174,7 +176,9 @@ export default {
           body:
             _.get(announcement, "attributes.body.summary", null) ||
             _.get(announcement, "attributes.body.processed", null),
-          date: _.get(announcement, "attributes.changed", null),
+          date: niceDate.niceDate(
+            _.get(announcement, "attributes.created", null)
+          ),
           link: _.get(announcement, "attributes.path.alias", null)
         };
       })

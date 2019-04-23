@@ -8,7 +8,7 @@
         :src="`https://www.youtube.com/embed/${youtubeId}`"/>
     </div>
     <div class="video-block__description">
-      <div v-html="body"/>
+      <div v-html="replaceFileUrl(body)"/>
       <div class="video-block__links d-flex justify-content-start pt-3">
         <b-link
           v-if="vimeoId !== null"

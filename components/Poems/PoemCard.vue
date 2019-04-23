@@ -7,7 +7,7 @@
   >
     <h3 class="card-title">
       <b-link
-        v-html="title"
+        v-html="replaceFileUrl(title)"
         class="text-dark"
         :href="link"
         itemprop="title"
@@ -15,7 +15,7 @@
     </h3>
     <div
       class="card__body card__body--fade font-serif-2"
-      v-html="text"
+      v-html="replaceFileUrl(text)"
     />
     <div class="card-footer">
       <p

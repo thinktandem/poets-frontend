@@ -13,7 +13,7 @@
         >
           <div
             class="text__body-preface"
-            v-html="body"/>
+            v-html="replaceFileUrl(body)"/>
         </b-col>
       </b-row>
     </b-container>
@@ -30,6 +30,9 @@ export default {
         params: {
           path: `/text/${params.title}`
         }
+      })
+      .catch(err => {
+        app.handleError(err);
       })
       .then(res => {
         return app.$axios

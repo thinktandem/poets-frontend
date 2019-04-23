@@ -6,11 +6,14 @@ export default {
     if (_.isEmpty(content)) {
       return content;
     }
-    const contentWithImages = content.replace(
-      /src\=\"\/sites\/default\/files\//g,
-      'src="' + baseURL + "/sites/default/files/"
-    );
-
-    return contentWithImages;
+    return content
+      .replace(
+        /src\=\"\/sites\/default\/files\//g,
+        'src="' + baseURL + "/sites/default/files/"
+      )
+      .replace(
+        /href\=\"\/sites\/default\/files\//g,
+        'href="' + baseURL + "/sites/default/files/"
+      );
   }
 };

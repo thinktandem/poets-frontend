@@ -16,7 +16,7 @@
     </b-link>
     <h3 class="card-title">
       <b-link
-        v-html="title"
+        v-html="replaceFileUrl(title)"
         :href="view_node_1"
         itemprop="title"
       />

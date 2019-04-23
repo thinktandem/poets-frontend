@@ -15,7 +15,11 @@
           {{ title }}
         </b-link>
       </h3>
-      <div class="card-footer">
+      <app-teaser-text
+        class="card-body"
+        :text="replaceFileUrl(body)"/>
+      <div
+        class="card-footer">
         <app-teaser-text
           class="card--lesson-plan__meta"
           :text="meta"
@@ -34,7 +38,7 @@ export default {
       type: String,
       default: ""
     },
-    meta: {
+    body: {
       type: String,
       default: ""
     },
