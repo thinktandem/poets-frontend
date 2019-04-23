@@ -8,13 +8,13 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="winner.prizeDetails"
+          v-html="replaceFileUrl(winner.prizeDetails)"
           class="program__body"
           xl="12"/>
       </b-row>
       <b-row>
         <b-col
-          v-html="winner.body"
+          v-html="replaceFileUrl(winner.body)"
           class="program__body"
           md="8"/>
         <b-col md="4">
@@ -33,9 +33,11 @@ import _ from "lodash";
 
 export default {
   async asyncData({ app, route }) {
-    const routerResponse = await app.$axios.$get(
-      `/router/translate-path?path=${route.path}`
-    );
+    const routerResponse = await app.$axios
+      .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        app.handleError(err);
+      });
     const winner = await app.$axios.$get(
       routerResponse.jsonapi.individual + "?include=field_image"
     );

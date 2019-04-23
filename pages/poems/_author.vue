@@ -25,7 +25,7 @@
           <a
             v-if="poem.attributes.path"
             :href="poem.attributes.path.alias"
-            v-html="poem.attributes.title"/>
+            v-html="replaceFileUrl(poem.attributes.title)"/>
         </b-col>
         <b-col md="4">
           {{ poet.data.attributes.title }}

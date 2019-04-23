@@ -23,7 +23,7 @@
               <div
                 class="pr-4 mb-3"
                 v-show="body"
-                v-html="body"/>
+                v-html="replaceFileUrl(body)"/>
               <b-link
                 class="more-link mt-auto mb-3"
                 v-if="!empty(moreLink)"
@@ -45,7 +45,7 @@
             class="py-3 sidebar-top"
             v-for="(sect, i) in sidebarTop"
             :key="i"
-            v-html="sect"
+            v-html="replaceFileUrl(sect)"
             v-if="!empty(sect)"/>
           <b-img-lazy
             v-if="!empty(imgs)"
@@ -59,7 +59,7 @@
             class="py-3"
             v-for="(sect, i) in sidebarBottom"
             :key="i"
-            v-html="sect"
+            v-html="replaceFileUrl(sect)"
             v-show="!empty(sidebarBottom)"/>
         </b-col>
       </b-row>

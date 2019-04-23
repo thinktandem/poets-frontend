@@ -29,7 +29,7 @@
         >
           <a
             :href="programs.view_node"
-            v-html="programs.title"
+            v-html="replaceFileUrl(programs.title)"
           />
         </b-col>
         <b-col md="3">

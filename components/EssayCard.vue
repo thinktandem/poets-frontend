@@ -18,7 +18,7 @@
       </h3>
       <div
         class="card__body card__body--fade"
-        v-html="text"
+        v-html="replaceFileUrl(text)"
       />
       <div class="card-footer">
         <p

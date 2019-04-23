@@ -29,7 +29,7 @@
           md="6">
           <a
             :href="winner.view_node"
-            v-html="winner.title"
+            v-html="replaceFileUrl(winner.title)"
           />
         </b-col>
         <b-col md="3">

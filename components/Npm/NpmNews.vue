@@ -27,7 +27,7 @@
                 </b-link>
               </div>
               <div
-                v-html="item.body"
+                v-html="replaceFileUrl(item.body)"
                 class="npm__news-row-body"/>
             </b-col>
           </b-row>

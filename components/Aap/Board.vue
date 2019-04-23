@@ -28,7 +28,7 @@
         </h3>
         <div
           class="job-title"
-          v-html="job"/>
+          v-html="replaceFileUrl(job)"/>
       </div>
       <div class="poet__bio">
         <app-teaser-text
