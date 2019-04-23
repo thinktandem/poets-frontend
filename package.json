@@ -6,12 +6,12 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "pm2 start ecosystem.config.js --only dev --no-daemon",
+    "dev": "NODE_OPTIONS='--max-old-space-size=8092' nuxt",
     "generate": "nuxt generate",
     "lint": "eslint --ext=.js,.vue --ignore-pattern=test/*.js --ignore-path=.gitignore .",
     "lintfix": "eslint --fix --ext=.js,.vue --ignore-pattern=test/*.js --ignore-path=.gitignore .",
     "precommit": "npm run lint",
-    "start": "pm2 start ecosystem.config.js --only prod --no-daemon",
+    "start": "nuxt start",
     "test": "codeceptjs run"
   },
   "dependencies": {

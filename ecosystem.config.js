@@ -9,18 +9,6 @@ const defaults = {
 module.exports = {
   apps: [
     {
-      name: "dev",
-      script: `./node_modules/nuxt/bin/nuxt-dev`,
-      autorestart: true,
-      watch: true,
-      max_memory_restart: "8G",
-      env: {
-        NODE_OPTIONS: "--max-old-space-size=8092",
-        PORT: defaults.port,
-        HOST: defaults.host
-      }
-    },
-    {
       name: "prod",
       script: "./node_modules/nuxt/bin/nuxt-start",
       autorestart: true,

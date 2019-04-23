@@ -128,7 +128,6 @@ module.exports = {
     }
   },
   env: {
-    PORT: 80,
     baseURL: process.env.API_URL || "https://api.poets.org",
     appURL: process.env.appURL || "https://poets.org",
     CACHE_TTL: process.env.CACHE_TTL || 300,

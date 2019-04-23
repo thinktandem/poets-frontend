@@ -1,7 +1,7 @@
 name: poetsd8
 proxy:
   appserver:
-    - poetsd8.lndo.site
+    - poetsd8.lndo.site:3000
   yakbak:
     - yakbakpoets.lndo.site
 excludes:
@@ -11,9 +11,8 @@ env_file:
 services:
   appserver:
     type: node:10
-    globals:
-      pm2: 3.5.0
-    command: cp -n /app/.env.example /app/.env && yarn dev
+    command: cp -n /app/.env.example /app/.env && yarn dev --hostname 0.0.0.0
+    port: 3000
     build:
       - yarn install
   yakbak:

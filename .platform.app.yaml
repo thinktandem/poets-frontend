@@ -19,7 +19,7 @@ mounts:
 # Boot up
 web:
   commands:
-    start: "PM2_HOME=/app/run yarn start"
+    start: "PM2_HOME=/app/run pm2 start ecosystem.config.js --no-daemon"
 
 # Hooks
 hooks:
