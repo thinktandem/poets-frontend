@@ -4,16 +4,19 @@
       <b-row>
         <b-col md="8">
           <span class="person__type">Contributor</span>
-          <h1>{{ person.attributes.title }}</h1>
+          <h1 v-if="person.attributes.title">{{ person.attributes.title }}</h1>
         </b-col>
       </b-row>
       <b-row>
         <b-col
-          v-html="replaceFileUrl(person.attributes.body.processed)"
+          v-if="!empty(body)"
+          v-html="replaceFileUrl(body)"
           class="book__body"
           md="8"/>
         <b-col md="4">
-          <div class="person__image">
+          <div
+            v-if="!empty(image)"
+            class="person__image">
             <b-img
               :src="image.src"
               :alt="image.alt"/>
@@ -150,6 +153,7 @@
 </template>
 
 <script>
+import { get } from "lodash";
 import qs from "qs";
 import niceDate from "~/plugins/niceDate";
 import MetaTags from "~/plugins/metatags";
@@ -157,6 +161,11 @@ import MetaTags from "~/plugins/metatags";
 export default {
   head() {
     return MetaTags.renderTags(this.person.attributes.metatag_normalized);
+  },
+  computed: {
+    body() {
+      return get(this.person, "attributes.body.processed");
+    }
   },
   async asyncData({ app, params }) {
     const attributes = await app.$axios
