@@ -6,13 +6,13 @@ body {
   pre {
     white-space: pre-wrap;
     font-family: "Poets Electra";
-    font-size: 0.75rem;
+    font-size: 3.8vw;
 
     .poem__body--small-text & {
-      font-size: 0.69rem;
+      font-size: 3.2vw;
     }
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(sm) {
       font-size: 1.25rem;
     }
   }
