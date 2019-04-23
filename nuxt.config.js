@@ -1,12 +1,4 @@
-const config = require("platformsh-config").config();
-
-const port = config.inRuntime() ? config.port : process.env.PORT;
-const host = process.env.HOST || "0.0.0.0";
 module.exports = {
-  server: {
-    port: port,
-    host: host
-  },
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
@@ -136,6 +128,7 @@ module.exports = {
     }
   },
   env: {
+    PORT: 80,
     baseURL: process.env.API_URL || "https://api.poets.org",
     appURL: process.env.appURL || "https://poets.org",
     CACHE_TTL: process.env.CACHE_TTL || 300,

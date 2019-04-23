@@ -19,7 +19,7 @@ mounts:
 # Boot up
 web:
   commands:
-    start: "PM2_HOME=/app/run pm2 start /app/node_modules/nuxt/bin/nuxt-start --no-daemon"
+    start: "PM2_HOME=/app/run yarn start"
 
 # Hooks
 hooks:

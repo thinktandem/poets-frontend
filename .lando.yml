@@ -13,15 +13,9 @@ services:
     type: node:10
     globals:
       pm2: 3.5.0
-    command: |
-      cp -n /app/.env.example /app/.env
-      pm2 start /app/node_modules/nuxt/bin/nuxt-dev --no-daemon
+    command: cp -n /app/.env.example /app/.env && yarn dev
     build:
       - yarn install
-    overrides:
-      environment:
-        PORT: 80
-        HOST: "0.0.0.0"
   yakbak:
     type: node:10
     command: node /app/proxy.js
