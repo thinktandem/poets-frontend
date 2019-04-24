@@ -10,12 +10,6 @@
             <b-col
               lg="5">
               <div
-                v-if="field_content_sections"
-                class="npm__news-row-image">
-                {{ field_content_sections }}
-              </div>
-              <div
-                v-else
                 class="npm__news-row-image">
                 <b-img-lazy
                   fluid
