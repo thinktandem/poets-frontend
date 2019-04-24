@@ -144,8 +144,6 @@ export default {
   },
   data() {
     return {
-      siteUri: `${process.env.appURL}${this.poem.alias}`,
-      title: encodeURIComponent(this.poem.title),
       anthologies: {
         options: [],
         selected: null,
@@ -175,6 +173,12 @@ export default {
     }
   },
   computed: {
+    title() {
+      return encodeURIComponent(this.poem.title);
+    },
+    siteUri() {
+      return `${process.env.appURL}${this.poem.alias}`;
+    },
     encodedUri() {
       return encodeURIComponent(this.siteUri);
     },
@@ -184,7 +188,7 @@ export default {
       }`;
     },
     twitterUrl() {
-      return `https://twitter.com/share?text=${this.title}&url=${
+      return `https://twitter.com/share?text=${this.poem.title}&url=${
         this.encodedUri
       }`;
     },
