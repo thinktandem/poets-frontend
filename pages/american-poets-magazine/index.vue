@@ -41,35 +41,30 @@ export default {
       },
       include: "field_image,field_content_sections"
     });
-    return app.$axios
-      .$get(`/api/node/magazine?${magazineQuery}`)
-      .then(magazine => {
-        const topProduct = _.first(magazine.data);
-        return {
-          latest: {
-            response: magazine,
-            entity: topProduct,
-            title: _.get(topProduct, "attributes.title", null),
-            intro: _.get(
-              topProduct,
-              "attributes.magazine_intro.processed",
-              null
-            ),
-            subTitle: _.get(topProduct, "attributes.subtitle", null),
-            contents: _.get(topProduct, "attributes.contents", null),
-            img: app.$buildImg(
-              magazine,
-              topProduct,
-              "field_image",
-              "magazine_cover"
-            ),
-            link: {
-              to: `/academy-american-poets/become-member`,
-              text: "Become a member"
-            }
-          }
-        };
-      });
+    const magazine = await app.$axios.$get(
+      `/api/node/magazine?${magazineQuery}`
+    );
+    const topProduct = _.first(magazine.data);
+    return {
+      latest: {
+        response: magazine,
+        entity: topProduct,
+        title: _.get(topProduct, "attributes.title", null),
+        intro: _.get(topProduct, "attributes.magazine_intro.processed", null),
+        subTitle: _.get(topProduct, "attributes.subtitle", null),
+        contents: _.get(topProduct, "attributes.contents", null),
+        img: app.$buildImg(
+          magazine,
+          topProduct,
+          "field_image",
+          "magazine_cover"
+        ),
+        link: {
+          to: `/academy-american-poets/become-member`,
+          text: "Become a member"
+        }
+      }
+    };
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
