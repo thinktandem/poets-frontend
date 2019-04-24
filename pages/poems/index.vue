@@ -155,6 +155,23 @@ const buildQuery = (filters = {}) =>
 // Helper to param stringify the filters
 const buildParams = (filters = {}) => stringify(_.pickBy(filters));
 
+// Helper to fetch featured poets
+const buildFeaturesPoemsQuery = () => {
+  // Spin up the basic query
+  const query = {
+    filter: {
+      status: 1
+    },
+    page: {
+      limit: 3
+    },
+    sort: "-field_featured",
+    include: "field_author"
+  };
+  // Return
+  return query;
+};
+
 // Helper to fetch a specific term
 const buildTermQuery = id => ({
   filter: {
@@ -191,6 +208,7 @@ export default {
   data() {
     return {
       busy: true,
+      featuredPoems: [],
       fields: [
         {
           key: "title",
@@ -258,7 +276,27 @@ export default {
         this.busy = false;
       });
       // Grab the movement and featured poets
-      Promise.all([this.getTermDescription()]);
+      Promise.all([this.getTermDescription(), this.getFeaturedPoems()]);
+    },
+    getFeaturedPoems() {
+      const query = buildFeaturesPoemsQuery(this.filters);
+      this.$api.getPoems({ query }).then(response => {
+        this.featuredPoems = _(_.get(response, "data.data"))
+          .filter(poem => _.has(poem, "relationships.field_author.data[0].id"))
+          .map((poem, index) => ({
+            aid: poem.relationships.field_author.data[0].id,
+            link: poem.attributes.path.alias,
+            title: poem.attributes.title,
+            text: poem.attributes.body.processed,
+            year: poem.attributes.field_copyright_date.split("-")[0],
+            poet: {
+              // @NOTE: the below assumes the index of the data and included
+              // arrays match up
+              name: _.get(response, `data.included[${index}].attributes.title`)
+            }
+          }))
+          .value();
+      });
     },
     getFilter(filter) {
       const fields = "name,drupal_internal__tid";
@@ -299,44 +337,6 @@ export default {
     "filters.combine": function() {
       this.debouncedSearchPoems();
     }
-  },
-  async asyncData({ app, params, query, route }) {
-    // @TODO: get this into API v2 plugin
-    const featuredPoemsParams = stringify({
-      page: {
-        limit: 3
-      },
-      filter: {
-        status: 1
-      },
-      sort: "-field_featured"
-    });
-    const featuredPoems = await app.$axios.$get(
-      `/api/node/poems?${featuredPoemsParams}&include=field_author`
-    );
-    return {
-      featuredPoems: _.map(featuredPoems.data, poem => {
-        const poemAuthorId = _.get(
-          poem,
-          "relationships.field_author.data[0].id"
-        );
-        let author = "";
-        _.each(featuredPoems.included, (inc, i) => {
-          if (inc.id === poemAuthorId) {
-            author = inc.attributes.title;
-          }
-        });
-        return {
-          link: poem.attributes.path.alias,
-          title: poem.attributes.title,
-          text: poem.attributes.body.processed,
-          year: poem.attributes.field_copyright_date.split("-")[0],
-          poet: {
-            name: author
-          }
-        };
-      })
-    };
   },
   async fetch({ app, store, query, route }) {
     return app.$buildBasicPage(app, store, "/poems");
