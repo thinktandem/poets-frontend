@@ -1,13 +1,19 @@
 <template>
   <div>
-    <CardDeck
-      v-if="featuredPoems"
-      col-size="md"
-      class="pt-5"
-      title="Featured Poems"
-      cardtype="PoemCard"
-      :cards="featuredPoems"
-    />
+    <b-container
+      class="py-5"
+      v-if="term">
+      <h2 class="h3">{{ term.title }}</h2>
+      <div v-html="term.body"/>
+      <CardDeck
+        v-if="featuredPoems"
+        col-size="md"
+        class="pt-5"
+        title="Featured Poems"
+        cardtype="PoemCard"
+        :cards="featuredPoems"
+      />
+    </b-container>
     <b-container>
       <b-row>
         <b-col md="12">
@@ -129,7 +135,7 @@
 
 <script>
 import _ from "lodash";
-import qs from "qs";
+import { stringify } from "qs";
 import filterHelpers from "~/plugins/filter-helpers";
 import CardDeck from "~/components/CardDeck";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
@@ -146,6 +152,83 @@ const buildQuery = (filters = {}) =>
     field_poem_themes_target_id: filters.theme
   });
 
+// Helper to param stringify the filters
+const buildParams = (filters = {}) => stringify(_.pickBy(filters));
+
+// Helper to fetch featured poets
+const buildFeaturesPoemsQuery = ({
+  occasion = null,
+  theme = null,
+  form = null
+} = {}) => {
+  // Spin up the basic query
+  const query = {
+    filter: {
+      status: 1
+    },
+    page: {
+      limit: 3
+    },
+    sort: "-field_featured",
+    include: "field_author"
+  };
+  // Add in the occasion if we need it
+  if (!_.isNil(occasion)) {
+    query.filter.occasion = {
+      condition: {
+        path: "field_occasion.tid",
+        operator: "=",
+        value: occasion
+      }
+    };
+  }
+  // Add in the theme if we need it
+  if (!_.isNil(theme)) {
+    query.filter.theme = {
+      condition: {
+        path: "field_poem_themes.tid",
+        operator: "=",
+        value: theme
+      }
+    };
+  }
+  // Add in the form if we need it
+  if (!_.isNil(form)) {
+    query.filter.form = {
+      condition: {
+        path: "field_form.tid",
+        operator: "=",
+        value: form
+      }
+    };
+  }
+  // Return
+  return query;
+};
+
+// Helper to fetch a specific term
+const buildTermQuery = id => ({
+  filter: {
+    drupal_internal__tid: id,
+    status: 1
+  },
+  page: {
+    limit: 1
+  }
+});
+
+// Helper for us to get the "highest priority" term
+const getPriorityTerm = ({
+  occasion = null,
+  theme = null,
+  form = theme
+} = {}) => {
+  if (!_.isNil(occasion)) return { name: "occasions", id: occasion };
+  else if (!_.isNil(theme)) return { name: "themes", id: theme };
+  else if (!_.isNil(form)) return { name: "form", id: form };
+  else return {};
+};
+
 export default {
   components: {
     CardDeck,
@@ -159,6 +242,7 @@ export default {
   data() {
     return {
       busy: true,
+      featuredPoems: [],
       fields: [
         {
           key: "title",
@@ -188,10 +272,15 @@ export default {
       pageCache: [],
       perPage: 20,
       poems: [],
+      term: {},
       rows: 0
     };
   },
   mounted() {
+    // Get all the data we need for search
+    // NOTE: We need to start with our "null" defualts to make sure
+    // the placeholders show up in the dropdowns
+    this.filters = _.merge(this.filters, this.$route.query);
     // Get all the data we need for search
     Promise.all([
       this.searchPoems(),
@@ -207,10 +296,40 @@ export default {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.searchPoems({ query }).then(response => {
-        this.poems = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
+        this.poems = this.rows > 0 ? _.get(response, "data.rows", []) : [];
+        // Update the url so the search can be shared.
+        // @NOTE: we want to use the raw filters not the query which is
+        // parsed into things drupal needs
+        const params = buildParams(this.filters);
+        if (!_.isEmpty(params)) {
+          window.history.pushState({}, "", `?${params}`);
+        }
+        // And finally set busy
         this.busy = false;
+      });
+      // Grab the movement and featured poets
+      Promise.all([this.getTermDescription(), this.getFeaturedPoems()]);
+    },
+    getFeaturedPoems() {
+      const query = buildFeaturesPoemsQuery(this.filters);
+      this.$api.getPoems({ query }).then(response => {
+        this.featuredPoems = _(_.get(response, "data.data"))
+          .filter(poem => _.has(poem, "relationships.field_author.data[0].id"))
+          .map((poem, index) => ({
+            aid: poem.relationships.field_author.data[0].id,
+            link: poem.attributes.path.alias,
+            title: poem.attributes.title,
+            text: poem.attributes.body.processed,
+            year: poem.attributes.field_copyright_date.split("-")[0],
+            poet: {
+              // @NOTE: the below assumes the index of the data and included
+              // arrays match up
+              name: _.get(response, `data.included[${index}].attributes.title`)
+            }
+          }))
+          .value();
       });
     },
     getFilter(filter) {
@@ -221,6 +340,24 @@ export default {
           _.get(response, "data.data", [])
         );
       });
+    },
+    getTermDescription() {
+      const priorityTerm = getPriorityTerm(this.filters);
+      if (!_.isEmpty(priorityTerm)) {
+        this.$api
+          .getTerm(priorityTerm.name, {
+            query: buildTermQuery(priorityTerm.id)
+          })
+          .then(response => {
+            const first = _.first(_.get(response, "data.data", []));
+            this.term = {
+              title: _.get(first, "attributes.name"),
+              body:
+                _.get(first, "attributes.description.summary") ||
+                _.get(first, "attributes.description.processed")
+            };
+          });
+      }
     },
     paginate() {
       this.busy = true;
@@ -234,44 +371,6 @@ export default {
     "filters.combine": function() {
       this.debouncedSearchPoems();
     }
-  },
-  async asyncData({ app, params, query, route }) {
-    // @TODO: get this into API v2 plugin
-    const featuredPoemsParams = qs.stringify({
-      page: {
-        limit: 3
-      },
-      filter: {
-        status: 1
-      },
-      sort: "-field_featured"
-    });
-    const featuredPoems = await app.$axios.$get(
-      `/api/node/poems?${featuredPoemsParams}&include=field_author`
-    );
-    return {
-      featuredPoems: _.map(featuredPoems.data, poem => {
-        const poemAuthorId = _.get(
-          poem,
-          "relationships.field_author.data[0].id"
-        );
-        let author = "";
-        _.each(featuredPoems.included, (inc, i) => {
-          if (inc.id === poemAuthorId) {
-            author = inc.attributes.title;
-          }
-        });
-        return {
-          link: poem.attributes.path.alias,
-          title: poem.attributes.title,
-          text: poem.attributes.body.processed,
-          year: poem.attributes.field_copyright_date.split("-")[0],
-          poet: {
-            name: author
-          }
-        };
-      })
-    };
   },
   async fetch({ app, store, query, route }) {
     return app.$buildBasicPage(app, store, "/poems");
