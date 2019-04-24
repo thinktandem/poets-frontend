@@ -17,8 +17,6 @@
   </div>
 </template>
 <script>
-import _ from "lodash";
-import qs from "qs";
 import BasicPage from "~/components/BasicPage";
 import ProductFeature from "~/components/ProductFeature";
 import MetaTags from "~/plugins/metatags";
@@ -31,39 +29,9 @@ export default {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
   async asyncData({ app }) {
-    const magazineQuery = qs.stringify({
-      filter: {
-        status: 1
-      },
-      sort: "-changed",
-      page: {
-        limit: 1
-      },
-      include: "field_image,field_content_sections"
-    });
-    const magazine = await app.$axios.$get(
-      `/api/node/magazine?${magazineQuery}`
-    );
-    const topProduct = _.first(magazine.data);
+    const latest = await app.$latestMagazine({ app });
     return {
-      latest: {
-        response: magazine,
-        entity: topProduct,
-        title: _.get(topProduct, "attributes.title", null),
-        intro: _.get(topProduct, "attributes.magazine_intro.processed", null),
-        subTitle: _.get(topProduct, "attributes.subtitle", null),
-        contents: _.get(topProduct, "attributes.contents", null),
-        img: app.$buildImg(
-          magazine,
-          topProduct,
-          "field_image",
-          "magazine_cover"
-        ),
-        link: {
-          to: `/academy-american-poets/become-member`,
-          text: "Become a member"
-        }
-      }
+      latest
     };
   },
   async fetch({ app, store, route }) {

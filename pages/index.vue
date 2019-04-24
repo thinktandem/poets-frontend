@@ -22,6 +22,14 @@
       :features="$store.state.featuredContent"
       title="Features"/>
     <app-announcements-awards />
+    <product-feature
+      v-if="$store.state.productFeature.title"
+      :title="$store.state.productFeature.title"
+      :sub-title="$store.state.productFeature.subTitle"
+      :intro="$store.state.productFeature.intro"
+      :contents="$store.state.productFeature.contents"
+      :img="$store.state.productFeature.img"
+      :link="$store.state.productFeature.link"/>
   </div>
 </template>
 
@@ -144,6 +152,8 @@ export default {
         }
       });
     }
+    const latestMag = await app.$latestMagazine({ app });
+    store.commit("updateProductFeature", latestMag);
     const announcementRequestParams = qs.stringify({
       filter: {
         // Hard coded ID for announcement story type
