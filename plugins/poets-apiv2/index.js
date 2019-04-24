@@ -124,6 +124,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Get poems
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getPoems(options = {}) {
+    return poems.getPoems(this.request, options);
+  }
+
+  /**
    * Get poets
    *
    * @param {Object} options

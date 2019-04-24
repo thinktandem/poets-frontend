@@ -141,6 +141,9 @@ const buildQuery = (filters = {}) =>
     state: filters.state
   });
 
+// Helper to param stringify the filters
+const buildParams = (filters = {}) => stringify(_.pickBy(filters));
+
 // Helper to fetch a specific movement
 const buildMovementQuery = school => ({
   filter: {
@@ -153,7 +156,7 @@ const buildMovementQuery = school => ({
 });
 
 // Helper to fetch featured poets
-const buildFeaturesPoetsQuery = (school = null) => {
+const buildFeaturesPoetsQuery = ({ school = null, state = null } = {}) => {
   // Spin up the basic query
   const query = {
     filter: {},
@@ -172,6 +175,16 @@ const buildFeaturesPoetsQuery = (school = null) => {
         path: "field_school_movement.tid",
         operator: "=",
         value: school
+      }
+    };
+  }
+  // Add in the state if we need it
+  if (!_.isNil(state)) {
+    query.filter.state = {
+      condition: {
+        path: "field_state.nid",
+        operator: "=",
+        value: state
       }
     };
   }
@@ -244,7 +257,13 @@ export default {
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.poets = this.rows > 0 ? _.get(response, "data.rows", []) : [];
         // Update the url so the search can be shared.
-        window.history.pushState({}, "", `?${stringify(query)}`);
+        // @NOTE: we want to use the raw filters not the query which is
+        // parsed into things drupal needs
+        const params = buildParams(this.filters);
+        if (!_.isEmpty(params)) {
+          window.history.pushState({}, "", `?${params}`);
+        }
+        // And finally set busy
         this.busy = false;
       });
       // Grab the movement and featured poets
@@ -268,7 +287,7 @@ export default {
       }
     },
     getFeaturedPoets() {
-      const query = buildFeaturesPoetsQuery(this.filters.school);
+      const query = buildFeaturesPoetsQuery(this.filters);
       this.$api.getPoets({ query }).then(response => {
         this.featuredPoets = _(_.get(response, "data.data"), [])
           .filter(
