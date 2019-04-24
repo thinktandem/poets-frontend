@@ -156,7 +156,11 @@ const buildQuery = (filters = {}) =>
 const buildParams = (filters = {}) => stringify(_.pickBy(filters));
 
 // Helper to fetch featured poets
-const buildFeaturesPoemsQuery = () => {
+const buildFeaturesPoemsQuery = ({
+  occasion = null,
+  theme = null,
+  form = null
+} = {}) => {
   // Spin up the basic query
   const query = {
     filter: {
@@ -168,6 +172,36 @@ const buildFeaturesPoemsQuery = () => {
     sort: "-field_featured",
     include: "field_author"
   };
+  // Add in the occasion if we need it
+  if (!_.isNil(occasion)) {
+    query.filter.occasion = {
+      condition: {
+        path: "field_occasion.tid",
+        operator: "=",
+        value: occasion
+      }
+    };
+  }
+  // Add in the theme if we need it
+  if (!_.isNil(theme)) {
+    query.filter.theme = {
+      condition: {
+        path: "field_poem_themes.tid",
+        operator: "=",
+        value: theme
+      }
+    };
+  }
+  // Add in the form if we need it
+  if (!_.isNil(form)) {
+    query.filter.form = {
+      condition: {
+        path: "field_form.tid",
+        operator: "=",
+        value: form
+      }
+    };
+  }
   // Return
   return query;
 };
