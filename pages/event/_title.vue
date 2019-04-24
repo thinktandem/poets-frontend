@@ -5,6 +5,7 @@
         <b-col lg="7">
           <h1>{{ title }}</h1>
           <b-img-lazy
+            v-if="image"
             right
             class="event__image mb-4"
             :src="image.src"
@@ -51,19 +52,31 @@
               size="lg"
               :href="registerLink.uri"
             >{{ registerLink.title }}</b-button>
+          </div>
 
+          <div class="event-admission">
+            <h3 class="event__field-header">Admission</h3>
+            <p>
+              <span v-if="eventFee">Admission Fee:
+                <strong>${{ eventFee }}</strong><br>
+              </span>
+            </p>
+          </div>
+
+          <div class="event-contact">
+            <h3 class="event__field-header">Contact</h3>
+            <p>
+              Contact: <a href="#">{{ contact }}</a>
+            </p>
           </div>
 
           <div class="event-registration my-5">
             <h3>Interested in being
             considered?</h3>
-            <p>To be considered for #PoetryNearYou Pick of the Week, we invite you to become a registered user of Poets.org for free and to use our online calendar Poetry Near You to promote local events in your community.</p>
             <p>
-              <span v-if="eventFee">Admission Fee:
-                <strong>$ {{ eventFee }}</strong><br>
-              </span>
-              Contact: <a href="#">{{ contact }}</a><br>
-              {{ eventDate }}</p>
+              To be considered for #PoetryNearYou Pick of the Week, we invite you to become a registered user of Poets.org for free and to use our online calendar Poetry Near You to promote local events in your community.
+            </p>
+            <ButtonBlock/>
           </div>
         </b-col>
       </b-row>
@@ -87,10 +100,14 @@
 import _ from "lodash";
 import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
+import ButtonBlock from "~/components/ButtonBlock";
 
 export default {
   layout: "default",
-  components: { AppListing },
+  components: {
+    AppListing,
+    ButtonBlock
+  },
   data() {
     return {
       details: {
@@ -159,12 +176,22 @@ export default {
         tags: _.get(event, "data.attributes.metatag_normalized")
       }));
   },
-  async fetch({ store }) {
+  async fetch({ app, store, route }) {
     store.commit("updateHero", {
       heading: "Poetry Near You",
       lead:
         "Are you looking to connect with poets or find opportunities to hear or study poetry? To find poetry events and resources near you, simply enter your zip code in the search field below."
     });
+    store.commit("updateSidebarData", [
+      {
+        component: "ButtonBlock",
+        props: {
+          text: "Submit an Event",
+          type: "modal",
+          modal: "submitEvent"
+        }
+      }
+    ]);
   }
 };
 </script>
