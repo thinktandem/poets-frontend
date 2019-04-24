@@ -1,13 +1,19 @@
 <template>
   <div>
-    <CardDeck
-      v-if="featuredPoems"
-      col-size="md"
-      class="pt-5"
-      title="Featured Poems"
-      cardtype="PoemCard"
-      :cards="featuredPoems"
-    />
+    <b-container
+      class="py-5"
+      v-if="term">
+      <h2 class="h3">{{ term.title }}</h2>
+      <div v-html="term.body"/>
+      <CardDeck
+        v-if="featuredPoems"
+        col-size="md"
+        class="pt-5"
+        title="Featured Poems"
+        cardtype="PoemCard"
+        :cards="featuredPoems"
+      />
+    </b-container>
     <b-container>
       <b-row>
         <b-col md="12">
@@ -149,6 +155,29 @@ const buildQuery = (filters = {}) =>
 // Helper to param stringify the filters
 const buildParams = (filters = {}) => stringify(_.pickBy(filters));
 
+// Helper to fetch a specific term
+const buildTermQuery = id => ({
+  filter: {
+    drupal_internal__tid: id,
+    status: 1
+  },
+  page: {
+    limit: 1
+  }
+});
+
+// Helper for us to get the "highest priority" term
+const getPriorityTerm = ({
+  occasion = null,
+  theme = null,
+  form = theme
+} = {}) => {
+  if (!_.isNil(occasion)) return { name: "occasions", id: occasion };
+  else if (!_.isNil(theme)) return { name: "themes", id: theme };
+  else if (!_.isNil(form)) return { name: "form", id: form };
+  else return {};
+};
+
 export default {
   components: {
     CardDeck,
@@ -191,6 +220,7 @@ export default {
       pageCache: [],
       perPage: 20,
       poems: [],
+      term: {},
       rows: 0
     };
   },
@@ -227,6 +257,8 @@ export default {
         // And finally set busy
         this.busy = false;
       });
+      // Grab the movement and featured poets
+      Promise.all([this.getTermDescription()]);
     },
     getFilter(filter) {
       const fields = "name,drupal_internal__tid";
@@ -236,6 +268,24 @@ export default {
           _.get(response, "data.data", [])
         );
       });
+    },
+    getTermDescription() {
+      const priorityTerm = getPriorityTerm(this.filters);
+      if (!_.isEmpty(priorityTerm)) {
+        this.$api
+          .getTerm(priorityTerm.name, {
+            query: buildTermQuery(priorityTerm.id)
+          })
+          .then(response => {
+            const first = _.first(_.get(response, "data.data", []));
+            this.term = {
+              title: _.get(first, "attributes.name"),
+              body:
+                _.get(first, "attributes.description.summary") ||
+                _.get(first, "attributes.description.processed")
+            };
+          });
+      }
     },
     paginate() {
       this.busy = true;
