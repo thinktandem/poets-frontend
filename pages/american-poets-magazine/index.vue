@@ -1,5 +1,13 @@
 <template>
   <div>
+    <product-feature
+      v-if="latest"
+      :title="latest.title"
+      :sub-title="latest.subTitle"
+      :intro="latest.intro"
+      :contents="latest.contents"
+      :img="latest.img"
+      :link="latest.link"/>
     <basic-page
       :page-data="$store.state.pageData"
       :highlighted="$store.state.highlightedData"
@@ -19,6 +27,9 @@ export default {
   },
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
+  },
+  async asyncData({ app }) {
+    return app.$latestMagazine({ app }).then(latest => ({ latest }));
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
