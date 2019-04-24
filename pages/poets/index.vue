@@ -141,6 +141,9 @@ const buildQuery = (filters = {}) =>
     state: filters.state
   });
 
+// Helper to param stringify the filters
+const buildParams = (filters = {}) => stringify(_.pickBy(filters));
+
 // Helper to fetch a specific movement
 const buildMovementQuery = school => ({
   filter: {
@@ -254,7 +257,13 @@ export default {
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.poets = this.rows > 0 ? _.get(response, "data.rows", []) : [];
         // Update the url so the search can be shared.
-        window.history.pushState({}, "", `?${stringify(query)}`);
+        // @NOTE: we want to use the raw filters not the query which is
+        // parsed into things drupal needs
+        const params = buildParams(this.filters);
+        if (!_.isEmpty(params)) {
+          window.history.pushState({}, "", `?${params}`);
+        }
+        // And finally set busy
         this.busy = false;
       });
       // Grab the movement and featured poets

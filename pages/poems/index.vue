@@ -129,7 +129,7 @@
 
 <script>
 import _ from "lodash";
-import qs from "qs";
+import { stringify } from "qs";
 import filterHelpers from "~/plugins/filter-helpers";
 import CardDeck from "~/components/CardDeck";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
@@ -145,6 +145,9 @@ const buildQuery = (filters = {}) =>
     field_occasion_target_id: filters.occasion,
     field_poem_themes_target_id: filters.theme
   });
+
+// Helper to param stringify the filters
+const buildParams = (filters = {}) => stringify(_.pickBy(filters));
 
 export default {
   components: {
@@ -193,6 +196,10 @@ export default {
   },
   mounted() {
     // Get all the data we need for search
+    // NOTE: We need to start with our "null" defualts to make sure
+    // the placeholders show up in the dropdowns
+    this.filters = _.merge(this.filters, this.$route.query);
+    // Get all the data we need for search
     Promise.all([
       this.searchPoems(),
       this.getFilter("occasions"),
@@ -207,9 +214,17 @@ export default {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.searchPoems({ query }).then(response => {
-        this.poems = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
+        this.poems = this.rows > 0 ? _.get(response, "data.rows", []) : [];
+        // Update the url so the search can be shared.
+        // @NOTE: we want to use the raw filters not the query which is
+        // parsed into things drupal needs
+        const params = buildParams(this.filters);
+        if (!_.isEmpty(params)) {
+          window.history.pushState({}, "", `?${params}`);
+        }
+        // And finally set busy
         this.busy = false;
       });
     },
@@ -237,7 +252,7 @@ export default {
   },
   async asyncData({ app, params, query, route }) {
     // @TODO: get this into API v2 plugin
-    const featuredPoemsParams = qs.stringify({
+    const featuredPoemsParams = stringify({
       page: {
         limit: 3
       },
