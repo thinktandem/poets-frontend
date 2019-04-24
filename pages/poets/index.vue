@@ -153,7 +153,7 @@ const buildMovementQuery = school => ({
 });
 
 // Helper to fetch featured poets
-const buildFeaturesPoetsQuery = (school = null) => {
+const buildFeaturesPoetsQuery = ({ school = null, state = null } = {}) => {
   // Spin up the basic query
   const query = {
     filter: {},
@@ -172,6 +172,16 @@ const buildFeaturesPoetsQuery = (school = null) => {
         path: "field_school_movement.tid",
         operator: "=",
         value: school
+      }
+    };
+  }
+  // Add in the state if we need it
+  if (!_.isNil(state)) {
+    query.filter.state = {
+      condition: {
+        path: "field_state.nid",
+        operator: "=",
+        value: state
       }
     };
   }
@@ -268,7 +278,7 @@ export default {
       }
     },
     getFeaturedPoets() {
-      const query = buildFeaturesPoetsQuery(this.filters.school);
+      const query = buildFeaturesPoetsQuery(this.filters);
       this.$api.getPoets({ query }).then(response => {
         this.featuredPoets = _(_.get(response, "data.data"), [])
           .filter(
