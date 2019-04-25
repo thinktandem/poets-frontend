@@ -3,6 +3,7 @@
     <basic-page
       :page-data="$store.state.pageData"
       :extended-content="$store.state.extendedContent"
+      :features="$store.state.featuredContent"
       :highlighted="$store.state.highlightedData"
       :call-to-action="callToAction"
       :more="$store.state.relatedContent"
