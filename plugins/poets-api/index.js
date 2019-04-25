@@ -48,9 +48,6 @@ export default ({ app }, inject) => {
     ].join(",");
     return app.$axios
       .$get(`/router/translate-path?path=${path}`)
-      .catch(err => {
-        app.handleError(err);
-      })
       .then(routerResponse => {
         return app.$axios
           .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)
@@ -85,24 +82,23 @@ export default ({ app }, inject) => {
             // May occasionally stick stuff there and we don't want it to bleed.
             // Make sure you call the additional changes AFTER this function.
             store.commit("updateRelatedContent", {});
-          })
-          .catch(error => {
-            store.commit("updateHero", {
-              variant: "quote",
-              lead:
-                "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
-              subtext:
-                "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
-            });
-
-            // Set the main page data
-            store.commit("updatePageData", {});
-            store.commit("updateSidebarData", []);
-            store.commit("updateHighlightedData", []);
-            store.commit("updateExtendedContent", []);
-            store.commit("updateFeaturedContent", []);
-            store.commit("updateRelatedContent", {});
           });
+      })
+      .catch(error => {
+        store.commit("updateHero", {
+          variant: "quote",
+          lead:
+            "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
+          subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
+        });
+
+        // Set the main page data
+        store.commit("updatePageData", {});
+        store.commit("updateSidebarData", []);
+        store.commit("updateHighlightedData", []);
+        store.commit("updateExtendedContent", []);
+        store.commit("updateFeaturedContent", []);
+        store.commit("updateRelatedContent", {});
       });
   });
   inject("buildMenu", ({ menu, route, store }) => {

@@ -14,10 +14,6 @@ export default function({ $axios, redirect }) {
       qs.stringify(params, { arrayFormat: "brackets", encode: false });
     return config;
   });
-  $axios.onError(error => {
-    console.error(error);
-    throw error.response;
-  });
   $axios.onResponse(response => {
     // Handle decoupled router redirects.
     if (_.get(response, "data.redirect")) {
