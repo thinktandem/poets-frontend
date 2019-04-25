@@ -25,17 +25,14 @@ export default {
     BasicPage,
     ProductFeature
   },
-  data() {
-    return {
-      latest: {}
-    };
-  },
   head() {
     return MetaTags.renderTags(this.$store.state.metatags);
   },
-  async mounted() {
-    const app = { $axios: this.$axios, $buildImg: this.$buildImg };
-    this.latest = await app.$latestMagazine({ app });
+  async asyncData({ app }) {
+    const latest = await app.$latestMagazine({ app });
+    return {
+      latest
+    };
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path);
