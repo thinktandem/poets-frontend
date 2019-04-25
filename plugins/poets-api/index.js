@@ -49,13 +49,6 @@ export default ({ app }, inject) => {
     ].join(",");
     return app.$axios
       .$get(`/router/translate-path?path=${path}`)
-      .catch(err => {
-        if (strict) {
-          app.handleError(err);
-        } else {
-          return err;
-        }
-      })
       .then(routerResponse => {
         return app.$axios
           .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)
