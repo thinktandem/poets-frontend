@@ -57,7 +57,7 @@
             </div>
             <div
               v-if="extended === true"
-              class="daily-poem__about pl-3 pr-4"
+              class="daily-poem__about pl-3 pr-4 pb-5"
             >
               <h3 class="font-serif">About Poem-a-Day</h3>
               <p class="poem-a-day__about-content">
@@ -68,7 +68,10 @@
                 Poem-a-Day is now distributed via email, web, and social media to
                 350,000+ readers free of charge and is available for syndication. For more
                 information about how to syndicate Poem-a-Day, contact
-                <a href="mailto:poem-a-day@poets.org">poem-a-day@poets.org</a>.
+                <a
+                  class="text-reset"
+                  style="text-decoration: underline;"
+                  href="mailto:poem-a-day@poets.org">poem-a-day@poets.org</a>.
               </p>
             </div>
           </b-col>
