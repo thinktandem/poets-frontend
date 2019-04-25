@@ -136,7 +136,7 @@
                 </div>
                 <div
                   v-html="replaceFileUrl(poem.text)"
-                  class="daily-poem__poem-text font-serif-2"
+                  class="daily-poem__poem-text poem__body"
                 />
                 <div
                   class="daily-poem__read-the-rest pb-4"
@@ -354,12 +354,8 @@ export default {
   box-shadow: 0 3px 0 0 #00b4f0, 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: var(--white);
 }
-.summary .daily-poem__poem {
-  /*position: absolute;*/
-}
 .daily-poem__poem-text {
   font-size: $font-size-base;
-  font-family: $font-family-serif;
   line-height: 1.5rem;
 }
 .daily-poem__read-the-rest {
