@@ -2,6 +2,7 @@ import _ from "lodash";
 import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
 import events from "~/plugins/poets-apiv2/lib/events";
+import magazines from "~/plugins/poets-apiv2/lib/magazines";
 import poems from "~/plugins/poets-apiv2/lib/poems";
 import poets from "~/plugins/poets-apiv2/lib/poets";
 import search from "~/plugins/poets-apiv2/lib/search";
@@ -114,6 +115,26 @@ export default class PoetsApi {
   }
 
   /**
+   * Get latest magazine
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getLatestMagazine(options = {}) {
+    return magazines.getLatestMagazine(this.request, options);
+  }
+
+  /**
+   * Get magazines
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getMagazines(options = {}) {
+    return magazines.getMagazines(this.request, options);
+  }
+
+  /**
    * Get poem a day
    *
    * @param {Object} options
@@ -131,6 +152,16 @@ export default class PoetsApi {
    */
   getPoems(options = {}) {
     return poems.getPoems(this.request, options);
+  }
+
+  /**
+   * Get poets
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getFeaturedPoets(options = {}) {
+    return poets.getFeaturedPoets(this.request, options);
   }
 
   /**

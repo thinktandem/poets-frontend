@@ -158,16 +158,7 @@ const buildMovementQuery = school => ({
 // Helper to fetch featured poets
 const buildFeaturesPoetsQuery = ({ school = null, state = null } = {}) => {
   // Spin up the basic query
-  const query = {
-    filter: {},
-    page: {
-      limit: 3
-    },
-    // @NOTE: this is an offhanded way to get results with images at the top
-    // because for some reason fitlering to check image existence takes FOREVER
-    sort: "-field_featured,-field_image.fid",
-    include: "field_image"
-  };
+  const query = { filter: {} };
   // Add in the movement if we need it
   if (!_.isNil(school)) {
     query.filter.movement = {
@@ -288,7 +279,7 @@ export default {
     },
     getFeaturedPoets() {
       const query = buildFeaturesPoetsQuery(this.filters);
-      this.$api.getPoets({ query }).then(response => {
+      this.$api.getFeaturedPoets({ query }).then(response => {
         this.featuredPoets = _(_.get(response, "data.data"), [])
           .filter(
             row => !_.isEmpty(_.get(row, "relationships.field_image.data", []))

@@ -30,7 +30,6 @@ const createStore = () => {
       occasions: {},
       themes: {},
       form: {},
-      productFeature: {},
       pageData: {},
       sidebarData: {},
       highlightedData: {},
@@ -85,9 +84,6 @@ const createStore = () => {
       },
       updateForm(state, payload) {
         state.form = payload;
-      },
-      updateProductFeature(state, payload) {
-        state.productFeature = payload;
       },
       updatePageData(state, payload) {
         state.pageData = payload;

@@ -8,7 +8,6 @@ import media from "~/plugins/poets-api/lib/media";
 import util from "~/plugins/poets-api/lib/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
-import qs from "qs";
 
 export default ({ app }, inject) => {
   /**
@@ -162,39 +161,24 @@ export default ({ app }, inject) => {
    */
   inject("getRelated", util.getRelated);
 
-  inject("latestMagazine", async ({ app }) => {
-    const magazineQuery = qs.stringify({
-      filter: {
-        status: 1
-      },
-      sort: "-changed",
-      page: {
-        limit: 1
-      },
-      include: "field_image,field_content_sections"
-    });
-    return app.$axios
-      .$get(`/api/node/magazine?${magazineQuery}`)
-      .then(magazine => {
-        const topProduct = _.first(magazine.data);
-        return {
-          response: magazine,
-          entity: topProduct,
-          title: _.get(topProduct, "attributes.title", null),
-          intro: _.get(topProduct, "attributes.magazine_intro.processed", null),
-          subTitle: _.get(topProduct, "attributes.subtitle", null),
-          contents: _.get(topProduct, "attributes.contents", null),
-          img: app.$buildImg(
-            magazine,
-            topProduct,
-            "field_image",
-            "magazine_cover"
-          ),
-          link: {
-            to: `/academy-american-poets/become-member`,
-            text: "Become a member"
-          }
-        };
-      });
+  /*
+   * NOTE: we should move this someplace it makes more sense like some sort
+   * of helper utils that parses api responses into component data
+   */
+  inject("latestMagazine", (magazine = {}) => {
+    const topProduct = _.first(magazine.data);
+    return {
+      response: magazine,
+      entity: topProduct,
+      title: _.get(topProduct, "attributes.title", null),
+      intro: _.get(topProduct, "attributes.magazine_intro.processed", null),
+      subTitle: _.get(topProduct, "attributes.subtitle", null),
+      contents: _.get(topProduct, "attributes.contents", null),
+      img: app.$buildImg(magazine, topProduct, "field_image", "magazine_cover"),
+      link: {
+        to: `/academy-american-poets/become-member`,
+        text: "Become a member"
+      }
+    };
   });
 };
