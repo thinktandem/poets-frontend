@@ -4,7 +4,7 @@
       :extended="true"
       :poem="pad.poem"
       :poet="pad.poet"/>
-    <b-container>
+    <b-container class="py-5">
       <b-row>
         <h3 class="font-serif pb-3">
           Previous Poems
