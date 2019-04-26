@@ -6,13 +6,15 @@
           class="state__left-gutter"
           md="2"/>
         <b-col md="8">
-          <h1 class="state__name">
+          <h1
+            v-if="title"
+            class="state__name">
             {{ title }}
           </h1>
           <div
             class="state__body"
             v-if="body"
-            v-html="body.value"/>
+            v-html="body.processed"/>
         </b-col>
         <b-col
           class="state__right-gutter"
@@ -90,7 +92,7 @@ export default {
     AppListing
   },
   head() {
-    return MetaTags.renderTags(this.state.attributes.metatag_normalized);
+    return MetaTags.renderTags(this.$store.state.metatags);
   },
   data() {
     return {
@@ -107,7 +109,6 @@ export default {
       defaultParams: {
         filter: {
           status: 1
-          // "relationships.field_state.data.id": "lbah"
         },
         page: {
           limit: 10
@@ -138,12 +139,14 @@ export default {
           "data.included[0].attributes.body.processed",
           null
         );
-        const pLImage = app.$buildImg(
-          res.data,
-          res.data.included[0],
-          "field_image",
-          "poem_a_day_portrait"
-        );
+        const pLImage = _.get(res, "data.included[0]", null)
+          ? app.$buildImg(
+              res.data,
+              res.data.included[0],
+              "field_image",
+              "poem_a_day_portrait"
+            )
+          : null;
 
         let relatedPoets = null;
         relatedPoets = await app.$axios
