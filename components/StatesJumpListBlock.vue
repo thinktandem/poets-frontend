@@ -3,8 +3,7 @@
     class="d-flex justify-content-center align-items-center">
     <b-dropdown
       id="dropdown-buttons-states"
-      text="Select a state ..."
-      class="mt-3 px-5 py-3"
+      text="Select a state"
       size="lg"
       :variant="variant"
       :states="states">
