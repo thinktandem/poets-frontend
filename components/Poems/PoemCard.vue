@@ -14,7 +14,7 @@
       />
     </h3>
     <div
-      class="card__body card__body--fade font-serif-2"
+      class="card__body card__body--fade poem__body"
       v-html="replaceFileUrl(text)"
     />
     <div class="card-footer">

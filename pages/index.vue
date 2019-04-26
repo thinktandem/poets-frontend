@@ -105,7 +105,21 @@ export default {
         .getPoemADay()
         .then(response => _.get(response, "data[0]", []))
         .then(pad => {
-          this.pad = pad;
+          this.pad = {
+            poet: {
+              name: _.get(pad, "poet.name"),
+              image: _.get(pad, "poet.image"),
+              alias: _.get(pad, "poet.alias")
+            },
+            poem: {
+              title: _.get(pad, "poem.title"),
+              text: _.get(pad, "poem.text"),
+              soundCloud: _.get(pad, "poem.soundcloud"),
+              alias: _.get(pad, "poem.alias"),
+              id: _.get(pad, "poem.uuid", null),
+              about: _.get(pad, "poem.about", null)
+            }
+          };
         });
     },
     getFeaturedPoems() {

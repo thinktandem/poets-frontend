@@ -6,6 +6,9 @@ export default {
     return (
       _(_.get(page, `data.relationships[${section}].data`))
         .map(item => util.buildComponent(item, page))
+        // We're defaulting to true here in case a paragraph doesn't implement
+        // the status field
+        .filter(item => _.get(item, "attributes.status", true))
         .value() || []
     );
   },
@@ -34,21 +37,19 @@ export default {
   buildHighlightedData(page) {
     return (
       _(page.data.relationships.highlighted_content.data)
+        .filter(item => _.get(item, "attributes.status", true))
         .map(item => {
           const entity = _.find(
             page.included,
             include => include.id === item.id
           );
           return {
-            title: entity.attributes.title,
+            title: _.get(entity, "attributes.title"),
             img: media.buildImg(page, entity, "field_image"),
             text:
-              entity.attributes.hasOwnProperty("body") &&
-              entity.attributes.body !== null
-                ? entity.attributes.body.summary ||
-                  entity.attributes.body.processed
-                : "",
-            titleLink: entity.attributes.path.alias
+              _.get(entity, "attirbutes.body.summary") ||
+              _.get(entity, "attributes.body.processed"),
+            titleLink: _.get(entity, "attributes.path.alias")
           };
         })
         .value() || []
@@ -69,6 +70,7 @@ export default {
   buildFeaturedContentSection(page) {
     return (
       _(page.data.relationships.featured.data)
+        .filter(item => _.get(item, "attributes.status", true))
         .map(item => {
           const referencedContent = _.find(
             page.included,
