@@ -5,10 +5,11 @@ export default {
    * Generates the metatags.
    *
    * @param {Object} data The object that contains the tags.
+   * @param {array} overrides Any Metatag overrides.
    *
    * @return {Object} The tags results.
    */
-  renderTags(data) {
+  renderTags(data, overrides = []) {
     return {
       title: _.get(
         _.find(data, metatag => _.get(metatag, "attributes.name") === "title"),
@@ -24,6 +25,7 @@ export default {
           name: metatag.attributes.name,
           content: metatag.attributes.content
         }))
+        .merge(overrides)
         .value(),
       __dangerouslyDisableSanitizers: ["script"],
       script: [

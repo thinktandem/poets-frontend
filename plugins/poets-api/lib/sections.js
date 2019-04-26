@@ -40,15 +40,12 @@ export default {
             include => include.id === item.id
           );
           return {
-            title: entity.attributes.title,
+            title: _.get(entity, "attributes.title"),
             img: media.buildImg(page, entity, "field_image"),
             text:
-              entity.attributes.hasOwnProperty("body") &&
-              entity.attributes.body !== null
-                ? entity.attributes.body.summary ||
-                  entity.attributes.body.processed
-                : "",
-            titleLink: entity.attributes.path.alias
+              _.get(entity, "attirbutes.body.summary") ||
+              _.get(entity, "attributes.body.processed"),
+            titleLink: _.get(entity, "attributes.path.alias")
           };
         })
         .value() || []

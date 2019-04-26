@@ -1,11 +1,13 @@
 <template>
   <div>
-    <component 
+    <component
       v-if="title.length >= 1"
       class="mb-4"
       :is="titleTag">{{ title }}</component>
     <div class="px-2">
       <b-img-lazy
+        v-for="(img, i) in imgs"
+        :key="i"
         v-if="img !== null"
         center
         fluid
@@ -27,9 +29,9 @@ export default {
       type: String,
       default: ""
     },
-    img: {
-      type: Object,
-      default: null
+    imgs: {
+      type: Array,
+      default: () => []
     }
   }
 };
