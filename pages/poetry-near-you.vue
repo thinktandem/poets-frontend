@@ -52,7 +52,9 @@ export default {
         title: { label: "Name" },
         field_location: { label: "Location" }
       },
-      defaultParams: {},
+      defaultParams: {
+        sort: "-field_event_date"
+      },
       filters: [
         {
           id: "field_location.administrative_area",
