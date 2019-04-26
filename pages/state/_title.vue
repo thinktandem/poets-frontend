@@ -1,24 +1,23 @@
 <template>
   <div>
     <b-container class="py-5">
+      <h1
+        v-if="title"
+        class="state__name pb-3">
+        {{ title }}
+      </h1>
       <b-row>
-        <b-col
-          class="state__left-gutter"
-          md="2"/>
-        <b-col md="8">
-          <h1
-            v-if="title"
-            class="state__name">
-            {{ title }}
-          </h1>
+        <b-col md="7">
           <div
             class="state__body"
             v-if="body"
             v-html="body.processed"/>
         </b-col>
         <b-col
-          class="state__right-gutter"
-          md="2"/>
+          md="4"
+          offset-md="1">
+          <states-jump-list-block text="select another state"/>
+        </b-col>
       </b-row>
     </b-container>
     <b-container>
@@ -85,14 +84,15 @@ import _ from "lodash";
 import CardDeck from "~/components/CardDeck";
 import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
-
+import StatesJumpListBlock from "~/components/StatesJumpListBlock";
 export default {
   components: {
     CardDeck,
-    AppListing
+    AppListing,
+    StatesJumpListBlock
   },
   head() {
-    return MetaTags.renderTags(this.$store.state.metatags);
+    return MetaTags.renderTags(this.state.attributes.metatag_normalized);
   },
   data() {
     return {
@@ -258,9 +258,6 @@ export default {
       .catch(error => {
         console.error(error);
       });
-  },
-  async fetch({ app, store, params, route, menu }) {
-    return app.$buildBasicPage(app, store, "/states");
   },
   methods: {}
 };

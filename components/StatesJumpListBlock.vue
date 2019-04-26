@@ -6,7 +6,7 @@
       class="mt-3 px-5 py-3"
       size="lg"
       variant="primary-dark"
-    >Select a state</b-button>
+    >{{ text }}</b-button>
     <b-modal
       title="Select a State"
       @ok="goToState"
@@ -24,6 +24,12 @@
 import { find } from "lodash";
 export default {
   name: "StatesJumpListBlock",
+  props: {
+    text: {
+      type: String,
+      default: "Select a state ..."
+    }
+  },
   data() {
     return {
       states: this.$api.getStates(),
