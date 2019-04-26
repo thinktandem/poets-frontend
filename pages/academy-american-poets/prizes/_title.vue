@@ -184,7 +184,7 @@ export default {
     const subPrize = await app.$axios.$get(
       `/api/node/sub_prize_or_program?filter[field_parent.id]=${
         prize.data.id
-      }&include=field_winner&sort=-created`
+      }&include=field_winner&sort=-field_year`
     );
 
     return {
@@ -195,10 +195,9 @@ export default {
             _.get(include, "id") ===
             _.get(_.first(_.get(item, "relationships.field_winner.data")), "id")
         );
-
         return {
           title: _.get(item, "attributes.title"),
-          date: _.get(item, "attributes.created").split("-")[0],
+          date: _.get(item, "attributes.field_year").split("-")[0],
           winningLink: _.get(item, "attributes.path.alias"),
           name: _.get(winner, "attributes.title"),
           winnerLink: _.get(winner, "attributes.path.alias")
