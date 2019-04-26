@@ -325,6 +325,9 @@ li img {
 @include media-breakpoint-up(md) {
   .vertical {
     position: absolute;
+    // See issue #747 and
+    // https://stackoverflow.com/questions/16773989/when-div-with-absolute-position-is-added-cannot-click-on-links
+    z-index: -1;
     ul {
       flex-direction: column;
     }
