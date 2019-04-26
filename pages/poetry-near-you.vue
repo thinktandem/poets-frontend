@@ -53,7 +53,7 @@ export default {
         field_location: { label: "Location" }
       },
       defaultParams: {
-        sort: "-field_event_date"
+        sort: "field_event_date"
       },
       filters: [
         {
