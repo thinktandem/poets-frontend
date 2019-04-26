@@ -42,13 +42,15 @@
               :alt="img.alt"/>
           </b-media-aside>
           <div
-            class="py-3"
+            class="py-3 sidebar-top"
             v-for="(sect, i) in sidebarTop"
             :key="i"
             v-html="replaceFileUrl(sect)"
-            v-show="!empty(sidebarTop)"/>
+            v-if="!empty(sect)"/>
           <b-img-lazy
-            v-if="!empty(img)"
+            v-if="!empty(imgs)"
+            v-for="(img, i) in imgs"
+            :key="i"
             class="py-3"
             fluid
             :src="img.src"
@@ -89,9 +91,9 @@ export default {
       type: Array,
       default: () => []
     },
-    img: {
-      type: Object,
-      default: null
+    imgs: {
+      type: Array,
+      default: () => []
     },
     leftImg: {
       type: Object,
@@ -132,5 +134,9 @@ export default {
   clear: both;
   margin-bottom: 15px;
   min-height: 116px;
+}
+/* video toc links */
+.sidebar-text-image .container .row .py-3.sidebar-top {
+  padding-top: 5.4rem !important;
 }
 </style>

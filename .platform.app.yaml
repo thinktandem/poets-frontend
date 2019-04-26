@@ -5,17 +5,21 @@ type: nodejs:10
 # Dependencies
 dependencies:
   nodejs:
+    pm2: "3.5.0"
     yarn: latest
 
 # Disk and mounts
 disk: 4000
 mounts:
+  run:
+    source: local
+    source_path: run
   '/tmp': 'shared:files/tmp'
 
 # Boot up
 web:
   commands:
-    start: yarn start
+    start: "PM2_HOME=/app/run pm2 start ecosystem.config.js --no-daemon"
 
 # Hooks
 hooks:

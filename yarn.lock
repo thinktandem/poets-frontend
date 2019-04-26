@@ -6366,6 +6366,11 @@ pkg-dir@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+platformsh-config@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/platformsh-config/-/platformsh-config-2.1.0.tgz#5df48bd9b1899468f228bb41bd8f76b22b7c169f"
+  integrity sha512-5HtLIQLjOmCUHXm4Z/5QrtMP+owX9BeNg+/4jl6OegBk/MR1EAGff/kjWIRdBMgsJydL+IkYY8ll/IfTDldTHA==
+
 pleeease-filters@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/pleeease-filters/-/pleeease-filters-4.0.0.tgz#6632b2fb05648d2758d865384fbced79e1ccaec7"
