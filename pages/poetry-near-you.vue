@@ -60,6 +60,11 @@ export default {
           id: "field_location.administrative_area",
           name: "State",
           options: this.$api.getStates()
+        },
+        {
+          field: "field_event_date",
+          value: Date.now(),
+          operator: ">="
         }
       ],
       searchable: [

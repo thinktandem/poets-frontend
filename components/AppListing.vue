@@ -396,7 +396,9 @@ export default {
   },
   methods: {
     shortDate(date) {
-      return moment(date).format("M/D/YYYY");
+      return /^\d+$/.test(date)
+        ? moment.unix(date).format("M/D/YYYY")
+        : moment(date).format("M/D/YYYY");
     },
     teaserText(text, len) {
       const truncText = _.truncate(text, {
