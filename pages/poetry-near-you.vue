@@ -53,18 +53,20 @@ export default {
         field_location: { label: "Location" }
       },
       defaultParams: {
-        sort: "field_event_date"
+        sort: "field_event_date",
+        filter: {
+          field_event_date: {
+            path: "field_event_date",
+            value: Math.floor(Date.now() / 1000),
+            operator: "%3E%3D"
+          }
+        }
       },
       filters: [
         {
           id: "field_location.administrative_area",
           name: "State",
           options: this.$api.getStates()
-        },
-        {
-          field: "field_event_date",
-          value: Date.now(),
-          operator: ">="
         }
       ],
       searchable: [
@@ -154,4 +156,4 @@ export default {
     });
   }
 };
-</script><Paste>
+</script>
