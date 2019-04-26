@@ -55,7 +55,9 @@ import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 
 export default {
-  layout: "default",
+  layout({ route }) {
+    return _.get(route.query, "mbd") === "1" ? "embed" : "default";
+  },
   components: {},
   data() {
     return {
@@ -113,6 +115,13 @@ export default {
       .catch(error => {
         console.error(error);
       });
+  },
+  computed: {
+    // This can be used to later react to embedding and alter the style of the
+    // page, see the poem component for similar usage.
+    embedded() {
+      return _.get(this.$route.query, "mbd") === "1";
+    }
   },
   methods: {
     niceDate(date, format) {

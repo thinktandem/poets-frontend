@@ -1,7 +1,9 @@
 <template>
   <div class="resource pt-4 px-3 bg-white">
     <b-img-lazy
-      v-if="!empty(img)"
+      v-if="!empty(imgs)"
+      v-for="(img, i) in imgs"
+      :key="i"
       center
       fluid
       width="277"
@@ -48,9 +50,9 @@ export default {
       type: String,
       default: ""
     },
-    img: {
-      type: Object,
-      default: null
+    imgs: {
+      type: Array,
+      default: () => []
     }
   },
   asyncComputed: {

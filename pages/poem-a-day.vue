@@ -4,7 +4,7 @@
       :extended="true"
       :poem="pad.poem"
       :poet="pad.poet"/>
-    <b-container>
+    <b-container class="py-5">
       <b-row>
         <h3 class="font-serif pb-3">
           Previous Poems
@@ -104,7 +104,21 @@ export default {
       .getPoemADay()
       .then(response => _.get(response, "data[0]", []))
       .then(pad => {
-        this.pad = pad;
+        this.pad = {
+          poet: {
+            name: _.get(pad, "poet.name"),
+            image: _.get(pad, "poet.image"),
+            alias: _.get(pad, "poet.alias")
+          },
+          poem: {
+            title: _.get(pad, "poem.title"),
+            text: _.get(pad, "poem.text"),
+            soundCloud: _.get(pad, "poem.soundcloud"),
+            alias: _.get(pad, "poem.alias"),
+            id: _.get(pad, "poem.uuid", null),
+            about: _.get(pad, "poem.about", null)
+          }
+        };
       });
     // Get all the data we need for search
     Promise.all([this.searchPoems()]);
