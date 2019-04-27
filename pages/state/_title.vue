@@ -16,7 +16,7 @@
         <b-col
           md="4"
           offset-md="1">
-          <states-jump-list-block text="select another state"/>
+          <states-jump-list-block/>
         </b-col>
       </b-row>
     </b-container>

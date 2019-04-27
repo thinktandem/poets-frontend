@@ -148,7 +148,7 @@ export default {
           // Add the browse States jump list dropdown menu.
           component: "StatesJumpListBlock",
           props: {
-            text: "Select a state ..."
+            text: "Explore Your State"
           }
         }
       ]);

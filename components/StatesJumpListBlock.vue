@@ -21,13 +21,12 @@
   </div>
 </template>
 <script>
-import { find } from "lodash";
 export default {
   name: "StatesJumpListBlock",
   props: {
     text: {
       type: String,
-      default: "Select a state ..."
+      default: "Explore Your State"
     }
   },
   data() {
@@ -44,11 +43,7 @@ export default {
       // Stop the modal from doing its thang
       bvModalEvt.preventDefault();
 
-      const state = find(
-        this.states,
-        state => state.value === this.selectedState
-      );
-      this.$router.push(`/state/${state.text.toLowerCase()}`);
+      this.$router.push(`/state/${this.selectedState.toLowerCase()}`);
     }
   }
 };
