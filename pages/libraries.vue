@@ -142,10 +142,11 @@ export default {
       this.$axios
         .get("/api/libraries_featured_poems")
         .then(response => {
+          const count = _.get(response, "data.pager.total_items", 0);
           this.poems = _.get(response, "data.rows", []);
           this.poemsLink = {
             to: "/poems",
-            text: _.get(response, "data.pager.total_items", 0)
+            text: `${count} Poems`
           };
         })
         .catch(error => {
