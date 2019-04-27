@@ -48,6 +48,16 @@ import CardDeck from "~/components/CardDeck";
 import BasicPage from "~/components/BasicPage";
 import MetaTags from "~/plugins/metatags";
 
+const bookParams = qs.stringify({
+  filter: {
+    field_featured: 1
+  },
+  page: {
+    limit: 4
+  },
+  include: "field_author,field_image"
+});
+
 export default {
   components: {
     BasicPage,
@@ -58,6 +68,11 @@ export default {
   },
   data() {
     return {
+      poems: {},
+      poemsLink: {
+        to: "/poets",
+        text: "0"
+      },
       poets: {},
       poetsLink: {
         to: "/poets",
@@ -75,106 +90,34 @@ export default {
       }
     };
   },
-  async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, route.path);
+  mounted() {
+    Promise.all([
+      this.getFeaturedPoems(),
+      this.getFeaturedPoets(),
+      this.getTexts(),
+      this.getBooks()
+    ]);
   },
-  async asyncData({ app, store, params }) {
-    let poems = await app.$axios
-      .get("/api/libraries_featured_poems", {})
-      .then(res => {
-        return {
-          rows: res.data.rows,
-          poemsLink: {
-            to: "/poems",
-            text: res.data.pager.total_items
-          }
-        };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    let poets = await app.$axios
-      .get("/api/node/person", {
-        params: {
-          filter: {
-            status: 1,
-            field_p_type: "poet",
-            img: {
-              condition: {
-                path: "field_image.id",
-                operator: "<>",
-                value: null
-              }
-            }
-          },
-          page: {
-            limit: 6
-          },
-          sort: "-field_featured",
-          include: "field_image"
-        }
-      })
-      .then(res => {
-        return {
-          rows: _.map(_.get(res, "data.data"), row => {
-            return {
-              row,
-              name: _.get(row, "attributes.title", ""),
-              bio:
-                _.get(row, "attributes.body.summary", "") ||
-                _.get(row, "attributes.body.processed", ""),
-              img: app.$buildImg(res.data, row, "field_image", "portrait", {
-                src: "/images/default-person.png",
-                alt: _.get(row, "attributes.title") + " portrait"
-              })
-            };
-          }),
-          poetsLink: {
-            to: "/poets",
-            text: `${res.data.meta.count} Poets`
-          }
-        };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    let texts = await app.$axios
-      .get("/api/texts", {})
-      .then(res => {
-        return {
-          rows: res.data.rows,
-          textsLink: {
-            to: "/texts",
-            text: res.data.pager.total_items
-          }
-        };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    const bookParams = qs.stringify({
-      filter: {
-        field_featured: 1
-      },
-      page: {
-        limit: 4
-      },
-      include: "field_author,field_image"
-    });
-    const books = await app.$axios
-      .$get(`/api/node/books?${bookParams}`)
-      .then(res => {
-        return {
-          rows: _.map(res.data, book => ({
+  methods: {
+    getBooks() {
+      this.$axios
+        .get(`/api/node/books?${bookParams}`)
+        .then(response => {
+          const count = _.get(response, "data.meta.count", 0);
+          this.books = _.map(response.data.data, book => ({
             title: _.get(book, "attributes.title"),
             body:
               _.get(book, "attributes.body.summary") ||
               _.get(book, "attributes.body.processed"),
-            field_image: app.$buildImg(res, book, "field_image", "book"),
+            field_image: this.$buildImg(
+              response.data,
+              book,
+              "field_image",
+              "book"
+            ),
             field_author: _.get(
               _.find(
-                res.included,
+                response.included,
                 include =>
                   _.get(include, "id") ===
                   _.get(
@@ -185,30 +128,86 @@ export default {
               "attributes.title"
             ),
             view_node_1: _.get(book, "attributes.path.alias")
-          })),
-          booksLink: {
+          }));
+          this.booksLink = {
             to: "/books",
-            text: res.meta.count + " books"
+            text: `${count} books`
+          };
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    getFeaturedPoems() {
+      this.$axios
+        .get("/api/libraries_featured_poems")
+        .then(response => {
+          this.poems = _.get(response, "data.rows", []);
+          this.poemsLink = {
+            to: "/poems",
+            text: _.get(response, "data.pager.total_items", 0)
+          };
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    getFeaturedPoets() {
+      this.$api
+        .getFeaturedPoets({
+          query: {
+            page: {
+              limit: 6
+            }
           }
-        };
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    return {
-      poems: poems.rows,
-      poemsLink: poems.poemsLink,
-      poets: poets.rows,
-      poetsLink: poets.poetsLink,
-      texts: texts.rows,
-      textsLink: texts.textsLink,
-      books: books.rows,
-      booksLink: books.booksLink
-    };
+        })
+        .then(response => {
+          const count = _.get(response, "data.meta.count", 0);
+          this.poets = _(_.get(response, "data.data", []))
+            .map(row => ({
+              name: _.get(row, "attributes.title", ""),
+              bio:
+                _.get(row, "attributes.body.summary", "") ||
+                _.get(row, "attributes.body.processed", ""),
+              img: this.$buildImg(
+                response.data,
+                row,
+                "field_image",
+                "portrait",
+                {
+                  src: "/images/default-person.png",
+                  alt: _.get(row, "attributes.title") + " portrait"
+                }
+              )
+            }))
+            .value();
+          this.poetsLink = {
+            to: "/poets",
+            text: `${count} Poets`
+          };
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    getTexts() {
+      this.$axios
+        .get("/api/texts", {})
+        .then(response => {
+          this.texts = _.get(response, "data.rows", []);
+          this.textsLink = {
+            to: "/texts",
+            text: _.get(response, "data.pager.total_items", 0)
+          };
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
   },
-  methods: {},
-  watchQuery: true
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
+  }
 };
 </script>
 
