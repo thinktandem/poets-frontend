@@ -10,8 +10,9 @@
 </template>
 <script>
 export default {
-  name: "403",
-  fetch({ store }) {
+  name: "PermissionDenied",
+  fetch({ res, store }) {
+    res.statusCode = 403;
     store.commit("updateHero", {
       variant: "default",
       heading: "Access Denied",

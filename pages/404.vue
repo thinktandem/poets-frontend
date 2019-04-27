@@ -10,8 +10,9 @@
 </template>
 <script>
 export default {
-  name: "404",
-  fetch({ store }) {
+  name: "NotFound",
+  fetch({ res, store }) {
+    res.statusCode = 404;
     store.commit("updateHero", {
       variant: "default",
       heading: "Page not Found",

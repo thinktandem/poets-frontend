@@ -8,7 +8,6 @@ import media from "~/plugins/poets-api/lib/media";
 import util from "~/plugins/poets-api/lib/util";
 import imgUrl from "~/plugins/inlineImagesUrl";
 import _ from "lodash";
-import qs from "qs";
 
 export default ({ app }, inject) => {
   /**
@@ -49,13 +48,6 @@ export default ({ app }, inject) => {
     ].join(",");
     return app.$axios
       .$get(`/router/translate-path?path=${path}`)
-      .catch(err => {
-        if (strict) {
-          app.handleError(err);
-        } else {
-          return err;
-        }
-      })
       .then(routerResponse => {
         return app.$axios
           .$get(`${routerResponse.jsonapi.individual}?include=${includes}`)
@@ -169,20 +161,11 @@ export default ({ app }, inject) => {
    */
   inject("getRelated", util.getRelated);
 
-  inject("latestMagazine", async ({ app }) => {
-    const magazineQuery = qs.stringify({
-      filter: {
-        status: 1
-      },
-      sort: "-changed",
-      page: {
-        limit: 1
-      },
-      include: "field_image,field_content_sections"
-    });
-    const magazine = await app.$axios.$get(
-      `/api/node/magazine?${magazineQuery}`
-    );
+  /*
+   * NOTE: we should move this someplace it makes more sense like some sort
+   * of helper utils that parses api responses into component data
+   */
+  inject("latestMagazine", (magazine = {}) => {
     const topProduct = _.first(magazine.data);
     return {
       response: magazine,

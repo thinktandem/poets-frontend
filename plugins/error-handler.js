@@ -1,6 +1,7 @@
+import _ from "lodash";
 export default ({ app, redirect }, inject) => {
   app.handleError = error => {
-    switch (error.response.status) {
+    switch (_.get(error, "response.status")) {
       case 403:
         redirect("/403");
         break;
