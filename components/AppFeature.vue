@@ -29,6 +29,23 @@
 
 <script>
 import AppTeaserText from "~/components/AppTeaserText";
+import _ from "lodash";
+import qs from "qs";
+import u from "url";
+
+// Helper to build an embed URL
+const getYouTubeId = url => {
+  const parts = u.parse(url);
+  switch (_.get(parts, "host")) {
+    case "youtube.com":
+      return _.get(qs.parse(parts.query), "v", null);
+    case "youtu.be":
+      return _.isNil(parts.pathname) ? null : _.trimStart(parts.pathname, "/");
+    default:
+      return null;
+  }
+};
+
 export default {
   name: "AppFeature",
   components: { AppTeaserText },
@@ -64,12 +81,12 @@ export default {
   },
   computed: {
     videoUrl() {
-      const matches = this.video.match(
-        /^https?:\/\/(www\.)?((?!.*list=)youtube\.com\/watch\?.*v=|youtu\.be\/)(?<id>[0-9A-Za-z_-]*)/
-      );
-      return matches.length >= 4
-        ? `https://www.youtube.com/embed/${matches[3]}`
-        : null;
+      const id = getYouTubeId(this.video);
+      if (!_.isNil(id)) {
+        return `https://www.youtube.com/embed/${id}`;
+      } else {
+        return null;
+      }
     },
     direction() {
       return this.reverse ? "flex-lg-row-reverse" : "flex-lg-row";
