@@ -195,10 +195,11 @@ export default {
       this.$axios
         .get("/api/texts", {})
         .then(response => {
+          const count = _.get(response, "data.pager.total_items", 0);
           this.texts = _.get(response, "data.rows", []);
           this.textsLink = {
             to: "/texts",
-            text: _.get(response, "data.pager.total_items", 0)
+            text: `${count} Texts`
           };
         })
         .catch(error => {
