@@ -36,7 +36,6 @@ import u from "url";
 // Helper to build an embed URL
 const getYouTubeId = url => {
   const parts = u.parse(url);
-  console.log(parts);
   switch (_.get(parts, "host")) {
     case "youtube.com":
       return _.get(qs.parse(parts.query), "v", null);
