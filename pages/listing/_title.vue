@@ -2,7 +2,7 @@
   <div>
     <b-container class="py-5">
       <b-row>
-        <b-col md="9">
+        <b-col md="7">
           <h1>{{ title }}</h1>
           <div
             class="listing__body"
@@ -15,7 +15,9 @@
             </a>
           </div>
         </b-col>
-        <b-col md="3">
+        <b-col
+          offset-md="1"
+          md="4">
           <div class="listing__sidebar-state">
             State: <b-link :to="stateLink">{{ state }}</b-link>
           </div>
