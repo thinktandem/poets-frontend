@@ -69,7 +69,7 @@ export default {
     const type = _.find(_.get(listing, "included"), include => {
       return _.get(include, "type") === "taxonomy_term--listing_type";
     });
-    console.log(_.get(state, "attributes.path"));
+
     return {
       title,
       body,
