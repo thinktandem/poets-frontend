@@ -31,14 +31,15 @@ export default {
   },
 
   getRelated(topLevelResponse = {}, entity = null, relationship = "") {
+    const relationshipData = _.isArray(
+      _.get(entity, `relationships.${relationship}.data`)
+    )
+      ? _.first(_.get(entity, `relationships.${relationship}.data`))
+      : _.get(entity, `relationships.${relationship}.data`);
+
     return _.find(
       _.get(topLevelResponse, "included"),
-      include =>
-        _.get(include, "id") ===
-        _.get(
-          _.first(_.get(entity, `relationships.${relationship}.data`)),
-          "id"
-        )
+      include => _.get(include, "id") === _.get(relationshipData, "id")
     );
   },
 
