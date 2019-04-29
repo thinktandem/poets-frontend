@@ -31,7 +31,7 @@
                     :value="null"
                     disabled
                   >
-                    Occassions</option>
+                    Occasions</option>
                 </template>
               </b-form-select>
               <b-form-select
