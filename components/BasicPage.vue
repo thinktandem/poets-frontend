@@ -73,6 +73,7 @@ import ImageBlock from "~/components/ImageBlock";
 import SidebarTextImage from "~/components/SidebarTextImage";
 import SlideshowBlock from "~/components/SlideshowBlock";
 import StandardTextBlock from "~/components/StandardTextBlock";
+import StatesJumpListBlock from "~/components/StatesJumpListBlock";
 
 export default {
   name: "BasicPage",
@@ -88,7 +89,8 @@ export default {
     SidebarTextImage,
     SlideshowBlock,
     StandardTextBlock,
-    VideoBlock
+    VideoBlock,
+    StatesJumpListBlock
   },
   props: {
     pageData: {

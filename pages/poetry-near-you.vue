@@ -136,11 +136,19 @@ export default {
     return app.$buildBasicPage(app, store, route.path).then(() => {
       store.commit("updateSidebarData", [
         {
+          // This gets the "Submit an Event" button.
           component: "ButtonBlock",
           props: {
             text: "Submit an Event",
             type: "modal",
             modal: "submitEvent"
+          }
+        },
+        {
+          // Add the browse States jump list dropdown menu.
+          component: "StatesJumpListBlock",
+          props: {
+            text: "Explore Your State"
           }
         }
       ]);

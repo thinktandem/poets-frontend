@@ -118,6 +118,22 @@ export default {
     }
   },
 
+  /*
+   * @param {Object} topLevelResponse
+   *   The top level json api reponse from Drupal with Entity and included key
+   *   that contains related entities.
+   * @param {Object|null} entity
+   *   This can be a one of the related entities that has the image field to
+   *   pull, i.e. the image you want is not on the topLevelResponse, but one
+   *   of the included entities.
+   * @param {String} relationship
+   *   The field name of the image field default "field_image"
+   * @param {String} imageStyle
+   *   The image style that you want from drupal, i.e. non exhaustive: portrait,
+   *   thumbnail, etc.
+   * @param {Object} fallback
+   *   If we can not get the image we can pass a default image at call time.
+   */
   buildImg(
     topLevelResponse = {},
     entity = null,
