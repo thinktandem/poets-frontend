@@ -15,9 +15,11 @@
           md="8"/>
         <b-col md="4">
           <div
-            v-if="!empty(image)"
-            class="person__image d-flex align-items-center justify-content-center">
-            <b-img
+            v-if="!empty(image)">
+            <b-img-lazy
+              class="person__image"
+              fluid
+              center
               :src="image.src"
               :alt="image.alt"/>
           </div>
@@ -145,7 +147,6 @@ export default {
   font-size: 1.2em;
 }
 .person__image {
-  width: 311px;
   box-shadow: 0 6px 0 0 #ffa02f;
 }
 

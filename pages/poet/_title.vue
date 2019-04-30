@@ -58,9 +58,12 @@
         <b-col
           class="poet__sidebar"
           md="4">
-          <div class="poet__image">
+          <div>
             <figure>
-              <b-img
+              <b-img-lazy
+                fluid
+                center
+                class="poet__image"
                 :src="sideBarImage.src"
                 :alt="sideBarImage.alt"/>
               <figcaption v-if="sideBarImage.title">
@@ -317,7 +320,6 @@ export default {
   }
 }
 .poet__image {
-  width: 311px;
   box-shadow: 0 6px 0 0 #32d17e;
 }
 @include media-breakpoint-up(md) {
