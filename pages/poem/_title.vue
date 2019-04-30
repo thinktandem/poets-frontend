@@ -54,7 +54,7 @@
                 <span
                   class="dates"
                   v-if="poet.field_dob"
-                > - {{ niceDate(poet.field_dob) }}-{{ niceDate(poet.field_dod) }}</span>
+                > - {{ niceDate(poet.field_dob, "year") }}-{{ niceDate(poet.field_dod, "year") }}</span>
               </span>
             </div>
             <poem-actions
@@ -310,8 +310,8 @@ export default {
           }
         : null;
     },
-    niceDate(date) {
-      return niceDate.niceDate(date);
+    niceDate(date, format) {
+      return niceDate.niceDate(date, format);
     }
   }
 };
