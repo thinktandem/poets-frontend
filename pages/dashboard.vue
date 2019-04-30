@@ -57,7 +57,20 @@
       sub-title="anthologies i've created">
       <b-row>
         <b-col>
-          <b-card-group columns>
+          <b-card
+            v-if="!hasAnthologies"
+            title="Looks like you don't have an anthology yet!"
+            class="mb-2"
+          >
+            <b-button
+              variant="primary"
+              v-b-modal.makeAnthology>
+              Click to learn how to add one
+            </b-button>
+          </b-card>
+          <b-card-group
+            columns
+            v-else>
             <b-card
               v-for="anthology in anthologies"
               border-variant="info"
@@ -103,7 +116,7 @@
         <b-col cols="3">
           <h4>Activities</h4>
           <b-nav vertical>
-            <b-nav-item to="#">make an anthology</b-nav-item>
+            <b-nav-item v-b-modal.makeAnthology>make an anthology</b-nav-item>
             <b-nav-item to="/text/marianne-moore-first-intentions">the marianne moore of first intentions</b-nav-item>
             <b-nav-item to="/academy-american-poets/programs/blaney-lecture">watch a blaney lecture</b-nav-item>
           </b-nav>
@@ -122,6 +135,27 @@
       @ok="deleteAnthology(selectedAnthology)"
       :title="selectedAnthology.title">
       Are you sure you want to delete the anthology <em>{{ selectedAnthology.title }}</em>?
+    </b-modal>
+
+    <b-modal
+      centered
+      hide-footer="true"
+      hide-header="true"
+      id="makeAnthology"
+      size="lg"
+      title="Make an anthology">
+      <b-card
+        title="Make an anthology"
+        img-src="/images/addAnthology.png"
+        img-alt="Add an anthology"
+        img-top
+        class="mb-2"
+      >
+        <b-card-text>
+          <p>1. Navigate to a poem</p>
+          <p>2. Click on the "+" symbol denoted by the arrow above</p>
+        </b-card-text>
+      </b-card>
     </b-modal>
 
   </b-container>
@@ -168,13 +202,16 @@ export default {
         return false;
       }
     },
+    hasAnthologies() {
+      return !_.isEmpty(this.anthologies);
+    },
     membershipCardData() {
       if (this.isActiveMember) {
         return {
           title: "member information",
           sub: "information about my poets membership",
           ctaText: "renew now",
-          ctaLink: "https://www.poets.org"
+          ctaLink: "/membership"
         };
       } else {
         return {
@@ -187,7 +224,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this);
     if (!this.$auth.loggedIn) {
       this.$router.push("/login");
     }
