@@ -9,10 +9,11 @@
   </b-container>
 </template>
 <script>
+import _ from "lodash";
 export default {
   name: "NotFound",
   fetch({ res, store }) {
-    res.statusCode = 404;
+    _.set(res, "statusCode", 404);
     store.commit("updateHero", {
       variant: "default",
       heading: "Page not Found",

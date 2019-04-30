@@ -9,10 +9,11 @@
   </b-container>
 </template>
 <script>
+import _ from "lodash";
 export default {
   name: "PermissionDenied",
   fetch({ res, store }) {
-    res.statusCode = 403;
+    _.set(res, "statusCode", 403);
     store.commit("updateHero", {
       variant: "default",
       heading: "Access Denied",

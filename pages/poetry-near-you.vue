@@ -52,7 +52,23 @@ export default {
         title: { label: "Name" },
         field_location: { label: "Location" }
       },
-      defaultParams: {},
+      defaultParams: {
+        sort: {
+          sort_field_event_date: {
+            path: "field_event_date",
+            direction: "ASC"
+          }
+        },
+        filter: {
+          after_today: {
+            condition: {
+              path: "field_event_date",
+              operator: "%3E%3D",
+              value: this.getMysqlFormat()
+            }
+          }
+        }
+      },
       filters: [
         {
           id: "field_location.administrative_area",
@@ -153,6 +169,35 @@ export default {
         }
       ]);
     });
+  },
+  methods: {
+    /*
+     * https://stackoverflow.com/questions/5129624/convert-js-date-time-to-mysql-datetime
+     *
+     * We need to compare MySQL Datetimes to MySQL Datetimes to get the sorting.
+     */
+    twoDigits(d) {
+      if (0 <= d && d < 10) return "0" + d.toString();
+      if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+      return d.toString();
+    },
+
+    getMysqlFormat() {
+      const d = new Date(Date.now());
+      return (
+        d.getUTCFullYear() +
+        "-" +
+        this.twoDigits(1 + d.getUTCMonth()) +
+        "-" +
+        this.twoDigits(d.getUTCDate()) +
+        " " +
+        this.twoDigits(d.getUTCHours()) +
+        ":" +
+        this.twoDigits(d.getUTCMinutes()) +
+        ":" +
+        this.twoDigits(d.getUTCSeconds())
+      );
+    }
   }
 };
 </script><Paste>
