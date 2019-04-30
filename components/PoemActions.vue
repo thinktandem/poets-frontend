@@ -2,7 +2,7 @@
   <div
     class="poem__actions"
     :class="`${orientation} ${color}`">
-    <ul class="d-flex flex-wrap">
+    <ul class="poem__actions__social d-flex flex-wrap">
       <li class="pr-2">
         <b-link
           target="_blank"
@@ -327,7 +327,8 @@ li img {
     position: absolute;
     // See issue #747 and
     // https://stackoverflow.com/questions/16773989/when-div-with-absolute-position-is-added-cannot-click-on-links
-    z-index: -1;
+    // @TODO: above might be relevant but it prevents social sharing links being clickable on MD PLUS
+    // z-index: -1;
     ul {
       flex-direction: column;
     }
