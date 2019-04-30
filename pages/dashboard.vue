@@ -39,9 +39,12 @@
         <b-col cols="3">
           <b-nav vertical>
             <b-nav-item
-              :href="membershipCardData.ctaLink"
-              target="_blank">
+              :to="membershipCardData.ctaLink">
               {{ membershipCardData.ctaText }}
+            </b-nav-item>
+            <b-nav-item
+              to="/academy-american-poets/help-champion-poets-and-poetry">
+              make a special gift
             </b-nav-item>
           </b-nav>
         </b-col>
@@ -98,11 +101,11 @@
           </b-card-group>
         </b-col>
         <b-col cols="3">
+          <h4>Activities</h4>
           <b-nav vertical>
-            <b-nav-item to="home">make an anthology</b-nav-item>
-            <b-nav-item to="home">the marianne moore of first intentions</b-nav-item>
-            <b-nav-item to="home">watch a blaney lecture</b-nav-item>
-            <b-nav-item to="home">make a special gift</b-nav-item>
+            <b-nav-item to="#">make an anthology</b-nav-item>
+            <b-nav-item to="/text/marianne-moore-first-intentions">the marianne moore of first intentions</b-nav-item>
+            <b-nav-item to="/academy-american-poets/programs/blaney-lecture">watch a blaney lecture</b-nav-item>
           </b-nav>
         </b-col>
       </b-row>
@@ -150,6 +153,7 @@ export default {
   layout: "bannerless",
   data() {
     return {
+      user: {},
       userData: {},
       membershipData: {},
       anthologies: [],
@@ -158,11 +162,8 @@ export default {
   },
   computed: {
     isActiveMember() {
-      if (_.has(this.$auth, "user")) {
-        return (
-          _.get(this.$auth.user.getUser(), "field_membership_status") ===
-          "Active"
-        );
+      if (_.has(this, "user.field_membership_status")) {
+        return _.upperCase(this.user.field_membership_status === "ACTIVE");
       } else {
         return false;
       }
@@ -186,6 +187,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this);
     if (!this.$auth.loggedIn) {
       this.$router.push("/login");
     }
@@ -200,6 +202,7 @@ export default {
       this.$auth.user.pullAnthologies()
     ]).then(() => {
       const data = this.$auth.user.getUser();
+      this.user = data;
       // Reset our basic datas
       this.userData = utils.parseUser(data);
       this.membershipData = utils.parseMembership(data, this.isActiveMember);
