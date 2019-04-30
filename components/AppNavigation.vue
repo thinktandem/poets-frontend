@@ -38,7 +38,7 @@
           to="/dashboard"
         >Dashboard</b-nav-item>
         <b-nav-item
-          v-show="this.$auth.loggedIn"
+          v-show="!this.$auth.loggedIn"
           class="d-md-none"
           @click="logout"
         >Logout</b-nav-item>

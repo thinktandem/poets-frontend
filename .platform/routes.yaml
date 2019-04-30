@@ -2,7 +2,7 @@ https://{default}/:
   type: upstream
   upstream: app:http
   cache:
-    enabled: true
+    enabled: false
     cookies: []
 https://www.{default}/:
   type: redirect
