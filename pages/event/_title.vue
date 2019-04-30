@@ -76,7 +76,11 @@
             <p>
               To be considered for #PoetryNearYou Pick of the Week, we invite you to become a registered user of Poets.org for free and to use our online calendar Poetry Near You to promote local events in your community.
             </p>
-            <ButtonBlock/>
+            <ButtonBlock
+              text="Submit an Event"
+              type="modal"
+              modal="submitEvent"
+            />
           </div>
         </b-col>
       </b-row>
@@ -182,16 +186,6 @@ export default {
       lead:
         "Are you looking to connect with poets or find opportunities to hear or study poetry? To find poetry events and resources near you, simply enter your zip code in the search field below."
     });
-    store.commit("updateSidebarData", [
-      {
-        component: "ButtonBlock",
-        props: {
-          text: "Submit an Event",
-          type: "modal",
-          modal: "submitEvent"
-        }
-      }
-    ]);
   }
 };
 </script>
