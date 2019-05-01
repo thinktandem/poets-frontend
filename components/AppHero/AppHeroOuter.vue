@@ -17,7 +17,7 @@
         class="mt-3 mt-md-5"
       >
         <h1
-          v-if="heading && variant === 'default'"
+          v-if="heading && variant === 'default' && displayHeading"
           class="hero__heading pb-3"
         >{{ heading }}</h1>
         <p
@@ -117,6 +117,24 @@ export default {
         alt,
         link
       };
+    },
+    /*
+     * On the site vertical pages title duplicates info in logo; supress titles
+     * on those pages.
+     */
+    displayHeading() {
+      const path = this.$route.path;
+
+      if (
+        path === "/" ||
+        path === "/national-poetry-month" ||
+        path === "/academy-american-poets" ||
+        path === "/american-poets-magazine"
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 };
