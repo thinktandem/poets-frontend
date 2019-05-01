@@ -1,5 +1,9 @@
 <template>
-  <b-container>
+  <b-container v-show="showList">
+    <component
+      class="py-3"
+      :is="titleTag"
+      v-show="!empty(title)">{{ title }} </component>
     <b-row
       v-if="searchable.length >= 1 || filters.length >=1"
       class="filters-row"
@@ -60,6 +64,7 @@
     <b-row>
       <b-col md="12">
         <b-table
+          v-show="!empty(results)"
           :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
           :hover="!hasDetails"
           :items="results"
@@ -70,6 +75,9 @@
           :current-page="currentPage"
           @row-clicked="rowClicked"
         >
+          <template
+            slot="field_date_published"
+            slot-scope="data">{{ year(data.item.field_date_published) }}</template>
           <template
             v-if="resourceType === 'teach_this_poem'"
             slot="body"
@@ -179,6 +187,7 @@
           <b-pagination
             :disabled="busy"
             v-if="paged"
+            v-show="!empty(results)"
             @change="fetchNext"
             hide-goto-end-buttons
             :per-page="pageLimit"
@@ -219,6 +228,18 @@ export default {
     PoemActions
   },
   props: {
+    title: {
+      type: String,
+      default: ""
+    },
+    titleTag: {
+      type: String,
+      default: "h3"
+    },
+    hideEmpty: {
+      type: Boolean,
+      default: false
+    },
     // Drupal content type we're fetching.
     resourceType: {
       type: String,
@@ -314,6 +335,9 @@ export default {
     }
   },
   computed: {
+    showList() {
+      return !this.empty(this.results) || this.showEmpty === true;
+    },
     searchableLabels() {
       return _.map(this.searchable, field => field.label).join(", ");
     },
@@ -397,6 +421,9 @@ export default {
   methods: {
     shortDate(date) {
       return moment(date).format("M/D/YYYY");
+    },
+    year(date) {
+      return moment(date).format("YYYY");
     },
     teaserText(text, len) {
       const truncText = _.truncate(text, {
