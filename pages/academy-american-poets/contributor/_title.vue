@@ -15,160 +15,85 @@
           md="8"/>
         <b-col md="4">
           <div
-            v-if="!empty(image)"
-            class="person__image">
-            <b-img
+            v-if="!empty(image)">
+            <b-img-lazy
+              class="person__image"
+              fluid
+              center
               :src="image.src"
               :alt="image.alt"/>
           </div>
         </b-col>
       </b-row>
-      <b-row
-        class="person__related-texts-rows"
-        md="8">
-        <b-container
-          class="books-list tabular-list"
-          v-if="relatedTexts.length !== 0">
-          <b-row>
-            <b-col md="12">
-              <h3 class="person__related-texts-title">Texts</h3>
-            </b-col>
-          </b-row>
-          <b-row
-            class="tabular-list__row tabular-list__header">
-            <b-col
-              md="4">
-              Date
-            </b-col>
-            <b-col md="8">
-              Title
-            </b-col>
-          </b-row>
-          <b-row
-            v-for="text in relatedTexts"
-            class="tabular-list__row books-list__books"
-            :key="text.attributes.id"
-          >
-            <b-col
-              class="date"
-              md="4"
-            >
-              {{ niceDate(text.attributes.field_date_published) }}
-            </b-col>
-            <b-col
-              class="books-list__books-title"
-              md="8">
-              <a
-                :href="text.attributes.path.alias"
-                v-html="replaceFileUrl(text.attributes.title)"
-              />
-            </b-col>
-          </b-row>
-        </b-container>
-      </b-row>
-      <b-row
-        class="person__related-texts-rows"
-        md="8">
-        <b-container
-          class="books-list tabular-list"
-          v-if="relatedLP.length !== 0">
-          <b-row>
-            <b-col md="12">
-              <h3 class="person__related-texts-title">Lesson Plans</h3>
-            </b-col>
-          </b-row>
-          <b-row
-            class="tabular-list__row tabular-list__header">
-            <b-col
-              md="4">
-              Date
-            </b-col>
-            <b-col md="8">
-              Title
-            </b-col>
-          </b-row>
-          <b-row
-            v-for="lp in relatedLP"
-            class="tabular-list__row books-list__books"
-            :key="lp.attributes.id"
-          >
-            <b-col
-              class="date"
-              md="4"
-            >
-              {{ niceDate(lp.attributes.field_date_published) }}
-            </b-col>
-            <b-col
-              class="books-list__books-title"
-              md="8">
-              <a
-                :href="lp.attributes.path.alias"
-                v-html="replaceFileUrl(lp.attributes.title)"
-              />
-            </b-col>
-          </b-row>
-        </b-container>
-        <b-container
-          class="books-list tabular-list"
-          v-if="relatedAnnouncements.length !== 0">
-          <b-row>
-            <b-col md="12">
-              <h3 class="person__related-texts-title">Announcements</h3>
-            </b-col>
-          </b-row>
-          <b-row
-            class="tabular-list__row tabular-list__header">
-            <b-col
-              md="4">
-              Date
-            </b-col>
-            <b-col md="8">
-              Title
-            </b-col>
-          </b-row>
-          <b-row
-            v-for="ann in relatedAnnouncements"
-            class="tabular-list__row books-list__books"
-            :key="ann.attributes.id"
-          >
-            <b-col
-              class="date"
-              md="4"
-            >
-              {{ niceDate(ann.attributes.changed) }}
-            </b-col>
-            <b-col
-              class="books-list__books-title"
-              md="8">
-              <a
-                :href="ann.attributes.path.alias"
-                v-html="replaceFileUrl(ann.attributes.title)"
-              />
-            </b-col>
-          </b-row>
-        </b-container>
+      <b-row class="py-5">
+        <b-col>
+          <app-listing
+            title="Texts"
+            hide-empty
+            class="py-3"
+            :default-params="defaultParams"
+            :fields="fields"
+            :includes="includes"
+            resource-type="texts"/>
+          <app-listing
+            title="Collections"
+            hide-empty
+            class="py-3"
+            :default-params="defaultParams"
+            :fields="fields"
+            :includes="includes"
+            resource-type="collections"/>
+          <app-listing
+            title="Lesson Plans"
+            hide-empty
+            class="py-3"
+            :default-params="defaultParams"
+            :fields="fields"
+            :includes="includes"
+            resource-type="lesson_plans"/>
+        </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
-import { get } from "lodash";
-import qs from "qs";
+import AppListing from "~/components/AppListing";
 import niceDate from "~/plugins/niceDate";
+import { get } from "lodash";
 import MetaTags from "~/plugins/metatags";
 
 export default {
+  components: { AppListing },
   head() {
     return MetaTags.renderTags(this.person.attributes.metatag_normalized);
   },
   computed: {
     body() {
       return get(this.person, "attributes.body.processed");
+    },
+    defaultParams() {
+      return {
+        filter: {
+          "field_contributors.id": this.person.id
+        }
+      };
     }
   },
+  data() {
+    return {
+      fields: {
+        field_date_published: {
+          label: "Year"
+        },
+        title: { label: "Title" }
+      },
+      includes: {},
+      sort: "field_date_published"
+    };
+  },
   async asyncData({ app, params }) {
-    const attributes = await app.$axios
+    return app.$axios
       .get(
         `/router/translate-path?path=/academy-american-poets/contributor/${
           params.title
@@ -198,61 +123,6 @@ export default {
             console.log(error);
           });
       });
-
-    const relatedTextsParams = qs.stringify({
-      filter: {
-        // Only published.
-        status: 1,
-        // Author is this person.
-        "field_contributors.id": attributes.person.id
-      }
-    });
-
-    const relatedTexts = await app.$axios.$get(
-      `/api/node/texts?${relatedTextsParams}`
-    );
-
-    const relatedLPParams = qs.stringify({
-      filter: {
-        // Only published.
-        status: 1,
-        // Author is this person.
-        "field_contributors.id": attributes.person.id
-      }
-    });
-
-    const relatedLP = await app.$axios.$get(
-      `/api/node/lesson_plans?${relatedLPParams}`
-    );
-
-    const relatedAnnouncementsParams = qs.stringify({
-      filter: {
-        // Only published.
-        status: 1,
-        "field_story_type.tid": 8
-      },
-      sort: {
-        created: {
-          path: "created",
-          direction: "DESC"
-        }
-      },
-      page: {
-        limit: 3
-      }
-    });
-
-    const relatedAnnouncements = await app.$axios.$get(
-      `/api/node/basic_page?${relatedAnnouncementsParams}`
-    );
-
-    return {
-      person: attributes.person,
-      image: attributes.image,
-      relatedTexts: relatedTexts.data,
-      relatedLP: relatedLP.data,
-      relatedAnnouncements: relatedAnnouncements.data
-    };
   },
   async fetch({ app, store, params }) {
     return app.$buildBasicPage(app, store, "/leadership-staff");
@@ -277,7 +147,6 @@ export default {
   font-size: 1.2em;
 }
 .person__image {
-  width: 311px;
   box-shadow: 0 6px 0 0 #ffa02f;
 }
 
