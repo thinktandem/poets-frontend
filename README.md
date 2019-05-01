@@ -85,3 +85,4 @@ For detailed explanation on how all the things work checkout:
 * [Nuxt.js docs](https://github.com/nuxt/nuxt.js)
 * [Vue.js docs](https://vuejs.org/v2/guide/)
 * [Boostrap Vue](https://bootstrap-vue.js.org/)
+
