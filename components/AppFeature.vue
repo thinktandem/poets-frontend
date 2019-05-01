@@ -3,7 +3,7 @@
     class="feature bg-white d-flex flex-column"
     :class="direction">
     <div
-      class="feature__media d-flex justify-content-center justify-content-lg-end"
+      class="feature__media d-lg-flex justify-content-lg-end"
       :class="direction">
       <b-img-lazy
         v-if="img"

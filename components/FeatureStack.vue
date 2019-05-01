@@ -13,7 +13,7 @@
             :reverse="index % 2 == 1"
             v-bind="feature"
             :key="index"
-            class="my-lg-5 my-2"
+            class="my-lg-5 my-2 pb-lg-4"
             v-if="features !== null"/>
         </b-col>
       </b-row>
