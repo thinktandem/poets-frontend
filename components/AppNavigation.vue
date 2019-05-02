@@ -70,7 +70,7 @@
           class="d-block py-2 d-md-none"
           variant="secondary-dark"
           size="md"
-          to="/academy-american-poets/help-champion-poets-and-poetry"
+          href="/academy-american-poets/help-champion-poets-and-poetry"
         >Donate</b-button>
 
       </b-navbar-nav>
@@ -81,7 +81,7 @@
       class="d-none d-md-flex"
       variant="secondary-dark"
       size="md"
-      to="/academy-american-poets/help-champion-poets-and-poetry"
+      href="/academy-american-poets/help-champion-poets-and-poetry"
     >Donate</b-button>
   </b-navbar>
 
