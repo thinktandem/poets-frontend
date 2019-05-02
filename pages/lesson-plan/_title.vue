@@ -53,18 +53,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.lesson_plan__container {
-  font-size: 1.2rem;
-}
-.lesson_plan__body {
-  font-weight: 400;
-}
-.plan__title {
-  margin-bottom: 26px;
-}
-.plan__body {
-  font-weight: 400;
-}
 /** sidebar **/
 .submitted__container,
 .level__container,
