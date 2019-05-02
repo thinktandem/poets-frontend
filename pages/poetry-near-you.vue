@@ -30,6 +30,8 @@ import _ from "lodash";
 import CardDeck from "~/components/CardDeck";
 import ListPage from "~/components/ListPage";
 import MetaTags from "~/plugins/metatags";
+import niceDate from "~/plugins/niceDate";
+
 export default {
   components: {
     CardDeck,
@@ -171,32 +173,8 @@ export default {
     });
   },
   methods: {
-    /*
-     * https://stackoverflow.com/questions/5129624/convert-js-date-time-to-mysql-datetime
-     *
-     * We need to compare MySQL Datetimes to MySQL Datetimes to get the sorting.
-     */
-    twoDigits(d) {
-      if (0 <= d && d < 10) return "0" + d.toString();
-      if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
-      return d.toString();
-    },
-
     getMysqlFormat() {
-      const d = new Date(Date.now());
-      return (
-        d.getUTCFullYear() +
-        "-" +
-        this.twoDigits(1 + d.getUTCMonth()) +
-        "-" +
-        this.twoDigits(d.getUTCDate()) +
-        " " +
-        this.twoDigits(d.getUTCHours()) +
-        ":" +
-        this.twoDigits(d.getUTCMinutes()) +
-        ":" +
-        this.twoDigits(d.getUTCSeconds())
-      );
+      return niceDate.getMysqlFormat();
     }
   }
 };

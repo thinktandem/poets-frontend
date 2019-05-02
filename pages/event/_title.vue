@@ -25,7 +25,9 @@
             <h3 class="event__field-header">Date and Time</h3>
             <div class="event__field-body">
               <p v-if="eventDate">{{ eventDate }}<br>
-                {{ eventStartTime }} - {{ eventEndTime }}</p>
+                {{ eventStartTime }}
+                <span v-if="eventEndTime"> - {{ eventEndTime }}</span>
+              </p>
             </div>
           </div>
           <div class="event-location mt-3 pb-5">
@@ -104,6 +106,7 @@
 import _ from "lodash";
 import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
+import niceDate from "~/plugins/niceDate";
 import ButtonBlock from "~/components/ButtonBlock";
 
 export default {
@@ -126,7 +129,23 @@ export default {
         title: { label: "Name" },
         field_location: { label: "Location" }
       },
-      defaultParams: {},
+      defaultParams: {
+        sort: {
+          sort_field_event_date: {
+            path: "field_event_date",
+            direction: "ASC"
+          }
+        },
+        filter: {
+          after_today: {
+            condition: {
+              path: "field_event_date",
+              operator: "%3E%3D",
+              value: this.getMysqlFormat()
+            }
+          }
+        }
+      },
       filters: [],
       searchable: [
         { field: "title", label: "name" },
@@ -186,6 +205,11 @@ export default {
       lead:
         "Are you looking to connect with poets or find opportunities to hear or study poetry? To find poetry events and resources near you, simply enter your zip code in the search field below."
     });
+  },
+  methods: {
+    getMysqlFormat() {
+      return niceDate.getMysqlFormat();
+    }
   }
 };
 </script>
