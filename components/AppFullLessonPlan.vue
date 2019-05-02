@@ -14,7 +14,9 @@
             v-if="plan.type === 'paragraph--standard_text'"
             class="plan__container">
             <div class="plan__title">
-              {{ plan.attributes.title }}
+              <h3>
+                {{ plan.attributes.title }}
+              </h3>
             </div>
             <div
               class="plan__body"
@@ -24,6 +26,7 @@
       </b-col>
       <b-col
         v-if="showSidebar"
+        class="lesson_plan__sidebar"
         md="4"
         tag="aside">
         <div v-if="sidebarExists">
@@ -131,4 +134,18 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.lesson_plan__body {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.plan__title {
+  margin-bottom: 26px;
+}
+.plan__container {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.lesson_plan__sidebar {
+  padding-left: 26px;
+}
 </style>
