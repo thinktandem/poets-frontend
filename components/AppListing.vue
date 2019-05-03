@@ -66,14 +66,12 @@
         <b-table
           v-show="!empty(results)"
           :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
-          :hover="!hasDetails"
           :items="results"
           :sort-by="sort"
           :fields="fullFields"
           :stacked="stacked"
           :per-page="pageLimit"
           :current-page="currentPage"
-          @row-clicked="rowClicked"
         >
           <template
             slot="field_date_published"
@@ -106,10 +104,14 @@
             slot-scope="data"
           >
             <b-link
-              v-if="hasDetails"
               :to="data.item.path.alias"
             >{{ data.item.title }}</b-link>
-            <span v-else>{{ data.item.title }}</span>
+          </template>
+          <template
+            slot="field_contributors"
+            slot-scope="data"
+          >
+            {{ data.item.field_contributors }}
           </template>
           <template
             slot="field_location"
@@ -468,11 +470,6 @@ export default {
           this.resultTotal = parseInt(_.get(response, "meta.count", 0));
           this.busy = false;
         });
-    },
-    rowClicked(items) {
-      return !this.hasDetails
-        ? this.$router.push(_.get(items, "path.alias"))
-        : null;
     }
   }
 };
