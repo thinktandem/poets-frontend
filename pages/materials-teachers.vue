@@ -74,6 +74,7 @@ export default {
             page: {
               limit: 4
             },
+            sort: "-created",
             include: "field_level,field_contributors"
           });
           const essayParams = qs.stringify({
@@ -86,6 +87,7 @@ export default {
             page: {
               limit: 3
             },
+            sort: "-created",
             include: "field_contributors"
           });
           const lessons = await app.$axios.$get(

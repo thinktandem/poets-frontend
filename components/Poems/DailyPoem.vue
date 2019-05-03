@@ -56,23 +56,13 @@
               />
             </div>
             <div
-              v-if="extended === true"
+              v-if="extended === true && !empty(about)"
               class="daily-poem__about pl-3 pr-4 pb-5"
             >
               <h3 class="font-serif">About Poem-a-Day</h3>
-              <p class="poem-a-day__about-content">
-                Poem-a-day is the original and only daily digital poetry series featuring
-                over 200 new, previously unpublished poems by today’s talented poets each
-                year. On weekdays, poems are accompanied by exclusive commentary by the
-                poets. The series highlights classic poems on weekends. Launched in 2006,
-                Poem-a-Day is now distributed via email, web, and social media to
-                350,000+ readers free of charge and is available for syndication. For more
-                information about how to syndicate Poem-a-Day, contact
-                <a
-                  class="text-reset"
-                  style="text-decoration: underline;"
-                  href="mailto:poem-a-day@poets.org">poem-a-day@poets.org</a>.
-              </p>
+              <div
+                class="poem-a-day__about-content"
+                v-html="replaceFileUrl(about)"/>
             </div>
           </b-col>
           <b-col
@@ -220,6 +210,10 @@ export default {
     };
   },
   props: {
+    about: {
+      type: String,
+      default: ""
+    },
     extended: {
       type: Boolean,
       default: false
