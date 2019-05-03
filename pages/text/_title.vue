@@ -44,6 +44,7 @@
 
 <script>
 import _ from "lodash";
+import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 
 export default {
@@ -53,6 +54,11 @@ export default {
       datePublished: "",
       type: ""
     };
+  },
+  head() {
+    return MetaTags.renderTags(
+      this.$store.state.pageData.data.attributes.metatag_normalized
+    );
   },
   mounted() {
     this.contributors = _.filter(
