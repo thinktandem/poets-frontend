@@ -3,14 +3,12 @@
     <b-container class="py-5">
       <b-row>
         <b-col xl="8">
-          <h1>{{ text.attributes.title }}</h1>
           <div
             class="text__body"
-            xl="8"
-          >
+            md="8">
             <div
               class="text__body-preface"
-              v-html="replaceFileUrl(body)"/>
+              v-html="replaceFileUrl($store.state.pageData.data.attributes.body.processed)"/>
           </div>
         </b-col>
         <b-col md="4">
@@ -46,59 +44,57 @@
 
 <script>
 import _ from "lodash";
-import imgUrl from "~/plugins/inlineImagesUrl.js";
 import niceDate from "~/plugins/niceDate";
 
 export default {
-  async asyncData({ app, params }) {
-    const text = await app.$axios
+  data() {
+    return {
+      contributors: [],
+      datePublished: "",
+      type: ""
+    };
+  },
+  mounted() {
+    this.contributors = _.filter(
+      this.$store.state.pageData.included,
+      include => include.type === "node--person"
+    );
+    this.datePublished = niceDate.niceDate(
+      _.get(this.$store.state.pageData, "data.attributes.field_date_published")
+    );
+
+    const type = _.find(
+      _.get(this.$store.state.pageData, "included"),
+      include => include.type === "taxonomy_term--text_type"
+    );
+    this.type = _.get(type, "attributes.name");
+  },
+  async fetch({ app, store, route }) {
+    return app.$axios
       .get(`/router/translate-path`, {
         params: {
-          path: `/text/${params.title}`
+          path: route.path
         }
       })
       .catch(err => {
         app.handleError(err);
       })
-      .then(res => {
-        return app.$axios
-          .get(
+      .then(res =>
+        app.$axios
+          .$get(
             `/api/node/texts/${res.data.entity.uuid}` +
               `?include=field_contributors,field_texttype`
           )
-          .then(res => {
-            return res.data;
+          .catch(err => {
+            app.handleError(err);
           })
-          .catch(error => {
-            console.log(error);
-          });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    const body = await imgUrl.staticUrl(text.data.attributes.body.value, app);
-    const contributors = [];
-    _.each(_.get(text, "included"), (include, i) => {
-      if (include.type === "node--person") {
-        contributors[i] = include;
-      }
-    });
-    const datePublished = niceDate.niceDate(
-      _.get(text, "data.attributes.field_date_published")
-    );
-    const type = _.find(_.get(text, "included"), include => {
-      if (include.type === "taxonomy_term--text_type") {
-        return include;
-      }
-    });
-
-    return {
-      text: text.data,
-      body,
-      contributors,
-      datePublished,
-      type: _.get(type, "attributes.name")
-    };
+          .then(res => {
+            store.commit("updateHero", {
+              heading: _.get(res, "data.attributes.title")
+            });
+            store.commit("updatePageData", res);
+          })
+      );
   }
 };
 </script>
