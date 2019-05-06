@@ -1,6 +1,7 @@
 <template>
   <div>
     <daily-poem
+      :about="replaceFileUrl(body)"
       :extended="true"
       :poem="pad.poem"
       :poet="pad.poet"/>
@@ -64,6 +65,7 @@ import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import SignupBlock from "~/components/SignupBlock";
 import * as _ from "lodash";
 import AppTable from "~/components/AppTable";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   components: {
@@ -74,9 +76,13 @@ export default {
     iconMediaSkipForwards,
     SignupBlock
   },
+  head() {
+    return MetaTags.renderTags(this.$store.state.metatags);
+  },
   data() {
     return {
       busy: true,
+      body: _.get(this.$store.state.pageData, "data.attributes.body.processed"),
       fields: [
         {
           key: "title",
@@ -155,14 +161,8 @@ export default {
       this.searchPoems(queryPage);
     }
   },
-  async fetch({ app, store, params }) {
-    // Set the current hero
-    store.commit("updateHero", {
-      variant: "quote",
-      lead:
-        "Poetry offers us the capacity to carry in us and express the contradictory impulses that make us human.",
-      subtext: "—Kwame Dawes, Academy of American Poets Chancellor (2018- )"
-    });
+  async fetch({ app, store, route }) {
+    return app.$buildBasicPage(app, store, route.path);
   }
 };
 </script>
