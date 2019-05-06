@@ -102,15 +102,14 @@ export default {
         src = "/hero/NPM.svg";
         alt = "National Poetry Month Logo";
         link = "/national-poetry-month";
-      } else if (
-        path.includes("/academy-american-poets") ||
-        path.includes("/american-poets-magazine")
-      ) {
+      } else if (path.includes("/academy-american-poets")) {
         src = "/hero/AAP.svg";
         alt = "Academy of American Poets Logo";
-        link = path.includes("/academy-american-poets")
-          ? "/academy-american-poets"
-          : "/american-poets-magazine";
+        link = "/academy-american-poets";
+      } else if (path.includes("/american-poets-magazine")) {
+        src = "/hero/APM.png";
+        alt = "Acacemy of American Poets Magazine Logo";
+        link = "/american-poets-magazine";
       }
       return {
         src,
