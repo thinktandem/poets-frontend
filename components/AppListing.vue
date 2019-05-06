@@ -55,6 +55,14 @@
                     <magnifying-glass-icon class="icon" />
                   </b-btn>
                 </b-input-group-append>
+                <b-button
+                  class="reset-button"
+                  size="sm"
+                  type="link"
+                  variant="outlined-primary"
+                  :href="this.$route.path">
+                  Reset
+                </b-button>
               </b-input-group>
             </div>
           </b-form-group>
