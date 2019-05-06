@@ -106,6 +106,14 @@
             v-html="replaceFileUrl(data.item.title)"
           />
         </template>
+        <template
+          slot="field_author"
+          slot-scope="data"
+        >
+          <a
+            v-html="data.item.field_author"
+          />
+        </template>
       </b-table>
       <div class="pager">
         <b-pagination
@@ -224,7 +232,6 @@ export default {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.searchAudio({ query }).then(response => {
-        console.log(response);
         this.audios = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
