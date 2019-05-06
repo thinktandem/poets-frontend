@@ -27,7 +27,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     {{ filter.name }}</option>
                 </template>
@@ -525,5 +524,10 @@ export default {
 }
 .poem__actions ul {
   justify-content: flex-end;
+}
+.reset-button {
+  position: relative;
+  top: 5px;
+  left: 22px;
 }
 </style>
