@@ -26,6 +26,12 @@
             :href="data.item.view_node"
             v-html="replaceFileUrl(data.item.title)"/>
         </template>
+        <template
+          slot="field_author"
+          slot-scope="data">
+          <a
+            v-html="data.item.field_author"/>
+        </template>
       </b-table>
       <div class="pager">
         <b-pagination

@@ -46,11 +46,11 @@ export default {
     return {
       includes: { field_level: "name" },
       fields: {
-        field_level: {
-          label: "Level"
-        },
         title: {
           label: "Name"
+        },
+        field_level: {
+          label: "Level"
         }
       },
       details: {},

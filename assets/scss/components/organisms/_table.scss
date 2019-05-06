@@ -68,6 +68,12 @@
         color: $body-color;
       }
     }
+    &[data-label=Author] {
+      font-weight: 400;
+      a {
+        color: var(--dark);
+      }
+    }
   }
 }
 
