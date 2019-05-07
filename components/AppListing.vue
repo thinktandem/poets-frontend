@@ -70,19 +70,20 @@
           :sort-by="sort"
           :fields="fullFields"
           :stacked="stacked"
-          :per-page="pageLimit"
+          :per-page="perPage"
           :current-page="currentPage"
         >
           <template
             slot="field_date_published"
             slot-scope="data">{{ year(data.item.field_date_published) }}</template>
           <template
-            v-if="resourceType === 'teach_this_poem'"
+            v-if="resourceType === 'teach_this_poem' || resourceType === 'prize_or_program'"
             slot="body"
             slot-scope="data"
           >
             <div
               v-if="data.item.body.summary !== null"
+              class="list__body"
               v-html="replaceFileUrl(data.item.body.summary)"
             />
             <div
@@ -389,7 +390,6 @@ export default {
           return _.first(field.split("."));
         })
         .join(",");
-
       return _.merge(
         {},
         // If we have any searchable fields and search text, query those fields
@@ -517,5 +517,8 @@ export default {
 }
 .poem__actions ul {
   justify-content: flex-end;
+}
+.list__body {
+  font-weight: 400;
 }
 </style>

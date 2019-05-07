@@ -15,6 +15,8 @@
       :filters="filters"
       :searchable="searchable"
       :fields="fields"
+      :paged="paged"
+      :per-page="perPage"
     />
   </div>
 </template>
@@ -57,6 +59,18 @@ export default {
     searchable: {
       type: Array,
       default: () => []
+    },
+    stacked: {
+      type: String,
+      default: "sm"
+    },
+    perPage: {
+      type: Number,
+      default: 10
+    },
+    paged: {
+      type: Boolean,
+      default: true
     }
   }
 };
