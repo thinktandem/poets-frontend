@@ -5,41 +5,45 @@
         {{ poet.data.attributes.title }}
       </h3>
     </b-container>
-    <b-container class="texts-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
-          Name
-        </b-col>
-        <b-col md="4">
-          Subject
-        </b-col>
-        <b-col md="4">
-          Year
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="text in texts"
-        class="tabular-list__row texts-list__texts"
-        :key="text.id">
-        <b-col md="4">
+    <b-container class="table-container">
+      <b-table
+        id="texts"
+        :items="texts"
+        :fields="fields"
+        stacked="md"
+        paged=false>
+        <template
+          slot="title"
+          slot-scope="data"
+        >
           <a
-            v-if="text.attributes.path"
-            :href="text.attributes.path.alias"
-            v-html="replaceFileUrl(text.attributes.title)"/>
-        </b-col>
-        <b-col md="4">
-          {{ poet.data.attributes.title }}
-        </b-col>
-        <b-col md="4">
-          {{ text.attributes.field_date_published }}
-        </b-col>
-      </b-row>
+            :href="data.item.attributes.path.alias"
+            v-html="data.item.attributes.title"
+          />
+        </template>
+        <template
+          slot="subject"
+          slot-scope="data">
+          <a
+            class="texts-by-author__table-link"
+            :href="poet.data.attributes.path.alias">
+            {{ poet.data.attributes.title }}
+          </a>
+        </template>
+        <template
+          slot="field_date_published"
+          slot-scope="data">
+          <div
+            v-html="niceDate(data.item.attributes.field_date_published, 'year')"/>
+        </template>
+      </b-table>
     </b-container>
   </div>
 </template>
 
 <script>
 import qs from "qs";
+import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {},
@@ -50,7 +54,21 @@ export default {
       Next: null,
       Prev: null,
       preparedCombine: null,
-      author: null
+      author: null,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "subject",
+          label: "Subject"
+        },
+        {
+          key: "field_date_published",
+          label: "Year"
+        }
+      ]
     };
   },
   async asyncData({ app, params, query, route }) {
@@ -77,6 +95,11 @@ export default {
       poet,
       texts: texts.data
     };
+  },
+  methods: {
+    niceDate(date, format) {
+      return niceDate.niceDate(date, format);
+    }
   }
 };
 </script>
@@ -105,5 +128,9 @@ export default {
 .texts-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.texts-by-author__table-link {
+  font-weight: 400;
+  color: var(--dark);
 }
 </style>
