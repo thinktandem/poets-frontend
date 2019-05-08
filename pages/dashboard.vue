@@ -11,8 +11,8 @@
             :items="userData"
             thead-class="d-none"/>
         </b-col>
-        <b-col cols="1"/>
-        <b-col cols="3">
+        <b-col md="1"/>
+        <b-col md="3">
           <b-nav vertical>
             <b-nav-item
               href="https://poets.myshopify.com/"
@@ -35,8 +35,8 @@
             :items="membershipData"
             thead-class="d-none"/>
         </b-col>
-        <b-col cols="1"/>
-        <b-col cols="3">
+        <b-col md="1"/>
+        <b-col md="3">
           <b-nav vertical>
             <b-nav-item
               :to="membershipCardData.ctaLink">
@@ -113,7 +113,7 @@
             </b-card>
           </b-card-group>
         </b-col>
-        <b-col cols="3">
+        <b-col md="3">
           <h4>Activities</h4>
           <b-nav vertical>
             <b-nav-item v-b-modal.makeAnthology>make an anthology</b-nav-item>
@@ -309,8 +309,22 @@ export default {
 .dashboard-wrapper {
   margin-top: 3em;
   margin-bottom: 3em;
-  td {
-    white-space: pre;
+  td:nth-child(2n) {
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
   .card {
     margin-bottom: 25px;
