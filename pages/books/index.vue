@@ -82,6 +82,11 @@
             v-html="data.item.field_author"
           />
         </template>
+        <template
+          slot="field_booktype"
+          slot-scope="data">
+          <div v-html="data.item.field_booktype"/>
+        </template>
       </b-table>
       <div class="pager">
         <b-pagination
