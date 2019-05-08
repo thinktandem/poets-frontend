@@ -17,7 +17,8 @@
       resource-type="texts"
       :default-params="defaultParams"
       :includes="includes"
-      :fields="fields"/>
+      :fields="fields"
+      :searchable="searchable"/>
   </div>
 </template>
 
@@ -51,7 +52,14 @@ export default {
         }
       },
       featured: true,
-      hasDetails: true
+      hasDetails: true,
+      searchable: [
+        { field: "title", label: "name" },
+        {
+          field: "body.value",
+          label: "text"
+        }
+      ]
     };
   },
   async fetch({ app, store, route }) {
