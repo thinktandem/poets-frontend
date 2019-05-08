@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.book__body {
+.program__body {
   font-weight: 400;
   font-size: 1.2em;
 }

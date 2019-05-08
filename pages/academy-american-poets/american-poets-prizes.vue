@@ -5,8 +5,8 @@
     :default-params="defaultParams"
     :includes="includes"
     :fields="fields"
-    :filters="filters"
-    :searchable="searchable"
+    :paged="paged"
+    :per-page="perPage"
   />
 </template>
 
@@ -24,7 +24,8 @@ export default {
     return {
       includes: {},
       fields: {
-        title: { label: "Name" }
+        title: { label: "Name" },
+        body: { label: "Description" }
       },
       details: {},
       defaultParams: {
@@ -33,13 +34,8 @@ export default {
         }
       },
       filters: [],
-      searchable: [
-        { field: "title", label: "name" },
-        {
-          field: "body.value",
-          label: "text"
-        }
-      ]
+      paged: false,
+      perPage: 20
     };
   },
   async fetch({ app, store, route }) {
