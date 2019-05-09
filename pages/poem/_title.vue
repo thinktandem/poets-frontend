@@ -281,9 +281,8 @@ export default {
     // Set the current hero
     store.commit("updateHero", {
       variant: "default",
-      heading: "Find Poems",
-      lead:
-        "Find the perfect poems, save them, and share them to your heart’s content.",
+      heading: "Poems",
+      lead: "Find and share the perfect poems.",
       links: [{ to: { name: "vertical-poem" }, text: "find poems" }]
     });
   },
@@ -337,8 +336,13 @@ export default {
 .card--main {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 4px 0 0 #32d17e;
 
+  .card-header {
+    padding-left: 3.25rem;
+  }
+
   .card-title {
     font-size: 2.5rem;
+    line-height: 3rem;
 
     &.card-title--long {
       font-size: 2rem;

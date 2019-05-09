@@ -13,14 +13,17 @@
       :data="data"
       :includes="included"
       :show-sidebar="false"/>
-    <AppListing
-      resource-type="lesson_plans"
-      :default-params="defaultParams"
-      :includes="includes"
-      :fields="fields"
-      :details="details"
-      :filters="filters"
-      :searchable="searchable"/>
+    <b-container class="teach-poem__more-lesson-plans-container">
+      <h2>Previous Lessons</h2>
+      <AppListing
+        resource-type="lesson_plans"
+        :default-params="defaultParams"
+        :includes="includes"
+        :fields="fields"
+        :details="details"
+        :filters="filters"
+        :searchable="searchable"/>
+    </b-container>
   </div>
 </template>
 
@@ -49,8 +52,8 @@ export default {
         title: {
           label: "Name"
         },
-        field_level: {
-          label: "Level"
+        field_date_published: {
+          label: "Date"
         }
       },
       details: {},

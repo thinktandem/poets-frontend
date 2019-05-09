@@ -13,7 +13,10 @@
             class="daily-poem__poet-name my-auto px-0"
             v-if="null !== poet.name"
           >
-            {{ poet.name }}
+            <b-link
+              :to="poet.alias"
+              class="text-white"
+            >{{ poet.name }}</b-link>
           </h3>
           <div class="daily-poem__poet-image">
             <b-img-lazy

@@ -5,35 +5,36 @@
         {{ poet.data.attributes.title }}
       </h3>
     </b-container>
-    <b-container class="poems-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
-          Name
-        </b-col>
-        <b-col md="4">
-          Author
-        </b-col>
-        <b-col md="4">
-          Year
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="poem in poems"
-        class="tabular-list__row poems-list__poems"
-        :key="poem.id">
-        <b-col md="4">
+    <b-container class="table-container">
+      <b-table
+        id="poems"
+        :items="poems"
+        :fields="fields"
+        stacked="md"
+        paged=false>
+        <template
+          slot="title"
+          slot-scope="data"
+        >
           <a
-            v-if="poem.attributes.path"
-            :href="poem.attributes.path.alias"
-            v-html="replaceFileUrl(poem.attributes.title)"/>
-        </b-col>
-        <b-col md="4">
-          {{ poet.data.attributes.title }}
-        </b-col>
-        <b-col md="4">
-          {{ poem.attributes.field_date_published }}
-        </b-col>
-      </b-row>
+            :href="data.item.attributes.path.alias"
+            v-html="data.item.attributes.title"
+          />
+        </template>
+        <template
+          slot="field_author"
+          slot-scope="data">
+          <a :href="poet.data.attributes.path.alias">
+            {{ poet.data.attributes.title }}
+          </a>
+        </template>
+        <template
+          slot="field_date_published"
+          slot-scope="data">
+          <div
+            v-html="niceDate(data.item.attributes.field_date_published, 'year')"/>
+        </template>
+      </b-table>
     </b-container>
   </div>
 </template>
@@ -43,6 +44,7 @@ import qs from "qs";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
+import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
@@ -57,7 +59,21 @@ export default {
       Next: null,
       Prev: null,
       preparedCombine: null,
-      author: null
+      author: null,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "field_author",
+          label: "Author"
+        },
+        {
+          key: "field_date_published",
+          label: "Year"
+        }
+      ]
     };
   },
   async asyncData({ app, params, query, route }) {
@@ -92,6 +108,9 @@ export default {
         name: "poems",
         query: myQuery
       });
+    },
+    niceDate(date, format) {
+      return niceDate.niceDate(date, format);
     }
   },
   watchQuery: true
