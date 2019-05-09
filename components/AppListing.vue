@@ -529,7 +529,7 @@ export default {
   position: relative;
   top: 5px;
   left: 22px;
- }
+}
 .list__body {
   font-weight: 400;
 }
