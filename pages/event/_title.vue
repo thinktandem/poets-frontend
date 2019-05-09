@@ -171,7 +171,10 @@ export default {
       .then(event => ({
         title: _.get(event, "data.attributes.title"),
         body: _.get(event, "data.attributes.body.processed"),
-        eventDate: _.get(event, "data.attributes.field_event_date"),
+        eventDate: niceDate.niceDate(
+          _.get(event, "data.attributes.field_event_date"),
+          "long"
+        ),
         eventStartTime: _.get(event, "data.attributes.event_start_time"),
         eventEndTime: _.get(event, "data.attributes.event_end_time"),
         image: app.$buildImg(event, null, "field_image", "event"),
