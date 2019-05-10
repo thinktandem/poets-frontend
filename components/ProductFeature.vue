@@ -6,7 +6,13 @@
           class="product-feature__info pb-4 pb-lg-5">
           <h2
             class="font-serif pb-3"
-            v-show="title">{{ title }}</h2>
+            v-show="title">
+            <b-link
+              class="apm__cta-link"
+              to="/american-poets-magazine">
+              {{ title }}
+            </b-link>
+          </h2>
           <div class="pl-lg-4 pr-md-3">
             <div
               v-show="intro"
@@ -31,10 +37,14 @@
         <div
           class="product-feature__image"
           v-show="img">
-          <b-img-lazy
-            fluid
-            :alt="img.alt"
-            :src="img.src"/>
+          <b-link
+            class="apm__cta-link"
+            to="/american-poets-magazine">
+            <b-img-lazy
+              fluid
+              :alt="img.alt"
+              :src="img.src"/>
+          </b-link>
         </div>
       </div>
     </b-container>
@@ -140,5 +150,8 @@ h2 {
     order: 2;
     width: 40%;
   }
+}
+.apm__cta-link {
+  color: var(--white);
 }
 </style>
