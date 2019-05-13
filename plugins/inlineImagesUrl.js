@@ -27,5 +27,11 @@ export default {
     return text.length > 300
       ? `${text.substr(0, text.lastIndexOf(" ", 300))}...`
       : text;
+  },
+  allowIframeNavToTop(content) {
+    return content.replace(
+      /<iframe /g,
+      "<iframe sandbox='allow-popups allow-same-origin allow-top-navigation-by-user-activation' "
+    );
   }
 };

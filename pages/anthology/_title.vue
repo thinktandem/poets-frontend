@@ -88,11 +88,13 @@
                   class="font-serif py-2">
                   <b-link
                     class="text-dark"
+                    target="_top"
                     :to="poem.attributes.path.alias">{{ poem.attributes.title }}</b-link>
                 </h3>
                 <div class="py-2">
                   <b-link
                     class="text-dark"
+                    target="_top"
                     :to="poem.author.attributes.path.alias">{{ poem.author.attributes.title }}</b-link></div>
                 <div
                   class="anthology__poem-body poem__body"

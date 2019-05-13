@@ -8,7 +8,7 @@
       </b-row>
       <b-row>
         <b-col
-          v-html="replaceFileUrl(book.attributes.body.value)"
+          v-html="allowIframeNavToTop(replaceFileUrl(book.attributes.body.value))"
           class="book__body"
           md="8"/>
         <b-col md="4">
@@ -25,6 +25,7 @@
 
 <script>
 import _ from "lodash";
+import inlineImagesUrl from "~/plugins/inlineImagesUrl";
 import MetaTags from "~/plugins/metatags";
 
 export default {
@@ -59,6 +60,11 @@ export default {
       .catch(error => {
         console.error(error);
       });
+  },
+  methods: {
+    allowIframeNavToTop(content) {
+      return inlineImagesUrl.allowIframeNavToTop(content);
+    }
   }
 };
 </script>
