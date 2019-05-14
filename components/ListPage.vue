@@ -9,6 +9,7 @@
     />
     <app-listing
       :resource-type="resourceType"
+      :title="title"
       :details="details"
       :default-params="defaultParams"
       :includes="includes"
@@ -32,6 +33,10 @@ export default {
     BasicPage
   },
   props: {
+    title: {
+      type: String,
+      default: ""
+    },
     details: {
       type: Object,
       default: () => {}
