@@ -1,13 +1,13 @@
 <template>
   <list-page
+    :title="title"
     :details="details"
     resource-type="prize_or_program"
     :default-params="defaultParams"
     :includes="includes"
     :fields="fields"
     :paged="paged"
-    :per-page="perPage"
-  />
+    :per-page="perPage"/>
 </template>
 
 <script>
@@ -35,7 +35,8 @@ export default {
       },
       filters: [],
       paged: false,
-      perPage: 20
+      perPage: 20,
+      title: "Prizes"
     };
   },
   async fetch({ app, store, route }) {

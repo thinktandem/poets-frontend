@@ -112,7 +112,7 @@ export default {
           this.prizes = {
             title: "Prizes",
             link: {
-              to: `/prizes`,
+              to: `/academy-american-poets/american-poets-prizes`,
               text: `${count} Prizes`
             },
             prizes: _(_.get(response, "data.data", []))
