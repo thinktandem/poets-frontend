@@ -54,14 +54,6 @@
                     <magnifying-glass-icon class="icon" />
                   </b-btn>
                 </b-input-group-append>
-                <b-button
-                  class="reset-button"
-                  size="sm"
-                  type="link"
-                  variant="outlined-primary"
-                  :href="this.$route.path">
-                  Reset
-                </b-button>
               </b-input-group>
             </div>
           </b-form-group>
@@ -524,11 +516,6 @@ export default {
 }
 .poem__actions ul {
   justify-content: flex-end;
-}
-.reset-button {
-  position: relative;
-  top: 5px;
-  left: 22px;
 }
 .list__body {
   font-weight: 400;
