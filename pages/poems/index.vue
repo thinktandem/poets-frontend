@@ -32,7 +32,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Occasions</option>
                 </template>
@@ -47,7 +46,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Themes</option>
                 </template>
@@ -62,7 +60,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Forms</option>
                 </template>

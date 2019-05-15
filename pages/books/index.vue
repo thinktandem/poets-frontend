@@ -29,7 +29,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Type</option>
                 </template>

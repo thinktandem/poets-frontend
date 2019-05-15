@@ -110,6 +110,7 @@
             </b-button>
           </div>
           <PromoSpace
+            v-if="!embedded"
             variant="transparent"
             dimensions="square"/>
         </b-col>
@@ -153,6 +154,20 @@ export default {
           "field_contributors.id": this.poet.id
         }
       };
+    },
+    embedded() {
+      return _.get(this.$route.query, "mbd") === "1";
+    }
+  },
+  layout({ route }) {
+    return _.get(route.query, "mbd") === "1" ? "embed" : "default";
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.embedded && _.get(to, "query.mbd") !== "1") {
+      const where = _.merge({}, to, { query: { mbd: "1" } });
+      next(where);
+    } else {
+      next();
     }
   },
   data() {

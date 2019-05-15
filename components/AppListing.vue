@@ -27,7 +27,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     {{ filter.name }}</option>
                 </template>
