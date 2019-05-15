@@ -152,6 +152,14 @@ export default {
     PoemActions,
     SpeakerIcon
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.embedded && _.get(to, "query.mbd") !== "1") {
+      const where = _.merge({}, to, { query: { mbd: "1" } });
+      next(where);
+    } else {
+      next();
+    }
+  },
   layout({ route }) {
     return _.get(route.query, "mbd") === "1" ? "embed" : "default";
   },
