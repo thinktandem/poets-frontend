@@ -43,10 +43,10 @@
 }
 
 @font-face {
-  font-family: 'Poets Electra Roman No 2';
+  font-family: 'Poets Electra';
   font-display: swap;
-  src: url('~/assets/fonts/PoetsElectra-ItalicNo2.woff2') format('woff2'),
-    url('~/assets/fonts/PoetsElectra-ItalicNo2.woff') format('woff');
+  src: url('~/assets/fonts/poets_electra_web_italic.ttf') format('ttf'),
+    url('~/assets/fonts/poets_electra_web_italic.woff') format('woff');
   font-weight: normal;
   font-style: italic;
 }
@@ -54,8 +54,8 @@
 @font-face {
   font-family: 'Poets Electra';
   font-display: swap;
-  src: url('~/assets/fonts/PoetsElectra-Roman.woff2') format('woff2'),
-  url('~/assets/fonts/PoetsElectra-Roman.woff') format('woff');
+  src: url('~/assets/fonts/poets_electra_web_roman.ttf') format('ttf'),
+  url('~/assets/fonts/poets_electra_web_roman.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

@@ -4,8 +4,12 @@
     <p class="lead">Published on Academy of American Poets <span v-if="host">({{ host }})</span></p>
     <hr>
     <article>
-      <h1 v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
+      <h1
+        style="font-style: italic;"
+        class="font-serif"
+        v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
       <div
+        class="font-serif"
         v-if="poem.attributes.body"
         v-html="replaceFileUrl(poem.attributes.body.processed)"/>
       <section class="py-3">
