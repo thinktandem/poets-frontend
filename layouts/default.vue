@@ -57,6 +57,7 @@ export default {
     this.$el
       .querySelectorAll("iframe:not(.embed-responsive-item)")
       .forEach(el => {
+        el.setAttribute("scrolling", "yes");
         const youtubeRegex = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
         if (youtubeRegex.test(el.getAttribute("src"))) {
           el.classList.add("embed-responsive-item");

@@ -119,6 +119,14 @@ export default {
     return _.get(route.query, "mbd") === "1" ? "embed" : "default";
   },
   components: { ChevronLeft, ChevronRight, AnthologyActions },
+  beforeRouteLeave(to, from, next) {
+    if (this.embedded && _.get(to, "query.mbd") !== "1") {
+      const where = _.merge({}, to, { query: { mbd: "1" } });
+      next(where);
+    } else {
+      next();
+    }
+  },
   data() {
     return {
       body: "",

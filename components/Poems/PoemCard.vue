@@ -9,7 +9,7 @@
       <b-link
         v-html="replaceFileUrl(title)"
         class="text-dark"
-        :href="link"
+        :to="link"
         itemprop="title"
       />
     </h3>
