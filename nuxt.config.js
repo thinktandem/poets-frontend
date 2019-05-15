@@ -80,7 +80,8 @@ module.exports = {
       {
         hid: "description",
         name: "description",
-        content: "Nuxt front end for Poets"
+        content:
+          "poets.org - The Academy of American Poets is the largest membership-based nonprofit organization fostering an appreciation for contemporary poetry and supporting American poets."
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
