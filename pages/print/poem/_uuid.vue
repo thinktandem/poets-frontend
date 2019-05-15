@@ -103,4 +103,7 @@ export default {
 .logo g path:first-child {
   fill: $print-logo-grey;
 }
+main {
+  font-weight: 400;
+}
 </style>
