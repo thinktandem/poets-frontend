@@ -5,7 +5,7 @@
         <div
           class="product-feature__info pb-4 pb-lg-5">
           <h2
-            class="font-serif pb-3"
+            class="font-serif font-italic pb-3"
             v-show="title">
             <b-link
               class="apm__cta-link"

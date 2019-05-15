@@ -4,8 +4,11 @@
     <p class="lead">Published on Academy of American Poets <span v-if="host">({{ host }})</span></p>
     <hr>
     <article>
-      <h1 v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
+      <h1
+        class="font-serif font-italic"
+        v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
       <div
+        class="font-serif"
         v-if="poem.attributes.body"
         v-html="replaceFileUrl(poem.attributes.body.processed)"/>
       <section class="py-3">
@@ -102,5 +105,8 @@ export default {
 <style lang="scss" scoped>
 .logo g path:first-child {
   fill: $print-logo-grey;
+}
+main {
+  font-weight: 400;
 }
 </style>

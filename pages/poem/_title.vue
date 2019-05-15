@@ -62,7 +62,7 @@
               :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"
             />
             <div
-              class="poem__body px-md-4 font-serif-2"
+              class="poem__body px-md-4 font-serif"
               :class="{'poem__body--small-text': smalltext}"
               v-if="poem.attributes.body !== null"
               v-html="replaceFileUrl(poem.attributes.body.processed)"

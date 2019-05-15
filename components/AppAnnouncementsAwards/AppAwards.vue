@@ -2,7 +2,7 @@
   <div class="py-4 awards">
     <component
       :is="titleTag"
-      class="font-serif awards__title">Awards</component>
+      class="font-serif font-italic awards__title">Awards</component>
     <p
       v-for="award in awards"
       :key="award.img"

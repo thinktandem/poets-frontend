@@ -5,7 +5,7 @@
     itemscope
     itemtype="http://schema.org/Article"
   >
-    <h3 class="card-title">
+    <h3 class="card-title font-serif font-italic">
       <b-link
         v-html="replaceFileUrl(title)"
         class="text-dark"
@@ -14,7 +14,7 @@
       />
     </h3>
     <div
-      class="card__body card__body--fade poem__body"
+      class="card__body card__body--fade poem__body font-serif"
       v-html="replaceFileUrl(text)"
     />
     <div class="card-footer">

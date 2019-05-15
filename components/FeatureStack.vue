@@ -2,7 +2,7 @@
   <section class="feature-stack">
     <b-container>
       <component
-        class="font-serif feature-stack__title"
+        class="font-serif font-italic"
         :is="titleTag">{{ title }}</component>
       <b-row class="py-3">
         <b-col
