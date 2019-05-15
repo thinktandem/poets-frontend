@@ -95,19 +95,19 @@ export default {
     },
     pickLogo() {
       const path = this.$route.path;
-      let src = "/hero/logo.png";
+      let src = "/hero/Large-White-RGB-poets.org-Logo.png";
       let alt = "Poets.org Logo";
       let link = "/";
       if (path.includes("/national-poetry-month")) {
-        src = "/hero/NPM.svg";
+        src = "/hero/Large-White-RGB-National-Poetry-Month-Logo.png";
         alt = "National Poetry Month Logo";
         link = "/national-poetry-month";
       } else if (path.includes("/academy-american-poets")) {
-        src = "/hero/logo-aap.png";
+        src = "/hero/Large-White-RGB-Academy-of-American-Poets-Logo.png";
         alt = "Academy of American Poets Logo";
         link = "/academy-american-poets";
       } else if (path.includes("/american-poets-magazine")) {
-        src = "/hero/APM.png";
+        src = "/hero/Large-White-RGB-American-Poets-Logo.png";
         alt = "Acacemy of American Poets Magazine Logo";
         link = "/american-poets-magazine";
       }
