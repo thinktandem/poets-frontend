@@ -77,14 +77,6 @@
                   >
                     <magnifying-glass-icon class="icon mr-2" />
                   </b-input-group-append>
-                  <b-button
-                    class="reset-button"
-                    size="sm"
-                    type="link"
-                    variant="outlined-primary"
-                    href="/audio">
-                    Reset
-                  </b-button>
                 </b-input-group>
               </div>
 
@@ -312,10 +304,5 @@ export default {
       min-width: 17rem;
     }
   }
-}
-.reset-button {
-  position: relative;
-  top: 5px;
-  left: 22px;
 }
 </style>

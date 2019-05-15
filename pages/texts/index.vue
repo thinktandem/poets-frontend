@@ -46,14 +46,6 @@
                   >
                     <magnifying-glass-icon class="icon" />
                   </b-btn>
-                  <b-button
-                    class="reset-button"
-                    size="sm"
-                    type="link"
-                    variant="outlined-primary"
-                    href="/texts">
-                    Reset
-                  </b-button>
                 </b-input-group-append>
               </div>
 
@@ -226,9 +218,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.reset-button {
-  position: relative;
-  top: 5px;
-  left: 22px;
-}
 </style>

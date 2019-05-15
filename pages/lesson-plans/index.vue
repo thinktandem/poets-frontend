@@ -43,14 +43,6 @@
                   >
                     <iconSearch class="icon" />
                   </b-input-group-append>
-                  <b-button
-                    class="reset-button"
-                    size="sm"
-                    type="link"
-                    variant="outlined-primary"
-                    href="/lesson-plans">
-                    Reset
-                  </b-button>
                 </b-input-group>
               </div>
             </b-form-group>
@@ -281,9 +273,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.reset-button {
-  position: relative;
-  top: 5px;
-  left: 22px;
-}
 </style>
