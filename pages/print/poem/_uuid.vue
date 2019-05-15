@@ -5,10 +5,10 @@
     <hr>
     <article>
       <h1
-        class="font-serif"
+        class="font-serif font-italic"
         v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
       <div
-        class="font-serif font-italic"
+        class="font-serif"
         v-if="poem.attributes.body"
         v-html="replaceFileUrl(poem.attributes.body.processed)"/>
       <section class="py-3">
