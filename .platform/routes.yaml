@@ -7,3 +7,6 @@ https://{default}/:
 https://www.{default}/:
   type: redirect
   to: https://{default}/
+https://m.{default}/:
+  type: redirect
+  to: https://{default}/
