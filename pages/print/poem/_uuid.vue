@@ -1,6 +1,9 @@
 <template>
   <main class="p-4">
-    <main-logo class="logo"/>
+    <div class="logo">
+      <b-img
+        src="/hero/Large-Grey-RGB-poets.png"
+        alt=""/></div>
     <p class="lead">Published on Academy of American Poets <span v-if="host">({{ host }})</span></p>
     <hr>
     <article>
@@ -57,10 +60,8 @@
 </template>
 <script>
 import _ from "lodash";
-import MainLogo from "~/static/hero/main.svg";
 export default {
   layout: "minimal",
-  components: { MainLogo },
   async asyncData({ app, params, req, res }) {
     return app.$axios
       .$get(`/api/node/poems/${params.uuid}?include=field_author.field_image`)
