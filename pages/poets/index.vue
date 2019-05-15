@@ -63,14 +63,6 @@
                   >
                     <magnifying-glass-icon class="icon" />
                   </b-input-group-append>
-                  <b-button
-                    class="reset-button"
-                    size="sm"
-                    type="link"
-                    variant="outlined-primary"
-                    href="/poets">
-                    Reset
-                  </b-button>
                 </b-input-group>
               </div>
 
@@ -356,10 +348,5 @@ export default {
       min-width: 21rem;
     }
   }
-}
-.reset-button {
-  position: relative;
-  top: 5px;
-  left: 22px;
 }
 </style>
