@@ -48,7 +48,7 @@ export default {
                   _.get(res, "data"),
                   _.get(res, "data.included.field_image"),
                   "field_image",
-                  "portrait"
+                  "book"
                 ) || null
             };
           })

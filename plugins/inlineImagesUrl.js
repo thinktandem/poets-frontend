@@ -15,5 +15,17 @@ export default {
         /href\=\"\/sites\/default\/files\//g,
         'href="' + baseURL + "/sites/default/files/"
       );
+  },
+  /**
+   * Truncate text to 300 chars.
+   *
+   * @param {String} text
+   *
+   * @return {String}
+   */
+  teaserText(text) {
+    return text.length > 300
+      ? `${text.substr(0, text.lastIndexOf(" ", 300))}...`
+      : text;
   }
 };

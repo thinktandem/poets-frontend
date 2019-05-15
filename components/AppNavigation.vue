@@ -1,90 +1,102 @@
 <template>
-  <b-navbar
-    toggleable="md"
-    type="dark"
-    class="shadow-sm d-flex"
-    variant="dark"
-  >
-    <b-navbar-brand
-      tag="div"
-      class="btn btn-md d-flex flex-row"
+  <div class="app-nav__container">
+    <b-navbar
+      toggleable="md"
+      type="dark"
+      class="shadow-sm d-flex"
+      variant="dark"
     >
-      <b-link
-        to="/"
-        class="d-inline-flex flex-row"
-      >Poets.org</b-link>
-      <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
-    </b-navbar-brand>
+      <b-navbar-brand
+        tag="div"
+        class="btn btn-md d-flex flex-row"
+      >
+        <b-link
+          to="/"
+          class="d-inline-flex flex-row"
+        >Poets.org</b-link>
+        <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
+      </b-navbar-brand>
 
-    <b-navbar-toggle
-      label="Menu"
-      class="border-0"
-      target="nav_collapse"
-    />
-    <b-collapse
-      is-nav
-      id="nav_collapse"
-    >
-      <app-mobile-menu class="d-flex d-md-none" />
-      <b-navbar-nav class="menu--desktop d-none d-md-flex">
-        <b-nav-item
-          v-for="(link, index) in $store.state.topMenu"
-          :key="index"
-          :to="link.to"
-        >{{ link.text }}</b-nav-item>
-        <b-nav-item
-          v-show="this.$auth.loggedIn"
-          class="d-md-none"
-          to="/dashboard"
-        >Dashboard</b-nav-item>
-        <b-nav-item
-          v-show="!this.$auth.loggedIn"
-          class="d-md-none"
-          @click="logout"
-        >Logout</b-nav-item>
-      </b-navbar-nav>
+      <b-navbar-toggle
+        label="Menu"
+        class="border-0"
+        target="nav_collapse"
+      />
+      <b-collapse
+        is-nav
+        id="nav_collapse"
+      >
+        <app-mobile-menu class="d-flex d-md-none" />
+        <b-navbar-nav class="menu--desktop d-none d-md-flex">
+          <b-nav-item
+            v-for="(link, index) in $store.state.topMenu"
+            :key="index"
+            :to="link.to"
+          >{{ link.text }}</b-nav-item>
+          <b-nav-item
+            v-show="this.$auth.loggedIn"
+            class="d-md-none"
+            to="/dashboard"
+          >Dashboard</b-nav-item>
+          <b-nav-item
+            v-show="!this.$auth.loggedIn"
+            class="d-md-none"
+            @click="logout"
+          >Logout</b-nav-item>
+        </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item
-          v-show="!this.$auth.loggedIn"
-          to="/login"
-          class="navbar__login"
-        >Membership / Login</b-nav-item>
-        <b-nav-item-dropdown
-          v-show="this.$auth.loggedIn"
-          class="d-none"
-          :class="dropdownClass"
-          id="nav_ddown_loggedin"
-          :text="name"
-          extra-toggle-classes="nav-link-loggedin"
-          right
-        >
-          <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
-          <b-dropdown-divider />
-          <b-dropdown-item @click="logout">Logout</b-dropdown-item>
-        </b-nav-item-dropdown>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item
+            v-show="!this.$auth.loggedIn"
+            to="/login"
+            class="navbar__login"
+          >Login</b-nav-item>
+          <b-nav-item-dropdown
+            v-show="this.$auth.loggedIn"
+            class="d-none"
+            :class="dropdownClass"
+            id="nav_ddown_loggedin"
+            :text="name"
+            extra-toggle-classes="nav-link-loggedin"
+            right
+          >
+            <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
+            <b-dropdown-divider />
+            <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item
+            class="app-nav__membership"
+            to="/membership"
+            right>
+            Membership
+          </b-nav-item>
+          <b-button
+            v-b-toggle.nav_collapse
+            class="d-block py-2 d-md-none"
+            variant="secondary-dark"
+            size="md"
+            href="/donate/monthly"
+          >Donate</b-button>
+        </b-navbar-nav>
 
-        <b-button
-          v-b-toggle.nav_collapse
-          class="d-block py-2 d-md-none"
-          variant="secondary-dark"
-          size="md"
-          href="/academy-american-poets/help-champion-poets-and-poetry"
-        >Donate</b-button>
-
-      </b-navbar-nav>
-
-    </b-collapse>
+      </b-collapse>
+      <b-button
+        v-b-toggle.nav_collapse
+        class="d-none d-md-flex"
+        variant="secondary-dark"
+        size="md"
+        href="/donate/monthly"
+      >Donate</b-button>
+    </b-navbar>
     <b-button
       v-b-toggle.nav_collapse
-      class="d-none d-md-flex"
+      class="d-block py-2 d-md-none"
       variant="secondary-dark"
       size="md"
-      href="/academy-american-poets/help-champion-poets-and-poetry"
+      href="/donate/monthly"
     >Donate</b-button>
-  </b-navbar>
-
+  </div>
 </template>
 
 <script>
@@ -211,5 +223,8 @@ export default {
     // a slight bit tighter on this link
     padding-right: $spacer * 0.75 !important;
   }
+}
+.app-nav__membership {
+  background-color: var(--blue);
 }
 </style>

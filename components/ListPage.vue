@@ -9,12 +9,15 @@
     />
     <app-listing
       :resource-type="resourceType"
+      :title="title"
       :details="details"
       :default-params="defaultParams"
       :includes="includes"
       :filters="filters"
       :searchable="searchable"
       :fields="fields"
+      :paged="paged"
+      :per-page="perPage"
     />
   </div>
 </template>
@@ -30,6 +33,10 @@ export default {
     BasicPage
   },
   props: {
+    title: {
+      type: String,
+      default: ""
+    },
     details: {
       type: Object,
       default: () => {}
@@ -57,6 +64,18 @@ export default {
     searchable: {
       type: Array,
       default: () => []
+    },
+    stacked: {
+      type: String,
+      default: "sm"
+    },
+    perPage: {
+      type: Number,
+      default: 10
+    },
+    paged: {
+      type: Boolean,
+      default: true
     }
   }
 };

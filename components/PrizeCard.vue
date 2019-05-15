@@ -49,7 +49,7 @@ export default {
 }
 .card--prize__meta {
   font-size: $font-size-base;
-  font-weight: $font-weight-base;
+  font-weight: 400;
   line-height: 1.75;
 }
 .card-footer {
