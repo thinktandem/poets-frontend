@@ -193,6 +193,9 @@ export default {
   async asyncData({ app, params, query }) {
     // Get the latest lesson
     const latestLessonParams = qs.stringify({
+      filter: {
+        status: 1
+      },
       page: {
         limit: 1
       },
@@ -216,16 +219,22 @@ export default {
             _.get(plan, "attributes.body.summary") ||
             _.get(plan, "attributes.body.processed"),
           link: _.get(plan, "attributes.path.alias"),
-          id: _.get(res, "data[0].id")
+          id: _.get(plan, "id", 0)
         };
-      });
+      })
+      .catch(err => console.log(err));
     const featureParams = qs.stringify({
       filter: {
-        field_featured: 1,
+        field_featured: {
+          path: "field_featured",
+          operator: "=",
+          value: 1
+        },
         status: 1,
         id: {
+          path: "id",
           operator: "<>",
-          value: latestPlan.id
+          value: _.get(latestPlan, "id")
         }
       },
       page: {

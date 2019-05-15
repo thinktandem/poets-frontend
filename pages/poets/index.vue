@@ -29,7 +29,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     State</option>
                 </template>
@@ -44,7 +43,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Schools & Movements</option>
                 </template>
