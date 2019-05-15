@@ -95,7 +95,7 @@ export default {
     },
     pickLogo() {
       const path = this.$route.path;
-      let src = "/hero/main.svg";
+      let src = "/hero/logo.png";
       let alt = "Poets.org Logo";
       let link = "/";
       if (path.includes("/national-poetry-month")) {
@@ -103,7 +103,7 @@ export default {
         alt = "National Poetry Month Logo";
         link = "/national-poetry-month";
       } else if (path.includes("/academy-american-poets")) {
-        src = "/hero/AAP.svg";
+        src = "/hero/logo-aap.png";
         alt = "Academy of American Poets Logo";
         link = "/academy-american-poets";
       } else if (path.includes("/american-poets-magazine")) {
