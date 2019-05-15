@@ -22,7 +22,7 @@
         >{{ heading }}</h1>
         <p
           v-if="lead"
-          class="lead mb-3 font-serif-2"
+          class="lead mb-3 font-serif"
         >{{ lead }}</p>
         <div
           class="hero__subtext"

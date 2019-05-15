@@ -159,9 +159,9 @@
         size="lg"
         centered
         lazy
-        header-class="font-serif"
+        header-class="font-sans"
         header-border-variant="0"
-        body-class="font-serif-2"
+        body-class="font-serif"
         footer-bg-variant="black"
         id="poemADayModal"
       >
@@ -169,7 +169,7 @@
           <b-row>
             <b-col sm="12">
               <h5
-                class="font-serif h3"
+                class="font-serif font-italic h3 pb-2"
                 style="margin-bottom: 0"
                 v-html="replaceFileUrl(poem.title)"
               />

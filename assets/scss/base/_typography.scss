@@ -3,7 +3,7 @@ body {
 }
 
 .poem__body {
-    font-family: "Poets Electra";
+    font-family: $font-family-serif;
     font-size: 3.8vw;
     .poem__body--small-text & {
       font-size: 3.2vw;
@@ -15,25 +15,27 @@ body {
   pre {
     font-size: inherit;
     white-space: pre-wrap;
-    font-family: "Poets Electra";
+    font-family: $font-family-serif;
 
   }
 }
-
+.section-title {
+  font-family: $font-family-serif;
+  font-style: italic;
+}
 // @TODO Fonts should go here.
 
 .font-serif {
   font-family: $font-family-serif;
 }
 
-.font-serif-2 {
-  font-family: "Poets Electra", serif;
-}
-
 .font-sans {
   font-family: $font-family-sans-serif;
 }
 
+.font-italic {
+  font-style: italic; 
+}
 .long-line {
   text-indent: -32px;
   margin-left: 32px;
