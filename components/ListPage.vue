@@ -15,6 +15,7 @@
       :includes="includes"
       :filters="filters"
       :searchable="searchable"
+      :show-empty="showEmpty"
       :fields="fields"
       :paged="paged"
       :per-page="perPage"
@@ -64,6 +65,10 @@ export default {
     searchable: {
       type: Array,
       default: () => []
+    },
+    showEmpty: {
+      type: Boolean,
+      default: false
     },
     stacked: {
       type: String,
