@@ -2,6 +2,7 @@ module.exports = {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
+    "@nuxtjs/google-analytics",
     "@nuxtjs/sentry",
     "@nuxtjs/sitemap",
     "@nuxtjs/toast",
@@ -35,6 +36,9 @@ module.exports = {
         _scheme: "~/plugins/drupal-auth.js"
       }
     }
+  },
+  "google-analytics": {
+    id: "UA-31095-1"
   },
   sitemap: {
     path: "/sitemap.xml",
