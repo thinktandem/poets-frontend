@@ -15,30 +15,19 @@
 
 User-agent: *
 # CSS, JS, Images
-Allow: /core/*.css$
-Allow: /core/*.css?
-Allow: /core/*.js$
-Allow: /core/*.js?
-Allow: /core/*.gif
-Allow: /core/*.jpg
-Allow: /core/*.jpeg
-Allow: /core/*.png
-Allow: /core/*.svg
-Allow: /profiles/*.css$
-Allow: /profiles/*.css?
-Allow: /profiles/*.js$
-Allow: /profiles/*.js?
-Allow: /profiles/*.gif
-Allow: /profiles/*.jpg
-Allow: /profiles/*.jpeg
-Allow: /profiles/*.png
-Allow: /profiles/*.svg
-# Directories
-Disallow: /core/
-Disallow: /profiles/
+Allow: *.css$
+Allow: *.css?
+Allow: *.js$
+Allow: *.js?
+Allow: *.gif
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.png
+Allow: *.svg
+
 # Files
-Disallow: /README.txt
-Disallow: /web.config
+Disallow: /README.md
+
 # Paths (clean URLs)
 Disallow: /admin/
 Disallow: /comment/reply/
