@@ -184,7 +184,18 @@ export default {
     };
   },
   head() {
-    return MetaTags.renderTags(this.poet.attributes.metatag_normalized);
+    return MetaTags.renderTags(this.poet.attributes.metatag_normalized, [
+      {
+        hid: "og:image",
+        name: "og:image",
+        content: this.socialImage
+      },
+      {
+        hid: "twitter:image",
+        name: "twitter:image",
+        content: this.socialImage
+      }
+    ]);
   },
   async asyncData({ app, params }) {
     return app.$axios
@@ -280,6 +291,12 @@ export default {
 
         return {
           poet: res.data.data,
+          socialImage: app.$buildImg(
+            res.data,
+            null,
+            "field_image",
+            "social_share"
+          ).src,
           dob: res.data.data.attributes.field_dob,
           dod: res.data.data.attributes.field_dod,
           title: res.data.data.attributes.title,
