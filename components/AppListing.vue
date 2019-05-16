@@ -238,10 +238,6 @@ export default {
       type: String,
       default: "h3"
     },
-    hideEmpty: {
-      type: Boolean,
-      default: false
-    },
     // Drupal content type we're fetching.
     resourceType: {
       type: String,
@@ -291,6 +287,10 @@ export default {
     searchable: {
       type: Array,
       default: () => []
+    },
+    showEmpty: {
+      type: Boolean,
+      default: false
     },
     stacked: {
       type: String,

@@ -7,7 +7,8 @@
       :includes="includes"
       :fields="fields"
       :filters="filters"
-      :searchable="searchable"/>
+      :searchable="searchable"
+      :show-empty="showEmpty"/>
     <card-deck
       class="py-4"
       col-size="md"
@@ -42,6 +43,7 @@ export default {
   },
   data() {
     return {
+      showEmpty: true,
       details: {
         body: {},
         event_start_time: {},
