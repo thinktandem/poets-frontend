@@ -2,8 +2,10 @@ const axios = require("axios");
 const _ = require("lodash");
 const qs = require("qs");
 
-// Base constant
+// Production base constant
 const base = "https://api.poets.org";
+// Use this base for dev.
+// const base = "https://api-poetsd8.lndo.site";
 
 module.exports = {
   base: base,
@@ -16,7 +18,8 @@ module.exports = {
    */
   async getUrlAliases(next, priority = 0.9) {
     let urls = [];
-    const date = new Date().toISOString().substr(0, 19);
+    // Example of format: 2019-03-09T18:33Z
+    const date = new Date().toISOString().substr(0, 16) + "Z";
     let urlsIndex = 0;
     let checkForErrors = "safe";
     const params = qs.stringify({
