@@ -66,6 +66,13 @@ export default {
           rel: "preconnect",
           href: "https://pre.glotgrx.com",
           crossorigin: "true"
+        },
+        {
+          rel: "preload",
+          href: "/_nuxt/fonts/poets_electra_web_roman.1b767f4.woff",
+          as: "font",
+          type: "font/woff",
+          crossorigin: "true"
         }
       ]
     };
