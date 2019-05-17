@@ -127,9 +127,9 @@ module.exports = {
     }
   },
   render: {
-    // Tell Browsers to cache static assets for 32 days.
+    // Tell Browsers to cache static assets for 90 days.
     static: {
-      maxAge: 1000 * 60 * 60 * 24 * 32
+      maxAge: 1000 * 60 * 60 * 24 * 90
     },
     // Preload fonts (can also do script & style here too).
     bundleRenderer: {
