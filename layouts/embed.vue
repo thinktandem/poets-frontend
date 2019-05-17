@@ -16,6 +16,23 @@ export default {
           defer: true
         },
         GptAds.gatherMeData().gptInitScript
+      ],
+      link: [
+        {
+          rel: "preconnect",
+          href: "https://pixel.yabidos.com",
+          crossorigin: "true"
+        },
+        {
+          rel: "preconnect",
+          href: "https://www.google-analytics.com",
+          crossorigin: "true"
+        },
+        {
+          rel: "preconnect",
+          href: "https://pre.glotgrx.com",
+          crossorigin: "true"
+        }
       ]
     };
   }
