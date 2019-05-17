@@ -130,12 +130,6 @@ module.exports = {
     // Tell Browsers to cache static assets for 1 year (makes Google happy).
     static: {
       maxAge: 1000 * 60 * 60 * 24 * 365
-    },
-    // Preload fonts (can also do script & style here too).
-    bundleRenderer: {
-      shouldPreload: (file, type) => {
-        return ["font"].includes(type);
-      }
     }
   },
   env: {
