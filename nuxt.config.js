@@ -126,10 +126,16 @@ module.exports = {
       }
     }
   },
-  // Tell Browsers to cache static assets
   render: {
+    // Tell Browsers to cache static assets for 32 days.
     static: {
-      maxAge: 1000 * 60 * 60 * 24 * 7
+      maxAge: 1000 * 60 * 60 * 24 * 32
+    },
+    // Preload fonts (can also do script & style here too).
+    bundleRenderer: {
+      shouldPreload: (file, type) => {
+        return ["font"].includes(type);
+      }
     }
   },
   env: {
