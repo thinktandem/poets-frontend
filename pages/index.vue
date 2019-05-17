@@ -220,6 +220,10 @@ export default {
     getLatestMagazine() {
       this.$api.getLatestMagazine().then(magazine => {
         this.latest = this.$latestMagazine(_.get(magazine, "data"));
+        this.latest.link = {
+          to: "/membership",
+          text: "Become a member"
+        };
       });
     }
   },

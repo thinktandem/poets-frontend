@@ -31,7 +31,7 @@
             <p class="pl-4 more">... and much more</p>
             <b-btn
               :to="link.to"
-              variant="secondary">{{ link.text }}</b-btn> <span class="pl-2">to receive your copy of American Poets twice a year.</span>
+              variant="secondary">{{ link.text }}</b-btn> <span class="pl-2">to receive your copy of <i><strong>American Poets</strong></i> twice a year.</span>
           </div>
         </div>
         <div
@@ -86,7 +86,7 @@ export default {
       type: Object,
       default() {
         return {
-          to: "become-member",
+          to: "/membership",
           text: "Become a Member"
         };
       }
