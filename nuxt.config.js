@@ -131,21 +131,10 @@ module.exports = {
     static: {
       maxAge: 1000 * 60 * 60 * 24 * 365
     },
-    // Preload fonts & Prefetch external scripts.
+    // Preload fonts (can also do script & style here too).
     bundleRenderer: {
       shouldPreload: (file, type) => {
         return ["font"].includes(type);
-      },
-      shouldPrefetch: (file, type) => {
-        if (type === "script") {
-          if (
-            /yabidos/.test(file) ||
-            /google-analytics/.test(file) ||
-            /glotgrx/.test(file)
-          ) {
-            return true;
-          }
-        }
       }
     }
   },
