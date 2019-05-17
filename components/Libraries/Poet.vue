@@ -3,36 +3,27 @@
     class="poet"
     itemprop="author"
     itemscope
-    itemtype="http://schema.org/Person"
-  >
-    <a @click="toggleDetails">
+    itemtype="http://schema.org/Person">
+    <b-link :to="link">
       <b-img-lazy
         :src="img.src"
         :alt="img.alt"
         blank-color="#000"
-        fluid-grow
-      />
-    </a>
+        fluid-grow/>
+    </b-link>
     <div
-      :class="detailClass"
       class="poet__name-bio"
     >
       <h3
         class="poet__name"
         itemprop="name"
       >
-        <a
-          class="text-white"
-          @click="toggleDetails"
-        >{{ name }}</a>
+        <b-link
+          :to="link"
+          class="text-white">
+          {{ name }}
+        </b-link>
       </h3>
-      <div class="poet__bio">
-        <app-teaser-text :text="bio" />
-        <a
-          :href="link"
-          class="poet__link"
-        >Read more about {{ name }}</a>
-      </div>
     </div>
   </b-card>
 </template>
@@ -47,22 +38,8 @@ export default {
       showDetails: false
     };
   },
-  methods: {
-    toggleDetails() {
-      this.showDetails = !this.showDetails;
-    }
-  },
-  computed: {
-    detailClass() {
-      return this.showDetails ? "show-details" : "";
-    }
-  },
   props: {
     name: {
-      type: String,
-      default: ""
-    },
-    bio: {
       type: String,
       default: ""
     },
@@ -79,12 +56,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.poet__name-bio:hover,
-.poet__name-bio:active,
-.poet__name-bio:focus,
-.show-details.poet__name-bio {
-  top: 0;
-}
 .poet {
   margin: 0;
   position: relative;
@@ -123,27 +94,12 @@ export default {
     opacity: 0.9;
   }
 
-  &__bio {
-    flex-grow: 1;
-    padding: 1rem;
-    color: var(--white);
-    background-color: var(--gray-800);
-    font-weight: 400;
-  }
-
   &__link {
     color: var(--white);
     font-weight: 700;
 
     &::after {
       content: " >";
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: var(--white);
-      text-decoration: underline;
     }
   }
 }
