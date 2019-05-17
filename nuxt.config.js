@@ -42,7 +42,7 @@ module.exports = {
   },
   sitemap: {
     path: "/sitemap.xml",
-    hostname: "https://www.poets.org",
+    hostname: "https://poets.org",
     cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
     async routes() {
