@@ -18,23 +18,6 @@
         </b-link>
       </li>
       <li
-        v-if="minimal">
-        <b-link
-          target="_blank"
-          :href="tumblrUrl">
-          <img src="/social/tumblr.svg">
-        </b-link>
-      </li>
-      <li
-        v-else
-        class="pr-2">
-        <b-link
-          target="_blank"
-          :href="tumblrUrl">
-          <img src="/social/tumblr.svg">
-        </b-link>
-      </li>
-      <li
         v-if="!minimal"
         class="pr-2">
         <b-link
