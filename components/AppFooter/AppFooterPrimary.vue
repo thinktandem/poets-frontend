@@ -59,7 +59,12 @@
             v-for="link in linksAmericanPoets"
             :key="link.url"
             class="footer__primary__links p-1">
-            <b-link :to="link.url">{{ link.text }}</b-link>
+            <b-link
+              v-if="link.text !== 'Back Issues'"
+              :href="link.url">{{ link.text }}</b-link>
+            <a
+              v-else
+              :href="link.url">{{ link.text }}</a>
           </div>
         </div>
       </div>
@@ -86,7 +91,7 @@ export default {
         },
         {
           text: "Poems for Kids",
-          url: "/materials-teachers/poems-kids"
+          url: "/poems-kids"
         },
         {
           text: "Poetry Near You",
@@ -139,8 +144,8 @@ export default {
           url: "/academy-american-poets/chancellors"
         },
         {
-          text: "Mission & History",
-          url: "/academy-american-poets/mission-history"
+          text: "Leadership & Staff",
+          url: "/academy-american-poets/staff"
         },
         {
           text: "Staff",
@@ -172,7 +177,7 @@ export default {
       linksAmericanPoets: [
         {
           text: "Books Noted",
-          url: "/american-poets-magazine/books-noted"
+          url: "/american-poets-magazine/books-noted-spring-summer-2019"
         },
         {
           text: "Essays",
@@ -180,8 +185,7 @@ export default {
         },
         {
           text: "Back Issues",
-          url:
-            "https://poets.myshopify.com/collections/american-poets-backissues"
+          url: "https://poets.myshopify.com/collections/american-poets"
         },
         {
           text: "Advertise",
