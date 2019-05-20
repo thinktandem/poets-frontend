@@ -10,5 +10,13 @@
   {
     "from": "/poem-day",
     "to": "/poem-a-day"
+  },
+  {
+    "from": "/index.php",
+    "to": "/"
+  },
+  {
+    "from": "/npm",
+    "to": "/national-poetry-month"
   }
 ]
