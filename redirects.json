@@ -14,5 +14,9 @@
   {
     "from": "/index.php",
     "to": "/"
+  },
+  {
+    "from": "/npm",
+    "to": "/national-poetry-month"
   }
 ]
