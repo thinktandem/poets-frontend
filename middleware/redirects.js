@@ -14,7 +14,7 @@ export default function({ redirect, route, query }) {
     "store.php",
     "page.php",
     "lit",
-        "audio.php",
+    "audio.php",
     "booth",
     "viewmedia.php",
     "viewall.php",
