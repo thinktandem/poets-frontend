@@ -9,6 +9,7 @@ import redirects from "~/redirects.json";
 export default function({ redirect, route, query }) {
   const thisRedirect = redirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
+  const lessonPattern = RegExp("/lesson/");
   const homePattern = RegExp("/home$");
   const oldPhpPaths = [
     "store.php",
@@ -30,6 +31,10 @@ export default function({ redirect, route, query }) {
     return redirect(thisRedirect.to + paramString);
   } else if (poetsorgPattern.test(route.path)) {
     return redirect(route.path.replace("/poetsorg/", "/") + paramString);
+  } else if (lessonPattern.test(route.path)) {
+    return redirect(
+      route.path.replace("/lesson/", "/lesson-plan/") + paramString
+    );
   } else if (homePattern.test(route.path)) {
     return redirect(route.path.replace("/home", "/") + paramString);
   } else if (
