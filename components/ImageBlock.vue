@@ -1,9 +1,11 @@
 <template>
   <div>
     <component
-      v-if="title.length >= 1"
+      v-if="!empty(title)"
       class="mb-4"
-      :is="titleTag">{{ title }}</component>
+      :is="titleTag">
+      {{ title }}
+    </component>
     <div class="px-2">
       <b-img-lazy
         v-for="(img, i) in imgs"
@@ -12,7 +14,8 @@
         center
         fluid
         :src="img.src"
-        :alt="img.alt"/>
+        :alt="img.alt"
+      />
     </div>
   </div>
 </template>

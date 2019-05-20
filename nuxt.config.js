@@ -20,7 +20,7 @@ module.exports = {
     ["bootstrap-vue/nuxt", { css: false }]
   ],
   axios: {
-    debug: process.env.APP_ENV !== "production"
+    debug: process.env.NODE_ENV !== "production"
   },
   auth: {
     redirect: false,
@@ -42,7 +42,7 @@ module.exports = {
   },
   sitemap: {
     path: "/sitemap.xml",
-    hostname: "https://www.poets.org",
+    hostname: "https://poets.org",
     cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
     async routes() {
@@ -126,10 +126,10 @@ module.exports = {
       }
     }
   },
-  // Tell Browsers to cache static assets
   render: {
+    // Tell Browsers to cache static assets for 1 year (makes Google happy).
     static: {
-      maxAge: 1000 * 60 * 60 * 24 * 7
+      maxAge: 1000 * 60 * 60 * 24 * 365
     }
   },
   env: {
