@@ -77,6 +77,13 @@ Building for Production
 
 You can also do this via `lando yarn` but makes more sense to use `yarn` straight up. See the `.platform.app.yaml` for the actual production build and deployment steps.
 
+Checking Logs on Production
+---------------------------
+To check the logs on the production environment, you can run:
+```
+PM2_HOME=/app/run pm2 logs prod
+```
+
 Resources
 ---------
 
