@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import qs from "qs";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -76,9 +77,37 @@ export default {
       ]
     };
   },
-  async asyncData({ app, params, query, route }) {
+  async asyncData({ app, params, query, route, redirect }) {
+    let name = params.author;
+    let path = "/poet/" + name;
+    if (!isNaN(params.author)) {
+      const personParams = qs.stringify({
+        filter: {
+          nid: {
+            path: "nid",
+            operator: "=",
+            value: params.author
+          },
+          status: 1
+        },
+        page: {
+          limit: 1
+        }
+      });
+      name = await app.$axios
+        .$get(`api/node/person?${personParams}`)
+        .then(res => {
+          return (
+            "/poems/" +
+            _.get(res, "data[0].attributes.path.alias").split("/")[2]
+          );
+        })
+        .catch(err => console.log(err));
+      path = name;
+      return redirect(path);
+    }
     const poet = await app.$axios
-      .$get(`/router/translate-path?path=/poet/${params.author}`)
+      .$get(`/router/translate-path?path=${path}`)
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })

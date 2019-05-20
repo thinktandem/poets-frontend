@@ -46,9 +46,34 @@ export default {
     return {
       script: [
         {
-          src: "https://www.googletagservices.com/tag/js/gpt.js"
+          src: "https://www.googletagservices.com/tag/js/gpt.js",
+          defer: true
         },
         GptAds.gatherMeData().gptInitScript
+      ],
+      link: [
+        {
+          rel: "preconnect",
+          href: "https://pixel.yabidos.com",
+          crossorigin: "true"
+        },
+        {
+          rel: "preconnect",
+          href: "https://www.google-analytics.com",
+          crossorigin: "true"
+        },
+        {
+          rel: "preconnect",
+          href: "https://pre.glotgrx.com",
+          crossorigin: "true"
+        },
+        {
+          rel: "preload",
+          href: "/_nuxt/fonts/poets_electra_web_roman.1b767f4.woff",
+          as: "font",
+          type: "font/woff",
+          crossorigin: "true"
+        }
       ]
     };
   },
