@@ -1,6 +1,7 @@
 import qs from "qs";
 import { isEmpty, filter } from "lodash";
 import redirects from "~/redirects.json";
+import legacyRedirects from "~/legacy-redirects.json";
 /**
  * @param {Object} context
  *  the nuxt context, see https://nuxtjs.org/api/context
@@ -8,6 +9,7 @@ import redirects from "~/redirects.json";
  */
 export default function({ redirect, route, query }) {
   const thisRedirect = redirects.find(r => r.from === route.path);
+  const oldRedirects = legacyRedirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
   const lessonPattern = RegExp("/lesson/");
   const homePattern = RegExp("/home$");
@@ -27,8 +29,9 @@ export default function({ redirect, route, query }) {
   const paramString = isEmpty(query) ? "" : `?${qs.stringify(query)}`;
 
   if (thisRedirect) {
-    console.log(`redirect: ${redirect.from} => ${redirect.to}`);
     return redirect(thisRedirect.to + paramString);
+  } else if (oldRedirects) {
+    return redirect(oldRedirects.to + paramString);
   } else if (poetsorgPattern.test(route.path)) {
     return redirect(route.path.replace("/poetsorg/", "/") + paramString);
   } else if (lessonPattern.test(route.path)) {
