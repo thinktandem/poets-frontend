@@ -224,13 +224,16 @@ const buildTermQuery = id => ({
 
 // Helper for us to get the "highest priority" term
 const getPriorityTerm = ({
-  occasion = null,
-  theme = null,
-  form = theme
+  field_occasion_tid = null,
+  field_poem_themes_tid = null,
+  field_form_tid = theme
 } = {}) => {
-  if (!_.isNil(occasion)) return { name: "occasions", id: occasion };
-  else if (!_.isNil(theme)) return { name: "themes", id: theme };
-  else if (!_.isNil(form)) return { name: "form", id: form };
+  if (!_.isNil(field_occasion_tid))
+    return { name: "occasions", id: field_occasion_tid };
+  else if (!_.isNil(field_poem_themes_tid))
+    return { name: "themes", id: field_poem_themes_tid };
+  else if (!_.isNil(field_form_tid))
+    return { name: "form", id: field_form_tid };
   else return {};
 };
 
