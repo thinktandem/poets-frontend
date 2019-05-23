@@ -26,7 +26,7 @@
                 :disabled="busy"
                 inline
                 @input="searchPoems(0)"
-                v-model="filters.occasion"
+                v-model="filters.field_occasion_tid"
                 :options="options.occasions"
               >
                 <template slot="first">
@@ -40,7 +40,7 @@
                 :disabled="busy"
                 inline
                 @input="searchPoems(0)"
-                v-model="filters.theme"
+                v-model="filters.field_poem_themes_tid"
                 :options="options.themes"
               >
                 <template slot="first">
@@ -54,7 +54,7 @@
                 :disabled="busy"
                 inline
                 @input="searchPoems(0)"
-                v-model="filters.form"
+                v-model="filters.field_form_tid"
                 :options="options.form"
               >
                 <template slot="first">
@@ -152,9 +152,9 @@ import MetaTags from "~/plugins/metatags";
 const buildQuery = (filters = {}) =>
   _.pickBy({
     combine: filters.combine,
-    field_form_target_id: filters.form,
-    field_occasion_target_id: filters.occasion,
-    field_poem_themes_target_id: filters.theme
+    field_form_target_id: filters.field_form_tid,
+    field_occasion_target_id: filters.field_occasion_tid,
+    field_poem_themes_target_id: filters.field_poem_themes_tid
   });
 
 // Helper to param stringify the filters
@@ -264,9 +264,9 @@ export default {
       ],
       filters: {
         combine: null,
-        form: null,
-        occasion: null,
-        theme: null
+        field_form_tid: null,
+        field_occasion_tid: null,
+        field_poem_themes_tid: null
       },
       options: {
         occasions: [],

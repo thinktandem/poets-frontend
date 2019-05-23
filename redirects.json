@@ -14,5 +14,17 @@
   {
     "from": "/index.php",
     "to": "/"
+  },
+  {
+    "from": "/npm",
+    "to": "/national-poetry-month"
+  },
+  {
+    "from": "/browse-poems-poets",
+    "to": "/poems"
+  },
+  {
+    "from": "/poemaday",
+    "to": "/poem-a-day"
   }
 ]
