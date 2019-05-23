@@ -16,9 +16,7 @@ export default function({ redirect, route, query }) {
   const oldPhpPaths = [
     "store.php",
     "page.php",
-    "lit",
     "audio.php",
-    "booth",
     "viewmedia.php",
     "viewall.php",
     "viewevent.php",
