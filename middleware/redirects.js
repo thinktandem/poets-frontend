@@ -8,6 +8,14 @@ import legacyRedirects from "~/legacy-redirects.json";
  * @return {mixed}.
  */
 export default function({ redirect, route, query }) {
+  // Check if the URL string has accents like: aimé-césaire
+  // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript/37511463#37511463
+  const normedPath = decodeURI(route.path)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  if (normedPath !== route.path) {
+    return redirect(normedPath);
+  }
   const thisRedirect = redirects.find(r => r.from === route.path);
   const oldRedirects = legacyRedirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
