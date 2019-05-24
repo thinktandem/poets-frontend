@@ -45,6 +45,9 @@ module.exports = {
     hostname: "https://poets.org",
     cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
+    exclude: [
+      "submit-sitemap"
+    ],
     async routes() {
       const sitemapHelpers = require("./plugins/sitemap-helpers");
       return sitemapHelpers.allTheUrls();
