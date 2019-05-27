@@ -12,6 +12,7 @@ export default function({ redirect, route, query }) {
   const oldRedirects = legacyRedirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
   const lessonPattern = RegExp("/lesson/");
+  const stanzaPattern = RegExp("/stanza/");
   const homePattern = RegExp("/home$");
   const oldPhpPaths = [
     "store.php",
@@ -36,6 +37,8 @@ export default function({ redirect, route, query }) {
     return redirect(
       route.path.replace("/lesson/", "/lesson-plan/") + paramString
     );
+  } else if (stanzaPattern.test(route.path)) {
+    return redirect(route.path.replace("/stanza/", "/") + paramString);
   } else if (homePattern.test(route.path)) {
     return redirect(route.path.replace("/home", "/") + paramString);
   } else if (
