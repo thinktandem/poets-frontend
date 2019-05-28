@@ -315,7 +315,9 @@ export default {
           title: _.get(res, "data.data.attributes.title"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
-          sideBarVid: sideBarVid[0].attributes.body ? sideBarVid : null,
+          sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
+            ? sideBarVid
+            : null,
           schoolsMovements,
           tags,
           poemsBy: _.map(poemsBy.data, poem => {
