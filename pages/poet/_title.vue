@@ -61,19 +61,20 @@
           <div>
             <figure>
               <b-img-lazy
+                v-if="sideBarImage"
                 fluid
                 center
                 class="poet__image"
                 :src="sideBarImage.src"
                 :alt="sideBarImage.alt"/>
-              <figcaption v-if="sideBarImage.title">
+              <figcaption v-if="sideBarImage">
                 {{ sideBarImage.title }}
               </figcaption>
             </figure>
           </div>
           <div
             class="poet__related_schools_movements"
-            v-if="schoolsMovements.length != 0">
+            v-if="schoolsMovements && schoolsMovements.length != 0">
             <span class="schools">Related Schools & Movements:</span>
             <div
               class="school"
@@ -84,7 +85,7 @@
           </div>
           <div
             class="poet__tags"
-            v-if="tags.length != 0">
+            v-if="tags && tags.length != 0">
             <span class="tags">Tags:</span>
             <div
               class="tag"
@@ -95,6 +96,7 @@
           </div>
           <div class="poet__read-poems">
             <b-button
+              v-if="poemsByLink"
               block
               :href="poemsByLink.to"
               variant="outline-info">
@@ -151,7 +153,7 @@ export default {
     defaultParams() {
       return {
         filter: {
-          "field_contributors.id": this.poet.id
+          "field_contributors.id": _.get(this, "poet.id")
         }
       };
     },
@@ -291,27 +293,28 @@ export default {
 
         return {
           poet: res.data.data,
-          socialImage: app.$buildImg(
-            res.data,
-            null,
-            "field_image",
-            "social_share"
-          ).src,
-          dob: res.data.data.attributes.field_dob,
-          dod: res.data.data.attributes.field_dod,
-          title: res.data.data.attributes.title,
-          body: res.data.data.attributes.body,
+          socialImage: _.get(
+            app.$buildImg(res.data, null, "field_image", "social_share"),
+            "src"
+          ),
+          dob: _.get(res, "data.data.attributes.field_dob"),
+          dod: _.get(res, "data.data.attributes.field_dod"),
+          title: _.get(res, "data.data.attributes.title"),
+          body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
           schoolsMovements,
           tags,
           poemsBy: _.map(poemsBy.data, poem => {
             return {
-              link: poem.attributes.path.alias,
-              title: poem.attributes.title,
-              text: poem.attributes.body.processed,
-              year: poem.attributes.field_copyright_date.split("-")[0],
+              link: _.get(poem, "attributes.path.alias"),
+              title: _.get(poem, "attributes.title"),
+              text: _.get(poem, "attributes.body.processed"),
+              year: _.get(
+                poem,
+                "attributes.field_copyright_date.split('-')[0]"
+              ),
               poet: {
-                name: res.data.data.attributes.title
+                name: _.get(res, "data.data.attributes.title")
               }
             };
           }),
