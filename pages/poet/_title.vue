@@ -305,14 +305,12 @@ export default {
           schoolsMovements,
           tags,
           poemsBy: _.map(poemsBy.data, poem => {
+            let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
               link: _.get(poem, "attributes.path.alias"),
               title: _.get(poem, "attributes.title"),
               text: _.get(poem, "attributes.body.processed"),
-              year: _.get(
-                poem,
-                "attributes.field_copyright_date.split('-')[0]"
-              ),
+              year: crDate ? crDate.split("-")[0] : null,
               poet: {
                 name: _.get(res, "data.data.attributes.title")
               }

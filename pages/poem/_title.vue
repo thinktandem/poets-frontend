@@ -248,11 +248,12 @@ export default {
           ).src,
           morePoems: {
             poems: _.map(morePoems.data, poem => {
+              let crDate = _.get(poem, "attributes.field_copyright_date", null);
               return {
                 link: poem.attributes.path.alias,
                 title: poem.attributes.title,
                 text: poem.attributes.body.processed,
-                year: poem.attributes.field_copyright_date.split("-")[0],
+                year: crDate ? crDate.split("-")[0] : null,
                 poet: {
                   name: poet.attributes.title
                 }
