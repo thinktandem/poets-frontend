@@ -47,7 +47,7 @@ export default {
             title: _.get(entity, "attributes.title"),
             img: media.buildImg(page, entity, "field_image"),
             text:
-              _.get(entity, "attirbutes.body.summary") ||
+              _.get(entity, "attributes.body.summary") ||
               _.get(entity, "attributes.body.processed"),
             titleLink: _.get(entity, "attributes.path.alias")
           };
