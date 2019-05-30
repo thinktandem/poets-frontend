@@ -23,6 +23,7 @@
         itemprop="author"
       >{{ poet.name }}</p>
       <p
+        v-if="year"
         class="card__year"
         itemprop="datePublished"
       >{{ year }}</p>

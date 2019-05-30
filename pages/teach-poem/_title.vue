@@ -30,6 +30,7 @@
           class="teach_this_poem_more_link-container"
           v-if="$store.state.highlightedData">
           <b-link
+            v-if="$store.state.pageData.data.attributes.field_more_link"
             class="more-link"
             :href="$store.state.highlightedData.link">
             {{ $store.state.pageData.data.attributes.field_more_link.title }}

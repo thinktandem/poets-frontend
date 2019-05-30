@@ -61,19 +61,20 @@
           <div>
             <figure>
               <b-img-lazy
+                v-if="sideBarImage"
                 fluid
                 center
                 class="poet__image"
                 :src="sideBarImage.src"
                 :alt="sideBarImage.alt"/>
-              <figcaption v-if="sideBarImage.title">
+              <figcaption v-if="sideBarImage">
                 {{ sideBarImage.title }}
               </figcaption>
             </figure>
           </div>
           <div
             class="poet__related_schools_movements"
-            v-if="schoolsMovements.length != 0">
+            v-if="schoolsMovements && schoolsMovements.length != 0">
             <span class="schools">Related Schools & Movements:</span>
             <div
               class="school"
@@ -84,7 +85,7 @@
           </div>
           <div
             class="poet__tags"
-            v-if="tags.length != 0">
+            v-if="tags && tags.length != 0">
             <span class="tags">Tags:</span>
             <div
               class="tag"
@@ -95,6 +96,7 @@
           </div>
           <div class="poet__read-poems">
             <b-button
+              v-if="poemsByLink"
               block
               :href="poemsByLink.to"
               variant="outline-info">
@@ -108,6 +110,16 @@
               variant="outline-info">
               Read texts about this poet
             </b-button>
+          </div>
+          <div
+            v-if="sideBarVid"
+            class="poet__vid">
+            <div
+              class="poet__vid-title"
+              v-html="sideBarVid[0].attributes.title"/>
+            <div
+              class="poet__vid-video"
+              v-html="sideBarVid[0].attributes.body.value"/>
           </div>
           <PromoSpace
             v-if="!embedded"
@@ -151,7 +163,7 @@ export default {
     defaultParams() {
       return {
         filter: {
-          "field_contributors.id": this.poet.id
+          "field_contributors.id": _.get(this, "poet.id")
         }
       };
     },
@@ -207,7 +219,7 @@ export default {
         return app.$axios.get(
           `/api/node/person/${
             res.entity.uuid
-          }?include=field_image,field_school_movement,field_poet_tags`
+          }?include=field_image,field_school_movement,field_poet_tags,field_media_selector`
         );
       })
       .then(async res => {
@@ -222,6 +234,9 @@ export default {
         });
         const tags = _.filter(res.data.included, {
           type: "taxonomy_term--tags"
+        });
+        const sideBarVid = _.filter(_.get(res, "data.included"), {
+          type: "paragraph--media"
         });
         const poemsByParams = qs.stringify({
           page: {
@@ -291,27 +306,29 @@ export default {
 
         return {
           poet: res.data.data,
-          socialImage: app.$buildImg(
-            res.data,
-            null,
-            "field_image",
-            "social_share"
-          ).src,
-          dob: res.data.data.attributes.field_dob,
-          dod: res.data.data.attributes.field_dod,
-          title: res.data.data.attributes.title,
-          body: res.data.data.attributes.body,
+          socialImage: _.get(
+            app.$buildImg(res.data, null, "field_image", "social_share"),
+            "src"
+          ),
+          dob: _.get(res, "data.data.attributes.field_dob"),
+          dod: _.get(res, "data.data.attributes.field_dod"),
+          title: _.get(res, "data.data.attributes.title"),
+          body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
+          sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
+            ? sideBarVid
+            : null,
           schoolsMovements,
           tags,
           poemsBy: _.map(poemsBy.data, poem => {
+            let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
-              link: poem.attributes.path.alias,
-              title: poem.attributes.title,
-              text: poem.attributes.body.processed,
-              year: poem.attributes.field_copyright_date.split("-")[0],
+              link: _.get(poem, "attributes.path.alias"),
+              title: _.get(poem, "attributes.title"),
+              text: _.get(poem, "attributes.body.processed"),
+              year: crDate ? crDate.split("-")[0] : null,
               poet: {
-                name: res.data.data.attributes.title
+                name: _.get(res, "data.data.attributes.title")
               }
             };
           }),
@@ -382,6 +399,9 @@ export default {
     color: var(--white);
     background-color: var(--blue-dark);
   }
+}
+.poet__vid {
+  padding-top: 11px;
 }
 div /deep/ .card-deck.bg-primary {
   background-color: var(--white) !important;
