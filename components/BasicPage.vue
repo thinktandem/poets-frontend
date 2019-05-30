@@ -133,7 +133,7 @@ export default {
     },
     hasBB() {
       const body = _.get(this.pageData, "data.attributes.body");
-      return body.processed.includes("bboxApi.showForm");
+      return body ? body.processed.includes("bboxApi.showForm") : false;
     }
   },
   mounted() {
