@@ -16,17 +16,20 @@
           slot="title"
           slot-scope="data"
         >
-          <a
-            :href="data.item.attributes.path.alias"
-            v-html="data.item.attributes.title"
-          />
+          <b-link
+            v-if="data.item.attributes.path"
+            :to="data.item.attributes.path.alias"
+            v-html="data.item.attributes.title"/>
+          <div
+            v-else
+            v-html="data.item.attributes.title"/>
         </template>
         <template
           slot="field_author"
           slot-scope="data">
-          <a :href="poet.data.attributes.path.alias">
+          <b-link :href="poet.data.attributes.path.alias">
             {{ poet.data.attributes.title }}
-          </a>
+          </b-link>
         </template>
         <template
           slot="field_date_published"
