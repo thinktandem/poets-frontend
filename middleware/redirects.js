@@ -2,18 +2,17 @@ import qs from "qs";
 import { isEmpty, filter } from "lodash";
 import redirects from "~/redirects.json";
 import legacyRedirects from "~/legacy-redirects.json";
+import { transliterate as tr } from "transliteration";
+
 /**
  * @param {Object} context
  *  the nuxt context, see https://nuxtjs.org/api/context
  * @return {mixed}.
  */
 export default function({ redirect, route, query }) {
-  // Check if the URL string has accents like: aimé-césaire
-  // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript/37511463#37511463
-  const normedPath = decodeURI(route.path)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-  if (normedPath !== route.path) {
+  // Check if the URL string has special characters like: aimé-césaire
+  const normedPath = tr(decodeURI(route.path));
+  if (normedPath !== decodeURI(route.path)) {
     return redirect(normedPath);
   }
   const thisRedirect = redirects.find(r => r.from === route.path);
