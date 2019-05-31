@@ -67,6 +67,9 @@ export default {
 .book__body {
   font-weight: 400;
   font-size: 1.2em;
+  /deep/ iframe {
+    max-height: 788px;
+  }
 }
 .book__image {
   max-width: 300px;
