@@ -33,10 +33,12 @@
                   v-for="(poem, i) in $store.state.relatedContent"
                   :key="i">
                   <b-link
+                    v-if="poem.attributes.title && poem.attributes.path.alias"
                     class="h4 text-white font-serif"
                     :to="poem.attributes.path.alias">
                     {{ poem.attributes.title }}</b-link>
                   <b-link
+                    v-if="poem.author"
                     class="text-white"
                     :to="poem.author.attributes.path.alias">
                     {{ poem.author.attributes.title }}</b-link>
@@ -90,7 +92,9 @@
                     class="text-dark"
                     :to="poem.attributes.path.alias">{{ poem.attributes.title }}</b-link>
                 </h3>
-                <div class="py-2">
+                <div
+                  v-if="poem.author"
+                  class="py-2">
                   <b-link
                     class="text-dark"
                     :to="poem.author.attributes.path.alias">{{ poem.author.attributes.title }}</b-link></div>
@@ -164,7 +168,7 @@ export default {
             store.commit("updatePageData", res);
             store.commit("updateSidebarData", []);
             store.commit("updateHighlightedData", []);
-            const metatags = res.data.attributes.metatag_normalized;
+            const metatags = _.get(res, "data.attributes.metatag_normalized");
             store.commit("updateMetatags", metatags);
             const poems = _(res.included)
               // Only the poems (not authors)

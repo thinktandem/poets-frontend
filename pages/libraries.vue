@@ -170,11 +170,11 @@ export default {
         this.featuredPoems = _(_.get(response, "data.data"))
           .filter(poem => _.has(poem, "relationships.field_author.data[0].id"))
           .map((poem, index) => ({
-            aid: poem.relationships.field_author.data[0].id,
-            link: poem.attributes.path.alias,
-            title: poem.attributes.title,
-            text: poem.attributes.body.processed,
-            year: poem.attributes.field_copyright_date.split("-")[0],
+            aid: _.get(poem, "relationships.field_author.data[0].id"),
+            link: _.get(poem, "attributes.path.alias"),
+            title: _.get(poem, "attributes.title"),
+            text: _.get(poem, "attributes.body.processed"),
+            year: _.get(poem, "attributes.field_copyright_date").split("-")[0],
             poet: {
               // @NOTE: the below assumes the index of the data and included
               // arrays match up

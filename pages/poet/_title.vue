@@ -111,6 +111,16 @@
               Read texts about this poet
             </b-button>
           </div>
+          <div
+            v-if="sideBarVid"
+            class="poet__vid">
+            <div
+              class="poet__vid-title"
+              v-html="sideBarVid[0].attributes.title"/>
+            <div
+              class="poet__vid-video"
+              v-html="sideBarVid[0].attributes.body.value"/>
+          </div>
           <PromoSpace
             v-if="!embedded"
             variant="transparent"
@@ -209,7 +219,7 @@ export default {
         return app.$axios.get(
           `/api/node/person/${
             res.entity.uuid
-          }?include=field_image,field_school_movement,field_poet_tags`
+          }?include=field_image,field_school_movement,field_poet_tags,field_media_selector`
         );
       })
       .then(async res => {
@@ -224,6 +234,9 @@ export default {
         });
         const tags = _.filter(res.data.included, {
           type: "taxonomy_term--tags"
+        });
+        const sideBarVid = _.filter(_.get(res, "data.included"), {
+          type: "paragraph--media"
         });
         const poemsByParams = qs.stringify({
           page: {
@@ -302,17 +315,18 @@ export default {
           title: _.get(res, "data.data.attributes.title"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
+          sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
+            ? sideBarVid
+            : null,
           schoolsMovements,
           tags,
           poemsBy: _.map(poemsBy.data, poem => {
+            let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
               link: _.get(poem, "attributes.path.alias"),
               title: _.get(poem, "attributes.title"),
               text: _.get(poem, "attributes.body.processed"),
-              year: _.get(
-                poem,
-                "attributes.field_copyright_date.split('-')[0]"
-              ),
+              year: crDate ? crDate.split("-")[0] : null,
               poet: {
                 name: _.get(res, "data.data.attributes.title")
               }
@@ -385,6 +399,9 @@ export default {
     color: var(--white);
     background-color: var(--blue-dark);
   }
+}
+.poet__vid {
+  padding-top: 11px;
 }
 div /deep/ .card-deck.bg-primary {
   background-color: var(--white) !important;
