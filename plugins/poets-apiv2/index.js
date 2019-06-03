@@ -5,6 +5,7 @@ import events from "~/plugins/poets-apiv2/lib/events";
 import magazines from "~/plugins/poets-apiv2/lib/magazines";
 import poems from "~/plugins/poets-apiv2/lib/poems";
 import poets from "~/plugins/poets-apiv2/lib/poets";
+import persons from "~/plugins/poets-apiv2/lib/persons";
 import search from "~/plugins/poets-apiv2/lib/search";
 import taxonomies from "~/plugins/poets-apiv2/lib/taxonomies";
 import user from "~/plugins/poets-apiv2/lib/user";
@@ -172,6 +173,16 @@ export default class PoetsApi {
    */
   getPoets(options = {}) {
     return poets.getPoets(this.request, options);
+  }
+
+  /**
+   * Get chancellors
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getPersons(options = {}) {
+    return persons.getPersons(this.request, options);
   }
 
   /**
