@@ -3,9 +3,12 @@
     <b-row class="py-5">
       <b-col md="8">
         <div
-          class="lesson_plan__body"
-          v-if="data.attributes.body"
-          v-html="replaceFileUrl(data.attributes.body.processed)"/>
+          class="lesson_plan__body-container"
+          v-if="getBody(data)">
+          <div
+            class="lesson_plan__body-container-body"
+            v-html="replaceFileUrl(data.attributes.body.processed)"/>
+        </div>
         <div
           v-for="(plan, i) in includes"
           :key="`plan-${i}`"
@@ -19,6 +22,7 @@
               </h3>
             </div>
             <div
+              v-if="getBody(plan)"
               class="plan__body"
               v-html="replaceFileUrl(plan.attributes.body.processed)"/>
           </div>
@@ -123,6 +127,10 @@ export default {
   methods: {
     niceDate(date) {
       return niceDate.niceDate(date);
+    },
+    getBody(thing) {
+      const body = _.get(thing, "attributes.body", null);
+      return body;
     }
   },
   computed: {

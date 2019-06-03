@@ -8,7 +8,7 @@
           <div
             v-if="!empty(body)"
             v-html="replaceFileUrl(body.processed)"
-            class="pb-4"/>
+            class="pb-4" />
           <card-deck
             v-if="!empty(highlighted)"
             class="pt-3 pb-1"
@@ -130,6 +130,18 @@ export default {
     },
     hasCta() {
       return !_.isEmpty(this.callToAction);
+    },
+    hasBB() {
+      const body = _.get(this.pageData, "data.attributes.body");
+      return body ? body.processed.includes("bboxApi.showForm") : false;
+    }
+  },
+  mounted() {
+    if (this.hasBB) {
+      const e = document.createElement("script");
+      e.async = true;
+      e.src = "https://bbox.blackbaudhosting.com/webforms/bbox-2.0-min.js";
+      document.getElementsByTagName("head")[0].appendChild(e);
     }
   },
   methods: {
