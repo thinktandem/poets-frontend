@@ -10,5 +10,29 @@
   {
     "from": "/poem-day",
     "to": "/poem-a-day"
+  },
+  {
+    "from": "/index.php",
+    "to": "/"
+  },
+  {
+    "from": "/npm",
+    "to": "/national-poetry-month"
+  },
+  {
+    "from": "/browse-poems-poets",
+    "to": "/poems"
+  },
+  {
+    "from": "/poemaday",
+    "to": "/poem-a-day"
+  },
+  {
+   "from": "/again-and-again-even-though-we-know-loves-landscape",
+   "to": "/poem/again-and-again-even-though-we-know-loves-landscape"
+  },
+  {
+    "from": "/contributor/rebecca-ruth-gould",
+    "to": "/academy-american-poets/contributor/rebecca-ruth-gould"
   }
 ]

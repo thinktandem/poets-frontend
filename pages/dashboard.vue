@@ -11,8 +11,8 @@
             :items="userData"
             thead-class="d-none"/>
         </b-col>
-        <b-col cols="1"/>
-        <b-col cols="3">
+        <b-col md="1"/>
+        <b-col md="3">
           <b-nav vertical>
             <b-nav-item
               href="https://poets.myshopify.com/"
@@ -35,13 +35,16 @@
             :items="membershipData"
             thead-class="d-none"/>
         </b-col>
-        <b-col cols="1"/>
-        <b-col cols="3">
+        <b-col md="1"/>
+        <b-col md="3">
           <b-nav vertical>
             <b-nav-item
-              :href="membershipCardData.ctaLink"
-              target="_blank">
+              :to="membershipCardData.ctaLink">
               {{ membershipCardData.ctaText }}
+            </b-nav-item>
+            <b-nav-item
+              to="/academy-american-poets/help-champion-poets-and-poetry">
+              make a special gift
             </b-nav-item>
           </b-nav>
         </b-col>
@@ -54,7 +57,20 @@
       sub-title="anthologies i've created">
       <b-row>
         <b-col>
-          <b-card-group columns>
+          <b-card
+            v-if="!hasAnthologies"
+            title="Looks like you don't have an anthology yet!"
+            class="mb-2"
+          >
+            <b-button
+              variant="primary"
+              v-b-modal.makeAnthology>
+              Click to learn how to add one
+            </b-button>
+          </b-card>
+          <b-card-group
+            columns
+            v-else>
             <b-card
               v-for="anthology in anthologies"
               border-variant="info"
@@ -97,12 +113,12 @@
             </b-card>
           </b-card-group>
         </b-col>
-        <b-col cols="3">
+        <b-col md="3">
+          <h4>Activities</h4>
           <b-nav vertical>
-            <b-nav-item to="home">make an anthology</b-nav-item>
-            <b-nav-item to="home">the marianne moore of first intentions</b-nav-item>
-            <b-nav-item to="home">watch a blaney lecture</b-nav-item>
-            <b-nav-item to="home">make a special gift</b-nav-item>
+            <b-nav-item v-b-modal.makeAnthology>make an anthology</b-nav-item>
+            <b-nav-item to="/text/marianne-moore-first-intentions">the marianne moore of first intentions</b-nav-item>
+            <b-nav-item to="/academy-american-poets/programs/blaney-lecture">watch a blaney lecture</b-nav-item>
           </b-nav>
         </b-col>
       </b-row>
@@ -119,6 +135,27 @@
       @ok="deleteAnthology(selectedAnthology)"
       :title="selectedAnthology.title">
       Are you sure you want to delete the anthology <em>{{ selectedAnthology.title }}</em>?
+    </b-modal>
+
+    <b-modal
+      centered
+      hide-footer="true"
+      hide-header="true"
+      id="makeAnthology"
+      size="lg"
+      title="Make an anthology">
+      <b-card
+        title="Make an anthology"
+        img-src="/images/addAnthology.png"
+        img-alt="Add an anthology"
+        img-top
+        class="mb-2"
+      >
+        <b-card-text>
+          <p>1. Navigate to a poem</p>
+          <p>2. Click on the "+" symbol denoted by the arrow above</p>
+        </b-card-text>
+      </b-card>
     </b-modal>
 
   </b-container>
@@ -150,6 +187,7 @@ export default {
   layout: "bannerless",
   data() {
     return {
+      user: {},
       userData: {},
       membershipData: {},
       anthologies: [],
@@ -158,14 +196,14 @@ export default {
   },
   computed: {
     isActiveMember() {
-      if (_.has(this.$auth, "user")) {
-        return (
-          _.get(this.$auth.user.getUser(), "field_membership_status") ===
-          "Active"
-        );
+      if (_.has(this, "user.field_membership_status")) {
+        return _.upperCase(this.user.field_membership_status === "ACTIVE");
       } else {
         return false;
       }
+    },
+    hasAnthologies() {
+      return !_.isEmpty(this.anthologies);
     },
     membershipCardData() {
       if (this.isActiveMember) {
@@ -173,7 +211,7 @@ export default {
           title: "member information",
           sub: "information about my poets membership",
           ctaText: "renew now",
-          ctaLink: "https://www.poets.org"
+          ctaLink: "/membership"
         };
       } else {
         return {
@@ -200,6 +238,7 @@ export default {
       this.$auth.user.pullAnthologies()
     ]).then(() => {
       const data = this.$auth.user.getUser();
+      this.user = data;
       // Reset our basic datas
       this.userData = utils.parseUser(data);
       this.membershipData = utils.parseMembership(data, this.isActiveMember);
@@ -270,8 +309,22 @@ export default {
 .dashboard-wrapper {
   margin-top: 3em;
   margin-bottom: 3em;
-  td {
-    white-space: pre;
+  td:nth-child(2n) {
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
   .card {
     margin-bottom: 25px;

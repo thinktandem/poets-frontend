@@ -1,11 +1,17 @@
 <template>
   <main class="p-4">
-    <main-logo class="logo"/>
+    <div class="logo">
+      <b-img
+        src="/hero/Large-Grey-RGB-poets.png"
+        alt=""/></div>
     <p class="lead">Published on Academy of American Poets <span v-if="host">({{ host }})</span></p>
     <hr>
     <article>
-      <h1 v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
+      <h1
+        class="font-serif font-italic"
+        v-if="poem.attributes.title">{{ poem.attributes.title }}</h1>
       <div
+        class="font-serif"
         v-if="poem.attributes.body"
         v-html="replaceFileUrl(poem.attributes.body.processed)"/>
       <section class="py-3">
@@ -54,10 +60,8 @@
 </template>
 <script>
 import _ from "lodash";
-import MainLogo from "~/static/hero/main.svg";
 export default {
   layout: "minimal",
-  components: { MainLogo },
   async asyncData({ app, params, req, res }) {
     return app.$axios
       .$get(`/api/node/poems/${params.uuid}?include=field_author.field_image`)
@@ -102,5 +106,8 @@ export default {
 <style lang="scss" scoped>
 .logo g path:first-child {
   fill: $print-logo-grey;
+}
+main {
+  font-weight: 400;
 }
 </style>

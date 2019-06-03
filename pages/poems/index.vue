@@ -26,28 +26,26 @@
                 :disabled="busy"
                 inline
                 @input="searchPoems(0)"
-                v-model="filters.occasion"
+                v-model="filters.field_occasion_tid"
                 :options="options.occasions"
               >
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
-                    Occassions</option>
+                    Occasions</option>
                 </template>
               </b-form-select>
               <b-form-select
                 :disabled="busy"
                 inline
                 @input="searchPoems(0)"
-                v-model="filters.theme"
+                v-model="filters.field_poem_themes_tid"
                 :options="options.themes"
               >
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Themes</option>
                 </template>
@@ -56,13 +54,12 @@
                 :disabled="busy"
                 inline
                 @input="searchPoems(0)"
-                v-model="filters.form"
+                v-model="filters.field_form_tid"
                 :options="options.form"
               >
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Forms</option>
                 </template>
@@ -106,6 +103,14 @@
             v-html="replaceFileUrl(data.item.title)"
           />
         </template>
+        <template
+          slot="field_author"
+          slot-scope="data"
+        >
+          <a
+            v-html="data.item.field_author"
+          />
+        </template>
       </b-table>
       <div class="pager">
         <b-pagination
@@ -147,9 +152,9 @@ import MetaTags from "~/plugins/metatags";
 const buildQuery = (filters = {}) =>
   _.pickBy({
     combine: filters.combine,
-    field_form_target_id: filters.form,
-    field_occasion_target_id: filters.occasion,
-    field_poem_themes_target_id: filters.theme
+    field_form_target_id: filters.field_form_tid,
+    field_occasion_target_id: filters.field_occasion_tid,
+    field_poem_themes_target_id: filters.field_poem_themes_tid
   });
 
 // Helper to param stringify the filters
@@ -219,13 +224,16 @@ const buildTermQuery = id => ({
 
 // Helper for us to get the "highest priority" term
 const getPriorityTerm = ({
-  occasion = null,
-  theme = null,
-  form = theme
+  field_occasion_tid = null,
+  field_poem_themes_tid = null,
+  field_form_tid = theme
 } = {}) => {
-  if (!_.isNil(occasion)) return { name: "occasions", id: occasion };
-  else if (!_.isNil(theme)) return { name: "themes", id: theme };
-  else if (!_.isNil(form)) return { name: "form", id: form };
+  if (!_.isNil(field_occasion_tid))
+    return { name: "occasions", id: field_occasion_tid };
+  else if (!_.isNil(field_poem_themes_tid))
+    return { name: "themes", id: field_poem_themes_tid };
+  else if (!_.isNil(field_form_tid))
+    return { name: "form", id: field_form_tid };
   else return {};
 };
 
@@ -259,9 +267,9 @@ export default {
       ],
       filters: {
         combine: null,
-        form: null,
-        occasion: null,
-        theme: null
+        field_form_tid: null,
+        field_occasion_tid: null,
+        field_poem_themes_tid: null
       },
       options: {
         occasions: [],

@@ -33,8 +33,8 @@ export default {
         field_story_type: "tid"
       },
       fields: {
-        created: { label: "Date" },
-        title: { label: "Title" }
+        title: { label: "Title" },
+        created: { label: "Date" }
       },
       defaultParams: {
         filter: {

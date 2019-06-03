@@ -2,6 +2,7 @@ module.exports = {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
+    "@nuxtjs/google-analytics",
     "@nuxtjs/sentry",
     "@nuxtjs/sitemap",
     "@nuxtjs/toast",
@@ -19,7 +20,7 @@ module.exports = {
     ["bootstrap-vue/nuxt", { css: false }]
   ],
   axios: {
-    debug: process.env.APP_ENV !== "production"
+    debug: process.env.NODE_ENV !== "production"
   },
   auth: {
     redirect: false,
@@ -36,11 +37,15 @@ module.exports = {
       }
     }
   },
+  "google-analytics": {
+    id: "UA-31095-1"
+  },
   sitemap: {
     path: "/sitemap.xml",
-    hostname: "https://www.poets.org",
+    hostname: "https://poets.org",
     cacheTime: 1000 * 15 * 24 * 60 * 60,
     gzip: true,
+    exclude: ["submit-sitemap"],
     async routes() {
       const sitemapHelpers = require("./plugins/sitemap-helpers");
       return sitemapHelpers.allTheUrls();
@@ -80,7 +85,8 @@ module.exports = {
       {
         hid: "description",
         name: "description",
-        content: "Nuxt front end for Poets"
+        content:
+          "poets.org - The Academy of American Poets is the largest membership-based nonprofit organization fostering an appreciation for contemporary poetry and supporting American poets."
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
@@ -121,10 +127,10 @@ module.exports = {
       }
     }
   },
-  // Tell Browsers to cache static assets
   render: {
+    // Tell Browsers to cache static assets for 1 year (makes Google happy).
     static: {
-      maxAge: 1000 * 60 * 60 * 24 * 7
+      maxAge: 1000 * 60 * 60 * 24 * 365
     }
   },
   env: {

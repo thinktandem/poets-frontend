@@ -3,9 +3,12 @@
     <b-row class="py-5">
       <b-col md="8">
         <div
-          class="lesson_plan__body"
-          v-if="data.attributes.body"
-          v-html="replaceFileUrl(data.attributes.body.processed)"/>
+          class="lesson_plan__body-container"
+          v-if="getBody(data)">
+          <div
+            class="lesson_plan__body-container-body"
+            v-html="replaceFileUrl(data.attributes.body.processed)"/>
+        </div>
         <div
           v-for="(plan, i) in includes"
           :key="`plan-${i}`"
@@ -14,9 +17,12 @@
             v-if="plan.type === 'paragraph--standard_text'"
             class="plan__container">
             <div class="plan__title">
-              {{ plan.attributes.title }}
+              <h3>
+                {{ plan.attributes.title }}
+              </h3>
             </div>
             <div
+              v-if="getBody(plan)"
               class="plan__body"
               v-html="replaceFileUrl(plan.attributes.body.processed)"/>
           </div>
@@ -24,6 +30,7 @@
       </b-col>
       <b-col
         v-if="showSidebar"
+        class="lesson_plan__sidebar"
         md="4"
         tag="aside">
         <div v-if="sidebarExists">
@@ -120,6 +127,10 @@ export default {
   methods: {
     niceDate(date) {
       return niceDate.niceDate(date);
+    },
+    getBody(thing) {
+      const body = _.get(thing, "attributes.body", null);
+      return body;
     }
   },
   computed: {
@@ -131,4 +142,18 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.lesson_plan__body {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.plan__title {
+  margin-bottom: 26px;
+}
+.plan__container {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.lesson_plan__sidebar {
+  padding-left: 26px;
+}
 </style>

@@ -1,8 +1,7 @@
 <template>
   <b-card
     class="card--book"
-    tag="article"
-  >
+    tag="article">
     <b-link
       :href="view_node_1"
       slot="header"
@@ -17,7 +16,7 @@
     <h3 class="card-title">
       <b-link
         v-html="replaceFileUrl(title)"
-        :href="view_node_1"
+        :href="link"
         itemprop="title"
       />
     </h3>
@@ -61,6 +60,10 @@ export default {
     field_image: {
       type: Object,
       default: null
+    },
+    link: {
+      type: String,
+      default: "/"
     }
   }
 };

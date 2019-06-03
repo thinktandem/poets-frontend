@@ -7,7 +7,8 @@
       :includes="includes"
       :fields="fields"
       :filters="filters"
-      :searchable="searchable"/>
+      :searchable="searchable"
+      :show-empty="showEmpty"/>
     <card-deck
       class="py-4"
       col-size="md"
@@ -30,6 +31,8 @@ import _ from "lodash";
 import CardDeck from "~/components/CardDeck";
 import ListPage from "~/components/ListPage";
 import MetaTags from "~/plugins/metatags";
+import niceDate from "~/plugins/niceDate";
+
 export default {
   components: {
     CardDeck,
@@ -40,6 +43,7 @@ export default {
   },
   data() {
     return {
+      showEmpty: true,
       details: {
         body: {},
         event_start_time: {},
@@ -52,7 +56,23 @@ export default {
         title: { label: "Name" },
         field_location: { label: "Location" }
       },
-      defaultParams: {},
+      defaultParams: {
+        sort: {
+          sort_field_event_date: {
+            path: "field_event_date",
+            direction: "ASC"
+          }
+        },
+        filter: {
+          after_today: {
+            condition: {
+              path: "field_event_date",
+              operator: "%3E%3D",
+              value: this.getMysqlFormat()
+            }
+          }
+        }
+      },
       filters: [
         {
           id: "field_location.administrative_area",
@@ -136,15 +156,28 @@ export default {
     return app.$buildBasicPage(app, store, route.path).then(() => {
       store.commit("updateSidebarData", [
         {
+          // This gets the "Submit an Event" button.
           component: "ButtonBlock",
           props: {
             text: "Submit an Event",
             type: "modal",
             modal: "submitEvent"
           }
+        },
+        {
+          // Add the browse States jump list dropdown menu.
+          component: "StatesJumpListBlock",
+          props: {
+            text: "Explore Your State"
+          }
         }
       ]);
     });
+  },
+  methods: {
+    getMysqlFormat() {
+      return niceDate.getMysqlFormat();
+    }
   }
 };
 </script><Paste>

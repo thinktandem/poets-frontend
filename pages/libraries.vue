@@ -11,7 +11,7 @@
       class="pt-5 pb-3"
       cardtype="PoemCard"
       cols="4"
-      :cards="poems"
+      :cards="featuredPoems"
       :link="poemsLink"
     />
     <CardDeck
@@ -48,6 +48,27 @@ import CardDeck from "~/components/CardDeck";
 import BasicPage from "~/components/BasicPage";
 import MetaTags from "~/plugins/metatags";
 
+// Helper to fetch featured poems
+const buildFeaturesPoemsQuery = ({
+  occasion = null,
+  theme = null,
+  form = null
+} = {}) => {
+  // Spin up the basic query
+  const query = {
+    filter: {
+      status: 1
+    },
+    page: {
+      limit: 3
+    },
+    sort: "-field_featured",
+    include: "field_author"
+  };
+  // Return
+  return query;
+};
+
 const bookParams = qs.stringify({
   filter: {
     field_featured: 1
@@ -68,7 +89,8 @@ export default {
   },
   data() {
     return {
-      poems: {},
+      busy: true,
+      featuredPoems: [],
       poemsLink: {
         to: "/poets",
         text: "0"
@@ -139,19 +161,28 @@ export default {
         });
     },
     getFeaturedPoems() {
-      this.$axios
-        .get("/api/libraries_featured_poems")
-        .then(response => {
-          const count = _.get(response, "data.pager.total_items", 0);
-          this.poems = _.get(response, "data.rows", []);
-          this.poemsLink = {
-            to: "/poems",
-            text: `${count} Poems`
-          };
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      const query = buildFeaturesPoemsQuery(this.filters);
+      this.$api.getPoems({ query }).then(response => {
+        this.poemsLink = {
+          to: "/poems",
+          text: _.get(response, "data.meta.count") + " Poems"
+        };
+        this.featuredPoems = _(_.get(response, "data.data"))
+          .filter(poem => _.has(poem, "relationships.field_author.data[0].id"))
+          .map((poem, index) => ({
+            aid: _.get(poem, "relationships.field_author.data[0].id"),
+            link: _.get(poem, "attributes.path.alias"),
+            title: _.get(poem, "attributes.title"),
+            text: _.get(poem, "attributes.body.processed"),
+            year: _.get(poem, "attributes.field_copyright_date").split("-")[0],
+            poet: {
+              // @NOTE: the below assumes the index of the data and included
+              // arrays match up
+              name: _.get(response, `data.included[${index}].attributes.title`)
+            }
+          }))
+          .value();
+      });
     },
     getFeaturedPoets() {
       this.$api

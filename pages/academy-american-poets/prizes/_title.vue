@@ -20,144 +20,58 @@
         </b-col>
       </b-row>
     </b-container>
-
-    <b-container class="prizes-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col
-          md="2">
-          Year
-        </b-col>
-        <b-col md="3">
-          Poet
-        </b-col>
-        <b-col md="7">
-          Title
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="(subPrize, index) in subPrizes"
-        class="tabular-list__row prizes-list__books"
-        :key="index"
+    <b-container class="table-container">
+      <b-table
+        id="sub_prize_or_program"
+        :items="subPrizes"
+        :fields="fields"
+        stacked="md"
+        :per-page="perPage"
       >
-        <b-col
-          class="date"
-          md="2"
+        <template
+          slot="title"
+          slot-scope="data"
         >
-          {{ subPrize.date }}
-        </b-col>
-        <b-col
-          class="books-list__books-title"
-          md="3">
-          <b-link
-            :to="subPrize.winnerLink"
-            class="text-dark">
-            {{ subPrize.name }}
-        </b-link></b-col>
-        <b-col md="7">
-          <b-link
-            :to="subPrize.winningLink"
-            class="text-dark">
-            {{ subPrize.title }}
-          </b-link>
-        </b-col>
-      </b-row>
+          <a :href="data.item.winningLink">
+            {{ data.item.title }}
+          </a>
+        </template>
+        <template
+          slot="field_author"
+          slot-scope="data"
+        >
+          <a :href="data.item.winnerLink">
+            {{ data.item.name }}
+          </a>
+        </template>
+        <template
+          slot="field_year"
+          slot-scope="data"
+        >
+          {{ data.item.date }}
+        </template>
+      </b-table>
       <div class="pager">
-        <ul
-          role="menubar"
-          aria-disabled="false"
-          aria-label="Pagination"
+        <b-pagination
+          @input="paginate"
+          :disabled="busy"
+          aria-controls="books"
           class="pagination"
+          hide-goto-end-buttons
+          :per-page="perPage"
+          size="lg"
+          :total-rows="rows"
+          v-model="page"
+          align="fill"
         >
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-            :class="{ disabled: !currentPage}"
-          >
-            <a
-              :href="`/prizes?page=${Prev}${preparedCombine}`"
-              class="page-link"
-            >
-              <iconMediaSkipBackwards /> Prev
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/prizes?page=${pageNum + 1}{preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 1 }}
-            </a>
-
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 2 < totalPages"
-              :href="`/prizes?page=${pageNum + 2}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 2 }}
-            </a>
-          </li>
-
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 3 < totalPages"
-              :href="`/prizes?page=${pageNum + 3}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ pageNum + 3 }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item ellipsis"
-          >
-            <span>&hellip;</span>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              v-if="pageNum + 1 < totalPages"
-              :href="`/prizes?page=${totalPages - 1}${preparedCombine}`"
-              class="page-link"
-            >
-              {{ totalPages }}
-            </a>
-          </li>
-          <li
-            role="none presentation"
-            aria-hidden="true"
-            class="page-item"
-          >
-            <a
-              :href="`/prizes?page=${Next}${preparedCombine}`"
-              class="page-link"
-              :class="{disabled: !Next}"
-            >
-              Next
-              <iconMediaSkipForwards />
-            </a>
-
-          </li>
-        </ul>
+          <span slot="prev-text">
+            <iconMediaSkipBackwards /> Prev
+          </span>
+          <span slot="next-text">
+            Next
+            <iconMediaSkipForwards />
+          </span>
+        </b-pagination>
       </div>
     </b-container>
   </div>
@@ -170,6 +84,24 @@ import MetaTags from "~/plugins/metatags";
 export default {
   head() {
     return MetaTags.renderTags(this.prize.tags);
+  },
+  data() {
+    return {
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "field_author",
+          label: "Author"
+        },
+        {
+          key: "field_year",
+          label: "Year"
+        }
+      ]
+    };
   },
   async asyncData({ app, route }) {
     const routerResponse = await app.$axios
@@ -220,8 +152,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.book__body {
+.prizes__body {
   font-weight: 400;
-  font-size: 1.2em;
 }
 </style>

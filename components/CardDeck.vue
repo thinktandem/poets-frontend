@@ -12,7 +12,7 @@
         >
           <h2
             :class="titleClass"
-            class="card-deck__title"
+            class="card-deck__title font-italic"
           >{{ title }}</h2>
           <b-link
             class="card-deck__link text-color"

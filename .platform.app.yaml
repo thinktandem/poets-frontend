@@ -40,4 +40,7 @@ hooks:
 crons:
   sitemap:
     spec: '22 2 1,15 * *'
-    cmd: 'curl -I https://www.poets.org/sitemap.xml'
+    cmd: 'curl -I https://poets.org/sitemap.xml'
+  submitSitemap:
+    spec: '0 1 * * *'
+    cmd: 'curl -I https://poets.org/submit-sitemap'

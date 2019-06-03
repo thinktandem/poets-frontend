@@ -49,9 +49,15 @@
         </template>
         <template
           slot="body"
-          slot-scope="data"
-        >
-          <div v-html="replaceFileUrl(data.item.body)" />
+          slot-scope="data">
+          <div
+            v-if="data.item.summary_processed"
+            class="search__summary"
+            v-html="replaceFileUrl(data.item.summary_processed)"/>
+          <div
+            v-else
+            class="search__summary"
+            v-html="teaserText(replaceFileUrl(data.item.body))"/>
         </template>
       </b-table>
       <div class="pager">
@@ -81,6 +87,7 @@
 </template>
 
 <script>
+import inlineImagesUrl from "~/plugins/inlineImagesUrl";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
@@ -149,6 +156,9 @@ export default {
       // https://en.wikipedia.org/wiki/Off-by-one_error
       const queryPage = this.page - 1;
       this.search(queryPage);
+    },
+    teaserText(text) {
+      return inlineImagesUrl.teaserText(text);
     }
   },
   watch: {
@@ -163,4 +173,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.search__summary {
+  font-weight: 400;
+}
 </style>

@@ -27,7 +27,7 @@
               <b-link
                 class="more-link mt-auto mb-3"
                 v-if="!empty(moreLink)"
-                :to="moreLink.uri">{{ moreLink.title }} <i
+                :href="moreLink.url">{{ moreLink.title }} <i
                   class="fancy-chevron"/></b-link>
             </b-media-body>
           </b-media>

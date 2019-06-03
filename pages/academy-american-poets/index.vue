@@ -16,6 +16,7 @@
 <script>
 import ProgramsAnnouncements from "~/components/ProgramsAnnouncements";
 import CardDeck from "~/components/CardDeck";
+import niceDate from "~/plugins/niceDate";
 import qs from "qs";
 import _ from "lodash";
 import MetaTags from "~/plugins/metatags";
@@ -94,10 +95,10 @@ export default {
             },
             announcements: _(_.get(response, "data.data", []))
               .map(item => ({
-                date: item.attributes.changed,
+                date: niceDate.niceDate(_.get(item, "attributes.created")),
                 body:
-                  item.attributes.body.summary ||
-                  item.attributes.body.processed,
+                  _.get(item, "attributes.body.summary") ||
+                  _.get(item, "attributes.body.processed"),
                 link: _.get(item, "attributes.path.alias", "")
               }))
               .value()
@@ -112,15 +113,16 @@ export default {
           this.prizes = {
             title: "Prizes",
             link: {
-              to: `/prizes`,
+              to: `/academy-american-poets/american-poets-prizes`,
               text: `${count} Prizes`
             },
             prizes: _(_.get(response, "data.data", []))
               .map(item => ({
-                title: item.attributes.title || "",
-                titleLink: item.attributes.path.alias,
+                title: _.get(item, "attributes.title") || "",
+                titleLink: _.get(item, "attributes.path.alias"),
                 body:
-                  item.attributes.body.summary || item.attributes.body.processed
+                  _.get(item, "attributes.body.summary") ||
+                  _.get(item, "attributes.body.processed")
               }))
               .value()
           };
@@ -139,20 +141,22 @@ export default {
             },
             programs: _(_.get(response, "data.data", []))
               .map(item => ({
-                title: item.attributes.title,
-                titleLink: item.attributes.path.alias,
-                body: item.attributes.body.processed,
+                title: _.get(item, "attributes.title"),
+                titleLink: _.get(item, "attributes.path.alias"),
+                body: _.get(item, "attributes.body.processed"),
                 img:
-                  item.relationships.field_image.data.length >= 1
+                  _.get(item, "relationships.field_image.data").length >= 1
                     ? {
                         src: _.find(
-                          response.data.included,
+                          _.get(response, "data.included"),
                           include =>
                             include.id ===
-                            item.relationships.field_image.data[0].id
+                            _.get(item, "relationships.field_image.data[0].id")
                         ).links.media_aside.href,
-                        alt:
-                          item.relationships.field_image.data[0].meta.alt || ""
+                        alt: _.get(
+                          item,
+                          "relationships.field_image.data[0].meta.alt"
+                        )
                       }
                     : null
               }))

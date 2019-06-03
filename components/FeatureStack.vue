@@ -2,7 +2,7 @@
   <section class="feature-stack">
     <b-container>
       <component
-        class="font-serif feature-stack__title"
+        class="font-serif font-italic"
         :is="titleTag">{{ title }}</component>
       <b-row class="py-3">
         <b-col
@@ -13,7 +13,7 @@
             :reverse="index % 2 == 1"
             v-bind="feature"
             :key="index"
-            class="my-lg-5 my-2"
+            class="my-lg-5 my-2 pb-lg-4"
             v-if="features !== null"/>
         </b-col>
       </b-row>

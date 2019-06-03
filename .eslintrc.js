@@ -22,5 +22,6 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error"],
     "arrow-parens": ["error", "as-needed"],
+    "camelcase": "off"
   }
 }

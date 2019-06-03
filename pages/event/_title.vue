@@ -25,7 +25,9 @@
             <h3 class="event__field-header">Date and Time</h3>
             <div class="event__field-body">
               <p v-if="eventDate">{{ eventDate }}<br>
-                {{ eventStartTime }} - {{ eventEndTime }}</p>
+                {{ eventStartTime }}
+                <span v-if="eventEndTime"> - {{ eventEndTime }}</span>
+              </p>
             </div>
           </div>
           <div class="event-location mt-3 pb-5">
@@ -76,7 +78,11 @@
             <p>
               To be considered for #PoetryNearYou Pick of the Week, we invite you to become a registered user of Poets.org for free and to use our online calendar Poetry Near You to promote local events in your community.
             </p>
-            <ButtonBlock/>
+            <ButtonBlock
+              text="Submit an Event"
+              type="modal"
+              modal="submitEvent"
+            />
           </div>
         </b-col>
       </b-row>
@@ -100,6 +106,7 @@
 import _ from "lodash";
 import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
+import niceDate from "~/plugins/niceDate";
 import ButtonBlock from "~/components/ButtonBlock";
 
 export default {
@@ -122,7 +129,23 @@ export default {
         title: { label: "Name" },
         field_location: { label: "Location" }
       },
-      defaultParams: {},
+      defaultParams: {
+        sort: {
+          sort_field_event_date: {
+            path: "field_event_date",
+            direction: "ASC"
+          }
+        },
+        filter: {
+          after_today: {
+            condition: {
+              path: "field_event_date",
+              operator: "%3E%3D",
+              value: this.getMysqlFormat()
+            }
+          }
+        }
+      },
       filters: [],
       searchable: [
         { field: "title", label: "name" },
@@ -148,7 +171,10 @@ export default {
       .then(event => ({
         title: _.get(event, "data.attributes.title"),
         body: _.get(event, "data.attributes.body.processed"),
-        eventDate: _.get(event, "data.attributes.field_event_date"),
+        eventDate: niceDate.niceDate(
+          _.get(event, "data.attributes.field_event_date"),
+          "long"
+        ),
         eventStartTime: _.get(event, "data.attributes.event_start_time"),
         eventEndTime: _.get(event, "data.attributes.event_end_time"),
         image: app.$buildImg(event, null, "field_image", "event"),
@@ -182,16 +208,11 @@ export default {
       lead:
         "Are you looking to connect with poets or find opportunities to hear or study poetry? To find poetry events and resources near you, simply enter your zip code in the search field below."
     });
-    store.commit("updateSidebarData", [
-      {
-        component: "ButtonBlock",
-        props: {
-          text: "Submit an Event",
-          type: "modal",
-          modal: "submitEvent"
-        }
-      }
-    ]);
+  },
+  methods: {
+    getMysqlFormat() {
+      return niceDate.getMysqlFormat();
+    }
   }
 };
 </script>

@@ -13,6 +13,7 @@
           md="8"/>
         <b-col md="4">
           <b-img
+            v-if="field_image"
             class="book__image"
             :src="field_image.src"
             :alt="field_image.alt"/>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import MetaTags from "~/plugins/metatags";
 
 export default {
@@ -40,13 +42,14 @@ export default {
           .get(`/api/node/books/${res.data.entity.uuid}?include=field_image`)
           .then(res => {
             return {
-              book: res.data.data,
-              field_image: app.$buildImg(
-                res.data,
-                res.data.included.field_image,
-                "field_image",
-                "portrait"
-              )
+              book: _.get(res, "data.data"),
+              field_image:
+                app.$buildImg(
+                  _.get(res, "data"),
+                  _.get(res, "data.included.field_image"),
+                  "field_image",
+                  "book"
+                ) || null
             };
           })
           .catch(error => {
@@ -64,6 +67,9 @@ export default {
 .book__body {
   font-weight: 400;
   font-size: 1.2em;
+  /deep/ iframe {
+    max-height: 788px;
+  }
 }
 .book__image {
   max-width: 300px;

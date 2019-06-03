@@ -17,7 +17,8 @@
       resource-type="texts"
       :default-params="defaultParams"
       :includes="includes"
-      :fields="fields"/>
+      :fields="fields"
+      :searchable="searchable"/>
   </div>
 </template>
 
@@ -42,15 +43,23 @@ export default {
         field_contributors: "title"
       },
       fields: {
-        field_contributors: { label: "Name" },
-        title: { label: "Title" }
+        title: { label: "Title" },
+        field_contributors: { label: "Author" }
       },
       defaultParams: {
         filter: {
           "field_texttype.name": "on Teaching Poetry"
         }
       },
-      featured: true
+      featured: true,
+      hasDetails: true,
+      searchable: [
+        { field: "title", label: "name" },
+        {
+          field: "body.value",
+          label: "text"
+        }
+      ]
     };
   },
   async fetch({ app, store, route }) {

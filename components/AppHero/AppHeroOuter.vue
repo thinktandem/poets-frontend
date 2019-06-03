@@ -17,12 +17,12 @@
         class="mt-3 mt-md-5"
       >
         <h1
-          v-if="heading && variant === 'default'"
+          v-if="heading && variant === 'default' && displayHeading"
           class="hero__heading pb-3"
         >{{ heading }}</h1>
         <p
           v-if="lead"
-          class="lead mb-3 font-serif-2"
+          class="lead mb-3 font-serif"
         >{{ lead }}</p>
         <div
           class="hero__subtext"
@@ -95,28 +95,45 @@ export default {
     },
     pickLogo() {
       const path = this.$route.path;
-      let src = "/hero/main.svg";
+      let src = "/hero/Large-White-RGB-poets.org-Logo.png";
       let alt = "Poets.org Logo";
       let link = "/";
       if (path.includes("/national-poetry-month")) {
-        src = "/hero/NPM.svg";
+        src = "/hero/Large-White-RGB-National-Poetry-Month-Logo.png";
         alt = "National Poetry Month Logo";
         link = "/national-poetry-month";
-      } else if (
-        path.includes("/academy-american-poets") ||
-        path.includes("/american-poets-magazine")
-      ) {
-        src = "/hero/AAP.svg";
+      } else if (path.includes("/academy-american-poets")) {
+        src = "/hero/Large-White-RGB-Academy-of-American-Poets-Logo.png";
         alt = "Academy of American Poets Logo";
-        link = path.includes("/academy-american-poets")
-          ? "/academy-american-poets"
-          : "/american-poets-magazine";
+        link = "/academy-american-poets";
+      } else if (path.includes("/american-poets-magazine")) {
+        src = "/hero/Large-White-RGB-American-Poets-Logo.png";
+        alt = "Acacemy of American Poets Magazine Logo";
+        link = "/american-poets-magazine";
       }
       return {
         src,
         alt,
         link
       };
+    },
+    /*
+     * On the site vertical pages title duplicates info in logo; supress titles
+     * on those pages.
+     */
+    displayHeading() {
+      const path = this.$route.path;
+
+      if (
+        path === "/" ||
+        path === "/national-poetry-month" ||
+        path === "/academy-american-poets" ||
+        path === "/american-poets-magazine"
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 };

@@ -7,7 +7,7 @@
         <b-col
           cols="12"
           tag="header">
-          <h2 class="featured-poet-deck__title">{{ title }}</h2>
+          <h2 class="font-italic font-serif featured-poet-deck__title">{{ title }}</h2>
         </b-col>
       </b-row>
       <b-row>

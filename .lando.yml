@@ -2,8 +2,6 @@ name: poetsd8
 proxy:
   appserver:
     - poetsd8.lndo.site:3000
-  yakbak:
-    - yakbakpoets.lndo.site
 excludes:
   - node_modules
 env_file:
@@ -13,11 +11,6 @@ services:
     type: node:10
     command: cp -n /app/.env.example /app/.env && yarn dev --hostname 0.0.0.0
     port: 3000
-    build:
-      - yarn install
-  yakbak:
-    type: node:10
-    command: node /app/proxy.js
     build:
       - yarn install
   codeception:

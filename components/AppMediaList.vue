@@ -4,7 +4,7 @@
       <component
         :is="titleTag"
         v-if="null !== title"
-        class="font-serif media-list__title">{{ title }}</component>
+        class="font-serif font-italic media-list__title">{{ title }}</component>
       <b-link
         v-if="moreLink"
         :to="moreLink.to">{{ moreLink.text }} <chevron-right class="chevron"/></b-link>

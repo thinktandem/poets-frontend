@@ -6,7 +6,7 @@
     <b-container>
       <h2
         v-if="title.length > 0"
-        class="font-serif">{{ title }}</h2>
+        class="font-serif font-italic">{{ title }}</h2>
       <b-card-group
         columns>
         <header

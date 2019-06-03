@@ -23,80 +23,33 @@
             class="person__related-texts-rows"
             md="8">
             <b-container
-              class="books-list tabular-list"
-              v-if="relatedLP.length !== 0">
-              <b-row>
-                <b-col md="12">
-                  <h3 class="person__related-texts-title">Lesson Plans</h3>
-                </b-col>
-              </b-row>
-              <b-row
-                class="tabular-list__row tabular-list__header">
-                <b-col
-                  md="4">
-                  Date
-                </b-col>
-                <b-col md="8">
-                  Title
-                </b-col>
-              </b-row>
-              <b-row
-                v-for="lp in relatedLP"
-                class="tabular-list__row books-list__books"
-                :key="lp.attributes.id"
-              >
-                <b-col
-                  class="date"
-                  md="4"
-                >
-                  {{ niceDate(lp.attributes.field_date_published) }}
-                </b-col>
-                <b-col
-                  class="books-list__books-title"
-                  md="8">
-                  <a
-                    :href="lp.attributes.path.alias"
-                    v-html="replaceFileUrl(lp.attributes.title)"
-                  />
-                </b-col>
-              </b-row>
-            </b-container>
-            <b-container
-              class="books-list tabular-list"
-              v-if="relatedAnnouncements.length !== 0">
-              <b-row>
-                <b-col md="12">
-                  <h3 class="person__related-texts-title">Announcements</h3>
-                </b-col>
-              </b-row>
-              <b-row
-                class="tabular-list__row tabular-list__header">
-                <b-col
-                  md="4">
-                  Date
-                </b-col>
-                <b-col md="8">
-                  Title
-                </b-col>
-              </b-row>
-              <b-row
-                v-for="ann in relatedAnnouncements"
-                class="tabular-list__row books-list__books"
-                :key="ann.attributes.id"
-              >
-                <b-col
-                  class="date"
-                  md="4"
-                >
-                  {{ niceDate(ann.attributes.changed) }}
-                </b-col>
-                <b-col
-                  class="books-list__books-title"
-                  md="8">
-                  <a
-                    :href="ann.attributes.path.alias"
-                    v-html="replaceFileUrl(ann.attributes.title)"
-                  />
+              class="books-list tabular-list">
+              <b-row class="py-5">
+                <b-col>
+                  <app-listing
+                    title="Texts"
+                    hide-empty
+                    class="py-3"
+                    :default-params="defaultParams"
+                    :fields="fields"
+                    :includes="includes"
+                    resource-type="texts"/>
+                  <app-listing
+                    title="Collections"
+                    hide-empty
+                    class="py-3"
+                    :default-params="defaultParams"
+                    :fields="fields"
+                    :includes="includes"
+                    resource-type="collections"/>
+                  <app-listing
+                    title="Lesson Plans"
+                    hide-empty
+                    class="py-3"
+                    :default-params="defaultParams"
+                    :fields="fields"
+                    :includes="includes"
+                    resource-type="lesson_plans"/>
                 </b-col>
               </b-row>
             </b-container>
@@ -105,19 +58,23 @@
         <b-col
           class="poet__sidebar"
           md="4">
-          <div class="poet__image">
+          <div>
             <figure>
-              <b-img
+              <b-img-lazy
+                v-if="sideBarImage"
+                fluid
+                center
+                class="poet__image"
                 :src="sideBarImage.src"
                 :alt="sideBarImage.alt"/>
-              <figcaption v-if="sideBarImage.title">
+              <figcaption v-if="sideBarImage">
                 {{ sideBarImage.title }}
               </figcaption>
             </figure>
           </div>
           <div
             class="poet__related_schools_movements"
-            v-if="schoolsMovements.length != 0">
+            v-if="schoolsMovements && schoolsMovements.length != 0">
             <span class="schools">Related Schools & Movements:</span>
             <div
               class="school"
@@ -128,7 +85,7 @@
           </div>
           <div
             class="poet__tags"
-            v-if="tags.length != 0">
+            v-if="tags && tags.length != 0">
             <span class="tags">Tags:</span>
             <div
               class="tag"
@@ -139,6 +96,7 @@
           </div>
           <div class="poet__read-poems">
             <b-button
+              v-if="poemsByLink"
               block
               :href="poemsByLink.to"
               variant="outline-info">
@@ -153,7 +111,18 @@
               Read texts about this poet
             </b-button>
           </div>
+          <div
+            v-if="sideBarVid"
+            class="poet__vid">
+            <div
+              class="poet__vid-title"
+              v-html="sideBarVid[0].attributes.title"/>
+            <div
+              class="poet__vid-video"
+              v-html="sideBarVid[0].attributes.body.value"/>
+          </div>
           <PromoSpace
+            v-if="!embedded"
             variant="transparent"
             dimensions="square"/>
         </b-col>
@@ -178,6 +147,7 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
+import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
@@ -185,16 +155,59 @@ import PromoSpace from "~/components/PromoSpace";
 
 export default {
   components: {
+    AppListing,
     CardDeck,
     PromoSpace
   },
+  computed: {
+    defaultParams() {
+      return {
+        filter: {
+          "field_contributors.id": _.get(this, "poet.id")
+        }
+      };
+    },
+    embedded() {
+      return _.get(this.$route.query, "mbd") === "1";
+    }
+  },
+  layout({ route }) {
+    return _.get(route.query, "mbd") === "1" ? "embed" : "default";
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.embedded && _.get(to, "query.mbd") !== "1") {
+      const where = _.merge({}, to, { query: { mbd: "1" } });
+      next(where);
+    } else {
+      next();
+    }
+  },
   data() {
     return {
+      fields: {
+        field_date_published: {
+          label: "Year"
+        },
+        title: { label: "Title" }
+      },
+      includes: {},
+      sort: "field_date_published",
       size: [[375, 0], [300, 250]]
     };
   },
   head() {
-    return MetaTags.renderTags(this.poet.attributes.metatag_normalized);
+    return MetaTags.renderTags(this.poet.attributes.metatag_normalized, [
+      {
+        hid: "og:image",
+        name: "og:image",
+        content: this.socialImage
+      },
+      {
+        hid: "twitter:image",
+        name: "twitter:image",
+        content: this.socialImage
+      }
+    ]);
   },
   async asyncData({ app, params }) {
     return app.$axios
@@ -206,7 +219,7 @@ export default {
         return app.$axios.get(
           `/api/node/person/${
             res.entity.uuid
-          }?include=field_image,field_school_movement,field_poet_tags`
+          }?include=field_image,field_school_movement,field_poet_tags,field_media_selector`
         );
       })
       .then(async res => {
@@ -221,6 +234,9 @@ export default {
         });
         const tags = _.filter(res.data.included, {
           type: "taxonomy_term--tags"
+        });
+        const sideBarVid = _.filter(_.get(res, "data.included"), {
+          type: "paragraph--media"
         });
         const poemsByParams = qs.stringify({
           page: {
@@ -288,70 +304,31 @@ export default {
             });
         }
 
-        const relatedTextsParams = qs.stringify({
-          filter: {
-            // Only published.
-            status: 1,
-            // Author is this person.
-            "field_contributors.id": res.data.data.id
-          }
-        });
-
-        const relatedTexts = await app.$axios.$get(
-          `/api/node/texts?${relatedTextsParams}`
-        );
-
-        const relatedLPParams = qs.stringify({
-          filter: {
-            // Only published.
-            status: 1,
-            // Author is this person.
-            "field_contributors.id": res.data.data.id
-          }
-        });
-
-        const relatedLP = await app.$axios.$get(
-          `/api/node/lesson_plans?${relatedLPParams}`
-        );
-
-        const relatedAnnouncementsParams = qs.stringify({
-          filter: {
-            // Only published.
-            status: 1,
-            "field_story_type.tid": 8
-          },
-          sort: {
-            created: {
-              path: "created",
-              direction: "DESC"
-            }
-          },
-          page: {
-            limit: 3
-          }
-        });
-
-        const relatedAnnouncements = await app.$axios.$get(
-          `/api/node/basic_page?${relatedAnnouncementsParams}`
-        );
-
         return {
           poet: res.data.data,
-          dob: res.data.data.attributes.field_dob,
-          dod: res.data.data.attributes.field_dod,
-          title: res.data.data.attributes.title,
-          body: res.data.data.attributes.body,
+          socialImage: _.get(
+            app.$buildImg(res.data, null, "field_image", "social_share"),
+            "src"
+          ),
+          dob: _.get(res, "data.data.attributes.field_dob"),
+          dod: _.get(res, "data.data.attributes.field_dod"),
+          title: _.get(res, "data.data.attributes.title"),
+          body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
+          sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
+            ? sideBarVid
+            : null,
           schoolsMovements,
           tags,
           poemsBy: _.map(poemsBy.data, poem => {
+            let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
-              link: poem.attributes.path.alias,
-              title: poem.attributes.title,
-              text: poem.attributes.body.processed,
-              year: poem.attributes.field_copyright_date.split("-")[0],
+              link: _.get(poem, "attributes.path.alias"),
+              title: _.get(poem, "attributes.title"),
+              text: _.get(poem, "attributes.body.processed"),
+              year: crDate ? crDate.split("-")[0] : null,
               poet: {
-                name: res.data.data.attributes.title
+                name: _.get(res, "data.data.attributes.title")
               }
             };
           }),
@@ -359,12 +336,9 @@ export default {
             to: `/poems/${params.title}`,
             text: poemsBy.meta.count
           },
-          relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
           textsByLink: `/texts/${params.title}`,
-          relatedTexts: relatedTexts.data,
-          relatedLP: relatedLP.data,
-          relatedAnnouncements: relatedAnnouncements.data
+          relatedPoets:
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
         };
       })
       .catch(error => {
@@ -395,7 +369,6 @@ export default {
   }
 }
 .poet__image {
-  width: 311px;
   box-shadow: 0 6px 0 0 #32d17e;
 }
 @include media-breakpoint-up(md) {
@@ -426,6 +399,9 @@ export default {
     color: var(--white);
     background-color: var(--blue-dark);
   }
+}
+.poet__vid {
+  padding-top: 11px;
 }
 div /deep/ .card-deck.bg-primary {
   background-color: var(--white) !important;

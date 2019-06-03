@@ -13,7 +13,10 @@
             class="daily-poem__poet-name my-auto px-0"
             v-if="null !== poet.name"
           >
-            {{ poet.name }}
+            <b-link
+              :to="poet.alias"
+              class="text-white"
+            >{{ poet.name }}</b-link>
           </h3>
           <div class="daily-poem__poet-image">
             <b-img-lazy
@@ -56,23 +59,13 @@
               />
             </div>
             <div
-              v-if="extended === true"
+              v-if="extended === true && !empty(about)"
               class="daily-poem__about pl-3 pr-4 pb-5"
             >
               <h3 class="font-serif">About Poem-a-Day</h3>
-              <p class="poem-a-day__about-content">
-                Poem-a-day is the original and only daily digital poetry series featuring
-                over 200 new, previously unpublished poems by today’s talented poets each
-                year. On weekdays, poems are accompanied by exclusive commentary by the
-                poets. The series highlights classic poems on weekends. Launched in 2006,
-                Poem-a-Day is now distributed via email, web, and social media to
-                350,000+ readers free of charge and is available for syndication. For more
-                information about how to syndicate Poem-a-Day, contact
-                <a
-                  class="text-reset"
-                  style="text-decoration: underline;"
-                  href="mailto:poem-a-day@poets.org">poem-a-day@poets.org</a>.
-              </p>
+              <div
+                class="poem-a-day__about-content"
+                v-html="replaceFileUrl(about)"/>
             </div>
           </b-col>
           <b-col
@@ -166,9 +159,9 @@
         size="lg"
         centered
         lazy
-        header-class="font-serif"
+        header-class="font-sans"
         header-border-variant="0"
-        body-class="font-serif-2"
+        body-class="font-serif"
         footer-bg-variant="black"
         id="poemADayModal"
       >
@@ -176,7 +169,7 @@
           <b-row>
             <b-col sm="12">
               <h5
-                class="font-serif h3"
+                class="font-serif font-italic h3 pb-2"
                 style="margin-bottom: 0"
                 v-html="replaceFileUrl(poem.title)"
               />
@@ -220,6 +213,10 @@ export default {
     };
   },
   props: {
+    about: {
+      type: String,
+      default: ""
+    },
     extended: {
       type: Boolean,
       default: false

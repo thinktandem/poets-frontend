@@ -5,44 +5,50 @@
         {{ poet.data.attributes.title }}
       </h3>
     </b-container>
-    <b-container class="poems-list tabular-list">
-      <b-row class="tabular-list__row tabular-list__header">
-        <b-col md="4">
-          Name
-        </b-col>
-        <b-col md="4">
-          Author
-        </b-col>
-        <b-col md="4">
-          Year
-        </b-col>
-      </b-row>
-      <b-row
-        v-for="poem in poems"
-        class="tabular-list__row poems-list__poems"
-        :key="poem.id">
-        <b-col md="4">
-          <a
-            v-if="poem.attributes.path"
-            :href="poem.attributes.path.alias"
-            v-html="replaceFileUrl(poem.attributes.title)"/>
-        </b-col>
-        <b-col md="4">
-          {{ poet.data.attributes.title }}
-        </b-col>
-        <b-col md="4">
-          {{ poem.attributes.field_date_published }}
-        </b-col>
-      </b-row>
+    <b-container class="table-container">
+      <b-table
+        id="poems"
+        :items="poems"
+        :fields="fields"
+        stacked="md"
+        paged=false>
+        <template
+          slot="title"
+          slot-scope="data"
+        >
+          <b-link
+            v-if="data.item.attributes.path"
+            :to="data.item.attributes.path.alias"
+            v-html="data.item.attributes.title"/>
+          <div
+            v-else
+            v-html="data.item.attributes.title"/>
+        </template>
+        <template
+          slot="field_author"
+          slot-scope="data">
+          <b-link :href="poet.data.attributes.path.alias">
+            {{ poet.data.attributes.title }}
+          </b-link>
+        </template>
+        <template
+          slot="field_date_published"
+          slot-scope="data">
+          <div
+            v-html="niceDate(data.item.attributes.field_date_published, 'year')"/>
+        </template>
+      </b-table>
     </b-container>
   </div>
 </template>
 
 <script>
+import _ from "lodash";
 import qs from "qs";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
+import niceDate from "~/plugins/niceDate";
 
 export default {
   components: {
@@ -57,12 +63,54 @@ export default {
       Next: null,
       Prev: null,
       preparedCombine: null,
-      author: null
+      author: null,
+      fields: [
+        {
+          key: "title",
+          label: "Title"
+        },
+        {
+          key: "field_author",
+          label: "Author"
+        },
+        {
+          key: "field_date_published",
+          label: "Year"
+        }
+      ]
     };
   },
-  async asyncData({ app, params, query, route }) {
+  async asyncData({ app, params, query, route, redirect }) {
+    let name = params.author;
+    let path = "/poet/" + name;
+    if (!isNaN(params.author)) {
+      const personParams = qs.stringify({
+        filter: {
+          nid: {
+            path: "nid",
+            operator: "=",
+            value: params.author
+          },
+          status: 1
+        },
+        page: {
+          limit: 1
+        }
+      });
+      name = await app.$axios
+        .$get(`api/node/person?${personParams}`)
+        .then(res => {
+          return (
+            "/poems/" +
+            _.get(res, "data[0].attributes.path.alias").split("/")[2]
+          );
+        })
+        .catch(err => console.log(err));
+      path = name;
+      return redirect(path);
+    }
     const poet = await app.$axios
-      .$get(`/router/translate-path?path=/poet/${params.author}`)
+      .$get(`/router/translate-path?path=${path}`)
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })
@@ -92,6 +140,9 @@ export default {
         name: "poems",
         query: myQuery
       });
+    },
+    niceDate(date, format) {
+      return niceDate.niceDate(date, format);
     }
   },
   watchQuery: true

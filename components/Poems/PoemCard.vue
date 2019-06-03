@@ -5,16 +5,16 @@
     itemscope
     itemtype="http://schema.org/Article"
   >
-    <h3 class="card-title">
+    <h3 class="card-title font-serif font-italic">
       <b-link
         v-html="replaceFileUrl(title)"
         class="text-dark"
-        :href="link"
+        :to="link"
         itemprop="title"
       />
     </h3>
     <div
-      class="card__body card__body--fade poem__body"
+      class="card__body card__body--fade poem__body font-serif"
       v-html="replaceFileUrl(text)"
     />
     <div class="card-footer">
@@ -23,6 +23,7 @@
         itemprop="author"
       >{{ poet.name }}</p>
       <p
+        v-if="year"
         class="card__year"
         itemprop="datePublished"
       >{{ year }}</p>

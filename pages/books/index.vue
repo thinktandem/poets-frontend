@@ -29,7 +29,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Type</option>
                 </template>
@@ -73,6 +72,19 @@
             :href="data.item.view_node"
             v-html="replaceFileUrl(data.item.title)"
           />
+        </template>
+        <template
+          slot="field_author"
+          slot-scope="data"
+        >
+          <a
+            v-html="data.item.field_author"
+          />
+        </template>
+        <template
+          slot="field_booktype"
+          slot-scope="data">
+          <div v-html="data.item.field_booktype"/>
         </template>
       </b-table>
       <div class="pager">
@@ -185,7 +197,6 @@ export default {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.searchBooks({ query }).then(response => {
-        console.log(response);
         this.books = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);

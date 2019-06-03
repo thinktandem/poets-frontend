@@ -29,9 +29,8 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
-                    Occassions</option>
+                    Occasions</option>
                 </template>
               </b-form-select>
               <b-form-select
@@ -44,7 +43,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Themes</option>
                 </template>
@@ -59,7 +57,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     Forms</option>
                 </template>
@@ -104,6 +101,14 @@
           <a
             :href="data.item.view_node"
             v-html="replaceFileUrl(data.item.title)"
+          />
+        </template>
+        <template
+          slot="field_author"
+          slot-scope="data"
+        >
+          <a
+            v-html="data.item.field_author"
           />
         </template>
       </b-table>
@@ -224,7 +229,6 @@ export default {
       this.busy = true;
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.searchAudio({ query }).then(response => {
-        console.log(response);
         this.audios = _.get(response, "data.rows", []);
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);

@@ -25,6 +25,7 @@
                   class="card-title"
                 >
                   <b-link
+                    v-if="poem && poem.attributes.path.alias && poem.attributes.path.title"
                     class="text-dark"
                     :to="poem.attributes.path.alias"
                   >{{ poem.attributes.title }}</b-link>
@@ -50,11 +51,13 @@
                 class="card-subtitle"
                 v-if="poet !== null"
               >
-                <b-link :to="poet.path.alias">{{ poet.title }}</b-link>
+                <b-link
+                  v-if="poet && poet.path.alias"
+                  :to="poet.path.alias">{{ poet.title }}</b-link>
                 <span
                   class="dates"
-                  v-if="poet.field_dob"
-                > - {{ niceDate(poet.field_dob) }}-{{ niceDate(poet.field_dod) }}</span>
+                  v-if="poet && poet.field_dob"
+                > - {{ niceDate(poet.field_dob, "year") }}-{{ niceDate(poet.field_dod, "year") }}</span>
               </span>
             </div>
             <poem-actions
@@ -62,9 +65,9 @@
               :poem="{ alias: poem.attributes.path.alias, title: poem.attributes.title, id: poem.id }"
             />
             <div
-              class="poem__body px-md-4 font-serif-2"
+              class="poem__body px-md-4 font-serif"
               :class="{'poem__body--small-text': smalltext}"
-              v-if="poem.attributes.body !== null"
+              v-if="poem && poem.attributes.body !== null"
               v-html="replaceFileUrl(poem.attributes.body.processed)"
             />
             <div
@@ -96,11 +99,13 @@
             </div>
             <div
               v-html="replaceFileUrl(poet.body.summary)"
-              v-if="poet.body"
+              v-if="poet && poet.body"
               class="poet--aside__bio text-dark-muted my-3"
             />
             <div class="mb-4">
-              <b-link :to="poet.path.alias">More {{ poet.title }} ></b-link>
+              <b-link
+                v-if="poet"
+                :to="poet.path.alias">More {{ poet.title }} ></b-link>
             </div>
           </div>
           <signup-block />
@@ -115,7 +120,7 @@
       </b-row>
     </b-container>
     <card-deck
-      v-if="morePoems.poems.length >= 1 && !embedded"
+      v-if="poet && morePoems !== [] && morePoems.poems.length >= 1 && !embedded"
       col-size="md"
       :title="`More by ${poet.title}`"
       cardtype="PoemCard"
@@ -151,6 +156,14 @@ export default {
     CardDeck,
     PoemActions,
     SpeakerIcon
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.embedded && _.get(to, "query.mbd") !== "1") {
+      const where = _.merge({}, to, { query: { mbd: "1" } });
+      next(where);
+    } else {
+      next();
+    }
   },
   layout({ route }) {
     return _.get(route.query, "mbd") === "1" ? "embed" : "default";
@@ -189,7 +202,7 @@ export default {
       )
       .then(async response => {
         const poet = _.find(
-          response.included,
+          _.get(response, "included"),
           include =>
             _.get(include, "id") ===
             _.get(
@@ -198,7 +211,7 @@ export default {
             )
         );
         const relatedPoems = _.filter(
-          response.included,
+          _.get(response, "included"),
           include => include.type === "node--poems"
         );
         // We need a var to store the Author.
@@ -213,10 +226,10 @@ export default {
             // NOT the current poem
             id: {
               operator: "NOT IN",
-              value: response.data.id
+              value: _.get(response, "data.id")
             },
             // Author is this poem's author
-            "field_author.id": poet.id
+            "field_author.id": _.get(poet, "id")
           }
         });
 
@@ -224,8 +237,8 @@ export default {
           `/api/node/poems?${morePoemParams}`
         );
         return {
-          poem: response.data,
-          poet: poet.attributes,
+          poem: _.get(response, "data"),
+          poet: _.get(poet, "attributes"),
           image: app.$buildImg(
             response,
             poet,
@@ -240,13 +253,14 @@ export default {
           ).src,
           morePoems: {
             poems: _.map(morePoems.data, poem => {
+              let crDate = _.get(poem, "attributes.field_copyright_date", null);
               return {
-                link: poem.attributes.path.alias,
-                title: poem.attributes.title,
-                text: poem.attributes.body.processed,
-                year: poem.attributes.field_copyright_date.split("-")[0],
+                link: _.get(poem, "attributes.path.alias"),
+                title: _.get(poem, "attributes.title"),
+                text: _.get(poem, "attributes.body.processed"),
+                year: crDate ? crDate.split("-")[0] : null,
                 poet: {
-                  name: poet.attributes.title
+                  name: _.get(poet, "attributes.title")
                 }
               };
             })
@@ -258,18 +272,20 @@ export default {
                 "relationships.field_author.data[0].id"
               );
               _.each(response.included, (inc, i) => {
-                if (inc.id === poemAuthorId) {
+                if (_.get(inc, "id") === poemAuthorId) {
                   relatedAuthor = inc.attributes.title;
                 }
               });
               return {
                 relatedAuthor,
-                link: poem.attributes.path.alias,
+                link: _.get(poem, "attributes.path.alias"),
                 title: poem.attributes.title,
-                text: poem.attributes.body.processed,
-                year: poem.attributes.field_copyright_date.split("-")[0],
+                text: _.get(poem, "attributes.body.processed"),
+                year: _.get(poem, "attributes.field_copyright_date").split(
+                  "-"
+                )[0],
                 poet: {
-                  name: relatedAuthor // poet.attributes.title
+                  name: relatedAuthor
                 }
               };
             })
@@ -281,9 +297,8 @@ export default {
     // Set the current hero
     store.commit("updateHero", {
       variant: "default",
-      heading: "Find Poems",
-      lead:
-        "Find the perfect poems, save them, and share them to your heart’s content.",
+      heading: "Poems",
+      lead: "Find and share the perfect poems.",
       links: [{ to: { name: "vertical-poem" }, text: "find poems" }]
     });
   },
@@ -310,8 +325,8 @@ export default {
           }
         : null;
     },
-    niceDate(date) {
-      return niceDate.niceDate(date);
+    niceDate(date, format) {
+      return niceDate.niceDate(date, format);
     }
   }
 };
@@ -337,8 +352,13 @@ export default {
 .card--main {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 4px 0 0 #32d17e;
 
+  .card-header {
+    padding-left: 3.25rem;
+  }
+
   .card-title {
     font-size: 2.5rem;
+    line-height: 3rem;
 
     &.card-title--long {
       font-size: 2rem;

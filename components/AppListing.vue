@@ -1,5 +1,9 @@
 <template>
-  <b-container>
+  <b-container v-show="showList">
+    <component
+      class="py-3"
+      :is="titleTag"
+      v-show="!empty(title)">{{ title }} </component>
     <b-row
       v-if="searchable.length >= 1 || filters.length >=1"
       class="filters-row"
@@ -23,7 +27,6 @@
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
                   >
                     {{ filter.name }}</option>
                 </template>
@@ -60,23 +63,26 @@
     <b-row>
       <b-col md="12">
         <b-table
+          v-show="!empty(results)"
           :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
-          :hover="!hasDetails"
           :items="results"
           :sort-by="sort"
           :fields="fullFields"
           :stacked="stacked"
-          :per-page="pageLimit"
+          :per-page="perPage"
           :current-page="currentPage"
-          @row-clicked="rowClicked"
         >
           <template
-            v-if="resourceType === 'teach_this_poem'"
+            slot="field_date_published"
+            slot-scope="data">{{ year(data.item.field_date_published) }}</template>
+          <template
+            v-if="resourceType === 'teach_this_poem' || resourceType === 'prize_or_program'"
             slot="body"
             slot-scope="data"
           >
             <div
               v-if="data.item.body.summary !== null"
+              class="list__body"
               v-html="replaceFileUrl(data.item.body.summary)"
             />
             <div
@@ -98,10 +104,14 @@
             slot-scope="data"
           >
             <b-link
-              v-if="hasDetails"
               :to="data.item.path.alias"
             >{{ data.item.title }}</b-link>
-            <span v-else>{{ data.item.title }}</span>
+          </template>
+          <template
+            slot="field_contributors"
+            slot-scope="data"
+          >
+            {{ data.item.field_contributors }}
           </template>
           <template
             slot="field_location"
@@ -179,6 +189,7 @@
           <b-pagination
             :disabled="busy"
             v-if="paged"
+            v-show="!empty(results)"
             @change="fetchNext"
             hide-goto-end-buttons
             :per-page="pageLimit"
@@ -219,6 +230,14 @@ export default {
     PoemActions
   },
   props: {
+    title: {
+      type: String,
+      default: ""
+    },
+    titleTag: {
+      type: String,
+      default: "h3"
+    },
     // Drupal content type we're fetching.
     resourceType: {
       type: String,
@@ -269,6 +288,10 @@ export default {
       type: Array,
       default: () => []
     },
+    showEmpty: {
+      type: Boolean,
+      default: false
+    },
     stacked: {
       type: String,
       default: "sm"
@@ -314,6 +337,9 @@ export default {
     }
   },
   computed: {
+    showList() {
+      return !this.empty(this.results) || this.showEmpty === true;
+    },
     searchableLabels() {
       return _.map(this.searchable, field => field.label).join(", ");
     },
@@ -363,7 +389,6 @@ export default {
           return _.first(field.split("."));
         })
         .join(",");
-
       return _.merge(
         {},
         // If we have any searchable fields and search text, query those fields
@@ -397,6 +422,9 @@ export default {
   methods: {
     shortDate(date) {
       return moment(date).format("M/D/YYYY");
+    },
+    year(date) {
+      return moment(date).format("YYYY");
     },
     teaserText(text, len) {
       const truncText = _.truncate(text, {
@@ -441,11 +469,6 @@ export default {
           this.resultTotal = parseInt(_.get(response, "meta.count", 0));
           this.busy = false;
         });
-    },
-    rowClicked(items) {
-      return !this.hasDetails
-        ? this.$router.push(_.get(items, "path.alias"))
-        : null;
     }
   }
 };
@@ -493,5 +516,8 @@ export default {
 }
 .poem__actions ul {
   justify-content: flex-end;
+}
+.list__body {
+  font-weight: 400;
 }
 </style>

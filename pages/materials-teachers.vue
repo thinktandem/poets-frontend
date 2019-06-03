@@ -74,6 +74,7 @@ export default {
             page: {
               limit: 4
             },
+            sort: "-created",
             include: "field_level,field_contributors"
           });
           const essayParams = qs.stringify({
@@ -86,6 +87,7 @@ export default {
             page: {
               limit: 3
             },
+            sort: "-created",
             include: "field_contributors"
           });
           const lessons = await app.$axios.$get(
@@ -103,8 +105,8 @@ export default {
             },
             cards: _.map(lessons.data, item => {
               return {
-                title: item.attributes.title,
-                link: item.attributes.path.alias,
+                title: _.get(item, "attributes.title"),
+                link: _.get(item, "attributes.path.alias"),
                 body:
                   _.get(item, "attributes.body.summary") ||
                   _.get(item, "attributes.body.processed"),
@@ -131,12 +133,16 @@ export default {
                   item.relationships.field_contributors.data[0].id
               );
               return {
-                title: item.attributes.title,
-                year: item.attributes.field_date_published.split("-")[0],
+                title: _.get(item, "attributes.title"),
+                year: _.get(item, "attributes.field_date_published").split(
+                  "-"
+                )[0],
                 poet: { name: "name" },
-                author: author ? author.attributes.title : "",
+                author: author ? _.get(author, "attributes.title") : "",
                 text:
-                  item.attributes.body.summary || item.attributes.body.processed
+                  _.get(item, "attributes.body.summary") ||
+                  _.get(item, "attributes.body.processed"),
+                link: _.get(item, "attributes.path.alias")
               };
             })
           });
