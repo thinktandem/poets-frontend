@@ -149,7 +149,7 @@ export default {
               ),
               "attributes.title"
             ),
-            view_node_1: _.get(book, "attributes.path.alias")
+            link: _.get(book, "attributes.path.alias")
           }));
           this.booksLink = {
             to: "/books",

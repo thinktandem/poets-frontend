@@ -3,7 +3,7 @@
     class="card--book"
     tag="article">
     <b-link
-      :href="view_node_1"
+      :href="link"
       slot="header"
     >
       <b-img-lazy
