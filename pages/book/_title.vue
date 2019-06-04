@@ -17,6 +17,49 @@
             class="book__image"
             :src="field_image.src"
             :alt="field_image.alt"/>
+          <div
+            v-if="author"
+            class="book__author">
+            Author:
+            <b-link :to="author.attributes.path.alias">
+              {{ author.attributes.title }}
+            </b-link>
+          </div>
+          <div
+            v-if="publisherLink"
+            class="book__publisher-link">
+            Publisher:
+            <b-link
+              :to="publisherLink.uri">
+              {{ publisherLink.title }}
+            </b-link>
+          </div>
+          <div
+            v-if="isbn"
+            class="book__isbn">
+            ISBN: {{ isbn }}
+          </div>
+          <div
+            v-if="worldCatLink"
+            class="book__worldcat-link">
+            <a :href="worldCatLink.uri">
+              Worldcat
+            </a>
+          </div>
+          <div
+            v-if="indieBoundLink"
+            class="book__indiebound-link">
+            <a :href="indieBoundLink.uri">
+              IndieBound
+            </a>
+          </div>
+          <div
+            v-if="amazonLink"
+            class="book__amazon-link">
+            <a :href="amazonLink.uri">
+              Amazon
+            </a>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -39,7 +82,11 @@ export default {
       })
       .then(res => {
         return app.$axios
-          .get(`/api/node/books/${res.data.entity.uuid}?include=field_image`)
+          .get(
+            `/api/node/books/${
+              res.data.entity.uuid
+            }?include=field_image,field_author`
+          )
           .then(res => {
             return {
               book: _.get(res, "data.data"),
@@ -49,7 +96,21 @@ export default {
                   _.get(res, "data.included.field_image"),
                   "field_image",
                   "book"
-                ) || null
+                ) || null,
+              author: _.find(_.get(res, "data.included"), author => {
+                return author.type === "node--person";
+              }),
+              publisherLink: _.get(res, "data.data.attributes.field_publisher"),
+              isbn: _.get(res, "data.data.attributes.field_isbn"),
+              worldCatLink: _.get(
+                res,
+                "data.data.attributes.field_link_worldcat"
+              ),
+              indieBoundLink: _.get(
+                res,
+                "data.data.attributes.field_link_indiebound"
+              ),
+              amazonLink: _.get(res, "data.data.attributes.field_link_amazon")
             };
           })
           .catch(error => {
