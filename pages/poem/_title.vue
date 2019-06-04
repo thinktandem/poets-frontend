@@ -25,7 +25,7 @@
                   class="card-title"
                 >
                   <b-link
-                    v-if="poem && poem.attributes.path.alias && poem.attributes.path.title"
+                    v-if="poem && poem.attributes.path.alias && poem.attributes.title"
                     class="text-dark"
                     :to="poem.attributes.path.alias"
                   >{{ poem.attributes.title }}</b-link>
@@ -279,7 +279,7 @@ export default {
               return {
                 relatedAuthor,
                 link: _.get(poem, "attributes.path.alias"),
-                title: poem.attributes.title,
+                title: _.get(poem, "attributes.title"),
                 text: _.get(poem, "attributes.body.processed"),
                 year: _.get(poem, "attributes.field_copyright_date").split(
                   "-"

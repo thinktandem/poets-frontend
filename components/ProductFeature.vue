@@ -86,7 +86,7 @@ export default {
       type: Object,
       default() {
         return {
-          to: "become-member",
+          to: "/membership",
           text: "Become a Member"
         };
       }

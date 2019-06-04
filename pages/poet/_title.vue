@@ -121,10 +121,6 @@
               class="poet__vid-video"
               v-html="sideBarVid[0].attributes.body.value"/>
           </div>
-          <PromoSpace
-            v-if="!embedded"
-            variant="transparent"
-            dimensions="square"/>
         </b-col>
       </b-row>
     </b-container>
@@ -151,13 +147,11 @@ import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
-import PromoSpace from "~/components/PromoSpace";
 
 export default {
   components: {
     AppListing,
-    CardDeck,
-    PromoSpace
+    CardDeck
   },
   computed: {
     defaultParams() {
