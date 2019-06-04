@@ -176,7 +176,7 @@ export default ({ app }, inject) => {
       contents: _.get(topProduct, "attributes.contents", null),
       img: app.$buildImg(magazine, topProduct, "field_image", "magazine_cover"),
       link: {
-        to: `/academy-american-poets/become-member`,
+        to: `/membership`,
         text: "Become a member"
       }
     };
