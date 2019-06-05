@@ -31,7 +31,7 @@
                 <b-list-group-item
                   class="d-flex flex-column bg-dark text-white border-top border-white py-3"
                   v-for="(poem, i) in $store.state.relatedContent"
-                  :key="i">
+                  :key="`${i}-anthology`">
                   <b-link
                     v-if="poem.attributes.title && poem.attributes.path.alias"
                     class="h4 text-white font-serif"
@@ -84,7 +84,7 @@
               <div
                 v-show="currentIndex === i"
                 v-for="(poem, i) in $store.state.relatedContent"
-                :key="i"
+                :key="`${i}-poem`"
                 class="anthology__poem">
                 <h3
                   class="font-serif py-2">

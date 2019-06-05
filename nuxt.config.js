@@ -6,19 +6,23 @@ module.exports = {
     "@nuxtjs/sentry",
     "@nuxtjs/sitemap",
     "@nuxtjs/toast",
-    [
-      "nuxt-sass-resources-loader",
-      [
-        "~/assets/scss/_bootstrap-variables.scss",
-        "~/assets/scss/_custom-variables.scss",
-        "bootstrap/scss/_functions.scss",
-        "bootstrap/scss/_variables.scss",
-        "bootstrap/scss/_mixins.scss",
-        "~/assets/scss/base/_mixins.scss"
-      ]
-    ],
-    ["bootstrap-vue/nuxt", { css: false }]
+    "@nuxtjs/style-resources",
+    "bootstrap-vue/nuxt"
   ],
+  "styleResources": {
+    scss: [
+      "@/assets/scss/_bootstrap-variables.scss",
+      "@/assets/scss/_custom-variables.scss",
+      "bootstrap/scss/_functions.scss",
+      "bootstrap/scss/_variables.scss",
+      "bootstrap/scss/_mixins.scss",
+      "@/assets/scss/base/_mixins.scss"
+    ]
+  },
+  bootstrapVue: {
+    bootstrapCss: "@/assets/scss/app.scss", // false,
+    bootstrapVueCSS: false
+  },
   axios: {
     debug: process.env.NODE_ENV !== "production"
   },
@@ -73,7 +77,6 @@ module.exports = {
     "~/plugins/mixins",
     "~/plugins/error-handler"
   ],
-  css: ["~assets/scss/app.scss"],
   /*
   ** Headers of the page
   */
@@ -103,28 +106,27 @@ module.exports = {
     ** Run ESLint on save
     */
     extend(config, { isDev, isClient }) {
-      const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
+      // const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
+      // svgRule.test = /\.(png|jpe?g|gif|webp)$/;
 
-      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
-
-      config.module.rules.push({
-        test: /\.svg$/,
-        loader: "vue-svg-loader",
-        options: {
-          svgo: {
-            plugins: [{ prefixIds: true }, { removeViewBox: false }]
-          }
-        }
-      });
+      // config.module.rules.push({
+      //   test: /\.svg$/,
+      //   loader: "vue-svg-loader",
+      //   options: {
+      //     svgo: {
+      //       plugins: [{ prefixIds: true }, { removeViewBox: false }]
+      //     }
+      //   }
+      // });
       config.node = { fs: "empty" };
-      if (isDev && isClient) {
-        config.module.rules.push({
-          enforce: "pre",
-          test: /\.(js|vue)$/,
-          loader: "eslint-loader",
-          exclude: /(node_modules)/
-        });
-      }
+      // if (isDev && isClient) {
+      //   config.module.rules.push({
+      //     enforce: "pre",
+      //     test: /\.(js|vue)$/,
+      //     loader: "eslint-loader",
+      //     exclude: /(node_modules)/
+      //   });
+      // }
     }
   },
   render: {

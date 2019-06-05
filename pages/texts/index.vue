@@ -5,8 +5,7 @@
       class="pt-5 pb-3"
       cardtype="TextCard"
       cols="4"
-      :cards="featuredTexts"
-    />
+      :cards="featuredTexts"/>
     <b-container>
       <b-row>
         <b-col md="12">
@@ -20,35 +19,30 @@
                 inline
                 @input="searchTexts(0)"
                 v-model="filters.type"
-                :options="options.types"
-              >
+                :options="options.types">
                 <template slot="first">
                   <option
                     :value="null"
-                    disabled
-                  >
-                    Type</option>
+                    disabled>
+                    Type
+                  </option>
                 </template>
               </b-form-select>
 
               <div class="table-filters__search">
                 <b-input-group-append class="icon--search">
-
                   <b-form-input
                     v-model="filters.combine"
                     type="text"
                     size="22"
-                    placeholder="Search title or text ..."
-                  />
+                    placeholder="Search title or text ..."/>
                   <b-btn
                     type="submit"
-                    variant="transparent"
-                  >
+                    variant="transparent" >
                     <magnifying-glass-icon class="icon" />
                   </b-btn>
                 </b-input-group-append>
               </div>
-
             </b-form-group>
           </app-form>
         </b-col>
@@ -60,16 +54,13 @@
         :items="texts"
         :fields="fields"
         stacked="md"
-        :per-page="perPage"
-      >
+        :per-page="perPage">
         <template
           slot="title"
-          slot-scope="data"
-        >
+          slot-scope="data">
           <a
             :href="data.item.view_node"
-            v-html="replaceFileUrl(data.item.title)"
-          />
+            v-html="replaceFileUrl(data.item.title)"/>
         </template>
       </b-table>
       <div class="pager">
@@ -83,8 +74,7 @@
           size="lg"
           :total-rows="rows"
           v-model="page"
-          align="fill"
-        >
+          align="fill">
           <span slot="prev-text">
             <iconMediaSkipBackwards /> Prev
           </span>
