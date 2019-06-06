@@ -48,6 +48,7 @@ import qs from "qs";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import MagnifyingGlassIcon from "~/node_modules/open-iconic/svg/magnifying-glass.svg";
+import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 
 export default {
@@ -55,6 +56,12 @@ export default {
     iconMediaSkipBackwards,
     iconMediaSkipForwards,
     MagnifyingGlassIcon
+  },
+  head() {
+    return MetaTags.renderTags(
+      this.$route,
+      this.poet.data.attributes.metatag_normalized
+    );
   },
   data() {
     return {
