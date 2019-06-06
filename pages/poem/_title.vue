@@ -174,18 +174,22 @@ export default {
     };
   },
   head() {
-    return MetaTags.renderTags(this.poem.attributes.metatag_normalized, [
-      {
-        hid: "og:image",
-        name: "og:image",
-        content: this.socialImage
-      },
-      {
-        hid: "twitter:image",
-        name: "twitter:image",
-        content: this.socialImage
-      }
-    ]);
+    return MetaTags.renderTags(
+      this.$route,
+      this.poem.attributes.metatag_normalized,
+      [
+        {
+          hid: "og:image",
+          name: "og:image",
+          content: this.socialImage
+        },
+        {
+          hid: "twitter:image",
+          name: "twitter:image",
+          content: this.socialImage
+        }
+      ]
+    );
   },
   async asyncData({ app, params, env }) {
     return app.$axios

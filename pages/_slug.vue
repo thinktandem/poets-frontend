@@ -18,7 +18,7 @@ export default {
     BasicPage
   },
   head() {
-    return MetaTags.renderTags(this.$store.state.metatags);
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
   async fetch({ app, store, route }) {
     return app.$buildBasicPage(app, store, route.path, true);

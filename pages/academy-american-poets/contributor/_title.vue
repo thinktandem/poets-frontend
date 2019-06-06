@@ -66,7 +66,10 @@ import MetaTags from "~/plugins/metatags";
 export default {
   components: { AppListing },
   head() {
-    return MetaTags.renderTags(this.person.attributes.metatag_normalized);
+    return MetaTags.renderTags(
+      this.$route,
+      this.person.attributes.metatag_normalized
+    );
   },
   computed: {
     body() {

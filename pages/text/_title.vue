@@ -57,6 +57,7 @@ export default {
   },
   head() {
     return MetaTags.renderTags(
+      this.$route,
       this.$store.state.pageData.data.attributes.metatag_normalized
     );
   },

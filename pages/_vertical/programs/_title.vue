@@ -29,7 +29,7 @@ import MetaTags from "~/plugins/metatags";
 
 export default {
   head() {
-    return MetaTags.renderTags(this.tags);
+    return MetaTags.renderTags(this.$route, this.tags);
   },
   async asyncData({ app, route }) {
     const routerResponse = await app.$axios

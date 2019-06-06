@@ -72,7 +72,10 @@ import MetaTags from "~/plugins/metatags";
 
 export default {
   head() {
-    return MetaTags.renderTags(this.book.attributes.metatag_normalized);
+    return MetaTags.renderTags(
+      this.$route,
+      this.book.attributes.metatag_normalized
+    );
   },
   async asyncData({ app, params }) {
     return app.$axios

@@ -31,7 +31,7 @@ export default {
     };
   },
   head() {
-    return MetaTags.renderTags(this.$store.state.metatags);
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
   mounted() {
     this.$api.getLatestMagazine().then(magazine => {

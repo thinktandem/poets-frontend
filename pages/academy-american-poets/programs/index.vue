@@ -15,7 +15,7 @@ import MetaTags from "~/plugins/metatags";
 export default {
   components: { ListPage },
   head() {
-    return MetaTags.renderTags(this.$store.state.metatags);
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
   data() {
     return {
