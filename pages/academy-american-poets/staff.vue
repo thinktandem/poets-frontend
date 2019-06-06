@@ -20,7 +20,7 @@ export default {
     CardDeck
   },
   head() {
-    return MetaTags.renderTags(this.$store.state.metatags);
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
   async asyncData({ app, store, params }) {
     const staffParams = qs.stringify({

@@ -4,12 +4,13 @@ export default {
   /**
    * Generates the metatags.
    *
+   * @param {Object} route The object that contains the route.
    * @param {Object} data The object that contains the tags.
    * @param {array} overrides Any Metatag overrides.
    *
    * @return {Object} The tags results.
    */
-  renderTags(data, overrides = []) {
+  renderTags(route, data, overrides = []) {
     return {
       title: _.get(
         _.find(data, metatag => _.get(metatag, "attributes.name") === "title"),
@@ -26,6 +27,11 @@ export default {
           content: metatag.attributes.content
         }))
         .merge(overrides)
+        .push({
+          hid: "canonical",
+          rel: "canonical",
+          href: `https://poets.org${route.fullPath}`
+        })
         .value(),
       __dangerouslyDisableSanitizers: ["script"],
       script: [

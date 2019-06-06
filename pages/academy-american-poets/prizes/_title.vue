@@ -83,7 +83,7 @@ import MetaTags from "~/plugins/metatags";
 
 export default {
   head() {
-    return MetaTags.renderTags(this.prize.tags);
+    return MetaTags.renderTags(this.$route, this.prize.tags);
   },
   data() {
     return {

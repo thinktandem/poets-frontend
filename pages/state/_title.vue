@@ -92,7 +92,10 @@ export default {
     StatesJumpListBlock
   },
   head() {
-    return MetaTags.renderTags(this.state.attributes.metatag_normalized);
+    return MetaTags.renderTags(
+      this.$route,
+      this.state.attributes.metatag_normalized
+    );
   },
   data() {
     return {
