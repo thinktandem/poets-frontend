@@ -22,6 +22,7 @@ export default function({ redirect, route, query }) {
   const listingPattern = RegExp("/listing/");
   const stanzaPattern = RegExp("/stanza/");
   const homePattern = RegExp("/home$");
+  const textPattern = RegExp("/text/");
   const oldPhpPaths = [
     "store.php",
     "page.php",
@@ -53,6 +54,10 @@ export default function({ redirect, route, query }) {
     return redirect(route.path.replace("/stanza/", "/") + paramString);
   } else if (homePattern.test(route.path)) {
     return redirect(route.path.replace("/home", "/") + paramString);
+  } else if (textPattern.test(route.path)) {
+    return redirect(
+      route.path.replace("/national-poetry-month/text/", "/text/") + paramString
+    );
   } else if (
     filter(oldPhpPaths, path => route.path.includes(path)).length >= 1
   ) {
