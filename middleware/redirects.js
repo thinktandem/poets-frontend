@@ -52,7 +52,7 @@ export default function({ redirect, route, query }) {
     );
   } else if (stanzaPattern.test(route.path)) {
     return redirect(route.path.replace("/stanza/", "/") + paramString);
-  } else if (homePattern.test(route.path)) {
+  } else if (homePattern.test(route.path) && route.path !== "/poem/home") {
     return redirect(route.path.replace("/home", "/") + paramString);
   } else if (textPattern.test(route.path)) {
     return redirect(
