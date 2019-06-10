@@ -19,8 +19,10 @@ export default function({ redirect, route, query }) {
   const oldRedirects = legacyRedirects.find(r => r.from === route.path);
   const poetsorgPattern = RegExp("/poetsorg/");
   const lessonPattern = RegExp("/lesson/");
+  const listingPattern = RegExp("/listing/");
   const stanzaPattern = RegExp("/stanza/");
   const homePattern = RegExp("/home$");
+  const textPattern = RegExp("/text/");
   const oldPhpPaths = [
     "store.php",
     "page.php",
@@ -44,10 +46,18 @@ export default function({ redirect, route, query }) {
     return redirect(
       route.path.replace("/lesson/", "/lesson-plan/") + paramString
     );
+  } else if (listingPattern.test(route.path)) {
+    return redirect(
+      route.path.replace("/academy-american-poets/listing/", "/listing/")
+    );
   } else if (stanzaPattern.test(route.path)) {
     return redirect(route.path.replace("/stanza/", "/") + paramString);
-  } else if (homePattern.test(route.path)) {
+  } else if (homePattern.test(route.path) && route.path !== "/poem/home") {
     return redirect(route.path.replace("/home", "/") + paramString);
+  } else if (textPattern.test(route.path)) {
+    return redirect(
+      route.path.replace("/national-poetry-month/text/", "/text/") + paramString
+    );
   } else if (
     filter(oldPhpPaths, path => route.path.includes(path)).length >= 1
   ) {

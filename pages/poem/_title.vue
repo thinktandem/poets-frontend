@@ -280,14 +280,14 @@ export default {
                   relatedAuthor = inc.attributes.title;
                 }
               });
+              const year = _.get(poem, "attributes.field_copyright_date");
+
               return {
                 relatedAuthor,
                 link: _.get(poem, "attributes.path.alias"),
                 title: _.get(poem, "attributes.title"),
                 text: _.get(poem, "attributes.body.processed"),
-                year: _.get(poem, "attributes.field_copyright_date").split(
-                  "-"
-                )[0],
+                year: year ? year.split("-")[0] : null,
                 poet: {
                   name: relatedAuthor
                 }
