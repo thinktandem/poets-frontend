@@ -26,14 +26,6 @@
     background-color: transparent;
   }
 
-  @include media-breakpoint-down(md) {
-
-    &.dark,
-    &.transparent {
-      display: none;
-    }
-  }
-
   .gpt-ad-unit {
     display: flex;
     justify-content: center;
