@@ -1,8 +1,7 @@
 <template>
   <section
     class="promo"
-    :class="variant"
-  >
+    :class="variant">
     <b-container>
       <div
         :id="divId"
@@ -25,9 +24,10 @@ export default {
       windowResizeListenerDebounce: null,
       ghostMode: false,
       adUnit: this.whichPromoSpace(),
-      size: this.mySize() || [[728, 90], [300, 250], [180, 150]],
+      size: this.mySize() || [[970, 250], [728, 90], [300, 250], [180, 150]],
       sizeMapping: this.mySize() || [
-        [[1024, 0], [728, 90]],
+        [[1024, 0], [970, 250]],
+        [[768, 1024], [728, 90]],
         [[375, 0], [300, 250]],
         [[0, 0], [180, 150]]
       ],
@@ -176,7 +176,7 @@ export default {
       return index;
     },
     whichPromoSpace() {
-      let adunit = "";
+      let adunit = "AAP-Desktop-AmericanPoets-Leaderboard-AD";
       if (this.variant == "dark") {
         adunit = "dfp-ad-aap_desktop_leaderboard_ad_large";
       } else if (this.variant === "fpoet") {
