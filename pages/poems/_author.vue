@@ -106,7 +106,11 @@ export default {
       });
       name = await app.$axios
         .$get(`api/node/person?${personParams}`)
+        .catch(err => app.handleError(err))
         .then(res => {
+          if (_.isEmpty(res.data)) {
+            return app.handleError({ response: { status: 404 } });
+          }
           return (
             "/poems/" +
             _.get(res, "data[0].attributes.path.alias").split("/")[2]
@@ -118,6 +122,7 @@ export default {
     }
     const poet = await app.$axios
       .$get(`/router/translate-path?path=${path}`)
+      .catch(err => app.handleError(err))
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })
