@@ -25,7 +25,8 @@ export default function({ redirect, route, query }) {
     "viewmedia.php",
     "viewall.php",
     "viewevent.php",
-    "sponsor-book-profile.php"
+    "sponsor-book-profile.php",
+    "search.php"
   ];
 
   // Catch the case that the passed in URL needs transliteration.
