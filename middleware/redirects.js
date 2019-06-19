@@ -17,7 +17,7 @@ export default function({ redirect, route, query }) {
   const listingPattern = RegExp("/listing/");
   const stanzaPattern = RegExp("/stanza/");
   const homePattern = RegExp("/home$");
-  const textPattern = RegExp("/text/");
+  const textPattern = RegExp("/national-poetry-month/text/");
   const oldPhpPaths = [
     "store.php",
     "page.php",
