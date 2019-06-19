@@ -54,5 +54,14 @@
   {
     "from": "/poetsorg/poem/lines-composed-few-miles-above-tintern-abbey-revisiting-banks-wye-during-tour-july-13",
     "to": "/poem/lines-composed-few-miles-above-tintern-abbey-revisiting-banks-wye-during-tour-july-13-1798"
+  },
+  {
+    "from": "/poetsorg/text/poetic-form-terza-rima",
+    "to": "/text/terza-rima-poetic-term"
+  },
+  {
+    "from": "/poetsorg/poem/my-father-moved-through-dooms-love-0",
+    "to": "/poem/my-father-moved-through-dooms-love"
   }
 ]
+
