@@ -32,7 +32,27 @@
    "to": "/poem/again-and-again-even-though-we-know-loves-landscape"
   },
   {
+    "from": "/poetsorg/poem/again-and-again-even-though-we-know-love’s-landscape",
+    "to": "/poem/again-and-again-even-though-we-know-loves-landscape"
+  },
+  {
+    "from": "/poetsorg/poem/again-and-again-even-though-we-know-love%E2%80%99s-landscape",
+    "to": "/poem/again-and-again-even-though-we-know-loves-landscape"
+  },
+  {
     "from": "/contributor/rebecca-ruth-gould",
     "to": "/academy-american-poets/contributor/rebecca-ruth-gould"
+  },
+  {
+    "from": "/poetsorg/text/poetsorg-guide-langston-hughes",
+    "to": "/text/reading-guide-langston-hughes"
+  },
+  {
+    "from": "/poetsorg/poem/atlantis%E2%80%94-lost-sonnet",
+    "to": "/poem/atlantis-lost-sonnet"
+  },
+  {
+    "from": "/poetsorg/poem/lines-composed-few-miles-above-tintern-abbey-revisiting-banks-wye-during-tour-july-13",
+    "to": "/poem/lines-composed-few-miles-above-tintern-abbey-revisiting-banks-wye-during-tour-july-13-1798"
   }
 ]
