@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import inlineImagesUrl from "~/plugins/inlineImagesUrl";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
@@ -147,8 +148,9 @@ export default {
         this.results = _.get(response, "data.data", []);
         this.count = _.size(this.results);
         this.rows = _.get(response, "data.total_rows", 0);
-        this.busy = false;
       });
+      this.$ga.page(`/search?combine=${query.combine}&page=${query.page}`);
+      this.busy = false;
     },
     paginate() {
       this.busy = true;
