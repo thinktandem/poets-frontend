@@ -180,6 +180,14 @@ export default {
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.busy = false;
       });
+      let pageString = `/texts?page=${query.page}`;
+      if (!_.isEmpty(query.combine)) {
+        pageString += `&combine=${query.combine}`;
+      }
+      if (query.type) {
+        pageString += `&type=${query.type}`;
+      }
+      this.$ga.page(pageString);
     },
     paginate() {
       this.busy = true;
