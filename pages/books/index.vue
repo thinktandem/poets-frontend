@@ -202,6 +202,16 @@ export default {
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.busy = false;
       });
+      if (query.combine || query.type || query.page !== 0) {
+        let pageString = `/books?page=${query.page}`;
+        if (!_.isEmpty(query.combine)) {
+          pageString += `&combine=${query.combine}`;
+        }
+        if (query.type) {
+          pageString += `&type=${query.type}`;
+        }
+        this.$ga.page(pageString);
+      }
     },
     paginate() {
       this.busy = true;
@@ -209,6 +219,9 @@ export default {
       // https://en.wikipedia.org/wiki/Off-by-one_error
       const queryPage = this.page - 1;
       this.searchBooks(queryPage);
+      if (queryPage === 0) {
+        this.$ga.page(`/books?page=0`);
+      }
     }
   },
   watch: {
