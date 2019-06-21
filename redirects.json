@@ -62,6 +62,10 @@
   {
     "from": "/poetsorg/poem/my-father-moved-through-dooms-love-0",
     "to": "/poem/my-father-moved-through-dooms-love"
+  },
+  {
+    "from": "/lhugh",
+    "to": "/poet/langston-hughes"
   }
 ]
 
