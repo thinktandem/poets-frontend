@@ -149,7 +149,9 @@ export default {
         this.count = _.size(this.results);
         this.rows = _.get(response, "data.total_rows", 0);
       });
-      this.$ga.page(`/search?combine=${query.combine}&page=${query.page}`);
+      if (query.combine || query.page !== 0) {
+        this.$ga.page(`/search?combine=${query.combine}&page=${query.page}`);
+      }
       this.busy = false;
     },
     paginate() {
@@ -158,6 +160,9 @@ export default {
       // https://en.wikipedia.org/wiki/Off-by-one_error
       const queryPage = this.page - 1;
       this.search(queryPage);
+      if (queryPage === 0) {
+        this.$ga.page(`/search?page=0`);
+      }
     },
     teaserText(text) {
       return inlineImagesUrl.teaserText(text);
