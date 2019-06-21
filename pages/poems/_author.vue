@@ -60,7 +60,8 @@ export default {
   head() {
     return MetaTags.renderTags(
       this.$route,
-      this.poet.data.attributes.metatag_normalized
+      this.poet.data.attributes.metatag_normalized,
+      [{ description: `A list of poems by ${this.poet.data.attributes.title}` }]
     );
   },
   data() {
