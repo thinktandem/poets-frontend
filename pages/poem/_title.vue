@@ -20,7 +20,7 @@
             />
             <div slot="header">
               <div class="d-flex poem__title mb-1">
-                <h1
+                <h2
                   v-if="embedded"
                   class="card-title"
                 >
@@ -29,11 +29,11 @@
                     class="text-dark"
                     :to="poem.attributes.path.alias"
                   >{{ poem.attributes.title }}</b-link>
-                </h1>
-                <h1
+                </h2>
+                <h2
                   v-else
                   :class="['card-title', {'card-title--long': longTitle}]"
-                >{{ poem.attributes.title }}</h1>
+                >{{ poem.attributes.title }}</h2>
                 <b-link
                   @click="showSoundCloud = true"
                   v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"

@@ -3,9 +3,9 @@
     <b-container class="py-5">
       <b-row>
         <b-col md="8">
-          <h1 class="poet__name">
+          <h2 class="poet__name">
             {{ title }}
-          </h1>
+          </h2>
           <div
             class="poet__dob-dod"
             v-if="dob">
