@@ -149,7 +149,9 @@ export default {
         this.count = _.size(this.results);
         this.rows = _.get(response, "data.total_rows", 0);
       });
-      this.$ga.page(`/search?combine=${query.combine}&page=${query.page}`);
+      if (query.combine || query.page !== 0) {
+        this.$ga.page(`/search?combine=${query.combine}&page=${query.page}`);
+      }
       this.busy = false;
     },
     paginate() {
