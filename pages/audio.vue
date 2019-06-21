@@ -265,6 +265,9 @@ export default {
       // https://en.wikipedia.org/wiki/Off-by-one_error
       const queryPage = this.page - 1;
       this.searchAudio(queryPage);
+      if (queryPage === 0) {
+        this.$ga.page(`/audio?page=0`);
+      }
     }
   },
   watch: {
