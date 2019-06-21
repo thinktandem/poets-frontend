@@ -197,6 +197,9 @@ export default {
       // https://en.wikipedia.org/wiki/Off-by-one_error
       const queryPage = this.page - 1;
       this.searchTexts(queryPage);
+      if (queryPage === 0) {
+        this.$ga.page(`/texts?page=0`);
+      }
     }
   },
   watch: {

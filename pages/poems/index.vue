@@ -397,6 +397,9 @@ export default {
       // https://en.wikipedia.org/wiki/Off-by-one_error
       const queryPage = this.page - 1;
       this.searchPoems(queryPage);
+      if (queryPage === 0) {
+        this.$ga.page(`/poems?page=0`);
+      }
     }
   },
   watch: {
