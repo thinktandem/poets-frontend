@@ -319,22 +319,30 @@ export default {
       });
       // Grab the movement and featured poets
       Promise.all([this.getTermDescription(), this.getFeaturedPoems()]);
-      let pageString = `/poems?page=${query.page}`;
-      if (!_.isEmpty(query.combine)) {
-        pageString += `&combine=${query.combine}`;
+      if (
+        query.combine ||
+        query.field_occasion_target_id ||
+        query.field_poems_themes_target_id ||
+        query.field_poem_themes_target_id ||
+        query.page !== 0
+      ) {
+        let pageString = `/poems?page=${query.page}`;
+        if (!_.isEmpty(query.combine)) {
+          pageString += `&combine=${query.combine}`;
+        }
+        if (query.field_occasion_target_id) {
+          pageString += `&field_occasion_tid=${query.field_occasion_target_id}`;
+        }
+        if (query.field_poem_themes_target_id) {
+          pageString += `&field_poem_themes_tid=${
+            query.field_poem_themes_target_id
+          }`;
+        }
+        if (query.field_form_target_id) {
+          pageString += `&field_form_tid=${query.field_form_target_id}`;
+        }
+        this.$ga.page(pageString);
       }
-      if (query.field_occasion_target_id) {
-        pageString += `&field_occasion_tid=${query.field_occasion_target_id}`;
-      }
-      if (query.field_poem_themes_target_id) {
-        pageString += `&field_poem_themes_tid=${
-          query.field_poem_themes_target_id
-        }`;
-      }
-      if (query.field_form_target_id) {
-        pageString += `&field_form_tid=${query.field_form_target_id}`;
-      }
-      this.$ga.page(pageString);
     },
     getFeaturedPoems() {
       const query = buildFeaturesPoemsQuery(this.filters);

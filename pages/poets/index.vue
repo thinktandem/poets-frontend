@@ -257,17 +257,19 @@ export default {
       });
       // Grab the movement and featured poets
       Promise.all([this.getMovement(), this.getFeaturedPoets()]);
-      let pageString = `/poets?page=${query.page}`;
-      if (!_.isEmpty(query.combine)) {
-        pageString += `&combine=${query.combine}`;
+      if (query.combine || query.state || query.school || query.page !== 0) {
+        let pageString = `/poets?page=${query.page}`;
+        if (!_.isEmpty(query.combine)) {
+          pageString += `&combine=${query.combine}`;
+        }
+        if (query.state) {
+          pageString += `&state=${query.state}`;
+        }
+        if (query.school) {
+          pageString += `&school=${query.school}`;
+        }
+        this.$ga.page(pageString);
       }
-      if (query.state) {
-        pageString += `&state=${query.state}`;
-      }
-      if (query.school) {
-        pageString += `&school=${query.school}`;
-      }
-      this.$ga.page(pageString);
     },
     getMovement() {
       if (!_.isNil(this.filters.school)) {
