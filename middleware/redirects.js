@@ -16,7 +16,7 @@ export default function({ redirect, route, query }) {
   const textPattern = RegExp("/national-poetry-month/text/");
 
   // Catch the case that the passed in URL needs transliteration.
-  if (trUrl(route.path) !== route.path && !thisRedirect) {
+  if (trUrl(route.path) !== route.path) {
     redirect(trUrl(route.path));
   }
 
