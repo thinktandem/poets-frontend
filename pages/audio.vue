@@ -234,6 +234,22 @@ export default {
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.busy = false;
       });
+      let pageString = `/audio?page=${query.page}`;
+      if (!_.isEmpty(query.combine)) {
+        pageString += `&combine=${query.combine}`;
+      }
+      if (query.field_occasion_target_id) {
+        pageString += `&field_occasion_tid=${query.field_occasion_target_id}`;
+      }
+      if (query.field_poem_themes_target_id) {
+        pageString += `&field_poem_themes_tid=${
+          query.field_poem_themes_target_id
+        }`;
+      }
+      if (query.field_form_target_id) {
+        pageString += `&field_form_tid=${query.field_form_target_id}`;
+      }
+      this.$ga.page(pageString);
     },
     paginate() {
       this.busy = true;
