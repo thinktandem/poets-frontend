@@ -189,71 +189,69 @@ export default {
     }
   },
   mounted() {
-    if (!googletag) {
-      return;
-    }
-    const {
-      // ghostMode,
-      adUnitPath,
-      divId,
-      sizeMapping,
-      isResponsive,
-      collapseEmptyDiv
-    } = this;
-    // https://support.google.com/admanager/answer/183282
-    googletag.pubads().enableSingleRequest();
+    if (window.googletag && googletag.apiReady) {
+      const {
+        // ghostMode,
+        adUnitPath,
+        divId,
+        sizeMapping,
+        isResponsive,
+        collapseEmptyDiv
+      } = this;
+      // https://support.google.com/admanager/answer/183282
+      googletag.pubads().enableSingleRequest();
 
-    // Init Ad slot
-    googletag.cmd.push(() => {
-      const adSlot = googletag
-        .defineSlot(adUnitPath, this.formattedSize, divId)
-        .addService(googletag.pubads());
+      // Init Ad slot
+      googletag.cmd.push(() => {
+        const adSlot = googletag
+          .defineSlot(adUnitPath, this.formattedSize, divId)
+          .addService(googletag.pubads());
 
-      // Collapse empty div slot-level override
-      if (collapseEmptyDiv !== null) {
-        adSlot.setCollapseEmptyDiv(collapseEmptyDiv);
-      }
-
-      // Build size mapping if any
-      if (sizeMapping.length > 0) {
-        const mapping = googletag.sizeMapping();
-        sizeMapping.forEach(size => {
-          const browserSize = this.formatSize(size[0]);
-          const adSizes = this.formatSizeList(size[1]);
-          mapping.addSize(browserSize, adSizes);
-          this.mapping.push([browserSize, adSizes]);
-        });
-        adSlot.defineSizeMapping(mapping.build());
-      }
-
-      // Init responsive behavior
-      if (this.sizeMapping.length > 0 && isResponsive) {
-        const currentSizeMappingIndex = this.getCurrentSizeMappingIndex();
-        this.currentSizeMappingIndex = currentSizeMappingIndex;
-        window.addEventListener("resize", this.handleWindowResize);
-      }
-
-      this.adSlot = adSlot;
-      this.slots.push(adSlot);
-
-      if (!this.ghostMode) {
-        googletag.display(divId);
-        if (this.individualRefresh) {
-          this.refreshSlot();
+        // Collapse empty div slot-level override
+        if (collapseEmptyDiv !== null) {
+          adSlot.setCollapseEmptyDiv(collapseEmptyDiv);
         }
-      }
-    });
+
+        // Build size mapping if any
+        if (sizeMapping.length > 0) {
+          const mapping = googletag.sizeMapping();
+          sizeMapping.forEach(size => {
+            const browserSize = this.formatSize(size[0]);
+            const adSizes = this.formatSizeList(size[1]);
+            mapping.addSize(browserSize, adSizes);
+            this.mapping.push([browserSize, adSizes]);
+          });
+          adSlot.defineSizeMapping(mapping.build());
+        }
+
+        // Init responsive behavior
+        if (this.sizeMapping.length > 0 && isResponsive) {
+          const currentSizeMappingIndex = this.getCurrentSizeMappingIndex();
+          this.currentSizeMappingIndex = currentSizeMappingIndex;
+          window.addEventListener("resize", this.handleWindowResize);
+        }
+
+        this.adSlot = adSlot;
+        this.slots.push(adSlot);
+
+        if (!this.ghostMode) {
+          googletag.display(divId);
+          if (this.individualRefresh) {
+            this.refreshSlot();
+          }
+        }
+      });
+    }
   },
   beforeDestroy() {
-    if (!googletag) {
-      return;
+    if (window.googletag && googletag.apiReady) {
+      // Destroy ad slot
+      googletag.cmd.push(() => {
+        // const destroyed = googletag.destroySlots([this.adSlot]);
+      });
+      // Remove window resize listener
+      window.removeEventListener("resize", this.handleWindowResize);
     }
-    // Destroy ad slot
-    googletag.cmd.push(() => {
-      // const destroyed = googletag.destroySlots([this.adSlot]);
-    });
-    // Remove window resize listener
-    window.removeEventListener("resize", this.handleWindowResize);
   },
   render(h) {
     const { divId, style } = this;
@@ -268,5 +266,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-</style>
