@@ -47,7 +47,8 @@ export default {
       script: [
         {
           src: "https://www.googletagservices.com/tag/js/gpt.js",
-          defer: true
+          defer: true,
+          async: "async"
         },
         GptAds.gatherMeData().gptInitScript
       ],
