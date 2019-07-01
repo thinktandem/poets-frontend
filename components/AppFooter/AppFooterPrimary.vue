@@ -59,7 +59,12 @@
             v-for="link in linksAmericanPoets"
             :key="link.url"
             class="footer__primary__links p-1">
-            <b-link :to="link.url">{{ link.text }}</b-link>
+            <a
+              v-if="link.external"
+              :href="link.url">{{ link.text }}</a>
+            <b-link
+              v-else
+              :to="link.url">{{ link.text }}</b-link>
           </div>
         </div>
       </div>
@@ -180,8 +185,8 @@ export default {
         },
         {
           text: "Back Issues",
-          url:
-            "https://poets.myshopify.com/collections/american-poets-backissues"
+          external: true,
+          url: "https://poets.myshopify.com/collections/american-poets"
         },
         {
           text: "Advertise",

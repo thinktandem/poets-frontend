@@ -17,7 +17,7 @@ export default {
             )}`
           )
           .then(res => {
-            return redirect(get(res, "data.attributes.path.alias"));
+            return redirect([301], get(res, "data.attributes.path.alias"));
           })
           .catch(err => app.handleError(err))
       );
