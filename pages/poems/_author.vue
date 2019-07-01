@@ -118,7 +118,7 @@ export default {
         })
         .catch(err => console.log(err));
       path = name;
-      return redirect(path);
+      return redirect([301], path);
     }
     const poet = await app.$axios
       .$get(`/router/translate-path?path=${path}`)
