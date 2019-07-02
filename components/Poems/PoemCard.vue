@@ -3,14 +3,17 @@
     class="card--poem"
     tag="article"
     itemscope
-    itemtype="http://schema.org/Article"
+    itemtype="http://schema.org/CreativeWork"
   >
+    <link 
+      itemprop="additionalType" 
+      href="http://schema.org/ArchiveComponent">
     <h3 class="card-title font-serif font-italic">
       <b-link
         v-html="replaceFileUrl(title)"
         class="text-dark"
         :to="link"
-        itemprop="title"
+        itemprop="name"
       />
     </h3>
     <div
