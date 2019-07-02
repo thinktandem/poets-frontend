@@ -58,17 +58,20 @@ export default {
     MagnifyingGlassIcon
   },
   head() {
-    // Override the title.
+    const poetName = this.poet.data.attributes.title;
     this.poet.data.attributes.metatag_normalized.forEach(function(item, index) {
       if (item.attributes.name === "title") {
         this.metatag_normalized[index].attributes.content =
           'Poems by "' + this.title + '"';
+      } else if (item.attributes.name === "description") {
+        this.metatag_normalized[
+          index
+        ].attributes.content = `A list of poems by ${poetName}`;
       }
     }, this.poet.data.attributes);
     return MetaTags.renderTags(
       this.$route,
-      this.poet.data.attributes.metatag_normalized,
-      [{ description: `A list of poems by ${this.poet.data.attributes.title}` }]
+      this.poet.data.attributes.metatag_normalized
     );
   },
   data() {
