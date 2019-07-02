@@ -58,6 +58,13 @@ export default {
     MagnifyingGlassIcon
   },
   head() {
+    // Override the title.
+    this.poet.data.attributes.metatag_normalized.forEach(function(item, index) {
+      if (item.attributes.name === "title") {
+        this.metatag_normalized[index].attributes.content =
+          'Poems by "' + this.title + '"';
+      }
+    }, this.poet.data.attributes);
     return MetaTags.renderTags(
       this.$route,
       this.poet.data.attributes.metatag_normalized,
@@ -119,7 +126,7 @@ export default {
         })
         .catch(err => console.log(err));
       path = name;
-      return redirect(path);
+      return redirect([301], path);
     }
     const poet = await app.$axios
       .$get(`/router/translate-path?path=${path}`)

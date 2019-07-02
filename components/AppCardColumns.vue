@@ -2,6 +2,7 @@
   <section class="app-card-columns py-5">
     <promo-space
       v-if="promo"
+      dimensions="medium"
       variant="transparent"/>
     <b-container>
       <h2
