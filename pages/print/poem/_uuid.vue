@@ -60,8 +60,25 @@
 </template>
 <script>
 import _ from "lodash";
+import MetaTags from "~/plugins/metatags";
 export default {
   layout: "minimal",
+  head() {
+    return MetaTags.renderTags(this.$route, [
+      {
+        attributes: {
+          name: "robots",
+          content: "noindex"
+        }
+      },
+      {
+        attributes: {
+          name: "title",
+          content: "Print version of " + this.poem.attributes.title
+        }
+      }
+    ]);
+  },
   async asyncData({ app, params, req, res }) {
     return app.$axios
       .$get(`/api/node/poems/${params.uuid}?include=field_author.field_image`)
