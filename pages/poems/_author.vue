@@ -61,14 +61,21 @@ export default {
     // Override the title.
     this.poet.data.attributes.metatag_normalized.forEach(function(item, index) {
       if (item.attributes.name === "title") {
-        this.metatag_normalized[index].attributes.content =
-          'Poems by "' + this.title + '"';
+        this.metatag_normalized[index].attributes.content = `Poems by "${
+          this.title
+        }"`;
       }
     }, this.poet.data.attributes);
     return MetaTags.renderTags(
       this.$route,
       this.poet.data.attributes.metatag_normalized,
-      [{ description: `A list of poems by ${this.poet.data.attributes.title}` }]
+      [
+        {
+          hid: "description",
+          name: "description",
+          content: `A list of poems by ${this.poet.data.attributes.title}`
+        }
+      ]
     );
   },
   data() {
