@@ -12,7 +12,12 @@
             header-class="pb-2 pt-3 bg-white"
             footer-class="bg-white"
             class="card--main"
+            itemscope
+            itemtype="http://schema.org/CreativeWork"
           >
+            <link
+              itemprop="additionalType"
+              href="http://schema.org/ArchiveComponent">
             <div
               class="px-0 mx-0"
               v-if="showSoundCloud"
@@ -28,11 +33,13 @@
                     v-if="poem && poem.attributes.path.alias && poem.attributes.title"
                     class="text-dark"
                     :to="poem.attributes.path.alias"
+                    itemprop="name"
                   >{{ poem.attributes.title }}</b-link>
                 </h1>
                 <h1
                   v-else
                   :class="['card-title', {'card-title--long': longTitle}]"
+                  itemprop="name"
                 >{{ poem.attributes.title }}</h1>
                 <b-link
                   @click="showSoundCloud = true"
@@ -53,7 +60,9 @@
               >
                 <b-link
                   v-if="poet && poet.path.alias"
-                  :to="poet.path.alias">{{ poet.title }}</b-link>
+                  :to="poet.path.alias"
+                  itemprop="author"
+                >{{ poet.title }}</b-link>
                 <span
                   class="dates"
                   v-if="poet && poet.field_dob"
