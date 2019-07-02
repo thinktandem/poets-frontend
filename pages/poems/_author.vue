@@ -58,11 +58,16 @@ export default {
     MagnifyingGlassIcon
   },
   head() {
-    // Override the title.
+    // Overrides title & description since the overrides doesnt work right.
     this.poet.data.attributes.metatag_normalized.forEach(function(item, index) {
       if (item.attributes.name === "title") {
-        this.metatag_normalized[index].attributes.content =
-          'Poems by "' + this.title + '"';
+        this.metatag_normalized[index].attributes.content = `Poems by "${
+          this.title
+        }"`;
+      } else if (item.attributes.name === "description") {
+        this.metatag_normalized[
+          index
+        ].attributes.content = `A list of poems by ${this.title}`;
       }
     }, this.poet.data.attributes);
     return MetaTags.renderTags(
