@@ -3,15 +3,18 @@
     class="card--essay"
     tag="article"
     itemscope
-    itemtype="http://schema.org/Article"
+    itemtype="http://schema.org/CreativeWork"
     no-body
   >
+    <link
+      itemprop="additionalType"
+      href="http://schema.org/ArchiveComponent">
     <b-card-body class="d-flex justify-content-between flex-column align-content-between">
       <h3 class="card-title">
         <b-link
           class="text-dark"
           :to="link"
-          itemprop="title"
+          itemprop="name"
         >
           {{ title }}
         </b-link>
