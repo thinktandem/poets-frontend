@@ -30,8 +30,14 @@
 
 <script>
 import _ from "lodash";
-
+import MetaTags from "~/plugins/metatags";
 export default {
+  head() {
+    return MetaTags.renderTags(
+      this.$route,
+      this.winner.response.data.attributes.metatag_normalized
+    );
+  },
   async asyncData({ app, route }) {
     const routerResponse = await app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
