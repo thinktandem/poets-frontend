@@ -16,10 +16,10 @@
         md=8
         class="mt-3 mt-md-5"
       >
-        <h1
+        <h2
           v-if="heading && variant === 'default' && displayHeading"
           class="hero__heading pb-3"
-        >{{ heading }}</h1>
+        >{{ heading }}</h2>
         <p
           v-if="lead"
           class="lead mb-3 font-serif"
@@ -81,7 +81,6 @@ export default {
         backgroundImage: `url(${background.src})`,
         backgroundPositionX: "center",
         backgroundPositionY: "center",
-        backgroundRepeatY: "no-repeat",
         backgroundRepeatY: "no-repeat",
         backgroundSize: "cover"
       };
@@ -156,6 +155,7 @@ export default {
   font-family: $font-family-serif;
   font-style: italic;
   font-weight: 500;
+  font-size: 2.5rem;
 }
 
 .lead {
