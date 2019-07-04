@@ -17,7 +17,7 @@ export default function({ redirect, route, query }) {
 
   // Catch the case that the passed in URL needs transliteration.
   if (trUrl(route.path) !== route.path) {
-    redirect([301], trUrl(route.path));
+      redirect([301], trUrl(route.path));
   }
 
   // Handle query params so they don't get stripped
