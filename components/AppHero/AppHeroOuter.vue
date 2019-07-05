@@ -16,8 +16,12 @@
         md=8
         class="mt-3 mt-md-5"
       >
+        <h1
+          v-if="heading && variant === 'default' && displayHeading && renderH1"
+          class="hero__heading pb-3"
+        >{{ heading }}</h1>
         <h2
-          v-if="heading && variant === 'default' && displayHeading"
+          v-if="heading && variant === 'default' && displayHeading && !renderH1"
           class="hero__heading pb-3"
         >{{ heading }}</h2>
         <p
@@ -133,6 +137,18 @@ export default {
       } else {
         return true;
       }
+    },
+    renderH1() {
+      const path = this.$route.path;
+
+      if (
+        path.includes("/poem/") ||
+        path.includes("/poet/") ||
+        path.includes("/contributor/")
+      ) {
+        return false;
+      }
+      return true;
     }
   }
 };
