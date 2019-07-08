@@ -76,7 +76,7 @@ export default {
     );
     this.type = _.get(type, "attributes.name");
   },
-  async fetch({ app, store, route }) {
+  async fetch({ app, store, route, error }) {
     return app.$axios
       .get(`/router/translate-path`, {
         params: {
@@ -84,7 +84,7 @@ export default {
         }
       })
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(res =>
         app.$axios
@@ -93,7 +93,7 @@ export default {
               `?include=field_contributors,field_texttype`
           )
           .catch(err => {
-            app.handleError(err);
+            error({ statusCode: 404, message: "" });
           })
           .then(res => {
             store.commit("updateHero", {

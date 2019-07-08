@@ -100,7 +100,7 @@ export default {
       ]
     };
   },
-  async asyncData({ app, params, query, route, redirect }) {
+  async asyncData({ app, params, query, route, redirect, error }) {
     let name = params.author;
     let path = "/poet/" + name;
     if (!isNaN(params.author)) {
@@ -119,10 +119,10 @@ export default {
       });
       name = await app.$axios
         .$get(`api/node/person?${personParams}`)
-        .catch(err => app.handleError(err))
+        .catch(err => error({ statusCode: 404, message: "" }))
         .then(res => {
           if (_.isEmpty(res.data)) {
-            return app.handleError({ response: { status: 404 } });
+            return error({ statusCode: 404, message: "" });
           }
           return (
             "/poems/" +
@@ -135,7 +135,7 @@ export default {
     }
     const poet = await app.$axios
       .$get(`/router/translate-path?path=${path}`)
-      .catch(err => app.handleError(err))
+      .catch(err => error({ statusCode: 404, message: "" }))
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
       })

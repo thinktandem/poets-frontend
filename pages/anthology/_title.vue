@@ -149,11 +149,11 @@ export default {
     );
     this.related = this.$store.state.relatedContent;
   },
-  async fetch({ app, store, route }) {
+  async fetch({ app, store, route, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(res => {
         return app.$axios

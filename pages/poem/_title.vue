@@ -200,11 +200,11 @@ export default {
       ]
     );
   },
-  async asyncData({ app, params, env }) {
+  async asyncData({ app, params, env, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poem/${params.title}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(async res =>
         app.$axios.$get(

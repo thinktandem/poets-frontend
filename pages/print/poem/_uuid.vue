@@ -79,11 +79,11 @@ export default {
       }
     ]);
   },
-  async asyncData({ app, params, req, res }) {
+  async asyncData({ app, params, req, res, error }) {
     return app.$axios
       .$get(`/api/node/poems/${params.uuid}?include=field_author.field_image`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(response => {
         const poet = _.find(

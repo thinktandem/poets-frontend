@@ -38,7 +38,7 @@ export default {
       this.winner.response.data.attributes.metatag_normalized
     );
   },
-  async asyncData({ app, route }) {
+  async asyncData({ app, route, error }) {
     const routerResponse = await app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
       .catch(err => {

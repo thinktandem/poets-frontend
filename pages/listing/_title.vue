@@ -35,7 +35,7 @@ import _ from "lodash";
 import imgUrl from "~/plugins/inlineImagesUrl.js";
 
 export default {
-  async asyncData({ app, params }) {
+  async asyncData({ app, params, error }) {
     const listing = await app.$axios
       .get(`/router/translate-path`, {
         params: {
@@ -43,7 +43,7 @@ export default {
         }
       })
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(res => {
         return app.$axios
