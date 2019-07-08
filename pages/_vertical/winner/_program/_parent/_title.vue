@@ -42,7 +42,7 @@ export default {
     const routerResponse = await app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       });
     const winner = await app.$axios.$get(
       routerResponse.jsonapi.individual + "?include=field_image"
