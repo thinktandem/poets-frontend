@@ -14,14 +14,19 @@ import BasicPage from "~/components/BasicPage";
 import MetaTags from "~/plugins/metatags";
 
 export default {
-  components: {
-    BasicPage
-  },
+  components: { BasicPage },
   head() {
     return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
-  async fetch({ app, store, route }) {
-    return app.$buildBasicPage(app, store, route.path, true);
+  async asyncData({ app, store, route, error }) {
+    return app.$axios
+      .$get(`/router/translate-path?path=${route.path}`)
+      .catch(err => {
+        error({ statusCode: 404, message: "" });
+      })
+      .then(res => {
+        return app.$buildBasicPage(app, store, route.path, error, true);
+      });
   }
 };
 </script>

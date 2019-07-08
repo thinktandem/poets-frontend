@@ -207,11 +207,13 @@ export default {
       ]
     );
   },
-  async asyncData({ app, params }) {
+  async asyncData({ app, params, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poet/${params.title}`)
       .catch(err => {
-        app.handleError(err);
+        if (err.response.status === 404) {
+          error({ statusCode: 404, message: "blabbermouth" });
+        }
       })
       .then(async res => {
         return app.$axios.get(
