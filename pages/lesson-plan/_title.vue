@@ -16,7 +16,7 @@ export default {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(routerResponse => {
         return app.$axios

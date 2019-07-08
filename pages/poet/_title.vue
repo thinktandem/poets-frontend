@@ -212,7 +212,7 @@ export default {
       .$get(`/router/translate-path?path=/poet/${params.title}`)
       .catch(err => {
         if (err.response.status === 404) {
-          error({ statusCode: 404, message: "blabbermouth" });
+          error({ statusCode: 404, message: "" });
         }
       })
       .then(async res => {
