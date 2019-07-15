@@ -99,6 +99,7 @@
                     class="text-dark"
                     :to="poem.author.attributes.path.alias">{{ poem.author.attributes.title }}</b-link></div>
                 <div
+                  v-if="poem && poem.attributes.body"
                   class="anthology__poem-body poem__body"
                   v-html="replaceFileUrl(poem.attributes.body.processed)"/>
               </div>
