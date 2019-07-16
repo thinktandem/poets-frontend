@@ -7,11 +7,18 @@
 <script>
 import _ from "lodash";
 import niceDate from "~/plugins/niceDate";
+import MetaTags from "~/plugins/metatags";
 import AppFullLessonPlan from "~/components/AppFullLessonPlan";
 
 export default {
   layout: "default",
   components: { AppFullLessonPlan },
+  head() {
+    return MetaTags.renderTags(
+      this.$route,
+      this.$store.state.pageData.data.attributes.metatag_normalized
+    );
+  },
   async fetch({ app, store, route, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
