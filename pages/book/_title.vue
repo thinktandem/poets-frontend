@@ -77,11 +77,11 @@ export default {
       this.book.attributes.metatag_normalized
     );
   },
-  async asyncData({ app, params }) {
+  async asyncData({ app, params, error }) {
     return app.$axios
       .get(`/router/translate-path?path=/book/${params.title}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(res => {
         return app.$axios

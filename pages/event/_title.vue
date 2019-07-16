@@ -159,11 +159,11 @@ export default {
   head() {
     return MetaTags.renderTags(this.$route, this.tags);
   },
-  async asyncData({ app, route }) {
+  async asyncData({ app, route, error }) {
     const routerResponse = await app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       });
 
     return app.$axios

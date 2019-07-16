@@ -12,11 +12,11 @@ import AppFullLessonPlan from "~/components/AppFullLessonPlan";
 export default {
   layout: "default",
   components: { AppFullLessonPlan },
-  async fetch({ app, store, route }) {
+  async fetch({ app, store, route, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(routerResponse => {
         return app.$axios

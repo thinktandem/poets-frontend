@@ -95,7 +95,7 @@ export default {
       sort: "field_date_published"
     };
   },
-  async asyncData({ app, params }) {
+  async asyncData({ app, params, error }) {
     return app.$axios
       .get(
         `/router/translate-path?path=/academy-american-poets/contributor/${
@@ -103,7 +103,7 @@ export default {
         }`
       )
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(res => {
         return app.$axios

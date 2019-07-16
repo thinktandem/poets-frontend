@@ -200,19 +200,19 @@ export default {
       ]
     );
   },
-  async asyncData({ app, params, env }) {
+  async asyncData({ app, params, env, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=/poem/${params.title}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
-      .then(async res =>
-        app.$axios.$get(
-          `/api/node/poems/${
-            res.entity.uuid
-          }?include=field_author.field_image,field_related_poems,field_related_poems.field_author`
-        )
-      )
+      .then(async res => {
+        const uuid = _.get(res, "entity.uuid");
+        return app.$axios.$get(
+          `/api/node/poems/${uuid}?include=field_author.field_image,field_related_poems,field_related_poems.field_author`
+        );
+      })
+      .catch(err => error({ statusCode: 404, message: "" }))
       .then(async response => {
         const poet = _.find(
           _.get(response, "included"),
@@ -304,7 +304,8 @@ export default {
             })
           }
         };
-      });
+      })
+      .catch(err => error({ statusCode: 404, message: "" }));
   },
   async fetch({ app, store, params, route, menu }) {
     // Set the current hero

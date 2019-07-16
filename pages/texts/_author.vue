@@ -71,11 +71,11 @@ export default {
       ]
     };
   },
-  async asyncData({ app, params, query, route }) {
+  async asyncData({ app, params, query, route, error }) {
     const poet = await app.$axios
       .$get(`/router/translate-path?path=/poet/${params.author}`)
       .catch(err => {
-        app.handleError(err);
+        error({ statusCode: 404, message: "" });
       })
       .then(async res => {
         return app.$axios.$get(`/api/node/person/${res.entity.uuid}`);
