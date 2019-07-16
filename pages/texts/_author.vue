@@ -43,6 +43,7 @@
 
 <script>
 import qs from "qs";
+import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 
 export default {
@@ -70,6 +71,24 @@ export default {
         }
       ]
     };
+  },
+  head() {
+    // Overrides title & description since the overrides doesnt work right.
+    this.poet.data.attributes.metatag_normalized.forEach(function(item, index) {
+      if (item.attributes.name === "title") {
+        this.metatag_normalized[index].attributes.content = `Texts about ${
+          this.title
+        }`;
+      } else if (item.attributes.name === "description") {
+        this.metatag_normalized[
+          index
+        ].attributes.content = `A list of texts by ${this.title}`;
+      }
+    }, this.poet.data.attributes);
+    return MetaTags.renderTags(
+      this.$route,
+      this.poet.data.attributes.metatag_normalized
+    );
   },
   async asyncData({ app, params, query, route, error }) {
     const poet = await app.$axios
