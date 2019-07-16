@@ -140,6 +140,7 @@
 
 <script>
 import searchHelpers from "~/plugins/search-helpers";
+import MetaTags from "~/plugins/metatags";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
 import iconMediaSkipForwards from "~/static/icons/media-skip-forwards.svg";
 import iconSearch from "~/static/icons/magnifying-glass.svg";
@@ -162,6 +163,9 @@ export default {
   async asyncData({ app, params, query }) {
     const url = "/api/prize_list";
     return searchHelpers.getSearchResults(url, app, query);
+  },
+  head() {
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
   methods: {
     applyFilters() {
