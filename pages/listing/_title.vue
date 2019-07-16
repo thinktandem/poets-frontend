@@ -33,8 +33,12 @@
 <script>
 import _ from "lodash";
 import imgUrl from "~/plugins/inlineImagesUrl.js";
+import MetaTags from "~/plugins/metatags";
 
 export default {
+  head() {
+    return MetaTags.renderTags(this.$route, this.metatags);
+  },
   async asyncData({ app, params, error }) {
     const listing = await app.$axios
       .get(`/router/translate-path`, {
@@ -78,7 +82,8 @@ export default {
       link,
       state: _.get(state, "attributes.title"),
       stateLink: _.get(state, "attributes.path.alias", "pants"),
-      type: _.get(type, "attributes.name")
+      type: _.get(type, "attributes.name"),
+      metatags: _.get(listing, "data.attributes.metatag_normalized")
     };
   }
 };
