@@ -42,9 +42,16 @@
 </template>
 <script>
 import _ from "lodash";
+import MetaTags from "~/plugins/metatags";
 
 export default {
   layout: "default",
+  head() {
+    return MetaTags.renderTags(
+      this.$route,
+      this.$store.state.pageData.data.attributes.metatag_normalized
+    );
+  },
   async fetch({ app, store, route, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
