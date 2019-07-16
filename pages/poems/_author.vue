@@ -58,7 +58,6 @@ export default {
     MagnifyingGlassIcon
   },
   head() {
-    console.log(this.poet.data.attributes.metatag_normalized);
     // Overrides title & description since the overrides doesnt work right.
     this.poet.data.attributes.metatag_normalized.forEach(function(item, index) {
       if (item.attributes.name === "title") {
