@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-container md="8">
-      <h3 class="texts-by__title">
+      <h1 class="texts-by__title">
         {{ poet.data.attributes.title }}
-      </h3>
+      </h1>
     </b-container>
     <b-container class="table-container">
       <b-table
