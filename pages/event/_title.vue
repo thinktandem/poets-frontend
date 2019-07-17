@@ -3,7 +3,7 @@
     <b-container class="py-5">
       <b-row>
         <b-col lg="7">
-          <h1>{{ title }}</h1>
+          <h2>{{ title }}</h2>
           <b-img-lazy
             v-if="image"
             right
