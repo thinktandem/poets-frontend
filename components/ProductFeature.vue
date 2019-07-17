@@ -4,7 +4,13 @@
       <div class="d-flex flex-column flex-lg-row">
         <div
           class="product-feature__info pb-4 pb-lg-5">
+          <h1
+            v-if="renderH1"
+            class="font-serif font-italic pb-3">
+            {{ title }}
+          </h1>
           <h2
+            v-else
             class="font-serif font-italic pb-3"
             v-show="title">
             <b-link
@@ -89,6 +95,16 @@ export default {
           to: "/membership",
           text: "Become a Member"
         };
+      }
+    }
+  },
+  computed: {
+    renderH1() {
+      const path = this.$route.path;
+      if (path === "/") {
+        return false;
+      } else {
+        return true;
       }
     }
   }

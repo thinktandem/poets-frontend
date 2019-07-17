@@ -2,7 +2,7 @@
   <div class="login-wrapper border border-light">
     <b-form
       class="form-signin">
-      <h2 class="form-signin-heading">Reset password</h2>
+      <h1 class="form-signin-heading">Reset password</h1>
       <b-form-input
         v-model="user"
         size="lg"
