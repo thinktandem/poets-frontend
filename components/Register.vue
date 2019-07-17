@@ -2,7 +2,7 @@
   <div class="login-wrapper border border-light">
     <b-form
       class="form-signin">
-      <h2 class="form-signin-heading">{{ title }}</h2>
+      <h1 class="form-signin-heading">{{ title }}</h1>
       <b-form-input
         v-model="first"
         size="lg"
