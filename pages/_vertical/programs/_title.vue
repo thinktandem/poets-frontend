@@ -3,7 +3,7 @@
     <b-container class="py-5">
       <b-row>
         <b-col md="12">
-          <h2>{{ title }}</h2>
+          <h1>{{ title }}</h1>
         </b-col>
       </b-row>
       <b-row>

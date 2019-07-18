@@ -144,7 +144,10 @@ export default {
       if (
         path.includes("/poem/") ||
         path.includes("/poet/") ||
-        path.includes("/contributor/")
+        path.includes("/contributor/") ||
+        path.includes("/programs/") ||
+        path.includes("/prizes/") ||
+        path.includes("/event/")
       ) {
         return false;
       }
