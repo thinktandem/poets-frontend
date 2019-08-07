@@ -53,6 +53,10 @@ export default function({ redirect, route, query }) {
       trUrl(route.path.replace("/national-poetry-month/text/", "/text/")) +
         paramString
     );
+  } else if (route.path.includes("posterRequest.php")) {
+    return redirect([301], "/national-poetry-month/get-official-poster");
+  } else if (route.path.includes("/search.php")) {
+    return redirect([301], "/search");
   }
 }
 
