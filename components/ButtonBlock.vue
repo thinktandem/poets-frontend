@@ -43,6 +43,7 @@
           type="text"
           placeholder="Event name"
           :state="hasEventName" />
+        <br>
         <b-form-input
           v-model="eventEmail"
           size="lg"
@@ -50,13 +51,21 @@
           type="email"
           placeholder="Contact email"
           :state="isEventEmail" />
+        <br>
         <b-form-input
           v-model="eventFee"
+          class="pt-2"
           size="lg"
           :disabled="eventBusy"
           type="text"
           placeholder="Fee"
           :state="isEventFee" />
+        <b-form-text
+          id="input-live-help"
+          class="pb-2">
+          Fee must be a number, i.e. 0 for free, or 5 for five dollars.
+        </b-form-text>
+        <br>
         <b-form-input
           v-model="eventDate"
           size="lg"
@@ -64,6 +73,7 @@
           type="date"
           placeholder="Date"
           :state="hasEventDate"/>
+        <br>
         <b-form-input
           v-model="eventStreet"
           size="lg"
@@ -85,6 +95,7 @@
           :options="states"
           :state="hasEventState"
           class="mb-3">
+          <br>
           <template slot="first">
             <option
               :value="null"
@@ -98,6 +109,7 @@
           type="number"
           placeholder="Zip Code"
           :state="hasEventZip"/>
+        <br>
         <b-form-textarea
           v-model="eventSummary"
           size="lg"
@@ -178,7 +190,9 @@ export default {
       return utils.isEmail(this.eventEmail) ? true : null;
     },
     isEventFee() {
-      return utils.getState(this.eventFee);
+      return utils.getState(this.eventFee) && !isNaN(this.eventFee)
+        ? true
+        : null;
     },
     hasEventName() {
       return utils.getState(this.eventName);
