@@ -2,6 +2,7 @@ import _ from "lodash";
 import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
 import events from "~/plugins/poets-apiv2/lib/events";
+import isa from "~/plugins/poets-apiv2/lib/isa";
 import magazines from "~/plugins/poets-apiv2/lib/magazines";
 import poems from "~/plugins/poets-apiv2/lib/poems";
 import poets from "~/plugins/poets-apiv2/lib/poets";
@@ -81,6 +82,16 @@ export default class PoetsApi {
    */
   createEvents(data, options = {}) {
     return events.create(this.request, data, options);
+  }
+
+  /**
+   * Get Intertitial CTA; isa
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getIsa(options = {}) {
+    return isa.getIsa(this.request, options);
   }
 
   /**

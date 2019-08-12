@@ -1,5 +1,7 @@
 <template>
   <div>
+    <interstitial-advert
+      isa-id="68a2fad3-f1d7-4448-97b3-bff3e1bdc7d0"/>
     <daily-poem
       :poem="pad.poem"
       :poet="pad.poet"/>
@@ -34,16 +36,19 @@
 </template>
 
 <script>
-import CardDeck from "~/components/CardDeck";
-import DailyPoem from "~/components/Poems/DailyPoem";
-import AppCardColumns from "~/components/AppCardColumns";
-import qs from "qs";
 import _ from "lodash";
-import FeatureStack from "~/components/FeatureStack";
-import ProductFeature from "~/components/ProductFeature";
-import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import qs from "qs";
+
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
+
+import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import AppCardColumns from "~/components/AppCardColumns";
+import CardDeck from "~/components/CardDeck";
+import DailyPoem from "~/components/Poems/DailyPoem";
+import FeatureStack from "~/components/FeatureStack";
+import InterstitialAdvert from "~/components/InterstitialAdvert";
+import ProductFeature from "~/components/ProductFeature";
 
 // Query to get featured poems
 const featuredPoemsQuery = {
@@ -74,6 +79,7 @@ export default {
     CardDeck,
     DailyPoem,
     FeatureStack,
+    InterstitialAdvert,
     ProductFeature
   },
   head() {
@@ -98,6 +104,7 @@ export default {
       this.getAnnouncements(),
       this.getLatestMagazine()
     ]);
+    // this.showModal();
   },
   methods: {
     getPoemADay() {
@@ -221,6 +228,12 @@ export default {
       this.$api.getLatestMagazine().then(magazine => {
         this.latest = this.$latestMagazine(_.get(magazine, "data"));
       });
+    },
+    showModal() {
+      this.$refs["isa"].show();
+    },
+    hideModal() {
+      this.$refs["isa"].hide();
     }
   },
   async fetch({ app, store, params, route, menu }) {
