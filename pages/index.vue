@@ -1,7 +1,5 @@
 <template>
   <div>
-    <interstitial-advert
-      isa-id="68a2fad3-f1d7-4448-97b3-bff3e1bdc7d0"/>
     <daily-poem
       :poem="pad.poem"
       :poet="pad.poet"/>
@@ -47,7 +45,6 @@ import AppCardColumns from "~/components/AppCardColumns";
 import CardDeck from "~/components/CardDeck";
 import DailyPoem from "~/components/Poems/DailyPoem";
 import FeatureStack from "~/components/FeatureStack";
-import InterstitialAdvert from "~/components/InterstitialAdvert";
 import ProductFeature from "~/components/ProductFeature";
 
 // Query to get featured poems
@@ -79,7 +76,6 @@ export default {
     CardDeck,
     DailyPoem,
     FeatureStack,
-    InterstitialAdvert,
     ProductFeature
   },
   head() {
@@ -104,7 +100,6 @@ export default {
       this.getAnnouncements(),
       this.getLatestMagazine()
     ]);
-    // this.showModal();
   },
   methods: {
     getPoemADay() {

@@ -1,12 +1,11 @@
 <template>
   <div>
-    <b-button
-      @click="show=true"
-      variant="primary">
-      Show Modal
-    </b-button>
     <b-modal
       v-model="show"
+      id="isa"
+      class="isa-cta"
+      size="xl"
+      centered
       :title="isaTitle"
       :header-bg-variant="headerBgVariant"
       :header-text-variant="headerTextVariant"
@@ -30,12 +29,11 @@ export default {
   props: {
     isaId: {
       type: String,
-      default: "--"
+      default: "isa"
     }
   },
   data() {
     return {
-      show: false,
       variants: [
         "primary",
         "secondary",
@@ -52,33 +50,29 @@ export default {
       bodyTextVariant: "dark",
       footerBgVariant: "warning",
       footerTextVariant: "dark",
-      isaTitle: "isa title",
-      isaBody: "This be memow body text ..."
+      isaTitle: "",
+      isaBody: "",
+      show: this.$store.state.isa.isaShow
     };
   },
-  mounted() {
-    Promise.all([this.getIsa()]);
+  created() {
+    this.getIsa();
   },
   methods: {
     getIsa() {
-      const isaQuery = {
-        query: {
-          filter: {
-            id: this.isaId
-          }
-        }
-      };
-      this.$api
-        .getIsa(isaQuery)
-        .then(res => {
-          console.log("geoff res", res);
-          this.isaTitle = _.get(res, "data.data[0].attributes.title");
-          this.isaBody = inlineImages.staticUrl(
-            _.get(res, "data.data[0].attributes.body.value")
-          );
-        })
-        .catch(err => console.log("geoff err", err));
+      this.isaTitle = this.$store.state.isa
+        ? this.$store.state.isa.isaTitle
+        : null;
+      this.isaBody = this.$store.state.isa
+        ? inlineImages.staticUrl(this.$store.state.isa.isaBody)
+        : null;
+      this.show = this.$store.state.isa.isaShow;
     }
   }
 };
 </script>
+<style scoped>
+.isa-cta /deep/ img {
+  max-width: 100%;
+}
+</style>

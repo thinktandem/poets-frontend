@@ -46,7 +46,12 @@ const createStore = () => {
       midMenu: [],
       subMenu: [],
       showSubMenu: true,
-      metatags: []
+      metatags: [],
+      isa: {
+        isaTitle: "",
+        isaBody: "",
+        isaShow: false
+      }
     },
     mutations: {
       updateBottomContent(state, payload) {
@@ -126,6 +131,9 @@ const createStore = () => {
       },
       updateMetatags(state, payload) {
         state.metatags = payload;
+      },
+      updateIsa(state, payload) {
+        state.isa = payload;
       }
     }
   });
