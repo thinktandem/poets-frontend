@@ -25,6 +25,19 @@ export default function(context) {
         };
       }
       context.store.commit("updateIsa", isa);
+      const isaCookie = context.app.$cookies.get("isa-" + context.route.path);
+      if (isaCookie) {
+        context.app.$cookies.set(
+          "isa-" + context.route.path,
+          {
+            value: 1,
+            route: context.route.path
+          },
+          {
+            maxAge: 60 * 60 * 24
+          }
+        );
+      }
     })
     .catch(err => console.log(err));
 }
