@@ -95,4 +95,7 @@ export default {
 .isa-cta /deep/ img {
   max-width: 100%;
 }
+.isa-cta /deep/ .modal-body {
+  padding: 3px;
+}
 </style>
