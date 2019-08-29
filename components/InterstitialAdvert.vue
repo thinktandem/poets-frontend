@@ -1,17 +1,32 @@
 <template>
   <div>
     <b-modal
+      v-if="isaHeader"
       v-model="show"
       id="isa"
       class="isa-cta"
       size="xl"
       centered
-      :title="isaTitle"
+      :title="isaHeader"
       :header-bg-variant="headerBgVariant"
       :header-text-variant="headerTextVariant"
       :body-bg-variant="bodyBgVariant"
       :body-text-variant="bodyTextVariant"
       :isa-id="isaId"
+      hide-footer>
+      <div v-html="isaBody"/>
+    </b-modal>
+    <b-modal
+      v-else
+      v-model="show"
+      id="isa"
+      class="isa-cta"
+      size="xl"
+      centered
+      :body-bg-variant="bodyBgVariant"
+      :body-text-variant="bodyTextVariant"
+      :isa-id="isaId"
+      hide-header
       hide-footer>
       <div v-html="isaBody"/>
     </b-modal>
@@ -51,7 +66,7 @@ export default {
       bodyTextVariant: "dark",
       footerBgVariant: "warning",
       footerTextVariant: "dark",
-      isaTitle: "",
+      isaHeader: null,
       isaBody: "",
       show: false
     };
@@ -79,8 +94,8 @@ export default {
       }
     },
     _setIsaData() {
-      this.isaTitle = this.$store.state.isa
-        ? this.$store.state.isa.isaTitle
+      this.isaHeader = this.$store.state.isa
+        ? this.$store.state.isa.isaHeader
         : null;
       this.isaBody = this.$store.state.isa
         ? inlineImages.staticUrl(this.$store.state.isa.isaBody)

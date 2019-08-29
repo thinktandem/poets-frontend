@@ -48,7 +48,7 @@ const createStore = () => {
       showSubMenu: true,
       metatags: [],
       isa: {
-        isaTitle: "",
+        isaHeader: null,
         isaBody: "",
         isaShow: false
       }

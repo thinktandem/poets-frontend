@@ -19,7 +19,7 @@ export default function(context) {
       let isa = null;
       if (data) {
         isa = {
-          isaTitle: _.get(data, "attributes.title"),
+          isaHeader: _.get(data, "attributes.header", null),
           isaBody: _.get(data, "attributes.body.value"),
           isaShow: true
         };
