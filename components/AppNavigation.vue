@@ -11,7 +11,7 @@
         class="btn btn-md d-flex flex-row"
       >
         <b-link
-          to="/"
+          href="/"
           class="d-inline-flex flex-row"
         >Poets.org</b-link>
         <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
@@ -31,12 +31,12 @@
           <b-nav-item
             v-for="(link, index) in $store.state.topMenu"
             :key="index"
-            :to="link.to"
+            :href="link.to"
           >{{ link.text }}</b-nav-item>
           <b-nav-item
             v-show="this.$auth.loggedIn"
             class="d-md-none"
-            to="/dashboard"
+            href="/dashboard"
           >Dashboard</b-nav-item>
           <b-nav-item
             v-show="!this.$auth.loggedIn"
@@ -49,7 +49,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item
             v-show="!this.$auth.loggedIn"
-            to="/login"
+            href="/login"
             class="navbar__login"
           >Login</b-nav-item>
           <b-nav-item-dropdown
@@ -67,7 +67,7 @@
           </b-nav-item-dropdown>
           <b-nav-item
             class="app-nav__membership"
-            to="/membership"
+            href="/membership"
             right>
             Membership
           </b-nav-item>

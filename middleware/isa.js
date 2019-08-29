@@ -8,14 +8,29 @@ export default function(context) {
   const isaQuery = {
     query: {
       filter: {
-        route: context.route.path
+        route: {
+          operator: "CONTAINS",
+          path: "route",
+          value: context.route.path
+        }
       }
     }
   };
   context.app.$api
     .getIsa(isaQuery)
     .then(res => {
-      const data = _.get(res, "data.data[0]", null);
+      const rawData = _.get(res, "data.data", null);
+      const data = _.find(rawData, (myData, i) => {
+        const routes = _.split(myData.attributes.route, ",");
+        let myIsa = null;
+        _.forEach(routes, route => {
+          if (route.trim() === context.route.path) {
+            myIsa = myData;
+          }
+        });
+
+        return myIsa;
+      });
       let isa = null;
       if (data) {
         isa = {
