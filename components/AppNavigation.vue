@@ -61,7 +61,7 @@
             extra-toggle-classes="nav-link-loggedin"
             right
           >
-            <b-dropdown-item to="/dashboard">Dashboard</b-dropdown-item>
+            <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
             <b-dropdown-divider />
             <b-dropdown-item @click="logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -76,7 +76,7 @@
             class="d-block py-2 d-md-none"
             variant="secondary-dark"
             size="md"
-            to="/donate/monthly"
+            href="/donate/monthly"
           >Donate</b-button>
         </b-navbar-nav>
 
@@ -86,7 +86,7 @@
         class="d-none d-md-flex"
         variant="secondary-dark"
         size="md"
-        to="/donate/monthly"
+        href="/donate/monthly"
       >Donate</b-button>
     </b-navbar>
     <b-button
@@ -94,7 +94,7 @@
       class="d-block py-2 d-md-none"
       variant="secondary-dark"
       size="md"
-      to="/donate/monthly"
+      href="/donate/monthly"
     >Donate</b-button>
   </div>
 </template>
