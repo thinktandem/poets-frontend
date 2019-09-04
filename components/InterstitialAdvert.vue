@@ -1,53 +1,27 @@
 <template>
-  <div>
-    <b-modal
-      v-if="isaHeader"
-      v-model="show"
-      id="isa"
-      class="isa-cta"
-      size="xl"
-      centered
-      :title="isaHeader"
-      :header-bg-variant="headerBgVariant"
-      :header-text-variant="headerTextVariant"
-      :body-bg-variant="bodyBgVariant"
-      :body-text-variant="bodyTextVariant"
-      :isa-id="isaId"
-      hide-footer>
-      <div v-html="isaBody"/>
-    </b-modal>
-    <b-modal
-      v-else
-      v-model="show"
-      id="isa"
-      class="isa-cta"
-      size="xl"
-      centered
-      :body-bg-variant="bodyBgVariant"
-      :body-text-variant="bodyTextVariant"
-      :isa-id="isaId"
-      hide-header
-      hide-footer>
-      <div v-html="isaBody"/>
-    </b-modal>
-  </div>
+  <b-modal
+    v-model="show"
+    id="isa"
+    class="isa-cta"
+    size="xl"
+    centered
+    @hidden="dismiss"
+    :title="isaHeader"
+    :header-bg-variant="headerBgVariant"
+    :header-text-variant="headerTextVariant"
+    :body-bg-variant="bodyBgVariant"
+    :body-text-variant="bodyTextVariant"
+    :hide-header="hideHeader"
+    hide-footer>
+    <div v-html="isaBody"/>
+  </b-modal>
 </template>
 
 <script>
 import _ from "lodash";
 import inlineImages from "~/plugins/inlineImagesUrl";
 
-import SignupBlock from "~/components/SignupBlock";
-import PromoSpace from "~/components/PromoSpace";
-
 export default {
-  components: { SignupBlock, PromoSpace },
-  props: {
-    isaId: {
-      type: String,
-      default: "isa"
-    }
-  },
   data() {
     return {
       variants: [
@@ -71,7 +45,12 @@ export default {
       show: false
     };
   },
-  created() {
+  computed: {
+    hideHeader() {
+      return _.isEmpty(this.isaHeader);
+    }
+  },
+  mounted() {
     this.getIsa();
   },
   watch: {
@@ -107,6 +86,9 @@ export default {
         : null;
       const showIt = _.get(this.$store, "state.isa.isaShow", false);
       this.show = showIt;
+    },
+    dismiss() {
+      this.show = false;
     }
   }
 };
@@ -116,6 +98,9 @@ export default {
   max-width: 100%;
 }
 .isa-cta /deep/ .modal-body {
-  padding: 3px;
+  padding: 0px;
+  p {
+    margin-bottom: 0;
+  }
 }
 </style>
