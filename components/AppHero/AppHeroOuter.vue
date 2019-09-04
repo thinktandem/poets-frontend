@@ -38,7 +38,7 @@
         class="pr-md-0 pl-md-3 d-flex flex-column"
         sm=12
         md=4>
-        <AppHeroSearch />
+        <AppHeroSearch v-if="displaySearch" />
       </b-col>
     </b-row>
   </b-jumbotron>
@@ -137,6 +137,13 @@ export default {
       } else {
         return true;
       }
+    },
+    displaySearch() {
+      const path = this.$route.path;
+      if (path.includes("/sustainer/")) {
+        return false;
+      }
+      return true;
     },
     renderH1() {
       const path = this.$route.path;
