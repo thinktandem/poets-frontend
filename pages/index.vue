@@ -223,12 +223,6 @@ export default {
       this.$api.getLatestMagazine().then(magazine => {
         this.latest = this.$latestMagazine(_.get(magazine, "data"));
       });
-    },
-    showModal() {
-      this.$refs["isa"].show();
-    },
-    hideModal() {
-      this.$refs["isa"].hide();
     }
   },
   async fetch({ app, store, params, route, menu }) {
