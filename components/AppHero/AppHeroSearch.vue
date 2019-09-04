@@ -30,7 +30,7 @@
       <b-list-group-item
         v-for="(link, index) in $store.state.midMenu"
         :key="index"
-        :href="link.to"
+        :to="link.to"
         class="hero__search__link">
         {{ link.text }}
       </b-list-group-item>

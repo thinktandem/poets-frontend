@@ -74,6 +74,11 @@ export default {
   created() {
     this.getIsa();
   },
+  watch: {
+    $route: function(id) {
+      this.getIsa();
+    }
+  },
   methods: {
     getIsa() {
       const isaCookie = this.$cookies.get("isa-" + this.$route.path) || false;

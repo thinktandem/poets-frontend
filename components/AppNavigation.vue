@@ -11,7 +11,7 @@
         class="btn btn-md d-flex flex-row"
       >
         <b-link
-          href="/"
+          to="/"
           class="d-inline-flex flex-row"
         >Poets.org</b-link>
         <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
@@ -31,12 +31,12 @@
           <b-nav-item
             v-for="(link, index) in $store.state.topMenu"
             :key="index"
-            :href="link.to"
+            :to="link.to"
           >{{ link.text }}</b-nav-item>
           <b-nav-item
             v-show="this.$auth.loggedIn"
             class="d-md-none"
-            href="/dashboard"
+            to="/dashboard"
           >Dashboard</b-nav-item>
           <b-nav-item
             v-show="!this.$auth.loggedIn"
@@ -49,7 +49,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item
             v-show="!this.$auth.loggedIn"
-            href="/login"
+            to="/login"
             class="navbar__login"
           >Login</b-nav-item>
           <b-nav-item-dropdown
@@ -61,13 +61,13 @@
             extra-toggle-classes="nav-link-loggedin"
             right
           >
-            <b-dropdown-item href="/dashboard">Dashboard</b-dropdown-item>
+            <b-dropdown-item to="/dashboard">Dashboard</b-dropdown-item>
             <b-dropdown-divider />
             <b-dropdown-item @click="logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item
             class="app-nav__membership"
-            href="/membership"
+            to="/membership"
             right>
             Membership
           </b-nav-item>
@@ -76,7 +76,7 @@
             class="d-block py-2 d-md-none"
             variant="secondary-dark"
             size="md"
-            href="/donate/monthly"
+            to="/donate/monthly"
           >Donate</b-button>
         </b-navbar-nav>
 
@@ -86,7 +86,7 @@
         class="d-none d-md-flex"
         variant="secondary-dark"
         size="md"
-        href="/donate/monthly"
+        to="/donate/monthly"
       >Donate</b-button>
     </b-navbar>
     <b-button
@@ -94,7 +94,7 @@
       class="d-block py-2 d-md-none"
       variant="secondary-dark"
       size="md"
-      href="/donate/monthly"
+      to="/donate/monthly"
     >Donate</b-button>
   </div>
 </template>
