@@ -7,6 +7,7 @@ import poems from "~/plugins/poets-apiv2/lib/poems";
 import poets from "~/plugins/poets-apiv2/lib/poets";
 import persons from "~/plugins/poets-apiv2/lib/persons";
 import search from "~/plugins/poets-apiv2/lib/search";
+import sustainer from "~/plugins/poets-apiv2/lib/sustainer";
 import taxonomies from "~/plugins/poets-apiv2/lib/taxonomies";
 import user from "~/plugins/poets-apiv2/lib/user";
 
@@ -373,6 +374,26 @@ export default class PoetsApi {
    */
   searchTexts(options = {}) {
     return search.texts(this.request, options);
+  }
+
+  /**
+   * Get sustainer.
+   *
+   * @param {Object} options
+   * @return {Object} the response object
+   */
+  getSustainer(options = {}) {
+    return sustainer.getSustainer(this.request, options);
+  }
+
+  /**
+   * Get the uuid of a sustainer via route.
+   *
+   * @param {String} options
+   * @return {String} the uuid of the sustainer node
+   */
+  getSustainerUuidViaRoute(options = {}) {
+    return sustainer.getUuidViaRoute(this.request, options);
   }
 
   /**
