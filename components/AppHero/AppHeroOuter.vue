@@ -140,7 +140,7 @@ export default {
     },
     displaySearch() {
       const path = this.$route.path;
-      if (path.includes("/sustainer/")) {
+      if (path.includes("/membership/")) {
         return false;
       }
       return true;

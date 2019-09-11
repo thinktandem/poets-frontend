@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="sustainer__title m-2">{{ title }}</h1>
+    <h1 class="membership__title m-2">{{ title }}</h1>
     <div
-      class="sustainer__body" 
+      class="membership__body" 
       v-html="body"/>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import inlineImages from "~/plugins/inlineImagesUrl";
 
 export default {
-  layout: "sustainer",
+  layout: "membership",
   data() {
     return {
       title: null,
@@ -18,25 +18,25 @@ export default {
     };
   },
   mounted() {
-    Promise.all([this.getSustainer()]);
+    Promise.all([this.getMembership()]);
   },
   methods: {
-    getSustainer() {
-      const susQuery = {
+    getMembership() {
+      const memQuery = {
         filter: {
           status: 1
         },
         route: this.$route.path
       };
       this.$api
-        .getSustainerUuidViaRoute(susQuery)
+        .getMembershipUuidViaRoute(memQuery)
         .then(res => {
           return res.data.entity.uuid;
         })
-        .then(sus => {
+        .then(mem => {
           this.$api
-            .getSustainer({
-              id: sus
+            .getMembership({
+              id: mem
             })
             .then(data => {
               this.title = data.data.data.attributes.title;
@@ -50,7 +50,7 @@ export default {
 };
 </script>
 <style scoped>
-.sustainer__body {
+.membership__body {
   font-weight: 400;
   font-size: 1.2em;
 }

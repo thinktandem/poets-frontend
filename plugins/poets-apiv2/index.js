@@ -3,11 +3,11 @@ import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
 import events from "~/plugins/poets-apiv2/lib/events";
 import magazines from "~/plugins/poets-apiv2/lib/magazines";
+import membership from "~/plugins/poets-apiv2/lib/membership";
 import poems from "~/plugins/poets-apiv2/lib/poems";
 import poets from "~/plugins/poets-apiv2/lib/poets";
 import persons from "~/plugins/poets-apiv2/lib/persons";
 import search from "~/plugins/poets-apiv2/lib/search";
-import sustainer from "~/plugins/poets-apiv2/lib/sustainer";
 import taxonomies from "~/plugins/poets-apiv2/lib/taxonomies";
 import user from "~/plugins/poets-apiv2/lib/user";
 
@@ -377,23 +377,23 @@ export default class PoetsApi {
   }
 
   /**
-   * Get sustainer.
+   * Get membership.
    *
    * @param {Object} options
    * @return {Object} the response object
    */
-  getSustainer(options = {}) {
-    return sustainer.getSustainer(this.request, options);
+  getMembership(options = {}) {
+    return membership.getMembership(this.request, options);
   }
 
   /**
-   * Get the uuid of a sustainer via route.
+   * Get the uuid of a membership via route.
    *
    * @param {String} options
-   * @return {String} the uuid of the sustainer node
+   * @return {String} the uuid of the membership node
    */
-  getSustainerUuidViaRoute(options = {}) {
-    return sustainer.getUuidViaRoute(this.request, options);
+  getMembershipUuidViaRoute(options = {}) {
+    return membership.getUuidViaRoute(this.request, options);
   }
 
   /**
