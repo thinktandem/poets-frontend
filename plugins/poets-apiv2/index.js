@@ -3,7 +3,6 @@ import qs from "qs";
 import anthologies from "~/plugins/poets-apiv2/lib/anthologies";
 import events from "~/plugins/poets-apiv2/lib/events";
 import magazines from "~/plugins/poets-apiv2/lib/magazines";
-import membership from "~/plugins/poets-apiv2/lib/membership";
 import poems from "~/plugins/poets-apiv2/lib/poems";
 import poets from "~/plugins/poets-apiv2/lib/poets";
 import persons from "~/plugins/poets-apiv2/lib/persons";
@@ -374,26 +373,6 @@ export default class PoetsApi {
    */
   searchTexts(options = {}) {
     return search.texts(this.request, options);
-  }
-
-  /**
-   * Get membership.
-   *
-   * @param {Object} options
-   * @return {Object} the response object
-   */
-  getMembership(options = {}) {
-    return membership.getMembership(this.request, options);
-  }
-
-  /**
-   * Get the uuid of a membership via route.
-   *
-   * @param {String} options
-   * @return {String} the uuid of the membership node
-   */
-  getMembershipUuidViaRoute(options = {}) {
-    return membership.getUuidViaRoute(this.request, options);
   }
 
   /**
