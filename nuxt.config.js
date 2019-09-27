@@ -88,7 +88,10 @@ module.exports = {
           "poets.org - The Academy of American Poets is the largest membership-based nonprofit organization fostering an appreciation for contemporary poetry and supporting American poets."
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }],
+    script: [
+      { src: "//widgets.getsitecontrol.com/190727/script.js", body: true }
+    ]
   },
   /*
    * Customize the progress bar color
