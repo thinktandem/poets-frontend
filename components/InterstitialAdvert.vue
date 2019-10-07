@@ -3,7 +3,7 @@
     v-model="show"
     id="isa"
     class="isa-cta"
-    size="xl"
+    size="lg"
     centered
     @hidden="dismiss"
     :title="isaHeader"
