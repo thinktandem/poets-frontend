@@ -1,5 +1,6 @@
 <template>
   <div>
+    <interstitial-advert />
     <AppNavigation />
     <promo-space variant="dark" />
     <AppHeroOuter
@@ -28,6 +29,7 @@ import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnou
 import AppNewsletterSupportFollow from "~/components/AppNewsletterSupportFollow/AppNewsletterSupportFollow";
 import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
+import InterstitialAdvert from "~/components/InterstitialAdvert";
 import PromoSpace from "~/components/PromoSpace";
 import GptAds from "~/plugins/gpt-ads";
 import SubNavigation from "~/components/SubNavigation";
@@ -40,6 +42,7 @@ export default {
     AppNewsletterSupportFollow,
     AppFooterPrimary,
     AppFooterUtility,
+    InterstitialAdvert,
     SubNavigation
   },
   head() {

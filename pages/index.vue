@@ -34,16 +34,18 @@
 </template>
 
 <script>
-import CardDeck from "~/components/CardDeck";
-import DailyPoem from "~/components/Poems/DailyPoem";
-import AppCardColumns from "~/components/AppCardColumns";
-import qs from "qs";
 import _ from "lodash";
-import FeatureStack from "~/components/FeatureStack";
-import ProductFeature from "~/components/ProductFeature";
-import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import qs from "qs";
+
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
+
+import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
+import AppCardColumns from "~/components/AppCardColumns";
+import CardDeck from "~/components/CardDeck";
+import DailyPoem from "~/components/Poems/DailyPoem";
+import FeatureStack from "~/components/FeatureStack";
+import ProductFeature from "~/components/ProductFeature";
 
 // Query to get featured poems
 const featuredPoemsQuery = {

@@ -2,6 +2,7 @@ module.exports = {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
+    "cookie-universal-nuxt",
     "@nuxtjs/google-analytics",
     "@nuxtjs/sentry",
     "@nuxtjs/sitemap",
@@ -56,7 +57,7 @@ module.exports = {
     { path: "/tweets", handler: "~/serverMiddleware/tweets.js" }
   ],
   router: {
-    middleware: ["menu", "post-data", "redirects"]
+    middleware: ["menu", "post-data", "redirects", "isa"]
   },
   toast: {
     position: "top-left",
