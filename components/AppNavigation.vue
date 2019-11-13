@@ -26,27 +26,32 @@
         is-nav
         id="nav_collapse"
       >
-        <app-mobile-menu class="d-flex d-md-none" />
-        <b-navbar-nav class="menu--desktop d-none d-md-flex">
+        <app-mobile-menu
+          class="d-flex d-md-none" />
+        <b-navbar-nav
+          class="menu--desktop d-none d-md-flex">
           <b-nav-item
+            v-show="!sparse"
             v-for="(link, index) in $store.state.topMenu"
             :key="index"
             :to="link.to"
           >{{ link.text }}</b-nav-item>
           <b-nav-item
-            v-show="this.$auth.loggedIn"
+            v-show="this.$auth.loggedIn && !sparse"
             class="d-md-none"
             to="/dashboard"
           >Dashboard</b-nav-item>
           <b-nav-item
-            v-show="!this.$auth.loggedIn"
+            v-show="!this.$auth.loggedIn && !sparse"
             class="d-md-none"
             @click="logout"
           >Logout</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav
+          v-show="!sparse"
+          class="ml-auto">
           <b-nav-item
             v-show="!this.$auth.loggedIn"
             to="/login"
@@ -120,6 +125,12 @@ const getName = (first = "My", last = "Account", name = "My Account") => {
 };
 export default {
   components: { AppMobileMenu },
+  props: {
+    sparse: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     name() {
       return getName(
