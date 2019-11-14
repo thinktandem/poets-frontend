@@ -18,34 +18,17 @@
 <script>
 import AppNavigation from "~/components/AppNavigation";
 import AppHeroOuter from "~/components/AppHero/AppHeroOuter";
-import AppAnnouncementsAwards from "~/components/AppAnnouncementsAwards/AppAnnouncementsAwards";
-import AppNewsletterSupportFollow from "~/components/AppNewsletterSupportFollow/AppNewsletterSupportFollow";
-import AppFooterPrimary from "~/components/AppFooter/AppFooterPrimary";
 import AppFooterUtility from "~/components/AppFooter/AppFooterUtility";
 import InterstitialAdvert from "~/components/InterstitialAdvert";
-import GptAds from "~/plugins/gpt-ads";
-import SubNavigation from "~/components/SubNavigation";
 export default {
   components: {
     AppNavigation,
     AppHeroOuter,
-    AppAnnouncementsAwards,
-    AppNewsletterSupportFollow,
-    AppFooterPrimary,
     AppFooterUtility,
-    InterstitialAdvert,
-    SubNavigation
+    InterstitialAdvert
   },
   head() {
     return {
-      script: [
-        {
-          src: "https://www.googletagservices.com/tag/js/gpt.js",
-          defer: true,
-          async: "async"
-        },
-        GptAds.gatherMeData().gptInitScript
-      ],
       link: [
         {
           rel: "preconnect",
