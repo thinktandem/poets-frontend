@@ -105,7 +105,10 @@ export default {
         src = "/hero/Large-White-RGB-National-Poetry-Month-Logo.png";
         alt = "National Poetry Month Logo";
         link = "/national-poetry-month";
-      } else if (path.includes("/academy-american-poets")) {
+      } else if (
+        path.includes("/academy-american-poets") ||
+        path.includes("/donate")
+      ) {
         src = "/hero/Large-White-RGB-Academy-of-American-Poets-Logo.png";
         alt = "Academy of American Poets Logo";
         link = "/academy-american-poets";
