@@ -87,6 +87,7 @@
 
       </b-collapse>
       <b-button
+        v-if="!sparse"
         v-b-toggle.nav_collapse
         class="d-none d-md-flex"
         variant="secondary-dark"
@@ -95,6 +96,7 @@
       >Donate</b-button>
     </b-navbar>
     <b-button
+      v-if="!sparse"
       v-b-toggle.nav_collapse
       class="d-block py-2 d-md-none"
       variant="secondary-dark"
