@@ -356,6 +356,15 @@ export default {
                 : _.get(poem, "attributes.field_copyright_date", "").split(
                     "-"
                   )[0];
+            const poet = _.find(
+              _.get(response, "data.included"),
+              included =>
+                _.get(included, "id") ===
+                _.get(
+                  _.first(_.get(poem, "relationships.field_author.data")),
+                  "id"
+                )
+            );
             return {
               aid: _.get(poem, "relationships.field_author.data")[0].id,
               link: _.get(poem, "attributes.path.alias"),
@@ -363,12 +372,7 @@ export default {
               text: _.get(poem, "attributes.body.processed"),
               year: year,
               poet: {
-                // @NOTE: the below assumes the index of the data and included
-                // arrays match up
-                name: _.get(
-                  response,
-                  `data.included[${index}].attributes.title`
-                )
+                name: _.get(poet, "attributes.title")
               }
             };
           })
