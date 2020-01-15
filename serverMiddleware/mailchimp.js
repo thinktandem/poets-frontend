@@ -48,6 +48,7 @@ module.exports = async function(req, res) {
         "poetsd8.lndo.site",
         // "localhost",
         "poets.org",
+        /.*\.us-2\.platformsh\.site$/,
         /.*\.poets\.org$/
       ]
     })
