@@ -83,11 +83,11 @@ export default {
         method: "post",
         baseURL: mailchimpBase,
         url: "/mailchimp",
-        data: { email: this.email, list: this.list }
+        data: { email: this.email, list: [this.list] }
       })
         .then(response => {
           this.$toast
-            .error("Thanks! You are subscribed.", {
+            .sucess("Thanks! You are subscribed.", {
               theme: "toasted-primary",
               position: "top-left"
             })

@@ -4,7 +4,7 @@
     <div class="newsletter__form newsletter__content">
       <app-form @submit="newsletterSignup">
         <b-form-checkbox
-          v-model="aapn"
+          v-model="list['academy-newsletter']"
           type="checkbox"
           id="aapn"
           class="newsletter-checkbox"
@@ -13,7 +13,7 @@
         </b-form-checkbox>
         <br>
         <b-form-checkbox
-          v-model="aapen"
+          v-model="list['education-newsletter']"
           type="checkbox"
           id="aapen"
           class="newsletter-checkbox"
@@ -22,7 +22,7 @@
         </b-form-checkbox>
         <br>
         <b-form-checkbox
-          v-model="aapttp"
+          v-model="list['teach-this-poem']"
           type="checkbox"
           id="aapttp"
           class="newsletter-checkbox"
@@ -31,7 +31,7 @@
         </b-form-checkbox>
         <br>
         <b-form-checkbox
-          v-model="aappad"
+          v-model="list['poem-a-day']"
           type="checkbox"
           id="aappad"
           class="newsletter-checkbox"
@@ -64,10 +64,12 @@ export default {
   components: {},
   data() {
     return {
-      aapn: false,
-      aapen: false,
-      aapttp: false,
-      aappad: false,
+      list: {
+        "academy-newsletter": false,
+        "education-newsletter": false,
+        "teach-this-poem": false,
+        "poem-a-day": false
+      },
       newsletterEmail: ""
     };
   },
@@ -78,25 +80,34 @@ export default {
   },
   methods: {
     newsletterSignup() {
-      const body = {
-        email: this.newsletterEmail,
-        forms: {
-          AAPN: this.aapn || false,
-          AAPEN: this.aapen || false,
-          AAPTTP: this.aapttp || false,
-          AAPPAD: this.aappad || false
+      const mailchimpBase = `${window.location.protocol}//${
+        window.location.host
+      }`;
+      this.$axios({
+        method: "post",
+        baseURL: mailchimpBase,
+        url: "/mailchimp",
+        data: {
+          email: this.newsletterEmail,
+          list: _.keys(_.pickBy(this.list, item => item))
         }
-      };
-      this.$axios.post("/api/cm/poem-a-day", body).catch(error => {
-        console.error(error);
-        this.$sentry.captureException(error);
-      });
-      this.$toast
-        .show("Thanks! You are subscribed.", {
-          theme: "toasted-primary",
-          position: "top-left"
+      })
+        .catch(error => {
+          this.$toast.error("Sorry, there was an error, please try again :(", {
+            theme: "toasted-primary",
+            position: "top-left"
+          });
+          console.error(error);
+          this.$sentry.captureException(error);
         })
-        .goAway(1500);
+        .then(result => {
+          this.$toast
+            .success("Thanks! You are subscribed.", {
+              theme: "toasted-primary",
+              position: "top-left"
+            })
+            .goAway(1500);
+        });
     }
   }
 };
