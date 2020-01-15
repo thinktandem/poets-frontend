@@ -19,15 +19,15 @@ const buildInterests = lists => {
     "teach-this-poem": "bdbd7d1108",
     "education-newsletter": "451185a00f"
   };
-  const mapped = _.map(lists, list => {
-    return [interests[list], true];
-  });
-
-  return _.fromPairs(mapped);
+  return _.fromPairs(
+    _.map(lists, list => {
+      return [interests[list], true];
+    })
+  );
 };
 
 /**
- * Simple endpoint to proxy the fetching of tweets
+ * Simple endpoint to proxy subscription of Mailchimp list members.
  * @param  {object}   req  request
  * @param  {object}   res  response
  * @return {void}
@@ -53,6 +53,7 @@ module.exports = async function(req, res) {
     })
   );
   app.use(bodyParser.json());
+  // This is our main function, all of the above is just loading middleware to try to make the endpoint more secure.
   app.use(function(req, res) {
     if (req.method !== "POST") {
       res.writeHead(400);
@@ -111,5 +112,6 @@ module.exports = async function(req, res) {
         }
       });
   });
+  // We need to return the middleware stack, with the original request and response objects.
   return app.handle(req, res);
 };
