@@ -37,52 +37,6 @@ import _ from "lodash";
 import PoemActions from "~/components/PoemActions";
 export default {
   components: { PoemActions },
-  data() {
-    return {
-      email: ""
-    };
-  },
-  computed: {
-    placeholderEmail() {
-      return _.get(this.$auth, "user.meta.mail", "john@example.com");
-    }
-  },
-  methods: {
-    poemADaySignup() {
-      const body = {
-        email: this.email,
-        forms: {
-          AAPPAD: true
-        }
-      };
-      this.$axios
-        .post(`/api/cm/${this.list}`, body)
-        .then(() => {
-          this.$toast
-            .error("Thanks! You are subscribed.", {
-              theme: "toasted-primary",
-              position: "top-left"
-            })
-            .goAway(1500);
-        })
-        .catch(error => {
-          console.log(error);
-          this.$sentry.captureException(error);
-          this.$toast
-            .error(
-              "Sorry, there was an error subscribing you, please try again :(",
-              {
-                theme: "toasted-danger",
-                position: "top-left"
-              }
-            )
-            .goAway(1500);
-        });
-    },
-    print() {
-      window.print();
-    }
-  },
   props: {
     title: {
       type: String,
@@ -108,6 +62,53 @@ export default {
     showActions: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      email: ""
+    };
+  },
+  computed: {
+    placeholderEmail() {
+      return _.get(this.$auth, "user.meta.mail", "john@example.com");
+    }
+  },
+  methods: {
+    poemADaySignup() {
+      const mailchimpBase = `${window.location.protocol}//${
+        window.location.host
+      }`;
+      this.$axios({
+        method: "post",
+        baseURL: mailchimpBase,
+        url: "/mailchimp",
+        data: { email: this.email, list: this.list }
+      })
+        .then(response => {
+          this.$toast
+            .error("Thanks! You are subscribed.", {
+              theme: "toasted-primary",
+              position: "top-left"
+            })
+            .goAway(1500);
+        })
+        .catch(error => {
+          console.log(error);
+          this.$sentry.captureException(error);
+          this.$toast
+            .error(
+              "Sorry, there was an error subscribing you, please try again :(",
+              {
+                theme: "toasted-danger",
+                position: "top-left"
+              }
+            )
+            .goAway(1500);
+        });
+    },
+    print() {
+      window.print();
     }
   }
 };

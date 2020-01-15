@@ -54,6 +54,10 @@ module.exports = {
   },
   serverMiddleware: [
     "~/serverMiddleware/headers.js",
+    {
+      path: "/mailchimp",
+      handler: "~/serverMiddleware/mailchimp.js"
+    },
     { path: "/tweets", handler: "~/serverMiddleware/tweets.js" }
   ],
   router: {
