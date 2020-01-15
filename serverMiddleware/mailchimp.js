@@ -10,6 +10,7 @@ const express = require("express");
 const cors = require("cors");
 const hostValidation = require("host-validation");
 const bodyParser = require("body-parser");
+const md5 = require("js-md5");
 
 const buildInterests = lists => {
   const interests = {
@@ -60,20 +61,54 @@ module.exports = async function(req, res) {
 
     const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
     mailchimp
+      // Try to sub a new subscriber.
       .post(`/lists/${process.env.MAILCHIMP_LIST_ID}/members`, {
         email_address: req.body.email,
         status: "subscribed",
-        interests: buildInterests([req.body.list])
+        interests: buildInterests(req.body.list)
       })
+      // If that worked, cool, moving on.
       .then(result => {
-        console.log("Mailchimp Result", result);
         res.writeHead(201);
         res.end("Subscribed!");
       })
+      // If that didn't work...
       .catch(err => {
-        console.log("Mailchimp Error", err);
-        res.writeHead(500);
-        res.end("Error!");
+        // Most common reason is the member already exists.
+        if (err.title === "Member Exists") {
+          // So lets get the existing user...
+          mailchimp
+            .get(
+              `/lists/${process.env.MAILCHIMP_LIST_ID}/members/${md5(
+                req.body.email.toLowerCase()
+              )}`
+            )
+            .then(subscriber => {
+              // Then update that specific user instead.
+              mailchimp
+                .put(
+                  `/lists/${process.env.MAILCHIMP_LIST_ID}/members/${
+                    subscriber.id
+                  }`,
+                  {
+                    email_address: req.body.email,
+                    status: "subscribed",
+                    interests: buildInterests(req.body.list)
+                  }
+                )
+                // Long journey, but we made it.
+                .then(finalResult => {
+                  res.writeHead(201);
+                  res.end("Subscribed!");
+                })
+                // Something else went wrong, lets log it and fail.
+                .catch(err => {
+                  console.log("Mailchimp Error", err);
+                  res.writeHead(500);
+                  res.end("Error!");
+                });
+            });
+        }
       });
   });
   return app.handle(req, res);
