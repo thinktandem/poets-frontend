@@ -1,6 +1,6 @@
 /**
  * @file
- * Middleware to serve as a twitter proxy. Note since we're on Nuxt 1.x,
+ * Middleware to serve as a mailchimp proxy. Note since we're on Nuxt 1.x,
  * this uses old school node modules instead of ES6 modules.
  */
 
@@ -46,7 +46,6 @@ module.exports = async function(req, res) {
     hostValidation({
       hosts: [
         "poetsd8.lndo.site",
-        // "localhost",
         "poets.org",
         /.*\.us-2\.platformsh\.site$/,
         /.*\.poets\.org$/
