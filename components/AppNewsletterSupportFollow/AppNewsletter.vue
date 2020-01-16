@@ -60,6 +60,7 @@
 
 <script>
 import _ from "lodash";
+import Swal from "sweetalert2";
 export default {
   components: {},
   data() {
@@ -93,20 +94,16 @@ export default {
         }
       })
         .catch(error => {
-          this.$toast.error("Sorry, there was an error, please try again :(", {
-            theme: "toasted-primary",
-            position: "top-left"
-          });
           console.error(error);
           this.$sentry.captureException(error);
+          Swal.fire(
+            "Sorry!",
+            "There was an error, please try again :(",
+            "error"
+          );
         })
         .then(result => {
-          this.$toast
-            .success("Thanks! You are subscribed.", {
-              theme: "toasted-primary",
-              position: "top-left"
-            })
-            .goAway(1500);
+          Swal.fire("Thanks!", "You are subscribed.", "success");
         });
     }
   }

@@ -34,6 +34,7 @@
 
 <script>
 import _ from "lodash";
+import Swal from "sweetalert2";
 import PoemActions from "~/components/PoemActions";
 export default {
   components: { PoemActions },
@@ -86,25 +87,18 @@ export default {
         data: { email: this.email, list: [this.list] }
       })
         .then(response => {
-          this.$toast
-            .sucess("Thanks! You are subscribed.", {
-              theme: "toasted-primary",
-              position: "top-left"
-            })
-            .goAway(1500);
+          if ((response.status = 201)) {
+            Swal.fire("Thanks!", "You are subscribed.", "success");
+          }
         })
         .catch(error => {
           console.log(error);
           this.$sentry.captureException(error);
-          this.$toast
-            .error(
-              "Sorry, there was an error subscribing you, please try again :(",
-              {
-                theme: "toasted-danger",
-                position: "top-left"
-              }
-            )
-            .goAway(1500);
+          Swal.fire(
+            "Sorry!",
+            "There was an error subscrbing you, please try again :(",
+            "error"
+          );
         });
     },
     print() {
