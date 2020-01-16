@@ -70,6 +70,7 @@
 <script>
 import AppTeaserText from "~/components/AppTeaserText";
 import { isEmpty } from "lodash";
+import Swal from "sweetalert2";
 export default {
   name: "CalloutCard",
   components: { AppTeaserText },
@@ -132,27 +133,30 @@ export default {
     signUp(bvModalEvt) {
       bvModalEvt.preventDefault();
 
-      const body = {
-        email: this.email,
-        forms: {
-          AAPTTP: true
-        }
-      };
-      this.$axios
-        .post(`/api/cm/poem-a-day`, body)
-        .then(() => {
-          this.$toast.success("Thanks! You are subscribed.").goAway(1500);
-          this.$nextTick(() => {
-            // Wrapped in $nextTick to ensure DOM is rendered before closing
+      const mailchimpBase = `${window.location.protocol}//${
+        window.location.host
+      }`;
+      this.$axios({
+        method: "post",
+        baseURL: mailchimpBase,
+        url: "/mailchimp",
+        data: { email: this.email, list: ["teach-this-poem"] }
+      })
+        .then(response => {
+          if ((response.status = 201)) {
             this.$refs[`${this._uid}-modal`].hide();
-          });
+            Swal.fire("Thanks!", "You are subscribed.", "success");
+          }
         })
         .catch(error => {
+          this.$refs[`${this._uid}-modal`].hide();
           console.log(error);
-          const message =
-            "Sorry, there was an error subscribing you, please try again :(";
-          this.$toast.error(message).goAway(1500);
           this.$sentry.captureException(error);
+          Swal.fire(
+            "Sorry!",
+            "There was an error subscrbing you, please try again :(",
+            "error"
+          );
         });
     }
   }
