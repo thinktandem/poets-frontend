@@ -61,7 +61,8 @@ export default {
             component: "SignupBlock",
             props: {
               title: "Monthly Educator Newsletter",
-              text: "Receive monthly updates on lesson plans and more!"
+              text: "Receive monthly updates on lesson plans and more!",
+              list: "educator-newsletter"
             }
           };
           const sidebar = store.state.sidebarData;

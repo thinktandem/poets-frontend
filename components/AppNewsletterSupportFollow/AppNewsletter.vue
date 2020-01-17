@@ -13,7 +13,7 @@
         </b-form-checkbox>
         <br>
         <b-form-checkbox
-          v-model="list['education-newsletter']"
+          v-model="list['educator-newsletter']"
           type="checkbox"
           id="aapen"
           class="newsletter-checkbox"
@@ -67,7 +67,7 @@ export default {
     return {
       list: {
         "academy-newsletter": false,
-        "education-newsletter": false,
+        "educator-newsletter": false,
         "teach-this-poem": false,
         "poem-a-day": false
       },

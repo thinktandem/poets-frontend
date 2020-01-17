@@ -17,7 +17,7 @@ const buildInterests = lists => {
     "poem-a-day": "07de9ac192",
     "academy-newsletter": "e5c20f18e3",
     "teach-this-poem": "bdbd7d1108",
-    "education-newsletter": "451185a00f"
+    "educator-newsletter": "451185a00f"
   };
   return _.fromPairs(
     _.map(lists, list => {
