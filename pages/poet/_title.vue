@@ -345,6 +345,12 @@ export default {
         console.error(error);
       });
   },
+  async fetch({ store }) {
+    store.commit("updateHero", {
+      variant: "default",
+      heading: "Poets"
+    });
+  },
   methods: {
     niceDate(dateString, format) {
       return niceDate.niceDate(dateString, format);
