@@ -345,9 +345,6 @@ export default {
         console.error(error);
       });
   },
-  async fetch({ app, store, params, route, menu }) {
-    return app.$buildBasicPage(app, store, "/poets");
-  },
   methods: {
     niceDate(dateString, format) {
       return niceDate.niceDate(dateString, format);
