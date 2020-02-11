@@ -15,7 +15,7 @@
               v-model="fname"
               type="text"
               placeholder="First Name"
-              :required=true />
+              :required="true" />
             <div
               class="poster__req-field poster__field">
               {{ res.last_name["#title"] }}
@@ -24,7 +24,7 @@
               v-model="lname"
               type="text"
               placeholder="Last Name"
-              :required=true />
+              :required="true" />
             <div
               class="poster__req-field poster__field">
               {{ res.email["#title"] }}
@@ -33,7 +33,7 @@
               v-model="email"
               type="email"
               placeholder="you@example.com"
-              :required=true />
+              :required="true" />
             <div
               class="poster__field">
               {{ res.company["#title"] }}
@@ -41,7 +41,7 @@
             <b-form-input
               v-model="company"
               type="text"
-              :required=true />
+              :required="true" />
             <div
               class="poster__req-field poster__field">
               {{ res.address["#webform_composite_elements"].address["#title"] }}
@@ -49,14 +49,23 @@
             <b-form-input
               v-model="address1"
               type="text"
-              :required=true />
+              :required="true" />
             <div
               class="poster__field">
               {{ res.address["#webform_composite_elements"].address_2["#title"] }}
             </div>
             <b-form-input
+              v-model="address2"
+              type="text"
+              :required="false" />
+            <div
+              class="poster__field">
+              {{ res.address["#webform_composite_elements"].city["#title"] }}
+            </div>
+            <b-form-input
               v-model="city"
-              type="select" />
+              type="text"
+              :required="true"/>
             <div
               class="poster__req-field poster__field">
               {{ res.address["#webform_composite_elements"].state_province["#title"] }}
