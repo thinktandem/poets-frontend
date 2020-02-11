@@ -101,61 +101,99 @@ export default ({ app }, inject) => {
         store.commit("updateRelatedContent", {});
       });
   });
-  inject("buildMenu", ({ menu, route, store }) => {
-    const transformTree = menu => {
-      return _.zipWith(
-        _.keys(menu),
-        _.map(menu, link => link.to),
-        (text, to) => ({
-          text,
-          to
-        })
-      );
-    };
+
+  inject("buildMenu", ({ route, store }) => {
     const path = route.path.split("/");
-    const top = transformTree(menu);
-    store.commit(
-      "updateTopMenu",
-      _.reject(top, link => link.text == "Poets.org")
-    );
-    // Vertical should be the first route segment after the root /.
-    const currentVertical = path.length >= 2 ? path[1] : "";
-    const midMenu =
-      _.find(menu, link => link.to === "/" + currentVertical) ||
-      _.find(menu, (link, key) => key === "Poets.org");
-    store.commit("updateMidMenu", transformTree(midMenu.children));
+    return app.$axios
+      .$get("/api/menu_items/main")
+      .then(res => {
+        // Vertical should be the first route segment after the root /.
+        const currentVertical =
+          path.length >= 2 && path[1] !== "" ? path[1] : "/";
+        let links = {};
+        let midMenu = {};
+        _.each(res, (link, i) => {
+          const alias = link.alias === "" ? "Poets.org" : link.alias;
+          links[alias] = {
+            to: link.relative,
+            text: link.title
+          };
+          if (alias === currentVertical) {
+            midMenu = {};
+            _.each(link.below, child => {
+              midMenu[child.title] = {
+                to: child.relative,
+                text: child.title
+              };
+            });
+          } else if (link.below && alias === "Poets.org") {
+            _.each(link.below, child => {
+              midMenu[child.title] = {
+                to: child.relative,
+                text: child.title
+              };
+            });
+          }
+        });
+        store.commit("updateTopMenu", links);
+        store.commit("updateMidMenu", midMenu);
+      })
+      .catch(err => console.log(err));
   });
+
   // Given the subMenu.json object, find the sub menu items for the provided
   // route.
   inject("buildSubMenu", ({ subMenu, route, store }) => {
-    // Function to recurse through subMenu.json.
-    const findChildren = (uri, menu) => {
-      let value = {};
-
-      // We've reached a dead end; bail.
-      if (_.isEmpty(menu)) return;
-
-      // Go through each menu item; if it's a match with route, we've found our
-      // subMenu.
-      _.each(menu, function(item) {
-        if (item.to === uri && _.isEmpty(item.children)) {
-          value = menu;
-        }
-      });
-
-      // If we haven't found our item, recurse until we do.
-      if (_.isEmpty(value)) {
-        _.each(menu, function(item) {
-          if (!_.isEmpty(findChildren(uri, item.children))) {
-            value = findChildren(uri, item.children);
+    return app.$axios
+      .$get("/api/menu_items/subMenu")
+      .then(res => {
+        let subMenu = {};
+        let children = {};
+        _.each(res, links => {
+          if (links.below) {
+            children = {};
+            _.each(links.below, child => {
+              children[child.title] = {
+                to: child.relative
+              };
+            });
           }
+          subMenu[links.title] = {
+            to: links.relative,
+            children
+          };
         });
-      }
+        // Function to recurse through subMenu.json.
+        const findChildren = (uri, menus) => {
+          let value = {};
 
-      return value;
-    };
-    store.commit("updateSubMenu", findChildren(route.path, subMenu));
+          // We've reached a dead end; bail.
+          if (_.isEmpty(menus)) return;
+
+          // Go through each menu item; if it's a match with route, we've found our
+          // subMenu.
+          _.each(menus, function(item) {
+            if (item.to === uri && _.isEmpty(item.children)) {
+              value = menus;
+            }
+          });
+
+          // If we haven't found our item, recurse until we do.
+          if (_.isEmpty(value)) {
+            _.each(menus, function(item) {
+              if (!_.isEmpty(findChildren(uri, item.children))) {
+                value = findChildren(uri, item.children);
+              }
+            });
+          }
+
+          return value;
+        };
+        store.commit("updateSubMenu", findChildren(route.path, subMenu));
+      })
+      .catch(err => console.log(err));
   });
+
   /**
    * Abstract away the ugliness of pulling a related entity
    */
