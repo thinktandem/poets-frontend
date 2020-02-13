@@ -194,6 +194,34 @@ export default ({ app }, inject) => {
       .catch(err => console.log(err));
   });
 
+  inject("buildFooterMenu", ({ route, store }) => {
+    return app.$axios
+      .$get("/api/menu_items/footer")
+      .then(res => {
+        const porgFootMenu = _.find(res, link => {
+          return link.title === "poets.org";
+        });
+        const aapFootMenu = _.find(res, link => {
+          return link.title === "academy of american poets";
+        });
+        const npmFootMenu = _.find(res, link => {
+          return link.title === "national poetry month";
+        });
+        const apmFootMenu = _.find(res, link => {
+          return link.title === "american poets";
+        });
+        const utilityFooter = _.find(res, link => {
+          return link.title === "utility footer";
+        });
+        store.commit("updatePorgFootMenu", porgFootMenu.below);
+        store.commit("updateAapFootMenu", aapFootMenu.below);
+        store.commit("updateNpmFootMenu", npmFootMenu.below);
+        store.commit("updateApmFootMenu", apmFootMenu.below);
+        store.commit("updateUtilityFooter", utilityFooter.below);
+      })
+      .catch(err => console.log(err));
+  });
+
   /**
    * Abstract away the ugliness of pulling a related entity
    */

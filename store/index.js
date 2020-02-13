@@ -46,6 +46,11 @@ const createStore = () => {
       midMenu: [],
       subMenu: [],
       showSubMenu: true,
+      porgFootMenu: [],
+      aapFootMenu: [],
+      npmFootMenu: [],
+      apmFootMenu: [],
+      utilityFooter: [],
       metatags: [],
       isa: {
         isaHeader: null,
@@ -128,6 +133,21 @@ const createStore = () => {
       },
       toggleSubMenu(state, payload) {
         state.showSubMenu = payload;
+      },
+      updatePorgFootMenu(state, payload) {
+        state.porgFootMenu = payload;
+      },
+      updateAapFootMenu(state, payload) {
+        state.aapFootMenu = payload;
+      },
+      updateNpmFootMenu(state, payload) {
+        state.npmFootMenu = payload;
+      },
+      updateApmFootMenu(state, payload) {
+        state.apmFootMenu = payload;
+      },
+      updateUtilityFooter(state, payload) {
+        state.utilityFooter = payload;
       },
       updateMetatags(state, payload) {
         state.metatags = payload;
