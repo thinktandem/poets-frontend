@@ -6,6 +6,16 @@
       class="shadow-sm d-flex"
       variant="dark"
     >
+      <b-navbar-brand
+        tag="div"
+        class="btn btn-md d-flex flex-row"
+      >
+        <b-link
+          to="/"
+          class="d-inline-flex flex-row"
+        >Poets.org</b-link>
+        <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
+      </b-navbar-brand>
       <b-navbar-toggle
         label="Menu"
         class="border-0"

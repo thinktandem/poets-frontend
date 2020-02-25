@@ -114,10 +114,12 @@ export default ({ app }, inject) => {
         let midMenu = {};
         _.each(res, (link, i) => {
           const alias = link.alias === "" ? "Poets.org" : link.alias;
-          links[alias] = {
-            to: link.relative,
-            text: link.title
-          };
+          if (link.title !== "Poets.org") {
+            links[alias] = {
+              to: link.relative,
+              text: link.title
+            };
+          }
           if (alias === currentVertical) {
             midMenu = {};
             _.each(link.below, child => {
