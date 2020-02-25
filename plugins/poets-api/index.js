@@ -141,6 +141,31 @@ export default ({ app }, inject) => {
       .catch(err => console.log(err));
   });
 
+  inject("buildMobileMenu", ({ route, store }) => {
+    return app.$axios
+      .$get("/api/menu_items/mobileMenu")
+      .then(res => {
+        let mobileMenu = [];
+        _.each(res, (link, i) => {
+          mobileMenu[i] = {
+            to: link.relative,
+            text: link.title
+          };
+          if (link.below) {
+            mobileMenu[i].children = [];
+            _.each(link.below, (child, j) => {
+              mobileMenu[i].children[j] = {
+                to: child.relative,
+                text: child.title
+              };
+            });
+          }
+        });
+        store.commit("updateMobileMenu", mobileMenu);
+      })
+      .catch(err => console.log(err));
+  });
+
   // Given the subMenu.json object, find the sub menu items for the provided
   // route.
   inject("buildSubMenu", ({ subMenu, route, store }) => {

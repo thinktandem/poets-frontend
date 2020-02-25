@@ -45,6 +45,7 @@ const createStore = () => {
       topMenu: [],
       midMenu: [],
       subMenu: [],
+      mobileMenu: [],
       showSubMenu: true,
       porgFootMenu: [],
       aapFootMenu: [],
@@ -124,6 +125,9 @@ const createStore = () => {
       },
       updateTopMenu(state, payload) {
         state.topMenu = payload;
+      },
+      updateMobileMenu(state, payload) {
+        state.mobileMenu = payload;
       },
       updateMidMenu(state, payload) {
         state.midMenu = payload;

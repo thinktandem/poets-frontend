@@ -11,4 +11,5 @@ export default function(context) {
   });
   context.store.commit("toggleSubMenu", true);
   context.app.$buildFooterMenu({ route: context.route, store: context.store });
+  context.app.$buildMobileMenu({ route: context.route, store: context.store });
 }
