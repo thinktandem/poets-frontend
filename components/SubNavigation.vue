@@ -17,7 +17,7 @@
       >
         <b-navbar-nav class="ml-auto">
           <b-nav-item
-            v-for="(link, index) in links"
+            v-for="(link, index) in $store.state.subMenu"
             :key="index"
             :to="link.to"
             exact>
@@ -33,12 +33,6 @@
 import { isEmpty } from "lodash";
 export default {
   name: "SubNavigation",
-  props: {
-    links: {
-      type: Object,
-      default: () => {}
-    }
-  },
   computed: {
     hasLinks() {
       return !isEmpty(this.links);

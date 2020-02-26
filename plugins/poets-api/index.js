@@ -200,8 +200,14 @@ export default ({ app }, inject) => {
           // Go through each menu item; if it's a match with route, we've found our
           // subMenu.
           _.each(menus, function(item) {
-            if (item.to === uri && _.isEmpty(item.children)) {
-              value = menus;
+            if (item.to === uri) {
+              value = item.children;
+            } else {
+              _.each(item.children, child => {
+                if (child.to === uri) {
+                  value = child;
+                }
+              });
             }
           });
 
