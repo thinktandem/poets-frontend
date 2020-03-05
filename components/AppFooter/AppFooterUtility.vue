@@ -4,10 +4,10 @@
       <div class="row">
         <div class="col-sm-12 col-md-10">
           <span
-            v-for="link in links"
-            :key="link.url"
+            v-for="link in $store.state.utilityFooter"
+            :key="link.alias"
             class="utility__links pr-3">
-            <a :href="link.url">{{ link.text }}</a>
+            <a :href="link.relative">{{ link.title }}</a>
           </span>
           <div class="utility__links_copyright pt-4">
             © Academy of American Poets, 75 Maiden Lane, Suite 901, New York, NY 10038
@@ -26,38 +26,6 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      links: [
-        {
-          text: "Contact",
-          url: "/academy-american-poets/contact-us"
-        },
-        {
-          text: "About Us",
-          url: "/academy-american-poets/about-us"
-        },
-        {
-          text: "For Advertisers",
-          url: "/academy-american-poets/advertise-us"
-        },
-        {
-          text: "Press Center",
-          url: "/academy-american-poets/press-center"
-        },
-        {
-          text: "Credits",
-          url: "/site-credits"
-        },
-        {
-          text: "Privacy",
-          url: "/privacy"
-        }
-      ]
-    };
-  }
-};
 </script>
 
 <style scoped>
