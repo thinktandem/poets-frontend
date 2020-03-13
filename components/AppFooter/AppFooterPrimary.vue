@@ -11,10 +11,12 @@
             </b-link>
           </h3>
           <div
-            v-for="link in linksPoets"
-            :key="link.url"
+            v-for="link in $store.state.porgFootMenu"
+            :key="link.alias"
             class="footer__primary__links p-1">
-            <b-link :to="link.url">{{ link.text }}</b-link>
+            <b-link :to="link.relative">
+              {{ link.title }}
+            </b-link>
           </div>
         </div>
         <div class="col-sm-12 col-md-3">
@@ -26,10 +28,12 @@
             </b-link>
           </h3>
           <div
-            v-for="link in linksAcademy"
-            :key="link.url"
+            v-for="link in $store.state.aapFootMenu"
+            :key="link.alias"
             class="footer__primary__links p-1">
-            <b-link :to="link.url">{{ link.text }}</b-link>
+            <b-link :to="link.relative">
+              {{ link.title }}
+            </b-link>
           </div>
         </div>
         <div class="col-sm-12 col-md-3">
@@ -41,10 +45,12 @@
             </b-link>
           </h3>
           <div
-            v-for="link in linksPoetryMonth"
-            :key="link.url"
+            v-for="link in $store.state.npmFootMenu"
+            :key="link.alias"
             class="footer__primary__links p-1">
-            <b-link :to="link.url">{{ link.text }}</b-link>
+            <b-link :to="link.relative">
+              {{ link.title }}
+            </b-link>
           </div>
         </div>
         <div class="col-sm-12 col-md-3">
@@ -56,15 +62,12 @@
             </b-link>
           </h3>
           <div
-            v-for="link in linksAmericanPoets"
-            :key="link.url"
+            v-for="link in $store.state.apmFootMenu"
+            :key="link.alias"
             class="footer__primary__links p-1">
-            <a
-              v-if="link.external"
-              :href="link.url">{{ link.text }}</a>
-            <b-link
-              v-else
-              :to="link.url">{{ link.text }}</b-link>
+            <b-link :to="link.relative">
+              {{ link.title }}
+            </b-link>
           </div>
         </div>
       </div>
@@ -73,129 +76,6 @@
 </template>
 
 <script>
-export default {
-  /**
-   * @todo: should/can this be a data/prop delivered by drupal?
-   * @return {{ links: {text: string, url: string}[]}}`
-   */
-  data() {
-    return {
-      linksPoets: [
-        {
-          text: "Find Poems",
-          url: "/poems"
-        },
-        {
-          text: "Find Poets",
-          url: "/poets"
-        },
-        {
-          text: "Poems for Kids",
-          url: "/materials-teachers/poems-kids"
-        },
-        {
-          text: "Poetry Near You",
-          url: "/poetry-near-you"
-        },
-        {
-          text: "Read Stanza",
-          url: "/stanza"
-        },
-        {
-          text: "Audio",
-          url: "/audio"
-        },
-        {
-          text: "Texts",
-          url: "/texts"
-        },
-        {
-          text: "Jobs for Poets",
-          url: "/jobs"
-        },
-        {
-          text: "Materials for Teachers",
-          url: "/materials-teachers"
-        }
-      ],
-      linksAcademy: [
-        {
-          text: "Programs",
-          url: "/academy-american-poets/programs"
-        },
-        {
-          text: "Prizes",
-          url: "/academy-american-poets/american-poets-prizes"
-        },
-        {
-          text: "The Walt Whitman Award",
-          url: "/academy-american-poets/prizes/walt-whitman-award"
-        },
-        {
-          text: "James Laughlin Award",
-          url: "/academy-american-poets/prizes/james-laughlin-award"
-        },
-        {
-          text: "Ambroggio Prize",
-          url: "/academy-american-poets/prizes/ambroggio-prize"
-        },
-        {
-          text: "Chancellors",
-          url: "/academy-american-poets/chancellors"
-        },
-        {
-          text: "Mission & History",
-          url: "/academy-american-poets/mission-history"
-        },
-        {
-          text: "Staff",
-          url: "/academy-american-poets/staff"
-        }
-      ],
-      linksPoetryMonth: [
-        {
-          text: "Poetry & the Creative Mind",
-          url: "/academy-american-poets/programs/poetry-creative-mind"
-        },
-        {
-          text: "Dear Poet Project",
-          url: "/national-poetry-month/dear-poet-project-2019"
-        },
-        {
-          text: "Poster",
-          url: "/national-poetry-month/form/poster-request-form"
-        },
-        {
-          text: "30 Ways to Celebrate",
-          url: "/national-poetry-month/30-ways-celebrate-national-poetry-month"
-        },
-        {
-          text: "Sponsorship",
-          url: "/national-poetry-month/sponsors-partners"
-        }
-      ],
-      linksAmericanPoets: [
-        {
-          text: "Books Noted",
-          url: "/american-poets-magazine/books-noted"
-        },
-        {
-          text: "Essays",
-          url: "/american-poets-magazine/previous_magazines"
-        },
-        {
-          text: "Back Issues",
-          external: true,
-          url: "https://poets.myshopify.com/collections/american-poets"
-        },
-        {
-          text: "Advertise",
-          url: "/american-poets-magazine/advertising-american-poets"
-        }
-      ]
-    };
-  }
-};
 </script>
 
 <style scoped lang="scss">

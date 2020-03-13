@@ -45,7 +45,13 @@ const createStore = () => {
       topMenu: [],
       midMenu: [],
       subMenu: [],
+      mobileMenu: [],
       showSubMenu: true,
+      porgFootMenu: [],
+      aapFootMenu: [],
+      npmFootMenu: [],
+      apmFootMenu: [],
+      utilityFooter: [],
       metatags: [],
       isa: {
         isaHeader: null,
@@ -120,6 +126,9 @@ const createStore = () => {
       updateTopMenu(state, payload) {
         state.topMenu = payload;
       },
+      updateMobileMenu(state, payload) {
+        state.mobileMenu = payload;
+      },
       updateMidMenu(state, payload) {
         state.midMenu = payload;
       },
@@ -128,6 +137,21 @@ const createStore = () => {
       },
       toggleSubMenu(state, payload) {
         state.showSubMenu = payload;
+      },
+      updatePorgFootMenu(state, payload) {
+        state.porgFootMenu = payload;
+      },
+      updateAapFootMenu(state, payload) {
+        state.aapFootMenu = payload;
+      },
+      updateNpmFootMenu(state, payload) {
+        state.npmFootMenu = payload;
+      },
+      updateApmFootMenu(state, payload) {
+        state.apmFootMenu = payload;
+      },
+      updateUtilityFooter(state, payload) {
+        state.utilityFooter = payload;
       },
       updateMetatags(state, payload) {
         state.metatags = payload;

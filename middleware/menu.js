@@ -1,16 +1,15 @@
-import menu from "~/menu.json";
-import subMenu from "~/subMenu.json";
 /**
  * @param {Object} context
  *   NuxtJS context
  * @return {void}
  */
 export default function(context) {
-  context.app.$buildMenu({ menu, route: context.route, store: context.store });
+  context.app.$buildMenu({ route: context.route, store: context.store });
   context.app.$buildSubMenu({
-    subMenu,
     route: context.route,
     store: context.store
   });
   context.store.commit("toggleSubMenu", true);
+  context.app.$buildFooterMenu({ route: context.route, store: context.store });
+  context.app.$buildMobileMenu({ route: context.route, store: context.store });
 }

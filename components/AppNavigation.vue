@@ -16,7 +16,6 @@
         >Poets.org</b-link>
         <span class="oi oi-caret-bottom d-inline-flex d-sm-inline-flex d-md-none flex-row" />
       </b-navbar-brand>
-
       <b-navbar-toggle
         label="Menu"
         class="border-0"
