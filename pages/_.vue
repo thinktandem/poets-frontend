@@ -20,7 +20,7 @@ export default {
   },
   layout(context) {
     const path = context.route.path;
-    if (path.includes("/membership")) {
+    if (path.includes("/membership/")) {
       return "sparse";
     } else {
       return "default";
