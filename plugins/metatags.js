@@ -11,21 +11,6 @@ export default {
    * @return {Object} The tags results.
    */
   renderTags(route, data, overrides = []) {
-    let headScripts = [
-      {
-        innerHTML: this.structuredData(data),
-        type: "application/ld+json"
-      }
-    ];
-    if (
-      route.path === "/" ||
-      route.path === "/poem-a-day" ||
-      route.path === "/national-poetry-month"
-    ) {
-      const powerAd = [{ src: "https://powerad.ai/script.js" }];
-      headScripts = _.merge(headScripts, powerAd);
-    }
-
     return {
       title: _.get(
         _.find(data, metatag => _.get(metatag, "attributes.name") === "title"),
@@ -49,7 +34,12 @@ export default {
         })
         .value(),
       __dangerouslyDisableSanitizers: ["script"],
-      script: headScripts
+      script: [
+        {
+          innerHTML: this.structuredData(data),
+          type: "application/ld+json"
+        }
+      ]
     };
   },
 
