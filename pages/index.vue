@@ -79,7 +79,9 @@ export default {
     ProductFeature
   },
   head() {
-    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
+    let meta = MetaTags.renderTags(this.$route, this.$store.state.metatags);
+    meta["script"].push({ src: "https://powerad.ai/script.js" });
+    return meta;
   },
   data() {
     return {
