@@ -93,9 +93,7 @@ export default {
     TwitterIcon
   },
   head() {
-    let meta = MetaTags.renderTags(this.$route, this.$store.state.metatags);
-    meta["script"].push({ src: "https://powerad.ai/script.js" });
-    return meta;
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
   data() {
     return {

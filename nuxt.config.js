@@ -95,7 +95,8 @@ module.exports = {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v2" }],
     script: [
-      { src: "//widgets.getsitecontrol.com/190727/script.js", body: true }
+      { src: "//widgets.getsitecontrol.com/190727/script.js", body: true },
+      { src: "https://powerad.ai/script.js" }
     ]
   },
   /*
