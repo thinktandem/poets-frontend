@@ -1,7 +1,10 @@
+require("dotenv").config();
+
 module.exports = {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth",
+    "@nuxtjs/dotenv",
     "cookie-universal-nuxt",
     "@nuxtjs/google-analytics",
     "@nuxtjs/sentry",

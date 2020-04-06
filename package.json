@@ -22,6 +22,7 @@
     "@nuxtjs/sentry": "^2.3.2",
     "@nuxtjs/sitemap": "^0.2.2",
     "@nuxtjs/toast": "^3.0.2",
+    "acorn": "^6.4.1",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "2.0.0-rc.12",
     "cookie-universal-nuxt": "^2.0.17",
@@ -35,10 +36,12 @@
     "js-md5": "^0.7.3",
     "js-yaml": "^3.13.1",
     "jwt-decode": "^2.2.0",
+    "kind-of": "^6.0.3",
     "lodash": "^4.17.13",
     "lodash.mergewith": "^4.6.2",
     "lodash.template": "^4.5.0",
     "mailchimp-api-v3": "^1.13.1",
+    "minimist": "^1.2.3",
     "moment": "^2.23.0",
     "net": "^1.0.2",
     "node-sass": "^4.9.2",
@@ -64,6 +67,7 @@
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.0",
     "babel-preset-vue": "^2.0.2",

@@ -13,11 +13,6 @@ services:
     port: 3000
     build:
       - yarn install
-  codeception:
-    type: compose
-    services:
-      image: codeception/codeceptjs
-      command: /codecept/docker/entrypoint
 tooling:
   yarn:
     service: appserver
