@@ -10,6 +10,8 @@ services:
   appserver:
     type: node:10
     command: cp -n /app/.env.example /app/.env && yarn dev --hostname 0.0.0.0
+    ssl: true
+    sslExpose: true
     port: 3000
     build:
       - yarn install
