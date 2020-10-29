@@ -111,14 +111,6 @@
             v-html="data.item.field_author"
           />
         </template>
-        <template
-          slot="field_google_analytics_counter"
-          slot-scope="data"
-        >
-          <a
-            v-html="kFormatter(data.item.field_google_analytics_counter)"
-          />
-        </template>
       </b-table>
       <div class="pager">
         <b-pagination
@@ -423,11 +415,6 @@ export default {
       if (queryPage === 0) {
         this.$ga.page(`/poems?page=0`);
       }
-    },
-    kFormatter(num) {
-      return Math.abs(num) > 999
-        ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
-        : Math.sign(num) * Math.abs(num);
     }
   },
   watch: {
