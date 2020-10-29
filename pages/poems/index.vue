@@ -269,10 +269,6 @@ export default {
           label: "Author"
         },
         {
-          key: "field_google_analytics_counter",
-          label: "Views"
-        },
-        {
           key: "field_date_published",
           label: "Year"
         }
