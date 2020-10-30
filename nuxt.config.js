@@ -21,7 +21,7 @@ module.exports = {
     ["bootstrap-vue/nuxt", { css: false }]
   ],
   axios: {
-    debug: process.env.NODE_ENV !== "production"
+    // debug: process.env.NODE_ENV !== "production"
   },
   auth: {
     redirect: false,
