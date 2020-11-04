@@ -13,6 +13,10 @@ services:
     ssl: true
     sslExpose: true
     port: 3000
+    build_as_root:
+      - apt-get update
+      - apt install python-pip -y
+      - pip install psrecord
     build:
       - yarn install
   codeception:
