@@ -160,7 +160,7 @@ const buildQuery = (filters = {}) =>
 // Helper to param stringify the filters
 const buildParams = (filters = {}) => stringify(_.pickBy(filters));
 
-// Helper to fetch featured poets
+// Helper to fetch featured poems
 const buildFeaturesPoemsQuery = ({
   occasion = null,
   theme = null,
