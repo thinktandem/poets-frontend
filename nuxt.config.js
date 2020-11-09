@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const apiUrl = process.env.API_URL || "https://api.poets.org";
+
 module.exports = {
   modules: [
     "@nuxtjs/axios",
@@ -145,7 +147,7 @@ module.exports = {
     }
   },
   env: {
-    baseURL: process.env.API_URL || "https://api.poets.org",
+    baseURL: apiUrl,
     appURL: process.env.appURL || "https://poets.org",
     CACHE_TTL: process.env.CACHE_TTL || 300,
     CONSUMER_ID: process.env.CONSUMER_ID,
