@@ -2,9 +2,9 @@
   <div>
     <b-container
       class="py-5"
-      v-if="term">
-      <h2 class="h3">{{ term.title }}</h2>
-      <div v-html="term.body"/>
+      v-if="movement">
+      <h2 class="h3">{{ movement.title }}</h2>
+      <div v-html="movement.body"/>
     </b-container>
     <b-container>
       <b-row>
@@ -17,98 +17,84 @@
               <b-form-select
                 :disabled="busy"
                 inline
-                @input="searchPoems(0)"
-                v-model="filters.field_occasion_tid"
-                :options="options.occasions"
+                @input="searchPoets(0)"
+                v-model="filters.state"
+                :options="options.states"
               >
                 <template slot="first">
                   <option
                     :value="null"
                   >
-                    Occasions</option>
+                    State</option>
                 </template>
               </b-form-select>
               <b-form-select
                 :disabled="busy"
                 inline
-                @input="searchPoems(0)"
-                v-model="filters.field_poem_themes_tid"
-                :options="options.themes"
+                @input="searchPoets(0)"
+                v-model="filters.school"
+                :options="options.schools"
               >
                 <template slot="first">
                   <option
                     :value="null"
                   >
-                    Themes</option>
-                </template>
-              </b-form-select>
-              <b-form-select
-                :disabled="busy"
-                inline
-                @input="searchPoems(0)"
-                v-model="filters.field_form_tid"
-                :options="options.form"
-              >
-                <template slot="first">
-                  <option
-                    :value="null"
-                  >
-                    Forms</option>
+                    Schools & Movements</option>
                 </template>
               </b-form-select>
 
-              <b-input-group class="table-filters__search">
-                <b-form-input
-                  :disabled="busy"
-                  v-model="filters.combine"
-                  type="text"
-                  size="22"
-                  placeholder="Search title or text ..."
-                />
-                <b-input-group-append
-                  is-text
-                  class="icon--search"
-                >
-                  <magnifying-glass-icon class="icon" />
-                </b-input-group-append>
-              </b-input-group>
+              <div class="table-filters__search">
+                <b-input-group>
+                  <b-form-input
+                    :disabled="busy"
+                    v-model="filters.combine"
+                    type="text"
+                    size="22"
+                    placeholder="Search by poet, movement, etc..."
+                  />
+                  <b-input-group-append
+                    is-text
+                    class="icon--search"
+                  >
+                    <magnifying-glass-icon class="icon" />
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+
             </b-form-group>
           </app-form>
         </b-col>
       </b-row>
     </b-container>
-
     <b-container>
       <b-table
-        id="poems"
-        :items="poems"
+        id="poets"
+        :items="poets"
         :fields="fields"
         stacked="md"
         :per-page="perPage"
       >
         <template
-          slot="title"
+          slot="poets"
           slot-scope="data"
         >
           <a
             :href="data.item.view_node"
-            v-html="replaceFileUrl(data.item.title)"
+            v-html="replaceFileUrl(data.item.poets)"
           />
         </template>
         <template
-          slot="field_author"
+          slot="years"
           slot-scope="data"
         >
-          <a
-            v-html="data.item.field_author"
-          />
+          {{ data.item.field_dob }} - {{ data.item.field_dod }}
         </template>
       </b-table>
       <div class="pager">
         <b-pagination
           @input="paginate"
           :disabled="busy"
-          aria-controls="poems"
+          aria-controls="poets"
           class="pagination"
           hide-goto-end-buttons
           :per-page="perPage"
@@ -144,13 +130,23 @@ import MetaTags from "~/plugins/metatags";
 const buildQuery = (filters = {}) =>
   _.pickBy({
     combine: filters.combine,
-    field_form_target_id: filters.field_form_tid,
-    field_occasion_target_id: filters.field_occasion_tid,
-    field_poem_themes_target_id: filters.field_poem_themes_tid
+    school: filters.school,
+    state: filters.state
   });
 
 // Helper to param stringify the filters
 // const buildParams = (filters = {}) => stringify(_.pickBy(filters));
+
+// Helper to fetch a specific movement
+const buildMovementQuery = school => ({
+  filter: {
+    drupal_internal__tid: school,
+    status: 1
+  },
+  page: {
+    limit: 1
+  }
+});
 
 // Helper to fetch a specific term
 const buildTermQuery = id => ({
@@ -171,21 +167,6 @@ const buildUrlParamQuery = id => ({
   }
 });
 
-// Helper for us to get the "highest priority" term
-const getPriorityTerm = ({
-  field_occasion_tid = null,
-  field_poem_themes_tid = null,
-  field_form_tid = theme
-} = {}) => {
-  if (!_.isNil(field_occasion_tid))
-    return { name: "occasions", id: field_occasion_tid };
-  else if (!_.isNil(field_poem_themes_tid))
-    return { name: "themes", id: field_poem_themes_tid };
-  else if (!_.isNil(field_form_tid))
-    return { name: "form", id: field_form_tid };
-  else return {};
-};
-
 export default {
   components: {
     CardDeck,
@@ -201,34 +182,33 @@ export default {
       busy: true,
       fields: [
         {
-          key: "title",
-          label: "Title"
+          key: "poets",
+          label: "Poet"
         },
         {
-          key: "field_author",
-          label: "Author"
+          key: "field_school_movement",
+          label: "Schools and Movements"
         },
         {
-          key: "field_date_published",
-          label: "Year"
+          key: "years",
+          label: "Years"
         }
       ],
       filters: {
         combine: null,
-        field_form_tid: null,
-        field_occasion_tid: null,
-        field_poem_themes_tid: null
+        school: null,
+        state: null
       },
+      movement: {},
       options: {
-        occasions: [],
-        themes: [],
-        form: []
+        schools: [],
+        states: []
       },
       urlFilter: "",
       page: 1,
       pageCache: [],
       perPage: 20,
-      poems: [],
+      poets: [],
       term: {},
       rows: 0
     };
@@ -237,7 +217,7 @@ export default {
     const termIdQuery = buildUrlParamQuery(this.$route.params.term);
     await this.$api
       .getTermId(
-        this.$route.params.filter,
+        "school_movement", // this.$route.params.filter,
         this.$route.params.term,
         termIdQuery
       )
@@ -254,61 +234,37 @@ export default {
   mounted() {
     // the placeholders show up in the dropdowns
     this.filters = _.merge(this.filters, this.$route.query);
-    // Get all the data we need for search
-    Promise.all([
-      this.getFilter("occasions"),
-      this.getFilter("themes"),
-      this.getFilter("form")
-    ]);
+    Promise.all([this.getSchools(), this.getStates()]);
     // Spin up a debouncing func for text input
-    this.debouncedSearchPoems = _.debounce(this.searchPoems, 700);
+    this.debouncedSearchPoets = _.debounce(this.searchPoets, 700);
   },
   methods: {
-    searchPoems(page = 0) {
+    searchPoets(page = 0) {
       this.busy = true;
 
       const query = _.merge({}, buildQuery(this.filters), { page });
-      this.$api.searchPoems({ query }).then(response => {
+      this.$api.searchPoets({ query }).then(response => {
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
-        this.poems = this.rows > 0 ? _.get(response, "data.rows", []) : [];
-        // Update the url so the search can be shared.
-        // @NOTE: we want to use the raw filters not the query which is
-        // parsed into things drupal needs
-        // const params = buildParams(this.filters);
-        // if (!_.isEmpty(params)) {
-        //   window.history.pushState({}, "", `?${params}`);
-        // }
-        // And finally set busy
+        this.poets = this.rows > 0 ? _.get(response, "data.rows", []) : [];
         this.busy = false;
       });
-      // Grab the movement and featured poets
-      Promise.all([this.getTermDescription()]);
+      // Grab the movement.
+      Promise.all([this.getMovement()]);
       let pageString =
-        `/poems/` +
+        `/poets/` +
         `${this.$route.params.filter}/` +
         `${this.$route.params.term}` +
         `?page=${query.page}`;
-      if (
-        query.combine ||
-        query.field_occasion_target_id ||
-        query.field_poems_themes_target_id ||
-        query.field_poem_themes_target_id ||
-        query.page !== 0
-      ) {
+      if (query.combine || query.state || query.school || query.page !== 0) {
         if (!_.isEmpty(query.combine)) {
           pageString += `&combine=${query.combine}`;
         }
-        if (query.field_occasion_target_id) {
-          pageString += `&field_occasion_tid=${query.field_occasion_target_id}`;
+        if (query.state) {
+          pageString += `&state=${query.state}`;
         }
-        if (query.field_poem_themes_target_id) {
-          pageString += `&field_poem_themes_tid=${
-            query.field_poem_themes_target_id
-          }`;
-        }
-        if (query.field_form_target_id) {
-          pageString += `&field_form_tid=${query.field_form_target_id}`;
+        if (query.school) {
+          pageString += `&school=${query.school}`;
         }
         this.$ga.page(pageString);
       }
@@ -321,6 +277,23 @@ export default {
           _.get(response, "data.data", [])
         );
       });
+    },
+    getMovement() {
+      if (!_.isNil(this.filters.school)) {
+        this.$api
+          .getTerm("school_movement", {
+            query: buildMovementQuery(this.filters.school)
+          })
+          .then(response => {
+            const term = _.first(_.get(response, "data.data", []));
+            this.movement = {
+              title: _.get(term, "attributes.name"),
+              body:
+                _.get(term, "attributes.description.summary") ||
+                _.get(term, "attributes.description.processed")
+            };
+          });
+      }
     },
     getTermDescription() {
       const priorityTerm = getPriorityTerm(this.filters);
@@ -348,13 +321,31 @@ export default {
       });
     },
     getUrlFilter(filter) {
-      if (filter === "occasions") {
-        return "field_occasion_tid";
-      } else if (filter === "themes") {
-        return "field_poem_themes_tid";
-      } else if (filter === "form") {
-        return "field_form_tid";
+      if (filter === "school") {
+        return "school";
+      } else if (filter === "state") {
+        return "state";
       }
+    },
+    getSchools() {
+      const fields = "name,drupal_internal__tid";
+      const query = _.set({}, "fields[taxonomy_term--school_movement]", fields);
+      this.$api.getTerm("school_movement", { query }).then(response => {
+        this.options.schools = filterHelpers.map2Options(
+          _.get(response, "data.data", [])
+        );
+      });
+    },
+    getStates() {
+      const fields = "title,drupal_internal__nid";
+      const query = _.set({}, "fields[node--state]", fields);
+      this.$api.getTerm("state", { query }, "node").then(response => {
+        this.options.states = filterHelpers.map2Options(
+          _.get(response, "data.data", []),
+          "attributes.title",
+          "attributes.drupal_internal__nid"
+        );
+      });
     },
     paginate() {
       this.busy = true;
@@ -369,7 +360,7 @@ export default {
   },
   watch: {
     "filters.combine": function() {
-      this.debouncedSearchPoems();
+      this.debouncedSearchPoets();
     }
   },
   async fetch({ app, store, query, route }) {

@@ -61,10 +61,19 @@ export function getTermId(
   options = {},
   type = "taxonomy_term"
 ) {
+  let fixedTerm = "";
+  term = _.split(term, "-");
+  _.each(term, (word, i) => {
+    if (i > 0) {
+      fixedTerm += " " + _.upperFirst(word);
+    } else {
+      fixedTerm += _.upperFirst(word);
+    }
+  });
   return request(`/api/${type}/${filter}`, options).then(res => {
     const data = res.data.data;
     const termId = _.find(data, datum => {
-      return datum.attributes.name === _.upperFirst(term);
+      return datum.attributes.name === fixedTerm;
     });
     return termId.attributes.drupal_internal__tid;
   });
