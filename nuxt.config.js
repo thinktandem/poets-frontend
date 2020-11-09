@@ -1,6 +1,5 @@
-require('dotenv').config();
-
-const apiUrl = process.env.API_URL || "https://api.poets.org";
+import dotenv from "dotenv";
+dotenv.config();
 
 module.exports = {
   modules: [
@@ -147,7 +146,7 @@ module.exports = {
     }
   },
   env: {
-    baseURL: apiUrl,
+    baseURL: process.env.API_URL || "https://api.poets.org",
     appURL: process.env.appURL || "https://poets.org",
     CACHE_TTL: process.env.CACHE_TTL || 300,
     CONSUMER_ID: process.env.CONSUMER_ID,
