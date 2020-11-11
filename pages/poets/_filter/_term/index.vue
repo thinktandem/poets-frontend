@@ -321,7 +321,11 @@ export default {
       });
     },
     getUrlFilter(filter) {
-      if (filter === "school") {
+      if (
+        filter === "school" ||
+        filter === "movements" ||
+        filter === "schools"
+      ) {
         return "school";
       } else if (filter === "state") {
         return "state";

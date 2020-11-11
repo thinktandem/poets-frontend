@@ -13,6 +13,22 @@
           </div>
         </b-col>
       </b-row>
+      <b-row class="poet__read-buttons-container">
+        <b-col
+          class="poet__read-poems"
+          md="4">
+          <b-button
+            class="
+              poets__read-poems-button
+              align-middle"
+            v-if="poemsByLink"
+            block
+            :href="poemsByLink.to"
+            variant="outline-info">
+            Read poems by this poet
+          </b-button>
+        </b-col>
+      </b-row>
       <b-row class="poet__body">
         <b-col md="8">
           <div
@@ -67,7 +83,9 @@
                 class="poet__image"
                 :src="sideBarImage.src"
                 :alt="sideBarImage.alt"/>
-              <figcaption v-if="sideBarImage">
+              <figcaption
+                class="poet__sidebar-img-caption"
+                v-if="sideBarImage">
                 {{ sideBarImage.title }}
               </figcaption>
             </figure>
@@ -75,12 +93,14 @@
           <div
             class="poet__related_schools_movements"
             v-if="schoolsMovements && schoolsMovements.length != 0">
-            <span class="schools">Related Schools & Movements:</span>
+            <div class="schools">School/Movements</div>
             <div
               class="school"
               v-for="school in schoolsMovements"
               :key="school.name">
-              {{ school.attributes.name }}
+              <b-link :to="movementsPrefix + lowerFirst(school.attributes.name)">
+                {{ school.attributes.name }}
+              </b-link>
             </div>
           </div>
           <div
@@ -93,23 +113,6 @@
               :key="tag.name">
               {{ tag.attributes.name }}
             </div>
-          </div>
-          <div class="poet__read-poems">
-            <b-button
-              v-if="poemsByLink"
-              block
-              :href="poemsByLink.to"
-              variant="outline-info">
-              Read poems by this poet
-            </b-button>
-          </div>
-          <div class="poet__read-texts">
-            <b-button
-              block
-              :href="textsByLink"
-              variant="outline-info">
-              Read texts about this poet
-            </b-button>
           </div>
           <div
             v-if="sideBarVid"
@@ -186,7 +189,8 @@ export default {
       },
       includes: {},
       sort: "field_date_published",
-      size: [[375, 0], [300, 250]]
+      size: [[375, 0], [300, 250]],
+      movementsPrefix: "/poets/movements/"
     };
   },
   head() {
@@ -351,14 +355,41 @@ export default {
   methods: {
     niceDate(dateString, format) {
       return niceDate.niceDate(dateString, format);
+    },
+    lowerFirst(thing) {
+      return _.lowerFirst(thing);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.poet__name {
+  font-size: 3rem;
+}
 .poet__dob-dod {
+  font-size: 1.4rem;
   font-weight: 400;
+}
+.poet__read-buttons-container {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  .poet__read-poems,
+  .poet__read-texts {
+    .poets__read-poems-button,
+    .poets__read-texts-button {
+      font-size: 1.5rem;
+      font-weight: 444;
+    }
+    .btn-outline-info {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn-outline-info:hover {
+      color: var(--white);
+      background-color: var(--blue-dark);
+    }
+  }
 }
 .poet__body {
   margin-top: 26px;
@@ -369,7 +400,12 @@ export default {
   }
 }
 .poet__image {
+  margin: 0;
+  width: 100%;
   box-shadow: 0 6px 0 0 #32d17e;
+}
+.poet__sidebar-img-caption {
+  margin-top: 0.4rem;
 }
 @include media-breakpoint-up(md) {
   .col-md-4.poet__sidebar {
@@ -379,25 +415,19 @@ export default {
 }
 .poet__related_schools_movements,
 .poet__tags {
-  font-weight: 600;
+  font-weight: 400;
   margin-top: 11px;
   margin-bottom: 11px;
+  .schools {
+    width: 100%;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px #ccc solid;
+  }
   .school,
   .tag {
-    padding-left: 9px;
-    font-weight: 400;
-  }
-}
-.poet__read-poems,
-.poet__read-texts {
-  margin: 4px;
-  .btn-outline-info {
-    color: var(--primary);
-    border-color: var(--primary);
-  }
-  .btn-outline-info:hover {
-    color: var(--white);
-    background-color: var(--blue-dark);
+    margin-top: 0.4rem;
+    font-size: 1.4rem;
+    font-weight: 600;
   }
 }
 .poet__vid {
