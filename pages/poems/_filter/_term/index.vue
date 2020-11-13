@@ -235,12 +235,12 @@ export default {
   },
   async created() {
     const termIdQuery = buildUrlParamQuery(this.$route.params.term);
+    const vocabName =
+      this.$route.params.filter === "forms"
+        ? "form"
+        : this.$route.params.filter;
     await this.$api
-      .getTermId(
-        this.$route.params.filter,
-        this.$route.params.term,
-        termIdQuery
-      )
+      .getTermId(vocabName, this.$route.params.term, termIdQuery)
       .then(res => {
         this.urlFilter = res;
         return res;
@@ -352,7 +352,7 @@ export default {
         return "field_occasion_tid";
       } else if (filter === "themes") {
         return "field_poem_themes_tid";
-      } else if (filter === "form") {
+      } else if (filter === "form" || filter === "forms") {
         return "field_form_tid";
       }
     },

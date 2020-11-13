@@ -27,14 +27,12 @@
               <div class="d-flex poem__title mb-1">
                 <h1
                   v-if="embedded"
-                  class="card-title"
-                >
+                  class="card-title">
                   <b-link
                     v-if="poem && poem.attributes.path.alias && poem.attributes.title"
                     class="text-dark"
                     :to="poem.attributes.path.alias"
-                    itemprop="name"
-                  >{{ poem.attributes.title }}</b-link>
+                    itemprop="name">{{ poem.attributes.title }}</b-link>
                 </h1>
                 <h1
                   v-else
@@ -111,6 +109,53 @@
               v-if="poet && poet.body"
               class="poet--aside__bio text-dark-muted my-3"
             />
+            <div class="poet--aside__tags">
+              <div
+                class="poet--aside__tag"
+                v-if="occasions.length > 0">
+                <div class="poet--aside__tag-title">
+                  Occasions
+                </div>
+                <div
+                  class="poet--aside__tag-name"
+                  v-for="occasion in occasions"
+                  :key="occasion.name">
+                  <b-link :to="occasionsPrefix + lowerFirst(occasion.attributes.name)">
+                    {{ occasion.attributes.name }}
+                  </b-link>
+                </div>
+              </div>
+              <div
+                class="poet--aside__tag"
+                v-if="themes.length > 0">
+                <div class="poet--aside__tag-title">
+                  Themes
+                </div>
+                <div
+                  class="poet--aside__tag-name"
+                  v-for="theme in themes"
+                  :key="theme.name">
+                  <b-link :to="themesPrefix + lowerFirst(theme.attributes.name)">
+                    {{ theme.attributes.name }}
+                  </b-link>
+                </div>
+              </div>
+              <div
+                class="poet--aside__tag"
+                v-if="forms.length > 0">
+                <div class="poet--aside__tag-title">
+                  Forms
+                </div>
+                <div
+                  class="poet--aside__tag-name"
+                  v-for="form in forms"
+                  :key="form.name">
+                  <b-link :to="formsPrefix + lowerFirst(form.attributes.name)">
+                    {{ form.attributes.name }}
+                  </b-link>
+                </div>
+              </div>
+            </div>
             <div class="mb-4">
               <b-link
                 v-if="poet"
@@ -179,7 +224,10 @@ export default {
   },
   data() {
     return {
-      showSoundCloud: false
+      showSoundCloud: false,
+      occasionsPrefix: "/poems/occasions/",
+      themesPrefix: "/poems/themes/",
+      formsPrefix: "/poems/forms/"
     };
   },
   head() {
@@ -209,7 +257,7 @@ export default {
       .then(async res => {
         const uuid = _.get(res, "entity.uuid");
         return app.$axios.$get(
-          `/api/node/poems/${uuid}?include=field_author.field_image,field_related_poems,field_related_poems.field_author`
+          `/api/node/poems/${uuid}?include=field_author.field_image,field_related_poems,field_related_poems.field_author,field_occasion,field_poem_themes,field_form`
         );
       })
       .catch(err => error({ statusCode: 404, message: "" }))
@@ -226,6 +274,18 @@ export default {
         const relatedPoems = _.filter(
           _.get(response, "included"),
           include => include.type === "node--poems"
+        );
+        const occasions = _.filter(
+          _.get(response, "included"),
+          include => include.type === "taxonomy_term--occasions"
+        );
+        const themes = _.filter(
+          _.get(response, "included"),
+          include => include.type === "taxonomy_term--themes"
+        );
+        const forms = _.filter(
+          _.get(response, "included"),
+          include => include.type === "taxonomy_term--form"
         );
         // We need a var to store the Author.
         let relatedAuthor = "";
@@ -252,6 +312,9 @@ export default {
         return {
           poem: _.get(response, "data"),
           poet: _.get(poet, "attributes"),
+          occasions,
+          themes,
+          forms,
           image: app.$buildImg(
             response,
             poet,
@@ -341,6 +404,9 @@ export default {
     },
     niceDate(date, format) {
       return niceDate.niceDate(date, format);
+    },
+    lowerFirst(thing) {
+      return _.lowerFirst(thing);
     }
   }
 };
@@ -403,6 +469,22 @@ export default {
   img {
     width: 100%;
   }
+}
+.poet--aside__tags {
+  .poet--aside__tag-title {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    width: 100%;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px #ccc solid;
+  }
+  .poet--aside__tag-name {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  margin-bottom: 2rem;
 }
 .poet--aside__bio,
 .about-poem {

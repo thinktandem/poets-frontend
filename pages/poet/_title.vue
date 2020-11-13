@@ -20,7 +20,8 @@
           <b-button
             class="
               poets__read-poems-button
-              align-middle"
+              align-middle
+              btn-primary"
             v-if="poemsByLink"
             block
             :href="poemsByLink.to"
@@ -372,8 +373,8 @@ export default {
   font-weight: 400;
 }
 .poet__read-buttons-container {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   .poet__read-poems,
   .poet__read-texts {
     .poets__read-poems-button,
@@ -382,12 +383,12 @@ export default {
       font-weight: 444;
     }
     .btn-outline-info {
-      color: var(--primary);
+      color: var(--white);
       border-color: var(--primary);
     }
     .btn-outline-info:hover {
-      color: var(--white);
-      background-color: var(--blue-dark);
+      color: var(--primary);
+      background-color: var(--white);
     }
   }
 }
