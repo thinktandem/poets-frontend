@@ -115,6 +115,20 @@
               {{ tag.attributes.name }}
             </div>
           </div>
+          <div class="poet__sidebar-related-poets">
+            <div class="poet__sidebar-related-poets-title">
+              Related Poets
+            </div>
+            <div
+              class="poet__sidebar-related-poets-poet"
+              v-if="relatedPoets.length > 0"
+              v-for="poet in relatedPoets"
+              :key="poet.name">
+              <b-link :to="poet.row.attributes.path.alias">
+                {{ poet.row.attributes.title }}
+              </b-link>
+            </div>
+          </div>
           <div
             v-if="sideBarVid"
             class="poet__vid">
@@ -427,8 +441,19 @@ export default {
   .school,
   .tag {
     margin-top: 0.4rem;
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}
+.poet__sidebar-related-poets {
+  .poet__sidebar-related-poets-title {
+    margin-top: 11px;
+    margin-bottom: 11px;
+    border-bottom: 1px #ccc solid;
+  }
+  .poet__sidebar-related-poets-poet {
+    font-weight: 500;
+    font-size: 1.2rem;
   }
 }
 .poet__vid {
