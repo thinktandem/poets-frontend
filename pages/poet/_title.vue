@@ -115,13 +115,14 @@
               {{ tag.attributes.name }}
             </div>
           </div>
-          <div class="poet__sidebar-related-poems">
+          <div
+            class="poet__sidebar-related-poems"
+            v-if="poemsBy && poemsBy.length > 0">
             <div class="poet__sidebar-related-poems-title">
               Related Poems
             </div>
             <div
               class="poet__sidebar-related-poems-poem"
-              v-if="poemsBy.length > 0"
               v-for="poem in poemsBy"
               :key="poem.name">
               <b-link :to="poem.link">
@@ -129,13 +130,14 @@
               </b-link>
             </div>
           </div>
-          <div class="poet__sidebar-related-poets">
+          <div
+            class="poet__sidebar-related-poets"
+            v-if="relatedPoets && relatedPoets.length > 0">
             <div class="poet__sidebar-related-poets-title">
               Related Poets
             </div>
             <div
               class="poet__sidebar-related-poets-poet"
-              v-if="relatedPoets.length > 0"
               v-for="poet in relatedPoets"
               :key="poet.name">
               <b-link :to="poet.row.attributes.path.alias">
