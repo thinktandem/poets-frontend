@@ -37,39 +37,47 @@
             class="poet__body-content"
             v-html="replaceFileUrl(body.processed)"/>
           <b-row
-            class="person__related-texts-rows"
+            class="person__content-tabs"
             md="8">
-            <b-container
-              class="books-list tabular-list">
-              <b-row class="py-5">
-                <b-col>
-                  <app-listing
-                    title="Texts"
-                    hide-empty
-                    class="py-3"
-                    :default-params="defaultParams"
-                    :fields="fields"
-                    :includes="includes"
-                    resource-type="texts"/>
-                  <app-listing
-                    title="Collections"
-                    hide-empty
-                    class="py-3"
-                    :default-params="defaultParams"
-                    :fields="fields"
-                    :includes="includes"
-                    resource-type="collections"/>
-                  <app-listing
-                    title="Lesson Plans"
-                    hide-empty
-                    class="py-3"
-                    :default-params="defaultParams"
-                    :fields="fields"
-                    :includes="includes"
-                    resource-type="lesson_plans"/>
-                </b-col>
-              </b-row>
-            </b-container>
+            <b-tabs>
+              <b-tab
+                class="person__content-tabs-poems"
+                title="Poems"
+                active>
+                <b-container
+                  class="tabular-list">
+                  <b-row class="">
+                    <b-col>
+                      <app-listing
+                        hide-empty
+                        class=""
+                        :default-params="poemsByParams"
+                        :fields="fields"
+                        :includes="includes"
+                        resource-type="poems"/>
+                    </b-col>
+                  </b-row>
+                </b-container>
+              </b-tab>
+              <b-tab
+                class="person__content-tabs-texts"
+                title="Texts">
+                <b-container
+                  class="books-list tabular-list">
+                  <b-row class="">
+                    <b-col>
+                      <app-listing
+                        hide-empty
+                        class=""
+                        :default-params="defaultParams"
+                        :fields="fields"
+                        :includes="includes"
+                        resource-type="texts"/>
+                    </b-col>
+                  </b-row>
+                </b-container>
+              </b-tab>
+            </b-tabs>
           </b-row>
         </b-col>
         <b-col
@@ -107,7 +115,7 @@
           <div
             class="poet__tags"
             v-if="tags && tags.length != 0">
-            <span class="tags">Tags:</span>
+            <div class="tags">Tags</div>
             <div
               class="tag"
               v-for="tag in tags"
@@ -449,7 +457,8 @@ export default {
   font-weight: 400;
   margin-top: 11px;
   margin-bottom: 11px;
-  .schools {
+  .schools,
+  .tags {
     width: 100%;
     padding-bottom: 0.2rem;
     border-bottom: 1px #ccc solid;
@@ -485,6 +494,17 @@ div /deep/ .card-deck.bg-primary {
   font-style: italic;
   font-family: "Poets Electra";
   font-size: 30px;
+}
+.person__related-content-tabs-poems,
+.person__related-content-tabs-texts {
+  .nav-link {
+    font-family: "Founders Grotesk Text";
+    font-size: 1.6rem !important;
+    font-weight: 600;
+  }
+  .nav-link:active {
+    border-bottom: 2px solid blue;
+  }
 }
 .tabular-list__header {
   background-color: #f2f8fa;
