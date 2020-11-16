@@ -115,6 +115,20 @@
               {{ tag.attributes.name }}
             </div>
           </div>
+          <div class="poet__sidebar-related-poems">
+            <div class="poet__sidebar-related-poems-title">
+              Related Poems
+            </div>
+            <div
+              class="poet__sidebar-related-poems-poem"
+              v-if="poemsBy.length > 0"
+              v-for="poem in poemsBy"
+              :key="poem.name">
+              <b-link :to="poem.link">
+                {{ poem.title }}
+              </b-link>
+            </div>
+          </div>
           <div class="poet__sidebar-related-poets">
             <div class="poet__sidebar-related-poets-title">
               Related Poets
@@ -445,16 +459,16 @@ export default {
     font-weight: 500;
   }
 }
-.poet__sidebar-related-poets {
-  .poet__sidebar-related-poets-title {
-    margin-top: 11px;
-    margin-bottom: 11px;
-    border-bottom: 1px #ccc solid;
-  }
-  .poet__sidebar-related-poets-poet {
-    font-weight: 500;
-    font-size: 1.2rem;
-  }
+.poet__sidebar-related-poets-title,
+.poet__sidebar-related-poems-title {
+  margin-top: 11px;
+  margin-bottom: 11px;
+  border-bottom: 1px #ccc solid;
+}
+.poet__sidebar-related-poems-poem,
+.poet__sidebar-related-poets-poet {
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 .poet__vid {
   padding-top: 11px;
