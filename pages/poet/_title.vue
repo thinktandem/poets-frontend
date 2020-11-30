@@ -38,7 +38,7 @@
             v-html="replaceFileUrl(body.processed)"/>
           <b-row
             class="person__content-tabs"
-            md="8">
+            md="12">
             <b-tabs>
               <b-tab
                 class="person__content-tabs-poems"
@@ -51,7 +51,7 @@
                       <app-listing
                         hide-empty
                         class=""
-                        :default-params="poemsByParams"
+                        :default-params="poetPoemsParams"
                         :fields="fields"
                         :includes="includes"
                         resource-type="poems"/>
@@ -63,7 +63,7 @@
                 class="person__content-tabs-texts"
                 title="Texts">
                 <b-container
-                  class="books-list tabular-list">
+                  class="">
                   <b-row class="">
                     <b-col>
                       <app-listing
@@ -167,14 +167,6 @@
       </b-row>
     </b-container>
     <CardDeck
-      v-if="poemsBy"
-      col-size="md"
-      class="bg-primary py-5"
-      title="By This Poet"
-      cardtype="PoemCard"
-      :cards="poemsBy"
-      :link="poemsByLink"/>
-    <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
       cardtype="Poet"
@@ -229,7 +221,8 @@ export default {
       includes: {},
       sort: "field_date_published",
       size: [[375, 0], [300, 250]],
-      movementsPrefix: "/poets/movements/"
+      movementsPrefix: "/poets/movements/",
+      poetPoemsParams: {}
     };
   },
   head() {
@@ -381,7 +374,17 @@ export default {
           },
           textsByLink: `/texts/${params.title}`,
           relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
+          poetPoemsParams: {
+            page: {
+              // limit: 3
+            },
+            filter: {
+              status: 1,
+              "field_author.id": res.data.data.id
+            },
+            sort: "field_google_analytics_counter"
+          }
         };
       })
       .catch(error => {

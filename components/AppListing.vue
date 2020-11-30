@@ -424,7 +424,11 @@ export default {
       return moment(date).format("M/D/YYYY");
     },
     year(date) {
-      return moment(date).format("YYYY");
+      const yr =
+        moment(date).format("YYYY") === "Invalid date"
+          ? ""
+          : moment(date).format("YYYY");
+      return yr;
     },
     teaserText(text, len) {
       const truncText = _.truncate(text, {
