@@ -1,5 +1,7 @@
 <template>
-  <b-container v-show="showList">
+  <component
+    :is="wrapper"
+    v-show="showList">
     <component
       class="py-3"
       :is="titleTag"
@@ -62,8 +64,11 @@
     </b-row>
     <b-row>
       <b-col md="12">
+        <b-spinner
+          v-show="busy"
+          label="loading"/>
         <b-table
-          v-show="!empty(results)"
+          v-show="!empty(results) && !busy"
           :class="[{ selectable: !hasDetails, 'has-details': hasDetails }]"
           :items="results"
           :sort-by="sort"
@@ -209,7 +214,7 @@
         </div>
       </b-col>
     </b-row>
-  </b-container>
+  </component>
 </template>
 
 <script>
@@ -303,6 +308,10 @@ export default {
     paged: {
       type: Boolean,
       default: true
+    },
+    wrapper: {
+      type: String,
+      default: "b-container"
     }
   },
   data() {
@@ -421,10 +430,10 @@ export default {
   },
   methods: {
     shortDate(date) {
-      return moment(date).format("M/D/YYYY");
+      return date !== null ? moment(date).format("M/D/YYYY") : "unknown";
     },
     year(date) {
-      return moment(date).format("YYYY");
+      return date !== null ? moment(date).format("YYYY") : "unknown";
     },
     teaserText(text, len) {
       const truncText = _.truncate(text, {
