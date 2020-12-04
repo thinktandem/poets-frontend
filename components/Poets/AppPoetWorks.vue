@@ -16,6 +16,11 @@
                 :fields="fields"
                 :resource-type="tab.resourceType"/>
             </b-tab>
+            <b-tab
+              class="p-4"
+              title="Bibliography">
+              <div v-html="bibliography" />
+            </b-tab>
           </b-tabs>
         </b-col>
       </b-row>
@@ -33,6 +38,11 @@ export default {
     poet: {
       type: Object,
       default: () => ({})
+    }
+  },
+  computed: {
+    bibliography() {
+      return _.get(this.poet, "attributes.field_bibliography.processed", []);
     }
   },
   data() {
@@ -84,11 +94,6 @@ export default {
               }
             }
           }
-        },
-        {
-          title: "Bibliography",
-          fields: ["year", "title"],
-          resourceType: "poems"
         }
       ]
     };

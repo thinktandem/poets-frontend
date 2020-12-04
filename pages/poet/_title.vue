@@ -143,7 +143,6 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
-import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
@@ -151,7 +150,6 @@ import AppPoetWorks from "~/components/Poets/AppPoetWorks";
 
 export default {
   components: {
-    AppListing,
     AppPoetWorks,
     CardDeck
   },
