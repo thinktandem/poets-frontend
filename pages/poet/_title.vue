@@ -36,49 +36,6 @@
             v-if="body"
             class="poet__body-content"
             v-html="replaceFileUrl(body.processed)"/>
-          <b-row
-            class="person__content-tabs"
-            md="12">
-            <b-tabs>
-              <b-tab
-                class="person__content-tabs-poems"
-                title="Poems"
-                active>
-                <b-container
-                  class="tabular-list">
-                  <b-row class="">
-                    <b-col>
-                      <app-listing
-                        hide-empty
-                        class=""
-                        :default-params="poetPoemsParams"
-                        :fields="fields"
-                        :includes="includes"
-                        resource-type="poems"/>
-                    </b-col>
-                  </b-row>
-                </b-container>
-              </b-tab>
-              <b-tab
-                class="person__content-tabs-texts"
-                title="Texts">
-                <b-container
-                  class="">
-                  <b-row class="">
-                    <b-col>
-                      <app-listing
-                        hide-empty
-                        class=""
-                        :default-params="defaultParams"
-                        :fields="fields"
-                        :includes="includes"
-                        resource-type="texts"/>
-                    </b-col>
-                  </b-row>
-                </b-container>
-              </b-tab>
-            </b-tabs>
-          </b-row>
         </b-col>
         <b-col
           class="poet__sidebar"
@@ -166,6 +123,7 @@
         </b-col>
       </b-row>
     </b-container>
+    <app-poet-works :poet="poet"/>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -177,14 +135,14 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
-import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
+import AppPoetWorks from "~/components/Poets/AppPoetWorks";
 
 export default {
   components: {
-    AppListing,
+    AppPoetWorks,
     CardDeck
   },
   computed: {
