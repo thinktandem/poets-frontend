@@ -125,14 +125,6 @@
     </b-container>
     <app-poet-works :poet="poet"/>
     <CardDeck
-      v-if="poemsBy"
-      col-size="md"
-      class="bg-primary py-5"
-      title="By This Poet"
-      cardtype="PoemCard"
-      :cards="poemsBy"
-      :link="poemsByLink"/>
-    <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
       cardtype="Poet"
@@ -187,7 +179,8 @@ export default {
       includes: {},
       sort: "field_date_published",
       size: [[375, 0], [300, 250]],
-      movementsPrefix: "/poets/movements/"
+      movementsPrefix: "/poets/movements/",
+      poetPoemsParams: {}
     };
   },
   head() {
@@ -339,7 +332,17 @@ export default {
           },
           textsByLink: `/texts/${params.title}`,
           relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
+          poetPoemsParams: {
+            page: {
+              // limit: 3
+            },
+            filter: {
+              status: 1,
+              "field_author.id": res.data.data.id
+            },
+            sort: "field_google_analytics_counter"
+          }
         };
       })
       .catch(error => {
