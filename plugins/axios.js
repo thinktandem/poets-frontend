@@ -17,11 +17,14 @@ export default function({ $axios, redirect }) {
   $axios.onResponse(response => {
     // Handle decoupled router redirects.
     if (_.get(response, "data.redirect")) {
-      console.log("redirect", response.data.redirect);
-      redirect(
-        [_.get(_.first(_.get(response, "data.redirect")), "status")],
-        _.get(_.first(_.get(response, "data.redirect")), "to")
-      );
+      const from = _.get(_.first(_.get(response, "data.redirect")), "status");
+      const to = _.get(_.first(_.get(response, "data.redirect")), "to");
+      if (from !== to) {
+        redirect(
+          [from],
+          to
+        );      
+      }
     }
   });
 }
