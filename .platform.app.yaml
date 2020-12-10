@@ -16,6 +16,10 @@ mounts:
     source_path: run
   '/tmp': 'shared:files/tmp'
 
+variables:
+  env:
+    NODE_OPTIONS: --max_old_space_size=1536
+
 # Boot up
 web:
   commands:
