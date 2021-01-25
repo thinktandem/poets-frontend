@@ -6,10 +6,20 @@
           <h1 class="poet__name">
             {{ title }}
           </h1>
+          <span
+            class="poet__laureate-icon"
+            v-if="laureate">
+            l_i
+          </span>
           <div
             class="poet__dob-dod"
             v-if="dob">
             {{ niceDate(dob, "year") }}&#8211;{{ niceDate(dod, "year") }}
+          </div>
+          <div
+            class="poet__laureate"
+            v-if="laureate">
+            {{ laureate[0] }}
           </div>
         </b-col>
       </b-row>
@@ -22,9 +32,8 @@
               poets__read-poems-button
               align-middle
               btn-primary"
-            v-if="poemsByLink"
             block
-            :href="poemsByLink.to"
+            href="#poet__works"
             variant="outline-info">
             Read poems by this poet
           </b-button>
@@ -123,7 +132,9 @@
         </b-col>
       </b-row>
     </b-container>
-    <app-poet-works :poet="poet"/>
+    <app-poet-works
+      id="poet__works"
+      :poet="poet"/>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -307,6 +318,7 @@ export default {
           dob: _.get(res, "data.data.attributes.field_dob"),
           dod: _.get(res, "data.data.attributes.field_dod"),
           title: _.get(res, "data.data.attributes.title"),
+          laureate: _.get(res, "data.data.attributes.laureate_info"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
           sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
@@ -326,11 +338,6 @@ export default {
               }
             };
           }),
-          poemsByLink: {
-            to: `/poems/${params.title}`,
-            text: poemsBy.meta.count
-          },
-          textsByLink: `/texts/${params.title}`,
           relatedPoets:
             relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
           poetPoemsParams: {
@@ -366,10 +373,21 @@ export default {
 <style scoped lang="scss">
 .poet__name {
   font-size: 3rem;
+  display: inline-block;
+}
+.poet__laureate-icon {
+  display: inline-block;
+  margin-left: 0.4rem;
+  height: 47px;
+  vertical-align: -webkit-baseline-middle;
 }
 .poet__dob-dod {
   font-size: 1.4rem;
   font-weight: 400;
+}
+.poet__laureate {
+  color: #32d17e;
+  font-size: 1.4rem;
 }
 .poet__read-buttons-container {
   padding-top: 1rem;
