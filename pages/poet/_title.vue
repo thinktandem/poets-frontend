@@ -17,9 +17,14 @@
             {{ niceDate(dob, "year") }}&#8211;{{ niceDate(dod, "year") }}
           </div>
           <div
-            class="poet__laureate"
+            class="poet__laureate-container"
             v-if="laureate">
-            {{ laureate[0] }}
+            <div
+              v-for="post in laureate"
+              :key="post"
+              class="poet__laureate">
+              {{ post }}
+            </div>
           </div>
         </b-col>
       </b-row>
