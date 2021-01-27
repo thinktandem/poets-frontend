@@ -8,7 +8,7 @@
           </h1>
           <span
             class="poet__laureate-icon"
-            v-if="laureate">
+            v-if="laureate && laureate.length != 0">
             l_i
           </span>
           <div
@@ -18,7 +18,7 @@
           </div>
           <div
             class="poet__laureate-container"
-            v-if="laureate">
+            v-if="laureate && laureate.length != 0">
             <div
               v-for="post in laureate"
               :key="post"
@@ -95,6 +95,21 @@
             </div>
           </div>
           <div
+            class="poet__laureate-projects"
+            v-if="laureateProjects && laureateProjects.length != 0">
+            <div class="poet__laureate-projects-title">
+              <div class="poet__sidebar-laureate-icon">
+                l_i
+              </div>
+              <div class="laureate-projects">Poet Laureate Project</div>
+            </div>
+            <div class="project">
+              <b-link :to="laureateProjects.link">
+                {{ laureateProjects.title }}
+              </b-link>
+            </div>
+          </div>
+          <div
             class="poet__sidebar-related-poems"
             v-if="poemsBy && poemsBy.length > 0">
             <div class="poet__sidebar-related-poems-title">
@@ -140,6 +155,10 @@
     <app-poet-works
       id="poet__works"
       :poet="poet"/>
+    <app-laureate-projects
+      v-if="laureateProjects != null"
+      title="Laureate Project"
+      :feature="laureateProjects"/>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -155,10 +174,12 @@ import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
 import AppPoetWorks from "~/components/Poets/AppPoetWorks";
+import AppLaureateProjects from "~/components/AppLaureateProjects";
 
 export default {
   components: {
     AppPoetWorks,
+    AppLaureateProjects,
     CardDeck
   },
   computed: {
@@ -248,6 +269,14 @@ export default {
         const sideBarVid = _.filter(_.get(res, "data.included"), {
           type: "paragraph--media"
         });
+        const laureateProjectsParams = qs.stringify({
+          filter: {
+            "field_winner.nid": res.data.data.attributes.drupal_internal__nid
+          }
+        });
+        const laureateProjects = await app.$axios.$get(
+          `/api/node/sub_prize_or_program?${laureateProjectsParams}&include=field_image`
+        );
         const poemsByParams = qs.stringify({
           page: {
             limit: 3
@@ -331,6 +360,20 @@ export default {
             : null,
           schoolsMovements,
           tags,
+          laureateProjects: {
+            title: _.get(laureateProjects, "data[0].attributes.title", null),
+            link: _.get(
+              laureateProjects,
+              "data[0].attributes.path.alias",
+              null
+            ),
+            lpi: _.get(laureateProjects, "included[0].attributes", null)
+          },
+          // laureateProjectsImg: _.get(
+          //   laureateProjects,
+          //   "included[0].attributes",
+          //   null
+          // ),
           poemsBy: _.map(poemsBy.data, poem => {
             let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
@@ -455,13 +498,24 @@ export default {
   }
 }
 .poet__sidebar-related-poets-title,
-.poet__sidebar-related-poems-title {
+.poet__sidebar-related-poems-title,
+.poet__laureate-projects-title {
+  display: inline-block;
   margin-top: 11px;
   margin-bottom: 11px;
   border-bottom: 1px #ccc solid;
+  font-weight: 400;
+}
+.poet__sidebar-laureate-icon {
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+.laureate-projects {
+  display: inline-block;
 }
 .poet__sidebar-related-poems-poem,
-.poet__sidebar-related-poets-poet {
+.poet__sidebar-related-poets-poet,
+.project {
   font-weight: 500;
   font-size: 1.2rem;
 }
