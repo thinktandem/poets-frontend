@@ -1,6 +1,6 @@
 # App and type
 name: app
-type: nodejs:10
+type: nodejs:12
 
 # Dependencies
 dependencies:

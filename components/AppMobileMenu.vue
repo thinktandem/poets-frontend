@@ -41,7 +41,6 @@
 </template>
 <script>
 import { map, merge } from "lodash";
-import menu from "~/mobileMenu.json";
 import DropCaret from "~/node_modules/open-iconic/svg/caret-bottom.svg";
 export default {
   name: "AppMobileMenu",
@@ -52,7 +51,9 @@ export default {
     };
   },
   created() {
-    this.items = map(menu, link => merge(link, { open: false }));
+    this.items = map(this.$store.state.mobileMenu, link =>
+      merge(link, { open: false })
+    );
   }
 };
 </script>

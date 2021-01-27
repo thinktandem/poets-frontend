@@ -18,6 +18,17 @@ export default {
   head() {
     return MetaTags.renderTags(this.$route, this.$store.state.metatags);
   },
+  layout(context) {
+    const path = context.route.path;
+    if (
+      (path.includes("/membership/") || path.includes("/donate")) &&
+      path !== "/membership/renew"
+    ) {
+      return "sparse";
+    } else {
+      return "default";
+    }
+  },
   async asyncData({ app, store, route, error }) {
     return app.$axios
       .$get(`/router/translate-path?path=${route.path}`)
