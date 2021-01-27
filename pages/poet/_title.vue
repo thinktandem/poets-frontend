@@ -6,17 +6,17 @@
           <h1 class="poet__name">
             {{ title }}
           </h1>
-          <span
+          <!-- <span
             class="poet__laureate-icon"
             v-if="laureate">
             l_i
-          </span>
+          </span> -->
           <div
             class="poet__dob-dod"
             v-if="dob">
             {{ niceDate(dob, "year") }}&#8211;{{ niceDate(dod, "year") }}
           </div>
-          <div
+          <!-- <div
             class="poet__laureate-container"
             v-if="laureate">
             <div
@@ -25,7 +25,7 @@
               class="poet__laureate">
               {{ post }}
             </div>
-          </div>
+          </div> -->
         </b-col>
       </b-row>
       <b-row class="poet__read-buttons-container">
@@ -323,7 +323,7 @@ export default {
           dob: _.get(res, "data.data.attributes.field_dob"),
           dod: _.get(res, "data.data.attributes.field_dod"),
           title: _.get(res, "data.data.attributes.title"),
-          laureate: _.get(res, "data.data.attributes.laureate_info"),
+          // laureate: _.get(res, "data.data.attributes.laureate_info"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
           sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
