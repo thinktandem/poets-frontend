@@ -14,6 +14,7 @@ export default function({ redirect, route, query }) {
   const stanzaPattern = RegExp("/stanza/");
   const homePattern = RegExp("/home$");
   const textPattern = RegExp("/national-poetry-month/text/");
+  const poemsPoetPattern = RegExp("^/poems/");
 
   // Catch the case that the passed in URL needs transliteration.
   if (trUrl(route.path) !== route.path) {
@@ -22,9 +23,13 @@ export default function({ redirect, route, query }) {
 
   // Handle query params so they don't get stripped
   const paramString = isEmpty(query) ? "" : `?${qs.stringify(query)}`;
-
   if (poetsorgPattern.test(route.path)) {
     return redirect([301], route.path.replace("/poetsorg/", "/") + paramString);
+  } else if (poemsPoetPattern.test(route.path)) {
+    const poet = route.path.split("/")[2];
+    if (poet) {
+      return redirect([301], `/poet/${poet}` + paramString);
+    }
   } else if (lessonPattern.test(route.path)) {
     return redirect(
       [301],
