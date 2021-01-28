@@ -18,6 +18,7 @@
             </b-tab>
             <b-tab
               class="p-4"
+              v-if="bibliography"
               title="Bibliography">
               <div v-html="bibliography" />
             </b-tab>
@@ -42,7 +43,7 @@ export default {
   },
   computed: {
     bibliography() {
-      return _.get(this.poet, "attributes.field_bibliography.processed", []);
+      return _.get(this.poet, "attributes.field_bibliography.processed", null);
     }
   },
   data() {
