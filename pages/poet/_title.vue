@@ -76,10 +76,10 @@
             <div class="schools">School/Movements</div>
             <div
               class="school"
-              v-for="school in schoolsMovements"
-              :key="school.name">
-              <b-link :to="movementsPrefix + lowerFirst(school.attributes.name)">
-                {{ school.attributes.name }}
+              v-for="movement in schoolsMovements"
+              :key="movement.name">
+              <b-link :to="movementsPrefix + movement.attributes.drupal_internal__tid">
+                {{ movement.attributes.name }}
               </b-link>
             </div>
           </div>
@@ -195,7 +195,7 @@ export default {
       includes: {},
       sort: "field_date_published",
       size: [[375, 0], [300, 250]],
-      movementsPrefix: "/poets/movements/",
+      movementsPrefix: "/poets?school=",
       poetPoemsParams: {}
     };
   },
