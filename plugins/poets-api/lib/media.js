@@ -1,5 +1,8 @@
 import _ from "lodash";
 import util from "./util";
+
+const baseURL = process.env.API_URL || "https://api.poets.org";
+
 export default {
   // Map paragraph types to image styles
   imageStyles: {
@@ -149,9 +152,16 @@ export default {
       _.get(topLevelResponse, "included"),
       include => _.get(include, "id") === _.get(related, "id")
     );
+    let src = "";
+    if (_.get(file, `links.${imageStyle}.href`, null)) {
+      src = _.get(file, `links.${imageStyle}.href`, "");
+    } else {
+      console.log(baseURL);
+      src = baseURL + _.get(file, "attributes.uri.url", "");
+    }
     return file !== undefined
       ? {
-          src: _.get(file, `links.${imageStyle}.href`, null),
+          src,
           alt: _.get(related, "meta.alt", null),
           title: _.get(related, "meta.title", null)
         }
