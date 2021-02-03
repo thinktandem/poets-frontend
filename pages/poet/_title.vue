@@ -40,7 +40,7 @@
             block
             href="#poet__works"
             variant="outline-info">
-            Read poems by this poet
+            read more poems by this poet
           </b-button>
         </b-col>
       </b-row>
@@ -79,7 +79,7 @@
               v-for="movement in schoolsMovements"
               :key="movement.name">
               <b-link :to="movementsPrefix + movement.attributes.drupal_internal__tid">
-                {{ movement.attributes.name }}
+                {{ movement.attributes.name.toLowerCase() }}
               </b-link>
             </div>
           </div>
@@ -91,22 +91,7 @@
               class="tag"
               v-for="tag in tags"
               :key="tag.name">
-              {{ tag.attributes.name }}
-            </div>
-          </div>
-          <div
-            class="poet__sidebar-related-poems"
-            v-if="poemsBy && poemsBy.length > 0">
-            <div class="poet__sidebar-related-poems-title">
-              Related Poems
-            </div>
-            <div
-              class="poet__sidebar-related-poems-poem"
-              v-for="poem in poemsBy"
-              :key="poem.name">
-              <b-link :to="poem.link">
-                {{ poem.title }}
-              </b-link>
+              {{ tag.attributes.name.toLowerCase() }}
             </div>
           </div>
           <div
@@ -195,8 +180,7 @@ export default {
       includes: {},
       sort: "field_date_published",
       size: [[375, 0], [300, 250]],
-      movementsPrefix: "/poets?school=",
-      poetPoemsParams: {}
+      movementsPrefix: "/poets?school="
     };
   },
   head() {
@@ -344,17 +328,7 @@ export default {
             };
           }),
           relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
-          poetPoemsParams: {
-            page: {
-              // limit: 3
-            },
-            filter: {
-              status: 1,
-              "field_author.id": res.data.data.id
-            },
-            sort: "field_google_analytics_counter"
-          }
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
         };
       })
       .catch(error => {

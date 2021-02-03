@@ -121,7 +121,7 @@
                   v-for="occasion in occasions"
                   :key="occasion.name">
                   <b-link :to="occasionsPrefix + occasion.attributes.drupal_internal__tid">
-                    {{ occasion.attributes.name }}
+                    {{ occasion.attributes.name.toLowerCase() }}
                   </b-link>
                 </div>
               </div>
@@ -136,7 +136,7 @@
                   v-for="theme in themes"
                   :key="theme.name">
                   <b-link :to="themesPrefix + theme.attributes.drupal_internal__tid">
-                    {{ theme.attributes.name }}
+                    {{ theme.attributes.name.toLowerCase() }}
                   </b-link>
                 </div>
               </div>
@@ -177,6 +177,7 @@
       v-if="poet && morePoems !== [] && morePoems.poems.length >= 1 && !embedded"
       col-size="md"
       :title="`More by ${poet.title}`"
+      :poet-title-link="poetTitleLink"
       cardtype="PoemCard"
       class="py-5"
       :link="buildSectionLink(morePoems.response, { field_author: poet.uuid })"
@@ -271,6 +272,8 @@ export default {
               "id"
             )
         );
+        console.log("poet\n\n", poet);
+        const poetTitleLink = _.get(poet, "attributes.path.alias", null);
         const relatedPoems = _.filter(
           _.get(response, "included"),
           include => include.type === "node--poems"
@@ -365,7 +368,8 @@ export default {
                 }
               };
             })
-          }
+          },
+          poetTitleLink
         };
       })
       .catch(err => error({ statusCode: 404, message: "" }));

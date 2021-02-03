@@ -5,7 +5,7 @@
         <b-col>
           <b-tabs fill>
             <b-tab
-              :title="tab.title"
+              :title="tab.title.toLowerCase()"
               v-for="(tab, index) in tabs"
               :key="index"
               :active="index === 0">
@@ -19,7 +19,7 @@
             <b-tab
               class="p-4"
               v-if="bibliography"
-              title="Bibliography">
+              title="bibliography">
               <div v-html="bibliography" />
             </b-tab>
           </b-tabs>
