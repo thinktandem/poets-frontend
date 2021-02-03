@@ -151,7 +151,7 @@
                   v-for="form in forms"
                   :key="form.name">
                   <b-link :to="formsPrefix + form.attributes.drupal_internal__tid">
-                    {{ form.attributes.name }}
+                    {{ form.attributes.name.toLowerCase() }}
                   </b-link>
                 </div>
               </div>
