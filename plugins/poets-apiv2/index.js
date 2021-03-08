@@ -287,6 +287,19 @@ export default class PoetsApi {
   }
 
   /**
+   * Get term tid
+   *
+   * @param {String} filter the vocabulary
+   * @param {String} term
+   * @param {Object} options query object
+   * @param {String} type the taxonomy type
+   * @return {String} the term tid
+   */
+  getTermId(filter, term, options = {}, type = "taxonomy_term") {
+    return taxonomies.getTermId(this.request, filter, term, options, type);
+  }
+
+  /**
    * Search search by query
    *
    * @param {Object} options

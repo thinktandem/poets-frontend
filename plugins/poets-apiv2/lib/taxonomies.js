@@ -44,4 +44,39 @@ export function getTerm(
   });
 }
 
-export default { getTerm };
+/**
+ * Helper function to get a taxonomy term tid from the term name.
+ *
+ * @param {Object} request the axios library
+ * @param {String} filter the vocabulary
+ * @param {string} term the term name
+ * @param {array} options the query options array
+ * @param {string} type of drupal object to query
+ * @return {string} the tid of the drupal taxonomy term
+ */
+export function getTermId(
+  request,
+  filter,
+  term,
+  options = {},
+  type = "taxonomy_term"
+) {
+  let fixedTerm = "";
+  term = _.split(term, "-");
+  _.each(term, (word, i) => {
+    if (i > 0) {
+      fixedTerm += " " + _.upperFirst(word);
+    } else {
+      fixedTerm += _.upperFirst(word);
+    }
+  });
+  return request(`/api/${type}/${filter}`, options).then(res => {
+    const data = res.data.data;
+    const termId = _.find(data, datum => {
+      return datum.attributes.name === fixedTerm;
+    });
+    return termId.attributes.drupal_internal__tid;
+  });
+}
+
+export default { getTerm, getTermId };

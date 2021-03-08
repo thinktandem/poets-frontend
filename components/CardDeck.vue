@@ -11,9 +11,22 @@
           class="d-flex flex-lg-row flex-column"
         >
           <h2
+            v-if="poetTitleLink"
             :class="titleClass"
             class="card-deck__title font-italic"
-          >{{ title }}</h2>
+          >
+            <a :href="poetTitleLink">
+              {{ title }}
+            </a>
+
+          </h2>
+          <h2
+            v-else
+            :class="titleClass"
+            class="card-deck__title font-italic"
+          >
+            {{ title }}
+          </h2>
           <b-link
             class="card-deck__link text-color"
             v-if="link"
@@ -94,6 +107,10 @@ export default {
     titleClass: {
       type: String,
       default: ""
+    },
+    poetTitleLink: {
+      type: String,
+      default: null
     },
     cardtype: {
       type: String,
