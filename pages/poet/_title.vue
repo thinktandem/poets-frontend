@@ -6,11 +6,42 @@
           <h1 class="poet__name">
             {{ title }}
           </h1>
+          <!-- <span
+            class="poet__laureate-icon"
+            v-if="laureate">
+            l_i
+          </span> -->
           <div
             class="poet__dob-dod"
             v-if="dob">
             {{ niceDate(dob, "year") }}&#8211;{{ niceDate(dod, "year") }}
           </div>
+          <!-- <div
+            class="poet__laureate-container"
+            v-if="laureate">
+            <div
+              v-for="post in laureate"
+              :key="post"
+              class="poet__laureate">
+              {{ post }}
+            </div>
+          </div> -->
+        </b-col>
+      </b-row>
+      <b-row class="poet__read-buttons-container">
+        <b-col
+          class="poet__read-poems"
+          md="4">
+          <b-button
+            class="
+              poets__read-poems-button
+              align-middle
+              btn-primary"
+            block
+            href="#poet__works"
+            variant="outline-info">
+            read more poems by this poet
+          </b-button>
         </b-col>
       </b-row>
       <b-row class="poet__body">
@@ -19,41 +50,6 @@
             v-if="body"
             class="poet__body-content"
             v-html="replaceFileUrl(body.processed)"/>
-          <b-row
-            class="person__related-texts-rows"
-            md="8">
-            <b-container
-              class="books-list tabular-list">
-              <b-row class="py-5">
-                <b-col>
-                  <app-listing
-                    title="Texts"
-                    hide-empty
-                    class="py-3"
-                    :default-params="defaultParams"
-                    :fields="fields"
-                    :includes="includes"
-                    resource-type="texts"/>
-                  <app-listing
-                    title="Collections"
-                    hide-empty
-                    class="py-3"
-                    :default-params="defaultParams"
-                    :fields="fields"
-                    :includes="includes"
-                    resource-type="collections"/>
-                  <app-listing
-                    title="Lesson Plans"
-                    hide-empty
-                    class="py-3"
-                    :default-params="defaultParams"
-                    :fields="fields"
-                    :includes="includes"
-                    resource-type="lesson_plans"/>
-                </b-col>
-              </b-row>
-            </b-container>
-          </b-row>
         </b-col>
         <b-col
           class="poet__sidebar"
@@ -67,7 +63,9 @@
                 class="poet__image"
                 :src="sideBarImage.src"
                 :alt="sideBarImage.alt"/>
-              <figcaption v-if="sideBarImage">
+              <figcaption
+                class="poet__sidebar-img-caption"
+                v-if="sideBarImage">
                 {{ sideBarImage.title }}
               </figcaption>
             </figure>
@@ -75,41 +73,41 @@
           <div
             class="poet__related_schools_movements"
             v-if="schoolsMovements && schoolsMovements.length != 0">
-            <span class="schools">Related Schools & Movements:</span>
+            <div class="schools">School/Movements</div>
             <div
               class="school"
-              v-for="school in schoolsMovements"
-              :key="school.name">
-              {{ school.attributes.name }}
+              v-for="movement in schoolsMovements"
+              :key="movement.name">
+              <b-link :to="movementsPrefix + movement.attributes.drupal_internal__tid">
+                {{ movement.attributes.name.toLowerCase() }}
+              </b-link>
             </div>
           </div>
           <div
             class="poet__tags"
             v-if="tags && tags.length != 0">
-            <span class="tags">Tags:</span>
+            <div class="tags">Tags</div>
             <div
               class="tag"
               v-for="tag in tags"
               :key="tag.name">
-              {{ tag.attributes.name }}
+              {{ tag.attributes.name.toLowerCase() }}
             </div>
           </div>
-          <div class="poet__read-poems">
-            <b-button
-              v-if="poemsByLink"
-              block
-              :href="poemsByLink.to"
-              variant="outline-info">
-              Read poems by this poet
-            </b-button>
-          </div>
-          <div class="poet__read-texts">
-            <b-button
-              block
-              :href="textsByLink"
-              variant="outline-info">
-              Read texts about this poet
-            </b-button>
+          <div
+            class="poet__sidebar-related-poets"
+            v-if="relatedPoets && relatedPoets.length > 0">
+            <div class="poet__sidebar-related-poets-title">
+              Related Poets
+            </div>
+            <div
+              class="poet__sidebar-related-poets-poet"
+              v-for="poet in relatedPoets"
+              :key="poet.name">
+              <b-link :to="poet.row.attributes.path.alias">
+                {{ poet.row.attributes.title }}
+              </b-link>
+            </div>
           </div>
           <div
             v-if="sideBarVid"
@@ -124,14 +122,9 @@
         </b-col>
       </b-row>
     </b-container>
-    <CardDeck
-      v-if="poemsBy"
-      col-size="md"
-      class="bg-primary py-5"
-      title="By This Poet"
-      cardtype="PoemCard"
-      :cards="poemsBy"
-      :link="poemsByLink"/>
+    <app-poet-works
+      id="poet__works"
+      :poet="poet"/>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -143,14 +136,14 @@
 <script>
 import _ from "lodash";
 import qs from "qs";
-import AppListing from "~/components/AppListing";
 import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
+import AppPoetWorks from "~/components/Poets/AppPoetWorks";
 
 export default {
   components: {
-    AppListing,
+    AppPoetWorks,
     CardDeck
   },
   computed: {
@@ -186,7 +179,8 @@ export default {
       },
       includes: {},
       sort: "field_date_published",
-      size: [[375, 0], [300, 250]]
+      size: [[375, 0], [300, 250]],
+      movementsPrefix: "/poets?school="
     };
   },
   head() {
@@ -313,6 +307,7 @@ export default {
           dob: _.get(res, "data.data.attributes.field_dob"),
           dod: _.get(res, "data.data.attributes.field_dod"),
           title: _.get(res, "data.data.attributes.title"),
+          // laureate: _.get(res, "data.data.attributes.laureate_info"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
           sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
@@ -332,11 +327,6 @@ export default {
               }
             };
           }),
-          poemsByLink: {
-            to: `/poems/${params.title}`,
-            text: poemsBy.meta.count
-          },
-          textsByLink: `/texts/${params.title}`,
           relatedPoets:
             relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
         };
@@ -351,14 +341,52 @@ export default {
   methods: {
     niceDate(dateString, format) {
       return niceDate.niceDate(dateString, format);
+    },
+    lowerFirst(thing) {
+      return _.lowerFirst(thing);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.poet__name {
+  font-size: 3rem;
+  display: inline-block;
+}
+.poet__laureate-icon {
+  display: inline-block;
+  margin-left: 0.4rem;
+  height: 47px;
+  vertical-align: -webkit-baseline-middle;
+}
 .poet__dob-dod {
+  font-size: 1.4rem;
   font-weight: 400;
+}
+.poet__laureate {
+  color: #32d17e;
+  font-size: 1.4rem;
+}
+.poet__read-buttons-container {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  .poet__read-poems,
+  .poet__read-texts {
+    .poets__read-poems-button,
+    .poets__read-texts-button {
+      font-size: 1.5rem;
+      font-weight: 444;
+    }
+    .btn-outline-info {
+      color: var(--white);
+      border-color: var(--primary);
+    }
+    .btn-outline-info:hover {
+      color: var(--primary);
+      background-color: var(--white);
+    }
+  }
 }
 .poet__body {
   margin-top: 26px;
@@ -369,7 +397,12 @@ export default {
   }
 }
 .poet__image {
+  margin: 0;
+  width: 100%;
   box-shadow: 0 6px 0 0 #32d17e;
+}
+.poet__sidebar-img-caption {
+  margin-top: 0.4rem;
 }
 @include media-breakpoint-up(md) {
   .col-md-4.poet__sidebar {
@@ -379,26 +412,32 @@ export default {
 }
 .poet__related_schools_movements,
 .poet__tags {
-  font-weight: 600;
+  font-weight: 400;
   margin-top: 11px;
   margin-bottom: 11px;
+  .schools,
+  .tags {
+    width: 100%;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px #ccc solid;
+  }
   .school,
   .tag {
-    padding-left: 9px;
-    font-weight: 400;
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 500;
   }
 }
-.poet__read-poems,
-.poet__read-texts {
-  margin: 4px;
-  .btn-outline-info {
-    color: var(--primary);
-    border-color: var(--primary);
-  }
-  .btn-outline-info:hover {
-    color: var(--white);
-    background-color: var(--blue-dark);
-  }
+.poet__sidebar-related-poets-title,
+.poet__sidebar-related-poems-title {
+  margin-top: 11px;
+  margin-bottom: 11px;
+  border-bottom: 1px #ccc solid;
+}
+.poet__sidebar-related-poems-poem,
+.poet__sidebar-related-poets-poet {
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 .poet__vid {
   padding-top: 11px;
@@ -413,6 +452,17 @@ div /deep/ .card-deck.bg-primary {
   font-style: italic;
   font-family: "Poets Electra";
   font-size: 30px;
+}
+.person__related-content-tabs-poems,
+.person__related-content-tabs-texts {
+  .nav-link {
+    font-family: "Founders Grotesk Text";
+    font-size: 1.6rem !important;
+    font-weight: 600;
+  }
+  .nav-link:active {
+    border-bottom: 2px solid blue;
+  }
 }
 .tabular-list__header {
   background-color: #f2f8fa;

@@ -1,6 +1,6 @@
 # App and type
 name: app
-type: nodejs:10
+type: nodejs:12
 
 # Dependencies
 dependencies:
@@ -15,6 +15,10 @@ mounts:
     source: local
     source_path: run
   '/tmp': 'shared:files/tmp'
+
+variables:
+  env:
+    NODE_OPTIONS: --max_old_space_size=1536
 
 # Boot up
 web:

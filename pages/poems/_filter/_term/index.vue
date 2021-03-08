@@ -5,14 +5,6 @@
       v-if="term">
       <h2 class="h3">{{ term.title }}</h2>
       <div v-html="term.body"/>
-      <CardDeck
-        v-if="featuredPoems"
-        col-size="md"
-        class="pt-5"
-        title="Featured Poems"
-        cardtype="PoemCard"
-        :cards="featuredPoems"
-      />
     </b-container>
     <b-container>
       <b-row>
@@ -140,7 +132,7 @@
 
 <script>
 import _ from "lodash";
-import { stringify } from "qs";
+// import { stringify } from "qs";
 import filterHelpers from "~/plugins/filter-helpers";
 import CardDeck from "~/components/CardDeck";
 import iconMediaSkipBackwards from "~/static/icons/media-skip-backwards.svg";
@@ -158,58 +150,7 @@ const buildQuery = (filters = {}) =>
   });
 
 // Helper to param stringify the filters
-const buildParams = (filters = {}) => stringify(_.pickBy(filters));
-
-// Helper to fetch featured poems
-const buildFeaturesPoemsQuery = ({
-  occasion = null,
-  theme = null,
-  form = null
-} = {}) => {
-  // Spin up the basic query
-  const query = {
-    filter: {
-      status: 1
-    },
-    page: {
-      limit: 3
-    },
-    sort: "-field_featured",
-    include: "field_author"
-  };
-  // Add in the occasion if we need it
-  if (!_.isNil(occasion)) {
-    query.filter.occasion = {
-      condition: {
-        path: "field_occasion.tid",
-        operator: "=",
-        value: occasion
-      }
-    };
-  }
-  // Add in the theme if we need it
-  if (!_.isNil(theme)) {
-    query.filter.theme = {
-      condition: {
-        path: "field_poem_themes.tid",
-        operator: "=",
-        value: theme
-      }
-    };
-  }
-  // Add in the form if we need it
-  if (!_.isNil(form)) {
-    query.filter.form = {
-      condition: {
-        path: "field_form.tid",
-        operator: "=",
-        value: form
-      }
-    };
-  }
-  // Return
-  return query;
-};
+// const buildParams = (filters = {}) => stringify(_.pickBy(filters));
 
 // Helper to fetch a specific term
 const buildTermQuery = id => ({
@@ -219,6 +160,14 @@ const buildTermQuery = id => ({
   },
   page: {
     limit: 1
+  }
+});
+
+// Build the url parameter based query string.
+const buildUrlParamQuery = id => ({
+  filter: {
+    name: _.upperFirst(id),
+    status: 1
   }
 });
 
@@ -250,7 +199,6 @@ export default {
   data() {
     return {
       busy: true,
-      featuredPoems: [],
       fields: [
         {
           key: "title",
@@ -276,6 +224,7 @@ export default {
         themes: [],
         form: []
       },
+      urlFilter: "",
       page: 1,
       pageCache: [],
       perPage: 20,
@@ -284,14 +233,29 @@ export default {
       rows: 0
     };
   },
+  async created() {
+    const termIdQuery = buildUrlParamQuery(this.$route.params.term);
+    const vocabName =
+      this.$route.params.filter === "forms"
+        ? "form"
+        : this.$route.params.filter;
+    await this.$api
+      .getTermId(vocabName, this.$route.params.term, termIdQuery)
+      .then(res => {
+        this.urlFilter = res;
+        return res;
+      });
+
+    const getFilter = this.getUrlFilter(this.$route.params.filter);
+    let termFilter = {};
+    termFilter[getFilter] = this.urlFilter;
+    this.filters = _.merge(this.filters, termFilter);
+  },
   mounted() {
-    // Get all the data we need for search
-    // NOTE: We need to start with our "null" defualts to make sure
     // the placeholders show up in the dropdowns
     this.filters = _.merge(this.filters, this.$route.query);
     // Get all the data we need for search
     Promise.all([
-      this.searchPoems(),
       this.getFilter("occasions"),
       this.getFilter("themes"),
       this.getFilter("form")
@@ -302,6 +266,7 @@ export default {
   methods: {
     searchPoems(page = 0) {
       this.busy = true;
+
       const query = _.merge({}, buildQuery(this.filters), { page });
       this.$api.searchPoems({ query }).then(response => {
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
@@ -310,15 +275,20 @@ export default {
         // Update the url so the search can be shared.
         // @NOTE: we want to use the raw filters not the query which is
         // parsed into things drupal needs
-        const params = buildParams(this.filters);
-        if (!_.isEmpty(params)) {
-          window.history.pushState({}, "", `?${params}`);
-        }
+        // const params = buildParams(this.filters);
+        // if (!_.isEmpty(params)) {
+        //   window.history.pushState({}, "", `?${params}`);
+        // }
         // And finally set busy
         this.busy = false;
       });
       // Grab the movement and featured poets
-      Promise.all([this.getTermDescription(), this.getFeaturedPoems()]);
+      Promise.all([this.getTermDescription()]);
+      let pageString =
+        `/poems/` +
+        `${this.$route.params.filter}/` +
+        `${this.$route.params.term}` +
+        `?page=${query.page}`;
       if (
         query.combine ||
         query.field_occasion_target_id ||
@@ -326,7 +296,6 @@ export default {
         query.field_poem_themes_target_id ||
         query.page !== 0
       ) {
-        let pageString = `/poems?page=${query.page}`;
         if (!_.isEmpty(query.combine)) {
           pageString += `&combine=${query.combine}`;
         }
@@ -343,41 +312,6 @@ export default {
         }
         this.$ga.page(pageString);
       }
-    },
-    getFeaturedPoems() {
-      const query = buildFeaturesPoemsQuery(this.filters);
-      this.$api.getPoems({ query }).then(response => {
-        this.featuredPoems = _(_.get(response, "data.data"))
-          .filter(poem => _.has(poem, "relationships.field_author.data[0].id"))
-          .map((poem, index) => {
-            const year =
-              _.get(poem, "attributes.field_copyright_date", "") === null
-                ? ""
-                : _.get(poem, "attributes.field_copyright_date", "").split(
-                    "-"
-                  )[0];
-            const poet = _.find(
-              _.get(response, "data.included"),
-              included =>
-                _.get(included, "id") ===
-                _.get(
-                  _.first(_.get(poem, "relationships.field_author.data")),
-                  "id"
-                )
-            );
-            return {
-              aid: _.get(poem, "relationships.field_author.data")[0].id,
-              link: _.get(poem, "attributes.path.alias"),
-              title: _.get(poem, "attributes.title"),
-              text: _.get(poem, "attributes.body.processed"),
-              year: year,
-              poet: {
-                name: _.get(poet, "attributes.title")
-              }
-            };
-          })
-          .value();
-      });
     },
     getFilter(filter) {
       const fields = "name,drupal_internal__tid";
@@ -404,6 +338,22 @@ export default {
                 _.get(first, "attributes.description.processed")
             };
           });
+      }
+    },
+    getTermId(filter, term) {
+      const termIdQuery = buildUrlParamQuery(this.$route.params.term);
+      this.$api.getTermId(filter, term, termIdQuery).then(res => {
+        this.urlFilter = res;
+        return res;
+      });
+    },
+    getUrlFilter(filter) {
+      if (filter === "occasions") {
+        return "field_occasion_tid";
+      } else if (filter === "themes") {
+        return "field_poem_themes_tid";
+      } else if (filter === "form" || filter === "forms") {
+        return "field_form_tid";
       }
     },
     paginate() {

@@ -21,7 +21,7 @@ module.exports = {
     ["bootstrap-vue/nuxt", { css: false }]
   ],
   axios: {
-    debug: process.env.NODE_ENV !== "production"
+    // debug: process.env.NODE_ENV !== "production"
   },
   auth: {
     redirect: false,
@@ -153,5 +153,8 @@ module.exports = {
     TWIT_CONSUMER_SECRET: process.env.TWIT_CONSUMER_SECRET,
     TWIT_ACCESS_TOKEN: process.env.TWIT_ACCESS_TOKEN,
     TWIT_TOKEN_SECRET: process.env.TWIT_TOKEN_SECRET
+  },
+  generate: {
+    concurrency: 5
   }
 };
