@@ -272,7 +272,6 @@ export default {
               "id"
             )
         );
-        console.log("poet\n\n", poet);
         const poetTitleLink = _.get(poet, "attributes.path.alias", null);
         const relatedPoems = _.filter(
           _.get(response, "included"),
