@@ -109,21 +109,6 @@
             </div>
           </div>
           <div
-            class="poet__sidebar-related-poems"
-            v-if="poemsBy && poemsBy.length > 0">
-            <div class="poet__sidebar-related-poems-title">
-              Related Poems
-            </div>
-            <div
-              class="poet__sidebar-related-poems-poem"
-              v-for="poem in poemsBy"
-              :key="poem.name">
-              <b-link :to="poem.link">
-                {{ poem.title }}
-              </b-link>
-            </div>
-          </div>
-          <div
             class="poet__sidebar-related-poets"
             v-if="relatedPoets && relatedPoets.length > 0">
             <div class="poet__sidebar-related-poets-title">
