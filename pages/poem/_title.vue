@@ -120,8 +120,8 @@
                   class="poet--aside__tag-name"
                   v-for="occasion in occasions"
                   :key="occasion.name">
-                  <b-link :to="occasionsPrefix + lowerFirst(occasion.attributes.name)">
-                    {{ occasion.attributes.name }}
+                  <b-link :to="occasionsPrefix + occasion.attributes.drupal_internal__tid">
+                    {{ occasion.attributes.name.toLowerCase() }}
                   </b-link>
                 </div>
               </div>
@@ -135,8 +135,8 @@
                   class="poet--aside__tag-name"
                   v-for="theme in themes"
                   :key="theme.name">
-                  <b-link :to="themesPrefix + lowerFirst(theme.attributes.name)">
-                    {{ theme.attributes.name }}
+                  <b-link :to="themesPrefix + theme.attributes.drupal_internal__tid">
+                    {{ theme.attributes.name.toLowerCase() }}
                   </b-link>
                 </div>
               </div>
@@ -150,8 +150,8 @@
                   class="poet--aside__tag-name"
                   v-for="form in forms"
                   :key="form.name">
-                  <b-link :to="formsPrefix + lowerFirst(form.attributes.name)">
-                    {{ form.attributes.name }}
+                  <b-link :to="formsPrefix + form.attributes.drupal_internal__tid">
+                    {{ form.attributes.name.toLowerCase() }}
                   </b-link>
                 </div>
               </div>
@@ -177,6 +177,7 @@
       v-if="poet && morePoems !== [] && morePoems.poems.length >= 1 && !embedded"
       col-size="md"
       :title="`More by ${poet.title}`"
+      :poet-title-link="poetTitleLink"
       cardtype="PoemCard"
       class="py-5"
       :link="buildSectionLink(morePoems.response, { field_author: poet.uuid })"
@@ -225,9 +226,9 @@ export default {
   data() {
     return {
       showSoundCloud: false,
-      occasionsPrefix: "/poems/occasions/",
-      themesPrefix: "/poems/themes/",
-      formsPrefix: "/poems/forms/"
+      occasionsPrefix: "/poems?field_occasion_tid=",
+      themesPrefix: "/poems?field_poem_themes_tid=",
+      formsPrefix: "/poems?field_form_tid="
     };
   },
   head() {
@@ -271,6 +272,7 @@ export default {
               "id"
             )
         );
+        const poetTitleLink = _.get(poet, "attributes.path.alias", null);
         const relatedPoems = _.filter(
           _.get(response, "included"),
           include => include.type === "node--poems"
@@ -365,7 +367,8 @@ export default {
                 }
               };
             })
-          }
+          },
+          poetTitleLink
         };
       })
       .catch(err => error({ statusCode: 404, message: "" }));

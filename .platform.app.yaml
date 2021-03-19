@@ -34,7 +34,7 @@ hooks:
     set -e
     # Build
     yarn install
-    API_URL=https://pr-992-n425ktq-iw4bgahutfk2y.us-2.platformsh.site yarn build
+    yarn build
     # We need to do the below manually for now
     # See: https://github.com/yarnpkg/yarn/issues/6685
     yarn cache clean
@@ -48,3 +48,18 @@ crons:
   submitSitemap:
     spec: '0 1 * * *'
     cmd: 'curl -I https://poets.org/submit-sitemap'
+  clearYarnCacheMonthly:
+    spec: '5 0 1 * *'
+    cmd: 'yarn cache clean'
+  backupErrorLogsMonthly:
+    spec: '10 0 1 * *'
+    cmd: 'cp /mnt/run/logs/prod-error.log /tmp/error.log'
+  backupOutLogsMonthly:
+    spec: '20 0 1 * *'
+    cmd: 'cp /mnt/run/logs/prod-out.log /tmp/out.log'
+  emptyErrorLogsMonthly:
+    spec: '30 0 1 * *'
+    cmd: 'true > /mnt/run/logs/prod-error.log'
+  emptyOutLogsMonthly:
+    spec: '40 0 1 * *'
+    cmd: 'true > /mnt/run/logs/prod-out.log'

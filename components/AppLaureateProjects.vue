@@ -1,31 +1,30 @@
 <template>
-  <section class="feature-stack">
-    <b-container>
-      <component
-        class="font-serif font-italic"
-        :is="titleTag">{{ title }}</component>
-      <b-row class="py-3">
-        <b-col
-          md="12"
-          class="d-flex flex-column px-lg-5">
-          <app-laureate-project-feature
-            v-for="(feature, index) in features"
-            :reverse="index % 2 == 1"
-            :feature="feature"
-            v-bind="feature"
-            :key="index"
-            class="my-lg-5 my-2 pb-lg-4"
-            v-if="features !== null"/>
-        </b-col>
-      </b-row>
-    </b-container>
+  <section class="feature bg-white d-flex flex-column flex-lg-row-reverse">
+    <div class="lpi-title font-serif font-italic py-2">
+      Laureate Project <span>l_i</span>
+    </div>
+    <div
+      class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic">
+      {{ features.title }}
+    </div>
+    <div
+      class="feature__content py-3 h-100">
+      <h3>{{ features.title }}</h3>
+      <div
+        class="lpi-blurb"
+        v-html="features.blurb.value"/>
+      <div class="lpi-learn-more">
+        <a
+          class="lpi-learn-more-link"
+          :href="features.link">Learn More &gt; </a>
+      </div>
+    </div>
   </section>
 </template>
 <script>
-import AppLaureateProjectFeature from "~/components/AppLaureateProjectFeature";
 export default {
   name: "FeatureStack",
-  components: { AppLaureateProjectFeature },
+  components: {},
   props: {
     titleTag: {
       type: String,
@@ -36,20 +35,65 @@ export default {
       default: ""
     },
     features: {
-      type: Array,
+      type: Object,
       default: null
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.feature-stack {
-  background-color: $gray-400;
-  padding-top: 2rem;
+$featureOffset: 2rem;
+$mediaOffset: 1.25rem;
+.feature {
+  position: relative;
 }
-.feature-stack__title {
-  font-size: 4.375rem;
-  line-height: 0.63;
+.feature__media {
+  position: relative;
+  width: 100%;
+  height: auto;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.feature__content {
+  padding-left: $spacer;
+  padding-right: $spacer;
+}
+@include media-breakpoint-up(lg) {
+  .feature {
+    max-width: 88%;
+    margin: 2rem;
+  }
+  .flex-lg-row.feature {
+    left: $featureOffset;
+  }
+
+  .flex-lg-row-reverse.feature {
+    // right: $featureOffset;
+  }
+
+  .feature__media {
+    top: -$mediaOffset;
+    width: 385px;
+    position: absolute;
+  }
+  .flex-lg-row .feature__media {
+    left: -$mediaOffset;
+  }
+
+  .flex-lg-row-reverse .feature__media {
+    right: -$mediaOffset;
+  }
+
+  .flex-lg-row .feature__content {
+    padding-left: 390px;
+    padding-right: $spacer * 2;
+  }
+  .flex-lg-row-reverse .feature__content {
+    padding-right: 390px;
+    padding-left: $spacer * 1.5;
+  }
 }
 
 @include media-breakpoint-up(lg) {
@@ -57,5 +101,22 @@ export default {
     padding-top: 5rem;
     padding-bottom: 7rem;
   }
+}
+
+.lpi-title {
+  font-size: 2.2rem;
+}
+.lpi-box {
+  padding: 2rem;
+  background-color: #00b4f0;
+  color: #fff;
+  font-size: 2.6rem;
+}
+.lpi-blurb /deep/ p {
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.lpi-learn-more-link {
+  font-size: 1.2rem;
 }
 </style>

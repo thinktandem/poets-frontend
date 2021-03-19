@@ -8,7 +8,7 @@
           </h1>
           <span
             class="poet__laureate-icon"
-            v-if="laureate && laureate.length != 0">
+            v-if="laureateProjects.title">
             l_i
           </span>
           <div
@@ -18,12 +18,11 @@
           </div>
           <div
             class="poet__laureate-container"
-            v-if="laureate && laureate.length != 0">
+            v-if="laureateProjects.title">
             <div
-              v-for="post in laureate"
-              :key="post"
-              class="poet__laureate">
-              {{ post }}
+              class="poet__laureate"
+              v-if="laureateProjects.created != null">
+              {{ laureateProjects.title }} {{ niceDate(laureateProjects.created, "year") }}
             </div>
           </div>
         </b-col>
@@ -40,7 +39,7 @@
             block
             href="#poet__works"
             variant="outline-info">
-            Read poems by this poet
+            read more poems by this poet
           </b-button>
         </b-col>
       </b-row>
@@ -76,10 +75,10 @@
             <div class="schools">School/Movements</div>
             <div
               class="school"
-              v-for="school in schoolsMovements"
-              :key="school.name">
-              <b-link :to="movementsPrefix + lowerFirst(school.attributes.name)">
-                {{ school.attributes.name }}
+              v-for="movement in schoolsMovements"
+              :key="movement.name">
+              <b-link :to="movementsPrefix + movement.attributes.drupal_internal__tid">
+                {{ movement.attributes.name.toLowerCase() }}
               </b-link>
             </div>
           </div>
@@ -96,7 +95,7 @@
           </div>
           <div
             class="poet__laureate-projects"
-            v-if="laureateProjects && laureateProjects.length != 0">
+            v-if="laureateProjects.title">
             <div class="poet__laureate-projects-title">
               <div class="poet__sidebar-laureate-icon">
                 l_i
@@ -156,9 +155,9 @@
       id="poet__works"
       :poet="poet"/>
     <app-laureate-projects
-      v-if="laureateProjects != null"
+      v-if="laureateProjects.title"
       title="Laureate Project"
-      :feature="laureateProjects"/>
+      :features="laureateProjects"/>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -216,8 +215,7 @@ export default {
       includes: {},
       sort: "field_date_published",
       size: [[375, 0], [300, 250]],
-      movementsPrefix: "/poets/movements/",
-      poetPoemsParams: {}
+      movementsPrefix: "/poets?school="
     };
   },
   head() {
@@ -271,7 +269,10 @@ export default {
         });
         const laureateProjectsParams = qs.stringify({
           filter: {
-            "field_winner.nid": res.data.data.attributes.drupal_internal__nid
+            "field_winner.nid": _.get(
+              res,
+              "data.data.attributes.drupal_internal__nid"
+            )
           }
         });
         const laureateProjects = await app.$axios.$get(
@@ -352,7 +353,6 @@ export default {
           dob: _.get(res, "data.data.attributes.field_dob"),
           dod: _.get(res, "data.data.attributes.field_dod"),
           title: _.get(res, "data.data.attributes.title"),
-          laureate: _.get(res, "data.data.attributes.laureate_info"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
           sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
@@ -367,7 +367,13 @@ export default {
               "data[0].attributes.path.alias",
               null
             ),
-            lpi: _.get(laureateProjects, "included[0].attributes", null)
+            created: _.get(
+              laureateProjects,
+              "data[0].attributes.created",
+              null
+            ),
+            lpi: _.get(laureateProjects, "included[0].attributes", null),
+            blurb: _.get(laureateProjects, "data[0].attributes.body", null)
           },
           // laureateProjectsImg: _.get(
           //   laureateProjects,
@@ -387,17 +393,7 @@ export default {
             };
           }),
           relatedPoets:
-            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null,
-          poetPoemsParams: {
-            page: {
-              // limit: 3
-            },
-            filter: {
-              status: 1,
-              "field_author.id": res.data.data.id
-            },
-            sort: "field_google_analytics_counter"
-          }
+            relatedPoets && relatedPoets.rows.length ? relatedPoets.rows : null
         };
       })
       .catch(error => {

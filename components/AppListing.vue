@@ -412,7 +412,7 @@ export default {
           page: {
             limit: this.pageLimit * 3
           },
-          sort: "-created"
+          sort: "-page_views"
         },
         // Param overrides from props
         this.defaultParams,

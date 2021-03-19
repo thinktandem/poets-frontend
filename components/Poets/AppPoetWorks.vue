@@ -5,7 +5,7 @@
         <b-col>
           <b-tabs fill>
             <b-tab
-              :title="tab.title"
+              :title="tab.title.toLowerCase()"
               v-for="(tab, index) in tabs"
               :key="index"
               :active="index === 0">
@@ -18,7 +18,8 @@
             </b-tab>
             <b-tab
               class="p-4"
-              title="Bibliography">
+              v-if="bibliography"
+              title="bibliography">
               <div v-html="bibliography" />
             </b-tab>
           </b-tabs>
@@ -42,7 +43,7 @@ export default {
   },
   computed: {
     bibliography() {
-      return _.get(this.poet, "attributes.field_bibliography.processed", []);
+      return _.get(this.poet, "attributes.field_bibliography.processed", null);
     }
   },
   data() {
