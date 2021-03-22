@@ -1,5 +1,7 @@
 <template>
-  <section class="feature bg-white d-flex flex-column flex-lg-row-reverse">
+  <section
+    id="laureate-component"
+    class="feature bg-white d-flex flex-column flex-lg-row-reverse">
     <div
       class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic">
       {{ features.title }}
@@ -59,7 +61,6 @@ $mediaOffset: 1.25rem;
 }
 @include media-breakpoint-up(lg) {
   .feature {
-    max-width: 88%;
     margin: 2rem;
   }
   .flex-lg-row.feature {

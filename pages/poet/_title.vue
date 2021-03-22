@@ -140,16 +140,22 @@
       id="poet__works"
       :poet="poet"/>
     <div class="lpi-container">
-      <div class="lpi-title font-serif font-italic py-2">
-        Laureate Project
-        <span>
-          <poet-laureate-icon />
-        </span>
+      <div class="container">
+        <div class="row">
+          <div class="md-10">
+            <div class="lpi-title font-serif font-italic py-2">
+              Laureate Project
+              <span>
+                <poet-laureate-icon />
+              </span>
+            </div>
+            <app-laureate-projects
+              v-if="laureateProjects.title"
+              title="Laureate Project"
+              :features="laureateProjects"/>
+          </div>
+        </div>
       </div>
-      <app-laureate-projects
-        v-if="laureateProjects.title"
-        title="Laureate Project"
-        :features="laureateProjects"/>
     </div>
     <CardDeck
       v-if="relatedPoets"
@@ -573,6 +579,7 @@ div /deep/ .card-deck.bg-primary {
 .lpi-container {
   background-color: #f1f1f1;
   min-height: 444px;
+  min-width: 100%;
   .lpi-title {
     margin-left: 2rem;
     font-size: 2.2rem;
