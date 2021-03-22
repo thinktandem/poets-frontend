@@ -139,7 +139,9 @@
     <app-poet-works
       id="poet__works"
       :poet="poet"/>
-    <div class="lpi-container">
+    <div
+      class="lpi-container"
+      v-if="laureateProjects.title"> 
       <div class="container">
         <div class="row">
           <div class="md-10">
