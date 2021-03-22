@@ -9,7 +9,7 @@
           <span
             class="poet__laureate-icon"
             v-if="laureateProjects.title">
-            l_i
+            <poet-laureate-icon />
           </span>
           <div
             class="poet__dob-dod"
@@ -98,7 +98,7 @@
             v-if="laureateProjects.title">
             <div class="poet__laureate-projects-title">
               <div class="poet__sidebar-laureate-icon">
-                l_i
+                <poet-laureate-icon />
               </div>
               <div class="laureate-projects">Poet Laureate Project</div>
             </div>
@@ -139,10 +139,18 @@
     <app-poet-works
       id="poet__works"
       :poet="poet"/>
-    <app-laureate-projects
-      v-if="laureateProjects.title"
-      title="Laureate Project"
-      :features="laureateProjects"/>
+    <div class="lpi-container">
+      <div class="lpi-title font-serif font-italic py-2">
+        Laureate Project
+        <span>
+          <poet-laureate-icon />
+        </span>
+      </div>
+      <app-laureate-projects
+        v-if="laureateProjects.title"
+        title="Laureate Project"
+        :features="laureateProjects"/>
+    </div>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -159,12 +167,14 @@ import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
 import AppPoetWorks from "~/components/Poets/AppPoetWorks";
 import AppLaureateProjects from "~/components/AppLaureateProjects";
+import PoetLaureateIcon from "~/static/icons/poet-laureate-icon.svg";
 
 export default {
   components: {
     AppPoetWorks,
     AppLaureateProjects,
-    CardDeck
+    CardDeck,
+    PoetLaureateIcon
   },
   computed: {
     defaultParams() {
@@ -360,11 +370,6 @@ export default {
             lpi: _.get(laureateProjects, "included[0].attributes", null),
             blurb: _.get(laureateProjects, "data[0].attributes.body", null)
           },
-          // laureateProjectsImg: _.get(
-          //   laureateProjects,
-          //   "included[0].attributes",
-          //   null
-          // ),
           poemsBy: _.map(poemsBy.data, poem => {
             let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
@@ -408,7 +413,13 @@ export default {
   display: inline-block;
   margin-left: 0.4rem;
   height: 47px;
-  vertical-align: -webkit-baseline-middle;
+  svg {
+    height: 3.3rem;
+    vertical-align: bottom;
+  }
+  svg path {
+    fill: #32d17e;
+  }
 }
 .poet__dob-dod {
   font-size: 1.4rem;
@@ -481,6 +492,7 @@ export default {
 .poet__sidebar-related-poets-title,
 .poet__sidebar-related-poems-title,
 .poet__laureate-projects-title {
+  vertical-align: middle;
   display: inline-block;
   margin-top: 11px;
   margin-bottom: 11px;
@@ -490,6 +502,14 @@ export default {
 .poet__sidebar-laureate-icon {
   display: inline-block;
   margin-right: 0.4rem;
+  svg {
+    padding-bottom: 0.2rem;
+    height: 2.6rem;
+    vertical-align: middle;
+  }
+  svg path {
+    fill: #32d17e;
+  }
 }
 .laureate-projects {
   display: inline-block;
@@ -549,5 +569,20 @@ div /deep/ .card-deck.bg-primary {
 .books-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.lpi-container {
+  background-color: #f1f1f1;
+  min-height: 444px;
+  .lpi-title {
+    margin-left: 2rem;
+    font-size: 2.2rem;
+    svg {
+      height: 4rem;
+      vertical-align: bottom;
+    }
+    svg path {
+      fill: #32d17e;
+    }
+  }
 }
 </style>

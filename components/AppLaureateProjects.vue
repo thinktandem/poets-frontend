@@ -1,8 +1,5 @@
 <template>
   <section class="feature bg-white d-flex flex-column flex-lg-row-reverse">
-    <div class="lpi-title font-serif font-italic py-2">
-      Laureate Project <span>l_i</span>
-    </div>
     <div
       class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic">
       {{ features.title }}
@@ -103,9 +100,6 @@ $mediaOffset: 1.25rem;
   }
 }
 
-.lpi-title {
-  font-size: 2.2rem;
-}
 .lpi-box {
   padding: 2rem;
   background-color: #00b4f0;
