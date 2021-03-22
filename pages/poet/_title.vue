@@ -39,7 +39,7 @@
             block
             href="#poet__works"
             variant="outline-info">
-            read more poems by this poet
+            read poems by this poet
           </b-button>
         </b-col>
       </b-row>
