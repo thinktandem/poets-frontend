@@ -159,7 +159,7 @@
             <div class="mb-4">
               <b-link
                 v-if="poet"
-                :to="poet.path.alias">More {{ poet.title }} ></b-link>
+                :to="poet.path.alias">About {{ poet.title }} ></b-link>
             </div>
           </div>
           <signup-block />

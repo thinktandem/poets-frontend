@@ -6,26 +6,25 @@
           <h1 class="poet__name">
             {{ title }}
           </h1>
-          <!-- <span
+          <span
             class="poet__laureate-icon"
-            v-if="laureate">
-            l_i
-          </span> -->
+            v-if="laureateProjects.title">
+            <poet-laureate-icon />
+          </span>
           <div
             class="poet__dob-dod"
             v-if="dob">
             {{ niceDate(dob, "year") }}&#8211;{{ niceDate(dod, "year") }}
           </div>
-          <!-- <div
+          <div
             class="poet__laureate-container"
-            v-if="laureate">
+            v-if="laureateProjects.title">
             <div
-              v-for="post in laureate"
-              :key="post"
-              class="poet__laureate">
-              {{ post }}
+              class="poet__laureate"
+              v-if="laureateProjects.created != null">
+              {{ laureateProjects.title }} {{ niceDate(laureateProjects.created, "year") }}
             </div>
-          </div> -->
+          </div>
         </b-col>
       </b-row>
       <b-row class="poet__read-buttons-container">
@@ -40,7 +39,7 @@
             block
             href="#poet__works"
             variant="outline-info">
-            read more poems by this poet
+            read poems by this poet
           </b-button>
         </b-col>
       </b-row>
@@ -91,7 +90,22 @@
               class="tag"
               v-for="tag in tags"
               :key="tag.name">
-              {{ tag.attributes.name.toLowerCase() }}
+              {{ tag.attributes.name }}
+            </div>
+          </div>
+          <div
+            class="poet__laureate-projects"
+            v-if="laureateProjects.title">
+            <div class="poet__laureate-projects-title">
+              <div class="poet__sidebar-laureate-icon">
+                <poet-laureate-icon />
+              </div>
+              <div class="laureate-projects">Poet Laureate Project</div>
+            </div>
+            <div class="project">
+              <b-link :to="laureateProjects.link">
+                {{ laureateProjects.title }}
+              </b-link>
             </div>
           </div>
           <div
@@ -125,6 +139,26 @@
     <app-poet-works
       id="poet__works"
       :poet="poet"/>
+    <div
+      class="lpi-container"
+      v-if="laureateProjects.title"> 
+      <div class="container">
+        <div class="row">
+          <div class="md-10">
+            <div class="lpi-title font-serif font-italic py-2">
+              Laureate Project
+              <span>
+                <poet-laureate-icon />
+              </span>
+            </div>
+            <app-laureate-projects
+              v-if="laureateProjects.title"
+              title="Laureate Project"
+              :features="laureateProjects"/>
+          </div>
+        </div>
+      </div>
+    </div>
     <CardDeck
       v-if="relatedPoets"
       title="Related Poets"
@@ -140,11 +174,15 @@ import MetaTags from "~/plugins/metatags";
 import niceDate from "~/plugins/niceDate";
 import CardDeck from "~/components/CardDeck";
 import AppPoetWorks from "~/components/Poets/AppPoetWorks";
+import AppLaureateProjects from "~/components/AppLaureateProjects";
+import PoetLaureateIcon from "~/static/icons/poet-laureate-icon.svg";
 
 export default {
   components: {
     AppPoetWorks,
-    CardDeck
+    AppLaureateProjects,
+    CardDeck,
+    PoetLaureateIcon
   },
   computed: {
     defaultParams() {
@@ -232,6 +270,17 @@ export default {
         const sideBarVid = _.filter(_.get(res, "data.included"), {
           type: "paragraph--media"
         });
+        const laureateProjectsParams = qs.stringify({
+          filter: {
+            "field_winner.nid": _.get(
+              res,
+              "data.data.attributes.drupal_internal__nid"
+            )
+          }
+        });
+        const laureateProjects = await app.$axios.$get(
+          `/api/node/sub_prize_or_program?${laureateProjectsParams}&include=field_image`
+        );
         const poemsByParams = qs.stringify({
           page: {
             limit: 3
@@ -307,7 +356,6 @@ export default {
           dob: _.get(res, "data.data.attributes.field_dob"),
           dod: _.get(res, "data.data.attributes.field_dod"),
           title: _.get(res, "data.data.attributes.title"),
-          // laureate: _.get(res, "data.data.attributes.laureate_info"),
           body: _.get(res, "data.data.attributes.body"),
           sideBarImage,
           sideBarVid: _.get(sideBarVid[0], "attributes.body", null)
@@ -315,6 +363,21 @@ export default {
             : null,
           schoolsMovements,
           tags,
+          laureateProjects: {
+            title: _.get(laureateProjects, "data[0].attributes.title", null),
+            link: _.get(
+              laureateProjects,
+              "data[0].attributes.path.alias",
+              null
+            ),
+            created: _.get(
+              laureateProjects,
+              "data[0].attributes.created",
+              null
+            ),
+            lpi: _.get(laureateProjects, "included[0].attributes", null),
+            blurb: _.get(laureateProjects, "data[0].attributes.body", null)
+          },
           poemsBy: _.map(poemsBy.data, poem => {
             let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {
@@ -358,7 +421,13 @@ export default {
   display: inline-block;
   margin-left: 0.4rem;
   height: 47px;
-  vertical-align: -webkit-baseline-middle;
+  svg {
+    height: 3.3rem;
+    vertical-align: bottom;
+  }
+  svg path {
+    fill: #32d17e;
+  }
 }
 .poet__dob-dod {
   font-size: 1.4rem;
@@ -429,13 +498,33 @@ export default {
   }
 }
 .poet__sidebar-related-poets-title,
-.poet__sidebar-related-poems-title {
+.poet__sidebar-related-poems-title,
+.poet__laureate-projects-title {
+  vertical-align: middle;
+  display: inline-block;
   margin-top: 11px;
   margin-bottom: 11px;
   border-bottom: 1px #ccc solid;
+  font-weight: 400;
+}
+.poet__sidebar-laureate-icon {
+  display: inline-block;
+  margin-right: 0.4rem;
+  svg {
+    padding-bottom: 0.2rem;
+    height: 2.6rem;
+    vertical-align: middle;
+  }
+  svg path {
+    fill: #32d17e;
+  }
+}
+.laureate-projects {
+  display: inline-block;
 }
 .poet__sidebar-related-poems-poem,
-.poet__sidebar-related-poets-poet {
+.poet__sidebar-related-poets-poet,
+.project {
   font-weight: 500;
   font-size: 1.2rem;
 }
@@ -488,5 +577,21 @@ div /deep/ .card-deck.bg-primary {
 .books-list {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.lpi-container {
+  background-color: #f1f1f1;
+  min-height: 444px;
+  min-width: 100%;
+  .lpi-title {
+    margin-left: 2rem;
+    font-size: 2.2rem;
+    svg {
+      height: 4rem;
+      vertical-align: bottom;
+    }
+    svg path {
+      fill: #32d17e;
+    }
+  }
 }
 </style>
