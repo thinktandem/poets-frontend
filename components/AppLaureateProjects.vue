@@ -2,13 +2,17 @@
   <section
     id="laureate-component"
     class="feature bg-white d-flex flex-column flex-lg-row-reverse">
-    <div
-      class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic">
-      {{ features.title }}
-    </div>
+    <a :href="features.link">
+      <div
+        class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic">
+        {{ features.title }}
+      </div>
+    </a>
     <div
       class="feature__content py-3 h-100">
-      <h3>{{ features.title }}</h3>
+      <a :href="features.link">
+        <h3>{{ features.title }}</h3>
+      </a>
       <div
         class="lpi-blurb"
         v-html="features.blurb.value"/>
