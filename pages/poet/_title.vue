@@ -275,7 +275,14 @@ export default {
             "field_winner.nid": _.get(
               res,
               "data.data.attributes.drupal_internal__nid"
-            )
+            ),
+            title: {
+              condition: {
+                operator: "CONTAINS",
+                path: "title",
+                value: "Poet Laureate of"
+              }
+            }
           }
         });
         const laureateProjects = await app.$axios.$get(
