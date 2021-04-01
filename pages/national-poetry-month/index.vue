@@ -111,7 +111,10 @@ export default {
         title: { label: "Name" },
         field_location: { label: "Location" }
       },
-      defaultParams: { page: { limit: 8 } },
+      defaultParams: {
+        sort: "-field_event_date",
+        page: { limit: 8 }
+      },
       filters: [],
       searchable: []
     };
