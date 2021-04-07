@@ -72,6 +72,17 @@ export function poets(request, options = {}) {
 }
 
 /**
+ * Get projects searchable by options
+ *
+ * @param {Object} request The axios library
+ * @param {Object} options The request options
+ * @return {Object} the response object
+ */
+export function projects(request, options = {}) {
+  return request("/api/laureate_projects", {}, options);
+}
+
+/**
  * Get press center searchable by options
  *
  * @param {Object} request The axios library
@@ -124,6 +135,7 @@ export default {
   poets,
   pressCenter,
   previousPoemsADay,
+  projects,
   search,
   texts
 };

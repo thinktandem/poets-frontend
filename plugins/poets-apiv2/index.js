@@ -370,6 +370,16 @@ export default class PoetsApi {
   }
 
   /**
+   * Search projects by query
+   *
+   * @param {Object} options
+   * @return {Integer} the response object
+   */
+  searchProjects(options = {}) {
+    return search.projects(this.request, options);
+  }
+
+  /**
    * Search press center by query
    *
    * @param {Object} options
