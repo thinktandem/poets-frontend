@@ -295,7 +295,6 @@ export default {
         const laureateProjects = await app.$axios.$get(
           `/api/node/sub_prize_or_program?${laureateProjectsParams}&include=field_image`
         );
-        console.log("lp: ", laureateProjects.included[0].attributes.uri.url);
         const poemsByParams = qs.stringify({
           page: {
             limit: 3

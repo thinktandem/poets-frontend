@@ -41,6 +41,20 @@
                 State</option>
             </template>
           </b-form-select>
+          <b-form-select
+            :disabled="busy"
+            inline
+            @input="searchProjects(0)"
+            v-model="filters.year"
+            :options="options.years"
+          >
+            <template slot="first">
+              <option
+                :value="null"
+              >
+                Year</option>
+            </template>
+          </b-form-select>
         </b-form-group>
       </app-form>
       <div
@@ -129,10 +143,12 @@ export default {
         }
       ],
       filters: {
-        state: null
+        state: null,
+        year: null
       },
       options: {
-        states: []
+        states: [],
+        years: []
       },
       page: 1,
       pageCache: [],
@@ -172,12 +188,24 @@ export default {
   methods: {
     searchProjects(page = 0) {
       this.busy = true;
-      const query = _.merge({}, buildQuery(this.filters), { page });
+      const filters = {
+        state: this.filters.state,
+        year: {
+          min: Date.parse(`01 January ${this.filters.year}`) / 1000,
+          max: Date.parse(`31 December ${this.filters.year}`) / 1000
+        }
+      };
+      const query = _.merge({}, buildQuery(filters), { page });
       // Get the updated list of poets
       this.$api.searchProjects({ query }).then(response => {
         this.page = _.get(response, "data.pager.current_page", 1) + 1;
         this.rows = _.get(response, "data.pager.total_items", 0);
         this.projects = this.rows > 0 ? _.get(response, "data.rows", []) : [];
+        let years = [];
+        years["2019"] = "2019";
+        years["2020"] = "2020";
+        years["2021"] = "2021";
+        this.options.years = years;
         // Update the url so the search can be shared.
         // @NOTE: we want to use the raw filters not the query which is
         // parsed into things drupal needs
@@ -189,14 +217,15 @@ export default {
         this.busy = false;
       });
       // Grab the state and year
+      Promise.all([this.getStates()]);
       if (query.year || query.state || query.page !== 0) {
         let pageString = `/api/laureate_projects?page=${query.page}`;
         if (query.state) {
           pageString += `&state=${query.state}`;
         }
-        // if (query.year) {
-        //   pageString += `&school=${query.year}`;
-        // }
+        if (query.year) {
+          pageString += `&year${query.year}`;
+        }
         this.$ga.page(pageString);
       }
     },
@@ -238,6 +267,7 @@ export default {
   font-weight: 400;
 }
 .lpi-list {
+  padding: 0.4rem;
   background-color: #f1f1f1;
 }
 #laureate-component {

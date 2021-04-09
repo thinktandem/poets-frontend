@@ -110,6 +110,7 @@ $mediaOffset: 1.25rem;
 .feature__content {
   padding-left: $spacer;
   padding-right: $spacer;
+  min-height: 326px;
 }
 @include media-breakpoint-up(lg) {
   .feature {
@@ -125,7 +126,8 @@ $mediaOffset: 1.25rem;
 
   .feature__media {
     top: -$mediaOffset;
-    width: 385px;
+    width: 321px;
+    height: 96%;
     position: absolute;
   }
   .flex-lg-row .feature__media {
