@@ -56,6 +56,34 @@
             </template>
           </b-form-select>
         </b-form-group>
+        <b-container>
+          <b-row>
+            <b-col class="md-2">
+              <div
+                class="da-selection state close button"
+                aria-label="Close"
+                v-if="showStateSelection() != null"
+                @click="resetStateFilter()">
+                {{ showStateSelection() }}
+                <span class="closer">
+                  &#x2715;
+                </span>
+              </div>
+            </b-col>
+            <b-col class="md-2">
+              <div
+                class="da-selection year close button"
+                aria-label="Close"
+                v-if="showYearSelection() != null"
+                @click="resetYearFilter()">
+                {{ showYearSelection() }}
+                <span class="closer">
+                  &#x2715;
+                </span>
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
       </app-form>
       <div
         class="laureate-project-list"
@@ -252,6 +280,33 @@ export default {
           `/academy-american-poets/prizes/academy-american-poets-laureate-fellowships?page=0`
         );
       }
+    },
+    showStateSelection() {
+      const k = _.find(this.options.states, memow => {
+        if (memow.value == this.filters.state) {
+          return memow.text;
+        } else {
+          return null;
+        }
+      });
+      return k ? k.text : null;
+    },
+    resetStateFilter() {
+      this.filters.state = null;
+    },
+    resetYearFilter() {
+      this.filters.year = null;
+    },
+    showYearSelection() {
+      const k = _.find(this.options.years, memow => {
+        if (memow == this.filters.year) {
+          return memow;
+        } else {
+          return null;
+        }
+      });
+
+      return k ? k : null;
     }
   },
   mounted() {
@@ -275,5 +330,20 @@ export default {
 }
 .lpi-list-item {
   min-height: 256px;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.da-selection {
+  padding: 0.6rem;
+  width: 50%;
+  background-color: #aaa;
+  border-radius: 26px;
+  color: #fff;
+  font-weight: 300;
+  text-align: center;
+  .closer {
+    margin-left: 6px;
+  }
 }
 </style>
