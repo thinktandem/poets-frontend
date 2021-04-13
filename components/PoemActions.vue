@@ -308,9 +308,14 @@ export default {
 <style scoped lang="scss">
 .poem__actions {
   position: relative;
-  width: 100%;
+  width: 33px;
   flex-grow: 1;
   margin-bottom: $spacer * 2;
+}
+@include media-breakpoint-down(sm) {
+  .poem__actions {
+    width: 100%;
+  }
 }
 ul {
   margin: 0;
