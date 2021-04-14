@@ -8,7 +8,7 @@
           </h1>
           <span
             class="poet__laureate-icon"
-            v-if="laureateProjects.title">
+            v-if="laureateInfo || laureateProjects.title">
             <poet-laureate-icon />
           </span>
           <div
@@ -18,10 +18,15 @@
           </div>
           <div
             class="poet__laureate-container"
-            v-if="laureateProjects.title">
+            v-if="laureateInfo || laureateProjects.title">
             <div
               class="poet__laureate"
-              v-if="laureateProjects.created != null">
+              v-if="laureateInfo">
+              {{ laureateInfo }}
+            </div>
+            <div
+              class="poet__laureate"
+              v-else-if="laureateProjects">
               {{ laureateProjects.title }} {{ niceDate(laureateProjects.created, "year") }}
             </div>
           </div>
@@ -356,6 +361,11 @@ export default {
 
         return {
           poet: res.data.data,
+          laureateInfo: _.get(
+            res,
+            "data.data.attributes.laureate_info[0]",
+            null
+          ),
           socialImage: _.get(
             app.$buildImg(res.data, null, "field_image", "social_share"),
             "src"
