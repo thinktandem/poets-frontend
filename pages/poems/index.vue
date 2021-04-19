@@ -88,6 +88,7 @@
 
     <b-container>
       <b-table
+        class="poem-list"
         id="poems"
         :items="poems"
         :fields="fields"
@@ -429,4 +430,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.poem-list {
+  div a {
+    font-style: normal;
+  }
+}
 </style>
