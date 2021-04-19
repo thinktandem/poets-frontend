@@ -432,11 +432,15 @@ export default {
 }
 
 .poem-container {
-  max-width: 74%;
   .poem__body {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
     font-size: 1.1rem;
+  }
+}
+@include media-breakpoint-up(md) {
+  .poem-container {
+    max-width: 74%;
   }
 }
 
