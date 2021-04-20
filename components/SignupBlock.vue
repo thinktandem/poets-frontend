@@ -112,6 +112,9 @@ export default {
 .sign-up {
   font-weight: 600;
   width: 100%;
+  .poem__actions {
+    width: 100%;
+  }
   .poem-a-day-sign-up__title {
     font-family: $font-family-sans-serif;
     font-size: 1.4rem;
