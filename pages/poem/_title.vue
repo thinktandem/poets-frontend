@@ -51,20 +51,26 @@
                   <span class="poem__soundcloud-link">&#10005;</span>
                 </b-link>
               </div>
-              <span
-                class="card-subtitle"
-                v-if="poet !== null"
-              >
-                <b-link
-                  v-if="poet && poet.path.alias"
-                  :to="poet.path.alias"
-                  itemprop="author"
-                >{{ poet.title }}</b-link>
+              <div
+                class="authors"
+                v-if="poets.length != 0"
+                v-for="poet in poets"
+                :key="poet.attributes.drupal_internal__nid">
                 <span
-                  class="dates"
-                  v-if="poet && poet.field_dob"
-                > - {{ niceDate(poet.field_dob, "year") }}-{{ niceDate(poet.field_dod, "year") }}</span>
-              </span>
+                  class="card-subtitle"
+                  v-if="poet !== null"
+                >
+                  <b-link
+                    v-if="poet && poet.attributes.path.alias"
+                    :to="poet.attributes.path.alias"
+                    itemprop="author"
+                  >{{ poet.attributes.title }}</b-link>
+                  <span
+                    class="dates"
+                    v-if="poet && poet.attributes.field_dob"
+                  > - {{ niceDate(poet.attributes.field_dob, "year") }}-{{ niceDate(poet.attributes.field_dod, "year") }}</span>
+                </span>
+              </div>
             </div>
             <poem-actions
               orientation="vertical"
@@ -91,23 +97,28 @@
         >
           <div
             class="poet--aside px-4"
-            v-if="poet !== null"
+            v-if="poets !== null"
           >
             <div
-              v-if="image"
-              class="poet--aside__image"
-            >
-              <b-img
-                fluid
-                :src="image.src"
-                :alt="image.alt"
+              class="poets-images"
+              v-for="(poet, i) in poets"
+              :key="poet">
+              <div
+                v-if="images"
+                class="poet--aside__image"
+              >
+                <b-img
+                  fluid
+                  :src="images[i].src"
+                  :alt="images[i].alt"
+                />
+              </div>
+              <div
+                v-html="replaceFileUrl(poet.attributes.body.summary)"
+                v-if="poet && poet.attributes.body"
+                class="poet--aside__bio text-dark-muted my-3"
               />
             </div>
-            <div
-              v-html="replaceFileUrl(poet.body.summary)"
-              v-if="poet && poet.body"
-              class="poet--aside__bio text-dark-muted my-3"
-            />
             <div class="poet--aside__tags">
               <div
                 class="poet--aside__tag"
@@ -156,9 +167,14 @@
               </div>
             </div>
             <div class="mb-4">
-              <b-link
-                v-if="poet"
-                :to="poet.path.alias">About {{ poet.title }} ></b-link>
+              <div
+                class="about-authors"
+                v-for="poet in poets"
+                :key="poet">
+                <b-link
+                  v-if="poet"
+                  :to="poet.attributes.path.alias">About {{ poet.attributes.title }} ></b-link>
+              </div>
             </div>
           </div>
           <signup-block />
@@ -262,6 +278,10 @@ export default {
       })
       .catch(err => error({ statusCode: 404, message: "" }))
       .then(async response => {
+        const poets = _.filter(
+          _.get(response, "included"),
+          include => _.get(include, "type") === "node--person"
+        );
         const poet = _.find(
           _.get(response, "included"),
           include =>
@@ -310,18 +330,20 @@ export default {
         const morePoems = await app.$axios.$get(
           `/api/node/poems?${morePoemParams}`
         );
+        let images = [];
+        _.each(poets, poet => {
+          images.push(
+            app.$buildImg(response, poet, "field_image", "poem_a_day_portrait")
+          );
+        });
         return {
           poem: _.get(response, "data"),
           poet: _.get(poet, "attributes"),
+          poets,
           occasions,
           themes,
           forms,
-          image: app.$buildImg(
-            response,
-            poet,
-            "field_image",
-            "poem_a_day_portrait"
-          ),
+          images,
           socialImage: app.$buildImg(
             response,
             poet,
