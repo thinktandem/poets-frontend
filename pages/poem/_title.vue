@@ -1,11 +1,10 @@
 <template>
   <div>
-    <b-container class="pt-5">
+    <b-container class="pt-5 poem-container">
       <b-row>
         <b-col
           class="pb-5"
-          :offset-md="embedded ? null : 1"
-          :md="embedded ? 12 : 7"
+          :md="embedded ? 12 : 8"
         >
           <b-card
             tag="main"
@@ -430,6 +429,19 @@ export default {
   font-size: 1.9rem;
   width: 1.9rem;
   height: 1.9rem;
+}
+
+.poem-container {
+  .poem__body {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    font-size: 1.1rem;
+  }
+}
+@include media-breakpoint-up(md) {
+  .poem-container {
+    max-width: 74%;
+  }
 }
 
 .card--main {
