@@ -3,7 +3,7 @@
     <b-container>
       <b-row class="basic_page__body">
         <b-col
-          md="8"
+          :md="numCols"
           class="pb-2 basic_page__main">
           <div
             v-if="!empty(body)"
@@ -134,6 +134,13 @@ export default {
     hasBB() {
       const body = _.get(this.pageData, "data.attributes.body");
       return body ? body.processed.includes("bboxApi.showForm") : false;
+    },
+    numCols() {
+      const fullWidth = _.get(
+        this.pageData,
+        "data.attributes.full_width_main_column"
+      );
+      return fullWidth ? "12" : "8";
     }
   },
   mounted() {
