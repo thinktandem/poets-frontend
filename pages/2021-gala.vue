@@ -1,42 +1,39 @@
 <template>
-  <b-container class="py-5">
-    <h1>2021 Gala</h1>
-    <p>This is text above</p>
-
-    <p>
-      <iframe
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-        gyroscope; picture-in-picture"
-        allowfullscreen=""
-        frameborder="0"
-        height="315"
-        src="https://www.youtube.com/embed/Xo9SoLrTfkM"
-        title="YouTube video player"
-        width="560"/>
-    </p>
-
-    <p>this is text below</p>
-
-    <p>&nbsp;</p>
-
-    <p>
-      <img
-        alt="npm"
-        data-entity-type="file"
-        data-entity-uuid="f31fd898-21c3-42aa-bc8e-38a5277e7ba4"
-        src="/sites/default/files/inline-images/NPM_Generics_ForSocial%20%281%29.png"
-        width="800">
-    </p>
+  <b-container>
+    <b-row class="basic_page__body">
+      <b-col
+        class="pb-2 basic_page__main">
+        <div
+          v-if="!empty(body)"
+          v-html="replaceFileUrl(body.processed)"
+          class="pb-4" />
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
+import MetaTags from "~/plugins/metatags";
+import * as _ from "lodash";
 export default {
   layout: "sparse",
+  props: {
+    pageData: {
+      type: Object,
+      default: null
+    }
+  },
+  head() {
+    return MetaTags.renderTags(this.$route, this.$store.state.metatags);
+  },
+  computed: {
+    body() {
+      return _.get(this.$store, "state.pageData.data.attributes.body");
+    }
+  },
   async fetch({ app, store, params, route, menu }) {
-    // Set the current hero
-    store.commit("updateHero", {
-      heading: "2021 Gala"
+    return app.$buildBasicPage(app, store, route.path).then(() => {
+      console.log("this", this, "store", store);
     });
   }
 };
