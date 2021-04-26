@@ -8,6 +8,9 @@
           v-html="replaceFileUrl(body.processed)"
           class="pb-4" />
       </b-col>
+      <b-col
+        md="4"
+        class="basic_page__sidebar pb-2" />
     </b-row>
   </b-container>
 </template>
