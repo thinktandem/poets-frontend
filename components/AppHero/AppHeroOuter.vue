@@ -17,7 +17,7 @@
         class="mt-3 mt-md-5"
       >
         <h1
-          v-if="heading && variant === 'default' && displayHeading && renderH1"
+          v-if="heading && (variant === 'default' || variant === 'sparse') && displayHeading && renderH1"
           class="hero__heading pb-3"
         >{{ heading }}</h1>
         <h2
