@@ -159,7 +159,8 @@
             <app-laureate-projects
               v-if="laureateProjects.title"
               title="Laureate Project"
-              :features="laureateProjects"/>
+              :features="laureateProjects"
+              :base="base" />
           </div>
         </div>
       </div>
@@ -245,6 +246,7 @@ export default {
     );
   },
   async asyncData({ app, params, error }) {
+    const base = app.$axios.defaults.baseURL;
     return app.$axios
       .$get(`/router/translate-path?path=/poet/${params.title}`)
       .catch(err => {
@@ -393,8 +395,17 @@ export default {
               null
             ),
             lpi: _.get(laureateProjects, "included[0].attributes", null),
-            blurb: _.get(laureateProjects, "data[0].attributes.body", null)
+            blurb: _.get(laureateProjects, "data[0].attributes.body", null),
+            img: {
+              src: _.get(
+                laureateProjects,
+                "included[0].attributes.uri.url",
+                ""
+              ),
+              alt: _.get(res, "data.data.attributes.title") + " photo"
+            }
           },
+          base,
           poemsBy: _.map(poemsBy.data, poem => {
             let crDate = _.get(poem, "attributes.field_copyright_date", null);
             return {

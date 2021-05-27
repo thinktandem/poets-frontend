@@ -1,10 +1,20 @@
 <template>
   <section
     id="laureate-component"
-    class="feature bg-white d-flex flex-column flex-lg-row-reverse">
+    class="feature bg-white d-flex flex-column flex-lg-row-reverse"
+    v-if="features.hasOwnProperty('link')">
     <a :href="features.link">
       <div
-        class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic">
+        class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic"
+        id="lpi-img"
+        v-if="features.img.src">
+        <b-img-lazy
+          :src="base + features.img.src"
+          :alt="features.img.alt" />
+      </div>
+      <div
+        class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic"
+        v-else>
         {{ features.title }}
       </div>
     </a>
@@ -20,6 +30,40 @@
         <a
           class="lpi-learn-more-link"
           :href="features.link">Learn More &gt; </a>
+      </div>
+    </div>
+  </section>
+  <section
+    id="laureate-component"
+    class="feature bg-white d-flex flex-column flex-lg-row-reverse"
+    v-else-if="features.hasOwnProperty('view_node')">
+    <a :href="features.view_node">
+      <div
+        class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic"
+        id="lpi-img"
+        v-if="features.field_image">
+        <b-img-lazy
+          :src="base + features.field_image"
+          :alt="features.alt" />
+      </div>
+      <div
+        class="lpi-box feature__media d-lg-flex justify-content-lg-end flex-lg-row-reverse font-serif font-italic"
+        v-else>
+        {{ features.title }}
+      </div>
+    </a>
+    <div
+      class="feature__content py-3 h-100">
+      <a :href="features.view_node">
+        <h3>{{ features.title }}</h3>
+      </a>
+      <div
+        class="lpi-blurb"
+        v-html="features.body"/>
+      <div class="lpi-learn-more">
+        <a
+          class="lpi-learn-more-link"
+          :href="features.view_node">Learn More &gt; </a>
       </div>
     </div>
   </section>
@@ -40,6 +84,10 @@ export default {
     features: {
       type: Object,
       default: null
+    },
+    base: {
+      type: String,
+      default: ""
     }
   }
 };
@@ -62,6 +110,7 @@ $mediaOffset: 1.25rem;
 .feature__content {
   padding-left: $spacer;
   padding-right: $spacer;
+  min-height: 326px;
 }
 @include media-breakpoint-up(lg) {
   .feature {
@@ -77,7 +126,8 @@ $mediaOffset: 1.25rem;
 
   .feature__media {
     top: -$mediaOffset;
-    width: 385px;
+    width: 321px;
+    height: 96%;
     position: absolute;
   }
   .flex-lg-row .feature__media {
@@ -110,6 +160,9 @@ $mediaOffset: 1.25rem;
   background-color: #00b4f0;
   color: #fff;
   font-size: 2.6rem;
+}
+#lpi-img {
+  padding: 0;
 }
 .lpi-blurb /deep/ p {
   font-weight: 400;
