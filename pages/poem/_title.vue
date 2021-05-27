@@ -37,7 +37,7 @@
                   v-else
                   :class="['card-title', {'card-title--long': longTitle}]"
                   itemprop="name"
-                >{{ poem.attributes.title }}</h1>
+                  v-html="poem.attributes.title" />
                 <b-link
                   @click="showSoundCloud = true"
                   v-if="showSoundCloud === false && null !== poem.attributes.field_soundcloud_embed_code"

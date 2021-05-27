@@ -34,7 +34,7 @@ hooks:
     set -e
     # Build
     yarn install
-    yarn build
+    API_URL=https://pr-1016-rfm7vgi-iw4bgahutfk2y.us-2.platformsh.site yarn build
     # We need to do the below manually for now
     # See: https://github.com/yarnpkg/yarn/issues/6685
     yarn cache clean
