@@ -1,6 +1,18 @@
 <template>
   <div>
     <b-container>
+      <b-row class="basic_page__body">
+        <b-col
+          class="pb-2 basic_page__main"
+          md="8">
+          <div
+            v-if="!empty(body)"
+            v-html="replaceFileUrl(body.processed)"
+            class="pb-4"/>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container>
       <CardDeck
         v-if="chancellors"
         :disabled="busy"
@@ -26,11 +38,17 @@ import CardDeck from "~/components/CardDeck";
 import MetaTags from "~/plugins/metatags";
 
 export default {
+  layout: "sparse",
   components: {
     CardDeck
   },
   head() {
     return MetaTags.renderTags(this.$route, this.$store.state.metatags);
+  },
+  computed: {
+    body() {
+      return _.get(this.$store, "state.pageData.data.attributes.body");
+    }
   },
   data() {
     return {
@@ -116,5 +134,14 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+.basic_page__body {
+  font-size: 1.25rem;
+  font-weight: 400;
+  .basic_page__main {
+    div:first-child {
+      margin-top: 3.6rem;
+    }
+  }
+}
 </style>
