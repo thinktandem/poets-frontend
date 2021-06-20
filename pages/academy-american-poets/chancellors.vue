@@ -10,7 +10,7 @@
       />
     </b-container>
     <b-container>
-      <h2> Past Chancellors </h2>
+      <h2> Chancellors Emeriti </h2>
       <CardDeck
         :disabled="busy"
         cardtype="Chancellors"
@@ -73,7 +73,7 @@ export default {
               }
             }
           },
-          sort: "title",
+          sort: "field_last_name",
           include: "field_image"
         }
       };
