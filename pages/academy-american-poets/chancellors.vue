@@ -38,7 +38,6 @@ import CardDeck from "~/components/CardDeck";
 import MetaTags from "~/plugins/metatags";
 
 export default {
-  layout: "sparse",
   components: {
     CardDeck
   },
